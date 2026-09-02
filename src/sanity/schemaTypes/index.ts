@@ -4,6 +4,7 @@ import { heroBlock } from './blocks/heroBlock'
 import { faqAccordionBlock } from './blocks/faqAccordionBlock'
 import { featureSplitBlock } from './blocks/featureSplitBlock'
 import { featureGridBlock } from './blocks/featureGridBlock'
+import { logoCloudBlock } from './blocks/logoCloudBlock'
 
 export const schemaTypes = [
   page,
@@ -12,4 +13,5 @@ export const schemaTypes = [
   faqAccordionBlock,
   featureSplitBlock,
   featureGridBlock,
+  logoCloudBlock,
 ]
