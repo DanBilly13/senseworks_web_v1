@@ -36,6 +36,12 @@
   --container-prose-md: 42rem;
   --container-prose-lg: 48rem;
 
+  /* D15: page-content width cap — full sections/backgrounds may go
+     edge-to-edge, but structural content rows (nav, hero row, future
+     feature grids) cap here so they don't spread absurdly thin on
+     ultrawide monitors. Narrower than that is prose width, above. */
+  --container-page: 90rem;
+
   /* D5: new marketing type scale — NOT the product's Heading1-5 */
   --text-display: 4.5rem;
   --text-h1: 3rem;

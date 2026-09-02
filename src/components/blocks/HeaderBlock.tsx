@@ -15,7 +15,7 @@ export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref }: Head
 
   return (
     <header className="border-b border-border">
-      <div className="flex items-center justify-between px-medium-large py-small-medium">
+      <div className="mx-auto flex w-full max-w-page items-center justify-between px-medium-large py-small-medium">
         <span className="text-body-lg font-semibold">{logoText}</span>
         <nav className="hidden items-center gap-medium-large md:flex">
           {navLinks.map((link) => (
