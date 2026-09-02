@@ -20,7 +20,7 @@ export function FaqAccordionBlock({
       aria-label={heading}
     >
       <h2 className="text-h2 font-semibold text-foreground">{heading}</h2>
-      <dl className="mt-large divide-y divide-border">
+      <dl className="mt-2xl divide-y divide-border">
         {items.map((item, index) => {
           const isOpen = openIndex === index
           const panelId = `faq-panel-${index}`

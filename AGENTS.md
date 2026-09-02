@@ -42,6 +42,19 @@ repo): `solution-spec.md`, `decision-log.md`, `risk-register.md`,
   wrapper capped at `max-w-page`, with any prose text inside further
   capped at `max-w-prose-*` — don't leave a block's content width
   fully uncapped.
+- **Intro-text-to-content gap = `gap-2xl`/`mt-2xl` (64px)**: every
+  block that stacks an intro text cluster (eyebrow/heading/body/CTA)
+  above a content area (image, grid, cards, a carousel) uses exactly
+  64px between them — Hero, Feature Grid, Testimonial Carousel, Stats
+  Band, Pricing Cards, and FAQ all match. Within the text cluster
+  itself, elements are `gap-medium` (16px) apart. When the content
+  area can't be a flex/grid sibling of the text cluster (e.g. a
+  full-bleed carousel scroller that must sit outside the `max-w-page`
+  wrapper), use `mt-2xl` on it directly instead of a parent `gap`.
+  Don't reach for `mt-medium-large` or other one-off values here — it
+  reads as visually inconsistent between blocks stacked on the same
+  page (caught by Dan comparing Pricing Cards to the Testimonial
+  Carousel/"social proof" block).
 - **`mx-auto` + `max-w-*` needs an explicit `w-full` alongside it**
   whenever the element is a direct child of `<body>` (root layout is
   `flex flex-col`) or any other flex/grid container. CSS flexbox

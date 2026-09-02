@@ -53,7 +53,7 @@ export function TestimonialCarouselBlock({
 
   return (
     <section className="py-3xl">
-      <div className="mx-auto flex w-full max-w-page flex-col gap-large px-medium-large">
+      <div className="mx-auto flex w-full max-w-page flex-col px-medium-large">
         <div className="flex flex-wrap items-end justify-between gap-medium-large">
           <div className="flex max-w-prose-sm flex-col gap-medium">
             {eyebrow && (
@@ -96,7 +96,7 @@ export function TestimonialCarouselBlock({
       <div
         ref={scrollerRef}
         onScroll={updateEdges}
-        className="carousel-inset scrollbar-hide flex snap-x snap-mandatory gap-large overflow-x-auto scroll-smooth py-small"
+        className="carousel-inset scrollbar-hide mt-2xl flex snap-x snap-mandatory gap-large overflow-x-auto scroll-smooth py-small"
       >
         {items.map((item, index) => (
           <div
