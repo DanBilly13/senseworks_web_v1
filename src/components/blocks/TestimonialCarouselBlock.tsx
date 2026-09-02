@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
+import { LeftOutlined, RightOutlined, UserOutlined } from '@ant-design/icons'
 import { Button } from '@/components/ui/Button'
 
 type TestimonialItem = { quote: string; authorName: string; authorRole?: string }
@@ -78,7 +79,7 @@ export function TestimonialCarouselBlock({
               aria-label="Previous testimonials"
               className="flex size-xl items-center justify-center rounded-full bg-foreground text-background disabled:opacity-30"
             >
-              ←
+              <LeftOutlined />
             </button>
             <button
               type="button"
@@ -87,7 +88,7 @@ export function TestimonialCarouselBlock({
               aria-label="Next testimonials"
               className="flex size-xl items-center justify-center rounded-full bg-foreground text-background disabled:opacity-30"
             >
-              →
+              <RightOutlined />
             </button>
           </div>
         </div>
@@ -103,7 +104,12 @@ export function TestimonialCarouselBlock({
             ref={index === 0 ? firstCardRef : undefined}
             className="flex w-80 shrink-0 snap-start flex-col gap-small-medium rounded-lg border border-border bg-background p-medium-large"
           >
-            <div className="size-2xl rounded-full bg-muted" aria-hidden="true" />
+            <div
+              className="flex size-2xl items-center justify-center rounded-full bg-muted text-muted-foreground"
+              aria-hidden="true"
+            >
+              <UserOutlined />
+            </div>
             <p className="text-body-lg text-foreground">&ldquo;{item.quote}&rdquo;</p>
             <div className="flex flex-col">
               <span className="text-body-sm font-semibold text-foreground">

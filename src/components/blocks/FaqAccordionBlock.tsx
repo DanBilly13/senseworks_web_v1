@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import { MinusOutlined, PlusOutlined } from '@ant-design/icons'
 
 type FaqItem = { question: string; answer: string }
 type FaqAccordionBlockProps = { heading?: string; items?: FaqItem[] }
@@ -36,7 +37,7 @@ export function FaqAccordionBlock({
                   className="flex w-full items-center justify-between py-small text-left text-body-lg font-medium text-foreground"
                 >
                   <span>{item.question}</span>
-                  <span aria-hidden="true">{isOpen ? '–' : '+'}</span>
+                  <span aria-hidden="true">{isOpen ? <MinusOutlined /> : <PlusOutlined />}</span>
                 </button>
               </dt>
               <dd

@@ -1,3 +1,6 @@
+'use client'
+import { CheckCircleOutlined } from '@ant-design/icons'
+
 type FeatureGridItem = { title: string; description?: string }
 type FeatureGridBlockProps = {
   eyebrow?: string
@@ -23,7 +26,12 @@ export function FeatureGridBlock({ eyebrow, heading, body, items = [] }: Feature
         <div className="grid grid-cols-1 gap-2xl sm:grid-cols-2 lg:grid-cols-3">
           {items.map((item, index) => (
             <div key={index} className="flex flex-col gap-small-medium">
-              <div className="size-xl rounded-md bg-muted" aria-hidden="true" />
+              <div
+                className="flex size-xl items-center justify-center rounded-md bg-muted text-h4 text-muted-foreground"
+                aria-hidden="true"
+              >
+                <CheckCircleOutlined />
+              </div>
               <h3 className="text-h4 font-semibold text-foreground">{item.title}</h3>
               {item.description && (
                 <p className="text-body text-muted-foreground">{item.description}</p>

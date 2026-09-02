@@ -58,6 +58,11 @@ repo): `solution-spec.md`, `decision-log.md`, `risk-register.md`,
   `src/components/blocks/BlockRenderer.tsx` — a block missing from
   either place silently won't render (this is intentional, see D7:
   unknown/incomplete blocks don't render).
+- Icons use **`@ant-design/icons`** (D16) — don't reach for unicode
+  glyphs, another icon package, or inline SVGs. Its icon components
+  need a client-side React context, so any component that renders one
+  must have `'use client'` at the top, even if it would otherwise be a
+  plain Server Component.
 - i18n: locale-prefixed routes only (`/en/...`, `/sv/...`), English
   is the default. Data fetching always goes through
   `src/lib/sanity/getPage.ts`, which already implements the

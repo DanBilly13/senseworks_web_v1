@@ -1,5 +1,7 @@
 'use client'
 import { useState } from 'react'
+import Image from 'next/image'
+import { CloseOutlined, MenuOutlined } from '@ant-design/icons'
 import { Button } from '@/components/ui/Button'
 
 type NavLink = { label: string; href: string }
@@ -16,7 +18,7 @@ export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref }: Head
   return (
     <header className="border-b border-border">
       <div className="mx-auto flex w-full max-w-page items-center justify-between px-medium-large py-small-medium">
-        <span className="text-body-lg font-semibold">{logoText}</span>
+        <Image src="/senseworks-logo.svg" alt={logoText} width={240} height={31} className="h-medium-large w-auto" priority />
         <nav className="hidden items-center gap-medium-large md:flex">
           {navLinks.map((link) => (
             <a key={link.href} href={link.href} className="text-body-sm text-muted-foreground">
@@ -31,15 +33,13 @@ export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref }: Head
         </nav>
         <button
           type="button"
-          className="flex flex-col gap-xs md:hidden"
+          className="flex md:hidden"
           aria-expanded={open}
           aria-controls="mobile-nav-drawer"
           aria-label={open ? 'Close menu' : 'Open menu'}
           onClick={() => setOpen((v) => !v)}
         >
-          <span className="h-px w-5 bg-foreground" />
-          <span className="h-px w-5 bg-foreground" />
-          <span className="h-px w-5 bg-foreground" />
+          {open ? <CloseOutlined /> : <MenuOutlined />}
         </button>
       </div>
       {open && (
