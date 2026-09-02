@@ -14,7 +14,10 @@ export function FaqAccordionBlock({
   if (!items.length) return null
 
   return (
-    <section className="mx-auto max-w-3xl px-medium-large py-3xl" aria-label={heading}>
+    <section
+      className="mx-auto max-w-prose-lg px-medium-large py-3xl"
+      aria-label={heading}
+    >
       <h2 className="text-h2 font-semibold text-foreground">{heading}</h2>
       <dl className="mt-large divide-y divide-border">
         {items.map((item, index) => {

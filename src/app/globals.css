@@ -23,6 +23,19 @@
   --spacing-3xl: 96px;
   --spacing-4xl: 128px;
 
+  /* Content-width scale for prose/text columns (max-w-prose-*).
+     Deliberately NOT named xl/2xl/3xl — Tailwind v4 resolves max-w-*
+     against the same --spacing-* namespace before its own dedicated
+     --container-* scale, so reusing those names here would silently
+     shadow our spacing tokens down to single-digit-rem widths (this
+     broke the Hero/FAQ layout once already — verified via computed
+     styles, not guessed). Values match Tailwind's own container-xl/
+     2xl/3xl defaults so the visual result is what was originally
+     intended. */
+  --container-prose-sm: 36rem;
+  --container-prose-md: 42rem;
+  --container-prose-lg: 48rem;
+
   /* D5: new marketing type scale — NOT the product's Heading1-5 */
   --text-display: 4.5rem;
   --text-h1: 3rem;

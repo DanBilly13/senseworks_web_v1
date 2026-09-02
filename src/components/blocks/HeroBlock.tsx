@@ -14,8 +14,10 @@ export function HeroBlock({ eyebrow, headline, subhead, ctaLabel, ctaHref }: Her
       {eyebrow && (
         <p className="text-caption font-semibold text-muted-foreground uppercase">{eyebrow}</p>
       )}
-      <h1 className="max-w-2xl text-h1 font-semibold text-foreground">{headline}</h1>
-      {subhead && <p className="max-w-xl text-body-lg text-muted-foreground">{subhead}</p>}
+      <h1 className="max-w-prose-md text-h1 font-semibold text-foreground">{headline}</h1>
+      {subhead && (
+        <p className="max-w-prose-sm text-body-lg text-muted-foreground">{subhead}</p>
+      )}
       {ctaLabel && ctaHref && (
         <div>
           <Button href={ctaHref}>{ctaLabel}</Button>
