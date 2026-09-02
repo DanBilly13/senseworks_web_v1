@@ -31,6 +31,17 @@ repo): `solution-spec.md`, `decision-log.md`, `risk-register.md`,
   instead (defined in `globals.css` specifically to avoid this).
   After adding any new width/max-width utility, verify its computed
   value in a real browser — don't trust lint+build alone.
+- **Width tiers (D15)**: three levels, don't mix them up. Section
+  backgrounds may go full-bleed (no cap). Structural content rows
+  (nav bar contents, a hero's text+image column, future feature
+  grids) cap at `max-w-page` (1440px) — this matters because the
+  actual audience often works on wide/ultrawide monitors, and
+  uncapped content sprawls absurdly thin/far apart otherwise. Body
+  text specifically caps narrower still, at `max-w-prose-sm/md/lg`
+  (576–768px), for readability. Every new block needs its structural
+  wrapper capped at `max-w-page`, with any prose text inside further
+  capped at `max-w-prose-*` — don't leave a block's content width
+  fully uncapped.
 - **`mx-auto` + `max-w-*` needs an explicit `w-full` alongside it**
   whenever the element is a direct child of `<body>` (root layout is
   `flex flex-col`) or any other flex/grid container. CSS flexbox
