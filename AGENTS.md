@@ -19,6 +19,18 @@ repo): `solution-spec.md`, `decision-log.md`, `risk-register.md`,
 - Never use Tailwind arbitrary-value syntax (`rounded-[13px]`) —
   enforced by `eslint-plugin-tailwindcss`'s `no-arbitrary-value` rule
   (`eslint.config.mjs`). Add a named token to `globals.css` instead.
+- **Never use `max-w-xl`/`max-w-2xl`/`max-w-3xl`/`max-w-4xl`** (or
+  `w-`/`h-` with those names). Our spacing scale defines
+  `--spacing-xl/2xl/3xl/4xl`, and Tailwind v4 resolves named `max-w-*`
+  against `--spacing-*` before its own `--container-*` scale — so
+  those utilities silently compute to our spacing values (tens of
+  px) instead of Tailwind's real container widths (hundreds of px).
+  This broke the Hero/FAQ layout once already (see `risk-register.md`
+  R14) and passed lint/build cleanly while broken — only visual/
+  computed-style checking caught it. Use `max-w-prose-sm/md/lg`
+  instead (defined in `globals.css` specifically to avoid this).
+  After adding any new width/max-width utility, verify its computed
+  value in a real browser — don't trust lint+build alone.
 - Block components live in `src/components/blocks/`, one file per
   Sanity block schema in `src/sanity/schemaTypes/blocks/`. Register
   new blocks in **both** `src/sanity/schemaTypes/index.ts` and
