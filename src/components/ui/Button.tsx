@@ -9,6 +9,10 @@ export const buttonVariants = cva(
       variant: {
         primary: 'bg-foreground text-background hover:opacity-90',
         secondary: 'border border-border text-foreground hover:bg-muted',
+        // For use on a dark/foreground-colored surface (e.g. a
+        // featured pricing card) where primary/secondary would be
+        // invisible or low-contrast against the same-colored background.
+        inverse: 'bg-background text-foreground hover:opacity-90',
       },
       size: {
         sm: 'px-medium py-small',

@@ -5,6 +5,7 @@ import { FeatureGridBlock } from './FeatureGridBlock'
 import { LogoCloudBlock } from './LogoCloudBlock'
 import { TestimonialCarouselBlock } from './TestimonialCarouselBlock'
 import { StatsBandBlock } from './StatsBandBlock'
+import { PricingBlock } from './PricingBlock'
 import { FaqAccordionBlock } from './FaqAccordionBlock'
 import type { PageBlock } from '@/lib/sanity/getPage'
 
@@ -16,6 +17,7 @@ const BLOCK_COMPONENTS = {
   logoCloudBlock: LogoCloudBlock,
   testimonialCarouselBlock: TestimonialCarouselBlock,
   statsBandBlock: StatsBandBlock,
+  pricingBlock: PricingBlock,
   faqAccordionBlock: FaqAccordionBlock,
 } as const
 

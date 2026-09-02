@@ -7,6 +7,7 @@ import { featureGridBlock } from './blocks/featureGridBlock'
 import { logoCloudBlock } from './blocks/logoCloudBlock'
 import { testimonialCarouselBlock } from './blocks/testimonialCarouselBlock'
 import { statsBandBlock } from './blocks/statsBandBlock'
+import { pricingBlock } from './blocks/pricingBlock'
 
 export const schemaTypes = [
   page,
@@ -18,4 +19,5 @@ export const schemaTypes = [
   logoCloudBlock,
   testimonialCarouselBlock,
   statsBandBlock,
+  pricingBlock,
 ]
