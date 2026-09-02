@@ -77,3 +77,34 @@ body {
   color: var(--color-foreground);
   font-family: var(--font-sans);
 }
+
+/* Full-bleed horizontal scroller inset: replicates the same left edge
+   as mx-auto + max-w-page (D15) without capping the scroller's own
+   width, so cards start flush with the page content but are free to
+   scroll/clip past the right edge of the viewport. Used by carousels
+   that intentionally bleed off-screen (not a Tailwind utility, since
+   the calc() can't be expressed without arbitrary-value syntax). */
+.carousel-inset {
+  padding-inline-start: calc(
+    max((100% - var(--container-page)) / 2, 0px) + var(--spacing-medium-large)
+  );
+  /* Without this, scroll-snap measures "start" against the scrollport
+     edge and ignores the padding above, so the resting snapped
+     position sits at scrollLeft == the padding amount, not 0 — which
+     throws off any JS that checks scrollLeft <= 0 to disable a "prev"
+     control. Matching scroll-padding to the padding fixes the rest
+     position back to 0. */
+  scroll-padding-inline-start: calc(
+    max((100% - var(--container-page)) / 2, 0px) + var(--spacing-medium-large)
+  );
+}
+
+/* Hides the scrollbar on horizontally-scrolling carousels while
+   keeping them wheel/touch/keyboard scrollable. */
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

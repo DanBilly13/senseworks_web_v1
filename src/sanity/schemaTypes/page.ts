@@ -23,6 +23,7 @@ export const page = defineType({
         defineArrayMember({ type: 'featureSplitBlock' }),
         defineArrayMember({ type: 'featureGridBlock' }),
         defineArrayMember({ type: 'logoCloudBlock' }),
+        defineArrayMember({ type: 'testimonialCarouselBlock' }),
         defineArrayMember({ type: 'faqAccordionBlock' }),
       ],
     }),
