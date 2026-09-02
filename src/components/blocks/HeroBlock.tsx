@@ -25,9 +25,11 @@ export function HeroBlock({ eyebrow, headline, subhead, ctaLabel, ctaHref }: Her
           </div>
         )}
         {/* FR-003: grey placeholder container, no real asset required.
-            D15: contained within the page-width cap, not full-bleed. */}
+            D15: contained within the page-width cap, not full-bleed.
+            aspect-media (7:5) instead of a fixed height so it scales
+            correctly with the column's actual rendered width. */}
         <div
-          className="mt-medium-large h-80 w-full rounded-lg bg-muted"
+          className="mt-medium-large aspect-media w-full rounded-lg bg-muted"
           role="img"
           aria-label="Placeholder image"
         />

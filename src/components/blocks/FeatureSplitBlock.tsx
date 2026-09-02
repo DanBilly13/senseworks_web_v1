@@ -31,7 +31,7 @@ export function FeatureSplitBlock({
             the image takes whatever's left, verified against the
             actual Figma node rather than approximated. */}
         <div
-          className="h-80 w-full rounded-lg bg-muted md:flex-1"
+          className="aspect-media w-full rounded-lg bg-muted md:flex-1"
           role="img"
           aria-label="Placeholder image"
         />

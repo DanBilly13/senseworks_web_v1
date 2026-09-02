@@ -44,6 +44,12 @@
      ultrawide monitors. Narrower than that is prose width, above. */
   --container-page: 90rem;
 
+  /* Image/media placeholder ratio (Tailwind's own --aspect-* namespace
+     — same mechanism that generates its built-in aspect-video). Used
+     instead of a fixed height so placeholders scale correctly at
+     every width rather than needing separate per-breakpoint heights. */
+  --aspect-media: 7 / 5;
+
   /* D5: new marketing type scale — NOT the product's Heading1-5 */
   --text-display: 4.5rem;
   --text-h1: 3rem;
