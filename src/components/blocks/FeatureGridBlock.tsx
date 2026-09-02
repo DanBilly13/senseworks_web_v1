@@ -20,7 +20,7 @@ export function FeatureGridBlock({ eyebrow, heading, body, items = [] }: Feature
           <h2 className="text-h2 font-semibold text-foreground">{heading}</h2>
           {body && <p className="text-body-lg text-muted-foreground">{body}</p>}
         </div>
-        <div className="grid grid-cols-1 gap-x-large gap-y-2xl sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-2xl sm:grid-cols-2 lg:grid-cols-3">
           {items.map((item, index) => (
             <div key={index} className="flex flex-col gap-small-medium">
               <div className="size-xl rounded-md bg-muted" aria-hidden="true" />
