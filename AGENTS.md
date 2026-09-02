@@ -31,6 +31,16 @@ repo): `solution-spec.md`, `decision-log.md`, `risk-register.md`,
   instead (defined in `globals.css` specifically to avoid this).
   After adding any new width/max-width utility, verify its computed
   value in a real browser — don't trust lint+build alone.
+- **`mx-auto` + `max-w-*` needs an explicit `w-full` alongside it**
+  whenever the element is a direct child of `<body>` (root layout is
+  `flex flex-col`) or any other flex/grid container. CSS flexbox
+  disables an item's default stretch when its cross-axis margins are
+  `auto` and its width is `auto` — so without `w-full`, the box
+  shrink-wraps to its content's natural size instead of filling out
+  to the `max-w-*` cap, and visibly resizes whenever the content
+  inside it changes (this broke the FAQ accordion — it changed width
+  every time an item expanded/collapsed). Pattern:
+  `mx-auto w-full max-w-prose-lg`, not just `mx-auto max-w-prose-lg`.
 - Block components live in `src/components/blocks/`, one file per
   Sanity block schema in `src/sanity/schemaTypes/blocks/`. Register
   new blocks in **both** `src/sanity/schemaTypes/index.ts` and

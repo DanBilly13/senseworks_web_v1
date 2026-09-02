@@ -15,7 +15,7 @@ export function FaqAccordionBlock({
 
   return (
     <section
-      className="mx-auto max-w-prose-lg px-medium-large py-3xl"
+      className="mx-auto w-full max-w-prose-lg px-medium-large py-3xl"
       aria-label={heading}
     >
       <h2 className="text-h2 font-semibold text-foreground">{heading}</h2>
