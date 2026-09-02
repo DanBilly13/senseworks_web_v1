@@ -1,6 +1,7 @@
 import { HeaderBlock } from './HeaderBlock'
 import { HeroBlock } from './HeroBlock'
 import { FeatureSplitBlock } from './FeatureSplitBlock'
+import { FeatureGridBlock } from './FeatureGridBlock'
 import { FaqAccordionBlock } from './FaqAccordionBlock'
 import type { PageBlock } from '@/lib/sanity/getPage'
 
@@ -8,6 +9,7 @@ const BLOCK_COMPONENTS = {
   headerBlock: HeaderBlock,
   heroBlock: HeroBlock,
   featureSplitBlock: FeatureSplitBlock,
+  featureGridBlock: FeatureGridBlock,
   faqAccordionBlock: FaqAccordionBlock,
 } as const
 

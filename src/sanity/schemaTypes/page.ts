@@ -21,6 +21,7 @@ export const page = defineType({
         defineArrayMember({ type: 'headerBlock' }),
         defineArrayMember({ type: 'heroBlock' }),
         defineArrayMember({ type: 'featureSplitBlock' }),
+        defineArrayMember({ type: 'featureGridBlock' }),
         defineArrayMember({ type: 'faqAccordionBlock' }),
       ],
     }),

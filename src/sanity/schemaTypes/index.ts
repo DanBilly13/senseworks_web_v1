@@ -3,6 +3,7 @@ import { headerBlock } from './blocks/headerBlock'
 import { heroBlock } from './blocks/heroBlock'
 import { faqAccordionBlock } from './blocks/faqAccordionBlock'
 import { featureSplitBlock } from './blocks/featureSplitBlock'
+import { featureGridBlock } from './blocks/featureGridBlock'
 
 export const schemaTypes = [
   page,
@@ -10,4 +11,5 @@ export const schemaTypes = [
   heroBlock,
   faqAccordionBlock,
   featureSplitBlock,
+  featureGridBlock,
 ]
