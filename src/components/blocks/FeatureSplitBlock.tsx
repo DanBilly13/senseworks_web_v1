@@ -25,20 +25,24 @@ export function FeatureSplitBlock({
   return (
     <section className="py-3xl">
       <div className={rowClassName}>
-        {/* FR-003: grey placeholder container, no real asset required */}
+        {/* FR-003: grey placeholder container, no real asset required.
+            Fills remaining space (not a 50/50 split) — matches the
+            agreed Figma, where the text column is a fixed 460px and
+            the image takes whatever's left, verified against the
+            actual Figma node rather than approximated. */}
         <div
-          className="h-80 w-full rounded-lg bg-muted md:w-1/2"
+          className="h-80 w-full rounded-lg bg-muted md:flex-1"
           role="img"
           aria-label="Placeholder image"
         />
-        <div className="flex w-full flex-col gap-small-medium md:w-1/2">
+        <div className="flex w-full flex-col gap-small-medium md:max-w-prose-xs md:shrink-0">
           {eyebrow && (
             <p className="text-caption font-semibold text-muted-foreground uppercase">
               {eyebrow}
             </p>
           )}
-          <h2 className="max-w-prose-md text-h2 font-semibold text-foreground">{heading}</h2>
-          {body && <p className="max-w-prose-sm text-body text-muted-foreground">{body}</p>}
+          <h2 className="text-h2 font-semibold text-foreground">{heading}</h2>
+          {body && <p className="text-body text-muted-foreground">{body}</p>}
           {ctaLabel && ctaHref && (
             <div>
               <Button href={ctaHref} variant="secondary">

@@ -29,9 +29,11 @@
      --container-* scale, so reusing those names here would silently
      shadow our spacing tokens down to single-digit-rem widths (this
      broke the Hero/FAQ layout once already — verified via computed
-     styles, not guessed). Values match Tailwind's own container-xl/
-     2xl/3xl defaults so the visual result is what was originally
-     intended. */
+     styles, not guessed). sm/md/lg match Tailwind's own container-xl/
+     2xl/3xl defaults; xs is a Figma-specific value (460px, the fixed
+     text-column width in the agreed Feature Split design — verified
+     against the actual Figma node, not eyeballed). */
+  --container-prose-xs: 28.75rem;
   --container-prose-sm: 36rem;
   --container-prose-md: 42rem;
   --container-prose-lg: 48rem;
