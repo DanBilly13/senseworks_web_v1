@@ -20,6 +20,7 @@ export const page = defineType({
       of: [
         defineArrayMember({ type: 'headerBlock' }),
         defineArrayMember({ type: 'heroBlock' }),
+        defineArrayMember({ type: 'featureSplitBlock' }),
         defineArrayMember({ type: 'faqAccordionBlock' }),
       ],
     }),
