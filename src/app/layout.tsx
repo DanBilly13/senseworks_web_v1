@@ -26,6 +26,9 @@ const aeonik = localFont({
 export const metadata: Metadata = {
   title: "Senseworks",
   description: "Senseworks marketing site — block library calibration slice.",
+  // Dev-only Vercel deployment isn't meant to be publicly discoverable —
+  // keep it out of search indexes until it's ready to be real.
+  robots: { index: false, follow: false },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
