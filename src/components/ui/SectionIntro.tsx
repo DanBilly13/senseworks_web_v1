@@ -10,6 +10,9 @@ type SectionIntroProps = {
   cta?: ReactNode
   align?: 'left' | 'center'
   maxWidth?: 'sm' | 'md' | 'none'
+  // 'inverse' for light text on a dark/foreground-colored surface
+  // (e.g. an image-overlay hero) — mirrors Button's inverse variant.
+  tone?: 'default' | 'inverse'
 }
 
 const HEADING_TEXT_CLASS: Record<HeadingLevel, string> = {
@@ -32,10 +35,15 @@ export function SectionIntro({
   cta,
   align = 'left',
   maxWidth = 'none',
+  tone = 'default',
 }: SectionIntroProps) {
   // A block with neither an eyebrow nor a heading has no intro to show
   // (e.g. Stats Band's intro is entirely optional).
   if (!eyebrow && !heading) return null
+
+  const eyebrowColor = tone === 'inverse' ? 'text-background/70' : 'text-muted-foreground'
+  const headingColor = tone === 'inverse' ? 'text-background' : 'text-foreground'
+  const bodyColor = tone === 'inverse' ? 'text-background/80' : 'text-muted-foreground'
 
   return (
     <div
@@ -52,13 +60,14 @@ export function SectionIntro({
         .join(' ')}
     >
       {eyebrow && (
-        <p className="text-caption font-semibold text-muted-foreground uppercase">{eyebrow}</p>
+        <p className={`text-caption font-semibold uppercase ${eyebrowColor}`}>{eyebrow}</p>
       )}
       {heading && (
         <Heading
           className={[
             HEADING_TEXT_CLASS[Heading],
-            'font-semibold text-foreground',
+            'font-semibold',
+            headingColor,
             // Extra bump on top of the container's gap-medium, eyebrow
             // to heading only — text-box-trim (globals.css) tightened
             // every heading's own box, which made this specific gap
@@ -75,7 +84,8 @@ export function SectionIntro({
       {body && (
         <p
           className={[
-            'text-body-lg text-muted-foreground',
+            'text-body-lg',
+            bodyColor,
             // Same reasoning as the heading's mt-small above, mirrored
             // on the other side of it: trimming the heading's own box
             // also tightened its bottom edge, so the gap to the body

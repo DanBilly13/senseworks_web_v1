@@ -3,6 +3,7 @@ import { SectionShell } from '@/components/ui/SectionShell'
 import { SectionIntro } from '@/components/ui/SectionIntro'
 
 type HeroBlockProps = {
+  layout?: 'split' | 'imageOverlay'
   eyebrow?: string
   headline: string
   subhead?: string
@@ -10,7 +11,17 @@ type HeroBlockProps = {
   ctaHref?: string
 }
 
-export function HeroBlock({ eyebrow, headline, subhead, ctaLabel, ctaHref }: HeroBlockProps) {
+export function HeroBlock({ layout = 'split', ...props }: HeroBlockProps) {
+  return layout === 'imageOverlay' ? (
+    <HeroImageOverlay {...props} />
+  ) : (
+    <HeroSplit {...props} />
+  )
+}
+
+type HeroVariantProps = Omit<HeroBlockProps, 'layout'>
+
+function HeroSplit({ eyebrow, headline, subhead, ctaLabel, ctaHref }: HeroVariantProps) {
   return (
     <SectionShell className="flex flex-col gap-2xl">
       <div className="flex flex-col gap-large md:flex-row md:items-start md:justify-between md:gap-2xl">
@@ -53,5 +64,39 @@ export function HeroBlock({ eyebrow, headline, subhead, ctaLabel, ctaHref }: Her
         aria-label="Placeholder image"
       />
     </SectionShell>
+  )
+}
+
+function HeroImageOverlay({ eyebrow, headline, subhead, ctaLabel, ctaHref }: HeroVariantProps) {
+  return (
+    <section className="relative min-h-screen">
+      {/* FR-003: grey placeholder background, no real asset required —
+          full-bleed (D15 lets section backgrounds go edge to edge). */}
+      <div className="absolute inset-0 bg-muted" role="img" aria-label="Placeholder image" />
+      {/* Scrim so light text stays legible over whatever the eventual
+          image is — strongest near the text, fading out above it. */}
+      <div
+        className="absolute inset-0 bg-linear-to-t from-foreground/80 via-foreground/10 to-transparent"
+        aria-hidden="true"
+      />
+      <div className="relative mx-auto flex min-h-screen w-full max-w-page flex-col justify-end px-medium-large py-3xl">
+        <SectionIntro
+          as="h1"
+          eyebrow={eyebrow}
+          heading={headline}
+          body={subhead}
+          maxWidth="md"
+          tone="inverse"
+          cta={
+            ctaLabel &&
+            ctaHref && (
+              <Button href={ctaHref} variant="inverse">
+                {ctaLabel}
+              </Button>
+            )
+          }
+        />
+      </div>
+    </section>
   )
 }
