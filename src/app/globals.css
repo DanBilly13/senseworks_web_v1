@@ -50,12 +50,21 @@
      every width rather than needing separate per-breakpoint heights. */
   --aspect-media: 7 / 5;
 
-  /* D5: new marketing type scale — NOT the product's Heading1-5 */
+  /* D5: new marketing type scale — NOT the product's Heading1-5.
+     Heading sizes (display/h1-h4) get a tightened 1.3 line-height —
+     the browser default of ~1.5 (body-copy proportions) reads loose
+     at display size. Body sizes keep the browser default; 1.3 would
+     cramp multi-line paragraph text. */
   --text-display: 4.5rem;
+  --text-display--line-height: 1.3;
   --text-h1: 3rem;
+  --text-h1--line-height: 1.3;
   --text-h2: 2.25rem;
+  --text-h2--line-height: 1.3;
   --text-h3: 1.75rem;
+  --text-h3--line-height: 1.3;
   --text-h4: 1.375rem;
+  --text-h4--line-height: 1.3;
   --text-body-lg: 1.125rem;
   --text-body: 1rem;
   --text-body-sm: 0.875rem;
