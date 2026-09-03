@@ -3,7 +3,12 @@ import { CheckCircleOutlined } from '@ant-design/icons'
 import { SectionShell } from '@/components/ui/SectionShell'
 import { SectionIntro } from '@/components/ui/SectionIntro'
 
-type FeatureGridItem = { title: string; description?: string }
+type FeatureGridItem = {
+  title: string
+  description?: string
+  ctaLabel?: string
+  ctaHref?: string
+}
 type FeatureGridBlockProps = {
   eyebrow?: string
   heading: string
@@ -37,6 +42,14 @@ export function FeatureGridBlock({ eyebrow, heading, body, items = [] }: Feature
             <h3 className="text-h4 font-semibold text-foreground">{item.title}</h3>
             {item.description && (
               <p className="text-body text-muted-foreground">{item.description}</p>
+            )}
+            {item.ctaLabel && item.ctaHref && (
+              <a
+                href={item.ctaHref}
+                className="mt-auto text-body-sm font-medium text-foreground underline underline-offset-4"
+              >
+                {item.ctaLabel} →
+              </a>
             )}
           </div>
         ))}
