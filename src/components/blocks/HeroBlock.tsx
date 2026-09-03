@@ -73,13 +73,12 @@ function HeroImageOverlay({ eyebrow, headline, subhead, ctaLabel, ctaHref }: Her
       {/* FR-003: grey placeholder background, no real asset required —
           full-bleed (D15 lets section backgrounds go edge to edge). */}
       <div className="absolute inset-0 bg-muted" role="img" aria-label="Placeholder image" />
-      {/* Scrim so light text stays legible over whatever the eventual
-          image is — strongest near the text, fading out above it. */}
-      <div
-        className="absolute inset-0 bg-linear-to-t from-foreground/80 via-foreground/10 to-transparent"
-        aria-hidden="true"
-      />
-      <div className="relative mx-auto flex min-h-screen w-full max-w-page flex-col justify-end px-medium-large py-3xl">
+      {/* Flat scrim (not a directional gradient) so light text stays
+          legible over whatever the eventual image is, regardless of
+          where the text sits — it's vertically centered here, not
+          pinned to one edge. */}
+      <div className="absolute inset-0 bg-foreground/55" aria-hidden="true" />
+      <div className="relative mx-auto flex min-h-screen w-full max-w-page flex-col justify-center px-medium-large py-3xl">
         <SectionIntro
           as="h1"
           eyebrow={eyebrow}
