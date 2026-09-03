@@ -18,7 +18,22 @@ export function HeroBlock({ eyebrow, headline, subhead, ctaLabel, ctaHref }: Her
           <SectionIntro as="h1" eyebrow={eyebrow} heading={headline} />
         </div>
         {(subhead || (ctaLabel && ctaHref)) && (
-          <div className="flex flex-col gap-medium-large md:max-w-prose-xs md:shrink-0">
+          <div className="flex flex-col gap-medium md:max-w-prose-xs md:shrink-0">
+            {/* Reserves the same height as the eyebrow in the left
+                column (same text/gap, just unpainted) so the body text
+                below it lines up with the h1's top, not the eyebrow's —
+                the two columns don't share a heading level to align
+                against otherwise. Only needed once the columns actually
+                sit side by side (md:) — on the stacked mobile layout
+                it would just add a blank gap above the subtext. */}
+            {eyebrow && (
+              <p
+                className="hidden text-caption font-semibold uppercase md:invisible md:block"
+                aria-hidden="true"
+              >
+                {eyebrow}
+              </p>
+            )}
             {subhead && <p className="text-body-lg text-muted-foreground">{subhead}</p>}
             {ctaLabel && ctaHref && (
               <div>
