@@ -1,26 +1,191 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  /* D5: radius scale — mirrors senseworks-figma-styles/border-radius.tokens.json exactly */
+  --radius-none: 0px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* D5: spacing scale — mirrors senseworks-figma-styles/spacing.tokens.json exactly */
+  --spacing-none: 0px;
+  --spacing-xs: 4px;
+  --spacing-small: 8px;
+  --spacing-small-medium: 12px;
+  --spacing-medium: 16px;
+  --spacing-medium-large: 24px;
+  --spacing-large: 32px;
+  --spacing-xl: 48px;
+  --spacing-2xl: 64px;
+  --spacing-3xl: 96px;
+  --spacing-4xl: 128px;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Content-width scale for prose/text columns (max-w-prose-*).
+     Deliberately NOT named xl/2xl/3xl — Tailwind v4 resolves max-w-*
+     against the same --spacing-* namespace before its own dedicated
+     --container-* scale, so reusing those names here would silently
+     shadow our spacing tokens down to single-digit-rem widths (this
+     broke the Hero/FAQ layout once already — verified via computed
+     styles, not guessed). sm/md/lg match Tailwind's own container-xl/
+     2xl/3xl defaults; xs is a Figma-specific value (460px, the fixed
+     text-column width in the agreed Feature Split design — verified
+     against the actual Figma node, not eyeballed). */
+  --container-prose-xs: 28.75rem;
+  --container-prose-sm: 36rem;
+  --container-prose-md: 42rem;
+  --container-prose-lg: 48rem;
+
+  /* D15: page-content width cap — full sections/backgrounds may go
+     edge-to-edge, but structural content rows (nav, hero row, future
+     feature grids) cap here so they don't spread absurdly thin on
+     ultrawide monitors. Narrower than that is prose width, above. */
+  --container-page: 90rem;
+
+  /* Image/media placeholder ratio (Tailwind's own --aspect-* namespace
+     — same mechanism that generates its built-in aspect-video). Used
+     instead of a fixed height so placeholders scale correctly at
+     every width rather than needing separate per-breakpoint heights. */
+  --aspect-media: 7 / 5;
+
+  /* Bento Grid's placeholder image is fixed-height instead, unlike
+     --aspect-media above: its cards vary in width (a col-span-2 "large"
+     card next to normal ones), so an aspect-ratio box would make the
+     large card's image several times taller than its neighbors. A
+     fixed height keeps every normal card's image the same size
+     regardless of heading/body length. Cards that span two grid rows
+     ("large", 2×2, and "tall", 1×2) use the taller variant below —
+     the same height as each other regardless of their own column
+     width, since it's the row-span, not the column-span, that should
+     drive image height. */
+  --height-bento-media: 12.5rem;
+  --height-bento-media-lg: 25rem;
+
+  /* D5: new marketing type scale — NOT the product's Heading1-5.
+     Heading sizes (display/h1-h4) get a tightened 1.3 line-height —
+     the browser default of ~1.5 (body-copy proportions) reads loose
+     at display size. Body sizes keep the browser default; 1.3 would
+     cramp multi-line paragraph text. */
+  --text-display: 4.5rem;
+  --text-display--line-height: 1.3;
+  --text-h1: 3.25rem;
+  --text-h1--line-height: 1.3;
+  --text-h2: 2.25rem;
+  --text-h2--line-height: 1.3;
+  --text-h3: 1.75rem;
+  --text-h3--line-height: 1.3;
+  --text-h4: 1.375rem;
+  --text-h4--line-height: 1.3;
+  --text-body-lg: 1.125rem;
+  --text-body: 1rem;
+  --text-body-sm: 0.875rem;
+  --text-caption: 0.75rem;
+
+  /* D5: semantic color slots, grayscale for v1 — see solution-spec.md */
+  --color-background: #ffffff;
+  --color-foreground: #1a1a1a;
+  --color-border: #e0e0e0;
+  --color-muted: #f7f7f7;
+  --color-muted-foreground: #6b6b6b;
+
+  /* Body copy — Inter, self-hosted via next/font/google in layout.tsx,
+     exposed as --font-inter on <html>. Reference that variable, not a
+     literal "Inter" string — a literal name only matches a
+     system-installed font (almost never present) and silently falls
+     through to the generic fallbacks instead of the loaded font. That
+     was a real, unnoticed bug here until D18 fixed it. */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* Headings only (D18) — Aeonik, the real licensed family (Dan
+     supplied it), self-hosted via next/font/local in layout.tsx,
+     exposed as --font-aeonik. Applied via the h1–h6 rule below, not a
+     per-component className, so every heading in every block picks it
+     up automatically. Never use this for body copy. */
+  --font-heading: var(--font-aeonik), var(--font-sans);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  /* Trims the font's built-in leading so the box hugs cap-height/
+     baseline instead of carrying invisible padding above/below the
+     glyphs — the "hidden height" that's been fighting our gap values
+     (see the Hero's eyebrow-alignment spacer). Not yet Baseline
+     (caniuse, checked 2026-09-03) but degrades safely: unsupported
+     browsers just ignore it and keep today's spacing, so no fallback
+     needed. Pilot — headings only, for now; expect this to make gaps
+     next to headings read looser than before, since the fixed gap
+     value is no longer partly "absorbed" by the trimmed leading. */
+  text-box: trim-both cap alphabetic;
+}
+
+/* Full-bleed horizontal scroller inset: replicates the same left edge
+   as mx-auto + max-w-page (D15) without capping the scroller's own
+   width, so cards start flush with the page content but are free to
+   scroll/clip past the right edge of the viewport. Used by carousels
+   that intentionally bleed off-screen (not a Tailwind utility, since
+   the calc() can't be expressed without arbitrary-value syntax). */
+.carousel-inset {
+  padding-inline-start: calc(
+    max((100% - var(--container-page)) / 2, 0px) + var(--spacing-medium-large)
+  );
+  /* Without this, scroll-snap measures "start" against the scrollport
+     edge and ignores the padding above, so the resting snapped
+     position sits at scrollLeft == the padding amount, not 0 — which
+     throws off any JS that checks scrollLeft <= 0 to disable a "prev"
+     control. Matching scroll-padding to the padding fixes the rest
+     position back to 0. */
+  scroll-padding-inline-start: calc(
+    max((100% - var(--container-page)) / 2, 0px) + var(--spacing-medium-large)
+  );
+}
+
+/* Hides the scrollbar on horizontally-scrolling carousels while
+   keeping them wheel/touch/keyboard scrollable. */
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Logo Cloud ticker: the track renders enough back-to-back copies of
+   the logo list to comfortably outrun the widest realistic viewport
+   (computed in the component, since a fixed 2 copies runs out of
+   content and scrolls to blank on a wide/ultrawide monitor), and
+   slides left by exactly one copy's measured pixel width — set as
+   the --marquee-set-width custom property, not a fixed percentage,
+   since percentages don't divide evenly once flex `gap` and more than
+   one extra copy are both in play. Duration is set per-instance so
+   scroll speed (px/s) stays constant regardless of content width. */
+@keyframes logo-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-1 * var(--marquee-set-width, 0px)));
+  }
+}
+.logo-marquee-track {
+  animation-name: logo-marquee;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .logo-marquee-track {
+    animation: none;
+  }
 }
