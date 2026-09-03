@@ -3,7 +3,7 @@ import Link from 'next/link'
 import type { ReactNode } from 'react'
 
 export const buttonVariants = cva(
-  'inline-flex items-center justify-center rounded-md text-body-sm font-medium transition-colors',
+  'inline-flex items-center justify-center rounded-full text-body-sm font-medium transition-colors',
   {
     variants: {
       variant: {
