@@ -46,7 +46,7 @@ export function LogoCloudBlock({ logos = [] }: LogoCloudBlockProps) {
   if (!logos.length) return null
 
   return (
-    <SectionShell py="large" sectionClassName="border-b border-border">
+    <SectionShell py="large">
       <div ref={wrapperRef} className="overflow-hidden">
         <div
           className="logo-marquee-track flex w-max items-center"

@@ -13,10 +13,7 @@ export function StatsBandBlock({ eyebrow, heading, items = [] }: StatsBandBlockP
   if (!items.length) return null
 
   return (
-    <SectionShell
-      sectionClassName="border-y border-border bg-muted"
-      className="flex flex-col gap-2xl"
-    >
+    <SectionShell sectionClassName="bg-muted" className="flex flex-col gap-2xl">
       <SectionIntro as="h2" eyebrow={eyebrow} heading={heading} align="center" />
       <div className="grid grid-cols-1 gap-large sm:grid-cols-2 lg:grid-cols-4 lg:divide-x lg:divide-border">
         {items.map((item, index) => (
