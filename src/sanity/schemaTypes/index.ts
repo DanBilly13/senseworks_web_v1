@@ -10,6 +10,7 @@ import { statsBandBlock } from './blocks/statsBandBlock'
 import { pricingBlock } from './blocks/pricingBlock'
 import { bentoGridBlock } from './blocks/bentoGridBlock'
 import { footerBlock } from './blocks/footerBlock'
+import { comparisonTableBlock } from './blocks/comparisonTableBlock'
 
 export const schemaTypes = [
   page,
@@ -23,5 +24,6 @@ export const schemaTypes = [
   statsBandBlock,
   pricingBlock,
   bentoGridBlock,
+  comparisonTableBlock,
   footerBlock,
 ]

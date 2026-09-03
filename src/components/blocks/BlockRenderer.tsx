@@ -9,6 +9,7 @@ import { PricingBlock } from './PricingBlock'
 import { BentoGridBlock } from './BentoGridBlock'
 import { FaqAccordionBlock } from './FaqAccordionBlock'
 import { FooterBlock } from './FooterBlock'
+import { ComparisonTableBlock } from './ComparisonTableBlock'
 import type { PageBlock } from '@/lib/sanity/getPage'
 
 const BLOCK_COMPONENTS = {
@@ -22,6 +23,7 @@ const BLOCK_COMPONENTS = {
   pricingBlock: PricingBlock,
   bentoGridBlock: BentoGridBlock,
   faqAccordionBlock: FaqAccordionBlock,
+  comparisonTableBlock: ComparisonTableBlock,
   footerBlock: FooterBlock,
 } as const
 
