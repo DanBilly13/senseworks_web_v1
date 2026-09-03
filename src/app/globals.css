@@ -50,6 +50,19 @@
      every width rather than needing separate per-breakpoint heights. */
   --aspect-media: 7 / 5;
 
+  /* Bento Grid's placeholder image is fixed-height instead, unlike
+     --aspect-media above: its cards vary in width (a col-span-2 "large"
+     card next to normal ones), so an aspect-ratio box would make the
+     large card's image several times taller than its neighbors. A
+     fixed height keeps every normal card's image the same size
+     regardless of heading/body length. Cards that span two grid rows
+     ("large", 2×2, and "tall", 1×2) use the taller variant below —
+     the same height as each other regardless of their own column
+     width, since it's the row-span, not the column-span, that should
+     drive image height. */
+  --height-bento-media: 12.5rem;
+  --height-bento-media-lg: 25rem;
+
   /* D5: new marketing type scale — NOT the product's Heading1-5.
      Heading sizes (display/h1-h4) get a tightened 1.3 line-height —
      the browser default of ~1.5 (body-copy proportions) reads loose

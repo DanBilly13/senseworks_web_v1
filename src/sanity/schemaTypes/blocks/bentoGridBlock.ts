@@ -42,8 +42,9 @@ export const bentoGridBlock = defineType({
               type: 'string',
               options: {
                 list: [
-                  { title: 'Normal (1 column)', value: 'normal' },
-                  { title: 'Large (2 columns)', value: 'large' },
+                  { title: 'Normal (1 wide, 1 tall)', value: 'normal' },
+                  { title: 'Large (2 wide, 2 tall)', value: 'large' },
+                  { title: 'Tall (1 wide, 2 tall)', value: 'tall' },
                 ],
                 layout: 'radio',
               },
@@ -54,7 +55,8 @@ export const bentoGridBlock = defineType({
             select: { title: 'heading', size: 'size' },
             prepare: ({ title, size }) => ({
               title,
-              subtitle: size === 'large' ? 'Large (2 columns)' : 'Normal',
+              subtitle:
+                size === 'large' ? 'Large (2×2)' : size === 'tall' ? 'Tall (1×2)' : 'Normal',
             }),
           },
         }),
