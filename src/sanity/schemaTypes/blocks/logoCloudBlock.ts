@@ -5,7 +5,6 @@ export const logoCloudBlock = defineType({
   title: 'Logo Cloud',
   type: 'object',
   fields: [
-    defineField({ name: 'heading', type: 'string' }),
     defineField({
       name: 'logos',
       title: 'Logos',
@@ -27,9 +26,9 @@ export const logoCloudBlock = defineType({
     }),
   ],
   preview: {
-    select: { title: 'heading', logos: 'logos' },
-    prepare: ({ title, logos }) => ({
-      title: `Logo Cloud — ${title || 'Untitled'}`,
+    select: { logos: 'logos' },
+    prepare: ({ logos }) => ({
+      title: 'Logo Cloud',
       subtitle: `${logos?.length ?? 0} logos`,
     }),
   },

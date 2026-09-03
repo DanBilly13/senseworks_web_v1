@@ -28,7 +28,7 @@ const eslintConfig = defineConfig([
       // comments there for why each one exists.
       "tailwindcss/no-custom-classname": [
         "warn",
-        { whitelist: ["carousel-inset", "scrollbar-hide"] },
+        { whitelist: ["carousel-inset", "scrollbar-hide", "logo-marquee-track"] },
       ],
     },
   },

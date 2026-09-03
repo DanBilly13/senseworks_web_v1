@@ -2,30 +2,26 @@ import { SectionShell } from '@/components/ui/SectionShell'
 
 type LogoCloudItem = { name: string }
 type LogoCloudBlockProps = {
-  heading?: string
   logos?: LogoCloudItem[]
 }
 
-export function LogoCloudBlock({ heading, logos = [] }: LogoCloudBlockProps) {
+export function LogoCloudBlock({ logos = [] }: LogoCloudBlockProps) {
   // D7: a block with no content simply doesn't render.
   if (!logos.length) return null
 
   return (
-    <SectionShell
-      py="large"
-      sectionClassName="border-b border-border"
-      className="flex flex-col items-center gap-medium"
-    >
-      {heading && (
-        <p className="text-caption font-semibold text-muted-foreground uppercase">{heading}</p>
-      )}
-      <div className="flex flex-wrap items-center justify-center gap-x-2xl gap-y-medium">
-        {logos.map((logo, index) => (
+    <SectionShell py="large" sectionClassName="border-b border-border" className="overflow-hidden">
+      <div
+        className="logo-marquee-track flex w-max items-center gap-2xl"
+        style={{ animationDuration: `${logos.length * 4}s` }}
+      >
+        {[...logos, ...logos].map((logo, index) => (
           <div
             key={index}
-            className="h-xl w-3xl rounded-md bg-muted"
+            className="h-xl w-3xl shrink-0 rounded-md bg-muted"
             role="img"
             aria-label={logo.name}
+            aria-hidden={index >= logos.length ? true : undefined}
           />
         ))}
       </div>

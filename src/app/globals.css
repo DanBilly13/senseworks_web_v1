@@ -108,3 +108,29 @@ body {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+/* Logo Cloud ticker: the track renders two back-to-back copies of the
+   logo list (second copy aria-hidden) and slides left by exactly 50%
+   of its own width — since both halves are identical, that lands
+   exactly back on the start of the second copy, looping seamlessly.
+   Duration is set per-instance via inline style so scroll speed
+   (px/s) stays roughly constant regardless of how many logos there
+   are, rather than a fixed duration making short lists race by. */
+@keyframes logo-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.logo-marquee-track {
+  animation-name: logo-marquee;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .logo-marquee-track {
+    animation: none;
+  }
+}
