@@ -72,7 +72,23 @@ export function SectionIntro({
           {heading}
         </Heading>
       )}
-      {body && <p className="text-body-lg text-muted-foreground">{body}</p>}
+      {body && (
+        <p
+          className={[
+            'text-body-lg text-muted-foreground',
+            // Same reasoning as the heading's mt-small above, mirrored
+            // on the other side of it: trimming the heading's own box
+            // also tightened its bottom edge, so the gap to the body
+            // text below it read loose next to the rest of the block's
+            // rhythm.
+            heading ? 'mt-small' : '',
+          ]
+            .filter(Boolean)
+            .join(' ')}
+        >
+          {body}
+        </p>
+      )}
       {cta && <div>{cta}</div>}
     </div>
   )
