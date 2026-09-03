@@ -109,19 +109,21 @@ body {
   display: none;
 }
 
-/* Logo Cloud ticker: the track renders two back-to-back copies of the
-   logo list (second copy aria-hidden) and slides left by exactly 50%
-   of its own width — since both halves are identical, that lands
-   exactly back on the start of the second copy, looping seamlessly.
-   Duration is set per-instance via inline style so scroll speed
-   (px/s) stays roughly constant regardless of how many logos there
-   are, rather than a fixed duration making short lists race by. */
+/* Logo Cloud ticker: the track renders enough back-to-back copies of
+   the logo list to comfortably outrun the widest realistic viewport
+   (computed in the component, since a fixed 2 copies runs out of
+   content and scrolls to blank on a wide/ultrawide monitor), and
+   slides left by exactly one copy's measured pixel width — set as
+   the --marquee-set-width custom property, not a fixed percentage,
+   since percentages don't divide evenly once flex `gap` and more than
+   one extra copy are both in play. Duration is set per-instance so
+   scroll speed (px/s) stays constant regardless of content width. */
 @keyframes logo-marquee {
   from {
     transform: translateX(0);
   }
   to {
-    transform: translateX(-50%);
+    transform: translateX(calc(-1 * var(--marquee-set-width, 0px)));
   }
 }
 .logo-marquee-track {
