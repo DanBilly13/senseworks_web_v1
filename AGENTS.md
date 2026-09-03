@@ -65,6 +65,23 @@ repo): `solution-spec.md`, `decision-log.md`, `risk-register.md`,
   inside it changes (this broke the FAQ accordion — it changed width
   every time an item expanded/collapsed). Pattern:
   `mx-auto w-full max-w-prose-lg`, not just `mx-auto max-w-prose-lg`.
+- **Shared UI primitives, not copy-paste.** Two patterns were
+  duplicated across every block before being extracted — use them
+  instead of hand-rolling the markup again:
+  - `SectionShell` (`src/components/ui/SectionShell.tsx`): the
+    `<section>` + centered/padded `max-w-page` (or `prose-lg`)
+    container. Only skip it when a block's content genuinely can't
+    live inside one wrapper (Feature Split's mirrored row, Testimonial
+    Carousel's full-bleed scroller that must escape the container).
+  - `SectionIntro` (`src/components/ui/SectionIntro.tsx`): the
+    eyebrow/heading/body/CTA cluster. Takes `as="h1"|"h2"|"h3"` for
+    the real heading level — **Hero is the only `h1` on a page**
+    (it's the page title); every section heading is `h2`; card/item-
+    level sub-headings within a section are `h3` (e.g. a Pricing
+    plan's name). Don't default to `h1` for visual size — Pricing and
+    Bento Grid both did this early on (an `h2` styled at `text-h1`
+    size) and it was never actually a deliberate choice, just
+    copy-paste from Hero.
 - Block components live in `src/components/blocks/`, one file per
   Sanity block schema in `src/sanity/schemaTypes/blocks/`. Register
   new blocks in **both** `src/sanity/schemaTypes/index.ts` and

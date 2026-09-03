@@ -2,6 +2,8 @@
 import { useState } from 'react'
 import { ExpandAltOutlined } from '@ant-design/icons'
 import { Modal } from '@/components/ui/Modal'
+import { SectionShell } from '@/components/ui/SectionShell'
+import { SectionIntro } from '@/components/ui/SectionIntro'
 
 type BentoItem = { heading: string; body?: string; size?: 'normal' | 'large' }
 type BentoGridBlockProps = {
@@ -18,15 +20,9 @@ export function BentoGridBlock({ eyebrow, heading, body, items = [] }: BentoGrid
   if (!items.length) return null
 
   return (
-    <section className="py-3xl">
-      <div className="mx-auto flex w-full max-w-page flex-col gap-2xl px-medium-large">
-        <div className="flex max-w-prose-md flex-col gap-medium">
-          {eyebrow && (
-            <p className="text-caption font-semibold text-muted-foreground uppercase">{eyebrow}</p>
-          )}
-          <h2 className="text-h1 font-semibold text-foreground">{heading}</h2>
-          {body && <p className="text-body-lg text-muted-foreground">{body}</p>}
-        </div>
+    <>
+      <SectionShell className="flex flex-col gap-2xl">
+        <SectionIntro as="h2" eyebrow={eyebrow} heading={heading} body={body} maxWidth="md" />
         <div className="grid grid-cols-1 gap-large md:grid-cols-3">
           {items.map((item, index) => (
             <div
@@ -57,7 +53,7 @@ export function BentoGridBlock({ eyebrow, heading, body, items = [] }: BentoGrid
             </div>
           ))}
         </div>
-      </div>
+      </SectionShell>
       <Modal
         open={openIndex !== null}
         onClose={() => setOpenIndex(null)}
@@ -65,6 +61,6 @@ export function BentoGridBlock({ eyebrow, heading, body, items = [] }: BentoGrid
       >
         {/* Content intentionally left blank for now — Dan wants to design this later. */}
       </Modal>
-    </section>
+    </>
   )
 }

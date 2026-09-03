@@ -1,3 +1,5 @@
+import { SectionShell } from '@/components/ui/SectionShell'
+
 type LogoCloudItem = { name: string }
 type LogoCloudBlockProps = {
   heading?: string
@@ -9,22 +11,24 @@ export function LogoCloudBlock({ heading, logos = [] }: LogoCloudBlockProps) {
   if (!logos.length) return null
 
   return (
-    <section className="border-b border-border py-large">
-      <div className="mx-auto flex w-full max-w-page flex-col items-center gap-medium px-medium-large">
-        {heading && (
-          <p className="text-caption font-semibold text-muted-foreground uppercase">{heading}</p>
-        )}
-        <div className="flex flex-wrap items-center justify-center gap-x-2xl gap-y-medium">
-          {logos.map((logo, index) => (
-            <div
-              key={index}
-              className="h-xl w-3xl rounded-md bg-muted"
-              role="img"
-              aria-label={logo.name}
-            />
-          ))}
-        </div>
+    <SectionShell
+      py="large"
+      sectionClassName="border-b border-border"
+      className="flex flex-col items-center gap-medium"
+    >
+      {heading && (
+        <p className="text-caption font-semibold text-muted-foreground uppercase">{heading}</p>
+      )}
+      <div className="flex flex-wrap items-center justify-center gap-x-2xl gap-y-medium">
+        {logos.map((logo, index) => (
+          <div
+            key={index}
+            className="h-xl w-3xl rounded-md bg-muted"
+            role="img"
+            aria-label={logo.name}
+          />
+        ))}
       </div>
-    </section>
+    </SectionShell>
   )
 }

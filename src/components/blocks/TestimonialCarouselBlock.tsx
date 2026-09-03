@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { LeftOutlined, RightOutlined, UserOutlined } from '@ant-design/icons'
 import { Button } from '@/components/ui/Button'
+import { SectionIntro } from '@/components/ui/SectionIntro'
 
 type TestimonialItem = { quote: string; authorName: string; authorRole?: string }
 type TestimonialCarouselBlockProps = {
@@ -55,22 +56,21 @@ export function TestimonialCarouselBlock({
     <section className="py-3xl">
       <div className="mx-auto flex w-full max-w-page flex-col px-medium-large">
         <div className="flex flex-wrap items-end justify-between gap-medium-large">
-          <div className="flex max-w-prose-sm flex-col gap-medium">
-            {eyebrow && (
-              <p className="text-caption font-semibold text-muted-foreground uppercase">
-                {eyebrow}
-              </p>
-            )}
-            <h2 className="text-h2 font-semibold text-foreground">{heading}</h2>
-            {body && <p className="text-body-lg text-muted-foreground">{body}</p>}
-            {ctaLabel && ctaHref && (
-              <div>
+          <SectionIntro
+            as="h2"
+            eyebrow={eyebrow}
+            heading={heading}
+            body={body}
+            maxWidth="sm"
+            cta={
+              ctaLabel &&
+              ctaHref && (
                 <Button href={ctaHref} variant="secondary">
                   {ctaLabel}
                 </Button>
-              </div>
-            )}
-          </div>
+              )
+            }
+          />
           <div className="flex gap-small">
             <button
               type="button"

@@ -1,6 +1,8 @@
 'use client'
 import { useState } from 'react'
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons'
+import { SectionShell } from '@/components/ui/SectionShell'
+import { SectionIntro } from '@/components/ui/SectionIntro'
 
 type FaqItem = { question: string; answer: string }
 type FaqAccordionBlockProps = { heading?: string; items?: FaqItem[] }
@@ -15,11 +17,8 @@ export function FaqAccordionBlock({
   if (!items.length) return null
 
   return (
-    <section
-      className="mx-auto w-full max-w-prose-lg px-medium-large py-3xl"
-      aria-label={heading}
-    >
-      <h2 className="text-h2 font-semibold text-foreground">{heading}</h2>
+    <SectionShell maxWidth="prose-lg" ariaLabel={heading}>
+      <SectionIntro as="h2" heading={heading} />
       <dl className="mt-2xl divide-y divide-border">
         {items.map((item, index) => {
           const isOpen = openIndex === index
@@ -53,6 +52,6 @@ export function FaqAccordionBlock({
           )
         })}
       </dl>
-    </section>
+    </SectionShell>
   )
 }

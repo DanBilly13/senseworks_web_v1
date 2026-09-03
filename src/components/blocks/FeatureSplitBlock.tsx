@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/Button'
+import { SectionIntro } from '@/components/ui/SectionIntro'
 
 type FeatureSplitBlockProps = {
   eyebrow?: string
@@ -35,21 +36,21 @@ export function FeatureSplitBlock({
           role="img"
           aria-label="Placeholder image"
         />
-        <div className="flex w-full flex-col gap-small-medium md:max-w-prose-xs md:shrink-0">
-          {eyebrow && (
-            <p className="text-caption font-semibold text-muted-foreground uppercase">
-              {eyebrow}
-            </p>
-          )}
-          <h2 className="text-h2 font-semibold text-foreground">{heading}</h2>
-          {body && <p className="text-body text-muted-foreground">{body}</p>}
-          {ctaLabel && ctaHref && (
-            <div>
-              <Button href={ctaHref} variant="secondary">
-                {ctaLabel}
-              </Button>
-            </div>
-          )}
+        <div className="w-full md:max-w-prose-xs md:shrink-0">
+          <SectionIntro
+            as="h2"
+            eyebrow={eyebrow}
+            heading={heading}
+            body={body}
+            cta={
+              ctaLabel &&
+              ctaHref && (
+                <Button href={ctaHref} variant="secondary">
+                  {ctaLabel}
+                </Button>
+              )
+            }
+          />
         </div>
       </div>
     </section>
