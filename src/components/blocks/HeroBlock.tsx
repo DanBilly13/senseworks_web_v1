@@ -13,14 +13,21 @@ type HeroBlockProps = {
 export function HeroBlock({ eyebrow, headline, subhead, ctaLabel, ctaHref }: HeroBlockProps) {
   return (
     <SectionShell className="flex flex-col gap-2xl">
-      <SectionIntro
-        as="h1"
-        eyebrow={eyebrow}
-        heading={headline}
-        body={subhead}
-        maxWidth="md"
-        cta={ctaLabel && ctaHref && <Button href={ctaHref}>{ctaLabel}</Button>}
-      />
+      <div className="flex flex-col gap-large md:flex-row md:items-start md:justify-between md:gap-2xl">
+        <div className="md:max-w-prose-md md:flex-1">
+          <SectionIntro as="h1" eyebrow={eyebrow} heading={headline} />
+        </div>
+        {(subhead || (ctaLabel && ctaHref)) && (
+          <div className="flex flex-col gap-medium-large md:max-w-prose-xs md:shrink-0">
+            {subhead && <p className="text-body-lg text-muted-foreground">{subhead}</p>}
+            {ctaLabel && ctaHref && (
+              <div>
+                <Button href={ctaHref}>{ctaLabel}</Button>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
       {/* FR-003: grey placeholder container, no real asset required.
           D15: contained within the page-width cap, not full-bleed.
           aspect-media (7:5) instead of a fixed height so it scales
