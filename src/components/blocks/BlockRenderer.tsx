@@ -10,6 +10,8 @@ import { BentoGridBlock } from './BentoGridBlock'
 import { FaqAccordionBlock } from './FaqAccordionBlock'
 import { FooterBlock } from './FooterBlock'
 import { ComparisonTableBlock } from './ComparisonTableBlock'
+import { CaseStudyGridBlock } from './CaseStudyGridBlock'
+import { CtaBannerBlock } from './CtaBannerBlock'
 import type { PageBlock } from '@/lib/sanity/getPage'
 
 const BLOCK_COMPONENTS = {
@@ -24,6 +26,8 @@ const BLOCK_COMPONENTS = {
   bentoGridBlock: BentoGridBlock,
   faqAccordionBlock: FaqAccordionBlock,
   comparisonTableBlock: ComparisonTableBlock,
+  caseStudyGridBlock: CaseStudyGridBlock,
+  ctaBannerBlock: CtaBannerBlock,
   footerBlock: FooterBlock,
 } as const
 

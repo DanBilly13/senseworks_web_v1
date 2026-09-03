@@ -11,6 +11,8 @@ import { pricingBlock } from './blocks/pricingBlock'
 import { bentoGridBlock } from './blocks/bentoGridBlock'
 import { footerBlock } from './blocks/footerBlock'
 import { comparisonTableBlock } from './blocks/comparisonTableBlock'
+import { ctaBannerBlock } from './blocks/ctaBannerBlock'
+import { caseStudyGridBlock } from './blocks/caseStudyGridBlock'
 
 export const schemaTypes = [
   page,
@@ -25,5 +27,7 @@ export const schemaTypes = [
   pricingBlock,
   bentoGridBlock,
   comparisonTableBlock,
+  caseStudyGridBlock,
+  ctaBannerBlock,
   footerBlock,
 ]
