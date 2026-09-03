@@ -106,6 +106,16 @@ h4,
 h5,
 h6 {
   font-family: var(--font-heading);
+  /* Trims the font's built-in leading so the box hugs cap-height/
+     baseline instead of carrying invisible padding above/below the
+     glyphs — the "hidden height" that's been fighting our gap values
+     (see the Hero's eyebrow-alignment spacer). Not yet Baseline
+     (caniuse, checked 2026-09-03) but degrades safely: unsupported
+     browsers just ignore it and keep today's spacing, so no fallback
+     needed. Pilot — headings only, for now; expect this to make gaps
+     next to headings read looser than before, since the fixed gap
+     value is no longer partly "absorbed" by the trimmed leading. */
+  text-box: trim-both cap alphabetic;
 }
 
 /* Full-bleed horizontal scroller inset: replicates the same left edge
