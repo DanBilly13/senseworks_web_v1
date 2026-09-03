@@ -8,6 +8,7 @@ import { StatsBandBlock } from './StatsBandBlock'
 import { PricingBlock } from './PricingBlock'
 import { BentoGridBlock } from './BentoGridBlock'
 import { FaqAccordionBlock } from './FaqAccordionBlock'
+import { FooterBlock } from './FooterBlock'
 import type { PageBlock } from '@/lib/sanity/getPage'
 
 const BLOCK_COMPONENTS = {
@@ -21,6 +22,7 @@ const BLOCK_COMPONENTS = {
   pricingBlock: PricingBlock,
   bentoGridBlock: BentoGridBlock,
   faqAccordionBlock: FaqAccordionBlock,
+  footerBlock: FooterBlock,
 } as const
 
 export function BlockRenderer({ blocks }: { blocks: PageBlock[] }) {

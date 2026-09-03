@@ -28,6 +28,7 @@ export const page = defineType({
         defineArrayMember({ type: 'pricingBlock' }),
         defineArrayMember({ type: 'bentoGridBlock' }),
         defineArrayMember({ type: 'faqAccordionBlock' }),
+        defineArrayMember({ type: 'footerBlock' }),
       ],
     }),
   ],

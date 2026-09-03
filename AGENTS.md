@@ -65,6 +65,17 @@ repo): `solution-spec.md`, `decision-log.md`, `risk-register.md`,
   inside it changes (this broke the FAQ accordion — it changed width
   every time an item expanded/collapsed). Pattern:
   `mx-auto w-full max-w-prose-lg`, not just `mx-auto max-w-prose-lg`.
+  The same stretch defaults bite an `<Image>`/`<img>` too: a fixed-
+  aspect-ratio image with only `h-* w-auto` (relying on its intrinsic
+  aspect ratio for width) renders at the correct size in a **row**
+  flex container (Header's logo, cross-axis = height, constrained by
+  `h-*`) but gets stretched to fill the full cross-axis width —
+  distorting it — in a **column** flex container, since width is the
+  cross-axis there and `w-auto` still counts as `auto` for stretch
+  purposes (this broke Footer's small logo: reported 460px wide
+  instead of ~186px, matching its column parent's width exactly).
+  Add `self-start` to opt the image out of stretch so it sizes from
+  its own intrinsic aspect ratio instead.
 - **Shared UI primitives, not copy-paste.** Two patterns were
   duplicated across every block before being extracted — use them
   instead of hand-rolling the markup again:
