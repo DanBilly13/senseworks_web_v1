@@ -55,7 +55,20 @@ export function SectionIntro({
         <p className="text-caption font-semibold text-muted-foreground uppercase">{eyebrow}</p>
       )}
       {heading && (
-        <Heading className={`${HEADING_TEXT_CLASS[Heading]} font-semibold text-foreground`}>
+        <Heading
+          className={[
+            HEADING_TEXT_CLASS[Heading],
+            'font-semibold text-foreground',
+            // Extra bump on top of the container's gap-medium, eyebrow
+            // to heading only — text-box-trim (globals.css) tightened
+            // every heading's own box, which made this specific gap
+            // read tighter than the rest of the block's rhythm once
+            // there was an eyebrow above it to compare against.
+            eyebrow ? 'mt-small' : '',
+          ]
+            .filter(Boolean)
+            .join(' ')}
+        >
           {heading}
         </Heading>
       )}
