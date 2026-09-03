@@ -68,14 +68,35 @@
   --color-muted: #f7f7f7;
   --color-muted-foreground: #6b6b6b;
 
-  /* Placeholder typeface — Aeonik not yet installed as a web font (tracked gap) */
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  /* Body copy — Inter, self-hosted via next/font/google in layout.tsx,
+     exposed as --font-inter on <html>. Reference that variable, not a
+     literal "Inter" string — a literal name only matches a
+     system-installed font (almost never present) and silently falls
+     through to the generic fallbacks instead of the loaded font. That
+     was a real, unnoticed bug here until D18 fixed it. */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* Headings only (D18) — Aeonik, the real licensed family (Dan
+     supplied it), self-hosted via next/font/local in layout.tsx,
+     exposed as --font-aeonik. Applied via the h1–h6 rule below, not a
+     per-component className, so every heading in every block picks it
+     up automatically. Never use this for body copy. */
+  --font-heading: var(--font-aeonik), var(--font-sans);
 }
 
 body {
   background: var(--color-background);
   color: var(--color-foreground);
   font-family: var(--font-sans);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
 }
 
 /* Full-bleed horizontal scroller inset: replicates the same left edge
