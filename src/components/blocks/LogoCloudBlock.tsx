@@ -2,8 +2,10 @@
 import { useEffect, useRef, useState } from 'react'
 import type { CSSProperties } from 'react'
 import { SectionShell } from '@/components/ui/SectionShell'
+import { Media } from '@/components/ui/Media'
+import type { MediaField } from '@/lib/sanity/media'
 
-type LogoCloudItem = { name: string }
+type LogoCloudItem = { name: string; media?: MediaField }
 type LogoCloudBlockProps = {
   logos?: LogoCloudItem[]
 }
@@ -68,12 +70,13 @@ export function LogoCloudBlock({ logos = [] }: LogoCloudBlockProps) {
               className="flex shrink-0 items-center"
             >
               {logos.map((logo, logoIndex) => (
-                <div
+                <Media
                   key={logoIndex}
-                  className="mr-2xl h-xl w-3xl shrink-0 rounded-md bg-muted"
-                  role="img"
-                  aria-label={logo.name}
-                  aria-hidden={copyIndex > 0 ? true : undefined}
+                  media={logo.media}
+                  alt={logo.name}
+                  className="mr-2xl h-xl w-3xl shrink-0 rounded-md"
+                  fit="contain"
+                  ariaHidden={copyIndex > 0}
                 />
               ))}
             </div>

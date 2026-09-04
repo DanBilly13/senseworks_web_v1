@@ -33,6 +33,7 @@ export const heroBlock = defineType({
     }),
     defineField({ name: 'ctaLabel', type: 'string' }),
     defineField({ name: 'ctaHref', type: 'string' }),
+    defineField({ name: 'media', title: 'Media', type: 'media' }),
   ],
   preview: {
     select: { title: 'headline', layout: 'layout' },

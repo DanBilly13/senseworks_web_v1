@@ -40,8 +40,11 @@ export const testimonialCarouselBlock = defineType({
               validation: (Rule) => Rule.required().max(80),
             }),
             defineField({ name: 'authorRole', title: 'Author role / company', type: 'string' }),
+            defineField({ name: 'media', title: 'Avatar', type: 'media' }),
           ],
-          preview: { select: { title: 'authorName', subtitle: 'quote' } },
+          preview: {
+            select: { title: 'authorName', subtitle: 'quote', media: 'media.image' },
+          },
         }),
       ],
     }),

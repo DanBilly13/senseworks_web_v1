@@ -1,5 +1,7 @@
 import { SectionShell } from '@/components/ui/SectionShell'
 import { SectionIntro } from '@/components/ui/SectionIntro'
+import { Media } from '@/components/ui/Media'
+import type { MediaField } from '@/lib/sanity/media'
 
 type CaseStudyItem = {
   companyName: string
@@ -8,6 +10,7 @@ type CaseStudyItem = {
   personRole?: string
   ctaLabel?: string
   ctaHref?: string
+  media?: MediaField
 }
 type CaseStudyGridBlockProps = {
   eyebrow?: string
@@ -34,10 +37,11 @@ export function CaseStudyGridBlock({
             key={index}
             className="flex flex-col gap-medium-large rounded-lg border border-border bg-background p-large"
           >
-            <div
-              className="h-xl w-3xl rounded-md bg-muted"
-              role="img"
-              aria-label={`${item.companyName} logo`}
+            <Media
+              media={item.media}
+              alt={`${item.companyName} logo`}
+              className="h-xl w-3xl rounded-md"
+              fit="contain"
             />
             <div className="flex flex-col gap-small-medium">
               {item.quote && <p className="text-body text-foreground">&ldquo;{item.quote}&rdquo;</p>}

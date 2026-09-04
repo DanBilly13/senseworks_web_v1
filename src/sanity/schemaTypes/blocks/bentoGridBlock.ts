@@ -50,13 +50,15 @@ export const bentoGridBlock = defineType({
               },
               initialValue: 'normal',
             }),
+            defineField({ name: 'media', title: 'Media', type: 'media' }),
           ],
           preview: {
-            select: { title: 'heading', size: 'size' },
-            prepare: ({ title, size }) => ({
+            select: { title: 'heading', size: 'size', media: 'media.image' },
+            prepare: ({ title, size, media }) => ({
               title,
               subtitle:
                 size === 'large' ? 'Large (2×2)' : size === 'tall' ? 'Tall (1×2)' : 'Normal',
+              media,
             }),
           },
         }),

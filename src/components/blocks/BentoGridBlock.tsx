@@ -4,8 +4,15 @@ import { ExpandAltOutlined } from '@ant-design/icons'
 import { Modal } from '@/components/ui/Modal'
 import { SectionShell } from '@/components/ui/SectionShell'
 import { SectionIntro } from '@/components/ui/SectionIntro'
+import { Media } from '@/components/ui/Media'
+import type { MediaField } from '@/lib/sanity/media'
 
-type BentoItem = { heading: string; body?: string; size?: 'normal' | 'large' | 'tall' }
+type BentoItem = {
+  heading: string
+  body?: string
+  size?: 'normal' | 'large' | 'tall'
+  media?: MediaField
+}
 type BentoGridBlockProps = {
   eyebrow?: string
   heading: string
@@ -51,10 +58,10 @@ export function BentoGridBlock({ eyebrow, heading, body, items = [] }: BentoGrid
                     <p className="line-clamp-2 text-body text-muted-foreground">{item.body}</p>
                   )}
                 </div>
-                <div
-                  className={`mt-medium-large w-full shrink-0 rounded-md bg-muted ${spansTwoRows ? 'h-bento-media-lg' : 'h-bento-media'}`}
-                  role="img"
-                  aria-label="Placeholder image"
+                <Media
+                  media={item.media}
+                  alt={item.heading}
+                  className={`mt-medium-large w-full shrink-0 rounded-md ${spansTwoRows ? 'h-bento-media-lg' : 'h-bento-media'}`}
                 />
               </div>
             )

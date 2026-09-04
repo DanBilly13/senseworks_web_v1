@@ -1,4 +1,5 @@
 import { page } from './page'
+import { media } from './objects/media'
 import { headerBlock } from './blocks/headerBlock'
 import { heroBlock } from './blocks/heroBlock'
 import { faqAccordionBlock } from './blocks/faqAccordionBlock'
@@ -16,6 +17,7 @@ import { caseStudyGridBlock } from './blocks/caseStudyGridBlock'
 
 export const schemaTypes = [
   page,
+  media,
   headerBlock,
   heroBlock,
   faqAccordionBlock,

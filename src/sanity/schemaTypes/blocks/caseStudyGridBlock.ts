@@ -40,8 +40,11 @@ export const caseStudyGridBlock = defineType({
             defineField({ name: 'personRole', title: 'Person role / company', type: 'string' }),
             defineField({ name: 'ctaLabel', type: 'string' }),
             defineField({ name: 'ctaHref', type: 'string' }),
+            defineField({ name: 'media', title: 'Logo', type: 'media' }),
           ],
-          preview: { select: { title: 'companyName', subtitle: 'personName' } },
+          preview: {
+            select: { title: 'companyName', subtitle: 'personName', media: 'media.image' },
+          },
         }),
       ],
     }),

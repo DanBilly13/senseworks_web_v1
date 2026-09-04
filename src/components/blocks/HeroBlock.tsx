@@ -1,6 +1,8 @@
 import { Button } from '@/components/ui/Button'
 import { SectionShell } from '@/components/ui/SectionShell'
 import { SectionIntro } from '@/components/ui/SectionIntro'
+import { Media } from '@/components/ui/Media'
+import type { MediaField } from '@/lib/sanity/media'
 
 type HeroBlockProps = {
   layout?: 'split' | 'imageOverlay'
@@ -9,6 +11,7 @@ type HeroBlockProps = {
   subhead?: string
   ctaLabel?: string
   ctaHref?: string
+  media?: MediaField
 }
 
 export function HeroBlock({ layout = 'split', ...props }: HeroBlockProps) {
@@ -21,7 +24,7 @@ export function HeroBlock({ layout = 'split', ...props }: HeroBlockProps) {
 
 type HeroVariantProps = Omit<HeroBlockProps, 'layout'>
 
-function HeroSplit({ eyebrow, headline, subhead, ctaLabel, ctaHref }: HeroVariantProps) {
+function HeroSplit({ eyebrow, headline, subhead, ctaLabel, ctaHref, media }: HeroVariantProps) {
   return (
     <SectionShell className="flex flex-col gap-2xl">
       <div className="flex flex-col gap-large md:flex-row md:items-start md:justify-between md:gap-2xl">
@@ -54,25 +57,32 @@ function HeroSplit({ eyebrow, headline, subhead, ctaLabel, ctaHref }: HeroVarian
           </div>
         )}
       </div>
-      {/* FR-003: grey placeholder container, no real asset required.
-          D15: contained within the page-width cap, not full-bleed.
+      {/* D15: contained within the page-width cap, not full-bleed.
           aspect-media (7:5) instead of a fixed height so it scales
-          correctly with the column's actual rendered width. */}
-      <div
-        className="aspect-media w-full rounded-lg bg-muted"
-        role="img"
-        aria-label="Placeholder image"
-      />
+          correctly with the column's actual rendered width. Media
+          itself falls back to a grey box when no asset is set. */}
+      <Media media={media} alt={headline} className="aspect-media w-full rounded-lg" />
     </SectionShell>
   )
 }
 
-function HeroImageOverlay({ eyebrow, headline, subhead, ctaLabel, ctaHref }: HeroVariantProps) {
+function HeroImageOverlay({
+  eyebrow,
+  headline,
+  subhead,
+  ctaLabel,
+  ctaHref,
+  media,
+}: HeroVariantProps) {
   return (
     <section className="relative min-h-screen">
-      {/* FR-003: grey placeholder background, no real asset required —
-          full-bleed (D15 lets section backgrounds go edge to edge). */}
-      <div className="absolute inset-0 bg-muted" role="img" aria-label="Placeholder image" />
+      {/* Full-bleed background (D15 lets section backgrounds go edge to
+          edge). This wrapper owns the absolute positioning — Media's
+          own root is `relative`, so passing "absolute inset-0" into
+          its className would conflict with that. */}
+      <div className="absolute inset-0">
+        <Media media={media} alt={headline} className="size-full" />
+      </div>
       {/* Flat scrim (not a directional gradient) so light text stays
           legible over whatever the eventual image is, regardless of
           where the text sits — it's vertically centered here, not

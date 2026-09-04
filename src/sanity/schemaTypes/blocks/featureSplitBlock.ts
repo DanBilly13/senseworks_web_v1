@@ -33,6 +33,7 @@ export const featureSplitBlock = defineType({
       initialValue: 'left',
       validation: (Rule) => Rule.required(),
     }),
+    defineField({ name: 'media', title: 'Media', type: 'media' }),
   ],
   preview: {
     select: { title: 'heading', position: 'imagePosition' },

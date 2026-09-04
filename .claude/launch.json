@@ -6,6 +6,12 @@
       "runtimeExecutable": "yarn",
       "runtimeArgs": ["dev"],
       "port": 3000
+    },
+    {
+      "name": "sanity-studio-standalone",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["sanity", "dev"],
+      "port": 3333
     }
   ]
 }

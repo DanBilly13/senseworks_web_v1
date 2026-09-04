@@ -3,6 +3,7 @@ import { structureTool } from 'sanity/structure'
 import { visionTool } from '@sanity/vision'
 import { documentInternationalization } from '@sanity/document-internationalization'
 import { schemaTypes } from './src/sanity/schemaTypes'
+import { structure } from './src/sanity/structure'
 
 // projectId/dataset are public, non-secret identifiers (not API
 // tokens), so a literal fallback is safe here. The fallback exists
@@ -19,7 +20,7 @@ export default defineConfig({
   dataset,
   basePath: '/studio',
   plugins: [
-    structureTool(),
+    structureTool({ structure }),
     visionTool(),
     // D12: en is the default/base locale; sv is the second locale.
     documentInternationalization({

@@ -98,7 +98,14 @@ repo): `solution-spec.md`, `decision-log.md`, `risk-register.md`,
   new blocks in **both** `src/sanity/schemaTypes/index.ts` and
   `src/components/blocks/BlockRenderer.tsx` — a block missing from
   either place silently won't render (this is intentional, see D7:
-  unknown/incomplete blocks don't render).
+  unknown/incomplete blocks don't render). Also add an entry to
+  `src/sanity/structure/componentLibrary.ts` — a hand-maintained list
+  (title + one-line description) that powers the "Component Library"
+  reference pane in Studio's nav (`src/sanity/structure/`). It's not
+  derived from the schema, so it won't pick up a new block on its own.
+  After adding a block, redeploy the hosted Studio
+  (`npx sanity deploy`) so editors see it at
+  `https://senseworks-web.sanity.studio`.
 - Icons use **`@ant-design/icons`** (D16) — don't reach for unicode
   glyphs, another icon package, or inline SVGs. Its icon components
   need a client-side React context, so any component that renders one
