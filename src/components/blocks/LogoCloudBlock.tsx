@@ -51,7 +51,17 @@ export function LogoCloudBlock({ logos = [] }: LogoCloudBlockProps) {
     <SectionShell>
       <div ref={wrapperRef} className="overflow-hidden">
         <div
-          className="logo-marquee-track flex w-max items-center"
+          // The animation class is only added once `setWidth` is measured
+          // (not present at initial mount, when animation-duration would
+          // still be unset/0s) — Safari has a long-standing bug where
+          // updating animation-duration on an already-applied infinite
+          // animation is silently ignored, so the marquee would mount,
+          // "finish" its animation at 0s, and never pick up the real
+          // duration once ResizeObserver measured it (reproduced on iOS
+          // Safari; Chrome/Firefox pick up the update fine either way).
+          // Applying the class only once the real duration is known
+          // avoids ever updating a running animation in the first place.
+          className={`flex w-max items-center ${setWidth ? 'logo-marquee-track' : ''}`}
           style={{
             // Shift by exactly one measured set's pixel width, not a
             // percentage of the whole track — percentages plus flex

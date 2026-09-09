@@ -19,7 +19,7 @@ export function TestimonialLargeBlock({
 }: TestimonialLargeBlockProps) {
   return (
     <SectionShell>
-      <div className="bg-accent-gradient flex flex-col gap-2xl rounded-lg p-2xl">
+      <div className="bg-accent-gradient flex flex-col gap-2xl rounded-lg p-medium md:p-2xl">
         <p className="text-h4 text-balance text-foreground">&ldquo;{quote}&rdquo;</p>
         <div className="flex items-center gap-medium">
           <Media

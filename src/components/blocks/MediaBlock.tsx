@@ -34,7 +34,7 @@ export function MediaBlock({ media }: MediaBlockProps) {
           // Full width at its own aspect ratio (not cropped/scaled to
           // cover) — equal padding on three sides only, so it's flush
           // with and cropped by the frame's own bottom edge.
-          <div className="p-2xl pb-0">
+          <div className="p-medium pb-0 md:p-2xl md:pb-0">
             <Image
               src={urlFor(media.image!).url()}
               alt={media?.alt ?? ''}
