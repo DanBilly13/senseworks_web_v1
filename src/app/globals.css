@@ -110,6 +110,17 @@
   --text-body-sm: 0.875rem;
   --text-caption: 0.75rem;
 
+  /* A dedicated size for long-form reading (Knowledge Bank article
+     bodies) — deliberately its own token, not a reuse of --text-body
+     or --text-body-lg, since those are load-bearing everywhere else
+     on the site (buttons, cards, nav, every marketing block's body
+     copy) and changing them to suit a long-article reading experience
+     would change all of that too. Sized/spaced after Medium's actual
+     published body copy (21px/32px line-height, ratio ~1.52) as the
+     reference point for "open enough to read comfortably at length". */
+  --text-article-body: 1.25rem;
+  --text-article-body--line-height: 1.7;
+
   /* D5: semantic color slots — see solution-spec.md. foreground was
      grayscale (#1a1a1a) for v1; now the brand's dark navy, which
      cascades everywhere text-foreground/bg-foreground is already used
@@ -209,6 +220,32 @@ h6 {
      next to headings read looser than before, since the fixed gap
      value is no longer partly "absorbed" by the trimmed leading. */
   text-box: trim-both cap alphabetic;
+}
+
+/* Article breakout grid: a narrow centered "text" track (matches
+   max-w-prose-lg) inside a wider container (SectionShell's max-w-page)
+   — a plain CSS grid rather than a Tailwind utility since the
+   min()-based middle track can't be expressed without arbitrary-value
+   syntax (same reasoning as .carousel-inset's calc() below). Every
+   direct child defaults to the text track; .article-grid-wide breaks
+   a child (cover image, inline body images) out to the full container
+   width instead. Row-gap is deliberately 0 — vertical rhythm inside
+   an article comes from each element's own margin (tighter between
+   paragraphs, larger before a heading), not a uniform grid gap. */
+.article-grid {
+  display: grid;
+  grid-template-columns: 1fr min(var(--container-prose-lg), 100%) 1fr;
+  /* No column-gap: the two 1fr edge tracks already provide the
+     breathing room a gap would — on a narrow viewport the middle
+     track alone claims the full available width (100% inside the
+     min()), so a nonzero gap on top of that has nowhere to fit and
+     overflows the container by 2x the gap. */
+}
+.article-grid > * {
+  grid-column: 2;
+}
+.article-grid-wide {
+  grid-column: 1 / -1;
 }
 
 /* Full-bleed horizontal scroller inset: replicates the same left edge

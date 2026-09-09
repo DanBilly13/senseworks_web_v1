@@ -1,22 +1,23 @@
 import { notFound } from 'next/navigation'
-import Image from 'next/image'
 import { PortableText, type PortableTextComponents } from '@portabletext/react'
 import { getPage } from '@/lib/sanity/getPage'
 import type { PageBlock } from '@/lib/sanity/getPage'
 import { getArticle } from '@/lib/sanity/knowledgeBank'
-import { urlFor } from '@/lib/sanity/image'
 import { BlockRenderer } from '@/components/blocks/BlockRenderer'
 import { SectionShell } from '@/components/ui/SectionShell'
-import { Media } from '@/components/ui/Media'
 import { Tag } from '@/components/ui/Tag'
-import { AuthorAvatar } from '@/components/knowledge-bank/AuthorAvatar'
-import type { MediaField } from '@/lib/sanity/media'
+import { AuthorByline } from '@/components/knowledge-bank/AuthorByline'
+import { ArticleActions } from '@/components/knowledge-bank/ArticleActions'
+import { LikeProvider } from '@/components/knowledge-bank/LikeProvider'
+import { ArticleImage } from '@/components/knowledge-bank/ArticleImage'
 
 const portableTextComponents: PortableTextComponents = {
   block: {
-    normal: ({ children }) => <p className="mb-medium text-body text-foreground">{children}</p>,
+    normal: ({ children }) => (
+      <p className="mb-medium text-article-body text-foreground">{children}</p>
+    ),
     h2: ({ children }) => (
-      <h2 className="mt-large mb-medium text-h3 font-bold text-foreground">{children}</h2>
+      <h2 className="mt-large mb-medium text-h4 font-bold text-foreground">{children}</h2>
     ),
     h3: ({ children }) => (
       <h3 className="mt-large mb-medium text-h4 font-semibold text-foreground">{children}</h3>
@@ -31,8 +32,16 @@ const portableTextComponents: PortableTextComponents = {
     ),
   },
   list: {
-    bullet: ({ children }) => <ul className="mb-medium list-disc pl-medium-large">{children}</ul>,
-    number: ({ children }) => <ol className="mb-medium list-decimal pl-medium-large">{children}</ol>,
+    bullet: ({ children }) => (
+      <ul className="mb-medium list-disc pl-medium-large text-article-body text-foreground">
+        {children}
+      </ul>
+    ),
+    number: ({ children }) => (
+      <ol className="mb-medium list-decimal pl-medium-large text-article-body text-foreground">
+        {children}
+      </ol>
+    ),
   },
   marks: {
     link: ({ value, children }) => (
@@ -42,17 +51,13 @@ const portableTextComponents: PortableTextComponents = {
     ),
   },
   types: {
+    // Breaks out of the text column (article-grid-wide) — these are
+    // dense product screenshots that need real width to stay legible,
+    // not inline illustrations that should match the prose width.
     image: ({ value }) => (
-      <span className="my-large block overflow-hidden rounded-lg">
-        <Image
-          src={urlFor(value).width(1200).url()}
-          alt={value.alt ?? ''}
-          width={1200}
-          height={800}
-          sizes="100vw"
-          className="h-auto w-full"
-        />
-      </span>
+      <div className="article-grid-wide my-large overflow-hidden rounded-lg">
+        <ArticleImage image={value} alt={value.alt ?? ''} />
+      </div>
     ),
   },
 }
@@ -70,56 +75,45 @@ export default async function ArticlePage({
   const header = home.blocks.find((block) => block._type === 'headerBlock')
   const footer = home.blocks.find((block) => block._type === 'footerBlock')
 
-  const cover: MediaField = article.coverImage ? { mediaType: 'image', image: article.coverImage } : null
-  const authorPhoto: MediaField = article.author?.photo
-    ? { mediaType: 'image', image: article.author.photo }
-    : null
-
   return (
     <>
       {header && <BlockRenderer blocks={[header as PageBlock]} />}
-      <SectionShell py="section-edge" pad="both" maxWidth="prose-lg" className="flex flex-col gap-large">
-        {!!article.tags?.length && (
-          <div className="flex flex-wrap gap-xs">
-            {article.tags.map((tag) => (
-              <Tag key={tag.slug}>{tag.title}</Tag>
-            ))}
-          </div>
-        )}
-        <div className="flex flex-col gap-medium">
-          <h1 className="text-h1 font-bold text-balance text-foreground">{article.title}</h1>
-          {article.subtitle && (
-            <p className="text-body-lg text-muted-foreground">{article.subtitle}</p>
+      <LikeProvider articleSlug={slug}>
+        <SectionShell py="section-edge" pad="both" maxWidth="page" className="article-grid">
+          {!!article.tags?.length && (
+            <div className="mb-large flex flex-wrap gap-xs">
+              {article.tags.map((tag) => (
+                <Tag key={tag.slug}>{tag.title}</Tag>
+              ))}
+            </div>
           )}
-        </div>
-        <div className="flex items-center gap-small border-y border-border py-medium">
-          <AuthorAvatar
-            media={authorPhoto}
-            alt={article.author?.name ?? ''}
-            className="size-2xl shrink-0 rounded-full"
-          />
-          <div className="flex flex-col">
-            {article.author?.name && (
-              <span className="text-body-sm font-semibold text-foreground">
-                Written by {article.author.name}
-              </span>
+          <div className="mb-large flex flex-col gap-medium">
+            <h1 className="text-h1 font-bold text-balance text-foreground">{article.title}</h1>
+            {article.subtitle && (
+              <p className="text-body-lg text-muted-foreground">{article.subtitle}</p>
             )}
-            <span className="text-caption text-muted-foreground">
-              {new Date(article.publishedAt).toLocaleDateString(locale === 'sv' ? 'sv-SE' : 'en-GB', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })}
-            </span>
           </div>
-        </div>
-        {cover && <Media media={cover} alt={article.title} className="aspect-media w-full rounded-lg" />}
-        {!!article.body?.length && (
-          <div>
+          <div className="mb-large flex items-center justify-between gap-medium border-y border-border py-medium">
+            <AuthorByline author={article.author} publishedAt={article.publishedAt} locale={locale} />
+            <ArticleActions />
+          </div>
+          {article.coverImage && (
+            <div className="article-grid-wide mb-large overflow-hidden rounded-lg">
+              <ArticleImage image={article.coverImage} alt={article.title} />
+            </div>
+          )}
+          {!!article.body?.length && (
             <PortableText value={article.body} components={portableTextComponents} />
+          )}
+          {/* Repeats the top byline+actions — a second chance to like/
+              share once the reader has actually finished the article,
+              not just skimmed the top. */}
+          <div className="mt-large flex items-center justify-between gap-medium border-t border-border pt-medium">
+            <AuthorByline author={article.author} publishedAt={article.publishedAt} locale={locale} />
+            <ArticleActions />
           </div>
-        )}
-      </SectionShell>
+        </SectionShell>
+      </LikeProvider>
       {footer && <BlockRenderer blocks={[footer as PageBlock]} />}
     </>
   )
