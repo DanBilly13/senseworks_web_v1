@@ -1,5 +1,9 @@
 import { page } from './page'
 import { media } from './objects/media'
+import { blockContent } from './objects/blockContent'
+import { author } from './documents/author'
+import { tag } from './documents/tag'
+import { article } from './documents/article'
 import { headerBlock } from './blocks/headerBlock'
 import { heroBlock } from './blocks/heroBlock'
 import { heroTextBlock } from './blocks/heroTextBlock'
@@ -24,6 +28,10 @@ import { caseStudyGridBlock } from './blocks/caseStudyGridBlock'
 export const schemaTypes = [
   page,
   media,
+  blockContent,
+  author,
+  tag,
+  article,
   headerBlock,
   heroBlock,
   heroTextBlock,
