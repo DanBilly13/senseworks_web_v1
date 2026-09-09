@@ -88,6 +88,13 @@
   --height-bento-media: 12.5rem;
   --height-bento-media-lg: 25rem;
 
+  /* Team roster avatar, desktop size — a dedicated --size-* token
+     (not the shared --spacing-* scale) since 180px is specific to
+     this one avatar and doesn't need to ripple into every other
+     width, height, padding, and gap utility the way adding it to
+     --spacing-* would. */
+  --size-avatar-lg: 11.25rem;
+
   /* D5: new marketing type scale — NOT the product's Heading1-5.
      Heading sizes (display/h1-h4) get a tightened 1.3 line-height —
      the browser default of ~1.5 (body-copy proportions) reads loose

@@ -1,7 +1,7 @@
 import { page } from './page'
 import { media } from './objects/media'
 import { blockContent } from './objects/blockContent'
-import { author } from './documents/author'
+import { teamMember } from './documents/teamMember'
 import { tag } from './documents/tag'
 import { article } from './documents/article'
 import { headerBlock } from './blocks/headerBlock'
@@ -29,7 +29,7 @@ export const schemaTypes = [
   page,
   media,
   blockContent,
-  author,
+  teamMember,
   tag,
   article,
   headerBlock,

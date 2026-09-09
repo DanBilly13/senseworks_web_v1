@@ -19,7 +19,7 @@ export const article = defineType({
       type: 'array',
       of: [defineArrayMember({ type: 'reference', to: [{ type: 'tag' }] })],
     }),
-    defineField({ name: 'author', type: 'reference', to: [{ type: 'author' }] }),
+    defineField({ name: 'author', type: 'reference', to: [{ type: 'teamMember' }] }),
     defineField({
       name: 'publishedAt',
       type: 'datetime',
