@@ -25,7 +25,7 @@ export function ArticleCard({ article, locale }: { article: ArticleSummary; loca
       href={`/${locale}/knowledge-bank/${article.slug}`}
       className="group flex flex-col overflow-hidden rounded-lg border border-border bg-background transition-shadow hover:shadow-lg"
     >
-      <Media media={cover} alt={article.title} className="aspect-media w-full" />
+      <Media media={cover} alt={article.title} className="aspect-article-cover w-full" />
       <div className="flex flex-1 flex-col gap-small-medium p-medium-large">
         {!!article.tags?.length && (
           <div className="flex flex-wrap gap-xs">

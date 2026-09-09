@@ -75,6 +75,14 @@
      every width rather than needing separate per-breakpoint heights. */
   --aspect-media: 7 / 5;
 
+  /* Knowledge Bank article card cover — the inherited cover banners
+     are wide graphics with baked-in text (real example: 1752x810,
+     ratio ~2.16:1), nowhere close to --aspect-media's 7:5 (1.4:1)
+     above. Cropping into that box cut off the text/logo entirely, so
+     this card gets its own, much wider ratio instead of reusing the
+     generic one. */
+  --aspect-article-cover: 13 / 6;
+
   /* Bento Grid's placeholder image is fixed-height instead, unlike
      --aspect-media above: its cards vary in width (a col-span-2 "large"
      card next to normal ones), so an aspect-ratio box would make the
