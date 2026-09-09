@@ -34,7 +34,7 @@ export function FeatureGridBlock({ eyebrow, heading, body, items = [] }: Feature
         {items.map((item, index) => (
           <div key={index} className="flex flex-col gap-small-medium">
             <div
-              className="flex size-xl items-center justify-center rounded-md bg-muted text-h4 text-muted-foreground"
+              className="flex size-xl items-center justify-center rounded-md bg-background text-h4 text-muted-foreground"
               aria-hidden="true"
             >
               <CheckCircleOutlined />
