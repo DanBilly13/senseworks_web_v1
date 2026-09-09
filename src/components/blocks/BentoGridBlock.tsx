@@ -17,10 +17,22 @@ type BentoGridBlockProps = {
   eyebrow?: string
   heading: string
   body?: string
+  columns?: '2' | '3'
   items?: BentoItem[]
 }
 
-export function BentoGridBlock({ eyebrow, heading, body, items = [] }: BentoGridBlockProps) {
+const GRID_COLS_CLASS: Record<'2' | '3', string> = {
+  '2': 'md:grid-cols-2',
+  '3': 'md:grid-cols-3',
+}
+
+export function BentoGridBlock({
+  eyebrow,
+  heading,
+  body,
+  columns = '3',
+  items = [],
+}: BentoGridBlockProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
 
   // D7: a block with no content simply doesn't render.
@@ -29,8 +41,8 @@ export function BentoGridBlock({ eyebrow, heading, body, items = [] }: BentoGrid
   return (
     <>
       <SectionShell className="flex flex-col gap-2xl">
-        <SectionIntro as="h2" eyebrow={eyebrow} heading={heading} body={body} maxWidth="md" />
-        <div className="grid grid-cols-1 gap-large md:grid-cols-3">
+        <SectionIntro as="h3" eyebrow={eyebrow} heading={heading} body={body} maxWidth="md" />
+        <div className={`grid grid-cols-1 gap-large ${GRID_COLS_CLASS[columns]}`}>
           {items.map((item, index) => {
             // Large (2 wide, 2 tall) and Tall (1 wide, 2 tall) both span two
             // grid rows, so they sit side by side at full height while the
@@ -53,15 +65,23 @@ export function BentoGridBlock({ eyebrow, heading, body, items = [] }: BentoGrid
                   <ExpandAltOutlined />
                 </button>
                 <div className="flex flex-1 flex-col gap-small pr-2xl">
-                  <h3 className="text-h4 font-semibold text-foreground">{item.heading}</h3>
+                  <h5 className="text-h5 font-semibold text-balance text-foreground">{item.heading}</h5>
                   {item.body && (
-                    <p className="line-clamp-2 text-body text-muted-foreground">{item.body}</p>
+                    <p className="mt-small line-clamp-2 text-body text-muted-foreground">
+                      {item.body}
+                    </p>
                   )}
                 </div>
                 <Media
                   media={item.media}
                   alt={item.heading}
-                  className={`mt-medium-large w-full shrink-0 rounded-md ${spansTwoRows ? 'h-bento-media-lg' : 'h-bento-media'}`}
+                  className={`mt-medium-large w-full shrink-0 rounded-md ${
+                    columns === '2'
+                      ? 'aspect-media'
+                      : spansTwoRows
+                        ? 'h-bento-media-lg'
+                        : 'h-bento-media'
+                  }`}
                 />
               </div>
             )

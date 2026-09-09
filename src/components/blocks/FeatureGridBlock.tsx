@@ -39,9 +39,14 @@ export function FeatureGridBlock({ eyebrow, heading, body, items = [] }: Feature
             >
               <CheckCircleOutlined />
             </div>
-            <h3 className="text-h4 font-semibold text-foreground">{item.title}</h3>
+            <h4 className="text-h4 font-semibold text-balance text-foreground">{item.title}</h4>
             {item.description && (
-              <p className="text-body text-muted-foreground">{item.description}</p>
+              // Doubles the title-to-description gap (12px container
+              // gap + this) from 12px to 24px, matching the section
+              // heading-to-body doubling in SectionIntro.
+              <p className="mt-small-medium text-body text-muted-foreground">
+                {item.description}
+              </p>
             )}
             {item.ctaLabel && item.ctaHref && (
               <a

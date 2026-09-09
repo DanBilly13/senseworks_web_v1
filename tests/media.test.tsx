@@ -13,12 +13,12 @@ vi.mock('lottie-react', () => ({
 
 describe('Media', () => {
   it('renders the grey placeholder with role=img and the given alt when no media is set', () => {
-    render(<Media alt="Placeholder image" className="h-xl w-xl" />)
+    render(<Media alt="Placeholder image" className="size-xl" />)
     expect(screen.getByRole('img', { name: 'Placeholder image' })).toBeInTheDocument()
   })
 
   it('renders the grey placeholder when mediaType is set but no asset has been uploaded yet', () => {
-    render(<Media media={{ mediaType: 'video' }} alt="Placeholder image" className="h-xl w-xl" />)
+    render(<Media media={{ mediaType: 'video' }} alt="Placeholder image" className="size-xl" />)
     expect(screen.getByRole('img', { name: 'Placeholder image' })).toBeInTheDocument()
     expect(screen.queryByRole('video' as never)).not.toBeInTheDocument()
   })
@@ -28,7 +28,7 @@ describe('Media', () => {
       <Media
         media={{ mediaType: 'image', image: { asset: { _ref: 'image-abc-800x600-jpg' } } }}
         alt="A real photo"
-        className="h-xl w-xl"
+        className="size-xl"
       />,
     )
     expect(screen.getByAltText('A real photo')).toBeInTheDocument()
@@ -40,7 +40,7 @@ describe('Media', () => {
       <Media
         media={{ mediaType: 'video', videoUrl: 'https://cdn.sanity.io/files/x/y/z.mp4' }}
         alt="A real video"
-        className="h-xl w-xl"
+        className="size-xl"
       />,
     )
     const video = container.querySelector('video')
@@ -52,7 +52,7 @@ describe('Media', () => {
       <Media
         media={{ mediaType: 'lottie', lottieUrl: 'https://cdn.sanity.io/files/x/y/z.json' }}
         alt="A real animation"
-        className="h-xl w-xl"
+        className="size-xl"
       />,
     )
     expect(await screen.findByTestId('lottie-mock')).toHaveAttribute(

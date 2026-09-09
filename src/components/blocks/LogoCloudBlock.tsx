@@ -48,7 +48,7 @@ export function LogoCloudBlock({ logos = [] }: LogoCloudBlockProps) {
   if (!logos.length) return null
 
   return (
-    <SectionShell py="large">
+    <SectionShell>
       <div ref={wrapperRef} className="overflow-hidden">
         <div
           className="logo-marquee-track flex w-max items-center"
@@ -70,14 +70,16 @@ export function LogoCloudBlock({ logos = [] }: LogoCloudBlockProps) {
               className="flex shrink-0 items-center"
             >
               {logos.map((logo, logoIndex) => (
-                <Media
-                  key={logoIndex}
-                  media={logo.media}
-                  alt={logo.name}
-                  className="mr-2xl h-xl w-3xl shrink-0 rounded-md"
-                  fit="contain"
-                  ariaHidden={copyIndex > 0}
-                />
+                <div key={logoIndex} className="mr-2xl h-xl w-3xl shrink-0 p-small">
+                  <Media
+                    media={logo.media}
+                    alt={logo.name}
+                    className="size-full"
+                    fit="contain"
+                    background="none"
+                    ariaHidden={copyIndex > 0}
+                  />
+                </div>
               ))}
             </div>
           ))}

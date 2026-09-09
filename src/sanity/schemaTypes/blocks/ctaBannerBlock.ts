@@ -37,6 +37,7 @@ export const ctaBannerBlock = defineType({
         list: [
           { title: 'Inverse (dark)', value: 'inverse' },
           { title: 'Default (light)', value: 'default' },
+          { title: 'Accent', value: 'accent' },
         ],
         layout: 'radio',
       },

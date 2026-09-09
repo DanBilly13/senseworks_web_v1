@@ -5,16 +5,24 @@ type StatItem = { value: string; label: string }
 type StatsBandBlockProps = {
   eyebrow?: string
   heading?: string
+  body?: string
   items?: StatItem[]
 }
 
-export function StatsBandBlock({ eyebrow, heading, items = [] }: StatsBandBlockProps) {
+export function StatsBandBlock({ eyebrow, heading, body, items = [] }: StatsBandBlockProps) {
   // D7: a block with no content simply doesn't render.
   if (!items.length) return null
 
   return (
-    <SectionShell sectionClassName="bg-muted" className="flex flex-col gap-2xl">
-      <SectionIntro as="h2" eyebrow={eyebrow} heading={heading} align="center" />
+    <SectionShell className="flex flex-col gap-2xl">
+      <SectionIntro
+        as="h2"
+        eyebrow={eyebrow}
+        heading={heading}
+        body={body}
+        align="center"
+        maxWidth="md"
+      />
       <div className="grid grid-cols-1 gap-large sm:grid-cols-2 lg:grid-cols-4 lg:divide-x lg:divide-border">
         {items.map((item, index) => (
           <div

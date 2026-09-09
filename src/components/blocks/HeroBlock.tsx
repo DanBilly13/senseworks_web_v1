@@ -26,7 +26,7 @@ type HeroVariantProps = Omit<HeroBlockProps, 'layout'>
 
 function HeroSplit({ eyebrow, headline, subhead, ctaLabel, ctaHref, media }: HeroVariantProps) {
   return (
-    <SectionShell className="flex flex-col gap-2xl">
+    <SectionShell py="section-edge" pad="both" className="flex flex-col gap-2xl">
       <div className="flex flex-col gap-large md:flex-row md:items-start md:justify-between md:gap-2xl">
         <div className="md:max-w-prose-md md:flex-1">
           <SectionIntro as="h1" eyebrow={eyebrow} heading={headline} />
@@ -50,7 +50,11 @@ function HeroSplit({ eyebrow, headline, subhead, ctaLabel, ctaHref, media }: Her
             )}
             {subhead && <p className="text-body-lg text-muted-foreground">{subhead}</p>}
             {ctaLabel && ctaHref && (
-              <div>
+              // Doubles the subhead-to-button gap (16px container gap +
+              // this) from 16px to 32px, matching SectionIntro's own
+              // body-to-cta doubling — this column doesn't go through
+              // SectionIntro, so it needs the same bump applied by hand.
+              <div className={subhead ? 'mt-medium' : ''}>
                 <Button href={ctaHref}>{ctaLabel}</Button>
               </div>
             )}
@@ -88,7 +92,7 @@ function HeroImageOverlay({
           where the text sits — it's vertically centered here, not
           pinned to one edge. */}
       <div className="absolute inset-0 bg-foreground/55" aria-hidden="true" />
-      <div className="relative mx-auto flex min-h-screen w-full max-w-page flex-col justify-center px-medium-large py-3xl">
+      <div className="relative mx-auto flex min-h-screen w-full max-w-page flex-col justify-center px-medium-large py-section-edge">
         <SectionIntro
           as="h1"
           eyebrow={eyebrow}
@@ -99,7 +103,7 @@ function HeroImageOverlay({
           cta={
             ctaLabel &&
             ctaHref && (
-              <Button href={ctaHref} variant="inverse">
+              <Button href={ctaHref} variant="filled-light">
                 {ctaLabel}
               </Button>
             )

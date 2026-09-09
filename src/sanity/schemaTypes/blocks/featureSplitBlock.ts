@@ -15,7 +15,7 @@ export const featureSplitBlock = defineType({
       name: 'body',
       type: 'text',
       rows: 3,
-      validation: (Rule) => Rule.max(300),
+      validation: (Rule) => Rule.max(600),
     }),
     defineField({ name: 'ctaLabel', type: 'string' }),
     defineField({ name: 'ctaHref', type: 'string' }),
@@ -32,6 +32,19 @@ export const featureSplitBlock = defineType({
       },
       initialValue: 'left',
       validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'headingLevel',
+      title: 'Heading level',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'H2', value: 'h2' },
+          { title: 'H3 (default)', value: 'h3' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'h3',
     }),
     defineField({ name: 'media', title: 'Media', type: 'media' }),
   ],

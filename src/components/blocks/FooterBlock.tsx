@@ -61,7 +61,7 @@ function NewsletterForm({
         aria-label={heading ?? 'Email address'}
         className="w-full rounded-md border border-background/30 bg-transparent px-medium py-small-medium text-body-sm text-background placeholder:text-background/50 sm:max-w-prose-xs"
       />
-      <button type="submit" className={buttonVariants({ variant: 'inverse', size: 'sm' })}>
+      <button type="submit" className={buttonVariants({ variant: 'filled-light', size: 'sm' })}>
         Subscribe
       </button>
     </form>
@@ -78,7 +78,7 @@ export function FooterBlock({
 }: FooterBlockProps) {
   return (
     <footer className="bg-foreground text-background">
-      <div className="mx-auto flex w-full max-w-page flex-col gap-3xl px-medium-large py-3xl">
+      <div className="mx-auto flex w-full max-w-page flex-col gap-3xl px-medium-large py-section-edge">
         <div className="flex flex-col gap-3xl md:flex-row md:justify-between">
           <div className="flex w-full flex-col gap-medium md:max-w-prose-xs">
             <Image

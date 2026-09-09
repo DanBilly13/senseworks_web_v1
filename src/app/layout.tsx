@@ -11,15 +11,16 @@ const inter = Inter({
 });
 
 // Headings only (D18) — Aeonik, the real licensed family, supplied by
-// Dan. Only the Medium cut is loaded, mapped to font-weight 600 in
-// globals.css's @font-face — every heading in the app uses
-// font-semibold (600), and Aeonik doesn't have its own 600 cut, so
-// declaring Medium's actual file at weight 600 avoids the browser
-// synthetically bolding it to fake a 600 match.
+// Dan. Two real cuts loaded at their own actual weights — Medium
+// declared as 600 (Aeonik has no dedicated 600 cut, and every h2/h3
+// uses font-semibold) and Bold as 700 (h1, font-bold) — so neither
+// weight relies on the browser synthetically bolding a single face.
 const aeonik = localFont({
-  src: "./fonts/Aeonik-Medium.otf",
+  src: [
+    { path: "./fonts/Aeonik-Medium.otf", weight: "600", style: "normal" },
+    { path: "./fonts/Aeonik-Bold.otf", weight: "700", style: "normal" },
+  ],
   variable: "--font-aeonik",
-  weight: "600",
   display: "swap",
 });
 

@@ -21,6 +21,9 @@ type MediaProps = {
   sizes?: string
   fallback?: ReactNode
   ariaHidden?: boolean
+  // 'none' opts out of the placeholder fill — e.g. a logo mark that
+  // should sit directly on the page, not look like a card.
+  background?: 'gradient' | 'none'
 }
 
 export function Media({
@@ -31,6 +34,7 @@ export function Media({
   sizes,
   fallback,
   ariaHidden,
+  background = 'gradient',
 }: MediaProps) {
   const resolvedAlt = media?.alt || alt
   const hasAsset =
@@ -42,7 +46,7 @@ export function Media({
 
   return (
     <div
-      className={`relative overflow-hidden bg-muted ${className}`}
+      className={`relative overflow-hidden ${background === 'gradient' ? 'bg-accent-gradient' : ''} ${className}`}
       role={hasAsset ? undefined : 'img'}
       aria-label={hasAsset ? undefined : resolvedAlt}
       aria-hidden={ariaHidden || undefined}

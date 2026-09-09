@@ -33,10 +33,13 @@ export const pageBySlugAndLocaleQuery = groq`
       ...,
       _type == "heroBlock" => { ${mediaProjection} },
       _type == "featureSplitBlock" => { ${mediaProjection} },
+      _type == "featureSplitDarkBlock" => { ${mediaProjection} },
       _type == "bentoGridBlock" => { items[]{ ..., ${mediaProjection} } },
+      _type == "mediaBlock" => { ${mediaProjection} },
       _type == "caseStudyGridBlock" => { items[]{ ..., ${mediaProjection} } },
       _type == "logoCloudBlock" => { logos[]{ ..., ${mediaProjection} } },
       _type == "testimonialCarouselBlock" => { items[]{ ..., ${mediaProjection} } },
+      _type == "testimonialLargeBlock" => { ${mediaProjection} },
     }
   }
 `

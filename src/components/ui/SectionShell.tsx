@@ -2,7 +2,14 @@ import type { ReactNode } from 'react'
 
 type SectionShellProps = {
   maxWidth?: 'page' | 'prose-lg'
-  py?: '3xl' | 'large'
+  py?: '3xl' | 'large' | 'section-edge' | 'section-gap'
+  // Most sections only need bottom padding — two adjacent sections
+  // each contributing their own top+bottom padding doubled the visual
+  // gap between them. Page boundaries (Hero, Footer) and sections with
+  // a filled/contained background (CTA Banner's tone fill) still want
+  // both, since there's no neighboring section to supply the other
+  // half of the gap instead.
+  pad?: 'bottom' | 'both'
   sectionClassName?: string
   className?: string
   ariaLabel?: string
@@ -14,14 +21,24 @@ const MAX_WIDTH_CLASS = {
   'prose-lg': 'max-w-prose-lg',
 }
 
-const PY_CLASS = {
-  '3xl': 'py-3xl',
-  large: 'py-large',
+const PB_CLASS = {
+  '3xl': 'pb-3xl',
+  large: 'pb-large',
+  'section-edge': 'pb-section-edge',
+  'section-gap': 'pb-section-gap',
+}
+
+const PT_CLASS = {
+  '3xl': 'pt-3xl',
+  large: 'pt-large',
+  'section-edge': 'pt-section-edge',
+  'section-gap': 'pt-section-gap',
 }
 
 export function SectionShell({
   maxWidth = 'page',
-  py = '3xl',
+  py = 'section-gap',
+  pad = 'bottom',
   sectionClassName,
   className,
   ariaLabel,
@@ -30,7 +47,9 @@ export function SectionShell({
   return (
     <section
       aria-label={ariaLabel}
-      className={[PY_CLASS[py], sectionClassName].filter(Boolean).join(' ')}
+      className={[PB_CLASS[py], pad === 'both' ? PT_CLASS[py] : '', sectionClassName]
+        .filter(Boolean)
+        .join(' ')}
     >
       <div
         className={['mx-auto w-full px-medium-large', MAX_WIDTH_CLASS[maxWidth], className]

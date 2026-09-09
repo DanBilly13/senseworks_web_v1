@@ -39,11 +39,13 @@ export function PricingBlock({ eyebrow, heading, body, plans = [] }: PricingBloc
               }
             >
               <div className="flex flex-col gap-small">
-                <h3 className="text-h3 font-semibold">{plan.name}</h3>
+                <h3 className="text-h3 font-semibold text-balance">{plan.name}</h3>
                 {plan.description && (
                   <p
                     className={
-                      featured ? 'text-body text-background/70' : 'text-body text-muted-foreground'
+                      featured
+                        ? 'mt-small text-body text-background/70'
+                        : 'mt-small text-body text-muted-foreground'
                     }
                   >
                     {plan.description}
@@ -62,7 +64,7 @@ export function PricingBlock({ eyebrow, heading, body, plans = [] }: PricingBloc
               )}
               {plan.ctaLabel && plan.ctaHref && (
                 <div className="mt-auto">
-                  <Button href={plan.ctaHref} variant={featured ? 'inverse' : 'primary'}>
+                  <Button href={plan.ctaHref} variant={featured ? 'filled-light' : 'filled-dark'}>
                     {plan.ctaLabel}
                   </Button>
                 </div>

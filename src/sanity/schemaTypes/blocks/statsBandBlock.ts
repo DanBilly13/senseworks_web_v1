@@ -8,6 +8,12 @@ export const statsBandBlock = defineType({
     defineField({ name: 'eyebrow', type: 'string' }),
     defineField({ name: 'heading', type: 'string', validation: (Rule) => Rule.max(100) }),
     defineField({
+      name: 'body',
+      type: 'text',
+      rows: 3,
+      validation: (Rule) => Rule.max(300),
+    }),
+    defineField({
       name: 'items',
       title: 'Stats',
       type: 'array',

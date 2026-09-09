@@ -1,12 +1,18 @@
 import { HeaderBlock } from './HeaderBlock'
 import { HeroBlock } from './HeroBlock'
+import { HeroTextBlock } from './HeroTextBlock'
+import { SectionHeadlineBlock } from './SectionHeadlineBlock'
 import { FeatureSplitBlock } from './FeatureSplitBlock'
+import { FeatureSplitDarkBlock } from './FeatureSplitDarkBlock'
 import { FeatureGridBlock } from './FeatureGridBlock'
+import { FeatureListBlock } from './FeatureListBlock'
 import { LogoCloudBlock } from './LogoCloudBlock'
 import { TestimonialCarouselBlock } from './TestimonialCarouselBlock'
+import { TestimonialLargeBlock } from './TestimonialLargeBlock'
 import { StatsBandBlock } from './StatsBandBlock'
 import { PricingBlock } from './PricingBlock'
 import { BentoGridBlock } from './BentoGridBlock'
+import { MediaBlock } from './MediaBlock'
 import { FaqAccordionBlock } from './FaqAccordionBlock'
 import { FooterBlock } from './FooterBlock'
 import { ComparisonTableBlock } from './ComparisonTableBlock'
@@ -17,13 +23,19 @@ import type { PageBlock } from '@/lib/sanity/getPage'
 const BLOCK_COMPONENTS = {
   headerBlock: HeaderBlock,
   heroBlock: HeroBlock,
+  heroTextBlock: HeroTextBlock,
+  sectionHeadlineBlock: SectionHeadlineBlock,
   featureSplitBlock: FeatureSplitBlock,
+  featureSplitDarkBlock: FeatureSplitDarkBlock,
   featureGridBlock: FeatureGridBlock,
+  featureListBlock: FeatureListBlock,
   logoCloudBlock: LogoCloudBlock,
   testimonialCarouselBlock: TestimonialCarouselBlock,
+  testimonialLargeBlock: TestimonialLargeBlock,
   statsBandBlock: StatsBandBlock,
   pricingBlock: PricingBlock,
   bentoGridBlock: BentoGridBlock,
+  mediaBlock: MediaBlock,
   faqAccordionBlock: FaqAccordionBlock,
   comparisonTableBlock: ComparisonTableBlock,
   caseStudyGridBlock: CaseStudyGridBlock,

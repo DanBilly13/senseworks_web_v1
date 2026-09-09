@@ -60,25 +60,34 @@ export function TestimonialCarouselBlock({
   if (!items.length) return null
 
   return (
-    <section className="py-3xl">
+    <section className="pb-section-gap">
       <div className="mx-auto flex w-full max-w-page flex-col px-medium-large">
         <div className="flex flex-wrap items-end justify-between gap-medium-large">
-          <SectionIntro
-            as="h2"
-            eyebrow={eyebrow}
-            heading={heading}
-            body={body}
-            maxWidth="sm"
-            cta={
-              ctaLabel &&
-              ctaHref && (
-                <Button href={ctaHref} variant="secondary">
-                  {ctaLabel}
-                </Button>
-              )
-            }
-          />
-          <div className="flex gap-small">
+          {/* min-w-0 + flex-1 so headingMaxWidth="wide" (80%) resolves
+              against the space actually left over after the nav
+              buttons, not the whole row — otherwise a long heading
+              claims the full row width and pushes the buttons onto
+              their own (left-aligned) line instead of staying pinned
+              right next to it. */}
+          <div className="min-w-0 flex-1">
+            <SectionIntro
+              as="h2"
+              eyebrow={eyebrow}
+              heading={heading}
+              body={body}
+              maxWidth="sm"
+              headingMaxWidth="wide"
+              cta={
+                ctaLabel &&
+                ctaHref && (
+                  <Button href={ctaHref} variant="ghost">
+                    {ctaLabel}
+                  </Button>
+                )
+              }
+            />
+          </div>
+          <div className="flex shrink-0 gap-small">
             <button
               type="button"
               onClick={() => scrollByCard(-1)}

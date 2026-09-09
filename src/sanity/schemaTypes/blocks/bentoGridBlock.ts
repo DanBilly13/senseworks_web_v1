@@ -18,6 +18,19 @@ export const bentoGridBlock = defineType({
       validation: (Rule) => Rule.max(300),
     }),
     defineField({
+      name: 'columns',
+      title: 'Columns',
+      type: 'string',
+      options: {
+        list: [
+          { title: '3 (default)', value: '3' },
+          { title: '2', value: '2' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: '3',
+    }),
+    defineField({
       name: 'items',
       title: 'Cards',
       type: 'array',
@@ -28,7 +41,7 @@ export const bentoGridBlock = defineType({
             defineField({
               name: 'heading',
               type: 'string',
-              validation: (Rule) => Rule.required().max(80),
+              validation: (Rule) => Rule.required().max(150),
             }),
             defineField({
               name: 'body',

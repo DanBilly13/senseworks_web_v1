@@ -10,6 +10,12 @@
   --radius-2xl: 24px;
   --radius-full: 9999px;
 
+  /* A "back out" curve — overshoots past 100% before settling, giving
+     the animated Button's hover reveal a springy feel instead of a
+     flat ease. Used nowhere else yet, but named generically (not
+     e.g. --ease-button) in case another hover/reveal wants the same feel. */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
   /* D5: spacing scale — mirrors senseworks-figma-styles/spacing.tokens.json exactly */
   --spacing-none: 0px;
   --spacing-xs: 4px;
@@ -22,6 +28,14 @@
   --spacing-2xl: 64px;
   --spacing-3xl: 96px;
   --spacing-4xl: 128px;
+  /* Page-boundary padding only — Hero and Footer's top+bottom. */
+  --spacing-section-edge: 120px;
+  /* The standard bottom-only rhythm for every section between Hero and
+     Footer — a dedicated value rather than reusing --spacing-3xl, since
+     that token is also used for plenty of unrelated internal gaps
+     (Footer's column gap, Hero's own layout gaps) that shouldn't move
+     when this one does. */
+  --spacing-section-gap: 240px;
 
   /* Content-width scale for prose/text columns (max-w-prose-*).
      Deliberately NOT named xl/2xl/3xl — Tailwind v4 resolves max-w-*
@@ -37,6 +51,17 @@
   --container-prose-sm: 36rem;
   --container-prose-md: 42rem;
   --container-prose-lg: 48rem;
+
+  /* A percentage, not a fixed rem width like the prose-* scale above —
+     deliberately, so a heading using it stays ~80% of whatever row
+     it's in rather than one fixed breakpoint-independent number. Only
+     safe on a heading whose containing block already has a definite
+     width (e.g. inside SectionShell's own max-w-page row); an
+     `auto`-width containing block would make this resolve to nothing. */
+  --container-wide: 80%;
+  /* Same reasoning as --container-wide above — a percentage cap for
+     Feature List's body column (90% of its grid track). */
+  --container-body: 90%;
 
   /* D15: page-content width cap — full sections/backgrounds may go
      edge-to-edge, but structural content rows (nav, hero row, future
@@ -70,25 +95,51 @@
      cramp multi-line paragraph text. */
   --text-display: 4.5rem;
   --text-display--line-height: 1.3;
-  --text-h1: 3.25rem;
+  --text-h1: 4rem;
   --text-h1--line-height: 1.3;
-  --text-h2: 2.25rem;
+  --text-h2: 3rem;
   --text-h2--line-height: 1.3;
-  --text-h3: 1.75rem;
+  --text-h3: 2.25rem;
   --text-h3--line-height: 1.3;
-  --text-h4: 1.375rem;
+  --text-h4: 1.75rem;
   --text-h4--line-height: 1.3;
+  --text-h5: 1.375rem;
+  --text-h5--line-height: 1.3;
   --text-body-lg: 1.125rem;
   --text-body: 1rem;
   --text-body-sm: 0.875rem;
   --text-caption: 0.75rem;
 
-  /* D5: semantic color slots, grayscale for v1 — see solution-spec.md */
+  /* D5: semantic color slots — see solution-spec.md. foreground was
+     grayscale (#1a1a1a) for v1; now the brand's dark navy, which
+     cascades everywhere text-foreground/bg-foreground is already used
+     (body text, icons, solid buttons) without touching call sites. */
   --color-background: #ffffff;
-  --color-foreground: #1a1a1a;
+  --color-foreground: #101829;
   --color-border: #e0e0e0;
   --color-muted: #f7f7f7;
   --color-muted-foreground: #6b6b6b;
+  /* Light grey — for a page-level background rather than a card/section
+     fill. Kept a few % lighter than --gradient-accent's own end stop
+     (#f2f2f3) below so a page using this doesn't blend into the
+     gradient where they meet. */
+  --color-surface: #f8f8f9;
+
+  /* Accent: a bright highlight color, not a text/background workhorse
+     — too light to hold readable text itself (see accent-foreground).
+     accent-foreground is foreground, not a new color: confirmed
+     directly — text on an accent surface is the same dark navy as
+     everywhere else, not a separate "on-accent" color. */
+  --color-accent: #fbfeac;
+  --color-accent-foreground: var(--color-foreground);
+
+  /* Accent Gradient — from the Figma source SVG (linearGradient,
+     userSpaceOnUse, x1=233.815 y1=-517.437 x2=-294.35 y2=468.681,
+     stops at 38.9423%/62.0192%). Angle converted from that SVG vector
+     to a CSS gradient angle (measured clockwise from the top); the
+     stop colors and positions are carried over as-is. First stop is
+     the same --color-accent above. */
+  --gradient-accent: linear-gradient(208deg, #fbfeac 38.9423%, #f2f2f3 62.0192%);
 
   /* Body copy — Inter, self-hosted via next/font/google in layout.tsx,
      exposed as --font-inter on <html>. Reference that variable, not a
@@ -104,6 +155,35 @@
      per-component className, so every heading in every block picks it
      up automatically. Never use this for body copy. */
   --font-heading: var(--font-aeonik), var(--font-sans);
+}
+
+/* Mobile type scale + section rhythm (two-tier for now: mobile below
+   Tailwind's `md` breakpoint, desktop at/above it — a tablet-specific
+   tier can be added later if needed). Headings compress hardest at
+   the top of the scale (display/h1/h2 shrink ~40-45%) while body
+   copy is left untouched — 16px body text is already close to the
+   mobile-legibility floor. This also flattens the ratio between
+   adjacent heading tokens from ~1.3 on desktop down to ~1.1-1.2 on
+   mobile, so the heading levels read as more even steps rather than
+   big jumps. Section rhythm shrinks by the same ~50% by reusing
+   existing spacing tokens (4xl/2xl) instead of introducing new
+   one-off values. These override the real custom properties emitted
+   by @theme above, so every heading utility (text-display, text-h1
+   through text-h5) and any consumer of the spacing-section tokens
+   picks this up automatically — no md: variants needed on individual
+   elements. */
+@media (max-width: 767px) {
+  :root {
+    --text-display: 2.5rem;
+    --text-h1: 2.25rem;
+    --text-h2: 2rem;
+    --text-h3: 1.75rem;
+    --text-h4: 1.5rem;
+    --text-h5: 1.25rem;
+
+    --spacing-section-gap: var(--spacing-4xl);
+    --spacing-section-edge: var(--spacing-2xl);
+  }
 }
 
 body {
@@ -150,6 +230,13 @@ h6 {
   scroll-padding-inline-start: calc(
     max((100% - var(--container-page)) / 2, 0px) + var(--spacing-medium-large)
   );
+}
+
+/* Accent Gradient background — not a Tailwind utility, since a gradient
+   with specific stop positions/angle can't be expressed without
+   arbitrary-value syntax. See --gradient-accent above for the source. */
+.bg-accent-gradient {
+  background-image: var(--gradient-accent);
 }
 
 /* Hides the scrollbar on horizontally-scrolling carousels while

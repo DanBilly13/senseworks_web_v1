@@ -10,6 +10,7 @@ type FeatureSplitBlockProps = {
   ctaLabel?: string
   ctaHref?: string
   imagePosition?: 'left' | 'right'
+  headingLevel?: 'h2' | 'h3'
   media?: MediaField
 }
 
@@ -20,6 +21,7 @@ export function FeatureSplitBlock({
   ctaLabel,
   ctaHref,
   imagePosition = 'left',
+  headingLevel = 'h3',
   media,
 }: FeatureSplitBlockProps) {
   const rowClassName = [
@@ -28,7 +30,7 @@ export function FeatureSplitBlock({
   ].join(' ')
 
   return (
-    <section className="py-3xl">
+    <section className="pb-section-gap">
       <div className={rowClassName}>
         {/* Fills remaining space (not a 50/50 split) — matches the
             agreed Figma, where the text column is a fixed 460px and
@@ -42,14 +44,14 @@ export function FeatureSplitBlock({
         />
         <div className="w-full md:max-w-prose-xs md:shrink-0">
           <SectionIntro
-            as="h2"
+            as={headingLevel}
             eyebrow={eyebrow}
             heading={heading}
             body={body}
             cta={
               ctaLabel &&
               ctaHref && (
-                <Button href={ctaHref} variant="secondary">
+                <Button href={ctaHref} variant="ghost">
                   {ctaLabel}
                 </Button>
               )

@@ -22,15 +22,37 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
       'Page-top banner — headline, subtext, CTA, and media, in a side-by-side or full-bleed layout.',
   },
   {
+    type: 'heroTextBlock',
+    title: 'Hero — Text Only',
+    description: 'Left-aligned text-only hero — eyebrow, headline, subhead, and CTA, no media.',
+  },
+  {
+    type: 'sectionHeadlineBlock',
+    title: 'Section Headline',
+    description:
+      'Centered h2 headline for dividing sections mid-page — eyebrow, body, and CTA all optional.',
+  },
+  {
     type: 'featureSplitBlock',
     title: 'Feature Split',
     description:
       'Text and media side-by-side, mirrorable left or right, for a single feature callout.',
   },
   {
+    type: 'featureSplitDarkBlock',
+    title: 'Feature Split — Dark',
+    description:
+      'Dark contained panel, capped at page width — header, sub text, body, and button on one side, media on the other.',
+  },
+  {
     type: 'featureGridBlock',
     title: 'Feature Grid',
     description: 'Grid of feature items, each with an icon, title, and description.',
+  },
+  {
+    type: 'featureListBlock',
+    title: 'Feature List',
+    description: 'Left label / right body text rows, stacked — a lighter alternative to Feature Grid.',
   },
   {
     type: 'logoCloudBlock',
@@ -41,6 +63,11 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
     type: 'testimonialCarouselBlock',
     title: 'Testimonial Carousel',
     description: 'Horizontally scrolling carousel of customer quotes.',
+  },
+  {
+    type: 'testimonialLargeBlock',
+    title: 'Testimonial — Large',
+    description: 'Single large standalone quote with avatar, name, and role — no carousel.',
   },
   {
     type: 'statsBandBlock',
@@ -56,6 +83,11 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
     type: 'bentoGridBlock',
     title: 'Bento Grid',
     description: 'Asymmetric grid of cards with mixed sizes, each with its own media.',
+  },
+  {
+    type: 'mediaBlock',
+    title: 'Media',
+    description: 'Single full-width image or video, 7:5 ratio, no text.',
   },
   {
     type: 'faqAccordionBlock',

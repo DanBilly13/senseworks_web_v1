@@ -10,7 +10,13 @@ type CtaBannerBlockProps = {
   ctaHref: string
   secondaryCtaLabel?: string
   secondaryCtaHref?: string
-  tone?: 'default' | 'inverse'
+  tone?: 'default' | 'inverse' | 'accent'
+}
+
+const SECTION_BG: Record<NonNullable<CtaBannerBlockProps['tone']>, string> = {
+  default: 'bg-muted',
+  inverse: 'bg-foreground',
+  accent: 'bg-accent',
 }
 
 export function CtaBannerBlock({
@@ -24,10 +30,7 @@ export function CtaBannerBlock({
   tone = 'inverse',
 }: CtaBannerBlockProps) {
   return (
-    <SectionShell
-      sectionClassName={tone === 'inverse' ? 'bg-foreground' : 'bg-muted'}
-      className="flex justify-center"
-    >
+    <SectionShell pad="both" sectionClassName={SECTION_BG[tone]} className="flex justify-center">
       <SectionIntro
         as="h2"
         eyebrow={eyebrow}
@@ -35,10 +38,13 @@ export function CtaBannerBlock({
         body={body}
         align="center"
         maxWidth="sm"
-        tone={tone}
+        // Accent isn't dark enough to need inverse (light) text — the
+        // regular dark text colors already read fine on it, same as
+        // on the default muted background.
+        tone={tone === 'inverse' ? 'inverse' : 'default'}
         cta={
           <div className="flex flex-wrap items-center justify-center gap-medium-large">
-            <Button href={ctaHref} variant={tone === 'inverse' ? 'inverse' : 'primary'}>
+            <Button href={ctaHref} variant={tone === 'inverse' ? 'filled-light' : 'filled-dark'}>
               {ctaLabel}
             </Button>
             {secondaryCtaLabel && secondaryCtaHref && (

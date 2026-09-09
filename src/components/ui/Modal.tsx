@@ -35,7 +35,7 @@ export function Modal({ open, onClose, title, children }: ModalProps) {
         className="flex w-full max-w-prose-sm flex-col gap-medium rounded-lg bg-background p-large"
       >
         <div className="flex items-center justify-between gap-medium">
-          {title && <h3 className="text-h4 font-semibold text-foreground">{title}</h3>}
+          {title && <h4 className="text-h4 font-semibold text-balance text-foreground">{title}</h4>}
           <button
             type="button"
             onClick={onClose}

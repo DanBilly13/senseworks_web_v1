@@ -28,13 +28,13 @@ export const featureGridBlock = defineType({
             defineField({
               name: 'title',
               type: 'string',
-              validation: (Rule) => Rule.required().max(60),
+              validation: (Rule) => Rule.required().max(80),
             }),
             defineField({
               name: 'description',
               type: 'text',
               rows: 2,
-              validation: (Rule) => Rule.max(200),
+              validation: (Rule) => Rule.max(600),
             }),
             defineField({ name: 'ctaLabel', title: 'Link label', type: 'string' }),
             defineField({ name: 'ctaHref', title: 'Link href', type: 'string' }),
