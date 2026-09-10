@@ -47,12 +47,19 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
   {
     type: 'featureGridBlock',
     title: 'Feature Grid',
-    description: 'Grid of feature items, each with an icon, title, and description.',
+    description:
+      'Grid of feature items, each with an icon, title, and description. Desktop columns (2 or 3) are editor\'s choice — e.g. a 2x2 layout for exactly 4 items.',
   },
   {
     type: 'featureListBlock',
     title: 'Feature List',
     description: 'Left label / right body text rows, stacked — a lighter alternative to Feature Grid.',
+  },
+  {
+    type: 'cardGridBlock',
+    title: 'Card Grid',
+    description:
+      'Equal-height cards in a row (1-4 columns, editor\'s choice), each an eyebrow/heading/body — content-agnostic, not tied to any one use case. No intro of its own; pair with Section Headline above it if one\'s needed.',
   },
   {
     type: 'logoCloudBlock',

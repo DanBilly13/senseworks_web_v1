@@ -4,6 +4,8 @@ import { blockContent } from './objects/blockContent'
 import { teamMember } from './documents/teamMember'
 import { tag } from './documents/tag'
 import { article } from './documents/article'
+import { testimonial } from './documents/testimonial'
+import { client } from './documents/client'
 import { headerBlock } from './blocks/headerBlock'
 import { heroBlock } from './blocks/heroBlock'
 import { heroTextBlock } from './blocks/heroTextBlock'
@@ -13,6 +15,7 @@ import { featureSplitBlock } from './blocks/featureSplitBlock'
 import { featureSplitDarkBlock } from './blocks/featureSplitDarkBlock'
 import { featureGridBlock } from './blocks/featureGridBlock'
 import { featureListBlock } from './blocks/featureListBlock'
+import { cardGridBlock } from './blocks/cardGridBlock'
 import { logoCloudBlock } from './blocks/logoCloudBlock'
 import { testimonialCarouselBlock } from './blocks/testimonialCarouselBlock'
 import { testimonialLargeBlock } from './blocks/testimonialLargeBlock'
@@ -32,6 +35,8 @@ export const schemaTypes = [
   teamMember,
   tag,
   article,
+  testimonial,
+  client,
   headerBlock,
   heroBlock,
   heroTextBlock,
@@ -41,6 +46,7 @@ export const schemaTypes = [
   featureSplitDarkBlock,
   featureGridBlock,
   featureListBlock,
+  cardGridBlock,
   logoCloudBlock,
   testimonialCarouselBlock,
   testimonialLargeBlock,

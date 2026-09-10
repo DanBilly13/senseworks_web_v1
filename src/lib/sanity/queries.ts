@@ -4,14 +4,27 @@ import { groq } from 'next-sanity'
 // passes through as-is (urlFor() parses the raw asset ref client-side,
 // no dereference needed), but video/lottie are `file` assets, which
 // have no equivalent client-side URL builder — GROQ has to dereference
-// asset->url here instead.
-const mediaProjection = groq`
-  "media": media{
+// asset->url here instead. Takes the field's path so it also works
+// one hop through a reference (e.g. "logo" on a client doc, or
+// "testimonial->media" once a testimonial reference is dereferenced).
+export const mediaProjection = (path = 'media') => groq`
+  "media": ${path}{
     mediaType,
     alt,
     image,
     "videoUrl": video.asset->url,
     "lottieUrl": lottie.asset->url,
+  }
+`
+
+// Real client logos with an actual image uploaded — used by the
+// /blocks showcase page so its Logo Cloud demo isn't empty (the block
+// has no text fallback, only images, so a Lorem Ipsum name alone
+// renders nothing).
+export const clientLogosQuery = groq`
+  *[_type == "client" && defined(logo.image)] | order(name asc) {
+    name,
+    ${mediaProjection('logo')}
   }
 `
 
@@ -31,15 +44,22 @@ export const pageBySlugAndLocaleQuery = groq`
     "slug": slug.current,
     blocks[]{
       ...,
-      _type == "heroBlock" => { ${mediaProjection} },
-      _type == "featureSplitBlock" => { ${mediaProjection} },
-      _type == "featureSplitDarkBlock" => { ${mediaProjection} },
-      _type == "bentoGridBlock" => { items[]{ ..., ${mediaProjection} } },
-      _type == "mediaBlock" => { ${mediaProjection} },
-      _type == "caseStudyGridBlock" => { items[]{ ..., ${mediaProjection} } },
-      _type == "logoCloudBlock" => { logos[]{ ..., ${mediaProjection} } },
-      _type == "testimonialCarouselBlock" => { items[]{ ..., ${mediaProjection} } },
-      _type == "testimonialLargeBlock" => { ${mediaProjection} },
+      _type == "heroBlock" => { ${mediaProjection()} },
+      _type == "featureSplitBlock" => { ${mediaProjection()} },
+      _type == "featureSplitDarkBlock" => { ${mediaProjection()} },
+      _type == "bentoGridBlock" => { items[]{ ..., ${mediaProjection()} } },
+      _type == "mediaBlock" => { ${mediaProjection()} },
+      _type == "caseStudyGridBlock" => { items[]{ ..., ${mediaProjection()} } },
+      _type == "logoCloudBlock" => { logos[]->{ name, ${mediaProjection('logo')} } },
+      _type == "testimonialCarouselBlock" => {
+        items[]->{ quote, authorName, authorRole, ${mediaProjection()} }
+      },
+      _type == "testimonialLargeBlock" => {
+        "quote": testimonial->quote,
+        "authorName": testimonial->authorName,
+        "authorRole": testimonial->authorRole,
+        ${mediaProjection('testimonial->media')}
+      },
     }
   }
 `

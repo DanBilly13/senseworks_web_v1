@@ -23,30 +23,7 @@ export const testimonialCarouselBlock = defineType({
       name: 'items',
       title: 'Testimonials',
       type: 'array',
-      of: [
-        defineArrayMember({
-          type: 'object',
-          fields: [
-            defineField({
-              name: 'quote',
-              type: 'text',
-              rows: 3,
-              validation: (Rule) => Rule.required().max(220),
-            }),
-            defineField({
-              name: 'authorName',
-              title: 'Author name',
-              type: 'string',
-              validation: (Rule) => Rule.required().max(80),
-            }),
-            defineField({ name: 'authorRole', title: 'Author role / company', type: 'string' }),
-            defineField({ name: 'media', title: 'Avatar', type: 'media' }),
-          ],
-          preview: {
-            select: { title: 'authorName', subtitle: 'quote', media: 'media.image' },
-          },
-        }),
-      ],
+      of: [defineArrayMember({ type: 'reference', to: [{ type: 'testimonial' }] })],
     }),
   ],
   preview: {

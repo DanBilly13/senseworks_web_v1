@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 import { CloseOutlined, DownOutlined, MenuOutlined } from '@ant-design/icons'
 import { Button } from '@/components/ui/Button'
 
@@ -69,11 +70,19 @@ function NavDropdown({ label, links }: { label: string; links: NavSubLink[] }) {
 
 export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref }: HeaderBlockProps) {
   const [open, setOpen] = useState(false)
+  // Every route lives under a locale segment (D12), so the first path
+  // segment is always "en"/"sv" — the logo goes to that locale's home
+  // page regardless of which page/LP it's clicked from.
+  const pathname = usePathname()
+  const locale = pathname.split('/')[1] || 'en'
+  const homeHref = `/${locale}/home`
 
   return (
     <header className="border-b border-border">
       <div className="mx-auto flex w-full max-w-page items-center justify-between px-medium-large py-small-medium">
-        <Image src="/senseworks-logo.svg" alt={logoText} width={240} height={31} className="h-medium-large w-auto" priority />
+        <a href={homeHref} aria-label="Go to homepage" className="shrink-0">
+          <Image src="/senseworks-logo.svg" alt={logoText} width={240} height={31} className="h-medium-large w-auto" priority />
+        </a>
         <nav className="hidden items-center gap-medium-large md:flex">
           {navLinks.map((link) =>
             link.links?.length ? (

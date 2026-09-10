@@ -9,21 +9,7 @@ export const logoCloudBlock = defineType({
       name: 'logos',
       title: 'Logos',
       type: 'array',
-      of: [
-        defineArrayMember({
-          type: 'object',
-          fields: [
-            defineField({
-              name: 'name',
-              title: 'Company name',
-              type: 'string',
-              validation: (Rule) => Rule.required().max(60),
-            }),
-            defineField({ name: 'media', title: 'Logo', type: 'media' }),
-          ],
-          preview: { select: { title: 'name', media: 'media.image' } },
-        }),
-      ],
+      of: [defineArrayMember({ type: 'reference', to: [{ type: 'client' }] })],
     }),
   ],
   preview: {

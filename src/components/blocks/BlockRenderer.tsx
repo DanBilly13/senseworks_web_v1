@@ -6,6 +6,7 @@ import { FeatureSplitBlock } from './FeatureSplitBlock'
 import { FeatureSplitDarkBlock } from './FeatureSplitDarkBlock'
 import { FeatureGridBlock } from './FeatureGridBlock'
 import { FeatureListBlock } from './FeatureListBlock'
+import { CardGridBlock } from './CardGridBlock'
 import { LogoCloudBlock } from './LogoCloudBlock'
 import { TestimonialCarouselBlock } from './TestimonialCarouselBlock'
 import { TestimonialLargeBlock } from './TestimonialLargeBlock'
@@ -29,6 +30,7 @@ const BLOCK_COMPONENTS = {
   featureSplitDarkBlock: FeatureSplitDarkBlock,
   featureGridBlock: FeatureGridBlock,
   featureListBlock: FeatureListBlock,
+  cardGridBlock: CardGridBlock,
   logoCloudBlock: LogoCloudBlock,
   testimonialCarouselBlock: TestimonialCarouselBlock,
   testimonialLargeBlock: TestimonialLargeBlock,

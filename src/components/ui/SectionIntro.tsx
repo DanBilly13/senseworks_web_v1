@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-type HeadingLevel = 'h1' | 'h2' | 'h3'
+type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4'
 
 type WidthKey = 'sm' | 'md' | 'wide' | 'none'
 
@@ -26,13 +26,15 @@ const HEADING_TEXT_CLASS: Record<HeadingLevel, string> = {
   h1: 'text-h1',
   h2: 'text-h2',
   h3: 'text-h3',
+  h4: 'text-h4',
 }
 
-// h1/h2 are bold; h3 stays semibold.
+// h1/h2 are bold; h3/h4 stay semibold.
 const HEADING_WEIGHT_CLASS: Record<HeadingLevel, string> = {
   h1: 'font-bold',
   h2: 'font-bold',
   h3: 'font-semibold',
+  h4: 'font-semibold',
 }
 
 const MAX_WIDTH_CLASS: Record<WidthKey, string> = {

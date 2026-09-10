@@ -18,6 +18,20 @@ export const featureGridBlock = defineType({
       validation: (Rule) => Rule.max(300),
     }),
     defineField({
+      name: 'columns',
+      title: 'Columns (desktop)',
+      description: 'Tablet stays 2-column regardless — this only controls the desktop breakpoint.',
+      type: 'string',
+      options: {
+        list: [
+          { title: '2', value: '2' },
+          { title: '3', value: '3' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: '3',
+    }),
+    defineField({
       name: 'items',
       title: 'Features',
       type: 'array',
@@ -25,6 +39,24 @@ export const featureGridBlock = defineType({
         defineArrayMember({
           type: 'object',
           fields: [
+            defineField({
+              name: 'icon',
+              title: 'Icon',
+              description:
+                'Optional — a curated set of Material Symbols SVGs (public/icons/), not the site\'s default Ant Design icon set (D16). Leave unset to keep the default checkmark.',
+              type: 'string',
+              options: {
+                list: [
+                  { title: 'Home / work', value: 'home_work' },
+                  { title: 'Event busy', value: 'event_busy' },
+                  { title: 'Lock', value: 'lock' },
+                  { title: 'Work', value: 'work' },
+                  { title: 'Bolt / boost', value: 'bolt_boost' },
+                  { title: 'Support agent', value: 'support_agent' },
+                  { title: 'Toggle off', value: 'toggle_off' },
+                ],
+              },
+            }),
             defineField({
               name: 'title',
               type: 'string',

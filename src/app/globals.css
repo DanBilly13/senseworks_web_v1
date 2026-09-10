@@ -139,16 +139,19 @@
   /* D5: semantic color slots — see solution-spec.md. foreground was
      grayscale (#1a1a1a) for v1; now the brand's dark navy, which
      cascades everywhere text-foreground/bg-foreground is already used
-     (body text, icons, solid buttons) without touching call sites. */
+     (body text, icons, solid buttons) without touching call sites.
+     Not the page canvas color (see --color-surface below, which is)
+     — this is the "white surface" every card/dropdown/modal sits on
+     to stand out from that canvas. */
   --color-background: #ffffff;
   --color-foreground: #101829;
   --color-border: #e0e0e0;
   --color-muted: #f7f7f7;
   --color-muted-foreground: #6b6b6b;
-  /* Light grey — for a page-level background rather than a card/section
-     fill. Kept a few % lighter than --gradient-accent's own end stop
-     (#f2f2f3) below so a page using this doesn't blend into the
-     gradient where they meet. */
+  /* Light grey — the site's default page canvas (set on `body` below),
+     not a card/section fill. Kept a few % lighter than
+     --gradient-accent's own end stop (#f2f2f3) below so a page using
+     this doesn't blend into the gradient where they meet. */
   --color-surface: #f8f8f9;
 
   /* Accent: a bright highlight color, not a text/background workhorse
@@ -213,7 +216,7 @@
 }
 
 body {
-  background: var(--color-background);
+  background: var(--color-surface);
   color: var(--color-foreground);
   font-family: var(--font-sans);
 }

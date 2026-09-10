@@ -1,0 +1,277 @@
+/* UploadQueueLoop — EXPERIMENTAL pilot component (see UploadQueueLoop.tsx).
+   Ported from a standalone handoff; most inlined hex values below now
+   reference our real design tokens (globals.css) instead of their own
+   copies, so this stays in sync with the rest of the site automatically.
+   --uq-info/--uq-link/--uq-success are the exception — kept as their
+   original blue/green, since we have no brand equivalent and forcing our
+   pale accent yellow into a progress bar or link text would hurt
+   legibility more than it'd gain brand consistency. */
+
+.uq {
+  --uq-ink: var(--color-foreground);
+  --uq-soft: var(--color-muted-foreground);
+  --uq-muted: var(--color-muted-foreground);
+  --uq-rule: var(--color-border);
+  --uq-card: var(--color-background);
+  --uq-sunken: var(--color-muted);
+  --uq-link: #1668dc;
+  --uq-info: #1668dc;
+  --uq-info-bg: #d0eaff;
+  --uq-success: #52c41a;
+  --uq-neutral: #e9e9eb;
+  --uq-mono: 'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  font-family: var(--font-sans);
+  color: var(--uq-ink);
+  display: flex;
+  justify-content: center;
+  /* Explicit, not left to "fill the block-level parent" like the
+     standalone handoff's page: this now sits inside a flex-centered
+     wrapper (UploadQueueLoopPilotSection), where a child's width isn't
+     otherwise determinate. Without this, .uq's own width and
+     .uqPanel's `width: 100%` (below) depend on each other circularly —
+     the browser was resolving that differently on every reflow the RAF
+     loop triggers (the list height changes every frame), so the panel
+     visibly changed width instead of holding steady at its intended
+     max-width.
+     No padding/background of its own — this sits inside the site's own
+     MediaBlock frame (accent-gradient + padding), which already provides
+     both; the standalone handoff's purple backdrop was only there for
+     the preview page. */
+  width: 100%;
+}
+
+.uqPanel {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 540px;
+  padding: 24px;
+  background: var(--uq-card);
+  border: 1px solid var(--uq-rule);
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(16, 24, 41, 0.08), 0 1px 2px rgba(16, 24, 41, 0.04);
+}
+
+.uqStatus {
+  font-family: var(--uq-mono);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  color: var(--uq-soft);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  margin-bottom: 12px;
+}
+
+/* ---- dropzone ---- */
+
+.uqDropwrap {
+  position: relative;
+}
+
+.uqHit {
+  position: absolute;
+  inset: 0;
+  border-radius: 4px;
+  background: var(--uq-info-bg);
+  pointer-events: none;
+}
+
+.uqDrop {
+  position: relative;
+  box-sizing: border-box;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px dashed #91caff;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.4);
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--uq-ink);
+}
+
+.uqDrop span {
+  white-space: nowrap;
+}
+.uqDrop svg {
+  color: var(--uq-soft);
+}
+.uqLink {
+  color: var(--uq-link);
+}
+
+/* ---- list ---- */
+
+.uqList {
+  position: relative;
+  overflow: hidden;
+  margin-top: 4px;
+}
+.uqSlot {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+.uqCardwrap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  will-change: transform, opacity;
+}
+
+.uqCard {
+  box-sizing: border-box;
+  padding: 12px 16px;
+  background: var(--uq-card);
+  border: 1px solid var(--uq-rule);
+  border-radius: 4px;
+}
+
+.uqRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.uqGrip {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+  color: var(--uq-muted);
+}
+
+.uqIcon {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  background: var(--uq-sunken);
+  color: var(--uq-soft);
+}
+
+.uqBody {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.uqTitle {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: var(--uq-ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.uqMeta {
+  font-size: 12px;
+  line-height: 1.35;
+  color: var(--uq-soft);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.uqAction {
+  flex: none;
+  align-self: flex-start;
+  margin-top: -5px;
+  margin-right: -6px;
+  display: inline-flex;
+  color: var(--uq-muted);
+}
+
+/* ---- footer: progress / waiting / done ---- */
+
+.uqFooter {
+  margin-top: 8px;
+}
+
+.uqProgress {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 14px;
+}
+
+.uqTrack {
+  position: relative;
+  overflow: hidden;
+  flex: 1 1 auto;
+  height: 6px;
+  background: var(--uq-neutral);
+  border-radius: 8px;
+}
+
+.uqFill {
+  height: 100%;
+  border-radius: 8px;
+  background: var(--uq-info);
+}
+
+.uqPct {
+  flex: none;
+  min-width: 34px;
+  text-align: right;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 14px;
+  color: var(--uq-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.uqProgress[data-waiting='true'] .uqTrack::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.85) 50%, rgba(255, 255, 255, 0) 100%);
+  animation: uqShimmer 1.6s cubic-bezier(0.2, 0, 0, 1) infinite;
+}
+
+.uqProgress[data-waiting='true'] .uqPct {
+  animation: uqPulse 1.6s cubic-bezier(0.2, 0, 0, 1) infinite;
+}
+
+.uqDone {
+  display: block;
+  font-size: 14px;
+  line-height: 14px;
+  color: var(--uq-success);
+}
+
+@keyframes uqShimmer {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+@keyframes uqPulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .uqProgress[data-waiting='true'] .uqTrack::after,
+  .uqProgress[data-waiting='true'] .uqPct {
+    animation: none;
+  }
+}

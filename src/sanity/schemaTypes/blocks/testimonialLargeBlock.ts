@@ -6,22 +6,18 @@ export const testimonialLargeBlock = defineType({
   type: 'object',
   fields: [
     defineField({
-      name: 'quote',
-      type: 'text',
-      rows: 4,
-      validation: (Rule) => Rule.required().max(320),
+      name: 'testimonial',
+      type: 'reference',
+      to: [{ type: 'testimonial' }],
+      validation: (Rule) => Rule.required(),
     }),
-    defineField({
-      name: 'authorName',
-      title: 'Author name',
-      type: 'string',
-      validation: (Rule) => Rule.required().max(80),
-    }),
-    defineField({ name: 'authorRole', title: 'Author role / company', type: 'string' }),
-    defineField({ name: 'media', title: 'Avatar', type: 'media' }),
   ],
   preview: {
-    select: { title: 'authorName', subtitle: 'quote', media: 'media.image' },
+    select: {
+      title: 'testimonial.authorName',
+      subtitle: 'testimonial.quote',
+      media: 'testimonial.media.image',
+    },
     prepare: ({ title, subtitle, media }) => ({
       title: `Testimonial — Large — ${title || 'Untitled'}`,
       subtitle,
