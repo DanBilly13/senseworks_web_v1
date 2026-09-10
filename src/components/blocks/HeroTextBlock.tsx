@@ -31,8 +31,7 @@ export function HeroTextBlock({
         eyebrow={eyebrow}
         heading={headline}
         body={subhead}
-        maxWidth="md"
-        headingMaxWidth="none"
+        maxWidth="none"
         cta={
           ctaLabel &&
           ctaHref && (

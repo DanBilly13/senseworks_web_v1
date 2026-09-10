@@ -67,6 +67,11 @@
   /* Same reasoning as --container-wide above — a percentage cap for
      Feature List's body column (90% of its grid track). */
   --container-body: 90%;
+  /* Same reasoning again — the h1/h2 "subtitle" tier in SectionIntro
+     caps at 85% of its row, desktop only (md: prefix at the call
+     site); mobile stays unrestricted since there's no spare width to
+     give up there. */
+  --container-subtitle: 85%;
 
   /* D15: page-content width cap — full sections/backgrounds may go
      edge-to-edge, but structural content rows (nav, hero row, future

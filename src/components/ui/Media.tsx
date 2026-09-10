@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic'
 import { urlFor } from '@/lib/sanity/image'
 import type { MediaField } from '@/lib/sanity/media'
 import type { ReactNode } from 'react'
+import { ANIMATION_COMPONENTS, type AnimationName } from '@/components/animations'
 
 // Lazy-loaded: lottie-web (lottie-react's underlying engine) probes
 // canvas support as a side effect of being imported at all, which
@@ -37,10 +38,15 @@ export function Media({
   background = 'gradient',
 }: MediaProps) {
   const resolvedAlt = media?.alt || alt
+  const AnimationComponent =
+    media?.mediaType === 'reactAnimation' && media.animation
+      ? ANIMATION_COMPONENTS[media.animation as AnimationName]
+      : undefined
   const hasAsset =
     (media?.mediaType === 'image' && !!media.image) ||
     (media?.mediaType === 'video' && !!media.videoUrl) ||
-    (media?.mediaType === 'lottie' && !!media.lottieUrl)
+    (media?.mediaType === 'lottie' && !!media.lottieUrl) ||
+    !!AnimationComponent
 
   const fitClassName = fit === 'contain' ? 'object-contain' : 'object-cover'
 
@@ -78,6 +84,14 @@ export function Media({
       )}
       {media?.mediaType === 'lottie' && media.lottieUrl && (
         <Lottie src={media.lottieUrl} autoplay loop className="absolute inset-0 size-full" />
+      )}
+      {/* Centered, not stretched — an animation has its own intrinsic
+          size (usually smaller than this box), unlike image/video
+          which are meant to fill it edge to edge. */}
+      {AnimationComponent && (
+        <div className="absolute inset-0 flex items-center justify-center" aria-hidden="true">
+          <AnimationComponent />
+        </div>
       )}
     </div>
   )

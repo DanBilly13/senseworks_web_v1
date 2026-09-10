@@ -2,7 +2,6 @@ import { notFound } from 'next/navigation'
 import { getPage } from '@/lib/sanity/getPage'
 import { BlockRenderer } from '@/components/blocks/BlockRenderer'
 import { AnimatedButtonProvider } from '@/components/ui/Button'
-import { UploadQueueLoopPilotSection } from '@/components/experimental/UploadQueueLoopPilotSection'
 
 // Static generation (SSG) for v1 — matches solution-spec.md's Loading
 // state decision (no per-page loading UI needed). Catch-all segment
@@ -33,28 +32,9 @@ export default async function Page({
   // site-wide default (see body in globals.css), not LP-specific.
   const isLandingPage = slug[0] === 'lp'
 
-  // EXPERIMENTAL pilot (see UploadQueueLoopPilotSection) — swaps lp/v1's
-  // hero mediaBlock (key "k2") for a hand-built animated illustration
-  // instead of a real screenshot, to evaluate whether bespoke animated
-  // media are worth building for other feature slots. Deliberately not
-  // CMS-editable like every other block on this page — a per-instance
-  // code override, not a new block type, until the pilot proves out.
-  // Revert: delete this block and the pilotIndex logic below, and block
-  // k2 goes back to rendering normally through BlockRenderer.
-  const pilotIndex =
-    slug.join('/') === 'lp/v1' ? page.blocks.findIndex((b) => b._key === 'k2') : -1
-
   return (
     <AnimatedButtonProvider value={isLandingPage}>
-      {pilotIndex === -1 ? (
-        <BlockRenderer blocks={page.blocks} />
-      ) : (
-        <>
-          <BlockRenderer blocks={page.blocks.slice(0, pilotIndex)} />
-          <UploadQueueLoopPilotSection />
-          <BlockRenderer blocks={page.blocks.slice(pilotIndex + 1)} />
-        </>
-      )}
+      <BlockRenderer blocks={page.blocks} />
     </AnimatedButtonProvider>
   )
 }

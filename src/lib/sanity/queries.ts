@@ -14,6 +14,7 @@ export const mediaProjection = (path = 'media') => groq`
     image,
     "videoUrl": video.asset->url,
     "lottieUrl": lottie.asset->url,
+    animation,
   }
 `
 

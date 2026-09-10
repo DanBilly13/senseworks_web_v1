@@ -346,6 +346,18 @@ export default async function BlocksPage({
       />
       <BlockCaption name="Media" type="mediaBlock" />
       <MediaBlock />
+      <BlockCaption
+        name="Media — React Animation (Upload Queue Loop)"
+        type="mediaBlock"
+        variant='mediaType: "reactAnimation", animation: "uploadQueueLoop"'
+      />
+      <MediaBlock media={{ mediaType: 'reactAnimation', animation: 'uploadQueueLoop' }} />
+      <BlockCaption
+        name="Media — React Animation (Integration Card Stack)"
+        type="mediaBlock"
+        variant='mediaType: "reactAnimation", animation: "integrationCardStack"'
+      />
+      <MediaBlock media={{ mediaType: 'reactAnimation', animation: 'integrationCardStack' }} />
 
       <GroupHeading>Support</GroupHeading>
       <BlockCaption name="FAQ Accordion" type="faqAccordionBlock" />

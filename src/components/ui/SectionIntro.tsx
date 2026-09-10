@@ -115,7 +115,10 @@ export function SectionIntro({
             // medium weight, instead of plain body-lg. h3/h4 unchanged.
             isSubtitle ? 'text-h5 font-medium' : 'text-body-lg',
             isSubtitle ? headingColor : bodyColor,
-            MAX_WIDTH_CLASS[maxWidth],
+            // Subtitle width is its own fixed rule (85% of the row,
+            // desktop only — mobile has no spare width to give up),
+            // not whatever maxWidth the caller passed for the eyebrow.
+            isSubtitle ? 'md:max-w-subtitle' : MAX_WIDTH_CLASS[maxWidth],
             // Doubles the total heading-to-body gap (16px container
             // gap + this) from 24px to 48px, on top of the same
             // trimmed-box reasoning as the heading's own mt-small above.

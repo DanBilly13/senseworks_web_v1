@@ -94,7 +94,8 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
   {
     type: 'mediaBlock',
     title: 'Media',
-    description: 'Single full-width image or video, 7:5 ratio, no text.',
+    description:
+      'Single full-width image, video, Lottie, or curated React animation, 7:5 ratio, no text.',
   },
   {
     type: 'faqAccordionBlock',

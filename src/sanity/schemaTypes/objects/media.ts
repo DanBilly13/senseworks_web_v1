@@ -14,6 +14,7 @@ export const media = defineType({
           { title: 'Image', value: 'image' },
           { title: 'Video', value: 'video' },
           { title: 'Lottie animation', value: 'lottie' },
+          { title: 'React animation', value: 'reactAnimation' },
         ],
         layout: 'radio',
       },
@@ -38,6 +39,20 @@ export const media = defineType({
       type: 'file',
       options: { accept: 'application/json,.json' },
       hidden: ({ parent }) => parent?.mediaType !== 'lottie',
+    }),
+    defineField({
+      name: 'animation',
+      title: 'Animation',
+      description:
+        'A curated, code-built animation — not an upload. Adding a new one is a dev task; this just picks which already-built one runs here.',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Upload Queue Loop', value: 'uploadQueueLoop' },
+          { title: 'Integration Card Stack', value: 'integrationCardStack' },
+        ],
+      },
+      hidden: ({ parent }) => parent?.mediaType !== 'reactAnimation',
     }),
     defineField({
       name: 'alt',
