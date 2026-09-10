@@ -62,6 +62,10 @@ export function SectionIntro({
   const eyebrowColor = tone === 'inverse' ? 'text-background/70' : 'text-muted-foreground'
   const headingColor = tone === 'inverse' ? 'text-background' : 'text-foreground'
   const bodyColor = tone === 'inverse' ? 'text-background/80' : 'text-muted-foreground'
+  // h1/h2's body reads as a subtitle, not muted body copy — full
+  // strength (same color as the heading itself), not the faded
+  // bodyColor every h3/h4 body still uses.
+  const isSubtitle = Heading === 'h1' || Heading === 'h2'
 
   // Width lives on each child, not this wrapping div, so the heading
   // can run wider than the body/eyebrow via headingMaxWidth — flexbox's
@@ -77,7 +81,7 @@ export function SectionIntro({
     >
       {eyebrow && (
         <p
-          className={`text-caption font-semibold uppercase ${eyebrowColor} ${MAX_WIDTH_CLASS[maxWidth]}`}
+          className={`text-caption font-semibold tracking-wide uppercase ${eyebrowColor} ${MAX_WIDTH_CLASS[maxWidth]}`}
         >
           {eyebrow}
         </p>
@@ -106,8 +110,11 @@ export function SectionIntro({
       {body && (
         <p
           className={[
-            'text-body-lg',
-            bodyColor,
+            // h1/h2's body reads as a proper subtitle — bumped up to
+            // h5 size (22px desktop, exactly 20px on mobile) and
+            // medium weight, instead of plain body-lg. h3/h4 unchanged.
+            isSubtitle ? 'text-h5 font-medium' : 'text-body-lg',
+            isSubtitle ? headingColor : bodyColor,
             MAX_WIDTH_CLASS[maxWidth],
             // Doubles the total heading-to-body gap (16px container
             // gap + this) from 24px to 48px, on top of the same

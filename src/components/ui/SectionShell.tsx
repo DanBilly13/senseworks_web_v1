@@ -2,7 +2,10 @@ import type { ReactNode } from 'react'
 
 type SectionShellProps = {
   maxWidth?: 'page' | 'prose-lg'
-  py?: '3xl' | 'large' | 'section-edge' | 'section-gap'
+  // 'loose'/'medium'/'tight' are the three section-to-section rhythm
+  // tiers (200/120/60px desktop — see globals.css); every block stays
+  // on 'loose' for now, this just makes the other two selectable.
+  py?: '3xl' | 'large' | 'section-edge' | 'loose' | 'medium' | 'tight'
   // Most sections only need bottom padding — two adjacent sections
   // each contributing their own top+bottom padding doubled the visual
   // gap between them. Page boundaries (Hero, Footer) and sections with
@@ -25,19 +28,23 @@ const PB_CLASS = {
   '3xl': 'pb-3xl',
   large: 'pb-large',
   'section-edge': 'pb-section-edge',
-  'section-gap': 'pb-section-gap',
+  loose: 'pb-section-gap-loose',
+  medium: 'pb-section-gap-medium',
+  tight: 'pb-section-gap-tight',
 }
 
 const PT_CLASS = {
   '3xl': 'pt-3xl',
   large: 'pt-large',
   'section-edge': 'pt-section-edge',
-  'section-gap': 'pt-section-gap',
+  loose: 'pt-section-gap-loose',
+  medium: 'pt-section-gap-medium',
+  tight: 'pt-section-gap-tight',
 }
 
 export function SectionShell({
   maxWidth = 'page',
-  py = 'section-gap',
+  py = 'loose',
   pad = 'bottom',
   sectionClassName,
   className,

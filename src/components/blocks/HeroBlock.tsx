@@ -42,7 +42,7 @@ function HeroSplit({ eyebrow, headline, subhead, ctaLabel, ctaHref, media }: Her
                 it would just add a blank gap above the subtext. */}
             {eyebrow && (
               <p
-                className="hidden text-caption font-semibold uppercase md:invisible md:block"
+                className="hidden text-caption font-semibold tracking-wide uppercase md:invisible md:block"
                 aria-hidden="true"
               >
                 {eyebrow}

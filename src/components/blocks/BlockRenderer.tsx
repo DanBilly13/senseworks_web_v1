@@ -19,6 +19,7 @@ import { FooterBlock } from './FooterBlock'
 import { ComparisonTableBlock } from './ComparisonTableBlock'
 import { CaseStudyGridBlock } from './CaseStudyGridBlock'
 import { CtaBannerBlock } from './CtaBannerBlock'
+import { DarkBannerBlock } from './DarkBannerBlock'
 import type { PageBlock } from '@/lib/sanity/getPage'
 
 const BLOCK_COMPONENTS = {
@@ -42,6 +43,7 @@ const BLOCK_COMPONENTS = {
   comparisonTableBlock: ComparisonTableBlock,
   caseStudyGridBlock: CaseStudyGridBlock,
   ctaBannerBlock: CtaBannerBlock,
+  darkBannerBlock: DarkBannerBlock,
   footerBlock: FooterBlock,
 } as const
 

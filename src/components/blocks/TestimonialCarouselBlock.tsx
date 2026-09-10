@@ -60,7 +60,7 @@ export function TestimonialCarouselBlock({
   if (!items.length) return null
 
   return (
-    <section className="pb-section-gap">
+    <section className="pb-section-gap-loose">
       <div className="mx-auto flex w-full max-w-page flex-col px-medium-large">
         <div className="flex flex-wrap items-end justify-between gap-medium-large">
           {/* min-w-0 + flex-1 so headingMaxWidth="wide" (80%) resolves

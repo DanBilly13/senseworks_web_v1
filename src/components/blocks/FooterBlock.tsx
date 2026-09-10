@@ -1,6 +1,5 @@
 'use client'
-import { useState } from 'react'
-import type { FormEvent, ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import Image from 'next/image'
 import {
   GithubOutlined,
@@ -9,7 +8,7 @@ import {
   XOutlined,
   YoutubeOutlined,
 } from '@ant-design/icons'
-import { buttonVariants } from '@/components/ui/Button'
+import { NewsletterForm } from '@/components/ui/NewsletterForm'
 
 type FooterLink = { label: string; href: string }
 type FooterLinkColumn = { title: string; links?: FooterLink[] }
@@ -30,42 +29,6 @@ const SOCIAL_ICON: Record<SocialPlatform, ReactNode> = {
   github: <GithubOutlined />,
   youtube: <YoutubeOutlined />,
   instagram: <InstagramOutlined />,
-}
-
-function NewsletterForm({
-  heading,
-  placeholder,
-}: {
-  heading?: string
-  placeholder?: string
-}) {
-  const [submitted, setSubmitted] = useState(false)
-
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    // D10: v1 forms are UI-only — validate and show the success state,
-    // no real backend yet. D9: replace the form inline, no navigation.
-    setSubmitted(true)
-  }
-
-  if (submitted) {
-    return <p className="text-body text-background/80">Thanks — you&rsquo;re on the list.</p>
-  }
-
-  return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-small-medium sm:flex-row">
-      <input
-        type="email"
-        required
-        placeholder={placeholder}
-        aria-label={heading ?? 'Email address'}
-        className="w-full rounded-md border border-background/30 bg-transparent px-medium py-small-medium text-body-sm text-background placeholder:text-background/50 sm:max-w-prose-xs"
-      />
-      <button type="submit" className={buttonVariants({ variant: 'filled-light', size: 'sm' })}>
-        Subscribe
-      </button>
-    </form>
-  )
 }
 
 export function FooterBlock({

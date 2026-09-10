@@ -30,12 +30,17 @@
   --spacing-4xl: 128px;
   /* Page-boundary padding only — Hero and Footer's top+bottom. */
   --spacing-section-edge: 120px;
-  /* The standard bottom-only rhythm for every section between Hero and
-     Footer — a dedicated value rather than reusing --spacing-3xl, since
-     that token is also used for plenty of unrelated internal gaps
+  /* The bottom-only rhythm between sections, Hero through Footer —
+     dedicated values rather than reusing --spacing-3xl/2xl/xl, since
+     those tokens are also used for plenty of unrelated internal gaps
      (Footer's column gap, Hero's own layout gaps) that shouldn't move
-     when this one does. */
-  --spacing-section-gap: 240px;
+     when these do. Three tiers so a block can opt into a tighter or
+     looser rhythm than its neighbors; every block defaults to "loose"
+     for now (SectionShell's own default) — no block has switched to
+     medium/tight yet, this just makes it possible. */
+  --spacing-section-gap-loose: 200px;
+  --spacing-section-gap-medium: 120px;
+  --spacing-section-gap-tight: 60px;
 
   /* Content-width scale for prose/text columns (max-w-prose-*).
      Deliberately NOT named xl/2xl/3xl — Tailwind v4 resolves max-w-*
@@ -210,7 +215,11 @@
     --text-h4: 1.5rem;
     --text-h5: 1.25rem;
 
-    --spacing-section-gap: var(--spacing-4xl);
+    /* Same ~50% compression as before across all three tiers, snapped
+       to existing named tokens rather than new one-off px values. */
+    --spacing-section-gap-loose: var(--spacing-3xl);
+    --spacing-section-gap-medium: var(--spacing-2xl);
+    --spacing-section-gap-tight: var(--spacing-large);
     --spacing-section-edge: var(--spacing-2xl);
   }
 }

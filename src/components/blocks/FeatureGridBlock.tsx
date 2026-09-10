@@ -3,7 +3,6 @@ import { Fragment } from 'react'
 import Image from 'next/image'
 import { CheckCircleOutlined } from '@ant-design/icons'
 import { SectionShell } from '@/components/ui/SectionShell'
-import { SectionIntro } from '@/components/ui/SectionIntro'
 
 type FeatureGridIcon =
   | 'home_work'
@@ -37,9 +36,6 @@ type FeatureGridItem = {
   ctaHref?: string
 }
 type FeatureGridBlockProps = {
-  eyebrow?: string
-  heading: string
-  body?: string
   columns?: '2' | '3'
   items?: FeatureGridItem[]
 }
@@ -52,26 +48,14 @@ const LG_COLS_CLASS: Record<'2' | '3', string> = {
   '3': 'lg:grid-cols-3',
 }
 
-export function FeatureGridBlock({
-  eyebrow,
-  heading,
-  body,
-  columns = '3',
-  items = [],
-}: FeatureGridBlockProps) {
+// No eyebrow/heading/body of its own — pair it with a separate intro
+// block (e.g. Section Headline) above it when one's needed.
+export function FeatureGridBlock({ columns = '3', items = [] }: FeatureGridBlockProps) {
   // D7: a block with no content simply doesn't render.
   if (!items.length) return null
 
   return (
-    <SectionShell className="flex flex-col gap-2xl">
-      <SectionIntro
-        as="h2"
-        eyebrow={eyebrow}
-        heading={heading}
-        body={body}
-        align="center"
-        maxWidth="sm"
-      />
+    <SectionShell>
       <div className={`grid grid-cols-1 gap-2xl sm:grid-cols-2 ${LG_COLS_CLASS[columns]}`}>
         {items.map((item, index) => (
           <div key={index} className="flex flex-col gap-small-medium">

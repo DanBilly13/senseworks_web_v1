@@ -19,6 +19,7 @@ import { StatsBandBlock } from '@/components/blocks/StatsBandBlock'
 import { PricingBlock } from '@/components/blocks/PricingBlock'
 import { ComparisonTableBlock } from '@/components/blocks/ComparisonTableBlock'
 import { CtaBannerBlock } from '@/components/blocks/CtaBannerBlock'
+import { DarkBannerBlock } from '@/components/blocks/DarkBannerBlock'
 import { BentoGridBlock } from '@/components/blocks/BentoGridBlock'
 import { MediaBlock } from '@/components/blocks/MediaBlock'
 import { FaqAccordionBlock } from '@/components/blocks/FaqAccordionBlock'
@@ -153,9 +154,6 @@ export default async function BlocksPage({
       <FeatureSplitDarkBlock heading={HEADING} subhead="Lorem ipsum dolor sit amet" body={BODY} ctaLabel="Lorem ipsum" ctaHref="#" />
       <BlockCaption name="Feature Grid" type="featureGridBlock" />
       <FeatureGridBlock
-        eyebrow={EYEBROW}
-        heading={HEADING}
-        body={BODY}
         items={[
           { title: 'Lorem ipsum dolor', description: BODY, ctaLabel: 'Lorem ipsum', ctaHref: '#' },
           { title: 'Sit amet consectetur', description: BODY },
@@ -319,6 +317,17 @@ export default async function BlocksPage({
         ctaLabel="Lorem ipsum"
         ctaHref="#"
         tone="accent"
+      />
+      <BlockCaption name="Dark Banner" type="darkBannerBlock" />
+      <DarkBannerBlock
+        eyebrow={EYEBROW}
+        heading={HEADING}
+        body={BODY}
+        items={[
+          { title: 'Lorem ipsum dolor', description: BODY },
+          { title: 'Sit amet consectetur', description: BODY },
+          { title: 'Adipiscing elit sed', description: BODY },
+        ]}
       />
 
       <GroupHeading>Media &amp; Content</GroupHeading>

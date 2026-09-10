@@ -38,6 +38,7 @@ export const page = defineType({
         defineArrayMember({ type: 'comparisonTableBlock' }),
         defineArrayMember({ type: 'caseStudyGridBlock' }),
         defineArrayMember({ type: 'ctaBannerBlock' }),
+        defineArrayMember({ type: 'darkBannerBlock' }),
         defineArrayMember({ type: 'footerBlock' }),
       ],
     }),

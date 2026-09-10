@@ -25,7 +25,7 @@ export function HeroTextBlock({
   boundary = true,
 }: HeroTextBlockProps) {
   return (
-    <SectionShell py={boundary ? 'section-edge' : 'section-gap'} pad={boundary ? 'both' : 'bottom'}>
+    <SectionShell py={boundary ? 'section-edge' : 'loose'} pad={boundary ? 'both' : 'bottom'}>
       <SectionIntro
         as="h1"
         eyebrow={eyebrow}

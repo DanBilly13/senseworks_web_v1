@@ -27,6 +27,7 @@ import { footerBlock } from './blocks/footerBlock'
 import { comparisonTableBlock } from './blocks/comparisonTableBlock'
 import { ctaBannerBlock } from './blocks/ctaBannerBlock'
 import { caseStudyGridBlock } from './blocks/caseStudyGridBlock'
+import { darkBannerBlock } from './blocks/darkBannerBlock'
 
 export const schemaTypes = [
   page,
@@ -57,5 +58,6 @@ export const schemaTypes = [
   comparisonTableBlock,
   caseStudyGridBlock,
   ctaBannerBlock,
+  darkBannerBlock,
   footerBlock,
 ]

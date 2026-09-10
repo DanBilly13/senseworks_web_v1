@@ -1,22 +1,13 @@
 import { defineType, defineField, defineArrayMember } from 'sanity'
 
+// Deliberately no top-level eyebrow/heading/body — same reasoning as
+// Card Grid: pair this with a separate intro block (e.g. Section
+// Headline) above it when one's needed, rather than baking one in.
 export const featureGridBlock = defineType({
   name: 'featureGridBlock',
   title: 'Feature Grid',
   type: 'object',
   fields: [
-    defineField({ name: 'eyebrow', type: 'string' }),
-    defineField({
-      name: 'heading',
-      type: 'string',
-      validation: (Rule) => Rule.required().max(100),
-    }),
-    defineField({
-      name: 'body',
-      type: 'text',
-      rows: 3,
-      validation: (Rule) => Rule.max(300),
-    }),
     defineField({
       name: 'columns',
       title: 'Columns (desktop)',
@@ -77,9 +68,9 @@ export const featureGridBlock = defineType({
     }),
   ],
   preview: {
-    select: { title: 'heading', items: 'items' },
-    prepare: ({ title, items }) => ({
-      title: `Feature Grid — ${title || 'Untitled'}`,
+    select: { items: 'items' },
+    prepare: ({ items }) => ({
+      title: 'Feature Grid',
       subtitle: `${items?.length ?? 0} items`,
     }),
   },

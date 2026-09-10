@@ -48,7 +48,7 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
     type: 'featureGridBlock',
     title: 'Feature Grid',
     description:
-      'Grid of feature items, each with an icon, title, and description. Desktop columns (2 or 3) are editor\'s choice — e.g. a 2x2 layout for exactly 4 items.',
+      'Grid of feature items, each with an icon, title, and description. Desktop columns (2 or 3) are editor\'s choice — e.g. a 2x2 layout for exactly 4 items. No intro of its own; pair with Section Headline above it if one\'s needed.',
   },
   {
     type: 'featureListBlock',
@@ -115,6 +115,12 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
     type: 'ctaBannerBlock',
     title: 'CTA Banner',
     description: 'Full-width call-to-action banner with heading and button.',
+  },
+  {
+    type: 'darkBannerBlock',
+    title: 'Dark Banner',
+    description:
+      'Contained rounded dark panel (page-margined, not full-bleed — same treatment as Media/Feature Split Dark), 50/50 split — heading/body on the left, a short checkmark list on the right.',
   },
   {
     type: 'footerBlock',

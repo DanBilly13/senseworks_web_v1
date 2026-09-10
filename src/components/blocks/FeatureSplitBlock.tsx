@@ -30,7 +30,7 @@ export function FeatureSplitBlock({
   ].join(' ')
 
   return (
-    <section className="pb-section-gap">
+    <section className="pb-section-gap-loose">
       <div className={rowClassName}>
         {/* Fills remaining space (not a 50/50 split) — matches the
             agreed Figma, where the text column is a fixed 460px and

@@ -9,6 +9,7 @@ type SectionHeadlineBlockProps = {
   ctaLabel?: string
   ctaHref?: string
   align?: 'left' | 'center'
+  spacing?: 'loose' | 'medium' | 'tight'
 }
 
 export function SectionHeadlineBlock({
@@ -18,9 +19,10 @@ export function SectionHeadlineBlock({
   ctaLabel,
   ctaHref,
   align = 'center',
+  spacing = 'loose',
 }: SectionHeadlineBlockProps) {
   return (
-    <SectionShell>
+    <SectionShell py={spacing}>
       <SectionIntro
         as="h2"
         eyebrow={eyebrow}
