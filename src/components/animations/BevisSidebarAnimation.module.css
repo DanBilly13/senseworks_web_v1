@@ -1,0 +1,429 @@
+/* BevisSidebarAnimation — fixed 700x500 canvas, literal px geometry.
+   Colors map to real site tokens (globals.css) where an equivalent exists.
+   The purple panel gradient, the blue info/link accents, and the "Live"
+   status green have no site-token equivalent, so their original design
+   values are kept verbatim — the same green family as IntegrationCardStack's
+   status badge. --isc-ink-soft/-ink-muted/-underline are alpha tints of
+   --isc-ink itself (which equals --color-foreground exactly), so they're
+   left as literal rgba rather than forcing a color-mix() for a value that
+   already tracks the real token 1:1. */
+
+.canvas {
+  /* local palette */
+  --isc-ink: var(--color-foreground);
+  --isc-ink-soft: rgba(16, 24, 41, 0.8);
+  --isc-ink-muted: rgba(16, 24, 41, 0.7);
+  --isc-rule: var(--color-border);
+  --isc-underline: rgba(16, 24, 41, 0.16);
+  --isc-card: var(--color-background);
+  --isc-hover: var(--color-muted);
+
+  /* design-only colors: no site-token equivalent */
+  --isc-panel-top: #f3f1f8;
+  --isc-panel-bottom: #e6dcf7;
+  --isc-info-border: #91caff;
+  --isc-link: #1677ff;
+  --isc-live-bg: #d0f6e0;
+  --isc-live-ink: #025131;
+  --isc-live-dot: #20cb7d;
+
+  /* motion */
+  --isc-snap: cubic-bezier(0.16, 1, 0.3, 1);
+  --isc-out: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --isc-pop: cubic-bezier(0.16, 1.08, 0.3, 1);
+
+  position: relative;
+  width: 700px;
+  height: 500px;
+  overflow: hidden; /* this is what clips the panel and popover — intentional */
+  font-family: var(--font-sans);
+  color: var(--isc-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+.glyph {
+  display: block;
+  flex: 0 0 auto;
+  fill: currentColor;
+}
+
+/* ── panel ───────────────────────────────────────────────────────────────── */
+
+.panel {
+  position: absolute;
+  left: 175px;
+  top: 38px;
+  width: 350px;
+  height: 520px; /* runs past the canvas bottom on purpose */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, var(--isc-panel-top) 0%, var(--isc-panel-bottom) 100%);
+  border: 1px solid #ffffff;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.head {
+  flex: none;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 24px 23px 16px;
+}
+
+.title {
+  margin: 0;
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.countBox {
+  position: relative;
+  display: inline-block;
+  width: 56px;
+  height: 24px;
+  vertical-align: top;
+  font-weight: 700;
+}
+
+.countVal {
+  position: absolute;
+  left: 0;
+  top: 0;
+  white-space: nowrap;
+}
+
+.summary {
+  position: relative;
+  height: 18px;
+  margin: 0 0 4px;
+  font-size: 14px;
+  line-height: 18px;
+  color: var(--isc-ink-muted);
+}
+
+.summaryVal {
+  position: absolute;
+  left: 0;
+  top: 0;
+  white-space: nowrap;
+}
+
+.control {
+  position: relative;
+  height: 34px;
+}
+
+/* ── segmented ───────────────────────────────────────────────────────────── */
+
+.segmented {
+  position: absolute;
+  left: 0;
+  top: 0;
+  box-sizing: border-box;
+  display: flex;
+  width: 302px;
+  height: 34px;
+  padding: 2px;
+  background: var(--isc-card);
+  border: 1px solid var(--isc-rule);
+  border-radius: var(--radius-sm);
+}
+
+.segThumb {
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  width: 148px;
+  height: 28px;
+  background: var(--isc-ink);
+  border-radius: var(--radius-sm);
+  z-index: 0;
+}
+
+.segItem {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--isc-ink-soft);
+}
+
+.segItem[data-on] {
+  color: #ffffff;
+}
+
+/* ── search field ────────────────────────────────────────────────────────── */
+
+.field {
+  position: absolute;
+  left: 0;
+  top: 0;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 302px;
+  height: 32px;
+  padding: 0 4px 0 4px;
+  border-bottom: 1px solid var(--isc-underline);
+}
+
+.fieldText {
+  flex: 1 1 auto;
+  font-size: 14px;
+  line-height: 18px;
+  color: var(--isc-ink-muted);
+}
+
+/* ── body & stacks ───────────────────────────────────────────────────────── */
+
+.body {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 350px;
+}
+
+.stack {
+  position: absolute;
+  left: 23px;
+  top: 0;
+  width: 302px;
+}
+
+.cardSlot {
+  margin-bottom: 8px;
+}
+
+.grow {
+  overflow: hidden;
+  transform-origin: 50% 0;
+}
+
+/* ── card ────────────────────────────────────────────────────────────────── */
+
+.card {
+  box-sizing: border-box;
+  width: 302px;
+  background: var(--isc-card);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.cardHead {
+  padding: 4px;
+  border-bottom: 1px solid var(--isc-rule);
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 4px;
+}
+
+.cardFoot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+  padding: 4px 4px 4px 12px;
+  border-top: 1px solid var(--isc-rule);
+  color: var(--isc-ink-muted);
+}
+
+.footCount {
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 700;
+  color: var(--isc-ink);
+}
+
+.footChevron {
+  margin-left: auto;
+  display: flex;
+  width: 24px;
+  height: 24px;
+  align-items: center;
+  justify-content: center;
+  color: var(--isc-ink-muted);
+}
+
+/* ── row ─────────────────────────────────────────────────────────────────── */
+
+.row {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 32px;
+  padding: 0 4px 0 6px;
+  border-radius: var(--radius-sm);
+  background: transparent;
+}
+
+.row[data-hot] {
+  background: var(--isc-hover);
+}
+
+.slot {
+  flex: 0 0 auto;
+  display: flex;
+  width: 20px;
+  height: 20px;
+  align-items: center;
+  justify-content: center;
+  color: var(--isc-ink);
+}
+
+.label {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+  line-height: 18px;
+  color: var(--isc-ink);
+}
+
+.label[data-bold] {
+  font-weight: 700;
+}
+
+.act {
+  flex: 0 0 auto;
+  display: flex;
+  width: 24px;
+  height: 24px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--isc-card);
+  color: var(--isc-ink);
+}
+
+/* ── live chip ───────────────────────────────────────────────────────────── */
+
+.chip {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 20px;
+  padding: 0 8px 0 5px;
+  border-radius: 20px;
+  background: var(--isc-live-bg);
+  color: var(--isc-live-ink);
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 10px;
+}
+
+.chipDot {
+  display: flex;
+  width: 10px;
+  height: 10px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--isc-live-dot);
+  color: var(--isc-live-ink);
+}
+
+/* ── dropzone ────────────────────────────────────────────────────────────── */
+
+.dropzone {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 302px;
+  height: 93px;
+  margin-bottom: 8px;
+  padding: 0 24px;
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px dashed var(--isc-info-border);
+  border-radius: var(--radius-sm);
+  color: var(--isc-ink);
+}
+
+.dropText {
+  font-size: 14px;
+  line-height: 18px;
+  text-align: center;
+  text-wrap: pretty;
+}
+
+.dropLink {
+  color: var(--isc-link);
+  font-weight: 700;
+}
+
+/* ── browse popover ──────────────────────────────────────────────────────── */
+
+.popover {
+  position: absolute;
+  left: 199px;
+  top: 161px; /* 4px under the field's underline */
+  width: 374px;
+  height: 420px; /* clipped by the canvas on purpose */
+  box-sizing: border-box;
+  padding: 4px 4px 8px;
+  background: var(--isc-card);
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  transform-origin: 18% 0;
+}
+
+/* ── cursor ──────────────────────────────────────────────────────────────── */
+
+.cursor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 22px;
+  height: 30px;
+  transform-origin: 4px 3px;
+  pointer-events: none;
+  z-index: 40;
+  filter: drop-shadow(0 2px 4px rgba(16, 24, 41, 0.28));
+}
+
+/* ── CSS-only motion (the card stagger) ─────────────────────────────────── */
+
+@media (prefers-reduced-motion: no-preference) {
+  .cardSlot {
+    animation: iscCardIn 300ms var(--isc-snap) both;
+  }
+
+  @keyframes iscCardIn {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}

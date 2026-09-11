@@ -50,9 +50,46 @@ export const media = defineType({
         list: [
           { title: 'Upload Queue Loop', value: 'uploadQueueLoop' },
           { title: 'Integration Card Stack', value: 'integrationCardStack' },
+          { title: 'Bevis Sidebar', value: 'bevisSidebarAnimation' },
+          { title: 'Settings Form', value: 'settingsFormAnimation' },
         ],
       },
       hidden: ({ parent }) => parent?.mediaType !== 'reactAnimation',
+    }),
+    defineField({
+      name: 'scale',
+      title: 'Scale',
+      description:
+        'How much of the frame this fills. Video always fills the frame edge-to-edge, so this only applies to images and React animations.',
+      type: 'number',
+      options: {
+        list: [
+          { title: '100%', value: 100 },
+          { title: '80%', value: 80 },
+          { title: '60%', value: 60 },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 100,
+      hidden: ({ parent }) => !['image', 'reactAnimation'].includes(parent?.mediaType),
+    }),
+    defineField({
+      name: 'align',
+      title: 'Position',
+      description: 'Where it sits within the frame once Scale is below 100%.',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Center', value: 'center' },
+          { title: 'Top', value: 'top' },
+          { title: 'Bottom', value: 'bottom' },
+          { title: 'Left', value: 'left' },
+          { title: 'Right', value: 'right' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'center',
+      hidden: ({ parent }) => !['image', 'reactAnimation'].includes(parent?.mediaType) || parent?.scale === 100,
     }),
     defineField({
       name: 'alt',

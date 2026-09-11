@@ -1,116 +1,70 @@
-/* IntegrationCardStack — ported from a standalone handoff (web-bits/claude
-   animations). Most inlined hex values below now reference our real design
-   tokens (globals.css) instead of their own copies, so this stays in sync
-   with the rest of the site automatically. --isc-success/-success-bg/
-   -success-active/-on-success are the exception — kept as their original
-   green, since we have no brand equivalent and forcing our pale accent
-   yellow into a "connected" badge/button would hurt legibility more than
-   it'd gain brand consistency (same reasoning as UploadQueueLoop's
-   --uq-info/--uq-link/--uq-success).
+/* IntegrationCardStack — fixed 700×500 canvas, literal px geometry.
+   No @font-face: text uses the site font via var(--font-sans). Colors map
+   to real site tokens (globals.css) where one exists; the status green
+   (#20cb7d family) has no site-token equivalent, so the design's own
+   values are kept verbatim. */
 
-   No @font-face here — the fonts it originally bundled (Aeonik) are
-   already self-hosted site-wide via next/font/local (D18); re-declaring
-   them from a second copy of the same files would just risk drift. Its
-   own --isc-font-sans pointed at Aeonik for body/UI text, but D18 is
-   headings-only for Aeonik on this site, so this maps to our regular
-   --font-sans instead — none of this component's text is a heading. */
-
-.isc-root {
-  /* type */
-  --isc-font-sans: var(--font-sans);
-  --isc-text-body: 14px;
-  --isc-text-sm: 12px;
-  --isc-weight-regular: 400;
-  --isc-weight-medium: 500;
-
-  /* surfaces */
-  --isc-surface-card: var(--color-background);
-  --isc-surface-hover: var(--color-muted);
-
-  /* ink & rules */
-  --isc-ink: var(--color-foreground);
-  --isc-text: var(--color-foreground);
-  --isc-rule: var(--color-border);
-  --isc-mark-neutral: var(--color-muted-foreground);
-
-  /* status — kept as original green, see file header */
-  --isc-success: #20cb7d;
-  --isc-success-bg: #f0fff6;
-  --isc-success-active: #12a668;
-  --isc-on-success: #ffffff;
-
-  /* shape */
-  --isc-radius-card: 4px;
-  --isc-radius-pill: 9999px;
-
-  /* elevation */
-  --isc-shadow-sm: 0 1px 2px rgba(16, 24, 41, 0.06), 0 1px 3px rgba(16, 24, 41, 0.08);
-  --isc-shadow-md: 0 4px 12px rgba(16, 24, 41, 0.1), 0 2px 4px rgba(16, 24, 41, 0.06);
-
+.root {
   /* motion — front-loaded ease-out with a ~2% overshoot */
   --isc-ease-snap: cubic-bezier(0.16, 1.06, 0.3, 1);
   --isc-ease-pop: cubic-bezier(0.16, 1, 0.3, 1);
   --isc-ease-exit: cubic-bezier(0.45, 0, 1, 1);
-  --isc-dur-land: 420ms;
   --isc-dur-promote: 100ms;
   --isc-dur-pop: 260ms;
   --isc-dur-pop-soft: 220ms;
   --isc-dur-fade: 170ms;
 
-  /* geometry */
-  --isc-card-w: 344px;
-  --isc-card-h: 232px;
-}
+  /* design-only color: status green, no site token equivalent */
+  --isc-success: #20cb7d;
+  --isc-success-bg: #f0fff6;
+  --isc-success-active: #12a668;
 
-/* ── Stage ───────────────────────────────────────────────────────── */
-.isc-root {
+  --isc-ink: var(--color-foreground);
+  --isc-rule: var(--color-border);
+  --isc-surface-card: var(--color-background);
+  --isc-surface-hover: var(--color-muted);
+  --isc-mark-neutral: var(--color-muted-foreground);
+
+  /* No background of its own — this sits inside Media's own frame
+     (accent-gradient), which should show through. */
   position: relative;
+  width: 700px;
+  height: 500px;
   overflow: hidden;
-  /* No background/page-backdrop of its own (the standalone handoff's
-     grey stage was only for the preview page) — this sits inside the
-     site's own Media frame (accent-gradient + padding), which already
-     provides both. Width comes from the `size` prop as a soft target,
-     not a hard pixel value: max-width/aspect-ratio let it shrink to
-     fit a narrower container instead of overflowing and getting
-     clipped by Media's own overflow-hidden wrapper. */
-  max-width: 100%;
-  aspect-ratio: 1 / 1;
-  font-family: var(--isc-font-sans);
+  font-family: var(--font-sans);
   cursor: pointer;
 }
 
-.isc-slot {
+/* card slot — 344×232 centered in the 700×500 canvas */
+.slot {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  width: var(--isc-card-w);
-  height: var(--isc-card-h);
-  margin-top: calc(var(--isc-card-h) / -2);
-  margin-left: calc(var(--isc-card-w) / -2);
-  border-radius: var(--isc-radius-card);
-  box-shadow: var(--isc-shadow-sm);
+  left: 178px;
+  top: 134px;
+  width: 344px;
+  height: 232px;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 1px 2px rgba(16, 24, 41, 0.06), 0 1px 3px rgba(16, 24, 41, 0.08);
   transform-origin: 50% 50%;
   will-change: transform;
 }
-.isc-slot[data-front='true'] {
-  box-shadow: var(--isc-shadow-md);
+.slot[data-front='true'] {
+  box-shadow: 0 4px 12px rgba(16, 24, 41, 0.1), 0 2px 4px rgba(16, 24, 41, 0.06);
 }
 
-/* ── Card ────────────────────────────────────────────────────────── */
-.isc-card {
+.card {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  width: 100%;
-  height: 100%;
+  width: 344px;
+  height: 232px;
   background: var(--isc-surface-card);
   border: 1px solid var(--isc-rule);
-  border-radius: var(--isc-radius-card);
+  border-radius: var(--radius-sm);
   overflow: hidden;
 }
 
-.isc-head {
+.head {
   flex: none;
   box-sizing: border-box;
   display: flex;
@@ -121,7 +75,7 @@
   padding: 0 12px 0 16px;
 }
 
-.isc-logo {
+.logo {
   flex: 0 1 168px;
   width: 168px;
   min-width: 0;
@@ -130,16 +84,16 @@
   align-items: center;
   overflow: hidden;
 }
-.isc-logo img {
+.logo img {
   height: var(--isc-logo-h, 24px);
-  max-width: 100%;
+  max-width: 168px;
   width: auto;
   object-fit: contain;
   object-position: left center;
   display: block;
 }
 
-.isc-sync {
+.sync {
   flex: none;
   box-sizing: border-box;
   appearance: none;
@@ -153,21 +107,16 @@
   background: transparent;
   color: var(--isc-ink);
   border: 1px solid var(--isc-ink);
-  border-radius: var(--isc-radius-pill);
-  transition: background 120ms ease;
+  border-radius: 9999px;
 }
-.isc-sync:hover {
+.sync:hover {
   background: var(--isc-surface-hover);
 }
-.isc-sync svg {
+.sync svg {
   display: block;
 }
-.isc-sync[data-syncing='true'] svg {
-  animation: isc-spin 0.9s linear infinite;
-  transform-origin: 50% 50%;
-}
 
-.isc-body {
+.body {
   flex: 1 1 auto;
   box-sizing: border-box;
   display: flex;
@@ -177,90 +126,82 @@
   padding: 8px 16px 16px;
 }
 
-.isc-note {
+.note {
   display: flex;
   align-items: center;
   gap: 8px;
   min-width: 0;
-  font-size: var(--isc-text-body);
-  font-weight: var(--isc-weight-medium);
+  font-size: 14px;
+  font-weight: 500;
   line-height: 20px;
-  color: var(--isc-text);
+  color: var(--isc-ink);
 }
-.isc-note[data-plain='true'] {
-  font-weight: var(--isc-weight-regular);
+.note[data-plain='true'] {
+  font-weight: 400;
 }
-.isc-note svg {
+.note svg {
   flex: none;
   display: block;
-  color: var(--isc-text);
-}
-.isc-note[data-spin='true'] svg {
-  animation: isc-spin 0.9s linear infinite;
-  transform-origin: 50% 50%;
+  color: var(--isc-ink);
 }
 
-.isc-badge {
+.badge {
   display: inline-flex;
   align-items: center;
   padding: 2px 8px;
-  border-radius: var(--isc-radius-card);
+  border-radius: var(--radius-sm);
   background: var(--isc-success-bg);
   color: var(--isc-success-active);
-  font-size: var(--isc-text-sm);
-  font-weight: var(--isc-weight-medium);
+  font-size: 12px;
+  font-weight: 500;
   line-height: 18px;
   white-space: nowrap;
-  animation: isc-pop-soft var(--isc-dur-pop-soft) var(--isc-ease-pop);
 }
 
-.isc-types {
+.types {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 4px;
-  width: 100%;
+  width: 312px;
 }
-.isc-type {
+.type {
   display: flex;
   align-items: center;
   gap: 8px;
   min-width: 0;
-  max-width: 100%;
+  max-width: 312px;
 }
-.isc-type span {
-  font-size: var(--isc-text-body);
+.type span {
+  font-size: 14px;
   line-height: 18px;
-  color: var(--isc-text);
+  color: var(--isc-ink);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.isc-mark {
+.mark {
   flex: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 14px;
   height: 14px;
-  border-radius: var(--isc-radius-pill);
+  border-radius: 9999px;
   background: var(--isc-success);
-  color: var(--isc-on-success);
+  color: #ffffff;
 }
-.isc-mark[data-tone='muted'] {
+.mark[data-tone='muted'] {
   background: transparent;
   color: var(--isc-mark-neutral);
   box-shadow: inset 0 0 0 1px var(--isc-mark-neutral);
 }
-.isc-mark[data-pop='true'] {
-  animation: isc-pop var(--isc-dur-pop) var(--isc-ease-pop);
-}
-.isc-mark svg {
+.mark svg {
   display: block;
 }
 
-.isc-foot {
+.foot {
   flex: none;
   box-sizing: border-box;
   display: flex;
@@ -271,8 +212,7 @@
   border-top: 1px solid var(--isc-rule);
 }
 
-/* ── Button ──────────────────────────────────────────────────────── */
-.isc-btn {
+.btn {
   box-sizing: border-box;
   appearance: none;
   cursor: pointer;
@@ -282,54 +222,77 @@
   height: 32px;
   padding: 0 6px 0 16px;
   border: 1px solid transparent;
-  border-radius: var(--isc-radius-pill);
+  border-radius: 9999px;
   font-family: inherit;
-  font-size: var(--isc-text-body);
-  font-weight: var(--isc-weight-medium);
+  font-size: 14px;
+  font-weight: 500;
   line-height: 1;
   background: var(--isc-ink);
   color: var(--isc-surface-card);
-  transition: transform 120ms var(--isc-ease-pop), background 120ms ease, color 120ms ease;
 }
-.isc-btn[data-variant='secondary'] {
+.btn[data-variant='secondary'] {
   background: transparent;
   color: var(--isc-ink);
   border-color: var(--isc-ink);
 }
-.isc-btn[data-variant='secondary']:hover {
+.btn[data-variant='secondary']:hover {
   background: var(--isc-surface-hover);
 }
-.isc-btn[data-variant='success'] {
+.btn[data-variant='success'] {
   background: var(--isc-success);
   border-color: var(--isc-success);
-  color: var(--isc-on-success);
-  animation: isc-pop-soft var(--isc-dur-pop-soft) var(--isc-ease-pop);
+  color: #ffffff;
 }
-.isc-btn[data-variant='success']:hover {
+.btn[data-variant='success']:hover {
   background: var(--isc-success-active);
   border-color: var(--isc-success-active);
 }
-.isc-btn[data-pressed='true'] {
+.btn[data-pressed='true'] {
   transform: scale(0.955);
-  transition: none;
 }
 
 /* trailing icon sits in a 24px keyline circle */
-.isc-btn-keyline {
+.keyline {
   flex: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 24px;
   height: 24px;
-  border-radius: var(--isc-radius-pill);
+  border-radius: 9999px;
   border: 1px solid currentColor;
 }
-.isc-btn-keyline svg {
+.keyline svg {
   display: block;
 }
 
-/* ── Keyframes ───────────────────────────────────────────────────── */
+/* ── Motion (disabled under prefers-reduced-motion) ──────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  .sync {
+    transition: background 120ms ease;
+  }
+  .sync[data-syncing='true'] svg {
+    animation: isc-spin 0.9s linear infinite;
+    transform-origin: 50% 50%;
+  }
+  .note[data-spin='true'] svg {
+    animation: isc-spin 0.9s linear infinite;
+    transform-origin: 50% 50%;
+  }
+  .badge {
+    animation: isc-pop-soft var(--isc-dur-pop-soft) var(--isc-ease-pop);
+  }
+  .mark[data-pop='true'] {
+    animation: isc-pop var(--isc-dur-pop) var(--isc-ease-pop);
+  }
+  .btn {
+    transition: transform 120ms var(--isc-ease-pop), background 120ms ease, color 120ms ease;
+  }
+  .btn[data-pressed='true'] {
+    transition: none;
+  }
+}
+
 @keyframes isc-spin {
   to {
     transform: rotate(360deg);
@@ -355,18 +318,5 @@
   }
   100% {
     transform: scale(1);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .isc-slot {
-    transition: none !important;
-  }
-  .isc-sync[data-syncing='true'] svg,
-  .isc-note[data-spin='true'] svg,
-  .isc-mark[data-pop='true'],
-  .isc-badge,
-  .isc-btn[data-variant='success'] {
-    animation: none;
   }
 }

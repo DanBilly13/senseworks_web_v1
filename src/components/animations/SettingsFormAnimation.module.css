@@ -1,0 +1,397 @@
+/* SettingsFormAnimation — fixed 700x500 canvas, literal px geometry.
+   Colors map to real site tokens (globals.css) where an equivalent exists.
+   --isc-soft/-muted are alpha tints of --isc-ink itself (which equals
+   --color-foreground exactly), so they're left as literal rgba rather than
+   forcing a color-mix() for a value that already tracks the real token 1:1.
+   --isc-rule-strong and --isc-on-ink have no site-token equivalent — a
+   distinct "stronger" border weight and an inverse/on-dark text color our
+   system doesn't define — so their original design values are kept
+   verbatim. --isc-shadow is likewise literal; there's no elevation token. */
+
+.canvas {
+  /* literal 700x500 artboard — never scales itself; a wrapper does that */
+  position: relative;
+  width: 700px;
+  height: 500px;
+  overflow: hidden;
+  /* no background: the frame behind this shows its own gradient */
+
+  --isc-ink: var(--color-foreground);
+  --isc-label: var(--color-muted-foreground);
+  --isc-soft: rgba(16, 24, 41, 0.8);
+  --isc-muted: rgba(16, 24, 41, 0.7);
+  --isc-rule: var(--color-border);
+  --isc-rule-strong: #d8d8d8;
+  --isc-hover: var(--color-muted);
+  --isc-card: var(--color-background);
+  --isc-tag-bg: var(--color-surface);
+  --isc-tag-rule: var(--color-border);
+  --isc-on-ink: #ffffff;
+  --isc-shadow: 0 4px 12px rgba(16, 24, 41, 0.08), 0 1px 3px rgba(16, 24, 41, 0.05);
+  --isc-rad-sm: var(--radius-sm);
+  --isc-rad-md: var(--radius-md);
+  --isc-rad-lg: var(--radius-lg);
+  --isc-snap: cubic-bezier(0.16, 1, 0.3, 1);
+  --isc-drift: cubic-bezier(0.05, 0.7, 0.1, 1);
+
+  font-family: var(--font-sans);
+  color: var(--isc-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── card ─────────────────────────────────────────────────────────── */
+.card {
+  position: absolute;
+  left: 77px;
+  top: 40px;
+  width: 546px;
+  height: 914px;
+  box-sizing: border-box;
+  background: var(--isc-card);
+  border: 1px solid var(--isc-rule);
+  border-radius: var(--isc-rad-lg);
+  will-change: transform;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .card {
+    transition: transform 750ms var(--isc-drift);
+  }
+}
+
+.title {
+  position: absolute;
+  left: 33px;
+  top: 33px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.sectionHead {
+  position: absolute;
+  left: 33px;
+  width: 480px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 22px;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.label {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 22px;
+  color: var(--isc-label);
+  white-space: nowrap;
+}
+.labelInk {
+  color: var(--isc-ink);
+}
+.hint {
+  display: inline-flex;
+  color: var(--isc-muted);
+}
+
+/* ── underlined field shell ───────────────────────────────────────── */
+.field {
+  position: absolute;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 32px;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--isc-rule-strong);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .field {
+    transition: border-bottom-color 160ms var(--isc-snap);
+  }
+}
+.fieldActive {
+  border-bottom-color: var(--isc-ink);
+}
+
+.value {
+  flex: none;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--isc-ink);
+  white-space: nowrap;
+}
+.placeholder {
+  color: var(--isc-soft);
+}
+
+.caret {
+  display: inline-block;
+  width: 1px;
+  height: 16px;
+  margin-left: 1px;
+  background: var(--isc-ink);
+  vertical-align: -3px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .caret {
+    animation: iscBlink 1s steps(1, end) infinite;
+  }
+}
+@keyframes iscBlink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.chips {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+}
+.chevron {
+  flex: none;
+  display: inline-flex;
+  color: var(--isc-soft);
+  margin-left: 4px;
+}
+.calendar {
+  flex: none;
+  display: inline-flex;
+  color: var(--isc-muted);
+}
+
+/* ── tag chip ─────────────────────────────────────────────────────── */
+.tag {
+  flex: none;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 24px;
+  padding: 0 2px 0 8px;
+  background: var(--isc-tag-bg);
+  border: 1px solid var(--isc-tag-rule);
+  border-radius: var(--isc-rad-sm);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--isc-ink);
+  white-space: nowrap;
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* under-damped: ~2.5% overshoot, then settle */
+  .tag {
+    animation: iscTagIn 280ms var(--isc-snap) both;
+  }
+}
+@keyframes iscTagIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  55% {
+    opacity: 1;
+    transform: scale(1.025);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.tagX {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-left: 1px solid var(--isc-tag-rule);
+  color: var(--isc-muted);
+}
+
+/* ── segmented ────────────────────────────────────────────────────── */
+.segmented {
+  position: absolute;
+  box-sizing: border-box;
+  width: 226px;
+  height: 34px;
+  padding: 2px;
+  background: var(--isc-card);
+  border: 1px solid var(--isc-rule);
+  border-radius: var(--isc-rad-sm);
+}
+.segGroup {
+  position: relative;
+  display: flex;
+  height: 28px;
+}
+.segThumb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 110px;
+  height: 28px;
+  border-radius: var(--isc-rad-sm);
+  background: var(--isc-ink);
+  opacity: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .segThumb {
+    transition: opacity 200ms var(--isc-snap), transform 200ms var(--isc-snap);
+  }
+}
+.segThumbOn {
+  opacity: 1;
+}
+.segItem {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  font-size: 14px;
+  line-height: 1;
+  color: var(--isc-ink);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .segItem {
+    transition: color 200ms var(--isc-snap);
+  }
+}
+.segItemOn {
+  color: var(--isc-on-ink);
+}
+
+/* ── select popover ───────────────────────────────────────────────── */
+.pop {
+  position: absolute;
+  box-sizing: border-box;
+  width: 480px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--isc-card);
+  border: 1px solid var(--isc-rule);
+  border-radius: var(--isc-rad-md);
+  box-shadow: var(--isc-shadow);
+  z-index: 20;
+  transform-origin: top center;
+  opacity: 0;
+  transform: translateY(-6px) scale(0.985);
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .pop {
+    transition: opacity 160ms var(--isc-snap), transform 160ms var(--isc-snap);
+  }
+}
+.popOpen {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 28px;
+  padding: 0 8px;
+  border-radius: var(--isc-rad-sm);
+  font-size: 14px;
+  line-height: 1;
+  color: var(--isc-ink);
+  white-space: nowrap;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .option {
+    transition: background-color 120ms var(--isc-snap);
+  }
+}
+.optionHover {
+  background: var(--isc-hover);
+}
+.optionSelected {
+  font-weight: 500;
+}
+
+.checkbox {
+  box-sizing: border-box;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--isc-rule-strong);
+  border-radius: var(--isc-rad-sm);
+  background: var(--isc-card);
+  color: var(--isc-on-ink);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .checkbox {
+    transition: background-color 140ms var(--isc-snap), border-color 140ms var(--isc-snap);
+  }
+}
+.checkboxOn {
+  background: var(--isc-ink);
+  border-color: var(--isc-ink);
+}
+
+/* ── pointer ──────────────────────────────────────────────────────── */
+.cursor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 40;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 4px rgba(16, 24, 41, 0.35));
+  transform-origin: 3px 3px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .cursor {
+    transition: transform 260ms var(--isc-snap);
+  }
+}
+
+.ripple {
+  position: absolute;
+  z-index: 39;
+  width: 28px;
+  height: 28px;
+  margin: -14px 0 0 -14px;
+  border: 1px solid var(--isc-ink);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .ripple {
+    animation: iscRipple 320ms var(--isc-snap) both;
+  }
+}
+@keyframes iscRipple {
+  0% {
+    opacity: 0.45;
+    transform: scale(0.1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}

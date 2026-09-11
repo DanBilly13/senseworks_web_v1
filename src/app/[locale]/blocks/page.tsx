@@ -358,6 +358,18 @@ export default async function BlocksPage({
         variant='mediaType: "reactAnimation", animation: "integrationCardStack"'
       />
       <MediaBlock media={{ mediaType: 'reactAnimation', animation: 'integrationCardStack' }} />
+      <BlockCaption
+        name="Media — React Animation (Bevis Sidebar)"
+        type="mediaBlock"
+        variant='mediaType: "reactAnimation", animation: "bevisSidebarAnimation"'
+      />
+      <MediaBlock media={{ mediaType: 'reactAnimation', animation: 'bevisSidebarAnimation' }} />
+      <BlockCaption
+        name="Media — React Animation (Settings Form)"
+        type="mediaBlock"
+        variant='mediaType: "reactAnimation", animation: "settingsFormAnimation"'
+      />
+      <MediaBlock media={{ mediaType: 'reactAnimation', animation: 'settingsFormAnimation' }} />
 
       <GroupHeading>Support</GroupHeading>
       <BlockCaption name="FAQ Accordion" type="faqAccordionBlock" />

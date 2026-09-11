@@ -2,17 +2,19 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import styles from './IntegrationCardStack.module.css'
 
-/* Senseworks — integration card stack animation. Ported from a
-   standalone handoff (web-bits/claude animations) — see the .module.css
-   file header for the font/color remapping notes.
-   Pure React + CSS, no dependencies. Timeline lives in one state
-   machine; every visual value is a CSS custom property in
-   IntegrationCardStack.module.css. */
+/* Senseworks — integration card stack animation.
+   Fixed 700×500 canvas (7:5). Every position, size and translate below is a
+   literal px value in that space — no relative units, no breakpoints, no
+   scale-to-fit math. Wrapped in ScaledCanvas (see Media.tsx) to place it at
+   any container width. Pure React + one CSS Module; icons are inlined Ant
+   Design Icon paths (MIT). */
 
-/* Ant Design Icons (outlined, MIT), 1024 viewBox, drawn in currentColor.
-   Inlined rather than imported from @ant-design/icons, same as
-   UploadQueueLoop — keeps this component genuinely self-contained. */
-const ICONS: Record<string, string> = {
+const CANVAS_W = 700
+const CANVAS_H = 500
+
+type IconName = 'reload' | 'link' | 'setting' | 'check' | 'loading'
+
+const ICONS: Record<IconName, string> = {
   reload:
     'M909.1 209.3l-56.4 44.1C775.8 155.1 656.2 92 521.9 92 290 92 102.3 279.5 102 511.5 101.7 743.7 289.8 932 521.9 932c181.3 0 335.8-115 394.6-276.1 1.5-4.2-.7-8.9-4.9-10.3l-56.7-19.5a8 8 0 00-10.1 4.8c-1.8 5-3.8 10-5.9 14.9-17.3 41-42.1 77.8-73.7 109.4A344.77 344.77 0 01655.9 829c-42.3 17.9-87.4 27-133.8 27-46.5 0-91.5-9.1-133.8-27A341.5 341.5 0 01279 755.2a342.16 342.16 0 01-73.7-109.4c-17.9-42.4-27-87.4-27-133.9s9.1-91.5 27-133.9c17.3-41 42.1-77.8 73.7-109.4 31.6-31.6 68.4-56.4 109.3-73.8 42.3-17.9 87.4-27 133.8-27 46.5 0 91.5 9.1 133.8 27a341.5 341.5 0 01109.3 73.8c9.9 9.9 19.2 20.4 27.8 31.4l-60.2 47a8 8 0 003 14.1l175.6 43c5 1.2 9.9-2.6 9.9-7.7l.8-180.9c-.1-6.6-7.8-10.3-13-6.2z',
   link: 'M574 665.4a8.03 8.03 0 00-11.3 0L446.5 781.6c-53.8 53.8-144.6 59.5-204 0-59.5-59.5-53.8-150.2 0-204l116.2-116.2c3.1-3.1 3.1-8.2 0-11.3l-39.8-39.8a8.03 8.03 0 00-11.3 0L191.4 526.5c-84.6 84.6-84.6 221.5 0 306s221.5 84.6 306 0l116.2-116.2c3.1-3.1 3.1-8.2 0-11.3L574 665.4zm258.6-474c-84.6-84.6-221.5-84.6-306 0L410.3 307.6a8.03 8.03 0 000 11.3l39.7 39.7c3.1 3.1 8.2 3.1 11.3 0l116.2-116.2c53.8-53.8 144.6-59.5 204 0 59.5 59.5 53.8 150.2 0 204L665.3 562.6a8.03 8.03 0 000 11.3l39.8 39.8c3.1 3.1 8.2 3.1 11.3 0l116.2-116.2c84.5-84.6 84.5-221.5 0-306.1zM610.1 372.3a8.03 8.03 0 00-11.3 0L372.3 598.7a8.03 8.03 0 000 11.3l39.6 39.6c3.1 3.1 8.2 3.1 11.3 0l226.4-226.4c3.1-3.1 3.1-8.2 0-11.3l-39.5-39.6z',
@@ -24,25 +26,23 @@ const ICONS: Record<string, string> = {
     'M988 548c-19.9 0-36-16.1-36-36 0-59.4-11.6-117-34.6-171.3a440.45 440.45 0 00-94.3-139.9 437.71 437.71 0 00-139.9-94.3C629 83.6 571.4 72 512 72c-19.9 0-36-16.1-36-36s16.1-36 36-36c69.1 0 136.2 13.5 199.3 40.3C772.3 66 827 103 874 150c47 47 83.9 101.8 109.7 162.7 26.7 63.1 40.2 130.2 40.2 199.3.1 19.9-16 36-35.9 36z',
 }
 
-function Icon({ name, size = 16, weight = 0 }: { name: string; size?: number; weight?: number }) {
-  const d = ICONS[name]
-  if (!d) return null
+function Icon({ name, size = 16, weight = 0 }: { name: IconName; size?: number; weight?: number }) {
   return (
     <svg viewBox="0 0 1024 1024" width={size} height={size} aria-hidden="true" focusable="false">
-      <path d={d} fill="currentColor" stroke="currentColor" strokeWidth={weight} />
+      <path d={ICONS[name]} fill="currentColor" stroke="currentColor" strokeWidth={weight} />
     </svg>
   )
 }
 
-type CardData = {
+export type IntegrationCardData = {
   id: string
   name: string
   logo: string
-  logoHeight: number
+  logoHeight?: number
   dataTypes: string[]
 }
 
-export const DEFAULT_CARDS: CardData[] = [
+export const DEFAULT_CARDS: IntegrationCardData[] = [
   {
     id: 'spiris',
     name: 'Spiris',
@@ -80,25 +80,25 @@ export const DEFAULT_CARDS: CardData[] = [
   },
 ]
 
-/* ── Card ────────────────────────────────────────────────────────── */
-
 type CardState = 'available' | 'pending' | 'active'
 
-type IntegrationCardProps = {
-  name: string
-  logo: string
-  logoHeight?: number
+type CardProps = IntegrationCardData & {
   state?: CardState
   note?: string
   badge?: string
-  dataTypes?: string[]
   greenCount?: number | null
   syncing?: boolean
   pressed?: boolean
   actionLabel?: string
-  actionVariant?: string
-  actionIcon?: string
+  actionVariant?: 'primary' | 'secondary' | 'success'
+  actionIcon?: IconName
   spinNote?: boolean
+}
+
+const DEFAULTS: Record<CardState, { note: string; label: string; icon: IconName; variant: 'secondary' | 'success' }> = {
+  available: { note: 'Tillgänglig för integration', label: 'Aktivera', icon: 'link', variant: 'secondary' },
+  pending: { note: 'Väntar på godkännande', label: 'Aktiverar…', icon: 'link', variant: 'secondary' },
+  active: { note: 'Integrationen löper tills vidare', label: 'Hantera', icon: 'setting', variant: 'success' },
 }
 
 function IntegrationCard({
@@ -114,30 +114,22 @@ function IntegrationCard({
   pressed = false,
   actionLabel,
   actionVariant,
-  actionIcon = 'setting',
+  actionIcon,
   spinNote = false,
-}: IntegrationCardProps) {
-  const defaults = {
-    available: { note: 'Tillgänglig för integration', label: 'Aktivera', icon: 'link', variant: 'secondary' },
-    pending: { note: 'Väntar på godkännande', label: 'Aktiverar…', icon: 'link', variant: 'secondary' },
-    active: { note: 'Integrationen löper tills vidare', label: 'Hantera', icon: 'setting', variant: 'success' },
-  }[state]
-
-  const marksGreen = (i: number) => (greenCount === null ? state === 'active' : i < greenCount)
+}: CardProps) {
+  const d = DEFAULTS[state]
+  const markIsGreen = (i: number) => (greenCount === null ? state === 'active' : i < greenCount)
 
   return (
-    <div className={styles['isc-card']} data-state={state}>
-      <div className={styles['isc-head']}>
-        <div
-          className={styles['isc-logo']}
-          style={{ '--isc-logo-h': logoHeight + 'px' } as React.CSSProperties}
-        >
+    <div className={styles.card} data-state={state}>
+      <div className={styles.head}>
+        <div className={styles.logo} style={{ ['--isc-logo-h' as string]: `${logoHeight}px` }}>
           {/* eslint-disable-next-line @next/next/no-img-element -- fixed small logo mark inside a self-contained animation, not a page image */}
           <img src={logo} alt={name} />
         </div>
         <button
           type="button"
-          className={styles['isc-sync']}
+          className={styles.sync}
           data-syncing={syncing ? 'true' : undefined}
           aria-label="Synkronisera"
           title="Synkronisera"
@@ -146,27 +138,23 @@ function IntegrationCard({
         </button>
       </div>
 
-      <div className={styles['isc-body']}>
+      <div className={styles.body}>
         {badge ? (
-          <span className={styles['isc-badge']}>{badge}</span>
+          <span className={styles.badge}>{badge}</span>
         ) : (
-          <div
-            className={styles['isc-note']}
-            data-plain={state === 'available' ? 'true' : undefined}
-            data-spin={spinNote ? 'true' : undefined}
-          >
+          <div className={styles.note} data-plain={state === 'available' ? 'true' : undefined} data-spin={spinNote ? 'true' : undefined}>
             {state === 'pending' ? <Icon name="loading" size={14} weight={40} /> : null}
-            <span>{note ?? defaults.note}</span>
+            <span>{note ?? d.note}</span>
           </div>
         )}
 
-        <div className={styles['isc-types']}>
+        <div className={styles.types}>
           {dataTypes.map((label, i) => (
-            <div className={styles['isc-type']} key={label}>
+            <div className={styles.type} key={label}>
               <span
-                className={styles['isc-mark']}
-                data-tone={marksGreen(i) ? undefined : 'muted'}
-                data-pop={greenCount !== null && marksGreen(i) ? 'true' : undefined}
+                className={styles.mark}
+                data-tone={markIsGreen(i) ? undefined : 'muted'}
+                data-pop={greenCount !== null && markIsGreen(i) ? 'true' : undefined}
                 aria-hidden="true"
               >
                 <Icon name="check" size={9} weight={80} />
@@ -177,16 +165,11 @@ function IntegrationCard({
         </div>
       </div>
 
-      <div className={styles['isc-foot']}>
-        <button
-          type="button"
-          className={styles['isc-btn']}
-          data-variant={actionVariant ?? defaults.variant}
-          data-pressed={pressed ? 'true' : undefined}
-        >
-          {actionLabel ?? defaults.label}
-          <span className={styles['isc-btn-keyline']}>
-            <Icon name={actionIcon ?? defaults.icon} size={14} />
+      <div className={styles.foot}>
+        <button type="button" className={styles.btn} data-variant={actionVariant ?? d.variant} data-pressed={pressed ? 'true' : undefined}>
+          {actionLabel ?? d.label}
+          <span className={styles.keyline}>
+            <Icon name={actionIcon ?? d.icon} size={14} />
           </span>
         </button>
       </div>
@@ -194,11 +177,20 @@ function IntegrationCard({
   )
 }
 
-/* ── Stack ───────────────────────────────────────────────────────── */
+function usePrefersReducedMotion() {
+  const [reduced, setReduced] = useState(false)
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const set = () => setReduced(mq.matches)
+    set()
+    mq.addEventListener('change', set)
+    return () => mq.removeEventListener('change', set)
+  }, [])
+  return reduced
+}
 
 type IntegrationCardStackProps = {
-  cards?: CardData[]
-  size?: number
+  cards?: IntegrationCardData[]
   landDuration?: number
   beat?: number
   checkStep?: number
@@ -210,11 +202,11 @@ type IntegrationCardStackProps = {
   stackOffset?: number
   stackShrink?: number
   loop?: boolean
+  className?: string
 }
 
 export function IntegrationCardStack({
   cards = DEFAULT_CARDS,
-  size = 500,
   landDuration = 420,
   beat = 380,
   checkStep = 620,
@@ -226,23 +218,27 @@ export function IntegrationCardStack({
   stackOffset = 13,
   stackShrink = 0.045,
   loop = true,
+  className,
 }: IntegrationCardStackProps) {
   const n = cards.length
   const last = n - 1
+  const reduced = usePrefersReducedMotion()
+
   const [phase, setPhase] = useState<'build' | 'press' | 'pending' | 'badge' | 'active'>('build')
   const [step, setStep] = useState(-1) // index of the card that has landed
   const [green, setGreen] = useState(0) // green marks on the final card
   const [exit, setExit] = useState(0) // cards that have dropped away
   const [arming, setArming] = useState(false) // one un-transitioned frame before a land
   const [warp, setWarp] = useState(false) // un-transitioned reset at loop
-  const timer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const [runId, setRunId] = useState(0)
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const replay = useCallback(() => setRunId((r) => r + 1), [])
 
+  // One state machine: a queue of [delay, fn] steps drives the whole timeline.
   useEffect(() => {
     let alive = true
-    const queue: [number, () => void][] = []
+    const queue: Array<[number, () => void]> = []
     const at = (wait: number, fn: () => void) => queue.push([wait, fn])
     const pump = () => {
       if (!alive || !queue.length) return
@@ -254,10 +250,6 @@ export function IntegrationCardStack({
       }, wait)
     }
 
-    // Resets the state machine to its starting frame at the top of
-    // every run (mount, and each replay via runId) before queuing the
-    // timed sequence below — same pattern/justification as
-    // UploadQueueLoop's reduced-motion frame set.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setPhase('build')
     setStep(-1)
@@ -312,8 +304,8 @@ export function IntegrationCardStack({
 
   return (
     <div
-      className={styles['isc-root']}
-      style={{ width: size }}
+      className={className ? `${styles.root} ${className}` : styles.root}
+      style={{ width: CANVAS_W, height: CANVAS_H }}
       onClick={replay}
       title="Click to replay"
     >
@@ -328,6 +320,7 @@ export function IntegrationCardStack({
         let opacity: number
         let transition: string
         if (dropped) {
+          // Literal px: 470 carries the card clear of the 500px canvas edge.
           transform = 'translate3d(0,470px,0) scale(.96)'
           opacity = 1
           transition = TR_DROP
@@ -342,7 +335,7 @@ export function IntegrationCardStack({
         }
 
         // The final card carries the activation states; the rest stay live.
-        let props: IntegrationCardProps = { ...card, state: 'active' }
+        let props: CardProps = { ...card, state: 'active' }
         if (isLast) {
           if (phase === 'build' || phase === 'press') {
             props = { ...card, state: 'available', pressed: phase === 'press' }
@@ -373,9 +366,9 @@ export function IntegrationCardStack({
         return (
           <div
             key={card.id}
-            className={styles['isc-slot']}
+            className={styles.slot}
             data-front={d === 0 ? 'true' : undefined}
-            style={{ transform, opacity, transition, zIndex: 10 - Math.max(d, 0) }}
+            style={{ transform, opacity, transition: reduced ? 'none' : transition, zIndex: 10 - Math.max(d, 0) }}
           >
             <IntegrationCard {...props} />
           </div>
