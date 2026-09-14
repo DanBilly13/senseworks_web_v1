@@ -190,10 +190,20 @@ export default async function BlocksPage({
           { eyebrow: '04 — Sit', heading: 'Do eiusmod tempor', body: BODY },
         ]}
       />
-      <BlockCaption name="Card Grid — Dark" type="cardGridBlock" variant="dark: true" />
+      <BlockCaption name="Card Grid — Dark" type="cardGridBlock" variant='tone: "dark"' />
       <CardGridBlock
         columns="3"
-        dark
+        tone="dark"
+        items={[
+          { eyebrow: '01 — Lorem', heading: 'Lorem ipsum dolor', body: BODY },
+          { eyebrow: '02 — Ipsum', heading: 'Sit amet consectetur', body: BODY },
+          { eyebrow: '03 — Dolor', heading: 'Adipiscing elit sed', body: BODY },
+        ]}
+      />
+      <BlockCaption name="Card Grid — Accent" type="cardGridBlock" variant='tone: "accent"' />
+      <CardGridBlock
+        columns="3"
+        tone="accent"
         items={[
           { eyebrow: '01 — Lorem', heading: 'Lorem ipsum dolor', body: BODY },
           { eyebrow: '02 — Ipsum', heading: 'Sit amet consectetur', body: BODY },

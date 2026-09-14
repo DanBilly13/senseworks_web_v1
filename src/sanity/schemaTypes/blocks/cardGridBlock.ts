@@ -24,10 +24,18 @@ export const cardGridBlock = defineType({
       initialValue: '3',
     }),
     defineField({
-      name: 'dark',
-      title: 'Dark (black background, white text)',
-      type: 'boolean',
-      initialValue: false,
+      name: 'tone',
+      title: 'Card style',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Default (light)', value: 'default' },
+          { title: 'Dark (black background, white text)', value: 'dark' },
+          { title: 'Accent (accent background, black text)', value: 'accent' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'default',
     }),
     defineField({
       name: 'items',

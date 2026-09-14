@@ -20,6 +20,11 @@ type SectionIntroProps = {
   // 'inverse' for light text on a dark/foreground-colored surface
   // (e.g. an image-overlay hero) — mirrors Button's inverse variant.
   tone?: 'default' | 'inverse'
+  // Overrides just the eyebrow's color (a Tailwind text-color class,
+  // e.g. "text-accent") — for a caller that wants an accent-colored
+  // kicker on top of an otherwise default/inverse tone, without
+  // changing every other inverse-tone eyebrow sitewide.
+  eyebrowColor?: string
 }
 
 const HEADING_TEXT_CLASS: Record<HeadingLevel, string> = {
@@ -54,12 +59,13 @@ export function SectionIntro({
   maxWidth = 'none',
   headingMaxWidth,
   tone = 'default',
+  eyebrowColor,
 }: SectionIntroProps) {
   // A block with neither an eyebrow nor a heading has no intro to show
   // (e.g. Stats Band's intro is entirely optional).
   if (!eyebrow && !heading) return null
 
-  const eyebrowColor = tone === 'inverse' ? 'text-background/70' : 'text-muted-foreground'
+  const resolvedEyebrowColor = eyebrowColor ?? (tone === 'inverse' ? 'text-background/70' : 'text-muted-foreground')
   const headingColor = tone === 'inverse' ? 'text-background' : 'text-foreground'
   const bodyColor = tone === 'inverse' ? 'text-background/80' : 'text-muted-foreground'
   // h1/h2's body reads as a subtitle, not muted body copy — full
@@ -81,7 +87,7 @@ export function SectionIntro({
     >
       {eyebrow && (
         <p
-          className={`text-caption font-semibold tracking-wide uppercase ${eyebrowColor} ${MAX_WIDTH_CLASS[maxWidth]}`}
+          className={`text-caption font-semibold tracking-wide uppercase ${resolvedEyebrowColor} ${MAX_WIDTH_CLASS[maxWidth]}`}
         >
           {eyebrow}
         </p>
