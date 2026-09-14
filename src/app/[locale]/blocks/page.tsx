@@ -26,6 +26,7 @@ import { FaqAccordionBlock } from '@/components/blocks/FaqAccordionBlock'
 import { SectionShell } from '@/components/ui/SectionShell'
 import { SectionIntro } from '@/components/ui/SectionIntro'
 import { Button } from '@/components/ui/Button'
+import { MenuShowcase } from './MenuShowcase'
 
 const EYEBROW = 'Lorem Ipsum'
 const HEADING = 'Lorem ipsum dolor sit amet consectetur'
@@ -495,6 +496,15 @@ export default async function BlocksPage({
         <Button href="#" animated>
           Lorem ipsum
         </Button>
+      </div>
+
+      <BlockCaption
+        name="Menu"
+        type="@/components/ui/Menu"
+        variant="leadingIcon / trailingIcon are optional"
+      />
+      <div className="mx-auto flex w-full max-w-page items-start px-medium-large py-2xl">
+        <MenuShowcase />
       </div>
 
       {footer && <BlockRenderer blocks={[footer as PageBlock]} />}

@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { CloseOutlined, DownOutlined, MenuOutlined } from '@ant-design/icons'
 import { Button } from '@/components/ui/Button'
+import { Menu, MenuItem } from '@/components/ui/Menu'
 
 type NavSubLink = { label: string; href?: string }
 type NavLink = { label: string; href?: string; links?: NavSubLink[] }
@@ -45,24 +46,19 @@ function NavDropdown({ label, links }: { label: string; links: NavSubLink[] }) {
         />
       </button>
       {open && (
-        <div className="absolute top-full left-0 mt-small flex flex-col gap-small-medium rounded-lg border border-border bg-background p-medium whitespace-nowrap shadow-lg">
+        <Menu className="absolute top-full left-0 mt-small w-max border border-border shadow-lg">
           {links.map((link) =>
             link.href ? (
-              <a
-                key={link.label}
-                href={link.href}
-                className="text-body-sm text-foreground"
-                onClick={() => setOpen(false)}
-              >
+              <MenuItem key={link.label} href={link.href} onClick={() => setOpen(false)}>
                 {link.label}
-              </a>
+              </MenuItem>
             ) : (
-              <span key={link.label} className="text-body-sm text-muted-foreground/60">
+              <MenuItem key={link.label} disabled>
                 {link.label}
-              </span>
+              </MenuItem>
             ),
           )}
-        </div>
+        </Menu>
       )}
     </div>
   )
