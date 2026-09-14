@@ -9,6 +9,7 @@ type CardGridItem = {
 type CardGridBlockProps = {
   columns?: '1' | '2' | '3' | '4'
   items?: CardGridItem[]
+  dark?: boolean
 }
 
 const GRID_COLS_CLASS: Record<'1' | '2' | '3' | '4', string> = {
@@ -20,7 +21,7 @@ const GRID_COLS_CLASS: Record<'1' | '2' | '3' | '4', string> = {
 
 // No eyebrow/heading/body of its own — pair it with a separate intro
 // block (e.g. Section Headline) above it when one's needed.
-export function CardGridBlock({ columns = '3', items = [] }: CardGridBlockProps) {
+export function CardGridBlock({ columns = '3', items = [], dark = false }: CardGridBlockProps) {
   // D7: a block with no content simply doesn't render.
   if (!items.length) return null
 
@@ -34,9 +35,19 @@ export function CardGridBlock({ columns = '3', items = [] }: CardGridBlockProps)
         {items.map((item, index) => (
           <div
             key={index}
-            className="flex flex-col rounded-lg border border-border bg-background p-large"
+            className={
+              dark
+                ? 'flex flex-col rounded-lg bg-foreground p-large'
+                : 'flex flex-col rounded-lg border border-border bg-background p-large'
+            }
           >
-            <SectionIntro as="h4" eyebrow={item.eyebrow} heading={item.heading} body={item.body} />
+            <SectionIntro
+              as="h4"
+              eyebrow={item.eyebrow}
+              heading={item.heading}
+              body={item.body}
+              tone={dark ? 'inverse' : 'default'}
+            />
           </div>
         ))}
       </div>

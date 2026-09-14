@@ -24,6 +24,12 @@ export const cardGridBlock = defineType({
       initialValue: '3',
     }),
     defineField({
+      name: 'dark',
+      title: 'Dark (black background, white text)',
+      type: 'boolean',
+      initialValue: false,
+    }),
+    defineField({
       name: 'items',
       title: 'Cards',
       type: 'array',
