@@ -52,6 +52,7 @@ export const media = defineType({
           { title: 'Integration Card Stack', value: 'integrationCardStack' },
           { title: 'Bevis Sidebar', value: 'bevisSidebarAnimation' },
           { title: 'Settings Form', value: 'settingsFormAnimation' },
+          { title: 'Företag Table', value: 'foretagTableAnimation' },
         ],
       },
       hidden: ({ parent }) => parent?.mediaType !== 'reactAnimation',

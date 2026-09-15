@@ -1,0 +1,476 @@
+/* SenseworksTableWalkthrough — fixed 700x500 canvas, literal px geometry.
+   Colors map to real site tokens (globals.css) where an equivalent exists.
+   --isc-ink-soft is an alpha tint of --isc-ink itself (which equals
+   --color-foreground exactly), left as literal rgba rather than forcing a
+   color-mix() for a value that already tracks the real token 1:1.
+   --isc-rule-strong, and the green/blue status-chip families, have no
+   site-token equivalent — kept at their original design values, same
+   treatment as the other ported animations' status colors.
+   --isc-font-num deliberately reaches for Roboto (tabular figures read
+   better for data) ahead of the site's own font — an intentional choice,
+   not a guessed token, with a safe fallback to --font-sans either way. */
+
+.canvas {
+  --isc-ink: var(--color-foreground);
+  --isc-ink-soft: rgba(16, 24, 41, 0.8);
+  --isc-ink-mute: var(--color-muted-foreground);
+  --isc-surface: var(--color-surface);
+  --isc-white: var(--color-background);
+  --isc-rule: var(--color-border);
+  --isc-rule-strong: #909aac;
+  --isc-neutral-fill: var(--color-muted);
+
+  /* design-only status colors: no site-token equivalent */
+  --isc-green: #35e293;
+  --isc-green-ink: #005132;
+  --isc-green-soft: #d0f6e0;
+  --isc-green-soft-ink: #025131;
+  --isc-green-soft-dot: #20cb7d;
+  --isc-blue: #9adcff;
+  --isc-blue-ink: #0a3a53;
+  --isc-blue-dot: #2e8cbc;
+  --isc-pin: #aeb3bd;
+
+  --isc-font: var(--font-sans);
+  /* numbers read as data; Roboto if the host already has it, else the UI face */
+  --isc-font-num: Roboto, var(--font-sans), sans-serif;
+
+  position: relative;
+  width: 700px;
+  height: 500px;
+  overflow: hidden;
+  font-family: var(--isc-font);
+  color: var(--isc-ink);
+  /* no background: the host frame's gradient shows through */
+}
+
+/* the table world is deliberately larger than the canvas — the crop is the point */
+.world {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1472px;
+  height: 1100px;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+.card {
+  position: absolute;
+  left: 40px;
+  top: 40px;
+  width: 1392px;
+  border: 1px solid var(--isc-rule);
+  border-radius: var(--radius-sm);
+  background: var(--isc-surface);
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(16, 24, 41, 0.04);
+}
+
+.clip {
+  position: relative;
+  height: 1100px;
+  overflow: hidden;
+}
+
+.scroller {
+  position: absolute;
+  left: 0;
+  top: 76px;
+  width: 1392px;
+  will-change: transform;
+}
+
+.sticky {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1392px;
+  z-index: 3;
+  background: var(--isc-surface);
+}
+
+/* ── filter bar + KPIs ──────────────────────────────────────────────────── */
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  height: 76px;
+  padding: 0 18px 0 16px;
+  box-sizing: border-box;
+  background: var(--isc-surface);
+}
+
+.filters {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.fsel {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  padding: 0 12px;
+  background: var(--isc-white);
+  color: var(--isc-ink);
+  border: 1px solid var(--isc-rule);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.fselChev {
+  display: inline-flex;
+  width: 12px;
+  height: 12px;
+  margin-left: 2px;
+}
+
+.fselChev svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.kpis {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  flex: none;
+}
+
+.kpi {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+}
+
+.kpiNum {
+  display: inline-block;
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 1;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.kpiLabel {
+  display: block;
+  margin-bottom: -2px;
+  font-size: 14px;
+}
+
+/* ── table ─────────────────────────────────────────────────────────────── */
+.table {
+  width: 1392px;
+  border-radius: var(--radius-sm);
+}
+
+.head,
+.row {
+  display: grid;
+  grid-template-columns: 35px 427px 200px 170px 170px 170px 120px 100px;
+  padding: 0 4px;
+  align-items: center;
+}
+
+.head {
+  height: 36px;
+  border-bottom: 1px solid var(--isc-rule);
+  background: var(--isc-surface);
+}
+
+.h {
+  display: flex;
+  align-items: center;
+  padding-inline: 4px;
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--isc-ink-mute);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.row {
+  height: 60px;
+  border-top: 1px solid var(--isc-rule);
+  background: var(--isc-surface);
+}
+
+.head + .row {
+  border-top: 0;
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  padding-inline: 4px;
+}
+
+.phase {
+  gap: 8px;
+}
+
+.pin {
+  justify-self: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 32px;
+  color: var(--isc-pin);
+}
+
+.pin svg {
+  width: 14px;
+  height: 14px;
+  display: block;
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.titleMain {
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.titleSub {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 1.2;
+  color: var(--isc-ink-soft);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.titleDot {
+  width: 4px;
+  height: 4px;
+  border-radius: var(--radius-full);
+  background: #d9d9d9;
+  flex: none;
+}
+
+/* ── status chip ───────────────────────────────────────────────────────── */
+.chip {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding-left: 4px;
+  padding-right: 12px;
+  min-height: 24px;
+  border-radius: var(--radius-full);
+  border: 1px solid transparent;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.chipDot {
+  width: 16px;
+  height: 16px;
+  border-radius: var(--radius-full);
+  flex: none;
+}
+
+.chip[data-status='NotStarted'] {
+  background: var(--isc-white);
+  color: var(--isc-ink);
+  border-color: var(--isc-rule-strong);
+}
+.chip[data-status='NotStarted'] .chipDot {
+  background: var(--isc-rule-strong);
+}
+.chip[data-status='Started'] {
+  background: var(--isc-blue);
+  color: var(--isc-blue-ink);
+}
+.chip[data-status='Started'] .chipDot {
+  background: var(--isc-blue-dot);
+}
+.chip[data-status='AlmostDone'] {
+  background: var(--isc-green-soft);
+  color: var(--isc-green-soft-ink);
+}
+.chip[data-status='AlmostDone'] .chipDot {
+  background: var(--isc-green-soft-dot);
+}
+.chip[data-status='Done'] {
+  background: var(--isc-green);
+  color: var(--isc-green-ink);
+}
+.chip[data-status='Done'] .chipDot {
+  background: var(--isc-green-ink);
+}
+
+/* ── progress tag (the 0% / 15% / 100% pills) ──────────────────────────── */
+.ptag {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  min-width: 44px;
+  padding: 0 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  font-family: var(--isc-font-num);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* pinned to its "100%" width so the pill does not widen when 90 becomes 100 */
+.ptagPinned {
+  width: 47.3px;
+}
+
+.ptag[data-state='not-started'] {
+  background: var(--isc-white);
+  color: var(--isc-ink);
+  border-color: var(--isc-rule-strong);
+}
+.ptag[data-state='in-progress'] {
+  background: var(--isc-blue);
+  color: var(--isc-blue-ink);
+  border-color: var(--isc-blue);
+}
+/* green reads as a solid fill — no keyline */
+.ptag[data-state='done'] {
+  background: var(--isc-green);
+  color: var(--isc-green-ink);
+  border-color: var(--isc-green);
+}
+.ptag[data-state='na'] {
+  background: var(--isc-neutral-fill);
+  color: rgba(16, 24, 41, 0.65);
+  border-color: var(--isc-neutral-fill);
+}
+
+/* only the glyphs grow on a pop — the pill itself stays exactly put */
+.glyph {
+  display: inline-block;
+  transform-origin: 50% 50%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ptag {
+    transition:
+      background-color 120ms ease,
+      border-color 120ms ease;
+  }
+}
+
+/* ── notiser tag ───────────────────────────────────────────────────────── */
+.tag {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 24px;
+  padding: 0 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  background: var(--isc-neutral-fill);
+  color: var(--isc-ink);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.tagIco {
+  display: inline-flex;
+  width: 12px;
+  height: 12px;
+  flex: none;
+}
+
+.tagIco svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ── team ──────────────────────────────────────────────────────────────── */
+.avatars {
+  display: inline-flex;
+}
+
+.avatar {
+  position: relative;
+  display: inline-flex;
+  width: 32px;
+  height: 32px;
+  flex: none;
+  margin-left: -8px;
+  transform-origin: 50% 50%;
+}
+
+.avatar:first-child {
+  margin-left: 0;
+}
+
+.avatarInner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  box-shadow: 0 0 0 2px var(--isc-surface);
+  background: var(--isc-neutral-fill);
+  color: var(--isc-ink);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+  user-select: none;
+}
+
+.avatarInner[data-tint='1'] {
+  background: #e3e6ea;
+}
+.avatarInner[data-tint='2'] {
+  background: #dfe4e2;
+}
+.avatarInner[data-tint='3'] {
+  background: #e7e4de;
+}
+
+.avatarInner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}

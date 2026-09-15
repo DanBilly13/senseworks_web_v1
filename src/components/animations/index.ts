@@ -3,6 +3,7 @@ import { UploadQueueLoop } from './UploadQueueLoop'
 import { IntegrationCardStack } from './IntegrationCardStack'
 import { BevisSidebarAnimation } from './BevisSidebarAnimation'
 import { SettingsFormAnimation } from './SettingsFormAnimation'
+import { SenseworksTableWalkthrough } from './SenseworksTableWalkthrough'
 
 type AnimationEntry = {
   component: ComponentType
@@ -32,6 +33,10 @@ export const ANIMATION_COMPONENTS = {
   } as AnimationEntry,
   settingsFormAnimation: {
     component: SettingsFormAnimation,
+    canvas: { width: 700, height: 500 },
+  } as AnimationEntry,
+  foretagTableAnimation: {
+    component: SenseworksTableWalkthrough,
     canvas: { width: 700, height: 500 },
   } as AnimationEntry,
 } satisfies Record<string, AnimationEntry>

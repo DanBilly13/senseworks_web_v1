@@ -391,6 +391,12 @@ export default async function BlocksPage({
         variant='mediaType: "reactAnimation", animation: "settingsFormAnimation"'
       />
       <MediaBlock media={{ mediaType: 'reactAnimation', animation: 'settingsFormAnimation' }} />
+      <BlockCaption
+        name="Media — React Animation (Företag Table)"
+        type="mediaBlock"
+        variant='mediaType: "reactAnimation", animation: "foretagTableAnimation"'
+      />
+      <MediaBlock media={{ mediaType: 'reactAnimation', animation: 'foretagTableAnimation' }} />
 
       <GroupHeading>Support</GroupHeading>
       <BlockCaption name="FAQ Accordion" type="faqAccordionBlock" />
