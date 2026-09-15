@@ -104,6 +104,7 @@ function HeroImageOverlay({
           heading={headline}
           body={subhead}
           maxWidth="md"
+          headingMaxWidth="subtitle"
           tone="inverse"
           cta={
             ctaLabel &&

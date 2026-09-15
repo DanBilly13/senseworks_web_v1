@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 
 type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4'
 
-type WidthKey = 'sm' | 'md' | 'wide' | 'none'
+type WidthKey = 'sm' | 'md' | 'wide' | 'subtitle' | 'none'
 
 type SectionIntroProps = {
   as: HeadingLevel
@@ -46,6 +46,9 @@ const MAX_WIDTH_CLASS: Record<WidthKey, string> = {
   sm: 'max-w-prose-sm',
   md: 'max-w-prose-md',
   wide: 'max-w-wide',
+  // Same 85%-of-row token the h1/h2 subtitle body already uses below,
+  // desktop-only so mobile keeps its full width.
+  subtitle: 'md:max-w-subtitle',
   none: '',
 }
 
