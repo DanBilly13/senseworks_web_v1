@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { CloseOutlined, DownOutlined, MenuOutlined } from '@ant-design/icons'
@@ -73,75 +73,135 @@ export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref }: Head
   const locale = pathname.split('/')[1] || 'en'
   const homeHref = `/${locale}/home`
 
+  // The header is fixed (floats over the page instead of sitting in
+  // flow), so this bar's own height is measured and re-applied in two
+  // places: a same-height spacer right below it (keeps every other
+  // block exactly where it was) and a `--header-height` custom
+  // property on the root (read by the full-bleed Hero, which pulls
+  // itself up by this amount to sit truly edge-to-edge under the bar
+  // instead of getting pushed down by it). Measures only the top row,
+  // not the mobile drawer below it — the drawer is meant to overlay
+  // page content when open, not shift it down.
+  const barRef = useRef<HTMLDivElement>(null)
+  const [barHeight, setBarHeight] = useState(0)
+
+  useLayoutEffect(() => {
+    const el = barRef.current
+    if (!el) return
+    const update = () => {
+      const height = el.getBoundingClientRect().height
+      setBarHeight(height)
+      document.documentElement.style.setProperty('--header-height', `${height}px`)
+    }
+    update()
+    const observer = new ResizeObserver(update)
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  // Hides on scroll-down, reveals on scroll-up, from anywhere on the
+  // page — only once scrolled past the bar's own height, so it never
+  // half-disappears while still near the top. Forced visible whenever
+  // the mobile drawer is open.
+  const [hidden, setHidden] = useState(false)
+  const lastY = useRef(0)
+
+  useEffect(() => {
+    lastY.current = window.scrollY
+    let ticking = false
+    const onScroll = () => {
+      if (ticking) return
+      ticking = true
+      requestAnimationFrame(() => {
+        const y = window.scrollY
+        setHidden(y > lastY.current && y > barHeight)
+        lastY.current = y
+        ticking = false
+      })
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [barHeight])
+
   return (
-    <header className="border-b border-border">
-      <div className="mx-auto flex w-full max-w-page items-center justify-between px-medium-large py-small-medium">
-        <a href={homeHref} aria-label="Go to homepage" className="shrink-0">
-          <Image src="/senseworks-logo.svg" alt={logoText} width={240} height={31} className="h-medium-large w-auto" priority />
-        </a>
-        <nav className="hidden items-center gap-medium-large md:flex">
-          {navLinks.map((link) =>
-            link.links?.length ? (
-              <NavDropdown key={link.label} label={link.label} links={link.links} />
-            ) : (
-              <a key={link.label} href={link.href} className="text-body-sm text-muted-foreground">
-                {link.label}
-              </a>
-            ),
-          )}
-          {ctaLabel && ctaHref && (
-            <Button href={ctaHref} size="sm">
-              {ctaLabel}
-            </Button>
-          )}
-        </nav>
-        <button
-          type="button"
-          className="flex md:hidden"
-          aria-expanded={open}
-          aria-controls="mobile-nav-drawer"
-          aria-label={open ? 'Close menu' : 'Open menu'}
-          onClick={() => setOpen((v) => !v)}
+    <>
+      <header
+        className={`fixed inset-x-0 top-0 z-40 border-b border-border bg-background transition-transform duration-300 ${
+          open || !hidden ? 'translate-y-0' : '-translate-y-full'
+        }`}
+      >
+        <div
+          ref={barRef}
+          className="mx-auto flex w-full max-w-page items-center justify-between px-medium-large py-small-medium"
         >
-          {open ? <CloseOutlined /> : <MenuOutlined />}
-        </button>
-      </div>
-      {open && (
-        <nav
-          id="mobile-nav-drawer"
-          className="flex flex-col border-t border-border px-medium-large py-small-medium md:hidden"
-        >
-          {navLinks.map((link) =>
-            link.links?.length ? (
-              <div key={link.label} className="border-b border-border py-small">
-                <span className="text-body font-semibold text-foreground">{link.label}</span>
-                <div className="mt-small flex flex-col gap-small pl-medium">
-                  {link.links.map((sub) =>
-                    sub.href ? (
-                      <a key={sub.label} href={sub.href} className="text-body-sm text-muted-foreground">
-                        {sub.label}
-                      </a>
-                    ) : (
-                      <span key={sub.label} className="text-body-sm text-muted-foreground/60">
-                        {sub.label}
-                      </span>
-                    ),
-                  )}
+          <a href={homeHref} aria-label="Go to homepage" className="shrink-0">
+            <Image src="/senseworks-logo.svg" alt={logoText} width={240} height={31} className="h-medium-large w-auto" priority />
+          </a>
+          <nav className="hidden items-center gap-medium-large md:flex">
+            {navLinks.map((link) =>
+              link.links?.length ? (
+                <NavDropdown key={link.label} label={link.label} links={link.links} />
+              ) : (
+                <a key={link.label} href={link.href} className="text-body-sm text-muted-foreground">
+                  {link.label}
+                </a>
+              ),
+            )}
+            {ctaLabel && ctaHref && (
+              <Button href={ctaHref} size="sm">
+                {ctaLabel}
+              </Button>
+            )}
+          </nav>
+          <button
+            type="button"
+            className="flex md:hidden"
+            aria-expanded={open}
+            aria-controls="mobile-nav-drawer"
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            onClick={() => setOpen((v) => !v)}
+          >
+            {open ? <CloseOutlined /> : <MenuOutlined />}
+          </button>
+        </div>
+        {open && (
+          <nav
+            id="mobile-nav-drawer"
+            className="flex flex-col border-t border-border px-medium-large py-small-medium md:hidden"
+          >
+            {navLinks.map((link) =>
+              link.links?.length ? (
+                <div key={link.label} className="border-b border-border py-small">
+                  <span className="text-body font-semibold text-foreground">{link.label}</span>
+                  <div className="mt-small flex flex-col gap-small pl-medium">
+                    {link.links.map((sub) =>
+                      sub.href ? (
+                        <a key={sub.label} href={sub.href} className="text-body-sm text-muted-foreground">
+                          {sub.label}
+                        </a>
+                      ) : (
+                        <span key={sub.label} className="text-body-sm text-muted-foreground/60">
+                          {sub.label}
+                        </span>
+                      ),
+                    )}
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <a key={link.label} href={link.href} className="border-b border-border py-small text-body">
-                {link.label}
-              </a>
-            ),
-          )}
-          {ctaLabel && ctaHref && (
-            <Button href={ctaHref} size="md">
-              {ctaLabel}
-            </Button>
-          )}
-        </nav>
-      )}
-    </header>
+              ) : (
+                <a key={link.label} href={link.href} className="border-b border-border py-small text-body">
+                  {link.label}
+                </a>
+              ),
+            )}
+            {ctaLabel && ctaHref && (
+              <Button href={ctaHref} size="md">
+                {ctaLabel}
+              </Button>
+            )}
+          </nav>
+        )}
+      </header>
+      <div style={{ height: barHeight }} aria-hidden="true" />
+    </>
   )
 }
