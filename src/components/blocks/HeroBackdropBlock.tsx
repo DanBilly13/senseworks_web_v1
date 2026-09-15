@@ -40,7 +40,7 @@ export function HeroBackdropBlock({
 }: HeroBackdropBlockProps) {
   return (
     // Experimental fixed viewport-height composition, not settled
-    // tokens yet — 150vh total, split into a 50vh text zone (bottom-
+    // tokens yet — 175vh total, split into a 75vh text zone (bottom-
     // aligned) directly above a 100vh showcase-media zone. Inline
     // styles rather than named tokens while these numbers are still
     // being dialed in.
@@ -54,11 +54,11 @@ export function HeroBackdropBlock({
         .join(' ')}
       // Same page-top pull-up as the full-bleed image Hero — see
       // HeroBlock's HeroImageOverlay for the full rationale. Total
-      // height is the 50vh + 100vh zones below plus the gap between
+      // height is the 75vh + 100vh zones below plus the gap between
       // them (--spacing-2xl, the site's standard intro-to-content
       // gap), so neither zone has to give up its own height for it.
       style={{
-        height: 'calc(150vh + var(--spacing-2xl))',
+        height: 'calc(175vh + var(--spacing-2xl))',
         marginTop: 'calc(var(--header-height, 0px) * -1)',
       }}
     >
@@ -71,7 +71,7 @@ export function HeroBackdropBlock({
         <div className="absolute inset-0 bg-foreground/55" aria-hidden="true" />
       )}
       <div className="relative mx-auto flex size-full max-w-page flex-col gap-2xl px-medium-large">
-        <div className="flex flex-col justify-end" style={{ height: '50vh' }}>
+        <div className="flex flex-col justify-end" style={{ height: '75vh' }}>
           <SectionIntro
             as="h1"
             eyebrow={eyebrow}
