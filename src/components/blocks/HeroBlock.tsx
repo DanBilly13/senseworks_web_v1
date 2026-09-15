@@ -79,7 +79,12 @@ function HeroImageOverlay({
   media,
 }: HeroVariantProps) {
   return (
-    <section className="relative min-h-screen">
+    <section className="relative mb-section-edge min-h-screen">
+      {/* mb- (not pb-) on purpose: the background image is an absolutely
+          positioned child sized to this section's box (inset-0), so
+          padding here would just stretch the image further rather than
+          create a visible gap. A margin sits outside that box, matching
+          the gap other sections get from SectionShell's pad="both". */}
       {/* Full-bleed background (D15 lets section backgrounds go edge to
           edge). This wrapper owns the absolute positioning — Media's
           own root is `relative`, so passing "absolute inset-0" into

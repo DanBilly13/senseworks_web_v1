@@ -29,7 +29,7 @@ export const heroBlock = defineType({
       name: 'subhead',
       type: 'text',
       rows: 2,
-      validation: (Rule) => Rule.max(200),
+      validation: (Rule) => Rule.max(350),
     }),
     defineField({ name: 'ctaLabel', type: 'string' }),
     defineField({ name: 'ctaHref', type: 'string' }),
