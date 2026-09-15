@@ -53,8 +53,14 @@ export function HeroBackdropBlock({
         .filter(Boolean)
         .join(' ')}
       // Same page-top pull-up as the full-bleed image Hero — see
-      // HeroBlock's HeroImageOverlay for the full rationale.
-      style={{ height: '150vh', marginTop: 'calc(var(--header-height, 0px) * -1)' }}
+      // HeroBlock's HeroImageOverlay for the full rationale. Total
+      // height is the 50vh + 100vh zones below plus the gap between
+      // them (--spacing-2xl, the site's standard intro-to-content
+      // gap), so neither zone has to give up its own height for it.
+      style={{
+        height: 'calc(150vh + var(--spacing-2xl))',
+        marginTop: 'calc(var(--header-height, 0px) * -1)',
+      }}
     >
       {backgroundType === 'image' && (
         <div className="absolute inset-0">
@@ -64,7 +70,7 @@ export function HeroBackdropBlock({
       {backgroundType === 'image' && (
         <div className="absolute inset-0 bg-foreground/55" aria-hidden="true" />
       )}
-      <div className="relative mx-auto flex size-full max-w-page flex-col px-medium-large">
+      <div className="relative mx-auto flex size-full max-w-page flex-col gap-2xl px-medium-large">
         <div className="flex flex-col justify-end" style={{ height: '50vh' }}>
           <SectionIntro
             as="h1"
@@ -72,6 +78,7 @@ export function HeroBackdropBlock({
             heading={headline}
             body={subhead}
             maxWidth="md"
+            headingMaxWidth="subtitle"
             tone={textTone === 'light' ? 'inverse' : 'default'}
             cta={
               ctaLabel &&
