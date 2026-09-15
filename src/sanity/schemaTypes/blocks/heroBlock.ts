@@ -12,6 +12,7 @@ export const heroBlock = defineType({
       options: {
         list: [
           { title: 'Side-by-side (headline left, subtext right)', value: 'split' },
+          { title: '50/50 split (text left, image right)', value: 'splitEven' },
           { title: 'Full-bleed image, text overlay bottom-left', value: 'imageOverlay' },
         ],
         layout: 'radio',
@@ -39,7 +40,12 @@ export const heroBlock = defineType({
     select: { title: 'headline', layout: 'layout' },
     prepare: ({ title, layout }) => ({
       title: `Hero — ${title || 'Untitled'}`,
-      subtitle: layout === 'imageOverlay' ? 'Full-bleed image overlay' : 'Side-by-side',
+      subtitle:
+        layout === 'imageOverlay'
+          ? 'Full-bleed image overlay'
+          : layout === 'splitEven'
+            ? '50/50 split'
+            : 'Side-by-side',
     }),
   },
 })

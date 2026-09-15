@@ -5,7 +5,7 @@ import { Media } from '@/components/ui/Media'
 import type { MediaField } from '@/lib/sanity/media'
 
 type HeroBlockProps = {
-  layout?: 'split' | 'imageOverlay'
+  layout?: 'split' | 'splitEven' | 'imageOverlay'
   eyebrow?: string
   headline: string
   subhead?: string
@@ -15,11 +15,9 @@ type HeroBlockProps = {
 }
 
 export function HeroBlock({ layout = 'split', ...props }: HeroBlockProps) {
-  return layout === 'imageOverlay' ? (
-    <HeroImageOverlay {...props} />
-  ) : (
-    <HeroSplit {...props} />
-  )
+  if (layout === 'imageOverlay') return <HeroImageOverlay {...props} />
+  if (layout === 'splitEven') return <HeroSplitEven {...props} />
+  return <HeroSplit {...props} />
 }
 
 type HeroVariantProps = Omit<HeroBlockProps, 'layout'>
@@ -66,6 +64,32 @@ function HeroSplit({ eyebrow, headline, subhead, ctaLabel, ctaHref, media }: Her
           correctly with the column's actual rendered width. Media
           itself falls back to a grey box when no asset is set. */}
       <Media media={media} alt={headline} className="aspect-media w-full rounded-lg" />
+    </SectionShell>
+  )
+}
+
+function HeroSplitEven({ eyebrow, headline, subhead, ctaLabel, ctaHref, media }: HeroVariantProps) {
+  return (
+    <SectionShell py="section-edge" pad="both">
+      <div className="grid grid-cols-1 gap-2xl md:grid-cols-2 md:items-center">
+        <SectionIntro
+          as="h1"
+          eyebrow={eyebrow}
+          heading={headline}
+          body={subhead}
+          maxWidth="md"
+          cta={
+            ctaLabel &&
+            ctaHref && (
+              <Button href={ctaHref}>{ctaLabel}</Button>
+            )
+          }
+        />
+        {/* D15: contained within the page-width cap, not full-bleed.
+            aspect-media (7:5) instead of a fixed height so it scales
+            correctly with the column's actual rendered width. */}
+        <Media media={media} alt={headline} className="aspect-media w-full rounded-lg" />
+      </div>
     </SectionShell>
   )
 }

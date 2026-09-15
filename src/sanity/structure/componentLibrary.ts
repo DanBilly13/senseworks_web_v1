@@ -19,7 +19,7 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
     type: 'heroBlock',
     title: 'Hero',
     description:
-      'Page-top banner — headline, subtext, CTA, and media, in a side-by-side or full-bleed layout.',
+      'Page-top banner — headline, subtext, CTA, and media, in a side-by-side, 50/50, or full-bleed layout.',
   },
   {
     type: 'heroTextBlock',

@@ -107,6 +107,15 @@ export default async function BlocksPage({
         ctaLabel="Lorem ipsum"
         ctaHref="#"
       />
+      <BlockCaption name="Hero — 50/50 Split" type="heroBlock" variant='layout: "splitEven"' />
+      <HeroBlock
+        layout="splitEven"
+        eyebrow={EYEBROW}
+        headline={HEADING}
+        subhead={BODY}
+        ctaLabel="Lorem ipsum"
+        ctaHref="#"
+      />
       <BlockCaption name="Hero — Image Overlay" type="heroBlock" variant='layout: "imageOverlay"' />
       <HeroBlock
         layout="imageOverlay"
