@@ -39,9 +39,14 @@ export function HeroBackdropBlock({
   showcaseMedia,
 }: HeroBackdropBlockProps) {
   return (
+    // Experimental fixed viewport-height composition, not settled
+    // tokens yet — 150vh total, split into a 50vh text zone (bottom-
+    // aligned) directly above a 100vh showcase-media zone. Inline
+    // styles rather than named tokens while these numbers are still
+    // being dialed in.
     <section
       className={[
-        'relative mb-section-edge min-h-screen',
+        'relative mb-section-edge',
         backgroundType === 'color' ? BACKGROUND_COLOR_CLASS[backgroundColor] : '',
         backgroundType === 'gradient' ? 'bg-accent-gradient' : '',
       ]
@@ -49,7 +54,7 @@ export function HeroBackdropBlock({
         .join(' ')}
       // Same page-top pull-up as the full-bleed image Hero — see
       // HeroBlock's HeroImageOverlay for the full rationale.
-      style={{ marginTop: 'calc(var(--header-height, 0px) * -1)' }}
+      style={{ height: '150vh', marginTop: 'calc(var(--header-height, 0px) * -1)' }}
     >
       {backgroundType === 'image' && (
         <div className="absolute inset-0">
@@ -59,27 +64,26 @@ export function HeroBackdropBlock({
       {backgroundType === 'image' && (
         <div className="absolute inset-0 bg-foreground/55" aria-hidden="true" />
       )}
-      <div className="relative mx-auto flex w-full max-w-page flex-col gap-2xl px-medium-large py-section-edge">
-        <SectionIntro
-          as="h1"
-          eyebrow={eyebrow}
-          heading={headline}
-          body={subhead}
-          maxWidth="md"
-          tone={textTone === 'light' ? 'inverse' : 'default'}
-          cta={
-            ctaLabel &&
-            ctaHref && (
-              <Button href={ctaHref} variant={textTone === 'light' ? 'filled-light' : 'filled-dark'}>
-                {ctaLabel}
-              </Button>
-            )
-          }
-        />
-        {/* Experimental starting point, not a settled token yet — 50%
-            of the viewport height for the showcase media. Easy to
-            dial in once we've seen a few real images in it live. */}
-        <div className="w-full overflow-hidden rounded-lg" style={{ height: '50vh' }}>
+      <div className="relative mx-auto flex size-full max-w-page flex-col px-medium-large">
+        <div className="flex flex-col justify-end" style={{ height: '50vh' }}>
+          <SectionIntro
+            as="h1"
+            eyebrow={eyebrow}
+            heading={headline}
+            body={subhead}
+            maxWidth="md"
+            tone={textTone === 'light' ? 'inverse' : 'default'}
+            cta={
+              ctaLabel &&
+              ctaHref && (
+                <Button href={ctaHref} variant={textTone === 'light' ? 'filled-light' : 'filled-dark'}>
+                  {ctaLabel}
+                </Button>
+              )
+            }
+          />
+        </div>
+        <div className="w-full overflow-hidden rounded-lg" style={{ height: '100vh' }}>
           <Media media={showcaseMedia} alt={headline} className="size-full" />
         </div>
       </div>
