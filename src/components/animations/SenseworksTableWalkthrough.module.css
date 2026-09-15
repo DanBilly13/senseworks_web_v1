@@ -52,7 +52,12 @@
   width: 1472px;
   height: 1100px;
   transform-origin: 0 0;
-  will-change: transform;
+  /* No will-change here on purpose: this layer's scale swings up to 4x
+     (the opening close-up) on top of ScaledCanvas's own fit-scale.
+     will-change made the compositor commit to a raster resolution once
+     and never revisit it as the effective scale grew, rendering text
+     soft at the zoomed-in start — removing it lets the browser
+     re-rasterize at the actual current scale instead. */
 }
 
 .card {

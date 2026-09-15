@@ -11,6 +11,7 @@ type CardGridBlockProps = {
   columns?: '1' | '2' | '3' | '4'
   items?: CardGridItem[]
   tone?: CardTone
+  headingLevel?: 'h3' | 'h4'
 }
 
 const GRID_COLS_CLASS: Record<'1' | '2' | '3' | '4', string> = {
@@ -32,7 +33,7 @@ const CARD_CLASS: Record<CardTone, string> = {
 
 // No eyebrow/heading/body of its own — pair it with a separate intro
 // block (e.g. Section Headline) above it when one's needed.
-export function CardGridBlock({ columns = '3', items = [], tone = 'default' }: CardGridBlockProps) {
+export function CardGridBlock({ columns = '3', items = [], tone = 'default', headingLevel = 'h4' }: CardGridBlockProps) {
   // D7: a block with no content simply doesn't render.
   if (!items.length) return null
 
@@ -46,7 +47,7 @@ export function CardGridBlock({ columns = '3', items = [], tone = 'default' }: C
         {items.map((item, index) => (
           <div key={index} className={`flex flex-col ${CARD_CLASS[tone]}`}>
             <SectionIntro
-              as="h4"
+              as={headingLevel}
               eyebrow={item.eyebrow}
               heading={item.heading}
               body={item.body}

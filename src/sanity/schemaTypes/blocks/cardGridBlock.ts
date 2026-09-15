@@ -38,6 +38,19 @@ export const cardGridBlock = defineType({
       initialValue: 'default',
     }),
     defineField({
+      name: 'headingLevel',
+      title: 'Heading level',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'H3', value: 'h3' },
+          { title: 'H4 (default)', value: 'h4' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'h4',
+    }),
+    defineField({
       name: 'items',
       title: 'Cards',
       type: 'array',

@@ -210,6 +210,16 @@ export default async function BlocksPage({
           { eyebrow: '03 — Dolor', heading: 'Adipiscing elit sed', body: BODY },
         ]}
       />
+      <BlockCaption name="Card Grid — H3 Heading" type="cardGridBlock" variant='headingLevel: "h3"' />
+      <CardGridBlock
+        columns="3"
+        headingLevel="h3"
+        items={[
+          { eyebrow: '01 — Lorem', heading: 'Lorem ipsum dolor', body: BODY },
+          { eyebrow: '02 — Ipsum', heading: 'Sit amet consectetur', body: BODY },
+          { eyebrow: '03 — Dolor', heading: 'Adipiscing elit sed', body: BODY },
+        ]}
+      />
 
       <GroupHeading>Social Proof</GroupHeading>
       <BlockCaption name="Logo Cloud" type="logoCloudBlock" />
