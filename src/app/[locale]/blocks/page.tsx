@@ -4,6 +4,7 @@ import type { PageBlock } from '@/lib/sanity/getPage'
 import { getClientLogos } from '@/lib/sanity/clients'
 import { BlockRenderer } from '@/components/blocks/BlockRenderer'
 import { HeroBlock } from '@/components/blocks/HeroBlock'
+import { HeroBackdropBlock } from '@/components/blocks/HeroBackdropBlock'
 import { HeroTextBlock } from '@/components/blocks/HeroTextBlock'
 import { SectionHeadlineBlock } from '@/components/blocks/SectionHeadlineBlock'
 import { FeatureSplitBlock } from '@/components/blocks/FeatureSplitBlock'
@@ -119,6 +120,35 @@ export default async function BlocksPage({
       <BlockCaption name="Hero — Image Overlay" type="heroBlock" variant='layout: "imageOverlay"' />
       <HeroBlock
         layout="imageOverlay"
+        eyebrow={EYEBROW}
+        headline={HEADING}
+        subhead={BODY}
+        ctaLabel="Lorem ipsum"
+        ctaHref="#"
+      />
+      <BlockCaption
+        name="Hero — Backdrop (experimental, gradient bg)"
+        type="heroBackdropBlock"
+        variant='backgroundType: "gradient"'
+      />
+      <HeroBackdropBlock
+        backgroundType="gradient"
+        textTone="dark"
+        eyebrow={EYEBROW}
+        headline={HEADING}
+        subhead={BODY}
+        ctaLabel="Lorem ipsum"
+        ctaHref="#"
+      />
+      <BlockCaption
+        name="Hero — Backdrop (experimental, color bg)"
+        type="heroBackdropBlock"
+        variant='backgroundType: "color"'
+      />
+      <HeroBackdropBlock
+        backgroundType="color"
+        backgroundColor="foreground"
+        textTone="light"
         eyebrow={EYEBROW}
         headline={HEADING}
         subhead={BODY}

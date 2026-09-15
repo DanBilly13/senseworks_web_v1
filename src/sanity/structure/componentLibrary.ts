@@ -22,6 +22,12 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
       'Page-top banner — headline, subtext, CTA, and media, in a side-by-side, 50/50, or full-bleed layout.',
   },
   {
+    type: 'heroBackdropBlock',
+    title: 'Hero — Backdrop (experimental)',
+    description:
+      'Flexible full-bleed backdrop (image, color, or gradient) behind text and a separate showcase image/video.',
+  },
+  {
     type: 'heroTextBlock',
     title: 'Hero — Text Only',
     description: 'Left-aligned text-only hero — eyebrow, headline, subhead, and CTA, no media.',

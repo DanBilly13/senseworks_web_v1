@@ -8,6 +8,7 @@ import { testimonial } from './documents/testimonial'
 import { client } from './documents/client'
 import { headerBlock } from './blocks/headerBlock'
 import { heroBlock } from './blocks/heroBlock'
+import { heroBackdropBlock } from './blocks/heroBackdropBlock'
 import { heroTextBlock } from './blocks/heroTextBlock'
 import { sectionHeadlineBlock } from './blocks/sectionHeadlineBlock'
 import { faqAccordionBlock } from './blocks/faqAccordionBlock'
@@ -40,6 +41,7 @@ export const schemaTypes = [
   client,
   headerBlock,
   heroBlock,
+  heroBackdropBlock,
   heroTextBlock,
   sectionHeadlineBlock,
   faqAccordionBlock,

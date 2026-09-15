@@ -1,5 +1,6 @@
 import { HeaderBlock } from './HeaderBlock'
 import { HeroBlock } from './HeroBlock'
+import { HeroBackdropBlock } from './HeroBackdropBlock'
 import { HeroTextBlock } from './HeroTextBlock'
 import { SectionHeadlineBlock } from './SectionHeadlineBlock'
 import { FeatureSplitBlock } from './FeatureSplitBlock'
@@ -25,6 +26,7 @@ import type { PageBlock } from '@/lib/sanity/getPage'
 const BLOCK_COMPONENTS = {
   headerBlock: HeaderBlock,
   heroBlock: HeroBlock,
+  heroBackdropBlock: HeroBackdropBlock,
   heroTextBlock: HeroTextBlock,
   sectionHeadlineBlock: SectionHeadlineBlock,
   featureSplitBlock: FeatureSplitBlock,
