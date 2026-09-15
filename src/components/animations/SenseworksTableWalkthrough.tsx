@@ -450,23 +450,40 @@ type SenseworksTableWalkthroughProps = {
   /** overrides the built-in stock photos, keyed by person: { ML: '/img/mia.jpg', … } */
   avatars?: Partial<Record<PersonKey, string>>
   className?: string
+  paused?: boolean
 }
 
-export function SenseworksTableWalkthrough({ avatars = DEFAULT_AVATARS, className }: SenseworksTableWalkthroughProps) {
+export function SenseworksTableWalkthrough({
+  avatars = DEFAULT_AVATARS,
+  className,
+  paused = false,
+}: SenseworksTableWalkthroughProps) {
   const reduced = usePrefersReducedMotion()
   const [T, setT] = useState(0)
   const rafRef = useRef(0)
+  // A ref, not a dependency of the effect below — toggling it shouldn't
+  // tear down and restart the clock, just stop it from accumulating
+  // further elapsed time until it's false again.
+  const pausedRef = useRef(paused)
+  useEffect(() => {
+    pausedRef.current = paused
+  }, [paused])
 
-  /* one timeline owner: a single rAF clock; every value below derives from T */
+  /* one timeline owner: a single rAF clock; every value below derives from T.
+     An accumulator (not raw elapsed-since-start) so pausing freezes T in
+     place instead of the clock silently continuing to run underneath. */
   useEffect(() => {
     if (reduced) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setT(POSTER_T)
       return
     }
-    const start = performance.now()
+    let last: number | null = null
+    let acc = 0
     const tick = (now: number) => {
-      setT(((now - start) / 1000) % TOTAL)
+      if (last !== null && !pausedRef.current) acc = (acc + (now - last) / 1000) % TOTAL
+      last = now
+      setT(acc)
       rafRef.current = requestAnimationFrame(tick)
     }
     rafRef.current = requestAnimationFrame(tick)

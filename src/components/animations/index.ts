@@ -6,7 +6,10 @@ import { SettingsFormAnimation } from './SettingsFormAnimation'
 import { SenseworksTableWalkthrough } from './SenseworksTableWalkthrough'
 
 type AnimationEntry = {
-  component: ComponentType
+  // Every animation accepts `paused` — Media freezes it (not unmounts
+  // it) once its frame scrolls out of view, so it resumes from where
+  // it stopped instead of restarting from the beginning.
+  component: ComponentType<{ paused?: boolean }>
   // Present only for animations built on the fixed-canvas pattern (see
   // the animation-export prompt) — Media wraps these in ScaledCanvas
   // so they scale uniformly, preserving any deliberate crop, instead

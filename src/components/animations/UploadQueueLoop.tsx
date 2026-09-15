@@ -195,10 +195,15 @@ function QueueCard({ i, t }: { i: number; t: number }) {
 
 /* ---- the piece ---------------------------------------------------------- */
 
-export function UploadQueueLoop({ className = '' }: { className?: string }) {
+export function UploadQueueLoop({ className = '', paused = false }: { className?: string; paused?: boolean }) {
   const [t, setT] = useState(0)
-  const host = useRef<HTMLDivElement>(null)
-  const seen = useRef(true)
+  // A ref, not a dependency, so toggling it doesn't tear down and
+  // restart the effect below (which would reset acc/last to zero) —
+  // the running tick just reads its latest value each frame instead.
+  const pausedRef = useRef(paused)
+  useEffect(() => {
+    pausedRef.current = paused
+  }, [paused])
 
   useEffect(() => {
     // Deliberately an effect, not lazy useState init: this renders
@@ -212,23 +217,17 @@ export function UploadQueueLoop({ className = '' }: { className?: string }) {
       setT(16.5) // the settled 4/4 frame
       return
     }
-    const io = new IntersectionObserver(([e]) => (seen.current = e.isIntersecting), { threshold: 0.2 })
-    if (host.current) io.observe(host.current)
-
     let raf: number
     let last: number | null = null
     let acc = 0
     const tick = (now: number) => {
-      if (last !== null && seen.current) acc = (acc + (now - last) / 1000) % DURATION
+      if (last !== null && !pausedRef.current) acc = (acc + (now - last) / 1000) % DURATION
       last = now
       setT(acc)
       raf = requestAnimationFrame(tick)
     }
     raf = requestAnimationFrame(tick)
-    return () => {
-      cancelAnimationFrame(raf)
-      io.disconnect()
-    }
+    return () => cancelAnimationFrame(raf)
   }, [])
 
   /* the drop lands on the dropzone first — a fill and a bolder ring */
@@ -260,7 +259,7 @@ export function UploadQueueLoop({ className = '' }: { className?: string }) {
             .join(' · ')
 
   return (
-    <div className={`${styles.uq} ${className}`} ref={host}>
+    <div className={`${styles.uq} ${className}`}>
       <div className={styles.uqPanel}>
         <div className={styles.uqStatus}>{statusLine}</div>
         <div className={styles.uqDropwrap}>

@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState, type CSSProperties } from 'react'
+import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import s from './BevisSidebarAnimation.module.css'
 
 /* Senseworks — Bevis sidebar animation.
@@ -272,24 +272,49 @@ function Stack(props: { id: string; cards: CardDef[]; hot: string | null; stagge
 
 /* ─── component ─────────────────────────────────────────────────────────── */
 
-export function BevisSidebarAnimation() {
+export function BevisSidebarAnimation({ paused = false }: { paused?: boolean }) {
   const reduced = usePrefersReducedMotion()
   const [st, setSt] = useState<State>(INITIAL)
+  // A ref, not a dependency of the effect below — toggling it shouldn't
+  // tear down and restart the sequence, just stop it from advancing to
+  // its next step until it's false again.
+  const pausedRef = useRef(paused)
+  useEffect(() => {
+    pausedRef.current = paused
+  }, [paused])
+  const tickRef = useRef<() => void>(() => {})
 
   useEffect(() => {
+    let alive = true
     let i = 0
-    let timer = 0
+    let timerId = 0
+    // Guarded so it's safe to call redundantly: does nothing if a step
+    // is already pending (timerId) or paused, so the separate "resume"
+    // effect below can just call it again without risking two steps
+    // firing in parallel.
     const tick = () => {
+      if (!alive || timerId || pausedRef.current) return
       const [delay, patch] = SEQ[i]
-      timer = window.setTimeout(() => {
+      timerId = window.setTimeout(() => {
+        timerId = 0
+        if (!alive) return
         setSt((prev) => ({ ...prev, ...(typeof patch === 'function' ? patch(prev) : patch) }))
         i = (i + 1) % SEQ.length
         tick()
       }, delay)
     }
+    tickRef.current = tick
     tick()
-    return () => window.clearTimeout(timer)
+    return () => {
+      alive = false
+      window.clearTimeout(timerId)
+    }
   }, [])
+
+  // Resumes right where it stopped once unpaused.
+  useEffect(() => {
+    if (!paused) tickRef.current()
+  }, [paused])
 
   // JS-driven transitions are gated on the hook; CSS-only ones live behind
   // @media (prefers-reduced-motion: no-preference) in the stylesheet.

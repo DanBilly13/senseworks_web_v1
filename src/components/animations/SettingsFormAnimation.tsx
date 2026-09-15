@@ -222,40 +222,63 @@ function buildTimeline(): Step[] {
   return steps
 }
 
-export function SettingsFormAnimation() {
+export function SettingsFormAnimation({ paused = false }: { paused?: boolean }) {
   const reduced = usePrefersReducedMotion()
   const [m, setM] = useState<Model>(EMPTY)
-  const timers = useRef<number[]>([])
   const steps = useMemo(() => buildTimeline(), [])
-
-  /* one effect owns the whole sequence */
+  // A ref, not a dependency of the effect below — toggling it shouldn't
+  // tear down and restart the sequence, just stop it from advancing to
+  // its next step until it's false again.
+  const pausedRef = useRef(paused)
   useEffect(() => {
-    let cancelled = false
-    const run = () => {
-      let t = 0
-      steps.forEach(([delay, fn]) => {
-        t += reduced ? Math.min(delay, 60) : delay
-        timers.current.push(
-          window.setTimeout(() => {
-            if (!cancelled) setM((prev) => fn(prev))
-          }, t),
-        )
-      })
-      timers.current.push(
-        window.setTimeout(() => {
-          if (cancelled) return
+    pausedRef.current = paused
+  }, [paused])
+  const tickRef = useRef<() => void>(() => {})
+
+  /* one effect owns the whole sequence — steps fire one at a time (each
+     waiting its own delay from when the previous one fired, equivalent
+     to the original's cumulative-absolute-delay batch but restructured
+     so a single pending timer can be paused/resumed in place) */
+  useEffect(() => {
+    let alive = true
+    let idx = 0
+    let timerId = 0
+    const tick = () => {
+      if (!alive || timerId || pausedRef.current) return
+      if (idx >= steps.length) {
+        timerId = window.setTimeout(() => {
+          timerId = 0
+          if (!alive) return
           setM({ ...EMPTY })
-          run()
-        }, t + 120),
+          idx = 0
+          tick()
+        }, 120)
+        return
+      }
+      const [delay, fn] = steps[idx]
+      timerId = window.setTimeout(
+        () => {
+          timerId = 0
+          if (!alive) return
+          setM((prev) => fn(prev))
+          idx += 1
+          tick()
+        },
+        reduced ? Math.min(delay, 60) : delay,
       )
     }
-    run()
+    tickRef.current = tick
+    tick()
     return () => {
-      cancelled = true
-      timers.current.forEach(clearTimeout)
-      timers.current = []
+      alive = false
+      window.clearTimeout(timerId)
     }
   }, [steps, reduced])
+
+  // Resumes right where it stopped once unpaused.
+  useEffect(() => {
+    if (!paused) tickRef.current()
+  }, [paused])
 
   const noMotion = reduced ? ({ transition: 'none' } as const) : undefined
 

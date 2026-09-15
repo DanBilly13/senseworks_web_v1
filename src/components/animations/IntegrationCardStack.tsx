@@ -203,6 +203,7 @@ type IntegrationCardStackProps = {
   stackShrink?: number
   loop?: boolean
   className?: string
+  paused?: boolean
 }
 
 export function IntegrationCardStack({
@@ -219,6 +220,7 @@ export function IntegrationCardStack({
   stackShrink = 0.045,
   loop = true,
   className,
+  paused = false,
 }: IntegrationCardStackProps) {
   const n = cards.length
   const last = n - 1
@@ -232,6 +234,14 @@ export function IntegrationCardStack({
   const [warp, setWarp] = useState(false) // un-transitioned reset at loop
   const [runId, setRunId] = useState(0)
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  // A ref, not a dependency of the timeline effect below — toggling it
+  // shouldn't tear down and reset the whole state machine, just stop
+  // the queue from advancing to its next step until it's false again.
+  const pausedRef = useRef(paused)
+  useEffect(() => {
+    pausedRef.current = paused
+  }, [paused])
+  const pumpRef = useRef<() => void>(() => {})
 
   const replay = useCallback(() => setRunId((r) => r + 1), [])
 
@@ -240,15 +250,21 @@ export function IntegrationCardStack({
     let alive = true
     const queue: Array<[number, () => void]> = []
     const at = (wait: number, fn: () => void) => queue.push([wait, fn])
+    // Guarded so it's safe to call redundantly: does nothing if a step
+    // is already pending (timer.current) or the queue is paused, so the
+    // separate "resume" effect below can just call it again once
+    // unpaused without risking two steps firing in parallel.
     const pump = () => {
-      if (!alive || !queue.length) return
+      if (!alive || !queue.length || timer.current || pausedRef.current) return
       const [wait, fn] = queue.shift()!
       timer.current = setTimeout(() => {
+        timer.current = null
         if (!alive) return
         fn()
         pump()
       }, wait)
     }
+    pumpRef.current = pump
 
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setPhase('build')
@@ -296,6 +312,13 @@ export function IntegrationCardStack({
       if (timer.current) clearTimeout(timer.current)
     }
   }, [runId, n, last, cards, landDuration, beat, checkStep, exitPause, dropLand, exitStagger, loop, replay])
+
+  // Resumes the queue right where it stopped once unpaused — pump()
+  // itself is a no-op if a step is already scheduled, so this can't
+  // double up with the timeline effect's own kickoff above.
+  useEffect(() => {
+    if (!paused) pumpRef.current()
+  }, [paused])
 
   const TR_LAND = `transform ${landDuration}ms var(--isc-ease-snap), opacity var(--isc-dur-fade) linear`
   const TR_PROMOTE = 'transform var(--isc-dur-promote) var(--isc-ease-snap)'

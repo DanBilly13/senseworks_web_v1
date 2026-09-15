@@ -8,15 +8,11 @@ import type { ReactNode } from 'react'
 import { ANIMATION_COMPONENTS, type AnimationName } from '@/components/animations'
 import { ScaledCanvas } from '@/components/animations/ScaledCanvas'
 
-// Mounts a reactAnimation only while its frame is at least `threshold`
-// visible, and unmounts it once it drops back below that — unmounting
-// is what actually stops every rAF loop/CSS animation/timer inside it
-// for free (React's cleanup runs on unmount), rather than teaching each
-// animation component about a "paused" prop individually. Restarting
-// from the beginning on re-entry is the right behavior here: every
-// animation we have is an ambient, seamless loop, so a viewer should
-// always see it from the start, never a random mid-point.
-function useInView<T extends HTMLElement>(threshold = 0.15) {
+// Tracks whether a frame is at least `threshold` visible — used to pause
+// (not unmount) a reactAnimation once it drops back below that, so it
+// stops right where it was and picks back up from there, rather than
+// restarting from the beginning.
+function useInView<T extends HTMLElement>(threshold = 0.5) {
   const ref = useRef<T>(null)
   const [inView, setInView] = useState(false)
 
@@ -152,21 +148,20 @@ export function Media({
           composition — including any deliberate crop — to fit that
           box; anything else (e.g. UploadQueueLoop's own flexible
           panel) renders at its own intrinsic, already-responsive
-          size. The wrapper itself always renders (it's what useInView
-          observes) — only its contents mount/unmount with visibility,
-          so the animation's own rAF loop/timers actually stop instead
-          of just running unseen off-screen. */}
+          size. Stays mounted regardless of visibility — `paused`
+          freezes its own timeline in place (see each animation's own
+          rAF effect) so it resumes from where it stopped instead of
+          restarting, rather than unmounting and losing that state. */}
       {animationEntry && (
         <div ref={animRef} className={`absolute inset-0 flex ${alignClassName}`} aria-hidden="true">
           <div style={{ width: `${scale}%` }}>
-            {animInView &&
-              (animationEntry.canvas ? (
-                <ScaledCanvas canvasWidth={animationEntry.canvas.width} canvasHeight={animationEntry.canvas.height}>
-                  <animationEntry.component />
-                </ScaledCanvas>
-              ) : (
-                <animationEntry.component />
-              ))}
+            {animationEntry.canvas ? (
+              <ScaledCanvas canvasWidth={animationEntry.canvas.width} canvasHeight={animationEntry.canvas.height}>
+                <animationEntry.component paused={!animInView} />
+              </ScaledCanvas>
+            ) : (
+              <animationEntry.component paused={!animInView} />
+            )}
           </div>
         </div>
       )}
