@@ -4,32 +4,63 @@ import s from './SenseworksTableWalkthrough.module.css'
 
 /* Senseworks — Företag table walkthrough animation.
    Camera + scroll choreography over the Företag ("Mina uppdrag") table.
-   25s seamless loop, authored on a literal 700x500 px canvas.
+   22s seamless loop.
 
-   - Fixed canvas: every geometry number below is a literal px in 700x500
-     space. Never scales itself — wrapped in ScaledCanvas (see Media.tsx).
-   - The table world is 1472x1100 and is deliberately much larger than the
-     canvas. The canvas's overflow: hidden is the frame — nothing is
-     "fixed" to fit, the crop is the point.
+   RESOLUTION MODEL — read this before changing any number
+   - Authored at 2x: a literal 1400x1000 px canvas, and every geometry
+     number in this file and the CSS module is a literal px in that 2x
+     space (body text is 28px, hairlines are 2px, and so on).
+   - It then renders itself at scale(SELF_SCALE) = 0.5, so its public
+     footprint is still exactly 700x500 px — same as every other
+     animation, no ScaledCanvas registry change needed.
+   - Why: at 100% browser zoom the net scale is 1.0, i.e. the component
+     is being MINIFIED, and minification is always sharp — the GPU has
+     more source pixels than it needs. At up to 2x zoom (camera or
+     ScaledCanvas's own fit-scale) you land back at 1:1 against a raster
+     with 2x the detail, instead of magnifying a 1x raster. This is the
+     fix for the blur that showed up at the opening close-up in the
+     original 700x500-authored version.
+   - To change the authored resolution, change SELF_SCALE *and* every
+     literal together — they're one system.
+
+   Other port notes
+   - The table world is 2944x2200 (authored) and is deliberately much
+     larger than the canvas. The canvas's overflow: hidden is the frame.
+     Nothing is "fixed" to fit.
    - One timeline owner: a single effect runs one rAF clock. Everything
      else is a pure function of T (seconds). A discrete [delay, fn] step
-     queue (the pattern the other animations use) can't express the eased
-     camera tracks, so this is the legitimate exception — one clock + pure
-     tracks, no other timers in the file.
+     queue can't express the eased camera tracks, so this is the
+     legitimate exception — one clock + pure tracks, no other timers.
+   - Layer promotion is motion-aware: will-change: transform is applied
+     only while the camera (or the scroller) is actually moving, and
+     dropped on hold frames so the browser re-rasterizes text at its
+     true size exactly when the viewer has stopped to read it.
    - Avatars: pass `avatars` (key -> image url) for real photos. Without
      it the row falls back to initials discs — no dependency either way. */
 
+/* ── resolution ───────────────────────────────────────────────────────────── */
+/** authored at 2x and minified to the public 700x500 box — see header */
+const SELF_SCALE = 0.5
+
 /* ── timeline ─────────────────────────────────────────────────────────────── */
-/* authored scene list, in order; cue = the scene's start time */
+/* authored scene list, in order; cue = the scene's start time.
+   A scene's duration is (move time + hold time). Every MOVE below keeps its
+   original duration — only the HOLDS were cut roughly in half:
+     Corner      2   -> 1     opening hold before the camera launches
+     PanStatus   2.4 -> 1.8   dead lead between the pan landing and beat 1
+     StatusFlip  2.4 -> 1.7   dead tail after the status flip settles
+     RightSide   4.4 -> 3.7   dead tail after the avatar enters
+   The small sub-second holds around the zoom and the scroll are transition
+   breathing room, not pauses, and were left alone. */
 const SCENES: Array<[name: string, dur: number]> = [
-  ['Corner', 2],
+  ['Corner', 1],
   ['Track', 3.2],
   ['Left', 0.2],
   ['ZoomOut', 1.8],
   ['ScrollDown', 3.6],
-  ['PanStatus', 2.4],
-  ['StatusFlip', 2.4],
-  ['RightSide', 4.4],
+  ['PanStatus', 1.8],
+  ['StatusFlip', 1.7],
+  ['RightSide', 3.7],
   ['PullBack', 3.2],
   ['LoopBack', 1.8],
 ]
@@ -40,7 +71,7 @@ const CUE = (() => {
     out[name] = acc
     acc += dur
   }
-  out.END = acc // 25
+  out.END = acc // 22
   return out
 })()
 const TOTAL = CUE.END
@@ -67,26 +98,27 @@ function track(T: number, keys: Key[]): number {
   return keys[keys.length - 1][1]
 }
 
-/* ── geometry (literal px) ────────────────────────────────────────────────── */
-/* The world (1472x1100) and bar height (76) live only as literal values
-   in the CSS module — no JS math here reads them, so they're not
-   duplicated as unused constants in this file. */
-const STAGE_W = 700
-const PAGE_PAD = 40
-const TABLE_W = 1392
+/* ── geometry (literal px, 2x authored space) ─────────────────────────────── */
+const STAGE_W = 1400
+const PAGE_PAD = 80
+const TABLE_W = 2784
 const TABLE_RIGHT = PAGE_PAD + TABLE_W
-const ROW_H = 60
-const ROW_PITCH = ROW_H + 1 // rows after the first carry a 1px border-top
-const EDGE = 40 // canvas px the table sits in from the corner
+const ROW_H = 120
+const RULE = 2 // hairline width in authored 2x space (lands as 1px)
+const ROW_PITCH = ROW_H + RULE // rows after the first carry a border-top
+const EDGE = 80 // canvas px the table sits in from the corner
 const ZOOM_A = 4 // opening close-up
 const ZOOM_B = 1.25 // the working zoom, held through the pans
-const ZOOM_C = 620 / TABLE_W // closing frame: whole table 620px wide
+const ZOOM_C = 1240 / TABLE_W // closing frame: whole table 1240 authored px wide
 const CORNER_B = PAGE_PAD - EDGE / ZOOM_B
 const FOCUS_ROW = 8 // Granelunds Skogsförvaltning AB
 const TOP_ROW = FOCUS_ROW - 1 // TechNordic sits flush under the sticky block
 const BEAT_ROW = FOCUS_ROW + 2 // Brf Parkgläntan — the 90% -> 100% pair
 const NOTE_ROW = 7
-const SCROLL_TO = ROW_H + (TOP_ROW - 1) * ROW_PITCH
+/* snapped so the topmost row is never clipped: its top meets the header exactly.
+   + RULE because the row's own border-top must tuck UNDER the header's
+   border-bottom — without it the two hairlines stack into a double line. */
+const SCROLL_TO = ROW_H + (TOP_ROW - 1) * ROW_PITCH + RULE
 
 /* ── value beats ──────────────────────────────────────────────────────────── */
 const POP_DUR = 0.34
@@ -101,6 +133,61 @@ const AT_S2 = AT_S1 + STAGGER
 const AT_NOTE = AT_S2 + STAGGER * 1.6
 const AT_AV = AT_NOTE + STAGGER * 1.4
 
+/* ── camera (pure function of T, so we can sample the previous frame too) ─── */
+function camera(T: number) {
+  /* the scale changes exactly once, in ZoomOut, and never during a pan */
+  const scale = track(T, [
+    [0, ZOOM_A],
+    [CUE.ZoomOut + 0.05, ZOOM_A],
+    [CUE.ScrollDown - 0.2, ZOOM_B],
+    [CUE.PullBack + 0.2, ZOOM_B],
+    [CUE.PullBack + 1.3, ZOOM_C],
+    [CUE.LoopBack + 0.25, ZOOM_C],
+    [CUE.END, ZOOM_A],
+  ])
+  const camX = track(T, [
+    [0, 2534],
+    [CUE.Track + 0.15, 2534],
+    [CUE.Track + 1.9, 1580, creep], // still crossing the KPI block
+    [CUE.Left - 0.15, 60, launch], // clear of it — launch and brake
+    [CUE.ZoomOut + 0.05, 60],
+    [CUE.ScrollDown - 0.2, CORNER_B],
+    [CUE.PanStatus + 0.15, CORNER_B],
+    [CUE.PanStatus + 1.5, 926],
+    [CUE.RightSide + 0.15, 926],
+    [CUE.RightSide + 1.6, 1808],
+    [CUE.END, 1808],
+  ])
+  const camY = track(T, [
+    [0, 60],
+    [CUE.ZoomOut + 0.05, 60],
+    [CUE.ScrollDown - 0.2, CORNER_B],
+    [CUE.END, CORNER_B],
+  ])
+  /* through the zoom, pin the table's top-left corner 80 authored px in so the
+     corner does not drift while the scale changes; the closing pull-back pins
+     the top-RIGHT corner the same way */
+  const anchored = T >= CUE.ZoomOut && T <= CUE.ScrollDown
+  const pulling = T >= CUE.PullBack
+  const anchor = PAGE_PAD - EDGE / scale
+  const anchorR = TABLE_RIGHT + (EDGE - STAGE_W) / scale
+  return {
+    scale,
+    tx: -(pulling ? anchorR : anchored ? anchor : camX),
+    ty: -(pulling || anchored ? anchor : camY),
+  }
+}
+
+function scrollAt(T: number) {
+  return track(T, [
+    [0, 0],
+    [CUE.ScrollDown + 0.15, 0],
+    [CUE.PanStatus - 0.3, SCROLL_TO],
+    [CUE.PullBack + 1.5, SCROLL_TO],
+    [CUE.LoopBack - 0.2, 0],
+  ])
+}
+
 /* ── data ─────────────────────────────────────────────────────────────────── */
 type PersonKey = 'ML' | 'EB' | 'JH' | 'AS' | 'RW'
 const PEOPLE: Record<PersonKey, string> = {
@@ -109,6 +196,16 @@ const PEOPLE: Record<PersonKey, string> = {
   JH: 'Jon Holm',
   AS: 'Anna Sjö',
   RW: 'Rut Wall',
+}
+// Stock photos for this table's own fictional team — same footing as
+// PEOPLE/RAW above, baked into the file rather than passed as a prop,
+// since nothing else about this demo table is Sanity-configurable either.
+const DEFAULT_AVATARS: Record<PersonKey, string> = {
+  ML: '/animations/foretag-table/ml.png',
+  EB: '/animations/foretag-table/eb.png',
+  JH: '/animations/foretag-table/jh.png',
+  AS: '/animations/foretag-table/as.png',
+  RW: '/animations/foretag-table/rw.png',
 }
 type Status = 'NotStarted' | 'Started' | 'AlmostDone' | 'Done'
 const STATUS_LABEL: Record<Status, string> = {
@@ -168,7 +265,7 @@ const RAW: Raw[] = [
 
 const COLUMNS = ['', 'Företag', 'Status', 'Planering', 'Granskning', 'Slutsats', 'Notiser', 'Team']
 
-/* ── icons (inline paths, 24px grid) ──────────────────────────────────────── */
+/* ── icons (inline paths, 24px grid — viewBox scales, so no 2x edit needed) ── */
 const PinIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
     <path d="M9 3h6l-1 5 3 3v2H7v-2l3-3-1-5Z" strokeLinejoin="round" />
@@ -350,12 +447,12 @@ function Row({
 
 /* ── component ───────────────────────────────────────────────────────────── */
 type SenseworksTableWalkthroughProps = {
-  /** optional real photos, keyed by person: { ML: '/img/mia.jpg', … } */
+  /** overrides the built-in stock photos, keyed by person: { ML: '/img/mia.jpg', … } */
   avatars?: Partial<Record<PersonKey, string>>
   className?: string
 }
 
-export function SenseworksTableWalkthrough({ avatars, className }: SenseworksTableWalkthroughProps) {
+export function SenseworksTableWalkthrough({ avatars = DEFAULT_AVATARS, className }: SenseworksTableWalkthroughProps) {
   const reduced = usePrefersReducedMotion()
   const [T, setT] = useState(0)
   const rafRef = useRef(0)
@@ -376,52 +473,17 @@ export function SenseworksTableWalkthrough({ avatars, className }: SenseworksTab
     return () => cancelAnimationFrame(rafRef.current)
   }, [reduced])
 
-  /* camera — the scale changes exactly once, in ZoomOut, and never during a pan */
-  const scale = track(T, [
-    [0, ZOOM_A],
-    [CUE.ZoomOut + 0.05, ZOOM_A],
-    [CUE.ScrollDown - 0.2, ZOOM_B],
-    [CUE.PullBack + 0.2, ZOOM_B],
-    [CUE.PullBack + 1.3, ZOOM_C],
-    [CUE.LoopBack + 0.25, ZOOM_C],
-    [CUE.END, ZOOM_A],
-  ])
-  const camX = track(T, [
-    [0, 1267],
-    [CUE.Track + 0.15, 1267],
-    [CUE.Track + 1.9, 790, creep], // still crossing the KPI block
-    [CUE.Left - 0.15, 30, launch], // clear of it — launch and brake
-    [CUE.ZoomOut + 0.05, 30],
-    [CUE.ScrollDown - 0.2, CORNER_B],
-    [CUE.PanStatus + 0.15, CORNER_B],
-    [CUE.PanStatus + 1.5, 463],
-    [CUE.RightSide + 0.15, 463],
-    [CUE.RightSide + 1.6, 904],
-    [CUE.END, 904],
-  ])
-  const camY = track(T, [
-    [0, 30],
-    [CUE.ZoomOut + 0.05, 30],
-    [CUE.ScrollDown - 0.2, CORNER_B],
-    [CUE.END, CORNER_B],
-  ])
-  /* through the zoom, pin the table's top-left corner 40 canvas px in so the
-     corner does not drift while the scale changes; the closing pull-back pins
-     the top-RIGHT corner the same way */
-  const anchored = T >= CUE.ZoomOut && T <= CUE.ScrollDown
-  const pulling = T >= CUE.PullBack
-  const anchor = PAGE_PAD - EDGE / scale
-  const anchorR = TABLE_RIGHT + (EDGE - STAGE_W) / scale
-  const tx = -(pulling ? anchorR : anchored ? anchor : camX)
-  const ty = -(pulling || anchored ? anchor : camY)
+  const { scale, tx, ty } = camera(T)
+  const scrollY = scrollAt(T)
 
-  const scrollY = track(T, [
-    [0, 0],
-    [CUE.ScrollDown + 0.15, 0],
-    [CUE.PanStatus - 0.3, SCROLL_TO],
-    [CUE.PullBack + 1.5, SCROLL_TO],
-    [CUE.LoopBack - 0.2, 0],
-  ])
+  /* motion-aware layer promotion: sample the camera one frame back and promote
+     only while something is actually moving. On hold frames the layer is
+     demoted, which makes the browser re-rasterize text at its true size —
+     exactly the frames where the viewer has stopped to read it. */
+  const back = Math.max(0, T - 1 / 30)
+  const prev = camera(back)
+  const camMoving = Math.abs(scale - prev.scale) > 1e-4 || Math.abs(tx - prev.tx) > 0.01 || Math.abs(ty - prev.ty) > 0.01
+  const scrollMoving = Math.abs(scrollY - scrollAt(back)) > 0.01
 
   /* value beats — pop() is the shared curve: the glyph grows to POP_GROW, its
      value swaps at the peak, and it settles back */
@@ -449,97 +511,108 @@ export function SenseworksTableWalkthrough({ avatars, className }: SenseworksTab
   const kpis = KPIS.map(([v, l], i): [string, string] => [i === 2 && landed(AT_KPI) ? '58' : v, l])
 
   return (
-    <div className={`${s.canvas} ${className ?? ''}`}>
-      <div
-        className={s.world}
-        style={{
-          transform: `scale(${scale}) translate(${tx}px, ${ty}px)`,
-          transition: reduced ? 'none' : undefined,
-        }}
-      >
-        <div className={s.card}>
-          <div className={s.clip}>
-            {/* rows pass under the sticky block */}
-            <div
-              className={s.scroller}
-              style={{
-                transform: `translateY(${-scrollY}px)`,
-                transition: reduced ? 'none' : undefined,
-              }}
-            >
-              <div className={s.table}>
-                <div className={s.head}>
-                  {COLUMNS.map((c, i) => (
-                    <div key={i} className={s.h}>
-                      {c}
-                    </div>
-                  ))}
+    /* .frame is the public 700x500 box; .canvas is the 2x authored surface */
+    <div className={`${s.frame} ${className ?? ''}`}>
+      {/* .canvasScale carries only the static minify transform; .canvas only
+          clips (overflow: hidden) — kept on separate elements because Safari
+          has a history of bugs when the same element both transforms itself
+          and is the overflow-clip boundary for its children. */}
+      <div className={s.canvasScale} style={{ transform: `scale(${SELF_SCALE})` }}>
+        <div className={s.canvas}>
+        <div
+          className={s.world}
+          style={{
+            transform: `scale(${scale}) translate(${tx}px, ${ty}px)`,
+            willChange: camMoving ? 'transform' : 'auto',
+            transition: reduced ? 'none' : undefined,
+          }}
+        >
+          <div className={s.card}>
+            <div className={s.clip}>
+              {/* rows pass under the sticky block */}
+              <div
+                className={s.scroller}
+                style={{
+                  transform: `translateY(${-scrollY}px)`,
+                  willChange: scrollMoving ? 'transform' : 'auto',
+                  transition: reduced ? 'none' : undefined,
+                }}
+              >
+                <div className={s.table}>
+                  <div className={s.head}>
+                    {COLUMNS.map((c, i) => (
+                      <div key={i} className={s.h}>
+                        {c}
+                      </div>
+                    ))}
+                  </div>
+                  {RAW.map((raw, i) => {
+                    const focus = i === FOCUS_ROW
+                    const beat = i === BEAT_ROW
+                    const note = i === NOTE_ROW
+                    return (
+                      <Row
+                        key={raw[0]}
+                        raw={raw}
+                        status={focus && landed(AT_STATUS) ? 'Started' : raw[3]}
+                        planering={focus ? plan : raw[4]}
+                        slutsats={beat ? slut : raw[6]}
+                        notes={note ? (landed(AT_NOTE) ? 1 : 0) : raw[7]}
+                        team={focus ? ['ML', 'EB'] : raw[8]}
+                        avatars={avatars}
+                        pops={
+                          focus
+                            ? { planering: [pop(AT_P1), pop(AT_P2)], avatar: enter(AT_AV) }
+                            : beat
+                              ? { slutsats: [pop(AT_S1), pop(AT_S2)], slutsatsPinned: true }
+                              : note
+                                ? { notes: pop(AT_NOTE) }
+                                : undefined
+                        }
+                      />
+                    )
+                  })}
                 </div>
-                {RAW.map((raw, i) => {
-                  const focus = i === FOCUS_ROW
-                  const beat = i === BEAT_ROW
-                  const note = i === NOTE_ROW
-                  return (
-                    <Row
-                      key={raw[0]}
-                      raw={raw}
-                      status={focus && landed(AT_STATUS) ? 'Started' : raw[3]}
-                      planering={focus ? plan : raw[4]}
-                      slutsats={beat ? slut : raw[6]}
-                      notes={note ? (landed(AT_NOTE) ? 1 : 0) : raw[7]}
-                      team={focus ? ['ML', 'EB'] : raw[8]}
-                      avatars={avatars}
-                      pops={
-                        focus
-                          ? { planering: [pop(AT_P1), pop(AT_P2)], avatar: enter(AT_AV) }
-                          : beat
-                            ? { slutsats: [pop(AT_S1), pop(AT_S2)], slutsatsPinned: true }
-                            : note
-                              ? { notes: pop(AT_NOTE) }
-                              : undefined
-                      }
-                    />
-                  )
-                })}
               </div>
-            </div>
 
-            {/* filter bar + column header are one sticky block */}
-            <div className={s.sticky}>
-              <div className={s.bar}>
-                <div className={s.filters}>
-                  {FILTERS.map((label) => (
-                    <span key={label} className={s.fsel}>
-                      {label}
-                      <span className={s.fselChev}>
-                        <ChevronIcon />
+              {/* filter bar + column header are one sticky block */}
+              <div className={s.sticky}>
+                <div className={s.bar}>
+                  <div className={s.filters}>
+                    {FILTERS.map((label) => (
+                      <span key={label} className={s.fsel}>
+                        {label}
+                        <span className={s.fselChev}>
+                          <ChevronIcon />
+                        </span>
                       </span>
-                    </span>
-                  ))}
+                    ))}
+                  </div>
+                  <div className={s.kpis}>
+                    {kpis.map(([value, label], i) => (
+                      <div key={label} className={s.kpi}>
+                        <span className={s.kpiNum} style={i === 2 ? { transform: `scale(${pop(AT_KPI)})` } : undefined}>
+                          {value}
+                        </span>
+                        <span className={s.kpiLabel}>{label}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div className={s.kpis}>
-                  {kpis.map(([value, label], i) => (
-                    <div key={label} className={s.kpi}>
-                      <span className={s.kpiNum} style={i === 2 ? { transform: `scale(${pop(AT_KPI)})` } : undefined}>
-                        {value}
-                      </span>
-                      <span className={s.kpiLabel}>{label}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className={s.table}>
-                <div className={s.head}>
-                  {COLUMNS.map((c, i) => (
-                    <div key={i} className={s.h}>
-                      {c}
-                    </div>
-                  ))}
+                <div className={s.table}>
+                  <div className={s.head}>
+                    {COLUMNS.map((c, i) => (
+                      <div key={i} className={s.h}>
+                        {c}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   )

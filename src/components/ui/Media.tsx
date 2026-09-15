@@ -1,11 +1,35 @@
 'use client'
 import Image from 'next/image'
 import dynamic from 'next/dynamic'
+import { useEffect, useRef, useState } from 'react'
 import { urlFor } from '@/lib/sanity/image'
 import type { MediaAlign, MediaField } from '@/lib/sanity/media'
 import type { ReactNode } from 'react'
 import { ANIMATION_COMPONENTS, type AnimationName } from '@/components/animations'
 import { ScaledCanvas } from '@/components/animations/ScaledCanvas'
+
+// Mounts a reactAnimation only while its frame is at least `threshold`
+// visible, and unmounts it once it drops back below that — unmounting
+// is what actually stops every rAF loop/CSS animation/timer inside it
+// for free (React's cleanup runs on unmount), rather than teaching each
+// animation component about a "paused" prop individually. Restarting
+// from the beginning on re-entry is the right behavior here: every
+// animation we have is an ambient, seamless loop, so a viewer should
+// always see it from the start, never a random mid-point.
+function useInView<T extends HTMLElement>(threshold = 0.15) {
+  const ref = useRef<T>(null)
+  const [inView, setInView] = useState(false)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), { threshold })
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [threshold])
+
+  return [ref, inView] as const
+}
 
 // Lazy-loaded: lottie-web (lottie-react's underlying engine) probes
 // canvas support as a side effect of being imported at all, which
@@ -50,6 +74,7 @@ export function Media({
   ariaHidden,
   background = 'gradient',
 }: MediaProps) {
+  const [animRef, animInView] = useInView<HTMLDivElement>()
   const resolvedAlt = media?.alt || alt
   const animationEntry =
     media?.mediaType === 'reactAnimation' && media.animation
@@ -127,17 +152,21 @@ export function Media({
           composition — including any deliberate crop — to fit that
           box; anything else (e.g. UploadQueueLoop's own flexible
           panel) renders at its own intrinsic, already-responsive
-          size. */}
+          size. The wrapper itself always renders (it's what useInView
+          observes) — only its contents mount/unmount with visibility,
+          so the animation's own rAF loop/timers actually stop instead
+          of just running unseen off-screen. */}
       {animationEntry && (
-        <div className={`absolute inset-0 flex ${alignClassName}`} aria-hidden="true">
+        <div ref={animRef} className={`absolute inset-0 flex ${alignClassName}`} aria-hidden="true">
           <div style={{ width: `${scale}%` }}>
-            {animationEntry.canvas ? (
-              <ScaledCanvas canvasWidth={animationEntry.canvas.width} canvasHeight={animationEntry.canvas.height}>
+            {animInView &&
+              (animationEntry.canvas ? (
+                <ScaledCanvas canvasWidth={animationEntry.canvas.width} canvasHeight={animationEntry.canvas.height}>
+                  <animationEntry.component />
+                </ScaledCanvas>
+              ) : (
                 <animationEntry.component />
-              </ScaledCanvas>
-            ) : (
-              <animationEntry.component />
-            )}
+              ))}
           </div>
         </div>
       )}

@@ -1,4 +1,8 @@
-/* SenseworksTableWalkthrough — fixed 700x500 canvas, literal px geometry.
+/* SenseworksTableWalkthrough — authored at 2x (1400x1000), self-minified via
+   scale(0.5) in the .tsx so the public footprint stays 700x500. Every
+   geometry number below is a literal px in that 2x space — halve it
+   mentally to reason about how it lands on screen.
+
    Colors map to real site tokens (globals.css) where an equivalent exists.
    --isc-ink-soft is an alpha tint of --isc-ink itself (which equals
    --color-foreground exactly), left as literal rgba rather than forcing a
@@ -6,19 +10,52 @@
    --isc-rule-strong, and the green/blue status-chip families, have no
    site-token equivalent — kept at their original design values, same
    treatment as the other ported animations' status colors.
+   Radii are calc(real-token * 2) rather than a hardcoded doubled literal,
+   so this component keeps tracking the real --radius-sm/md scale if it
+   ever changes, instead of drifting from a coincidental doubled number.
    --isc-font-num deliberately reaches for Roboto (tabular figures read
    better for data) ahead of the site's own font — an intentional choice,
    not a guessed token, with a safe fallback to --font-sans either way. */
 
+/* the public box — this is what the host lays out against */
+.frame {
+  position: relative;
+  width: 700px;
+  height: 500px;
+  overflow: hidden;
+}
+
+/* carries only the static minify transform — see .canvas below for why
+   this is a separate element from the one that clips */
+.canvasScale {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1400px;
+  height: 1000px;
+  transform-origin: 0 0;
+}
+
+/* the 2x authored surface, minified into .frame via .canvasScale's
+   transform. Deliberately its own element (not the transformed one):
+   Safari has a history of bugs when the same element both transforms
+   itself and is the overflow-clip boundary for its children — keeping
+   "transform" and "overflow: hidden" on separate elements sidesteps it. */
 .canvas {
   --isc-ink: var(--color-foreground);
   --isc-ink-soft: rgba(16, 24, 41, 0.8);
   --isc-ink-mute: var(--color-muted-foreground);
-  --isc-surface: var(--color-surface);
+  /* Dan's own warm off-white, not the site's --color-surface (too grey/cool
+     for this table) — a deliberate one-off, not a reconciled token. */
+  --isc-surface: #fdfdf4;
   --isc-white: var(--color-background);
   --isc-rule: var(--color-border);
   --isc-rule-strong: #909aac;
-  --isc-neutral-fill: var(--color-muted);
+  /* --color-muted (#f7f7f7) is nearly identical to this component's own
+     --isc-surface (--color-surface, #f8f8f9) — invisible as a fill on
+     top of the card. --color-border is meaningfully darker, restoring
+     the real contrast the original design's #eeeff0-on-#fcfdf6 had. */
+  --isc-neutral-fill: var(--color-border);
 
   /* design-only status colors: no site-token equivalent */
   --isc-green: #35e293;
@@ -34,10 +71,12 @@
   --isc-font: var(--font-sans);
   /* numbers read as data; Roboto if the host already has it, else the UI face */
   --isc-font-num: Roboto, var(--font-sans), sans-serif;
+  /* doubled radii — derive from the real tokens, not a hardcoded 2x literal */
+  --isc-rad-sm-2x: calc(var(--radius-sm) * 2);
+  --isc-rad-md-2x: calc(var(--radius-md) * 2);
 
-  position: relative;
-  width: 700px;
-  height: 500px;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
   font-family: var(--isc-font);
   color: var(--isc-ink);
@@ -49,48 +88,43 @@
   position: absolute;
   left: 0;
   top: 0;
-  width: 1472px;
-  height: 1100px;
+  width: 2944px;
+  height: 2200px;
   transform-origin: 0 0;
-  /* No will-change here on purpose: this layer's scale swings up to 4x
-     (the opening close-up) on top of ScaledCanvas's own fit-scale.
-     will-change made the compositor commit to a raster resolution once
-     and never revisit it as the effective scale grew, rendering text
-     soft at the zoomed-in start — removing it lets the browser
-     re-rasterize at the actual current scale instead. */
+  /* will-change is set inline, only while the camera is moving */
 }
 
 .card {
   position: absolute;
-  left: 40px;
-  top: 40px;
-  width: 1392px;
-  border: 1px solid var(--isc-rule);
-  border-radius: var(--radius-sm);
+  left: 80px;
+  top: 80px;
+  width: 2784px;
+  border: 2px solid var(--isc-rule);
+  border-radius: var(--isc-rad-sm-2x);
   background: var(--isc-surface);
   overflow: hidden;
-  box-shadow: 0 1px 2px rgba(16, 24, 41, 0.04);
+  box-shadow: 0 2px 4px rgba(16, 24, 41, 0.04);
 }
 
 .clip {
   position: relative;
-  height: 1100px;
+  height: 2200px;
   overflow: hidden;
 }
 
 .scroller {
   position: absolute;
   left: 0;
-  top: 76px;
-  width: 1392px;
-  will-change: transform;
+  top: 152px;
+  width: 2784px;
+  /* will-change is set inline, only while the scroller is moving */
 }
 
 .sticky {
   position: absolute;
   left: 0;
   top: 0;
-  width: 1392px;
+  width: 2784px;
   z-index: 3;
   background: var(--isc-surface);
 }
@@ -100,9 +134,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
-  height: 76px;
-  padding: 0 18px 0 16px;
+  gap: 48px;
+  height: 152px;
+  padding: 0 36px 0 32px;
   box-sizing: border-box;
   background: var(--isc-surface);
 }
@@ -110,7 +144,7 @@
 .filters {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 24px;
   min-width: 0;
 }
 
@@ -118,23 +152,23 @@
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  height: 32px;
-  padding: 0 12px;
+  gap: 16px;
+  height: 64px;
+  padding: 0 24px;
   background: var(--isc-white);
   color: var(--isc-ink);
-  border: 1px solid var(--isc-rule);
-  border-radius: var(--radius-md);
-  font-size: 14px;
+  border: 2px solid var(--isc-rule);
+  border-radius: var(--isc-rad-md-2x);
+  font-size: 28px;
   line-height: 1;
   white-space: nowrap;
 }
 
 .fselChev {
   display: inline-flex;
-  width: 12px;
-  height: 12px;
-  margin-left: 2px;
+  width: 24px;
+  height: 24px;
+  margin-left: 4px;
 }
 
 .fselChev svg {
@@ -146,7 +180,7 @@
 .kpis {
   display: flex;
   align-items: center;
-  gap: 40px;
+  gap: 80px;
   flex: none;
 }
 
@@ -154,13 +188,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
   text-align: center;
 }
 
 .kpiNum {
   display: inline-block;
-  font-size: 26px;
+  font-size: 52px;
   font-weight: 400;
   line-height: 1;
   white-space: nowrap;
@@ -169,36 +203,36 @@
 
 .kpiLabel {
   display: block;
-  margin-bottom: -2px;
-  font-size: 14px;
+  margin-bottom: -4px;
+  font-size: 28px;
 }
 
 /* ── table ─────────────────────────────────────────────────────────────── */
 .table {
-  width: 1392px;
-  border-radius: var(--radius-sm);
+  width: 2784px;
+  border-radius: var(--isc-rad-sm-2x);
 }
 
 .head,
 .row {
   display: grid;
-  grid-template-columns: 35px 427px 200px 170px 170px 170px 120px 100px;
-  padding: 0 4px;
+  grid-template-columns: 70px 854px 400px 340px 340px 340px 240px 200px;
+  padding: 0 8px;
   align-items: center;
 }
 
 .head {
-  height: 36px;
-  border-bottom: 1px solid var(--isc-rule);
+  height: 72px;
+  border-bottom: 2px solid var(--isc-rule);
   background: var(--isc-surface);
 }
 
 .h {
   display: flex;
   align-items: center;
-  padding-inline: 4px;
+  padding-inline: 8px;
   font-weight: 500;
-  font-size: 12px;
+  font-size: 24px;
   letter-spacing: 0.03em;
   text-transform: uppercase;
   color: var(--isc-ink-mute);
@@ -208,8 +242,8 @@
 }
 
 .row {
-  height: 60px;
-  border-top: 1px solid var(--isc-rule);
+  height: 120px;
+  border-top: 2px solid var(--isc-rule);
   background: var(--isc-surface);
 }
 
@@ -221,11 +255,11 @@
   display: flex;
   align-items: center;
   min-width: 0;
-  padding-inline: 4px;
+  padding-inline: 8px;
 }
 
 .phase {
-  gap: 8px;
+  gap: 16px;
 }
 
 .pin {
@@ -233,27 +267,27 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 25px;
-  height: 32px;
+  width: 50px;
+  height: 64px;
   color: var(--isc-pin);
 }
 
 .pin svg {
-  width: 14px;
-  height: 14px;
+  width: 28px;
+  height: 28px;
   display: block;
 }
 
 .title {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
   min-width: 0;
 }
 
 .titleMain {
   font-weight: 700;
-  font-size: 14px;
+  font-size: 28px;
   letter-spacing: -0.01em;
   line-height: 1.2;
   white-space: nowrap;
@@ -264,8 +298,8 @@
 .titleSub {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 14px;
+  gap: 16px;
+  font-size: 28px;
   line-height: 1.2;
   color: var(--isc-ink-soft);
   white-space: nowrap;
@@ -274,8 +308,8 @@
 }
 
 .titleDot {
-  width: 4px;
-  height: 4px;
+  width: 8px;
+  height: 8px;
   border-radius: var(--radius-full);
   background: #d9d9d9;
   flex: none;
@@ -286,20 +320,20 @@
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding-left: 4px;
-  padding-right: 12px;
-  min-height: 24px;
+  gap: 8px;
+  padding-left: 8px;
+  padding-right: 24px;
+  min-height: 48px;
   border-radius: var(--radius-full);
-  border: 1px solid transparent;
-  font-size: 12px;
+  border: 2px solid transparent;
+  font-size: 24px;
   font-weight: 400;
   line-height: 1;
 }
 
 .chipDot {
-  width: 16px;
-  height: 16px;
+  width: 32px;
+  height: 32px;
   border-radius: var(--radius-full);
   flex: none;
 }
@@ -340,13 +374,13 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 24px;
-  min-width: 44px;
-  padding: 0 8px;
-  border-radius: var(--radius-sm);
-  border: 1px solid transparent;
+  height: 48px;
+  min-width: 88px;
+  padding: 0 16px;
+  border-radius: var(--isc-rad-sm-2x);
+  border: 2px solid transparent;
   font-family: var(--isc-font-num);
-  font-size: 12px;
+  font-size: 24px;
   font-weight: 500;
   line-height: 1;
   font-variant-numeric: tabular-nums;
@@ -355,7 +389,7 @@
 
 /* pinned to its "100%" width so the pill does not widen when 90 becomes 100 */
 .ptagPinned {
-  width: 47.3px;
+  width: 94.6px;
 }
 
 .ptag[data-state='not-started'] {
@@ -400,14 +434,14 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  height: 24px;
-  padding: 0 8px;
-  border-radius: var(--radius-sm);
-  border: 1px solid transparent;
+  gap: 8px;
+  height: 48px;
+  padding: 0 16px;
+  border-radius: var(--isc-rad-sm-2x);
+  border: 2px solid transparent;
   background: var(--isc-neutral-fill);
   color: var(--isc-ink);
-  font-size: 12px;
+  font-size: 24px;
   font-weight: 500;
   line-height: 1;
   font-variant-numeric: tabular-nums;
@@ -416,8 +450,8 @@
 
 .tagIco {
   display: inline-flex;
-  width: 12px;
-  height: 12px;
+  width: 24px;
+  height: 24px;
   flex: none;
 }
 
@@ -435,10 +469,10 @@
 .avatar {
   position: relative;
   display: inline-flex;
-  width: 32px;
-  height: 32px;
+  width: 64px;
+  height: 64px;
   flex: none;
-  margin-left: -8px;
+  margin-left: -16px;
   transform-origin: 50% 50%;
 }
 
@@ -454,10 +488,10 @@
   height: 100%;
   border-radius: var(--radius-full);
   overflow: hidden;
-  box-shadow: 0 0 0 2px var(--isc-surface);
+  box-shadow: 0 0 0 4px var(--isc-surface);
   background: var(--isc-neutral-fill);
   color: var(--isc-ink);
-  font-size: 12px;
+  font-size: 24px;
   font-weight: 500;
   line-height: 1;
   user-select: none;
