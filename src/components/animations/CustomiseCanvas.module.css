@@ -1,0 +1,306 @@
+/* CustomiseCanvas.module.css
+ * Fixed 700x500 canvas. All geometry is literal px in that space — no
+ * responsive logic lives here; a host wrapper scales the whole canvas.
+ */
+
+.canvas {
+  --isc-ink: var(--color-foreground);
+  --isc-text: var(--color-foreground);
+  --isc-surface: var(--color-background);
+  /* --color-muted (#f7f7f7) is close enough to the original #f2f2f3 to
+     be indistinguishable, and is already the site's "neutral light
+     backdrop" token — the same role this sheet plays here. */
+  --isc-wash-base: var(--color-muted);
+  /* No site-token equivalent — an almost-white border for depth on
+     top of a semi-transparent white pane, not a real border color. */
+  --isc-pane-border: #fcfcfd;
+  --isc-rule: var(--color-border);
+  /* No site-token equivalent — meaningfully darker than --color-border,
+     used for the dropzone's hover/active states. */
+  --isc-rule-strong: rgba(0, 0, 0, 0.28);
+  --isc-rule-active: rgba(0, 0, 0, 0.45);
+  /* Generic UI text-selection blue — deliberately not the site's own
+     accent (a yellow-green), which would look wrong for this. */
+  --isc-select: rgba(37, 99, 235, 0.22);
+  /* Already tracks --color-foreground's rgb 1:1 (16, 24, 41); kept as
+     a literal rather than forcing a color-mix() for a value that's
+     already the real token, just at 2% alpha. */
+  --isc-tint: rgba(16, 24, 41, 0.02);
+
+  /* front-loaded ease-out: fast out of the gate, soft landing */
+  --isc-snap: cubic-bezier(0.16, 1, 0.3, 1);
+  --isc-snap-hard: cubic-bezier(0.05, 0.7, 0.1, 1);
+
+  position: relative;
+  overflow: hidden;
+  font-family: var(--font-sans);
+  color: var(--isc-text);
+  /* no background: the host frame shows its own gradient behind this */
+}
+
+/* the recolouring canvas wash — one layer per brand, cross-faded ------- */
+
+/* the neutral sheet the washes sit on (part of the artwork, not a
+   decorative root background) */
+.washBase {
+  position: absolute;
+  inset: 0;
+  background: var(--isc-wash-base);
+}
+
+.wash {
+  position: absolute;
+  inset: 0;
+}
+
+/* app chrome ---------------------------------------------------------- */
+
+.chrome {
+  position: absolute;
+  inset: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.header {
+  box-sizing: border-box;
+  height: 32px;
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logoSlot {
+  position: relative;
+  width: 120px;
+  height: 22px;
+}
+
+.logoLayer {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  line-height: 0;
+}
+
+.windowDots {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  opacity: 0.8;
+}
+
+.windowDots span {
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: var(--isc-surface);
+}
+
+.body {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  min-height: 0;
+}
+
+.column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.paneTop,
+.paneMain,
+.paneSide {
+  box-sizing: border-box;
+  border: 1px solid var(--isc-pane-border);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.paneTop {
+  height: 60px;
+  flex: none;
+}
+
+.paneMain {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.paneSide {
+  width: 132px;
+  flex: none;
+}
+
+/* Customise panel ----------------------------------------------------- */
+
+.modal {
+  position: absolute;
+  left: 67px;
+  top: 122px;
+  width: 566px;
+  height: 256px;
+  box-sizing: border-box;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background: var(--isc-surface);
+  border-radius: 4px;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.25);
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: -0.01em;
+}
+
+.dropzone {
+  position: relative;
+  box-sizing: border-box;
+  width: 520px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--isc-surface);
+  border: 1px dashed var(--isc-rule);
+}
+
+.dropzone .logoLayer {
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.dropzoneHover {
+  background: var(--isc-tint);
+  border-width: 2px;
+  border-color: var(--isc-rule-strong);
+}
+
+.colorRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+}
+
+.swatch {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+.swatchLayer {
+  position: absolute;
+  inset: 0;
+}
+
+.hexField {
+  box-sizing: border-box;
+  width: 100px;
+  height: 23px;
+  padding-bottom: 4px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  white-space: pre;
+  border-bottom: 1px solid var(--isc-rule);
+}
+
+.hexFieldActive {
+  border-bottom-color: var(--isc-rule-active);
+}
+
+.hexSelected {
+  background: var(--isc-select);
+}
+
+.caret {
+  width: 1px;
+  height: 14px;
+  margin-left: 1px;
+  background: var(--isc-ink);
+  opacity: 0;
+}
+
+/* pointer ------------------------------------------------------------- */
+
+.pointer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 24px;
+  height: 24px;
+  transform-origin: 2px 2px;
+  pointer-events: none;
+  z-index: 40;
+  filter: drop-shadow(0 2px 4px rgba(16, 24, 41, 0.28));
+}
+
+/* motion — every transition is opt-in for reduced-motion users --------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  .wash,
+  .swatchLayer {
+    transition: opacity 460ms var(--isc-snap);
+  }
+
+  .logoLayer {
+    transition: opacity 260ms var(--isc-snap);
+  }
+
+  .dropzone {
+    transition:
+      background-color 120ms var(--isc-snap),
+      border-color 120ms var(--isc-snap);
+  }
+
+  .hexField {
+    transition: border-bottom-color 120ms var(--isc-snap);
+  }
+
+  .caretOn {
+    animation: isc-blink 1s steps(1, end) infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .caretOn {
+    opacity: 1;
+  }
+}
+
+@keyframes isc-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
