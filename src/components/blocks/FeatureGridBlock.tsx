@@ -59,21 +59,21 @@ export function FeatureGridBlock({ columns = '3', items = [] }: FeatureGridBlock
       <div className={`grid grid-cols-1 gap-2xl sm:grid-cols-2 ${LG_COLS_CLASS[columns]}`}>
         {items.map((item, index) => (
           <div key={index} className="flex flex-col gap-small-medium">
-            {/* No chip background/radius — just the icon itself, sized
-                up from 32px on mobile to the source SVGs' native 48px
-                on desktop. Both icon types fill the same box via
-                size-full so a default checkmark and a custom SVG line
-                up identically regardless of which an item uses. */}
+            {/* No chip background/radius — just the icon itself, at a
+                uniform 64px on both mobile and desktop. Both icon
+                types fill the same box via size-full so a default
+                checkmark and a custom SVG line up identically
+                regardless of which an item uses. */}
             <div
-              className="flex size-large items-center justify-center text-muted-foreground md:size-xl"
+              className="flex size-2xl items-center justify-center text-muted-foreground"
               aria-hidden="true"
             >
               {item.icon ? (
                 <Image
                   src={ICON_SRC[item.icon]}
                   alt=""
-                  width={48}
-                  height={48}
+                  width={64}
+                  height={64}
                   className="size-full"
                 />
               ) : (
