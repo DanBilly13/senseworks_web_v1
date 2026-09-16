@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/Button'
 import { SectionIntro } from '@/components/ui/SectionIntro'
 import { Media } from '@/components/ui/Media'
+import { ArticleImage } from '@/components/knowledge-bank/ArticleImage'
 import type { MediaField } from '@/lib/sanity/media'
 
 type BackgroundType = 'image' | 'color' | 'gradient'
@@ -38,12 +39,19 @@ export function HeroBackdropBlock({
   ctaHref,
   showcaseMedia,
 }: HeroBackdropBlockProps) {
+  // Only a plain image gets to set its own height from its real aspect
+  // ratio (via the asset ref's encoded dimensions) — video/lottie/
+  // reactAnimation don't carry that same kind of intrinsic ratio here,
+  // so they keep the fixed aspect-media box below.
+  const showcaseIsImage = showcaseMedia?.mediaType === 'image' && !!showcaseMedia.image
+
   return (
-    // Experimental fixed viewport-height composition, not settled
-    // tokens yet — 175vh total, split into a 75vh text zone (bottom-
-    // aligned) directly above a 100vh showcase-media zone. Inline
-    // styles rather than named tokens while these numbers are still
-    // being dialed in.
+    // Experimental composition, not settled tokens yet. The text zone
+    // uses min-height (not a fixed height) so a longer headline/
+    // subhead on a short mobile screen grows the box instead of
+    // clipping — 75vh is a floor, not a cap, which is what gives short
+    // copy the "starts a way down the page" delayed reveal without
+    // trapping long copy in a box too small for it.
     <section
       className={[
         'relative mb-section-edge',
@@ -53,14 +61,11 @@ export function HeroBackdropBlock({
         .filter(Boolean)
         .join(' ')}
       // Same page-top pull-up as the full-bleed image Hero — see
-      // HeroBlock's HeroImageOverlay for the full rationale. Total
-      // height is the 75vh + 100vh zones below plus the gap between
-      // them (--spacing-2xl, the site's standard intro-to-content
-      // gap), so neither zone has to give up its own height for it.
-      style={{
-        height: 'calc(175vh + var(--spacing-2xl))',
-        marginTop: 'calc(var(--header-height, 0px) * -1)',
-      }}
+      // HeroBlock's HeroImageOverlay for the full rationale. No fixed
+      // height here any more — the section's own height now just
+      // follows its content (text zone's min-height + the showcase
+      // media's natural height).
+      style={{ marginTop: 'calc(var(--header-height, 0px) * -1)' }}
     >
       {backgroundType === 'image' && (
         <div className="absolute inset-0">
@@ -70,8 +75,14 @@ export function HeroBackdropBlock({
       {backgroundType === 'image' && (
         <div className="absolute inset-0 bg-foreground/55" aria-hidden="true" />
       )}
-      <div className="relative mx-auto flex size-full max-w-page flex-col gap-2xl px-medium-large">
-        <div className="flex flex-col justify-end" style={{ height: '75vh' }}>
+      {/* pb-section-edge here (inside the backdrop) is separate from
+          the section's own mb-section-edge above (outside it, before
+          the next block) — without it the showcase media sat flush
+          against the very edge of its own colored/gradient/image
+          background, with only page background (not this hero's own
+          backdrop) providing any breathing room below it. */}
+      <div className="relative mx-auto flex w-full max-w-page flex-col gap-2xl px-medium-large pb-section-edge">
+        <div className="flex flex-col justify-end" style={{ minHeight: '75vh' }}>
           <SectionIntro
             as="h1"
             eyebrow={eyebrow}
@@ -90,9 +101,11 @@ export function HeroBackdropBlock({
             }
           />
         </div>
-        <div className="w-full overflow-hidden rounded-lg" style={{ height: '100vh' }}>
-          <Media media={showcaseMedia} alt={headline} className="size-full" />
-        </div>
+        {showcaseIsImage ? (
+          <ArticleImage image={showcaseMedia.image!} alt={headline} className="rounded-lg" />
+        ) : (
+          <Media media={showcaseMedia} alt={headline} className="aspect-media w-full rounded-lg" />
+        )}
       </div>
     </section>
   )
