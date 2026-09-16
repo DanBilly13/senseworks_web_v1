@@ -10,7 +10,7 @@ type LogoCloudBlockProps = {
   logos?: LogoCloudItem[]
 }
 
-const PIXELS_PER_SECOND = 40
+const PIXELS_PER_SECOND = 42
 
 export function LogoCloudBlock({ logos = [] }: LogoCloudBlockProps) {
   const wrapperRef = useRef<HTMLDivElement>(null)
@@ -80,7 +80,7 @@ export function LogoCloudBlock({ logos = [] }: LogoCloudBlockProps) {
               className="flex shrink-0 items-center"
             >
               {logos.map((logo, logoIndex) => (
-                <div key={logoIndex} className="mr-2xl h-xl w-3xl shrink-0 p-small">
+                <div key={logoIndex} className="mr-large h-xl w-3xl shrink-0 p-small md:mr-2xl">
                   <Media
                     media={logo.media}
                     alt={logo.name}
