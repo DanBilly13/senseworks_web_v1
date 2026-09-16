@@ -230,9 +230,11 @@ export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref }: Head
               ),
             )}
             {ctaLabel && ctaHref && (
-              <Button href={ctaHref} size="lg">
-                {ctaLabel}
-              </Button>
+              <div className="mt-medium-large">
+                <Button href={ctaHref} size="lg">
+                  {ctaLabel}
+                </Button>
+              </div>
             )}
           </nav>
         )}
