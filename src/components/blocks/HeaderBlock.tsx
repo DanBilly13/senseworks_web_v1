@@ -185,13 +185,17 @@ export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref }: Head
             // height is left below the bar, so a long link list never
             // extends past the bottom of the screen (body scroll is
             // locked while open, so that content would otherwise be
-            // unreachable).
-            style={{ maxHeight: 'calc(100vh - var(--header-height, 0px))' }}
+            // unreachable). dvh, not vh — vh is the *largest* possible
+            // viewport on mobile browsers (ignores the address bar/
+            // bottom toolbar), so it let this list run out past the
+            // bottom of the actually-visible screen; dvh tracks the
+            // real visible viewport as that browser chrome shows/hides.
+            style={{ maxHeight: 'calc(100dvh - var(--header-height, 0px))' }}
           >
             {navLinks.map((link) =>
               link.links?.length ? (
                 <div key={link.label} className="border-b border-border">
-                  <div className={`text-body font-semibold text-foreground ${styles.navRow}`}>
+                  <div className={`text-h5 font-normal text-muted-foreground ${styles.navRow}`}>
                     {link.label}
                   </div>
                   <div className="flex flex-col">
@@ -200,14 +204,14 @@ export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref }: Head
                         <a
                           key={sub.label}
                           href={sub.href}
-                          className={`text-body text-muted-foreground ${styles.navRow}`}
+                          className={`text-h5 font-semibold text-foreground ${styles.navRow}`}
                         >
                           {sub.label}
                         </a>
                       ) : (
                         <span
                           key={sub.label}
-                          className={`text-body text-muted-foreground/60 ${styles.navRow}`}
+                          className={`text-h5 font-semibold text-foreground/60 ${styles.navRow}`}
                         >
                           {sub.label}
                         </span>
@@ -216,7 +220,11 @@ export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref }: Head
                   </div>
                 </div>
               ) : (
-                <a key={link.label} href={link.href} className={`border-b border-border text-body ${styles.navRow}`}>
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className={`border-b border-border text-h5 font-semibold text-foreground ${styles.navRow}`}
+                >
                   {link.label}
                 </a>
               ),
