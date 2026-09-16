@@ -47,12 +47,14 @@ export function HeroBackdropBlock({
 
   return (
     // Experimental composition, not settled tokens yet. The text zone
-    // uses top/bottom padding of double the standard section-edge gap
-    // (not a vh-based min-height) so the "starts a way down the page"
-    // delayed reveal comes from the same token every other page-
-    // boundary spacing already uses — it scales if that token ever
-    // changes, and it's just as much room on a short mobile screen as
-    // a tall desktop one, unlike a min-height tied to viewport height.
+    // uses top/bottom padding (2x section-edge on top, 1.5x on the
+    // bottom) instead of a vh-based min-height, so the "starts a way
+    // down the page" delayed reveal comes from the same token every
+    // other page-boundary spacing already uses — it scales if that
+    // token ever changes, and it's just as much room on a short mobile
+    // screen as a tall desktop one, unlike a min-height tied to
+    // viewport height. No gap to the showcase media below any more —
+    // the zone's own bottom padding already provides that space.
     <section
       className={[
         'relative mb-section-edge',
@@ -82,11 +84,11 @@ export function HeroBackdropBlock({
           against the very edge of its own colored/gradient/image
           background, with only page background (not this hero's own
           backdrop) providing any breathing room below it. */}
-      <div className="relative mx-auto flex w-full max-w-page flex-col gap-2xl px-medium-large pb-section-edge">
+      <div className="relative mx-auto flex w-full max-w-page flex-col px-medium-large pb-section-edge">
         <div
           style={{
             paddingTop: 'calc(var(--spacing-section-edge) * 2)',
-            paddingBottom: 'calc(var(--spacing-section-edge) * 2)',
+            paddingBottom: 'calc(var(--spacing-section-edge) * 1.5)',
           }}
         >
           <SectionIntro
