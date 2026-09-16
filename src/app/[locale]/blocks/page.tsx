@@ -446,6 +446,12 @@ export default async function BlocksPage({
         variant='mediaType: "reactAnimation", animation: "foretagTableAnimation"'
       />
       <MediaBlock media={{ mediaType: 'reactAnimation', animation: 'foretagTableAnimation' }} />
+      <BlockCaption
+        name="Media — React Animation (Roster Fill)"
+        type="mediaBlock"
+        variant='mediaType: "reactAnimation", animation: "rosterFillAnimation"'
+      />
+      <MediaBlock media={{ mediaType: 'reactAnimation', animation: 'rosterFillAnimation' }} />
 
       <GroupHeading>Support</GroupHeading>
       <BlockCaption name="FAQ Accordion" type="faqAccordionBlock" />

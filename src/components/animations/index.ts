@@ -4,6 +4,7 @@ import { IntegrationCardStack } from './IntegrationCardStack'
 import { BevisSidebarAnimation } from './BevisSidebarAnimation'
 import { SettingsFormAnimation } from './SettingsFormAnimation'
 import { SenseworksTableWalkthrough } from './SenseworksTableWalkthrough'
+import { RosterFill } from './RosterFill'
 
 type AnimationEntry = {
   // Every animation accepts `paused` — Media freezes it (not unmounts
@@ -40,6 +41,10 @@ export const ANIMATION_COMPONENTS = {
   } as AnimationEntry,
   foretagTableAnimation: {
     component: SenseworksTableWalkthrough,
+    canvas: { width: 700, height: 500 },
+  } as AnimationEntry,
+  rosterFillAnimation: {
+    component: RosterFill,
     canvas: { width: 700, height: 500 },
   } as AnimationEntry,
 } satisfies Record<string, AnimationEntry>

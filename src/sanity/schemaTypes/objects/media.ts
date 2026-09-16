@@ -53,6 +53,7 @@ export const media = defineType({
           { title: 'Bevis Sidebar', value: 'bevisSidebarAnimation' },
           { title: 'Settings Form', value: 'settingsFormAnimation' },
           { title: 'Företag Table', value: 'foretagTableAnimation' },
+          { title: 'Roster Fill', value: 'rosterFillAnimation' },
         ],
       },
       hidden: ({ parent }) => parent?.mediaType !== 'reactAnimation',

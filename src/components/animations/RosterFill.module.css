@@ -1,0 +1,252 @@
+/* RosterFill — fixed 700×500 canvas, literal px geometry. */
+
+.canvas {
+  --isc-ink: var(--color-foreground);
+  --isc-ink-70: rgba(16, 24, 41, 0.7);
+  --isc-surface: var(--color-background);
+  /* --color-muted (#f7f7f7) is nearly invisible as a fill on top of
+     --isc-surface (white) — same reasoning as the Företag Table
+     port's --isc-neutral-fill: --color-border is meaningfully darker
+     and restores real contrast for the flag tag's chip background. */
+  --isc-tag-bg: var(--color-border);
+  /* No site-token equivalent (same value already used as a one-off in
+     the Företag Table port's --isc-rule-strong). */
+  --isc-field-border: #909aac;
+  --isc-rule: var(--color-border);
+  --isc-ring: var(--color-background);
+
+  --isc-snap: cubic-bezier(0.16, 1, 0.3, 1);
+  --isc-snap-soft: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --isc-d-in: 220ms;
+  --isc-d-fade: 120ms;
+  --isc-d-digit: 160ms;
+
+  position: relative;
+  width: 700px;
+  height: 500px;
+  overflow: hidden; /* this is what crops the oversized card — intentional */
+  font-family: var(--font-sans, system-ui, sans-serif);
+  /* no background: the host frame shows its own accent gradient */
+}
+
+/* The card is wider and taller than the canvas on purpose. */
+.card {
+  position: absolute;
+  left: -324px;
+  top: 40px;
+  width: 984px;
+  height: 468px;
+  background: var(--isc-surface);
+  border-radius: 12px;
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .card {
+    animation: iscCardIn 260ms var(--isc-snap) both;
+  }
+
+  .card[data-wiped='true'] {
+    animation: iscCardOut 340ms var(--isc-snap-soft) both;
+  }
+}
+
+@keyframes iscCardOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes iscCardIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.card[data-wiped='true'] {
+  opacity: 0;
+}
+
+.row {
+  position: absolute;
+  left: 0;
+  width: 984px;
+  height: 156px;
+}
+
+/* --- row chrome: divider, the two bordered fields, the flag tag --- */
+
+.divider,
+.field,
+.tag {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .divider,
+  .field,
+  .tag {
+    transition: opacity var(--isc-d-fade) var(--isc-snap-soft), transform var(--isc-d-in) var(--isc-snap);
+  }
+}
+
+.divider[data-in='true'],
+.field[data-in='true'],
+.tag[data-in='true'] {
+  opacity: 1;
+  transform: none;
+}
+
+.divider {
+  position: absolute;
+  left: 0;
+  top: 153px;
+  width: 984px;
+  height: 3px;
+  background: var(--isc-rule);
+}
+
+.field {
+  position: absolute;
+  top: 48px;
+  width: 132px;
+  height: 60px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--isc-surface);
+  border: 1.5px solid var(--isc-field-border);
+  border-radius: 12px;
+  font-size: 18px;
+  color: var(--isc-ink);
+}
+
+.tag {
+  position: absolute;
+  left: 408px;
+  top: 48px;
+  width: 132px;
+  height: 60px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 0 24px;
+  background: var(--isc-tag-bg);
+  border-radius: 12px;
+  color: var(--isc-ink-70);
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 48px;
+}
+
+.tagIcon {
+  width: 36px;
+  height: 36px;
+  flex: none;
+  display: block;
+}
+
+/* --- the count: only the digit moves, never the tag or the icon --- */
+
+.digitBox {
+  position: relative;
+  display: block;
+  width: 20px;
+  height: 48px;
+  flex: none;
+}
+
+.digitIn,
+.digitOut {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.digitIn {
+  opacity: 1;
+}
+
+.digitOut {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .digitIn {
+    animation: iscDigitIn var(--isc-d-digit) var(--isc-snap) both;
+  }
+
+  .digitOut {
+    animation: iscDigitOut var(--isc-d-digit) var(--isc-snap) both;
+  }
+}
+
+@keyframes iscDigitIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes iscDigitOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-18px);
+  }
+}
+
+/* --- avatars: 96px circles, 78px apart (18px overlap), white keyline --- */
+
+.avatar {
+  position: absolute;
+  top: 30px;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  opacity: 0;
+  transform: translateY(10px) scale(0.62);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .avatar {
+    transition: opacity var(--isc-d-fade) var(--isc-snap-soft), transform var(--isc-d-in) var(--isc-snap);
+  }
+}
+
+.avatar[data-shown='true'] {
+  opacity: 1;
+  transform: none;
+}
+
+.avatar img {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  box-shadow: 0 0 0 3px var(--isc-ring);
+  user-select: none;
+  -webkit-user-drag: none;
+}
