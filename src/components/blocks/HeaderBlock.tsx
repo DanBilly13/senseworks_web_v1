@@ -179,7 +179,14 @@ export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref }: Head
         {open && (
           <nav
             id="mobile-nav-drawer"
-            className="flex flex-col border-t border-border px-medium-large py-small-medium md:hidden"
+            className="flex flex-col overflow-y-auto border-t border-border px-medium-large py-small-medium md:hidden"
+            // The bar above (logo/close button) stays fixed in place —
+            // only this list scrolls, capped to whatever viewport
+            // height is left below the bar, so a long link list never
+            // extends past the bottom of the screen (body scroll is
+            // locked while open, so that content would otherwise be
+            // unreachable).
+            style={{ maxHeight: 'calc(100vh - var(--header-height, 0px))' }}
           >
             {navLinks.map((link) =>
               link.links?.length ? (
