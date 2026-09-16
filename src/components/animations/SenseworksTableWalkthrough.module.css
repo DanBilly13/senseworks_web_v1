@@ -45,9 +45,7 @@
   --isc-ink: var(--color-foreground);
   --isc-ink-soft: rgba(16, 24, 41, 0.8);
   --isc-ink-mute: var(--color-muted-foreground);
-  /* Dan's own warm off-white, not the site's --color-surface (too grey/cool
-     for this table) — a deliberate one-off, not a reconciled token. */
-  --isc-surface: #fdfdf4;
+  --isc-surface: var(--color-background);
   --isc-white: var(--color-background);
   --isc-rule: var(--color-border);
   --isc-rule-strong: #909aac;
