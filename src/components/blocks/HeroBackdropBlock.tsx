@@ -47,11 +47,12 @@ export function HeroBackdropBlock({
 
   return (
     // Experimental composition, not settled tokens yet. The text zone
-    // uses min-height (not a fixed height) so a longer headline/
-    // subhead on a short mobile screen grows the box instead of
-    // clipping — 75vh is a floor, not a cap, which is what gives short
-    // copy the "starts a way down the page" delayed reveal without
-    // trapping long copy in a box too small for it.
+    // uses top/bottom padding of double the standard section-edge gap
+    // (not a vh-based min-height) so the "starts a way down the page"
+    // delayed reveal comes from the same token every other page-
+    // boundary spacing already uses — it scales if that token ever
+    // changes, and it's just as much room on a short mobile screen as
+    // a tall desktop one, unlike a min-height tied to viewport height.
     <section
       className={[
         'relative mb-section-edge',
@@ -63,7 +64,7 @@ export function HeroBackdropBlock({
       // Same page-top pull-up as the full-bleed image Hero — see
       // HeroBlock's HeroImageOverlay for the full rationale. No fixed
       // height here any more — the section's own height now just
-      // follows its content (text zone's min-height + the showcase
+      // follows its content (text zone's padding + the showcase
       // media's natural height).
       style={{ marginTop: 'calc(var(--header-height, 0px) * -1)' }}
     >
@@ -82,7 +83,12 @@ export function HeroBackdropBlock({
           background, with only page background (not this hero's own
           backdrop) providing any breathing room below it. */}
       <div className="relative mx-auto flex w-full max-w-page flex-col gap-2xl px-medium-large pb-section-edge">
-        <div className="flex flex-col justify-end" style={{ minHeight: '75vh' }}>
+        <div
+          style={{
+            paddingTop: 'calc(var(--spacing-section-edge) * 2)',
+            paddingBottom: 'calc(var(--spacing-section-edge) * 2)',
+          }}
+        >
           <SectionIntro
             as="h1"
             eyebrow={eyebrow}
