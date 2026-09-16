@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import { CloseOutlined, DownOutlined, MenuOutlined } from '@ant-design/icons'
 import { Button } from '@/components/ui/Button'
 import { Menu, MenuItem } from '@/components/ui/Menu'
+import styles from './HeaderBlock.module.css'
 
 type NavSubLink = { label: string; href?: string }
 type NavLink = { label: string; href?: string; links?: NavSubLink[] }
@@ -123,6 +124,17 @@ export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref }: Head
     return () => window.removeEventListener('scroll', onScroll)
   }, [barHeight])
 
+  // Locks the page's own scroll while the mobile drawer is open, so
+  // scrolling inside it doesn't also scroll the page underneath.
+  useEffect(() => {
+    if (!open) return
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = previousOverflow
+    }
+  }, [open])
+
   return (
     <>
       <header
@@ -171,16 +183,25 @@ export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref }: Head
           >
             {navLinks.map((link) =>
               link.links?.length ? (
-                <div key={link.label} className="border-b border-border py-small">
-                  <span className="text-body font-semibold text-foreground">{link.label}</span>
-                  <div className="mt-small flex flex-col gap-small pl-medium">
+                <div key={link.label} className="border-b border-border">
+                  <div className={`text-body font-semibold text-foreground ${styles.navRow}`}>
+                    {link.label}
+                  </div>
+                  <div className="flex flex-col">
                     {link.links.map((sub) =>
                       sub.href ? (
-                        <a key={sub.label} href={sub.href} className="text-body-sm text-muted-foreground">
+                        <a
+                          key={sub.label}
+                          href={sub.href}
+                          className={`text-body text-muted-foreground ${styles.navRow}`}
+                        >
                           {sub.label}
                         </a>
                       ) : (
-                        <span key={sub.label} className="text-body-sm text-muted-foreground/60">
+                        <span
+                          key={sub.label}
+                          className={`text-body text-muted-foreground/60 ${styles.navRow}`}
+                        >
                           {sub.label}
                         </span>
                       ),
@@ -188,13 +209,13 @@ export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref }: Head
                   </div>
                 </div>
               ) : (
-                <a key={link.label} href={link.href} className="border-b border-border py-small text-body">
+                <a key={link.label} href={link.href} className={`border-b border-border text-body ${styles.navRow}`}>
                   {link.label}
                 </a>
               ),
             )}
             {ctaLabel && ctaHref && (
-              <Button href={ctaHref} size="md">
+              <Button href={ctaHref} size="lg">
                 {ctaLabel}
               </Button>
             )}

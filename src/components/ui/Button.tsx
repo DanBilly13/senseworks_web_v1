@@ -32,6 +32,10 @@ export const buttonVariants = cva(
       size: {
         sm: 'px-medium py-small',
         md: 'px-medium-large py-small-medium',
+        // Taller vertical padding — e.g. the mobile nav drawer's CTA,
+        // which reads squeezed at md's py-small-medium next to the
+        // ~44px-tall nav rows above it.
+        lg: 'p-medium-large',
       },
     },
     defaultVariants: { variant: 'filled-dark', size: 'md' },

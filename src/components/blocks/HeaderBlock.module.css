@@ -1,0 +1,11 @@
+/* Mobile nav drawer row sizing — kept separate from the shared
+   spacing scale so row height can be dialed in on its own without
+   touching desktop layout tokens. ~10px top/bottom padding plus a
+   16px/24px-line-height row of text and the 1px divider border lands
+   each row at ~45px, close to the ~44px target. Applies uniformly to
+   top-level links, a dropdown group's label, and each of its
+   sub-links, so every row in the drawer reads as the same height. */
+.navRow {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
