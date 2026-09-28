@@ -25,7 +25,7 @@ export function StepsBlock({ items = [] }: StepsBlockProps) {
           orientation with the container: a down arrow while stacked on
           mobile, a right arrow once the row goes horizontal on desktop —
           each hidden on the breakpoint the other owns. */}
-      <div className="flex flex-col gap-2xl md:flex-row md:items-start">
+      <div className="flex flex-col gap-medium-large md:flex-row md:items-start md:gap-2xl">
         {items.map((item, index) => (
           <Fragment key={index}>
             <div className="flex flex-1 flex-col gap-small-medium">
@@ -43,8 +43,13 @@ export function StepsBlock({ items = [] }: StepsBlockProps) {
             </div>
             {index < items.length - 1 && (
               <>
-                <div className="flex justify-center md:hidden" aria-hidden="true">
-                  <ArrowDownOutlined className="text-h3 text-muted-foreground" />
+                {/* Fixed at the mobile circle's own width (size-2xl) and
+                    left-aligned like it (not centered on the full row),
+                    so the line/arrow land directly under the circle
+                    instead of under the row's horizontal center. */}
+                <div className="flex w-2xl flex-col items-center gap-small md:hidden" aria-hidden="true">
+                  <div className="h-2xl w-px bg-muted-foreground/40" />
+                  <ArrowDownOutlined className="text-body text-muted-foreground" />
                 </div>
                 {/* Wrapped in a plain div rather than putting size/color
                     classes on the AntD icon itself — Ant Design's
