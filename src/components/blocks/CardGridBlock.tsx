@@ -12,6 +12,10 @@ type CardGridBlockProps = {
   items?: CardGridItem[]
   tone?: CardTone
   headingLevel?: 'h3' | 'h4'
+  // Highlights each item's eyebrow leading word (e.g. "01") as a small
+  // colored badge instead of plain text — off by default since not
+  // every Card Grid is numbered.
+  numberedEyebrow?: boolean
 }
 
 const GRID_COLS_CLASS: Record<'1' | '2' | '3' | '4', string> = {
@@ -25,21 +29,62 @@ const GRID_COLS_CLASS: Record<'1' | '2' | '3' | '4', string> = {
 // contrasts against the page). accent: our accent-yellow bg, plain
 // black text — same default SectionIntro tone as the light card,
 // since --color-accent-foreground already resolves to --color-foreground.
-// Bottom padding is its own flat pb-xl (48px), not part of the
-// responsive p-medium-large/md:p-large shorthand — it's deliberately
-// matching SectionIntro's own heading-to-body gap (16px container gap
-// + body's mt-large bump = 48px, unresponsive at every breakpoint, see
-// SectionIntro.tsx), so the space below the body reads the same as the
-// space above it, instead of shrinking to the plain side/top padding.
+// No bottom padding here — it's computed per headingLevel below,
+// matching SectionIntro's own (now line-height-based) heading-to-body
+// gap, same reasoning as before, just no longer a fixed px value.
 const CARD_CLASS: Record<CardTone, string> = {
-  default: 'rounded-lg border border-border bg-background px-medium-large pt-medium-large pb-xl md:px-large md:pt-large',
-  dark: 'rounded-lg bg-foreground px-medium-large pt-medium-large pb-xl md:px-large md:pt-large',
-  accent: 'rounded-lg bg-accent px-medium-large pt-medium-large pb-xl md:px-large md:pt-large',
+  default: 'rounded-lg border border-border bg-background px-medium-large pt-medium-large md:px-large md:pt-large',
+  dark: 'rounded-lg bg-foreground px-medium-large pt-medium-large md:px-large md:pt-large',
+  accent: 'rounded-lg bg-accent px-medium-large pt-medium-large md:px-large md:pt-large',
+}
+
+// Mirrors SectionIntro's own HEADING_LINE_HEIGHT_GAP but without the
+// "minus the container's base gap" adjustment — this is a standalone
+// padding value, not stacking on top of any other gap, so it should
+// equal the heading's full line-height exactly (matching the visual
+// gap SectionIntro now produces between heading and body).
+const CARD_PADDING_BOTTOM_VAR: Record<'h3' | 'h4', string> = {
+  h3: 'var(--text-h3--full-line-height)',
+  h4: 'var(--text-h4--full-line-height)',
+}
+
+// bg-foreground/text-accent for anything NOT dark (default's light
+// background, accent's yellow background) — a solid accent-yellow
+// badge on the dark card would put yellow text on a yellow badge and
+// disappear, so dark gets the inverse pairing instead.
+const NUMBER_BADGE_CLASS: Record<CardTone, string> = {
+  default: 'rounded-xs bg-foreground px-xs text-accent',
+  dark: 'rounded-xs bg-accent px-xs text-foreground',
+  accent: 'rounded-xs bg-foreground px-xs text-accent',
+}
+
+// Splits only the first word off as "the number" — existing content is
+// already written as one string ("01 TID"), so this avoids a separate
+// schema field and any content migration. The badge only gets that
+// first word's own classes (background/padding/radius/color); it
+// inherits the eyebrow paragraph's font-size/weight/tracking as-is,
+// so the number reads at the same size as the rest of the eyebrow.
+function renderEyebrow(eyebrow: string, numbered: boolean, tone: CardTone) {
+  if (!numbered) return eyebrow
+  const [number, ...rest] = eyebrow.trim().split(' ')
+  const restText = rest.join(' ')
+  return (
+    <>
+      <span className={NUMBER_BADGE_CLASS[tone]}>{number}</span>
+      {restText && ` ${restText}`}
+    </>
+  )
 }
 
 // No eyebrow/heading/body of its own — pair it with a separate intro
 // block (e.g. Section Headline) above it when one's needed.
-export function CardGridBlock({ columns = '3', items = [], tone = 'default', headingLevel = 'h4' }: CardGridBlockProps) {
+export function CardGridBlock({
+  columns = '3',
+  items = [],
+  tone = 'default',
+  headingLevel = 'h4',
+  numberedEyebrow = false,
+}: CardGridBlockProps) {
   // D7: a block with no content simply doesn't render.
   if (!items.length) return null
 
@@ -57,10 +102,14 @@ export function CardGridBlock({ columns = '3', items = [], tone = 'default', hea
           card padding) is unchanged from before. */}
       <div className={`grid grid-cols-1 gap-small md:gap-large ${GRID_COLS_CLASS[columns]}`}>
         {items.map((item, index) => (
-          <div key={index} className={`flex flex-col ${CARD_CLASS[tone]}`}>
+          <div
+            key={index}
+            className={`flex flex-col ${CARD_CLASS[tone]}`}
+            style={{ paddingBottom: CARD_PADDING_BOTTOM_VAR[headingLevel] }}
+          >
             <SectionIntro
               as={headingLevel}
-              eyebrow={item.eyebrow}
+              eyebrow={renderEyebrow(item.eyebrow, numberedEyebrow, tone)}
               heading={item.heading}
               body={item.body}
               tone={tone === 'dark' ? 'inverse' : 'default'}
@@ -68,6 +117,10 @@ export function CardGridBlock({ columns = '3', items = [], tone = 'default', hea
               // accent highlight rather than faded white — a look Dan
               // asked for after seeing the plain white/70% version.
               eyebrowColor={tone === 'dark' ? 'text-accent' : undefined}
+              // Card headings vary per instance (h3 or h4), so a single
+              // fixed gap would only ever suit one of them — see
+              // SectionIntro's own comment on this prop.
+              gapToLineHeight
             />
           </div>
         ))}

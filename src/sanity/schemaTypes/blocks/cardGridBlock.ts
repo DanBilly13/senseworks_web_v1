@@ -53,6 +53,14 @@ export const cardGridBlock = defineType({
       initialValue: 'h4',
     }),
     defineField({
+      name: 'numberedEyebrow',
+      title: 'Numbered eyebrow',
+      description:
+        'Highlights the first word of each card\'s eyebrow (e.g. "01") as a small colored badge, matching the card style above. Turn on only when every eyebrow below actually starts with a number.',
+      type: 'boolean',
+      initialValue: false,
+    }),
+    defineField({
       name: 'items',
       title: 'Cards',
       type: 'array',

@@ -1,8 +1,13 @@
 @import "tailwindcss";
 
 @theme {
-  /* D5: radius scale — mirrors senseworks-figma-styles/border-radius.tokens.json exactly */
+  /* D5: radius scale — mirrors senseworks-figma-styles/border-radius.tokens.json,
+     plus xs (2px) added here for Card Grid's small numbered-eyebrow
+     badge, which needed a tighter radius than the Figma scale's
+     existing smallest (sm, 4px) — not yet back-ported to the Figma
+     tokens file. */
   --radius-none: 0px;
+  --radius-xs: 2px;
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 8px;
@@ -148,6 +153,21 @@
   --text-h4--line-height: 1.3;
   --text-h5: 1.375rem;
   --text-h5--line-height: 1.3;
+
+  /* Each heading's own rendered line-height in px, derived from its
+     size × ratio above rather than hand-copied — stays correct
+     automatically under the mobile override below, since calc()
+     re-resolves the underlying --text-h3/--text-h4 vars at whatever
+     breakpoint is active. Used where a gap needs to scale with
+     whichever heading size is actually in play (e.g. Card Grid, which
+     supports both h3 and h4) instead of a fixed px value that would
+     only suit one of them. */
+  --text-display--full-line-height: calc(var(--text-display) * var(--text-display--line-height));
+  --text-h1--full-line-height: calc(var(--text-h1) * var(--text-h1--line-height));
+  --text-h2--full-line-height: calc(var(--text-h2) * var(--text-h2--line-height));
+  --text-h3--full-line-height: calc(var(--text-h3) * var(--text-h3--line-height));
+  --text-h4--full-line-height: calc(var(--text-h4) * var(--text-h4--line-height));
+
   --text-body-lg: 1.125rem;
   --text-body: 1rem;
   --text-body-sm: 0.875rem;

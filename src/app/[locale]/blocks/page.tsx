@@ -316,6 +316,35 @@ export default async function BlocksPage({
           { eyebrow: '03 — Dolor', heading: 'Adipiscing elit sed', body: BODY },
         ]}
       />
+      <BlockCaption
+        name="Card Grid — Numbered Eyebrow, Dark"
+        type="cardGridBlock"
+        variant='numberedEyebrow: true, tone: "dark"'
+      />
+      <CardGridBlock
+        columns="3"
+        tone="dark"
+        numberedEyebrow
+        items={[
+          { eyebrow: '01 TID', heading: 'Lorem ipsum dolor', body: BODY },
+          { eyebrow: '02 KVALITET', heading: 'Sit amet consectetur', body: BODY },
+          { eyebrow: '03 EGENART', heading: 'Adipiscing elit sed', body: BODY },
+        ]}
+      />
+      <BlockCaption
+        name="Card Grid — Numbered Eyebrow, Default"
+        type="cardGridBlock"
+        variant='numberedEyebrow: true'
+      />
+      <CardGridBlock
+        columns="3"
+        numberedEyebrow
+        items={[
+          { eyebrow: '01 TID', heading: 'Lorem ipsum dolor', body: BODY },
+          { eyebrow: '02 KVALITET', heading: 'Sit amet consectetur', body: BODY },
+          { eyebrow: '03 EGENART', heading: 'Adipiscing elit sed', body: BODY },
+        ]}
+      />
 
       <GroupHeading>Social Proof</GroupHeading>
       <BlockCaption name="Logo Cloud" type="logoCloudBlock" />
