@@ -38,10 +38,23 @@ export function FaqAccordionBlock({
                   aria-expanded={isOpen}
                   aria-controls={panelId}
                   onClick={() => setOpenIndex(isOpen ? null : index)}
-                  className="flex w-full items-center justify-between py-small text-left text-body-lg font-medium text-foreground"
+                  className="flex w-full items-center justify-between gap-medium py-small text-left text-body-lg font-medium text-foreground"
                 >
-                  <span className="max-w-prose-lg">{item.question}</span>
-                  <span aria-hidden="true">{isOpen ? <MinusOutlined /> : <PlusOutlined />}</span>
+                  {/* Mobile: flex-1 + min-w-0 so the question fills the
+                      full row width and wraps normally. Desktop: reverts
+                      to the fixed prose-lg cap, leaving room for
+                      justify-between to push the icon's own column out
+                      to the wider container's right edge (see maxWidth
+                      note on SectionShell below). The icon sits in a
+                      fixed-width column (shrink-0) at both breakpoints,
+                      rather than just an inline sibling sized to its own
+                      content. */}
+                  <span className="min-w-0 flex-1 md:max-w-prose-lg md:flex-none">
+                    {item.question}
+                  </span>
+                  <span className="flex w-large shrink-0 justify-end" aria-hidden="true">
+                    {isOpen ? <MinusOutlined /> : <PlusOutlined />}
+                  </span>
                 </button>
               </dt>
               <dd
