@@ -22,8 +22,12 @@ export function DarkBannerBlock({ eyebrow, heading, body, items = [] }: DarkBann
     // SectionShell's own page margin already keeps this off the
     // viewport edge — same "contained rounded panel" treatment as
     // Feature Split — Dark and Media, not a full-bleed background.
-    <SectionShell>
-      <div className="grid grid-cols-1 gap-2xl rounded-lg bg-foreground p-large md:grid-cols-2 md:items-center md:p-2xl">
+    // px="boxed" (8px) since this panel IS a box — its own padding
+    // (p-medium-large, 24px on mobile) lands its text on the same
+    // 32px-from-edge line as everywhere else. Desktop's p-2xl (64px)
+    // is unchanged, that padding was already responsive before this.
+    <SectionShell px="boxed">
+      <div className="grid grid-cols-1 gap-2xl rounded-lg bg-foreground p-medium-large md:grid-cols-2 md:items-center md:p-2xl">
         <SectionIntro as="h2" eyebrow={eyebrow} heading={heading} body={body} tone="inverse" />
         <div className="flex flex-col gap-large">
           {items.map((item, index) => (

@@ -29,13 +29,15 @@ export function CaseStudyGridBlock({
   if (!items.length) return null
 
   return (
-    <SectionShell className="flex flex-col gap-2xl">
+    <SectionShell px="boxed" className="flex flex-col gap-2xl">
       <SectionIntro as="h2" eyebrow={eyebrow} heading={heading} body={body} maxWidth="md" />
-      <div className="grid grid-cols-1 gap-large sm:grid-cols-2 lg:grid-cols-3">
+      {/* Same 8+24=32px-from-edge mobile rhythm as Card Grid — see its
+          own comment. Desktop unchanged. */}
+      <div className="grid grid-cols-1 gap-small sm:grid-cols-2 md:gap-large lg:grid-cols-3">
         {items.map((item, index) => (
           <div
             key={index}
-            className="flex flex-col gap-medium-large rounded-lg border border-border bg-background p-large"
+            className="flex flex-col gap-medium-large rounded-lg border border-border bg-background p-medium-large md:p-large"
           >
             <Media
               media={item.media}

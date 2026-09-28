@@ -24,9 +24,11 @@ export function PricingBlock({ eyebrow, heading, body, plans = [] }: PricingBloc
   if (!plans.length) return null
 
   return (
-    <SectionShell className="flex flex-col gap-2xl">
+    <SectionShell px="boxed" className="flex flex-col gap-2xl">
       <SectionIntro as="h2" eyebrow={eyebrow} heading={heading} body={body} maxWidth="md" />
-      <div className="grid grid-cols-1 gap-large md:grid-cols-2">
+      {/* Same 8+24=32px-from-edge mobile rhythm as Card Grid — see its
+          own comment. Desktop unchanged. */}
+      <div className="grid grid-cols-1 gap-small md:grid-cols-2 md:gap-large">
         {plans.map((plan, index) => {
           const featured = !!plan.featured
           return (
@@ -34,8 +36,8 @@ export function PricingBlock({ eyebrow, heading, body, plans = [] }: PricingBloc
               key={index}
               className={
                 featured
-                  ? 'flex flex-col gap-medium-large rounded-lg bg-foreground p-large text-background'
-                  : 'flex flex-col gap-medium-large rounded-lg border border-border bg-background p-large'
+                  ? 'flex flex-col gap-medium-large rounded-lg bg-foreground p-medium-large text-background md:p-large'
+                  : 'flex flex-col gap-medium-large rounded-lg border border-border bg-background p-medium-large md:p-large'
               }
             >
               <div className="flex flex-col gap-small">

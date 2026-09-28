@@ -40,9 +40,12 @@ export function BentoGridBlock({
 
   return (
     <>
-      <SectionShell className="flex flex-col gap-2xl">
+      <SectionShell px="boxed" className="flex flex-col gap-2xl">
         <SectionIntro as="h3" eyebrow={eyebrow} heading={heading} body={body} maxWidth="md" />
-        <div className={`grid grid-cols-1 gap-large ${GRID_COLS_CLASS[columns]}`}>
+        {/* gap-small/md:gap-large + each card's p-medium-large/md:p-large:
+            same 8+24=32px-from-edge mobile rhythm as Card Grid — see its
+            own comment for the full reasoning. Desktop unchanged. */}
+        <div className={`grid grid-cols-1 gap-small md:gap-large ${GRID_COLS_CLASS[columns]}`}>
           {items.map((item, index) => {
             // Large (2 wide, 2 tall) and Tall (1 wide, 2 tall) both span two
             // grid rows, so they sit side by side at full height while the
@@ -54,7 +57,7 @@ export function BentoGridBlock({
             return (
               <div
                 key={index}
-                className={`relative flex flex-col rounded-lg border border-border bg-background p-large ${cardSpanClass} ${spansTwoRows ? 'md:row-span-2' : ''}`}
+                className={`relative flex flex-col rounded-lg border border-border bg-background p-medium-large md:p-large ${cardSpanClass} ${spansTwoRows ? 'md:row-span-2' : ''}`}
               >
                 <button
                   type="button"

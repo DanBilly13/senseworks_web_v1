@@ -22,13 +22,17 @@ export function FeatureSplitDarkBlock({
   imagePosition = 'right',
   media,
 }: FeatureSplitDarkBlockProps) {
+  // p-medium-large/md:p-2xl (24/64) — same "boxed panel" mobile rhythm
+  // as DarkBannerBlock: paired with SectionShell's px="boxed" (8px)
+  // below, the panel's own padding lands its text on the site-wide
+  // 32px-from-edge line. Desktop's p-2xl is unchanged.
   const panelClassName = [
-    'flex w-full flex-col gap-large rounded-lg bg-foreground p-2xl md:items-center md:gap-2xl',
+    'flex w-full flex-col gap-large rounded-lg bg-foreground p-medium-large md:items-center md:gap-2xl md:p-2xl',
     imagePosition === 'right' ? 'md:flex-row' : 'md:flex-row-reverse',
   ].join(' ')
 
   return (
-    <SectionShell>
+    <SectionShell px="boxed">
       <div className={panelClassName}>
         <div className="w-full md:max-w-prose-xs md:shrink-0">
           <div className="flex flex-col gap-medium">

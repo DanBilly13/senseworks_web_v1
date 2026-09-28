@@ -318,6 +318,19 @@ h6 {
     max((100% - var(--container-page)) / 2, 0px) + var(--spacing-medium-large)
   );
 }
+/* Mobile boxed-section rhythm (SectionShell's `px="boxed"`): the
+   leading inset shrinks to --spacing-small (8px) so the card's own
+   ~24px internal padding lands its text on the same 32px-from-edge
+   line as every other mobile section, instead of 24+24=48px. Desktop
+   is untouched — still --spacing-medium-large. */
+@media (max-width: 767px) {
+  .carousel-inset {
+    padding-inline-start: calc(max((100% - var(--container-page)) / 2, 0px) + var(--spacing-small));
+    scroll-padding-inline-start: calc(
+      max((100% - var(--container-page)) / 2, 0px) + var(--spacing-small)
+    );
+  }
+}
 
 /* Accent Gradient background — not a Tailwind utility, since a gradient
    with specific stop positions/angle can't be expressed without
@@ -337,7 +350,11 @@ h6 {
 }
 @media (max-width: 767px) {
   .hero-overlay-card-padding {
-    padding: 24px;
+    /* Same mobile rhythm as every other full-bleed text-over-media
+       treatment (Media block's overlay): no section padding at all
+       (this card is already edge-to-edge), so its OWN padding is what
+       lands the text on the site-wide 32px-from-edge line. */
+    padding: 32px;
   }
 }
 

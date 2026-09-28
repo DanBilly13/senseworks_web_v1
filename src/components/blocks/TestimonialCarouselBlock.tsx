@@ -61,7 +61,12 @@ export function TestimonialCarouselBlock({
 
   return (
     <section className="pb-section-gap-loose">
-      <div className="mx-auto flex w-full max-w-page flex-col px-medium-large">
+      {/* This header text isn't itself boxed — the cards below are —
+          so it gets the plain 32px-from-edge mobile treatment (same as
+          SectionShell's default px), not the 8px boxed one. Text here
+          and text inside the boxed cards below (8px section + 24px
+          card padding) end up on the same 32px line either way. */}
+      <div className="mx-auto flex w-full max-w-page flex-col px-large md:px-medium-large">
         <div className="flex flex-wrap items-end justify-between gap-medium-large">
           {/* min-w-0 + flex-1 so headingMaxWidth="wide" (80%) resolves
               against the space actually left over after the nav

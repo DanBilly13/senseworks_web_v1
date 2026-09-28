@@ -41,25 +41,26 @@ export function MediaBlock({ media, eyebrow, headline, body, ctaLabel, ctaHref, 
           without the two conflicting in the same class list.
 
           Full-bleed and taller (3:4) on mobile, contained and 7:5 from
-          md: up — same "-mx-medium-large cancels SectionShell's own
-          px-medium-large" trick as the mobile Hero card. No explicit
-          width utility: a plain block's width:auto already expands to
-          fill (or, with the negative margin below, overflow) its
-          container — adding w-full here would fight the negative
-          margin (both non-auto, over-constrained) instead of
+          md: up — same "-mx-large cancels SectionShell's own mobile
+          px-large" trick as the mobile Hero card (SectionShell's
+          default mobile padding — see its own px="default" comment).
+          No explicit width utility: a plain block's width:auto already
+          expands to fill (or, with the negative margin below,
+          overflow) its container — adding w-full here would fight the
+          negative margin (both non-auto, over-constrained) instead of
           cooperating with it. */}
-      <div className="relative -mx-medium-large aspect-media-portrait overflow-hidden rounded-none md:mx-0 md:aspect-media md:rounded-lg">
+      <div className="relative -mx-large aspect-media-portrait overflow-hidden rounded-none md:mx-0 md:aspect-media md:rounded-lg">
         <div className="absolute inset-0">
           <Media media={media} alt={headline || media?.alt || ''} className="size-full" />
         </div>
         <div className="absolute inset-0 bg-foreground/55" aria-hidden="true" />
         <div
           className={[
-            // Tripled from px-medium-large/py-large (24px/32px) to
-            // 96px on desktop — kept back to the smaller value on
-            // mobile (md:), since tripling it there would leave almost
-            // no room for the actual text on a narrow screen.
-            'relative flex size-full flex-col justify-center p-medium-large md:p-3xl',
+            // 32px on mobile (this box is full-bleed, 0 section
+            // padding, so this IS the only thing landing the text on
+            // the site-wide 32px-from-edge line), tripled to 96px on
+            // desktop, as before.
+            'relative flex size-full flex-col justify-center p-large md:p-3xl',
             align === 'center' ? 'items-center' : 'items-start',
           ].join(' ')}
         >

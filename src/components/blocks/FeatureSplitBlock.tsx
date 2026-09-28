@@ -24,8 +24,13 @@ export function FeatureSplitBlock({
   headingLevel = 'h3',
   media,
 }: FeatureSplitBlockProps) {
+  // px-large/md:px-medium-large (32/24) — this is plain, non-boxed
+  // content (an image + text row, no card around either), so it gets
+  // the site's default 32px-from-edge mobile rhythm — same as
+  // SectionShell's own px="default", hand-rolled here since this
+  // block's mirrored row can't route through SectionShell itself.
   const rowClassName = [
-    'mx-auto flex w-full max-w-page flex-col gap-large px-medium-large md:items-center md:gap-2xl',
+    'mx-auto flex w-full max-w-page flex-col gap-large px-large md:items-center md:gap-2xl md:px-medium-large',
     imagePosition === 'right' ? 'md:flex-row-reverse' : 'md:flex-row',
   ].join(' ')
 

@@ -26,9 +26,9 @@ const GRID_COLS_CLASS: Record<'1' | '2' | '3' | '4', string> = {
 // black text — same default SectionIntro tone as the light card,
 // since --color-accent-foreground already resolves to --color-foreground.
 const CARD_CLASS: Record<CardTone, string> = {
-  default: 'rounded-lg border border-border bg-background p-large',
-  dark: 'rounded-lg bg-foreground p-large',
-  accent: 'rounded-lg bg-accent p-large',
+  default: 'rounded-lg border border-border bg-background p-medium-large md:p-large',
+  dark: 'rounded-lg bg-foreground p-medium-large md:p-large',
+  accent: 'rounded-lg bg-accent p-medium-large md:p-large',
 }
 
 // No eyebrow/heading/body of its own — pair it with a separate intro
@@ -38,20 +38,18 @@ export function CardGridBlock({ columns = '3', items = [], tone = 'default', hea
   if (!items.length) return null
 
   return (
-    <SectionShell>
+    <SectionShell px="boxed">
       {/* Grid's default align-items: stretch makes every card in a row
           match the tallest one, on desktop's multi-column row — no
           extra height/flex wiring needed for that. Single column on
           mobile just stacks them at their own natural heights instead.
-          Mobile also goes full-bleed (-mx-medium-large cancels
-          SectionShell's own px-medium-large, same trick as the mobile
-          Hero card) with just a 4px gap between cards — cards keep
-          their own rounding, so it still reads as a stack of separate
-          cards, just without the page's usual side margin eating into
-          them on a narrow screen. Desktop is untouched. */}
-      <div
-        className={`-mx-medium-large grid grid-cols-1 gap-xs md:mx-0 md:gap-large ${GRID_COLS_CLASS[columns]}`}
-      >
+          gap-small/md:gap-large pairs with SectionShell's px="boxed"
+          (8px) and each card's own p-medium-large (24px): the card's
+          TEXT lands 8+24=32px from the edge either way, same as every
+          non-boxed section's direct 32px padding — only the box itself
+          hugs closer to the edge on mobile. Desktop (32px gap, 32px
+          card padding) is unchanged from before. */}
+      <div className={`grid grid-cols-1 gap-small md:gap-large ${GRID_COLS_CLASS[columns]}`}>
         {items.map((item, index) => (
           <div key={index} className={`flex flex-col ${CARD_CLASS[tone]}`}>
             <SectionIntro

@@ -13,6 +13,18 @@ type SectionShellProps = {
   // both, since there's no neighboring section to supply the other
   // half of the gap instead.
   pad?: 'bottom' | 'both'
+  // Mobile rhythm rule (desktop is identical either way, 24px):
+  // 'default' for plain content — the text itself sits 32px from the
+  // screen edge. 'boxed' for a section whose content is one or more
+  // visually boxed cards (a border/background/shadow around each
+  // item) — the section only pads 8px, and pairing that with the
+  // card's own ~24px internal padding lands the card's TEXT at the
+  // same 32px line as 'default' content, while letting the box itself
+  // hug closer to the edge. Callers with boxed content are expected to
+  // also give their card grid a matching mobile gap (gap-small) and
+  // their cards matching internal padding (p-medium-large) — this
+  // prop only handles the section's own edge, not those.
+  px?: 'default' | 'boxed'
   sectionClassName?: string
   className?: string
   ariaLabel?: string
@@ -22,6 +34,11 @@ type SectionShellProps = {
 const MAX_WIDTH_CLASS = {
   page: 'max-w-page',
   'prose-lg': 'max-w-prose-lg',
+}
+
+const PX_CLASS = {
+  default: 'px-large md:px-medium-large',
+  boxed: 'px-small md:px-medium-large',
 }
 
 const PB_CLASS = {
@@ -46,6 +63,7 @@ export function SectionShell({
   maxWidth = 'page',
   py = 'loose',
   pad = 'bottom',
+  px = 'default',
   sectionClassName,
   className,
   ariaLabel,
@@ -59,7 +77,7 @@ export function SectionShell({
         .join(' ')}
     >
       <div
-        className={['mx-auto w-full px-medium-large', MAX_WIDTH_CLASS[maxWidth], className]
+        className={['mx-auto w-full', PX_CLASS[px], MAX_WIDTH_CLASS[maxWidth], className]
           .filter(Boolean)
           .join(' ')}
       >
