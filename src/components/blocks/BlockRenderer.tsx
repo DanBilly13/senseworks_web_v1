@@ -1,6 +1,7 @@
 import { HeaderBlock } from './HeaderBlock'
 import { HeroBlock } from './HeroBlock'
 import { HeroBackdropBlock } from './HeroBackdropBlock'
+import { HeroImageOverlayCardBlock } from './HeroImageOverlayCardBlock'
 import { HeroTextBlock } from './HeroTextBlock'
 import { SectionHeadlineBlock } from './SectionHeadlineBlock'
 import { FeatureSplitBlock } from './FeatureSplitBlock'
@@ -27,6 +28,7 @@ const BLOCK_COMPONENTS = {
   headerBlock: HeaderBlock,
   heroBlock: HeroBlock,
   heroBackdropBlock: HeroBackdropBlock,
+  heroImageOverlayCardBlock: HeroImageOverlayCardBlock,
   heroTextBlock: HeroTextBlock,
   sectionHeadlineBlock: SectionHeadlineBlock,
   featureSplitBlock: FeatureSplitBlock,
@@ -56,6 +58,12 @@ export function BlockRenderer({ blocks }: { blocks: PageBlock[] }) {
         const Component = BLOCK_COMPONENTS[block._type as keyof typeof BLOCK_COMPONENTS]
         // D7: an unrecognized or incomplete block type simply doesn't render.
         if (!Component) return null
+        // Editor-facing "Hidden" toggle (most block schemas) — lets a
+        // block stay in the page's content array, fully configured,
+        // while an editor iterates on something else without deleting
+        // and later re-authoring it. Not on Header/Footer (D19: those
+        // are structural chrome, not optional content).
+        if (block.hidden === true) return null
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- block shape is validated by the Sanity schema, not statically knowable here
         return <Component key={block._key} {...(block as any)} />
       })}

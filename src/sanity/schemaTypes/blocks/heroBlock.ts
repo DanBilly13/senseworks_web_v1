@@ -1,10 +1,12 @@
 import { defineType, defineField } from 'sanity'
+import { hiddenField } from '../fields/hiddenField'
 
 export const heroBlock = defineType({
   name: 'heroBlock',
   title: 'Hero',
   type: 'object',
   fields: [
+    hiddenField,
     defineField({
       name: 'layout',
       title: 'Layout',
@@ -14,6 +16,10 @@ export const heroBlock = defineType({
           { title: 'Side-by-side (headline left, subtext right)', value: 'split' },
           { title: '50/50 split (text left, image right)', value: 'splitEven' },
           { title: 'Full-bleed image, text overlay bottom-left', value: 'imageOverlay' },
+          {
+            title: 'Scroll reveal — yellow block over fixed image/video (experimental)',
+            value: 'scrollReveal',
+          },
         ],
         layout: 'radio',
       },
@@ -35,6 +41,21 @@ export const heroBlock = defineType({
     defineField({ name: 'ctaLabel', type: 'string' }),
     defineField({ name: 'ctaHref', type: 'string' }),
     defineField({ name: 'media', title: 'Media', type: 'media' }),
+    defineField({
+      name: 'mediaWidth',
+      title: 'Media width',
+      description: '"Scroll Reveal" layout only.',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Full screen width', value: 'full' },
+          { title: 'Content width (capped, centered)', value: 'content' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'full',
+      hidden: ({ parent }) => parent?.layout !== 'scrollReveal',
+    }),
   ],
   preview: {
     select: { title: 'headline', layout: 'layout' },
@@ -43,9 +64,11 @@ export const heroBlock = defineType({
       subtitle:
         layout === 'imageOverlay'
           ? 'Full-bleed image overlay'
-          : layout === 'splitEven'
-            ? '50/50 split'
-            : 'Side-by-side',
+          : layout === 'scrollReveal'
+            ? 'Scroll reveal, yellow over fixed media'
+            : layout === 'splitEven'
+              ? '50/50 split'
+              : 'Side-by-side',
     }),
   },
 })

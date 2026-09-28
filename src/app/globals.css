@@ -93,6 +93,17 @@
      generic one. */
   --aspect-article-cover: 13 / 6;
 
+  /* The 1600x1200 (4:3) canvas the in-progress product-walkthrough
+     animation/video is authored at — distinct from --aspect-media's
+     7:5 used everywhere else (Hero split, Feature Split, Bento Grid,
+     Case Study Grid, Media block) so a box sized to this asset's real
+     shape doesn't change anyone else's frame. Shared by any
+     experimental block placing that same fixed-canvas asset at its
+     native ratio (Hero Backdrop's showcase media, Hero's Scroll
+     Reveal content-width media) rather than cropping it to fit a
+     differently-shaped box. */
+  --aspect-fixed-canvas: 4 / 3;
+
   /* Bento Grid's placeholder image is fixed-height instead, unlike
      --aspect-media above: its cards vary in width (a col-span-2 "large"
      card next to normal ones), so an aspect-ratio box would make the
@@ -306,6 +317,21 @@ h6 {
    arbitrary-value syntax. See --gradient-accent above for the source. */
 .bg-accent-gradient {
   background-image: var(--gradient-accent);
+}
+
+/* Hero Image Overlay Card's (experimental) padding — not a Tailwind
+   utility since the desktop right side (288px) isn't on the named
+   spacing scale, and it needs a real per-breakpoint value rather than
+   a fixed one, so px-<token>/md:px-<token> can't express it either.
+   Same max-width: 767px boundary as the mobile type-scale override
+   above, matching Tailwind's own `md` breakpoint. */
+.hero-overlay-card-padding {
+  padding: 96px 288px 96px 96px;
+}
+@media (max-width: 767px) {
+  .hero-overlay-card-padding {
+    padding: 24px;
+  }
 }
 
 /* Hides the scrollbar on horizontally-scrolling carousels while

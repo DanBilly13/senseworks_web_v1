@@ -1,4 +1,5 @@
 import { defineType, defineField } from 'sanity'
+import { hiddenField } from '../fields/hiddenField'
 
 // Experimental Hero variant: a flexible full-bleed backdrop (image,
 // solid color, or the shared accent gradient) behind text plus a
@@ -10,6 +11,7 @@ export const heroBackdropBlock = defineType({
   title: 'Hero — Backdrop (experimental)',
   type: 'object',
   fields: [
+    hiddenField,
     defineField({
       name: 'backgroundType',
       title: 'Background',

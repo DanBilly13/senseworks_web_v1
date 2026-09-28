@@ -1,4 +1,5 @@
 import { defineType, defineField, defineArrayMember } from 'sanity'
+import { hiddenField } from '../fields/hiddenField'
 
 // Deliberately no top-level eyebrow/heading/body — unlike most grid
 // blocks, this one is meant to be paired with a separate intro block
@@ -8,6 +9,7 @@ export const cardGridBlock = defineType({
   title: 'Card Grid',
   type: 'object',
   fields: [
+    hiddenField,
     defineField({
       name: 'columns',
       title: 'Columns (desktop)',

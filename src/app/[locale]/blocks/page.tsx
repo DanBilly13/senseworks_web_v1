@@ -5,6 +5,7 @@ import { getClientLogos } from '@/lib/sanity/clients'
 import { BlockRenderer } from '@/components/blocks/BlockRenderer'
 import { HeroBlock } from '@/components/blocks/HeroBlock'
 import { HeroBackdropBlock } from '@/components/blocks/HeroBackdropBlock'
+import { HeroImageOverlayCardBlock } from '@/components/blocks/HeroImageOverlayCardBlock'
 import { HeroTextBlock } from '@/components/blocks/HeroTextBlock'
 import { SectionHeadlineBlock } from '@/components/blocks/SectionHeadlineBlock'
 import { FeatureSplitBlock } from '@/components/blocks/FeatureSplitBlock'
@@ -120,6 +121,62 @@ export default async function BlocksPage({
       <BlockCaption name="Hero — Image Overlay" type="heroBlock" variant='layout: "imageOverlay"' />
       <HeroBlock
         layout="imageOverlay"
+        eyebrow={EYEBROW}
+        headline={HEADING}
+        subhead={BODY}
+        ctaLabel="Lorem ipsum"
+        ctaHref="#"
+      />
+      <BlockCaption
+        name="Hero — Image Overlay Card (experimental, dark 50%)"
+        type="heroImageOverlayCardBlock"
+        variant='cardBackground: "dark", cardWidth: "50"'
+      />
+      <HeroImageOverlayCardBlock
+        cardBackground="dark"
+        cardWidth="50"
+        eyebrow={EYEBROW}
+        headline={HEADING}
+        subhead={BODY}
+        ctaLabel="Lorem ipsum"
+        ctaHref="#"
+      />
+      <BlockCaption
+        name="Hero — Image Overlay Card (experimental, gradient 100%)"
+        type="heroImageOverlayCardBlock"
+        variant='cardBackground: "gradient", cardWidth: "100"'
+      />
+      <HeroImageOverlayCardBlock
+        cardBackground="gradient"
+        cardWidth="100"
+        eyebrow={EYEBROW}
+        headline={HEADING}
+        subhead={BODY}
+        ctaLabel="Lorem ipsum"
+        ctaHref="#"
+      />
+      <BlockCaption
+        name="Hero — Scroll Reveal (experimental, full-width media, keep scrolling)"
+        type="heroBlock"
+        variant='layout: "scrollReveal", mediaWidth: "full"'
+      />
+      <HeroBlock
+        layout="scrollReveal"
+        mediaWidth="full"
+        eyebrow={EYEBROW}
+        headline={HEADING}
+        subhead={BODY}
+        ctaLabel="Lorem ipsum"
+        ctaHref="#"
+      />
+      <BlockCaption
+        name="Hero — Scroll Reveal (experimental, content-width media, keep scrolling)"
+        type="heroBlock"
+        variant='layout: "scrollReveal", mediaWidth: "content"'
+      />
+      <HeroBlock
+        layout="scrollReveal"
+        mediaWidth="content"
         eyebrow={EYEBROW}
         headline={HEADING}
         subhead={BODY}
@@ -416,6 +473,28 @@ export default async function BlocksPage({
       />
       <BlockCaption name="Media" type="mediaBlock" />
       <MediaBlock />
+      {/* No media set on purpose — a busy React-animation demo (a bright
+          white UI card) fights the scrim/text instead of showing it
+          off; the gradient placeholder reads closer to a real photo/
+          video's brightness for checking legibility here. */}
+      <BlockCaption name="Media — Text overlay, left aligned" type="mediaBlock" variant="align: 'left'" />
+      <MediaBlock
+        eyebrow="Faster reconciliation"
+        headline="Every upload, matched automatically"
+        body="Drop in bank statements and receipts — the platform matches, flags exceptions, and keeps a full audit trail."
+        ctaLabel="See how it works"
+        ctaHref="#"
+        align="left"
+      />
+      <BlockCaption name="Media — Text overlay, center aligned" type="mediaBlock" variant="align: 'center'" />
+      <MediaBlock
+        eyebrow="Faster reconciliation"
+        headline="Every upload, matched automatically"
+        body="Drop in bank statements and receipts — the platform matches, flags exceptions, and keeps a full audit trail."
+        ctaLabel="See how it works"
+        ctaHref="#"
+        align="center"
+      />
       <BlockCaption
         name="Media — React Animation (Upload Queue Loop)"
         type="mediaBlock"

@@ -28,6 +28,12 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
       'Flexible full-bleed backdrop (image, color, or gradient) behind text and a separate showcase image/video.',
   },
   {
+    type: 'heroImageOverlayCardBlock',
+    title: 'Hero — Image Overlay Card (experimental)',
+    description:
+      'Full-bleed pinned video with text in a card overlay. On desktop, scrolling carries the card away then morphs the video down to content width before releasing.',
+  },
+  {
     type: 'heroTextBlock',
     title: 'Hero — Text Only',
     description: 'Left-aligned text-only hero — eyebrow, headline, subhead, and CTA, no media.',
@@ -101,7 +107,7 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
     type: 'mediaBlock',
     title: 'Media',
     description:
-      'Single full-width image, video, Lottie, or curated React animation, 7:5 ratio, no text.',
+      'Single full-width image, video, Lottie, or curated React animation, 7:5 ratio. Optional eyebrow/headline/body/button overlay with left or center alignment.',
   },
   {
     type: 'faqAccordionBlock',

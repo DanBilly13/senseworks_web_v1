@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/Button'
 import { SectionIntro } from '@/components/ui/SectionIntro'
 import { Media } from '@/components/ui/Media'
+import { PlayOnScrollMedia } from '@/components/ui/PlayOnScrollMedia'
 import { ArticleImage } from '@/components/knowledge-bank/ArticleImage'
 import type { MediaField } from '@/lib/sanity/media'
 
@@ -88,7 +89,9 @@ export function HeroBackdropBlock({
         <div
           style={{
             paddingTop: 'calc(var(--spacing-section-edge) * 2)',
-            paddingBottom: 'calc(var(--spacing-section-edge) * 1.5)',
+            // Halved from 1.5x — Dan wanted the text-to-showcase gap
+            // tighter than the original section-edge-derived spacing.
+            paddingBottom: 'calc(var(--spacing-section-edge) * 0.75)',
           }}
         >
           <SectionIntro
@@ -112,7 +115,30 @@ export function HeroBackdropBlock({
         {showcaseIsImage ? (
           <ArticleImage image={showcaseMedia.image!} alt={headline} className="rounded-lg" />
         ) : (
-          <Media media={showcaseMedia} alt={headline} className="aspect-media w-full rounded-lg" />
+          <PlayOnScrollMedia
+            media={showcaseMedia}
+            alt={headline}
+            // Mobile: full-bleed (break out of this wrapper's own
+            // px-medium-large via a matching negative margin), no
+            // rounded corners, no shadow, border top/bottom only —
+            // reads as a strip of content, not a floating card, which
+            // doesn't work at that size. No w-full here on purpose:
+            // with the negative margin, w-full (100% of the PADDED
+            // parent) leaves a gap the width of one side's padding —
+            // negative margin-right doesn't stretch an element's own
+            // width, only margin-left repositions it, so width:auto
+            // (the block default) is what actually lets the box
+            // expand to fill both reclaimed sides correctly. md: the
+            // desktop card treatment — light grey border-border (not
+            // the near-black border-foreground this had before) all
+            // the way round, rounded-lg, w-full (back to 100% of the
+            // normal, non-negative-margined parent), and a shadow a
+            // step up from the scrollReveal video card's shadow-lg —
+            // shadow-xl for more spread/blur, shadow-foreground/15
+            // (the site's ink token at 15% instead of Tailwind's
+            // default ~10% black) for more opacity.
+            className="-mx-medium-large aspect-fixed-canvas border-y border-border md:mx-0 md:w-full md:rounded-lg md:border md:shadow-xl md:shadow-foreground/15"
+          />
         )}
       </div>
     </section>

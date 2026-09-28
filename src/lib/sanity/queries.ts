@@ -7,8 +7,14 @@ import { groq } from 'next-sanity'
 // asset->url here instead. Takes the field's path so it also works
 // one hop through a reference (e.g. "logo" on a client doc, or
 // "testimonial->media" once a testimonial reference is dereferenced).
-export const mediaProjection = (path = 'media') => groq`
-  "media": ${path}{
+// `as` names the output key — defaults to "media" to match the prop
+// name every block/component expects, but a block with more than one
+// `media`-typed field (e.g. heroBackdropBlock's `backgroundImage` and
+// `showcaseMedia`) needs each projected under its own field name
+// instead, or the second call's "media" key would silently clobber
+// the first's in the same object literal.
+export const mediaProjection = (path = 'media', as = 'media') => groq`
+  "${as}": ${path}{
     mediaType,
     alt,
     image,
@@ -46,6 +52,11 @@ export const pageBySlugAndLocaleQuery = groq`
     blocks[]{
       ...,
       _type == "heroBlock" => { ${mediaProjection()} },
+      _type == "heroImageOverlayCardBlock" => { ${mediaProjection()} },
+      _type == "heroBackdropBlock" => {
+        ${mediaProjection('backgroundImage', 'backgroundImage')},
+        ${mediaProjection('showcaseMedia', 'showcaseMedia')}
+      },
       _type == "featureSplitBlock" => { ${mediaProjection()} },
       _type == "featureSplitDarkBlock" => { ${mediaProjection()} },
       _type == "bentoGridBlock" => { items[]{ ..., ${mediaProjection()} } },

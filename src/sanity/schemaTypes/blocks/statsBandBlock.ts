@@ -1,10 +1,12 @@
 import { defineType, defineField, defineArrayMember } from 'sanity'
+import { hiddenField } from '../fields/hiddenField'
 
 export const statsBandBlock = defineType({
   name: 'statsBandBlock',
   title: 'Stats Band',
   type: 'object',
   fields: [
+    hiddenField,
     defineField({ name: 'eyebrow', type: 'string' }),
     defineField({ name: 'heading', type: 'string', validation: (Rule) => Rule.max(100) }),
     defineField({

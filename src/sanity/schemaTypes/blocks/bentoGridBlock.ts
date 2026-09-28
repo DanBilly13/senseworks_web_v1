@@ -1,10 +1,12 @@
 import { defineType, defineField, defineArrayMember } from 'sanity'
+import { hiddenField } from '../fields/hiddenField'
 
 export const bentoGridBlock = defineType({
   name: 'bentoGridBlock',
   title: 'Bento Grid',
   type: 'object',
   fields: [
+    hiddenField,
     defineField({ name: 'eyebrow', type: 'string' }),
     defineField({
       name: 'heading',

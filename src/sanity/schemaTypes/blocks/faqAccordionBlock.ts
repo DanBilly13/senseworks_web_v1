@@ -1,10 +1,12 @@
 import { defineType, defineField, defineArrayMember } from 'sanity'
+import { hiddenField } from '../fields/hiddenField'
 
 export const faqAccordionBlock = defineType({
   name: 'faqAccordionBlock',
   title: 'FAQ Accordion',
   type: 'object',
   fields: [
+    hiddenField,
     defineField({
       name: 'heading',
       type: 'string',

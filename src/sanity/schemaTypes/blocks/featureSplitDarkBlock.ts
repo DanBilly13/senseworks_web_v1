@@ -1,10 +1,12 @@
 import { defineType, defineField } from 'sanity'
+import { hiddenField } from '../fields/hiddenField'
 
 export const featureSplitDarkBlock = defineType({
   name: 'featureSplitDarkBlock',
   title: 'Feature Split — Dark',
   type: 'object',
   fields: [
+    hiddenField,
     defineField({
       name: 'heading',
       title: 'Header',

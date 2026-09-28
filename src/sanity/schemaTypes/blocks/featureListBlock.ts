@@ -1,10 +1,12 @@
 import { defineType, defineField, defineArrayMember } from 'sanity'
+import { hiddenField } from '../fields/hiddenField'
 
 export const featureListBlock = defineType({
   name: 'featureListBlock',
   title: 'Feature List',
   type: 'object',
   fields: [
+    hiddenField,
     defineField({ name: 'eyebrow', type: 'string' }),
     defineField({
       name: 'heading',

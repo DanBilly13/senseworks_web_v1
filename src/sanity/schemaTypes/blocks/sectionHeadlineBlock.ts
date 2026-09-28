@@ -1,10 +1,12 @@
 import { defineType, defineField } from 'sanity'
+import { hiddenField } from '../fields/hiddenField'
 
 export const sectionHeadlineBlock = defineType({
   name: 'sectionHeadlineBlock',
   title: 'Section Headline',
   type: 'object',
   fields: [
+    hiddenField,
     defineField({ name: 'eyebrow', type: 'string' }),
     defineField({
       name: 'headline',

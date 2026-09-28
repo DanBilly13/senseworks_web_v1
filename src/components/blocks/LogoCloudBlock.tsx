@@ -8,11 +8,12 @@ import type { MediaField } from '@/lib/sanity/media'
 type LogoCloudItem = { name: string; media?: MediaField }
 type LogoCloudBlockProps = {
   logos?: LogoCloudItem[]
+  spacing?: 'loose' | 'medium' | 'tight'
 }
 
 const PIXELS_PER_SECOND = 42
 
-export function LogoCloudBlock({ logos = [] }: LogoCloudBlockProps) {
+export function LogoCloudBlock({ logos = [], spacing = 'loose' }: LogoCloudBlockProps) {
   const wrapperRef = useRef<HTMLDivElement>(null)
   const setRef = useRef<HTMLDivElement>(null)
   const [copies, setCopies] = useState(2)
@@ -48,7 +49,7 @@ export function LogoCloudBlock({ logos = [] }: LogoCloudBlockProps) {
   if (!logos.length) return null
 
   return (
-    <SectionShell>
+    <SectionShell py={spacing}>
       <div ref={wrapperRef} className="overflow-hidden">
         <div
           // The animation class is only added once `setWidth` is measured

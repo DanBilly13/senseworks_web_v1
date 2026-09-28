@@ -103,7 +103,20 @@ export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref }: Head
   // Hides on scroll-down, reveals on scroll-up, from anywhere on the
   // page — only once scrolled past the bar's own height, so it never
   // half-disappears while still near the top. Forced visible whenever
-  // the mobile drawer is open.
+  // the mobile drawer is open, or while scrollY hasn't yet passed the
+  // number given by a `[data-keep-nav-visible-until]` element (opt-in,
+  // e.g. the desktop Hero — Image Overlay Card's shrinking video, which
+  // computes that number itself — see its own comment for what it
+  // means and why it's a plain number rather than something read off
+  // that video box's live position). An earlier version DID read the
+  // video box's own on-screen position directly on every scroll tick,
+  // which sounds more accurate but wasn't reliable in practice: that
+  // box's position comes from several pieces of state settling across
+  // a couple of renders, and if a scroll tick ever landed mid-settle
+  // (most likely right at the very start), it read the in-progress
+  // value as real movement and hid the nav for a frame before snapping
+  // back. A plain number has no history to get out of sync with
+  // itself. Most pages have no such element, so this is a no-op there.
   const [hidden, setHidden] = useState(false)
   const lastY = useRef(0)
 
@@ -115,14 +128,22 @@ export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref }: Head
       ticking = true
       requestAnimationFrame(() => {
         const y = window.scrollY
-        setHidden(y > lastY.current && y > barHeight)
+        const marker = document.querySelector<HTMLElement>('[data-keep-nav-visible-until]')
+        // offsetParent is null when the marker (or an ancestor) is
+        // display:none — e.g. this same block's mobile layout, which
+        // renders both variants and just CSS-hides one. Without this
+        // check, the hidden desktop marker's value would still apply
+        // and permanently force the nav visible on mobile too.
+        const until = marker && marker.offsetParent !== null ? Number(marker.dataset.keepNavVisibleUntil) : NaN
+        const keepVisible = Number.isFinite(until) && y < until
+        setHidden(!keepVisible && y > lastY.current && y > barHeight)
         lastY.current = y
         ticking = false
       })
     }
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
-  }, [barHeight])
+  }, [barHeight, pathname])
 
   // Locks the page's own scroll while the mobile drawer is open, so
   // scrolling inside it doesn't also scroll the page underneath.

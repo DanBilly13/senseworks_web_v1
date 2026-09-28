@@ -1,31 +1,13 @@
 'use client'
 import Image from 'next/image'
 import dynamic from 'next/dynamic'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { urlFor } from '@/lib/sanity/image'
 import type { MediaAlign, MediaField } from '@/lib/sanity/media'
 import type { ReactNode } from 'react'
 import { ANIMATION_COMPONENTS, type AnimationName } from '@/components/animations'
 import { ScaledCanvas } from '@/components/animations/ScaledCanvas'
-
-// Tracks whether a frame is at least `threshold` visible — used to pause
-// (not unmount) a reactAnimation once it drops back below that, so it
-// stops right where it was and picks back up from there, rather than
-// restarting from the beginning.
-function useInView<T extends HTMLElement>(threshold = 0.5) {
-  const ref = useRef<T>(null)
-  const [inView, setInView] = useState(false)
-
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), { threshold })
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [threshold])
-
-  return [ref, inView] as const
-}
+import { useInView } from '@/lib/useInView'
 
 // Lazy-loaded: lottie-web (lottie-react's underlying engine) probes
 // canvas support as a side effect of being imported at all, which
@@ -58,6 +40,13 @@ type MediaProps = {
   // 'none' opts out of the placeholder fill — e.g. a logo mark that
   // should sit directly on the page, not look like a card.
   background?: 'gradient' | 'none'
+  // Video only (reactAnimation already gets its own in-view pause
+  // below). When true, holds playback rather than autoplaying — the
+  // caller decides why/when (e.g. HeroScrollReveal's video not
+  // starting until the yellow cover has scrolled away). Doesn't
+  // unmount or reset the video, just pauses it in place, same
+  // "resume from where it stopped" reasoning as the animation case.
+  paused?: boolean
 }
 
 export function Media({
@@ -69,8 +58,17 @@ export function Media({
   fallback,
   ariaHidden,
   background = 'gradient',
+  paused = false,
 }: MediaProps) {
   const [animRef, animInView] = useInView<HTMLDivElement>()
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  useEffect(() => {
+    const el = videoRef.current
+    if (!el) return
+    if (paused) el.pause()
+    else el.play().catch(() => {})
+  }, [paused])
   const resolvedAlt = media?.alt || alt
   const animationEntry =
     media?.mediaType === 'reactAnimation' && media.animation
@@ -129,8 +127,9 @@ export function Media({
       )}
       {media?.mediaType === 'video' && media.videoUrl && (
         <video
+          ref={videoRef}
           src={media.videoUrl}
-          autoPlay
+          autoPlay={!paused}
           muted
           loop
           playsInline

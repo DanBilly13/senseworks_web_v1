@@ -1,4 +1,5 @@
 import { defineType, defineField, defineArrayMember } from 'sanity'
+import { hiddenField } from '../fields/hiddenField'
 
 // Deliberately no top-level eyebrow/heading/body — same reasoning as
 // Card Grid: pair this with a separate intro block (e.g. Section
@@ -8,6 +9,7 @@ export const featureGridBlock = defineType({
   title: 'Feature Grid',
   type: 'object',
   fields: [
+    hiddenField,
     defineField({
       name: 'columns',
       title: 'Columns (desktop)',

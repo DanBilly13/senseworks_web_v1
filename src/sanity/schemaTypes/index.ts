@@ -9,6 +9,7 @@ import { client } from './documents/client'
 import { headerBlock } from './blocks/headerBlock'
 import { heroBlock } from './blocks/heroBlock'
 import { heroBackdropBlock } from './blocks/heroBackdropBlock'
+import { heroImageOverlayCardBlock } from './blocks/heroImageOverlayCardBlock'
 import { heroTextBlock } from './blocks/heroTextBlock'
 import { sectionHeadlineBlock } from './blocks/sectionHeadlineBlock'
 import { faqAccordionBlock } from './blocks/faqAccordionBlock'
@@ -42,6 +43,7 @@ export const schemaTypes = [
   headerBlock,
   heroBlock,
   heroBackdropBlock,
+  heroImageOverlayCardBlock,
   heroTextBlock,
   sectionHeadlineBlock,
   faqAccordionBlock,

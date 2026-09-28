@@ -2,19 +2,25 @@ import { Button } from '@/components/ui/Button'
 import { SectionShell } from '@/components/ui/SectionShell'
 import { SectionIntro } from '@/components/ui/SectionIntro'
 import { Media } from '@/components/ui/Media'
+import { ScrollRevealStage } from './ScrollRevealStage'
 import type { MediaField } from '@/lib/sanity/media'
 
 type HeroBlockProps = {
-  layout?: 'split' | 'splitEven' | 'imageOverlay'
+  layout?: 'split' | 'splitEven' | 'imageOverlay' | 'scrollReveal'
   eyebrow?: string
   headline: string
   subhead?: string
   ctaLabel?: string
   ctaHref?: string
   media?: MediaField
+  // scrollReveal only, below. Whether the sticky media spans the
+  // full browser width or is capped/centered at max-w-page like
+  // everything else on the site.
+  mediaWidth?: 'full' | 'content'
 }
 
 export function HeroBlock({ layout = 'split', ...props }: HeroBlockProps) {
+  if (layout === 'scrollReveal') return <HeroScrollReveal {...props} />
   if (layout === 'imageOverlay') return <HeroImageOverlay {...props} />
   if (layout === 'splitEven') return <HeroSplitEven {...props} />
   return <HeroSplit {...props} />
@@ -150,5 +156,52 @@ function HeroImageOverlay({
         />
       </div>
     </section>
+  )
+}
+
+function HeroScrollReveal({
+  eyebrow,
+  headline,
+  subhead,
+  ctaLabel,
+  ctaHref,
+  media,
+  mediaWidth = 'full',
+}: HeroVariantProps) {
+  return (
+    // Header pull-up, same as the other full-bleed layouts. No
+    // mb-section-edge here unlike the other Hero layouts — position:
+    // sticky's release mechanics already force a full extra screen of
+    // "dead" scroll before the next block appears (see the comment on
+    // ScrollRevealStage's last spacer), which is already far more
+    // separation than the 120px every other block gets. Adding
+    // section-edge on top of that made an already-long gap longer.
+    //
+    // The sticky/overlap/dwell mechanics and the reveal-driven video
+    // pause live in ScrollRevealStage (a 'use client' component) —
+    // split out so this file's other Hero layouts can stay plain
+    // Server Components.
+    <div className="relative" style={{ marginTop: 'calc(var(--header-height, 0px) * -1)' }}>
+      <ScrollRevealStage media={media} alt={headline} mediaWidth={mediaWidth}>
+        <div className="mx-auto w-full max-w-page">
+          <SectionIntro
+            as="h1"
+            eyebrow={eyebrow}
+            heading={headline}
+            body={subhead}
+            headingMaxWidth="none"
+            align="center"
+            cta={
+              ctaLabel &&
+              ctaHref && (
+                <Button href={ctaHref} variant="filled-dark">
+                  {ctaLabel}
+                </Button>
+              )
+            }
+          />
+        </div>
+      </ScrollRevealStage>
+    </div>
   )
 }

@@ -1,4 +1,5 @@
 import { defineType, defineField, defineArrayMember } from 'sanity'
+import { BlockListItem } from '../components/BlockListItem'
 
 export const page = defineType({
   name: 'page',
@@ -17,10 +18,12 @@ export const page = defineType({
     defineField({
       name: 'blocks',
       type: 'array',
+      components: { item: BlockListItem },
       of: [
         defineArrayMember({ type: 'headerBlock' }),
         defineArrayMember({ type: 'heroBlock' }),
         defineArrayMember({ type: 'heroBackdropBlock' }),
+        defineArrayMember({ type: 'heroImageOverlayCardBlock' }),
         defineArrayMember({ type: 'heroTextBlock' }),
         defineArrayMember({ type: 'sectionHeadlineBlock' }),
         defineArrayMember({ type: 'featureSplitBlock' }),
