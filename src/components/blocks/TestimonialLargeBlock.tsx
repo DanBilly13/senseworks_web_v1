@@ -18,7 +18,12 @@ export function TestimonialLargeBlock({
   media,
 }: TestimonialLargeBlockProps) {
   return (
-    <SectionShell>
+    // px="boxed" (8px) since this is a boxed panel, same as Dark
+    // Banner/50-50 Banner/Feature Split — Dark: its own p-medium-large
+    // (24px on mobile) then lands the quote at the same 32px-from-edge
+    // line as everywhere else, instead of the default 32px page margin
+    // stacking with the card's own padding to 56px.
+    <SectionShell px="boxed">
       <div className="bg-accent-gradient flex flex-col gap-2xl rounded-lg p-medium-large md:p-2xl">
         <p className="text-h4 text-balance text-foreground">&ldquo;{quote}&rdquo;</p>
         <div className="flex items-center gap-medium">
