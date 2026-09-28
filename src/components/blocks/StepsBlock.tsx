@@ -31,26 +31,26 @@ export function StepsBlock({ items = [] }: StepsBlockProps) {
         {items.map((item, index) => (
           <Fragment key={index}>
             <div className="flex flex-1 flex-col gap-small-medium">
-              <div className="flex items-center">
+              <div className="flex items-center gap-large">
                 <div className="flex size-xl shrink-0 items-center justify-center rounded-full bg-foreground md:size-2xl">
-                  <span className="text-h4 font-bold text-accent md:text-h3">
+                  <span className="text-h5 font-bold text-accent md:text-h4">
                     {String(index + 1).padStart(2, '0')}
                   </span>
                 </div>
                 {index < items.length - 1 && (
-                  // Fixed-width arrow asset (267x26 source), right-
+                  // Fixed-width arrow asset (517x26 source), right-
                   // aligned and shrink-0 inside an overflow-hidden,
                   // flex-1 box: it never scales/distorts, it just gets
                   // cropped from the left (tail first, arrowhead last)
                   // when a step's column is narrower than the asset.
                   <div
-                    className="ml-small-medium hidden h-medium-large flex-1 items-center justify-end overflow-hidden md:flex"
+                    className="hidden h-medium-large flex-1 items-center justify-end overflow-hidden md:flex"
                     aria-hidden="true"
                   >
                     <Image
                       src="/icons/steps_arrow.svg"
                       alt=""
-                      width={267}
+                      width={517}
                       height={26}
                       className="h-full w-auto shrink-0"
                     />
