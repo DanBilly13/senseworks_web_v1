@@ -111,10 +111,15 @@ function MobileImageOverlayCard({
 }: HeroImageOverlayCardBlockProps) {
   const isDark = cardBackground === 'dark'
   return (
-    <section
-      className={`relative ${MB_CLASS[spacing]}`}
-      style={{ marginTop: 'calc(var(--header-height, 0px) * -1)' }}
-    >
+    // No header pull-up here (unlike HeroBackdropBlock/HeroBlock's
+    // full-bleed layouts) — that trick only reads right when the
+    // header is transparent enough to see through, or the covered
+    // content is decorative background, neither true here: the header
+    // is opaque, and this card's own top padding (24px on mobile) is
+    // shorter than the header's height, so pulling it up just hid the
+    // eyebrow behind an opaque bar (confirmed by hand on a live
+    // deploy). Same reasoning as the desktop version's own top offset.
+    <section className={`relative ${MB_CLASS[spacing]}`}>
       <div className="relative z-10 mx-auto flex w-full max-w-page flex-col px-medium-large">
         {/* -mx-medium-large breaks out to full-bleed (cancels this
             wrapper's own px-medium-large) — negative margin-right
