@@ -427,11 +427,13 @@ p {
        hand) had the header's bottom edge genuinely overlapping the
        eyebrow — easy to miss when the card was dark (reads as "header
        floating on top"), much more obvious once it went white (reads
-       as "text got cut off"). Padding-top of a full header-height on
-       top of the base 32px guarantees the eyebrow can never reach the
-       header's own zone before the header starts hiding, at any
-       scroll position in that range. */
-    padding-top: calc(var(--header-height, 0px) + 32px);
+       as "text got cut off"). A full header-height of extra padding
+       fully guaranteed no overlap at any scroll position, but read as
+       too much once seen live — half a header-height trims that back
+       while still closing most of the gap (full immunity would need
+       the full height; this is a deliberate visual trade-off, not a
+       measurement error). */
+    padding-top: calc(var(--header-height, 0px) / 2 + 32px);
   }
 }
 
