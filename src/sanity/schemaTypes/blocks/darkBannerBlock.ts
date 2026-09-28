@@ -20,6 +20,19 @@ export const darkBannerBlock = defineType({
       validation: (Rule) => Rule.max(300),
     }),
     defineField({
+      name: 'tone',
+      title: 'Panel style',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Dark (black background, light text)', value: 'dark' },
+          { title: 'Gradient (accent background, dark text)', value: 'gradient' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'dark',
+    }),
+    defineField({
       name: 'items',
       title: 'Items',
       type: 'array',
