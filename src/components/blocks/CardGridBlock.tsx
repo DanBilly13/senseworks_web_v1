@@ -25,10 +25,16 @@ const GRID_COLS_CLASS: Record<'1' | '2' | '3' | '4', string> = {
 // contrasts against the page). accent: our accent-yellow bg, plain
 // black text — same default SectionIntro tone as the light card,
 // since --color-accent-foreground already resolves to --color-foreground.
+// Bottom padding is its own flat pb-xl (48px), not part of the
+// responsive p-medium-large/md:p-large shorthand — it's deliberately
+// matching SectionIntro's own heading-to-body gap (16px container gap
+// + body's mt-large bump = 48px, unresponsive at every breakpoint, see
+// SectionIntro.tsx), so the space below the body reads the same as the
+// space above it, instead of shrinking to the plain side/top padding.
 const CARD_CLASS: Record<CardTone, string> = {
-  default: 'rounded-lg border border-border bg-background p-medium-large md:p-large',
-  dark: 'rounded-lg bg-foreground p-medium-large md:p-large',
-  accent: 'rounded-lg bg-accent p-medium-large md:p-large',
+  default: 'rounded-lg border border-border bg-background px-medium-large pt-medium-large pb-xl md:px-large md:pt-large',
+  dark: 'rounded-lg bg-foreground px-medium-large pt-medium-large pb-xl md:px-large md:pt-large',
+  accent: 'rounded-lg bg-accent px-medium-large pt-medium-large pb-xl md:px-large md:pt-large',
 }
 
 // No eyebrow/heading/body of its own — pair it with a separate intro
