@@ -13,6 +13,8 @@ type HeroImageOverlayCardBlockProps = {
   ctaLabel?: string
   ctaHref?: string
   media?: MediaField
+  // Desktop only — mobile always uses a light card regardless of this
+  // (see MobileImageOverlayCard's own comment).
   cardBackground?: 'dark' | 'gradient'
   cardWidth?: '50' | '100'
   spacing?: 'loose' | 'medium' | 'tight'
@@ -106,10 +108,8 @@ function MobileImageOverlayCard({
   ctaLabel,
   ctaHref,
   media,
-  cardBackground = 'dark',
   spacing = 'loose',
 }: HeroImageOverlayCardBlockProps) {
-  const isDark = cardBackground === 'dark'
   return (
     // No header pull-up here (unlike HeroBackdropBlock/HeroBlock's
     // full-bleed layouts) — that trick only reads right when the
@@ -126,34 +126,34 @@ function MobileImageOverlayCard({
             alone wouldn't stretch the box, but this is a flex child,
             and stretch sizing does account for negative margins,
             unlike a plain block's width:auto. No rounded corners
-            either — edge-to-edge doesn't read as a floating card. */}
-        <div
-          className={[
-            'hero-overlay-card-padding -mx-medium-large',
-            isDark ? 'bg-foreground' : 'bg-accent-gradient',
-          ].join(' ')}
-        >
+            either — edge-to-edge doesn't read as a floating card.
+            Always light (bg-background) regardless of the
+            cardBackground field — that field only drives the desktop
+            version now; a dark or gradient fill read worse on mobile
+            once this became the plain, unrounded full-bleed strip it
+            is today. isDark={false} below keeps text/button/eyebrow
+            colors matching (the same "not dark" path the gradient
+            variant already used, just on a plain white fill). */}
+        <div className="hero-overlay-card-padding -mx-medium-large bg-background">
           <CardIntro
             eyebrow={eyebrow}
             headline={headline}
             subhead={subhead}
             ctaLabel={ctaLabel}
             ctaHref={ctaHref}
-            isDark={isDark}
+            isDark={false}
           />
         </div>
       </div>
-      {/* border-b only (not the desktop version's all-round border) —
-          this video is full-bleed, so a border on the left/right/top
-          would just sit off-screen; the bottom edge is the only one
-          that visibly meets other page content. Same grey as the
-          desktop version's border-border token (#e0e0e0).
-          aspect-media-portrait (3:4) — same token as the Media block's
-          own mobile overlay, taller than the default 7:5 landscape
-          ratio. No md: variant needed here since this whole component
-          only renders on mobile in the first place. */}
-      <div className="relative aspect-media-portrait w-full border-b border-border">
-        <Media media={media} alt={headline} className="size-full" />
+      {/* Now a proper inset card (px-small, 8px) instead of full-bleed
+          — rounded, bordered all round (not just the bottom, now that
+          it's not edge-to-edge). Same grey as the desktop version's
+          border-border token (#e0e0e0). aspect-media-portrait (3:4) —
+          same token as the Media block's own mobile overlay. */}
+      <div className="px-small">
+        <div className="relative aspect-media-portrait w-full overflow-hidden rounded-lg border border-border">
+          <Media media={media} alt={headline} className="size-full" />
+        </div>
       </div>
     </section>
   )
