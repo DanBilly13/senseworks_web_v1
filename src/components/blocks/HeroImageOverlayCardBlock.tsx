@@ -147,8 +147,12 @@ function MobileImageOverlayCard({
           this video is full-bleed, so a border on the left/right/top
           would just sit off-screen; the bottom edge is the only one
           that visibly meets other page content. Same grey as the
-          desktop version's border-border token (#e0e0e0). */}
-      <div className="relative aspect-media w-full border-b border-border">
+          desktop version's border-border token (#e0e0e0).
+          aspect-media-portrait (3:4) — same token as the Media block's
+          own mobile overlay, taller than the default 7:5 landscape
+          ratio. No md: variant needed here since this whole component
+          only renders on mobile in the first place. */}
+      <div className="relative aspect-media-portrait w-full border-b border-border">
         <Media media={media} alt={headline} className="size-full" />
       </div>
     </section>
