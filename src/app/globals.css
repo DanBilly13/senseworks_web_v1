@@ -287,6 +287,25 @@ h6 {
   text-box: trim-both cap alphabetic;
 }
 
+/* Sanity's plain `text`/`string` fields save a literal newline when an
+   editor presses Return, but HTML collapses whitespace by default —
+   so that line break was saved correctly and simply never rendered.
+   pre-line keeps normal wrapping/space-collapsing but respects a
+   single \n as a real line break, which is exactly what pressing
+   Return in Studio implies. Applied broadly (any heading or paragraph)
+   rather than per-block, so every existing and future text field gets
+   this for free — safe to apply everywhere, since text with no \n in
+   it renders identically either way. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  white-space: pre-line;
+}
+
 /* Article breakout grid: a narrow centered "text" track (matches
    max-w-prose-lg) inside a wider container (SectionShell's max-w-page)
    — a plain CSS grid rather than a Tailwind utility since the
