@@ -10,7 +10,7 @@ type DarkBannerItem = {
   title: string
   description?: string
 }
-type DarkBannerTone = 'dark' | 'gradient'
+type DarkBannerTone = 'dark' | 'accent' | 'white'
 type DarkBannerBlockProps = {
   eyebrow?: string
   heading: string
@@ -21,27 +21,33 @@ type DarkBannerBlockProps = {
 }
 
 // Panel background per tone — 'dark' keeps the original bg-foreground
-// panel, 'gradient' swaps in the shared accent gradient (same one used
-// elsewhere, see globals.css --gradient-accent) with dark text instead
-// of light.
+// panel; 'accent'/'white' are both light panels with dark text, so
+// they share every color decision below except the fill itself.
+// 'white' gets a border-border outline like every other bg-background
+// card elsewhere in the app (Card Grid, Bento Grid, Pricing, …), since
+// the page canvas is a very close off-white (--color-surface) and a
+// borderless white panel would barely read as its own shape.
 const PANEL_BG_CLASS: Record<DarkBannerTone, string> = {
   dark: 'bg-foreground',
-  gradient: 'bg-accent-gradient',
+  accent: 'bg-accent',
+  white: 'bg-background border border-border',
 }
 
 // Icon color follows the panel style, not the default checkmark's own
 // muted tone — accent on the dark panel (it's the one splash of color
-// against black), dark foreground on the gradient panel (mirrors its
+// against black), dark foreground on the light panels (mirrors their
 // heading color). Used both for the default AntD checkmark (text-*,
 // relies on currentColor) and as a background-color for the masked
 // custom-SVG icon below (mask techniques can't use currentColor).
 const ICON_COLOR_CLASS: Record<DarkBannerTone, string> = {
   dark: 'text-accent',
-  gradient: 'text-foreground',
+  accent: 'text-foreground',
+  white: 'text-foreground',
 }
 const ICON_MASK_BG_CLASS: Record<DarkBannerTone, string> = {
   dark: 'bg-accent',
-  gradient: 'bg-foreground',
+  accent: 'bg-foreground',
+  white: 'bg-foreground',
 }
 
 export function DarkBannerBlock({

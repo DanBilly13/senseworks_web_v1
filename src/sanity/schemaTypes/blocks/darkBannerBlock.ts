@@ -26,7 +26,8 @@ export const darkBannerBlock = defineType({
       options: {
         list: [
           { title: 'Dark (black background, light text)', value: 'dark' },
-          { title: 'Gradient (accent background, dark text)', value: 'gradient' },
+          { title: 'Accent (accent background, dark text)', value: 'accent' },
+          { title: 'White (white background, dark text)', value: 'white' },
         ],
         layout: 'radio',
       },
@@ -36,7 +37,7 @@ export const darkBannerBlock = defineType({
       name: 'showIcons',
       title: 'Show icons',
       description:
-        'Icon color follows the panel style automatically — accent on Dark, dark foreground on Gradient.',
+        'Icon color follows the panel style automatically — accent on Dark, dark foreground on Accent/White.',
       type: 'boolean',
       initialValue: true,
     }),
