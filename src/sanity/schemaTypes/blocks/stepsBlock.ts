@@ -1,28 +1,15 @@
 import { defineType, defineField, defineArrayMember } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
 
-// Unlike Feature Grid/Bento Grid (deliberately no intro of their own,
-// meant to pair with a separate Section Headline above), Steps carries
-// an optional eyebrow/heading/body directly — a numbered sequence
-// reads better with its own short lead-in ("How it works") attached.
+// Same reasoning as Feature Grid/Bento Grid: no intro of its own —
+// pair with a separate Section Headline block above it when one's
+// needed, rather than baking one in.
 export const stepsBlock = defineType({
   name: 'stepsBlock',
   title: 'Steps',
   type: 'object',
   fields: [
     hiddenField,
-    defineField({ name: 'eyebrow', type: 'string' }),
-    defineField({
-      name: 'heading',
-      type: 'string',
-      validation: (Rule) => Rule.max(100),
-    }),
-    defineField({
-      name: 'body',
-      type: 'text',
-      rows: 2,
-      validation: (Rule) => Rule.max(300),
-    }),
     defineField({
       name: 'items',
       title: 'Steps',
@@ -54,9 +41,9 @@ export const stepsBlock = defineType({
     }),
   ],
   preview: {
-    select: { title: 'heading', items: 'items' },
-    prepare: ({ title, items }) => ({
-      title: `Steps — ${title || 'Untitled'}`,
+    select: { items: 'items' },
+    prepare: ({ items }) => ({
+      title: 'Steps',
       subtitle: `${items?.length ?? 0} steps`,
     }),
   },

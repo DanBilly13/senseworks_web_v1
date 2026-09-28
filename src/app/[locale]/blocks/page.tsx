@@ -270,10 +270,8 @@ export default async function BlocksPage({
         imagePosition="left"
       />
       <BlockCaption name="Steps" type="stepsBlock" />
+      <SectionHeadlineBlock eyebrow={EYEBROW} headline="How it works" body={BODY} spacing="tight" />
       <StepsBlock
-        eyebrow={EYEBROW}
-        heading="How it works"
-        body={BODY}
         items={[
           { title: 'Setting goals', body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' },
           { title: 'Developing a prototype', body: 'Sed do eiusmod tempor incididunt ut labore et dolore.' },
