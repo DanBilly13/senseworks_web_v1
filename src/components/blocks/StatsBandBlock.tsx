@@ -23,7 +23,7 @@ export function StatsBandBlock({ eyebrow, heading, body, items = [] }: StatsBand
         align="center"
         maxWidth="md"
       />
-      <div className="grid grid-cols-1 gap-large sm:grid-cols-2 lg:grid-cols-4 lg:divide-x lg:divide-border">
+      <div className="grid grid-cols-2 gap-large lg:grid-cols-4 lg:divide-x lg:divide-border">
         {items.map((item, index) => (
           <div
             key={index}
