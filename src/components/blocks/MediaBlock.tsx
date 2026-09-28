@@ -38,8 +38,17 @@ export function MediaBlock({ media, eyebrow, headline, body, ctaLabel, ctaHref, 
           normal relative sibling on top. This box owns the aspect
           ratio/rounding instead of Media itself, since Media's own
           root is `relative` and can't also take `absolute` from here
-          without the two conflicting in the same class list. */}
-      <div className="relative aspect-media w-full overflow-hidden rounded-lg">
+          without the two conflicting in the same class list.
+
+          Full-bleed and taller (3:4) on mobile, contained and 7:5 from
+          md: up — same "-mx-medium-large cancels SectionShell's own
+          px-medium-large" trick as the mobile Hero card. No explicit
+          width utility: a plain block's width:auto already expands to
+          fill (or, with the negative margin below, overflow) its
+          container — adding w-full here would fight the negative
+          margin (both non-auto, over-constrained) instead of
+          cooperating with it. */}
+      <div className="relative -mx-medium-large aspect-media-portrait overflow-hidden rounded-none md:mx-0 md:aspect-media md:rounded-lg">
         <div className="absolute inset-0">
           <Media media={media} alt={headline || media?.alt || ''} className="size-full" />
         </div>
