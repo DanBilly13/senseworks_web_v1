@@ -418,6 +418,20 @@ p {
        (this card is already edge-to-edge), so its OWN padding is what
        lands the text on the site-wide 32px-from-edge line. */
     padding: 32px;
+    /* Top only: the fixed header hides on scroll-down, but only once
+       scrolled past its OWN height — so for any scroll position less
+       than that, it's still fully visible and sitting over whatever
+       content is currently at the very top of the page. This card
+       starts right where the header's spacer ends, so with only 32px
+       of clearance, the first ~17px of that scroll range (confirmed by
+       hand) had the header's bottom edge genuinely overlapping the
+       eyebrow — easy to miss when the card was dark (reads as "header
+       floating on top"), much more obvious once it went white (reads
+       as "text got cut off"). Padding-top of a full header-height on
+       top of the base 32px guarantees the eyebrow can never reach the
+       header's own zone before the header starts hiding, at any
+       scroll position in that range. */
+    padding-top: calc(var(--header-height, 0px) + 32px);
   }
 }
 

@@ -145,13 +145,14 @@ function MobileImageOverlayCard({
           />
         </div>
       </div>
-      {/* Now a proper inset card (px-small, 8px) instead of full-bleed
-          — rounded, bordered all round (not just the bottom, now that
-          it's not edge-to-edge). Same grey as the desktop version's
-          border-border token (#e0e0e0). aspect-media-portrait (3:4) —
-          same token as the Media block's own mobile overlay. */}
-      <div className="px-small">
-        <div className="relative aspect-media-portrait w-full overflow-hidden rounded-lg border border-border">
+      {/* Now a proper inset card (px-medium, 16px) instead of
+          full-bleed — rounded, bordered all round (not just the
+          bottom, now that it's not edge-to-edge). Same grey as the
+          desktop version's border-border token (#e0e0e0). Back to
+          aspect-media (7:5) — briefly tried aspect-media-portrait
+          (3:4), reverted. */}
+      <div className="px-medium">
+        <div className="relative aspect-media w-full overflow-hidden rounded-lg border border-border">
           <Media media={media} alt={headline} className="size-full" />
         </div>
       </div>
