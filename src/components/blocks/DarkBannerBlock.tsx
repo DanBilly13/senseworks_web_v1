@@ -23,14 +23,10 @@ type DarkBannerBlockProps = {
 // Panel background per tone — 'dark' keeps the original bg-foreground
 // panel; 'accent'/'white' are both light panels with dark text, so
 // they share every color decision below except the fill itself.
-// 'white' gets a border-border outline like every other bg-background
-// card elsewhere in the app (Card Grid, Bento Grid, Pricing, …), since
-// the page canvas is a very close off-white (--color-surface) and a
-// borderless white panel would barely read as its own shape.
 const PANEL_BG_CLASS: Record<DarkBannerTone, string> = {
   dark: 'bg-foreground',
   accent: 'bg-accent',
-  white: 'bg-background border border-border',
+  white: 'bg-background',
 }
 
 // Icon color follows the panel style, not the default checkmark's own
