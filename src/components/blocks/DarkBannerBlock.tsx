@@ -120,7 +120,7 @@ export function DarkBannerBlock({
                   </div>
                 ))}
               <h4
-                className={`mt-small-medium text-h4 font-semibold text-balance ${isDark ? 'text-background' : 'text-foreground'}`}
+                className={`text-h4 font-semibold text-balance ${showIcons ? 'mt-small-medium' : ''} ${isDark ? 'text-background' : 'text-foreground'}`}
               >
                 {item.title}
               </h4>

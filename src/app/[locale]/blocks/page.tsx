@@ -527,6 +527,18 @@ export default async function BlocksPage({
           { title: 'Adipiscing elit sed', description: BODY },
         ]}
       />
+      <BlockCaption name="Dark Banner — No icons" type="darkBannerBlock" variant="showIcons: false" />
+      <DarkBannerBlock
+        eyebrow={EYEBROW}
+        heading={HEADING}
+        body={BODY}
+        showIcons={false}
+        items={[
+          { title: 'Lorem ipsum dolor', description: BODY },
+          { title: 'Sit amet consectetur', description: BODY },
+          { title: 'Adipiscing elit sed', description: BODY },
+        ]}
+      />
       <BlockCaption name="Dark Banner — Gradient" type="darkBannerBlock" variant='tone: "gradient"' />
       <DarkBannerBlock
         eyebrow={EYEBROW}
