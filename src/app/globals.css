@@ -253,6 +253,21 @@ body {
   font-family: var(--font-sans);
 }
 
+/* Lenis (SmoothScrollProvider) drives scroll via JS rather than the
+   browser's own native scrolling, which on iOS Safari confuses its
+   overscroll-boundary detection — the gesture it uses to decide
+   whether a downward drag at the top of the page means "pull to
+   refresh". Without this, that misdetection intermittently fires a
+   real page reload (not just a scroll glitch) while scrolling
+   normally, landing back at the top — reported on the live mobile
+   site. `contain` stops the overscroll from chaining into that
+   browser-level gesture while still letting Lenis's own scroll/bounce
+   feel work exactly as before. */
+html,
+body {
+  overscroll-behavior-y: contain;
+}
+
 h1,
 h2,
 h3,
