@@ -61,13 +61,14 @@ export function DarkBannerBlock({
     // SectionShell's own page margin already keeps this off the
     // viewport edge — same "contained rounded panel" treatment as
     // Feature Split — Dark and Media, not a full-bleed background.
-    // px="boxed" (8px) since this panel IS a box — its own padding
-    // (p-medium-large, 24px on mobile) lands its text on the same
-    // 32px-from-edge line as everywhere else. Desktop's p-2xl (64px)
-    // is unchanged, that padding was already responsive before this.
+    // px="boxed" (8px) since this panel IS a box — its own horizontal
+    // padding (px-medium-large, 24px on mobile) lands its text on the
+    // same 32px-from-edge line as everywhere else. Vertical padding is
+    // its own 32px on mobile (deliberately not the same token as the
+    // horizontal 24px). Desktop's p-2xl (64px, all sides) is unchanged.
     <SectionShell px="boxed">
       <div
-        className={`grid grid-cols-1 gap-2xl rounded-lg ${PANEL_BG_CLASS[tone]} p-medium-large md:grid-cols-2 md:items-start md:p-2xl`}
+        className={`grid grid-cols-1 gap-medium-large rounded-lg ${PANEL_BG_CLASS[tone]} px-medium-large py-large md:grid-cols-2 md:items-start md:gap-2xl md:p-2xl`}
       >
         <SectionIntro
           as="h2"
