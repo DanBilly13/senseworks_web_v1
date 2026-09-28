@@ -289,6 +289,16 @@ export default async function BlocksPage({
           { title: 'Adipiscing elit sed', description: BODY },
         ]}
       />
+      <BlockCaption name="Feature Grid — 4 Columns" type="featureGridBlock" variant='columns: "4"' />
+      <FeatureGridBlock
+        columns="4"
+        items={[
+          { title: 'Lorem ipsum dolor', description: BODY },
+          { title: 'Sit amet consectetur', description: BODY },
+          { title: 'Adipiscing elit sed', description: BODY },
+          { title: 'Do eiusmod tempor', description: BODY },
+        ]}
+      />
       <BlockCaption name="Feature List" type="featureListBlock" />
       <FeatureListBlock
         eyebrow={EYEBROW}

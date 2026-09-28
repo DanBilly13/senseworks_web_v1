@@ -36,16 +36,18 @@ type FeatureGridItem = {
   ctaHref?: string
 }
 type FeatureGridBlockProps = {
-  columns?: '2' | '3'
+  columns?: '2' | '3' | '4'
   items?: FeatureGridItem[]
 }
 
 // Tablet stays a fixed 2-column layout regardless of this choice —
 // only the desktop (lg) breakpoint's column count is configurable,
-// e.g. so a 4-item grid can land as a clean 2x2 instead of 3-then-1.
-const LG_COLS_CLASS: Record<'2' | '3', string> = {
+// e.g. so a 4-item grid can land as a clean 2x2, or a straight row of
+// 4, instead of 3-then-1.
+const LG_COLS_CLASS: Record<'2' | '3' | '4', string> = {
   '2': 'lg:grid-cols-2',
   '3': 'lg:grid-cols-3',
+  '4': 'lg:grid-cols-4',
 }
 
 // No eyebrow/heading/body of its own — pair it with a separate intro
