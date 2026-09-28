@@ -61,6 +61,12 @@
   --container-prose-sm: 36rem;
   --container-prose-md: 42rem;
   --container-prose-lg: 48rem;
+  /* FAQ-specific: its question/answer text stays at prose-lg (768px,
+     the "8 columns" of a loose 96px-per-column mental model), but the
+     accordion row itself — and its bottom divider — runs to this
+     wider "10 columns" (960px) so the +/− toggle can sit right-
+     aligned in the extra space instead of hugging the question text. */
+  --container-prose-xl: 60rem;
 
   /* A percentage, not a fixed rem width like the prose-* scale above —
      deliberately, so a heading using it stays ~80% of whatever row

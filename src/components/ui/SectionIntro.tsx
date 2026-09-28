@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 
 type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4'
 
-type WidthKey = 'sm' | 'md' | 'wide' | 'subtitle' | 'none'
+type WidthKey = 'sm' | 'md' | 'lg' | 'wide' | 'subtitle' | 'none'
 
 type SectionIntroProps = {
   as: HeadingLevel
@@ -15,7 +15,7 @@ type SectionIntroProps = {
   body?: string
   cta?: ReactNode
   align?: 'left' | 'center'
-  maxWidth?: 'sm' | 'md' | 'none'
+  maxWidth?: 'sm' | 'md' | 'lg' | 'none'
   // Overrides maxWidth for the heading only — e.g. a hero headline
   // that should run wider than its own subhead/CTA underneath it.
   // Defaults to whatever maxWidth already resolves to, so every
@@ -67,6 +67,7 @@ const HEADING_WEIGHT_CLASS: Record<HeadingLevel, string> = {
 const MAX_WIDTH_CLASS: Record<WidthKey, string> = {
   sm: 'max-w-prose-sm',
   md: 'max-w-prose-md',
+  lg: 'max-w-prose-lg',
   wide: 'max-w-wide',
   // Same 85%-of-row token the h1/h2 subtitle body already uses below,
   // desktop-only so mobile keeps its full width.

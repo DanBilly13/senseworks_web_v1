@@ -17,8 +17,13 @@ export function FaqAccordionBlock({
   if (!items.length) return null
 
   return (
-    <SectionShell maxWidth="prose-lg" ariaLabel={heading}>
-      <SectionIntro as="h2" heading={heading} />
+    // prose-xl (960px, "10 columns") — wider than the question/answer
+    // text itself (prose-lg, 768px, "8 columns"), so the +/− toggle has
+    // room to sit right-aligned in the leftover 2 columns instead of
+    // hugging the question text. The divider (divide-y below) and each
+    // item's own row span this full prose-xl width automatically.
+    <SectionShell maxWidth="prose-xl" ariaLabel={heading}>
+      <SectionIntro as="h2" heading={heading} maxWidth="lg" />
       <dl className="mt-2xl divide-y divide-border">
         {items.map((item, index) => {
           const isOpen = openIndex === index
@@ -35,7 +40,7 @@ export function FaqAccordionBlock({
                   onClick={() => setOpenIndex(isOpen ? null : index)}
                   className="flex w-full items-center justify-between py-small text-left text-body-lg font-medium text-foreground"
                 >
-                  <span>{item.question}</span>
+                  <span className="max-w-prose-lg">{item.question}</span>
                   <span aria-hidden="true">{isOpen ? <MinusOutlined /> : <PlusOutlined />}</span>
                 </button>
               </dt>
@@ -44,7 +49,7 @@ export function FaqAccordionBlock({
                 role="region"
                 aria-labelledby={buttonId}
                 hidden={!isOpen}
-                className="pb-small text-body text-muted-foreground"
+                className="max-w-prose-lg pb-small text-body text-muted-foreground"
               >
                 {item.answer}
               </dd>

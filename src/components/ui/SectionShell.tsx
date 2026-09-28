@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 
 type SectionShellProps = {
-  maxWidth?: 'page' | 'prose-lg'
+  maxWidth?: 'page' | 'prose-lg' | 'prose-xl'
   // 'loose'/'medium'/'tight' are the three section-to-section rhythm
   // tiers (200/120/60px desktop — see globals.css); every block stays
   // on 'loose' for now, this just makes the other two selectable.
@@ -34,6 +34,7 @@ type SectionShellProps = {
 const MAX_WIDTH_CLASS = {
   page: 'max-w-page',
   'prose-lg': 'max-w-prose-lg',
+  'prose-xl': 'max-w-prose-xl',
 }
 
 const PX_CLASS = {
