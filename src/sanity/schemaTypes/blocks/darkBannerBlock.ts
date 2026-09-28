@@ -33,6 +33,14 @@ export const darkBannerBlock = defineType({
       initialValue: 'dark',
     }),
     defineField({
+      name: 'showIcons',
+      title: 'Show icons',
+      description:
+        'Icon color follows the panel style automatically — accent on Dark, dark foreground on Gradient.',
+      type: 'boolean',
+      initialValue: true,
+    }),
+    defineField({
       name: 'items',
       title: 'Items',
       type: 'array',
@@ -40,6 +48,14 @@ export const darkBannerBlock = defineType({
         defineArrayMember({
           type: 'object',
           fields: [
+            defineField({
+              name: 'icon',
+              title: 'Icon',
+              description:
+                'Optional — upload an SVG to replace the default checkmark. Only used when "Show icons" is on above.',
+              type: 'image',
+              options: { accept: 'image/svg+xml' },
+            }),
             defineField({
               name: 'title',
               type: 'string',

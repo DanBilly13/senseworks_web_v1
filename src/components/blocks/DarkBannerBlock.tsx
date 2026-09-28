@@ -1,9 +1,12 @@
 'use client'
+import type { SanityImageSource } from '@sanity/image-url'
 import { CheckCircleOutlined } from '@ant-design/icons'
 import { SectionShell } from '@/components/ui/SectionShell'
 import { SectionIntro } from '@/components/ui/SectionIntro'
+import { urlFor } from '@/lib/sanity/image'
 
 type DarkBannerItem = {
+  icon?: SanityImageSource
   title: string
   description?: string
 }
@@ -13,6 +16,7 @@ type DarkBannerBlockProps = {
   heading: string
   body?: string
   tone?: DarkBannerTone
+  showIcons?: boolean
   items?: DarkBannerItem[]
 }
 
@@ -25,11 +29,27 @@ const PANEL_BG_CLASS: Record<DarkBannerTone, string> = {
   gradient: 'bg-accent-gradient',
 }
 
+// Icon color follows the panel style, not the default checkmark's own
+// muted tone — accent on the dark panel (it's the one splash of color
+// against black), dark foreground on the gradient panel (mirrors its
+// heading color). Used both for the default AntD checkmark (text-*,
+// relies on currentColor) and as a background-color for the masked
+// custom-SVG icon below (mask techniques can't use currentColor).
+const ICON_COLOR_CLASS: Record<DarkBannerTone, string> = {
+  dark: 'text-accent',
+  gradient: 'text-foreground',
+}
+const ICON_MASK_BG_CLASS: Record<DarkBannerTone, string> = {
+  dark: 'bg-accent',
+  gradient: 'bg-foreground',
+}
+
 export function DarkBannerBlock({
   eyebrow,
   heading,
   body,
   tone = 'dark',
+  showIcons = true,
   items = [],
 }: DarkBannerBlockProps) {
   // D7: a block with no content simply doesn't render.
@@ -59,9 +79,45 @@ export function DarkBannerBlock({
         <div className="flex flex-col gap-large">
           {items.map((item, index) => (
             <div key={index} className="flex flex-col gap-small-medium">
-              <CheckCircleOutlined
-                className={`text-h4 ${isDark ? 'text-background/60' : 'text-foreground/60'}`}
-              />
+              {showIcons &&
+                (item.icon ? (
+                  // Custom-uploaded SVG, recolored via CSS mask so it
+                  // follows the tone the same way the default checkmark
+                  // does via currentColor — a mask uses the image only
+                  // as an alpha shape, so the uploaded SVG's own fill
+                  // colors don't matter.
+                  <span
+                    aria-hidden="true"
+                    className={`size-medium-large shrink-0 md:size-large ${ICON_MASK_BG_CLASS[tone]}`}
+                    style={{
+                      maskImage: `url(${urlFor(item.icon).url()})`,
+                      maskRepeat: 'no-repeat',
+                      maskPosition: 'center',
+                      maskSize: 'contain',
+                      WebkitMaskImage: `url(${urlFor(item.icon).url()})`,
+                      WebkitMaskRepeat: 'no-repeat',
+                      WebkitMaskPosition: 'center',
+                      WebkitMaskSize: 'contain',
+                    }}
+                  />
+                ) : (
+                  // Wrapped in a plain div rather than putting color/
+                  // size classes on the AntD icon itself — Ant Design's
+                  // .anticon base CSS (color: inherit, among other
+                  // things) is injected after Tailwind's stylesheet, so
+                  // at equal specificity it silently wins over a
+                  // text-accent/text-foreground class applied directly
+                  // to the icon (same root cause as the Steps block's
+                  // `hidden` conflict). A wrapping element with no
+                  // .anticon class sidesteps it, same as Feature Grid's
+                  // default-checkmark treatment.
+                  <div
+                    className={`flex size-medium-large shrink-0 items-center justify-center md:size-large ${ICON_COLOR_CLASS[tone]}`}
+                    aria-hidden="true"
+                  >
+                    <CheckCircleOutlined className="size-full [&>svg]:size-full" />
+                  </div>
+                ))}
               <h4
                 className={`mt-small-medium text-h4 font-semibold text-balance ${isDark ? 'text-background' : 'text-foreground'}`}
               >
