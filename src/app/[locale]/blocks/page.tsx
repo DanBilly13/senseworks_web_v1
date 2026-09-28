@@ -11,6 +11,7 @@ import { SectionHeadlineBlock } from '@/components/blocks/SectionHeadlineBlock'
 import { FeatureSplitBlock } from '@/components/blocks/FeatureSplitBlock'
 import { FeatureSplitDarkBlock } from '@/components/blocks/FeatureSplitDarkBlock'
 import { FiftyFiftyBannerBlock } from '@/components/blocks/FiftyFiftyBannerBlock'
+import { StepsBlock } from '@/components/blocks/StepsBlock'
 import { FeatureGridBlock } from '@/components/blocks/FeatureGridBlock'
 import { FeatureListBlock } from '@/components/blocks/FeatureListBlock'
 import { CardGridBlock } from '@/components/blocks/CardGridBlock'
@@ -267,6 +268,18 @@ export default async function BlocksPage({
         ctaLabel="Get started"
         ctaHref="#"
         imagePosition="left"
+      />
+      <BlockCaption name="Steps" type="stepsBlock" />
+      <StepsBlock
+        eyebrow={EYEBROW}
+        heading="How it works"
+        body={BODY}
+        items={[
+          { title: 'Setting goals', body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' },
+          { title: 'Developing a prototype', body: 'Sed do eiusmod tempor incididunt ut labore et dolore.' },
+          { title: 'Coding and programming', body: 'Ut enim ad minim veniam, quis nostrud exercitation.' },
+          { title: 'Testing and optimizing', body: 'Duis aute irure dolor in reprehenderit in voluptate.' },
+        ]}
       />
       <BlockCaption name="Feature Grid" type="featureGridBlock" />
       <FeatureGridBlock

@@ -63,6 +63,12 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
       'Dark contained panel, fixed 500px tall on desktop (sized for a 700x500 image) — eyebrow/heading/body/button on one half, a full-bleed image on the other. Stacks on mobile.',
   },
   {
+    type: 'stepsBlock',
+    title: 'Steps',
+    description:
+      'Numbered sequence (01, 02, ... — numbered automatically from list order) with a title and body per step, arrow connectors between them on desktop. Stacks on mobile, no arrows. Carries its own optional eyebrow/heading/body lead-in.',
+  },
+  {
     type: 'featureGridBlock',
     title: 'Feature Grid',
     description:

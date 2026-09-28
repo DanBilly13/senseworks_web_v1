@@ -29,6 +29,7 @@ export const page = defineType({
         defineArrayMember({ type: 'featureSplitBlock' }),
         defineArrayMember({ type: 'featureSplitDarkBlock' }),
         defineArrayMember({ type: 'fiftyFiftyBannerBlock' }),
+        defineArrayMember({ type: 'stepsBlock' }),
         defineArrayMember({ type: 'featureGridBlock' }),
         defineArrayMember({ type: 'featureListBlock' }),
         defineArrayMember({ type: 'cardGridBlock' }),
