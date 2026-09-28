@@ -143,7 +143,12 @@ function MobileImageOverlayCard({
           />
         </div>
       </div>
-      <div className="relative aspect-media w-full">
+      {/* border-b only (not the desktop version's all-round border) —
+          this video is full-bleed, so a border on the left/right/top
+          would just sit off-screen; the bottom edge is the only one
+          that visibly meets other page content. Same grey as the
+          desktop version's border-border token (#e0e0e0). */}
+      <div className="relative aspect-media w-full border-b border-border">
         <Media media={media} alt={headline} className="size-full" />
       </div>
     </section>
