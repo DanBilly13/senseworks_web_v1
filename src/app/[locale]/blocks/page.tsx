@@ -10,6 +10,7 @@ import { HeroTextBlock } from '@/components/blocks/HeroTextBlock'
 import { SectionHeadlineBlock } from '@/components/blocks/SectionHeadlineBlock'
 import { FeatureSplitBlock } from '@/components/blocks/FeatureSplitBlock'
 import { FeatureSplitDarkBlock } from '@/components/blocks/FeatureSplitDarkBlock'
+import { FiftyFiftyBannerBlock } from '@/components/blocks/FiftyFiftyBannerBlock'
 import { FeatureGridBlock } from '@/components/blocks/FeatureGridBlock'
 import { FeatureListBlock } from '@/components/blocks/FeatureListBlock'
 import { CardGridBlock } from '@/components/blocks/CardGridBlock'
@@ -249,6 +250,24 @@ export default async function BlocksPage({
       />
       <BlockCaption name="Feature Split — Dark" type="featureSplitDarkBlock" />
       <FeatureSplitDarkBlock heading={HEADING} subhead="Lorem ipsum dolor sit amet" body={BODY} ctaLabel="Lorem ipsum" ctaHref="#" />
+      <BlockCaption name="50/50 Banner — Image Right" type="fiftyFiftyBannerBlock" variant='imagePosition: "right"' />
+      <FiftyFiftyBannerBlock
+        eyebrow={EYEBROW}
+        heading={HEADING}
+        body={BODY}
+        ctaLabel="Get started"
+        ctaHref="#"
+        imagePosition="right"
+      />
+      <BlockCaption name="50/50 Banner — Image Left" type="fiftyFiftyBannerBlock" variant='imagePosition: "left"' />
+      <FiftyFiftyBannerBlock
+        eyebrow={EYEBROW}
+        heading={HEADING}
+        body={BODY}
+        ctaLabel="Get started"
+        ctaHref="#"
+        imagePosition="left"
+      />
       <BlockCaption name="Feature Grid" type="featureGridBlock" />
       <FeatureGridBlock
         items={[

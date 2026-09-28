@@ -129,6 +129,15 @@
   --height-bento-media: 12.5rem;
   --height-bento-media-lg: 25rem;
 
+  /* 50/50 Banner's fixed desktop height — sized to match the reference
+     asset (700x500), so an image at that native resolution fills its
+     half exactly with no cropping/scaling surprise. Desktop only: an
+     aspect-ratio box doesn't fit here since the panel's WIDTH is
+     already fixed by max-w-page, and a ratio-driven height off that
+     width wouldn't reliably land on 500px across different max-w-page
+     values. Mobile uses aspect-media instead once the layout stacks. */
+  --height-banner-5050: 31.25rem;
+
   /* Team roster avatar, desktop size — a dedicated --size-* token
      (not the shared --spacing-* scale) since 180px is specific to
      this one avatar and doesn't need to ripple into every other

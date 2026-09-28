@@ -15,6 +15,7 @@ import { sectionHeadlineBlock } from './blocks/sectionHeadlineBlock'
 import { faqAccordionBlock } from './blocks/faqAccordionBlock'
 import { featureSplitBlock } from './blocks/featureSplitBlock'
 import { featureSplitDarkBlock } from './blocks/featureSplitDarkBlock'
+import { fiftyFiftyBannerBlock } from './blocks/fiftyFiftyBannerBlock'
 import { featureGridBlock } from './blocks/featureGridBlock'
 import { featureListBlock } from './blocks/featureListBlock'
 import { cardGridBlock } from './blocks/cardGridBlock'
@@ -49,6 +50,7 @@ export const schemaTypes = [
   faqAccordionBlock,
   featureSplitBlock,
   featureSplitDarkBlock,
+  fiftyFiftyBannerBlock,
   featureGridBlock,
   featureListBlock,
   cardGridBlock,

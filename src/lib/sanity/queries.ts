@@ -59,6 +59,7 @@ export const pageBySlugAndLocaleQuery = groq`
       },
       _type == "featureSplitBlock" => { ${mediaProjection()} },
       _type == "featureSplitDarkBlock" => { ${mediaProjection()} },
+      _type == "fiftyFiftyBannerBlock" => { ${mediaProjection()} },
       _type == "bentoGridBlock" => { items[]{ ..., ${mediaProjection()} } },
       _type == "mediaBlock" => { ${mediaProjection()} },
       _type == "caseStudyGridBlock" => { items[]{ ..., ${mediaProjection()} } },

@@ -57,6 +57,12 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
       'Dark contained panel, capped at page width — header, sub text, body, and button on one side, media on the other.',
   },
   {
+    type: 'fiftyFiftyBannerBlock',
+    title: '50/50 Banner',
+    description:
+      'Dark contained panel, fixed 500px tall on desktop (sized for a 700x500 image) — eyebrow/heading/body/button on one half, a full-bleed image on the other. Stacks on mobile.',
+  },
+  {
     type: 'featureGridBlock',
     title: 'Feature Grid',
     description:

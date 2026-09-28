@@ -6,6 +6,7 @@ import { HeroTextBlock } from './HeroTextBlock'
 import { SectionHeadlineBlock } from './SectionHeadlineBlock'
 import { FeatureSplitBlock } from './FeatureSplitBlock'
 import { FeatureSplitDarkBlock } from './FeatureSplitDarkBlock'
+import { FiftyFiftyBannerBlock } from './FiftyFiftyBannerBlock'
 import { FeatureGridBlock } from './FeatureGridBlock'
 import { FeatureListBlock } from './FeatureListBlock'
 import { CardGridBlock } from './CardGridBlock'
@@ -33,6 +34,7 @@ const BLOCK_COMPONENTS = {
   sectionHeadlineBlock: SectionHeadlineBlock,
   featureSplitBlock: FeatureSplitBlock,
   featureSplitDarkBlock: FeatureSplitDarkBlock,
+  fiftyFiftyBannerBlock: FiftyFiftyBannerBlock,
   featureGridBlock: FeatureGridBlock,
   featureListBlock: FeatureListBlock,
   cardGridBlock: CardGridBlock,
