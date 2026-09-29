@@ -24,8 +24,24 @@ type CardGridItem = {
 // own axis. `mask-composite: intersect` (and its pre-standard WebKit
 // equivalent, `-webkit-mask-composite: source-in`) keeps only where
 // both masks are opaque, so a pixel fades if EITHER gradient fades it.
-const IMAGE_FADE_MASK =
-  'linear-gradient(to right, black 70%, transparent 100%), linear-gradient(to bottom, black 70%, transparent 100%)'
+// Multiple stops (rather than a single opaque->transparent step) so
+// the fade itself reads as smooth rather than banded.
+const IMAGE_FADE_MASK = `linear-gradient(
+    to right,
+    #000 0%,
+    #000 40%,
+    rgba(0, 0, 0, 0.85) 60%,
+    rgba(0, 0, 0, 0.4) 80%,
+    transparent 100%
+  ),
+  linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 40%,
+    rgba(0, 0, 0, 0.85) 60%,
+    rgba(0, 0, 0, 0.4) 80%,
+    transparent 100%
+  )`
 type CardTone = 'default' | 'dark' | 'accent'
 type CardGridBlockProps = {
   columns?: '1' | '2' | '3' | '4'
