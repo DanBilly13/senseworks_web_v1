@@ -34,6 +34,14 @@ export const darkBannerBlock = defineType({
       initialValue: 'dark',
     }),
     defineField({
+      name: 'leftImage',
+      title: 'Left column image',
+      description:
+        'Optional — sits behind the heading text, filling the left column edge-to-edge. Use a PNG with a transparent background so the panel\'s own background still shows through.',
+      type: 'image',
+      options: { hotspot: true },
+    }),
+    defineField({
       name: 'showIcons',
       title: 'Show icons',
       description:

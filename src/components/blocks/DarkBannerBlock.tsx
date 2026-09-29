@@ -1,5 +1,6 @@
 'use client'
 import type { SanityImageSource } from '@sanity/image-url'
+import Image from 'next/image'
 import { CheckCircleOutlined } from '@ant-design/icons'
 import { SectionShell } from '@/components/ui/SectionShell'
 import { SectionIntro } from '@/components/ui/SectionIntro'
@@ -16,6 +17,11 @@ type DarkBannerBlockProps = {
   heading: string
   body?: string
   tone?: DarkBannerTone
+  // Optional — sits behind the left column's text (a transparent PNG
+  // is the intended use, so the panel's own background shows through
+  // it), filling that column edge-to-edge rather than inset within
+  // the panel's own padding like the text above it.
+  leftImage?: SanityImageSource
   showIcons?: boolean
   items?: DarkBannerItem[]
 }
@@ -51,6 +57,7 @@ export function DarkBannerBlock({
   heading,
   body,
   tone = 'dark',
+  leftImage,
   showIcons = true,
   items = [],
 }: DarkBannerBlockProps) {
@@ -69,17 +76,40 @@ export function DarkBannerBlock({
     // its own 32px on mobile (deliberately not the same token as the
     // horizontal 24px). Desktop's p-2xl (64px, all sides) is unchanged.
     <SectionShell px="boxed">
+      {/* overflow-hidden clips leftImage (below) to these rounded
+          corners. Padding used to live on this shared grid container —
+          now it's split per column (see each column's own className)
+          so the left column can go edge-to-edge for its background
+          image while the right column keeps the exact same padding it
+          always had. Each column only pads its OWN outer edges: the
+          boundary between them (left column's right side / right
+          column's left side on desktop, or the row gap on mobile) gets
+          none, since gap-medium-large/gap-2xl already spaces that. */}
       <div
-        className={`grid grid-cols-1 gap-medium-large rounded-lg ${PANEL_BG_CLASS[tone]} px-medium-large py-large md:grid-cols-2 md:items-start md:gap-2xl md:p-2xl`}
+        className={`grid grid-cols-1 gap-medium-large overflow-hidden rounded-lg ${PANEL_BG_CLASS[tone]} md:grid-cols-2 md:items-stretch md:gap-2xl`}
       >
-        <SectionIntro
-          as="h2"
-          eyebrow={eyebrow}
-          heading={heading}
-          body={body}
-          tone={isDark ? 'inverse' : 'default'}
-        />
-        <div className="flex flex-col gap-large">
+        <div className="relative pt-large px-medium-large md:p-2xl md:pr-0">
+          {leftImage && (
+            <Image
+              src={urlFor(leftImage).url()}
+              alt=""
+              aria-hidden="true"
+              fill
+              sizes="(min-width: 768px) 50vw, 100vw"
+              className="object-cover"
+            />
+          )}
+          <div className="relative z-10">
+            <SectionIntro
+              as="h2"
+              eyebrow={eyebrow}
+              heading={heading}
+              body={body}
+              tone={isDark ? 'inverse' : 'default'}
+            />
+          </div>
+        </div>
+        <div className="flex flex-col gap-large pb-large px-medium-large md:p-2xl md:pl-0">
           {items.map((item, index) => (
             <div key={index} className="flex flex-col gap-small-medium">
               {showIcons &&
