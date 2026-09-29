@@ -37,15 +37,10 @@ const GRID_COLS_CLASS: Record<'1' | '2' | '3' | '4', string> = {
 // contrasts against the page). accent: our accent-yellow bg, plain
 // black text — same default SectionIntro tone as the light card,
 // since --color-accent-foreground already resolves to --color-foreground.
-// overflow-hidden so an optional top image (see below) gets clipped to
-// the card's own rounded-lg corners instead of overhanging them square.
-// No padding or bottom radius exclusion here — padding now lives on
-// the inner content wrapper below, since an image (when present) needs
-// to sit flush against these same edges instead of inset from them.
 const CARD_CLASS: Record<CardTone, string> = {
-  default: 'rounded-lg overflow-hidden border border-border bg-background',
-  dark: 'rounded-lg overflow-hidden bg-foreground',
-  accent: 'rounded-lg overflow-hidden bg-accent',
+  default: 'rounded-lg border border-border bg-background',
+  dark: 'rounded-lg bg-foreground',
+  accent: 'rounded-lg bg-accent',
 }
 
 // Mirrors SectionIntro's own HEADING_LINE_HEIGHT_GAP but without the
@@ -118,32 +113,33 @@ export function CardGridBlock({
           const hasImage = showImage && !!item.image
           return (
             <div key={index} className={`flex flex-col ${CARD_CLASS[tone]}`}>
-              {hasImage && (
-                // bg-accent-gradient backdrop — same treatment Media.tsx
-                // gives every media slot by default (see Bento Grid).
-                // Temporary: Dan wants a different gradient behind dark-
-                // tone cards eventually, but is using the same yellow
-                // one everywhere for now until he has it.
-                <div className="bg-accent-gradient relative aspect-media w-full">
-                  <Image
-                    src={urlFor(item.image!).url()}
-                    alt={item.imageAlt || ''}
-                    fill
-                    sizes="(min-width: 768px) 33vw, 100vw"
-                    className="size-full object-cover"
-                  />
-                </div>
-              )}
-              {/* Top padding (eyebrow-to-card-edge, or eyebrow-to-
-                  image-bottom when there's an image): 32px by default,
-                  but only 24px when an image is present — the image's
-                  own edge already reads as a strong boundary, so the
-                  gap below it can be tighter than a bare card's top
-                  padding needs to be. */}
+              {/* Image (when present) is inset within the card's own
+                  padding, like Bento Grid's media — not flush against
+                  the card's edges. Top padding here is the card-edge-
+                  to-image gap (24px); the image's own mb-large below
+                  supplies the larger 32px gap down to the eyebrow. With
+                  no image, this padding is the plain card-edge-to-
+                  eyebrow gap instead, at the bigger 32px value. */}
               <div
                 className={`flex flex-1 flex-col px-medium-large md:px-large ${hasImage ? 'pt-medium-large' : 'pt-large'}`}
                 style={{ paddingBottom: CARD_PADDING_BOTTOM_VAR[headingLevel] }}
               >
+                {hasImage && (
+                  // bg-accent-gradient backdrop — same treatment
+                  // Media.tsx gives every media slot by default (see
+                  // Bento Grid). Temporary: Dan wants a different
+                  // gradient behind dark-tone cards eventually, but is
+                  // using the same yellow one everywhere for now.
+                  <div className="bg-accent-gradient relative mb-large aspect-media w-full overflow-hidden rounded-md">
+                    <Image
+                      src={urlFor(item.image!).url()}
+                      alt={item.imageAlt || ''}
+                      fill
+                      sizes="(min-width: 768px) 33vw, 100vw"
+                      className="size-full object-cover"
+                    />
+                  </div>
+                )}
                 <SectionIntro
                   as={headingLevel}
                   eyebrow={renderEyebrow(item.eyebrow, numberedEyebrow, tone)}
