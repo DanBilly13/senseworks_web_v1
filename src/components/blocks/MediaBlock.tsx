@@ -33,12 +33,14 @@ export function MediaBlock({ media, eyebrow, headline, body, ctaLabel, ctaHref, 
   return (
     <SectionShell>
       {/* Same structure as Hero's "image overlay" layout: an absolute
-          media layer, a flat scrim (not directional — keeps light text
-          legible regardless of where it sits), then the copy as a
-          normal relative sibling on top. This box owns the aspect
-          ratio/rounding instead of Media itself, since Media's own
-          root is `relative` and can't also take `absolute` from here
-          without the two conflicting in the same class list.
+          media layer, then the copy as a normal relative sibling on
+          top (no scrim — Dan asked for the dark tint over the image
+          removed; legibility over a busy image is now down to the
+          image/text combination chosen in Studio, not a built-in
+          darken). This box owns the aspect ratio/rounding instead of
+          Media itself, since Media's own root is `relative` and can't
+          also take `absolute` from here without the two conflicting in
+          the same class list.
 
           Full-bleed and taller (3:4) on mobile, contained and 7:5 from
           md: up — same "-mx-large cancels SectionShell's own mobile
@@ -53,7 +55,6 @@ export function MediaBlock({ media, eyebrow, headline, body, ctaLabel, ctaHref, 
         <div className="absolute inset-0">
           <Media media={media} alt={headline || media?.alt || ''} className="size-full" />
         </div>
-        <div className="absolute inset-0 bg-foreground/55" aria-hidden="true" />
         <div
           className={[
             // 32px on mobile (this box is full-bleed, 0 section
