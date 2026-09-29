@@ -229,6 +229,8 @@ export default async function BlocksPage({
       />
       <BlockCaption name="Section Headline — Left" type="sectionHeadlineBlock" variant='align: "left"' />
       <SectionHeadlineBlock eyebrow={EYEBROW} headline={HEADING} body={BODY} align="left" />
+      <BlockCaption name="Section Headline — H1" type="sectionHeadlineBlock" variant='headingLevel: "h1"' />
+      <SectionHeadlineBlock eyebrow={EYEBROW} headline={HEADING} body={BODY} headingLevel="h1" />
 
       <GroupHeading>Feature Sections</GroupHeading>
       <BlockCaption name="Feature Split — Image Left" type="featureSplitBlock" variant='imagePosition: "left"' />

@@ -22,6 +22,21 @@ export const sectionHeadlineBlock = defineType({
     defineField({ name: 'ctaLabel', type: 'string' }),
     defineField({ name: 'ctaHref', type: 'string' }),
     defineField({
+      name: 'headingLevel',
+      title: 'Heading level',
+      description:
+        'H1 only when this block IS the page\'s title (e.g. a page with no Hero) — every other section heading stays H2.',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'H1', value: 'h1' },
+          { title: 'H2 (default)', value: 'h2' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'h2',
+    }),
+    defineField({
       name: 'align',
       type: 'string',
       options: {
