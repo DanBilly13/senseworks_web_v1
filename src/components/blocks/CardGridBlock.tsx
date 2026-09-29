@@ -7,10 +7,20 @@ import { urlFor } from '@/lib/sanity/image'
 type CardGridItem = {
   image?: SanityImageSource
   imageAlt?: string
+  // Fades the image's right/bottom edges to transparent, revealing the
+  // image wrapper's own bg-accent-gradient behind it — a per-card
+  // choice (not every image on a grid necessarily wants it), so it
+  // lives on the item itself rather than as a block-level toggle.
+  imageFade?: boolean
   eyebrow: string
   heading: string
   body?: string
 }
+
+// A single diagonal fade (top-left opaque -> bottom-right transparent)
+// reads as "fading out toward the right and bottom edges" without the
+// complexity of compositing two separate directional mask layers.
+const IMAGE_FADE_MASK = 'linear-gradient(135deg, black 50%, transparent 100%)'
 type CardTone = 'default' | 'dark' | 'accent'
 type CardGridBlockProps = {
   columns?: '1' | '2' | '3' | '4'
@@ -137,6 +147,14 @@ export function CardGridBlock({
                       fill
                       sizes="(min-width: 768px) 33vw, 100vw"
                       className="size-full object-cover"
+                      style={
+                        item.imageFade
+                          ? {
+                              maskImage: IMAGE_FADE_MASK,
+                              WebkitMaskImage: IMAGE_FADE_MASK,
+                            }
+                          : undefined
+                      }
                     />
                   </div>
                 )}

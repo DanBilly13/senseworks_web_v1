@@ -90,6 +90,15 @@ export const cardGridBlock = defineType({
               hidden: ({ parent }) => !parent?.image,
             }),
             defineField({
+              name: 'imageFade',
+              title: 'Fade image edges',
+              description:
+                'Fades the image\'s right and bottom edges to transparent, revealing the card\'s own background behind it.',
+              type: 'boolean',
+              initialValue: false,
+              hidden: ({ parent }) => !parent?.image,
+            }),
+            defineField({
               name: 'eyebrow',
               title: 'Eyebrow',
               description: 'e.g. "01 — Intelligent"',
