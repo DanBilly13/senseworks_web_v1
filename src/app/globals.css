@@ -144,6 +144,13 @@
      values. Mobile uses aspect-media instead once the layout stacks. */
   --height-banner-5050: 31.25rem;
 
+  /* CTA Banner's minimum height — a true viewport fraction (not a
+     fixed rem value like the tokens above), so it scales with the
+     screen rather than pinning to one device size. min-height, not
+     height: long eyebrow/heading/body/CTA content is still free to
+     grow the banner taller than 50vh rather than getting clipped. */
+  --height-cta-banner: 50vh;
+
   /* Team roster avatar, desktop size — a dedicated --size-* token
      (not the shared --spacing-* scale) since 180px is specific to
      this one avatar and doesn't need to ripple into every other

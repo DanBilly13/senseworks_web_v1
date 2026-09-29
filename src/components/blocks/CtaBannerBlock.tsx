@@ -44,7 +44,11 @@ export function CtaBannerBlock({
     // up covering the exact same box (SectionShell's <section>,
     // padding included), just from the outside — freeing up a spot for
     // the background image to sit behind it via a plain sibling.
-    <div className={`relative overflow-hidden ${SECTION_BG[tone]}`}>
+    // min-h-cta-banner (50vh, see globals.css) + flex centering makes
+    // the banner at least half the viewport tall with its content
+    // vertically centered — a min, not a fixed height, so longer
+    // content can still grow it taller without clipping.
+    <div className={`relative flex min-h-cta-banner items-center overflow-hidden ${SECTION_BG[tone]}`}>
       {backgroundImage && (
         <Image
           src={urlFor(backgroundImage).url()}
@@ -55,7 +59,12 @@ export function CtaBannerBlock({
           className="object-cover"
         />
       )}
-      <SectionShell pad="both" className="relative z-10 flex justify-center">
+      {/* w-full: this <section> is now a flex child of the wrapper
+          above (for vertical centering), and a block-level flex item
+          shrink-wraps to its content width instead of filling the row
+          unless told otherwise — same "flex child needs an explicit
+          width" gotcha as mx-auto + max-w-* elsewhere in this repo. */}
+      <SectionShell pad="both" sectionClassName="w-full" className="relative z-10 flex justify-center">
         <SectionIntro
           as="h2"
           eyebrow={eyebrow}
