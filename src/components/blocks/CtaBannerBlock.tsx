@@ -71,11 +71,14 @@ export function CtaBannerBlock({
     // up covering the exact same box (SectionShell's <section>,
     // padding included), just from the outside — freeing up a spot for
     // the background image to sit behind it via a plain sibling.
-    // min-h-cta-banner (50vh, see globals.css) + flex centering makes
-    // the banner at least half the viewport tall with its content
-    // vertically centered — a min, not a fixed height, so longer
-    // content can still grow it taller without clipping.
-    <div className={`relative flex min-h-cta-banner items-center overflow-hidden ${SECTION_BG[tone]}`}>
+    // min-h-cta-banner (50vh, or 75vh with a background image — see
+    // globals.css) + flex centering makes the banner at least that
+    // fraction of the viewport tall with its content vertically
+    // centered — a min, not a fixed height, so longer content can
+    // still grow it taller without clipping.
+    <div
+      className={`relative flex items-center overflow-hidden ${backgroundImage ? 'min-h-cta-banner-image' : 'min-h-cta-banner'} ${SECTION_BG[tone]}`}
+    >
       {backgroundImage && (
         <Image
           src={urlFor(backgroundImage).url()}

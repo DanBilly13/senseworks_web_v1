@@ -150,6 +150,10 @@
      height: long eyebrow/heading/body/CTA content is still free to
      grow the banner taller than 50vh rather than getting clipped. */
   --height-cta-banner: 50vh;
+  /* Taller minimum specifically for when the banner has a background
+     image — an image-bearing CTA reads more like a hero and wants
+     more room to breathe than the plain-text 50vh default above. */
+  --height-cta-banner-image: 75vh;
 
   /* Team roster avatar, desktop size — a dedicated --size-* token
      (not the shared --spacing-* scale) since 180px is specific to
