@@ -128,17 +128,34 @@ export function CardGridBlock({
           const hasImage = showImage && !!item.image
           return (
             <div key={index} className={`flex flex-col ${CARD_CLASS[tone]}`}>
-              {/* Image (when present) is inset within the card's own
-                  padding, like Bento Grid's media — not flush against
-                  the card's edges. Top padding here is the card-edge-
-                  to-image gap (24px); the image's own mb-large below
-                  supplies the larger 32px gap down to the eyebrow. With
-                  no image, this padding is the plain card-edge-to-
-                  eyebrow gap instead, at the bigger 32px value. */}
+              {/* Image (when present) sits below the text, inset within
+                  the card's own padding like Bento Grid's media — not
+                  flush against the card's edges. Top padding is always
+                  32px now (image or not, it's never up here anymore).
+                  With an image, bottom padding is a fixed 24px (the
+                  image-to-card-edge gap) and the image's own mt-large
+                  supplies the 32px gap up from the body text. With no
+                  image, bottom padding falls back to the heading-line-
+                  height-based gap it always used. */}
               <div
-                className={`flex flex-1 flex-col px-medium-large md:px-large ${hasImage ? 'pt-medium-large' : 'pt-large'}`}
-                style={{ paddingBottom: CARD_PADDING_BOTTOM_VAR[headingLevel] }}
+                className="flex flex-1 flex-col px-medium-large pt-large md:px-large"
+                style={{ paddingBottom: hasImage ? undefined : CARD_PADDING_BOTTOM_VAR[headingLevel] }}
               >
+                <SectionIntro
+                  as={headingLevel}
+                  eyebrow={renderEyebrow(item.eyebrow, numberedEyebrow, tone)}
+                  heading={item.heading}
+                  body={item.body}
+                  tone={tone === 'dark' ? 'inverse' : 'default'}
+                  // On the dark card specifically, the kicker reads as an
+                  // accent highlight rather than faded white — a look Dan
+                  // asked for after seeing the plain white/70% version.
+                  eyebrowColor={tone === 'dark' ? 'text-accent' : undefined}
+                  // Card headings vary per instance (h3 or h4), so a single
+                  // fixed gap would only ever suit one of them — see
+                  // SectionIntro's own comment on this prop.
+                  gapToLineHeight
+                />
                 {hasImage && (
                   // bg-accent-gradient backdrop — same treatment
                   // Media.tsx gives every media slot by default (see
@@ -149,7 +166,7 @@ export function CardGridBlock({
                   // transparency (the card's own background) instead of
                   // fading into this yellow backdrop.
                   <div
-                    className={`relative mb-large aspect-media w-full overflow-hidden rounded-md ${item.imageFade ? '' : 'bg-accent-gradient'}`}
+                    className={`relative mt-large mb-medium-large aspect-media w-full overflow-hidden rounded-md ${item.imageFade ? '' : 'bg-accent-gradient'}`}
                   >
                     <Image
                       src={urlFor(item.image!).url()}
@@ -170,21 +187,6 @@ export function CardGridBlock({
                     />
                   </div>
                 )}
-                <SectionIntro
-                  as={headingLevel}
-                  eyebrow={renderEyebrow(item.eyebrow, numberedEyebrow, tone)}
-                  heading={item.heading}
-                  body={item.body}
-                  tone={tone === 'dark' ? 'inverse' : 'default'}
-                  // On the dark card specifically, the kicker reads as an
-                  // accent highlight rather than faded white — a look Dan
-                  // asked for after seeing the plain white/70% version.
-                  eyebrowColor={tone === 'dark' ? 'text-accent' : undefined}
-                  // Card headings vary per instance (h3 or h4), so a single
-                  // fixed gap would only ever suit one of them — see
-                  // SectionIntro's own comment on this prop.
-                  gapToLineHeight
-                />
               </div>
             </div>
           )
