@@ -33,7 +33,7 @@ export function SectionHeadlineBlock({
         heading={headline}
         body={body}
         align={align}
-        maxWidth="md"
+        maxWidth="lg"
         cta={ctaLabel && ctaHref && <Button href={ctaHref}>{ctaLabel}</Button>}
       />
     </SectionShell>
