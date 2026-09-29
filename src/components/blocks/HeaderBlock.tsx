@@ -156,6 +156,22 @@ export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref }: Head
     }
   }, [open])
 
+  // The drawer (and its toggle button) are both md:hidden, but `open`
+  // has no breakpoint awareness of its own — if the viewport crosses
+  // md while the drawer is open (rotating a tablet, or resizing a
+  // desktop window past 768px), both vanish via CSS with no control
+  // left to ever set `open` back to false. The effect above then never
+  // gets to run its cleanup, permanently locking page scroll. This
+  // closes the drawer proactively as soon as that boundary is crossed.
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 768px)')
+    const onChange = () => {
+      if (mq.matches) setOpen(false)
+    }
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
+
   return (
     <>
       <header
