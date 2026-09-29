@@ -119,7 +119,12 @@ export function CardGridBlock({
           return (
             <div key={index} className={`flex flex-col ${CARD_CLASS[tone]}`}>
               {hasImage && (
-                <div className="relative aspect-media w-full">
+                // bg-accent-gradient backdrop — same treatment Media.tsx
+                // gives every media slot by default (see Bento Grid).
+                // Temporary: Dan wants a different gradient behind dark-
+                // tone cards eventually, but is using the same yellow
+                // one everywhere for now until he has it.
+                <div className="bg-accent-gradient relative aspect-media w-full">
                   <Image
                     src={urlFor(item.image!).url()}
                     alt={item.imageAlt || ''}
