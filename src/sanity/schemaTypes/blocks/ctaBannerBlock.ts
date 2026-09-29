@@ -11,7 +11,7 @@ export const ctaBannerBlock = defineType({
     defineField({
       name: 'heading',
       type: 'string',
-      validation: (Rule) => Rule.required().max(100),
+      validation: (Rule) => Rule.max(100),
     }),
     defineField({
       name: 'body',
@@ -31,6 +31,21 @@ export const ctaBannerBlock = defineType({
     }),
     defineField({ name: 'secondaryCtaLabel', type: 'string' }),
     defineField({ name: 'secondaryCtaHref', type: 'string' }),
+    defineField({
+      name: 'buttonVariant',
+      title: 'Button color',
+      description: 'Leave unset to auto-match the tone below (light on Inverse, dark otherwise).',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Dark', value: 'filled-dark' },
+          { title: 'Accent', value: 'filled-accent' },
+          { title: 'Light', value: 'filled-light' },
+          { title: 'Ghost (outlined)', value: 'ghost' },
+        ],
+        layout: 'radio',
+      },
+    }),
     defineField({
       name: 'backgroundImage',
       title: 'Background image',
