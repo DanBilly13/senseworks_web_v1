@@ -7,20 +7,25 @@ import { urlFor } from '@/lib/sanity/image'
 type CardGridItem = {
   image?: SanityImageSource
   imageAlt?: string
-  // Fades the image's right/bottom edges to transparent, revealing the
-  // image wrapper's own bg-accent-gradient behind it — a per-card
-  // choice (not every image on a grid necessarily wants it), so it
-  // lives on the item itself rather than as a block-level toggle.
+  // Fades the image's right/bottom edges to true transparency (the
+  // card's own background shows through, not the yellow gradient
+  // backdrop — see the wrapper's bg-accent-gradient toggle below) — a
+  // per-card choice, not every image on a grid necessarily wants it,
+  // so it lives on the item itself rather than as a block-level toggle.
   imageFade?: boolean
   eyebrow: string
   heading: string
   body?: string
 }
 
-// A single diagonal fade (top-left opaque -> bottom-right transparent)
-// reads as "fading out toward the right and bottom edges" without the
-// complexity of compositing two separate directional mask layers.
-const IMAGE_FADE_MASK = 'linear-gradient(135deg, black 50%, transparent 100%)'
+// Two separate directional gradients (right fade, bottom fade)
+// intersected together — not one diagonal gradient, which fades the
+// whole image toward one corner instead of tapering each edge on its
+// own axis. `mask-composite: intersect` (and its pre-standard WebKit
+// equivalent, `-webkit-mask-composite: source-in`) keeps only where
+// both masks are opaque, so a pixel fades if EITHER gradient fades it.
+const IMAGE_FADE_MASK =
+  'linear-gradient(to right, black 70%, transparent 100%), linear-gradient(to bottom, black 70%, transparent 100%)'
 type CardTone = 'default' | 'dark' | 'accent'
 type CardGridBlockProps = {
   columns?: '1' | '2' | '3' | '4'
@@ -139,8 +144,13 @@ export function CardGridBlock({
                   // Media.tsx gives every media slot by default (see
                   // Bento Grid). Temporary: Dan wants a different
                   // gradient behind dark-tone cards eventually, but is
-                  // using the same yellow one everywhere for now.
-                  <div className="bg-accent-gradient relative mb-large aspect-media w-full overflow-hidden rounded-md">
+                  // using the same yellow one everywhere for now. Skipped
+                  // entirely when fading, so the image fades to true
+                  // transparency (the card's own background) instead of
+                  // fading into this yellow backdrop.
+                  <div
+                    className={`relative mb-large aspect-media w-full overflow-hidden rounded-md ${item.imageFade ? '' : 'bg-accent-gradient'}`}
+                  >
                     <Image
                       src={urlFor(item.image!).url()}
                       alt={item.imageAlt || ''}
@@ -152,6 +162,8 @@ export function CardGridBlock({
                           ? {
                               maskImage: IMAGE_FADE_MASK,
                               WebkitMaskImage: IMAGE_FADE_MASK,
+                              maskComposite: 'intersect',
+                              WebkitMaskComposite: 'source-in',
                             }
                           : undefined
                       }
