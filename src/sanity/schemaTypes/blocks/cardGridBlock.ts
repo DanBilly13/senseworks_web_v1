@@ -61,6 +61,14 @@ export const cardGridBlock = defineType({
       initialValue: false,
     }),
     defineField({
+      name: 'showImage',
+      title: 'Show image',
+      description:
+        'Adds an image above each card\'s eyebrow (7:5 ratio). Only used when a card below has one uploaded.',
+      type: 'boolean',
+      initialValue: false,
+    }),
+    defineField({
       name: 'items',
       title: 'Cards',
       type: 'array',
@@ -68,6 +76,19 @@ export const cardGridBlock = defineType({
         defineArrayMember({
           type: 'object',
           fields: [
+            defineField({
+              name: 'image',
+              title: 'Image',
+              description: '7:5 ratio. Only shown when "Show image" is on above.',
+              type: 'image',
+              options: { hotspot: true },
+            }),
+            defineField({
+              name: 'imageAlt',
+              title: 'Image alt text',
+              type: 'string',
+              hidden: ({ parent }) => !parent?.image,
+            }),
             defineField({
               name: 'eyebrow',
               title: 'Eyebrow',

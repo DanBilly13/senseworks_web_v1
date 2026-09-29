@@ -1,7 +1,12 @@
+import type { SanityImageSource } from '@sanity/image-url'
+import Image from 'next/image'
 import { SectionShell } from '@/components/ui/SectionShell'
 import { SectionIntro } from '@/components/ui/SectionIntro'
+import { urlFor } from '@/lib/sanity/image'
 
 type CardGridItem = {
+  image?: SanityImageSource
+  imageAlt?: string
   eyebrow: string
   heading: string
   body?: string
@@ -16,6 +21,9 @@ type CardGridBlockProps = {
   // colored badge instead of plain text — off by default since not
   // every Card Grid is numbered.
   numberedEyebrow?: boolean
+  // Adds an optional 7:5 image above each card's eyebrow — off by
+  // default, and only shown on a card that actually has one uploaded.
+  showImage?: boolean
 }
 
 const GRID_COLS_CLASS: Record<'1' | '2' | '3' | '4', string> = {
@@ -29,13 +37,15 @@ const GRID_COLS_CLASS: Record<'1' | '2' | '3' | '4', string> = {
 // contrasts against the page). accent: our accent-yellow bg, plain
 // black text — same default SectionIntro tone as the light card,
 // since --color-accent-foreground already resolves to --color-foreground.
-// No bottom padding here — it's computed per headingLevel below,
-// matching SectionIntro's own (now line-height-based) heading-to-body
-// gap, same reasoning as before, just no longer a fixed px value.
+// overflow-hidden so an optional top image (see below) gets clipped to
+// the card's own rounded-lg corners instead of overhanging them square.
+// No padding or bottom radius exclusion here — padding now lives on
+// the inner content wrapper below, since an image (when present) needs
+// to sit flush against these same edges instead of inset from them.
 const CARD_CLASS: Record<CardTone, string> = {
-  default: 'rounded-lg border border-border bg-background px-medium-large pt-medium-large md:px-large md:pt-large',
-  dark: 'rounded-lg bg-foreground px-medium-large pt-medium-large md:px-large md:pt-large',
-  accent: 'rounded-lg bg-accent px-medium-large pt-medium-large md:px-large md:pt-large',
+  default: 'rounded-lg overflow-hidden border border-border bg-background',
+  dark: 'rounded-lg overflow-hidden bg-foreground',
+  accent: 'rounded-lg overflow-hidden bg-accent',
 }
 
 // Mirrors SectionIntro's own HEADING_LINE_HEIGHT_GAP but without the
@@ -84,6 +94,7 @@ export function CardGridBlock({
   tone = 'default',
   headingLevel = 'h4',
   numberedEyebrow = false,
+  showImage = false,
 }: CardGridBlockProps) {
   // D7: a block with no content simply doesn't render.
   if (!items.length) return null
@@ -95,35 +106,58 @@ export function CardGridBlock({
           extra height/flex wiring needed for that. Single column on
           mobile just stacks them at their own natural heights instead.
           gap-small/md:gap-large pairs with SectionShell's px="boxed"
-          (8px) and each card's own p-medium-large (24px): the card's
-          TEXT lands 8+24=32px from the edge either way, same as every
-          non-boxed section's direct 32px padding — only the box itself
-          hugs closer to the edge on mobile. Desktop (32px gap, 32px
-          card padding) is unchanged from before. */}
+          (8px) and each card's own horizontal px-medium-large (24px):
+          the card's TEXT lands 8+24=32px from the edge either way, same
+          as every non-boxed section's direct 32px padding — only the
+          box itself hugs closer to the edge on mobile. Desktop's
+          horizontal padding (32px gap, 32px card padding) is unchanged.
+          The card's own TOP padding is separate from this rhythm and
+          responds to whether it has an image — see hasImage below. */}
       <div className={`grid grid-cols-1 gap-small md:gap-large ${GRID_COLS_CLASS[columns]}`}>
-        {items.map((item, index) => (
-          <div
-            key={index}
-            className={`flex flex-col ${CARD_CLASS[tone]}`}
-            style={{ paddingBottom: CARD_PADDING_BOTTOM_VAR[headingLevel] }}
-          >
-            <SectionIntro
-              as={headingLevel}
-              eyebrow={renderEyebrow(item.eyebrow, numberedEyebrow, tone)}
-              heading={item.heading}
-              body={item.body}
-              tone={tone === 'dark' ? 'inverse' : 'default'}
-              // On the dark card specifically, the kicker reads as an
-              // accent highlight rather than faded white — a look Dan
-              // asked for after seeing the plain white/70% version.
-              eyebrowColor={tone === 'dark' ? 'text-accent' : undefined}
-              // Card headings vary per instance (h3 or h4), so a single
-              // fixed gap would only ever suit one of them — see
-              // SectionIntro's own comment on this prop.
-              gapToLineHeight
-            />
-          </div>
-        ))}
+        {items.map((item, index) => {
+          const hasImage = showImage && !!item.image
+          return (
+            <div key={index} className={`flex flex-col ${CARD_CLASS[tone]}`}>
+              {hasImage && (
+                <div className="relative aspect-media w-full">
+                  <Image
+                    src={urlFor(item.image!).url()}
+                    alt={item.imageAlt || ''}
+                    fill
+                    sizes="(min-width: 768px) 33vw, 100vw"
+                    className="size-full object-cover"
+                  />
+                </div>
+              )}
+              {/* Top padding (eyebrow-to-card-edge, or eyebrow-to-
+                  image-bottom when there's an image): 32px by default,
+                  but only 24px when an image is present — the image's
+                  own edge already reads as a strong boundary, so the
+                  gap below it can be tighter than a bare card's top
+                  padding needs to be. */}
+              <div
+                className={`flex flex-1 flex-col px-medium-large md:px-large ${hasImage ? 'pt-medium-large' : 'pt-large'}`}
+                style={{ paddingBottom: CARD_PADDING_BOTTOM_VAR[headingLevel] }}
+              >
+                <SectionIntro
+                  as={headingLevel}
+                  eyebrow={renderEyebrow(item.eyebrow, numberedEyebrow, tone)}
+                  heading={item.heading}
+                  body={item.body}
+                  tone={tone === 'dark' ? 'inverse' : 'default'}
+                  // On the dark card specifically, the kicker reads as an
+                  // accent highlight rather than faded white — a look Dan
+                  // asked for after seeing the plain white/70% version.
+                  eyebrowColor={tone === 'dark' ? 'text-accent' : undefined}
+                  // Card headings vary per instance (h3 or h4), so a single
+                  // fixed gap would only ever suit one of them — see
+                  // SectionIntro's own comment on this prop.
+                  gapToLineHeight
+                />
+              </div>
+            </div>
+          )
+        })}
       </div>
     </SectionShell>
   )
