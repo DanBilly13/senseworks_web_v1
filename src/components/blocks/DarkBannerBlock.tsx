@@ -175,6 +175,7 @@ export function DarkBannerBlock({
                 description={item.description}
                 layout={headingLayout}
                 tone={isDark ? 'inverse' : 'default'}
+                gap="medium"
                 className={showIcons ? 'mt-small-medium' : ''}
               />
             </div>

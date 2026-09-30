@@ -80,7 +80,7 @@ export function ItemHeading({
   description,
   layout = 'stacked',
   tone = 'default',
-  gap = 'medium-large',
+  gap = 'medium',
   descriptionSize = 'body',
   descriptionClassName,
   className,

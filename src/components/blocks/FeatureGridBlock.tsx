@@ -113,9 +113,9 @@ export function FeatureGridBlock({
               )}
             </div>
             {/* Doubles the icon-to-title gap (12px container gap +
-                this) from 12px to 24px, same as ItemHeading's own
-                default 24px (mt-medium-large) title-to-description
-                gap below it. */}
+                this) from 12px to 24px. Title-to-description below is
+                its own separate value (16px, gap="medium") — not tied
+                to this icon gap at all. */}
             <ItemHeading
               as={titleSize}
               title={
@@ -132,6 +132,7 @@ export function FeatureGridBlock({
               }
               description={item.description}
               layout={headingLayout}
+              gap="medium"
               className="mt-small-medium"
             />
             {item.ctaLabel && item.ctaHref && (
