@@ -625,6 +625,20 @@ export default async function BlocksPage({
           { heading: 'Adipiscing elit', body: BODY, size: 'normal' },
         ]}
       />
+      <BlockCaption name="Bento Grid — H3 titles" type="bentoGridBlock" variant='titleSize: "h3"' />
+      <BentoGridBlock
+        eyebrow={EYEBROW}
+        heading={HEADING}
+        body={BODY}
+        columns="3"
+        titleSize="h3"
+        items={[
+          { heading: 'Lorem ipsum', body: BODY, size: 'large' },
+          { heading: 'Dolor sit', body: BODY, size: 'normal' },
+          { heading: 'Amet consectetur', body: BODY, size: 'tall' },
+          { heading: 'Adipiscing elit', body: BODY, size: 'normal' },
+        ]}
+      />
       <BlockCaption name="Media" type="mediaBlock" />
       <MediaBlock />
       {/* No media set on purpose — a busy React-animation demo (a bright

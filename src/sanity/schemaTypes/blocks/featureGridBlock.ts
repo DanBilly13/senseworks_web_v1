@@ -42,7 +42,7 @@ export const featureGridBlock = defineType({
       initialValue: 'large',
     }),
     headingLayoutField,
-    titleSizeField,
+    titleSizeField(),
     defineField({
       name: 'items',
       title: 'Features',

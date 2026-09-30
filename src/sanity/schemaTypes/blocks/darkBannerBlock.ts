@@ -66,7 +66,7 @@ export const darkBannerBlock = defineType({
       initialValue: 'small',
     }),
     headingLayoutField,
-    titleSizeField,
+    titleSizeField(),
     defineField({
       name: 'items',
       title: 'Items',

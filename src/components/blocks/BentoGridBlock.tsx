@@ -20,6 +20,7 @@ type BentoGridBlockProps = {
   body?: string
   columns?: '2' | '3'
   headingLayout?: 'stacked' | 'inline'
+  titleSize?: 'h3' | 'h4' | 'h5'
   items?: BentoItem[]
 }
 
@@ -34,6 +35,7 @@ export function BentoGridBlock({
   body,
   columns = '3',
   headingLayout = 'stacked',
+  titleSize = 'h5',
   items = [],
 }: BentoGridBlockProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
@@ -72,7 +74,7 @@ export function BentoGridBlock({
                 </button>
                 <div className="flex flex-1 flex-col pr-2xl">
                   <ItemHeading
-                    as="h5"
+                    as={titleSize}
                     title={item.heading}
                     description={item.body}
                     layout={headingLayout}

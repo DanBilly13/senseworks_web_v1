@@ -13,7 +13,7 @@ export const stepsBlock = defineType({
   fields: [
     hiddenField,
     headingLayoutField,
-    titleSizeField,
+    titleSizeField(),
     defineField({
       name: 'items',
       title: 'Steps',
