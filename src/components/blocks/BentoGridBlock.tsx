@@ -4,6 +4,7 @@ import { ExpandAltOutlined } from '@ant-design/icons'
 import { Modal } from '@/components/ui/Modal'
 import { SectionShell } from '@/components/ui/SectionShell'
 import { SectionIntro } from '@/components/ui/SectionIntro'
+import { ItemHeading } from '@/components/ui/ItemHeading'
 import { Media } from '@/components/ui/Media'
 import type { MediaField } from '@/lib/sanity/media'
 
@@ -18,6 +19,7 @@ type BentoGridBlockProps = {
   heading: string
   body?: string
   columns?: '2' | '3'
+  headingLayout?: 'stacked' | 'inline'
   items?: BentoItem[]
 }
 
@@ -31,6 +33,7 @@ export function BentoGridBlock({
   heading,
   body,
   columns = '3',
+  headingLayout = 'stacked',
   items = [],
 }: BentoGridBlockProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
@@ -67,13 +70,15 @@ export function BentoGridBlock({
                 >
                   <ExpandAltOutlined />
                 </button>
-                <div className="flex flex-1 flex-col gap-small pr-2xl">
-                  <h5 className="text-h5 font-semibold text-balance text-foreground">{item.heading}</h5>
-                  {item.body && (
-                    <p className="mt-small line-clamp-2 text-body text-muted-foreground">
-                      {item.body}
-                    </p>
-                  )}
+                <div className="flex flex-1 flex-col pr-2xl">
+                  <ItemHeading
+                    as="h5"
+                    title={item.heading}
+                    description={item.body}
+                    layout={headingLayout}
+                    gap="medium"
+                    descriptionClassName="line-clamp-2"
+                  />
                 </div>
                 <Media
                   media={item.media}

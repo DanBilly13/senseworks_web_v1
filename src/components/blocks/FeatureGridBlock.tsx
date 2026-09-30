@@ -3,6 +3,7 @@ import { Fragment } from 'react'
 import Image from 'next/image'
 import { CheckCircleOutlined } from '@ant-design/icons'
 import { SectionShell } from '@/components/ui/SectionShell'
+import { ItemHeading } from '@/components/ui/ItemHeading'
 
 type FeatureGridIcon =
   | 'home_work'
@@ -39,6 +40,7 @@ type IconSize = 'large' | 'small'
 type FeatureGridBlockProps = {
   columns?: '2' | '3' | '4'
   iconSize?: IconSize
+  headingLayout?: 'stacked' | 'inline'
   items?: FeatureGridItem[]
 }
 
@@ -64,7 +66,12 @@ const LG_COLS_CLASS: Record<'2' | '3' | '4', string> = {
 
 // No eyebrow/heading/body of its own — pair it with a separate intro
 // block (e.g. Section Headline) above it when one's needed.
-export function FeatureGridBlock({ columns = '3', iconSize = 'large', items = [] }: FeatureGridBlockProps) {
+export function FeatureGridBlock({
+  columns = '3',
+  iconSize = 'large',
+  headingLayout = 'stacked',
+  items = [],
+}: FeatureGridBlockProps) {
   // D7: a block with no content simply doesn't render.
   if (!items.length) return null
 
@@ -102,28 +109,27 @@ export function FeatureGridBlock({ columns = '3', iconSize = 'large', items = []
               )}
             </div>
             {/* Doubles the icon-to-title gap (12px container gap +
-                this) from 12px to 24px, same technique as the
-                title-to-description doubling just below. */}
-            <h4 className="mt-small-medium text-h4 font-semibold text-balance text-foreground">
-              {/* Plain-text field, so a manual line break only
-                  survives as a literal "\n" in the source — HTML
-                  collapses those by default, same reasoning as
-                  FeatureListBlock's body paragraph splitting. */}
-              {item.title.split('\n').map((line, i, lines) => (
-                <Fragment key={i}>
-                  {line}
-                  {i < lines.length - 1 && <br />}
-                </Fragment>
-              ))}
-            </h4>
-            {item.description && (
-              // Doubles the title-to-description gap (12px container
-              // gap + this) from 12px to 24px, matching the section
-              // heading-to-body doubling in SectionIntro.
-              <p className="mt-small-medium text-body text-muted-foreground">
-                {item.description}
-              </p>
-            )}
+                this) from 12px to 24px, same as ItemHeading's own
+                default 24px (mt-medium-large) title-to-description
+                gap below it. */}
+            <ItemHeading
+              as="h4"
+              title={
+                // Plain-text field, so a manual line break only
+                // survives as a literal "\n" in the source — HTML
+                // collapses those by default, same reasoning as
+                // FeatureListBlock's body paragraph splitting.
+                item.title.split('\n').map((line, i, lines) => (
+                  <Fragment key={i}>
+                    {line}
+                    {i < lines.length - 1 && <br />}
+                  </Fragment>
+                ))
+              }
+              description={item.description}
+              layout={headingLayout}
+              className="mt-small-medium"
+            />
             {item.ctaLabel && item.ctaHref && (
               <a
                 href={item.ctaHref}

@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { CheckCircleOutlined } from '@ant-design/icons'
 import { SectionShell } from '@/components/ui/SectionShell'
 import { SectionIntro } from '@/components/ui/SectionIntro'
+import { ItemHeading } from '@/components/ui/ItemHeading'
 import { urlFor } from '@/lib/sanity/image'
 
 type DarkBannerItem = {
@@ -28,6 +29,7 @@ type DarkBannerBlockProps = {
   // block's original fixed size): 32px desktop / 24px mobile. Same two
   // options as Feature Grid's own iconSize prop.
   iconSize?: IconSize
+  headingLayout?: 'stacked' | 'inline'
   items?: DarkBannerItem[]
 }
 
@@ -70,6 +72,7 @@ export function DarkBannerBlock({
   leftImage,
   showIcons = true,
   iconSize = 'small',
+  headingLayout = 'stacked',
   items = [],
 }: DarkBannerBlockProps) {
   // D7: a block with no content simply doesn't render.
@@ -162,18 +165,14 @@ export function DarkBannerBlock({
                     <CheckCircleOutlined className="size-full [&>svg]:size-full" />
                   </div>
                 ))}
-              <h4
-                className={`text-h4 font-semibold text-balance ${showIcons ? 'mt-small-medium' : ''} ${isDark ? 'text-background' : 'text-foreground'}`}
-              >
-                {item.title}
-              </h4>
-              {item.description && (
-                <p
-                  className={`mt-small-medium text-body ${isDark ? 'text-background/70' : 'text-muted-foreground'}`}
-                >
-                  {item.description}
-                </p>
-              )}
+              <ItemHeading
+                as="h4"
+                title={item.title}
+                description={item.description}
+                layout={headingLayout}
+                tone={isDark ? 'inverse' : 'default'}
+                className={showIcons ? 'mt-small-medium' : ''}
+              />
             </div>
           ))}
         </div>

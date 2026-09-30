@@ -1,5 +1,6 @@
 import { defineType, defineField, defineArrayMember } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
+import { headingLayoutField } from '../fields/headingLayoutField'
 
 // Deliberately no top-level eyebrow/heading/body — same reasoning as
 // Card Grid: pair this with a separate intro block (e.g. Section
@@ -39,6 +40,7 @@ export const featureGridBlock = defineType({
       },
       initialValue: 'large',
     }),
+    headingLayoutField,
     defineField({
       name: 'items',
       title: 'Features',

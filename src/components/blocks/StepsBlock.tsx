@@ -3,18 +3,20 @@ import { Fragment } from 'react'
 import Image from 'next/image'
 import { ArrowDownOutlined } from '@ant-design/icons'
 import { SectionShell } from '@/components/ui/SectionShell'
+import { ItemHeading } from '@/components/ui/ItemHeading'
 
 type StepsItem = {
   title: string
   body?: string
 }
 type StepsBlockProps = {
+  headingLayout?: 'stacked' | 'inline'
   items?: StepsItem[]
 }
 
 // No eyebrow/heading/body of its own — pair it with a separate intro
 // block (e.g. Section Headline) above it when one's needed.
-export function StepsBlock({ items = [] }: StepsBlockProps) {
+export function StepsBlock({ headingLayout = 'stacked', items = [] }: StepsBlockProps) {
   // D7: a block with no content simply doesn't render.
   if (!items.length) return null
 
@@ -57,32 +59,15 @@ export function StepsBlock({ items = [] }: StepsBlockProps) {
                   </div>
                 )}
               </div>
-              {/* Title and description grouped in their own gap-less
-                  flex-col, no explicit margin between them — the gap
-                  is entirely down to line-height/trim. globals.css
-                  trims ALL of h1-h6 to cap-height/baseline (trim-both),
-                  but the description below is a <p> (correctly, for
-                  semantics) and so never gets trimmed at all: its top
-                  keeps full natural leading above the first line's
-                  cap-height. Trimming the title's bottom too (the
-                  global default) would leave that leading with nothing
-                  to pair against, reading as a lopsided gap instead of
-                  a normal line-to-line one. trim-start here keeps the
-                  title flush against the circle row above (unchanged)
-                  but leaves its OWN bottom leading intact, so title
-                  bottom + description top leading add up to the same
-                  double-half-leading gap the description's own
-                  internal lines already use — i.e. it reads as one
-                  continuous paragraph. */}
-              <div className="mt-small-medium flex flex-col">
-                <h4
-                  className="text-h4 font-semibold text-balance text-foreground"
-                  style={{ textBox: 'trim-start cap alphabetic' }}
-                >
-                  {item.title}
-                </h4>
-                {item.body && <p className="text-h4 text-muted-foreground">{item.body}</p>}
-              </div>
+              <ItemHeading
+                as="h4"
+                title={item.title}
+                description={item.body}
+                layout={headingLayout}
+                gap="none"
+                descriptionSize="match"
+                className="mt-small-medium"
+              />
             </div>
             {index < items.length - 1 && (
               // Fixed at the mobile circle's own width (size-xl) and

@@ -1,5 +1,6 @@
 import { defineType, defineField, defineArrayMember } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
+import { headingLayoutField } from '../fields/headingLayoutField'
 
 export const bentoGridBlock = defineType({
   name: 'bentoGridBlock',
@@ -32,6 +33,7 @@ export const bentoGridBlock = defineType({
       },
       initialValue: '3',
     }),
+    headingLayoutField,
     defineField({
       name: 'items',
       title: 'Cards',

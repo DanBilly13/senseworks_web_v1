@@ -575,6 +575,23 @@ export default async function BlocksPage({
           { title: 'Adipiscing elit sed', description: BODY },
         ]}
       />
+      <BlockCaption
+        name="Dark Banner — Inline title"
+        type="darkBannerBlock"
+        variant='tone: "white", headingLayout: "inline"'
+      />
+      <DarkBannerBlock
+        eyebrow={EYEBROW}
+        heading={HEADING}
+        body={BODY}
+        tone="white"
+        headingLayout="inline"
+        items={[
+          { title: 'Lorem ipsum dolor.', description: BODY },
+          { title: 'Sit amet consectetur.', description: BODY },
+          { title: 'Adipiscing elit sed.', description: BODY },
+        ]}
+      />
 
       <GroupHeading>Media &amp; Content</GroupHeading>
       <BlockCaption name="Bento Grid" type="bentoGridBlock" />
