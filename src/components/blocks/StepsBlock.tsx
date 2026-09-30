@@ -57,10 +57,16 @@ export function StepsBlock({ items = [] }: StepsBlockProps) {
                   </div>
                 )}
               </div>
-              <h4 className="mt-small-medium text-h4 font-semibold text-balance text-foreground">
-                {item.title}
-              </h4>
-              {item.body && <p className="text-h4 text-muted-foreground">{item.body}</p>}
+              {/* Title and description grouped in their own gap-less
+                  flex-col so they sit flush together with zero space
+                  between — the outer gap-small-medium (above, between
+                  this group and the circle row) doesn't reach inside
+                  a nested flex container, only between its own direct
+                  children. */}
+              <div className="mt-small-medium flex flex-col">
+                <h4 className="text-h4 font-semibold text-balance text-foreground">{item.title}</h4>
+                {item.body && <p className="text-h4 text-muted-foreground">{item.body}</p>}
+              </div>
             </div>
             {index < items.length - 1 && (
               // Fixed at the mobile circle's own width (size-xl) and

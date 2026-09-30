@@ -310,7 +310,7 @@
 @media (max-width: 767px) {
   :root {
     --text-display: 3rem;
-    --text-h1: 2.75rem;
+    --text-h1: 2.375rem;
     --text-h2: 2.5rem;
     --text-h3: 1.75rem;
     --text-h4: 1.25rem;
@@ -322,6 +322,16 @@
     --spacing-section-gap-medium: var(--spacing-2xl);
     --spacing-section-gap-tight: var(--spacing-large);
     --spacing-section-edge: var(--spacing-2xl);
+  }
+
+  /* Letter-spacing isn't part of the --text-h1--line-height-style
+     pairing above (that works purely because a *unitless* line-height
+     is naturally proportional to whatever font-size is active — no
+     dynamic var lookup involved; letter-spacing has no such trick, so
+     a --text-h1--letter-spacing custom property here would silently do
+     nothing). Overriding the generated .text-h1 utility directly. */
+  .text-h1 {
+    letter-spacing: -0.0625rem;
   }
 }
 
