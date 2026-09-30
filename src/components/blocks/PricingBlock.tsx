@@ -41,7 +41,7 @@ export function PricingBlock({ eyebrow, heading, body, plans = [] }: PricingBloc
               }
             >
               <div className="flex flex-col gap-small">
-                <h3 className="text-h3 font-semibold text-balance">{plan.name}</h3>
+                <h3 className="text-h3 font-bold text-balance">{plan.name}</h3>
                 {plan.description && (
                   <p
                     className={

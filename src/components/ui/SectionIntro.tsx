@@ -56,11 +56,11 @@ const HEADING_TEXT_CLASS: Record<HeadingLevel, string> = {
   h4: 'text-h4',
 }
 
-// h1/h2 are bold; h3/h4 stay semibold.
+// h1/h2/h3 are bold; h4 stays semibold.
 const HEADING_WEIGHT_CLASS: Record<HeadingLevel, string> = {
   h1: 'font-bold',
   h2: 'font-bold',
-  h3: 'font-semibold',
+  h3: 'font-bold',
   h4: 'font-semibold',
 }
 

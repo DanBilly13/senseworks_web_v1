@@ -3,6 +3,12 @@ import { SectionShell } from '@/components/ui/SectionShell'
 import { Media } from '@/components/ui/Media'
 import type { MediaField } from '@/lib/sanity/media'
 
+// Same formula as SectionIntro's own gapToLineHeight (heading's full
+// line-height, minus the container's base gap-medium) — this block
+// hand-rolls its own heading/subhead/body stack instead of going
+// through SectionIntro, so it needs its own copy rather than the prop.
+const HEADING_LINE_HEIGHT_GAP = 'calc(var(--text-h3--full-line-height) - var(--spacing-medium))'
+
 type FeatureSplitDarkBlockProps = {
   heading?: string
   subhead?: string
@@ -36,11 +42,23 @@ export function FeatureSplitDarkBlock({
       <div className={panelClassName}>
         <div className="w-full md:max-w-prose-xs md:shrink-0">
           <div className="flex flex-col gap-medium">
-            {heading && (
-              <h3 className="text-h3 font-semibold text-balance text-background">{heading}</h3>
+            {heading && <h3 className="text-h3 font-bold text-balance text-background">{heading}</h3>}
+            {subhead && (
+              <p
+                className="text-body-lg font-medium text-background"
+                style={heading ? { marginTop: HEADING_LINE_HEIGHT_GAP } : undefined}
+              >
+                {subhead}
+              </p>
             )}
-            {subhead && <p className="text-body-lg font-medium text-background">{subhead}</p>}
-            {body && <p className="text-body text-background/70">{body}</p>}
+            {body && (
+              <p
+                className="text-body text-background/70"
+                style={heading && !subhead ? { marginTop: HEADING_LINE_HEIGHT_GAP } : undefined}
+              >
+                {body}
+              </p>
+            )}
           </div>
           {ctaLabel && ctaHref && (
             <div className={subhead || body ? 'mt-medium' : 'mt-medium-large'}>

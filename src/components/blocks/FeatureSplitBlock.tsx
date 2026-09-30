@@ -53,6 +53,10 @@ export function FeatureSplitBlock({
             eyebrow={eyebrow}
             heading={heading}
             body={body}
+            // Matches the same line-height-based eyebrow/heading/body
+            // gap the rest of the site uses (Card Grid, Hero mobile) —
+            // this block had been missed when that convention landed.
+            gapToLineHeight
             cta={
               ctaLabel &&
               ctaHref && (
