@@ -313,8 +313,8 @@
     --text-h1: 2.375rem;
     --text-h2: 2.5rem;
     --text-h3: 2rem;
-    --text-h4: 1.5rem;
-    --text-h5: 1.125rem;
+    --text-h4: 1.75rem;
+    --text-h5: 1.375rem;
 
     /* Same ~50% compression as before across all three tiers, snapped
        to existing named tokens rather than new one-off px values. */
