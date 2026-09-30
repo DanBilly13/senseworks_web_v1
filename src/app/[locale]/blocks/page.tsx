@@ -308,6 +308,15 @@ export default async function BlocksPage({
           { title: 'Adipiscing elit sed', description: BODY },
         ]}
       />
+      <BlockCaption name="Feature Grid — H5 titles" type="featureGridBlock" variant='titleSize: "h5"' />
+      <FeatureGridBlock
+        titleSize="h5"
+        items={[
+          { title: 'Lorem ipsum dolor', description: BODY },
+          { title: 'Sit amet consectetur', description: BODY },
+          { title: 'Adipiscing elit sed', description: BODY },
+        ]}
+      />
       <BlockCaption name="Feature List" type="featureListBlock" />
       <FeatureListBlock
         eyebrow={EYEBROW}

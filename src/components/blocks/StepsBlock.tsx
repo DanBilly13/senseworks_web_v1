@@ -11,7 +11,7 @@ type StepsItem = {
 }
 type StepsBlockProps = {
   headingLayout?: 'stacked' | 'inline'
-  titleSize?: 'h3' | 'h4'
+  titleSize?: 'h3' | 'h4' | 'h5'
   items?: StepsItem[]
 }
 

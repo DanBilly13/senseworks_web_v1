@@ -30,7 +30,7 @@ type DarkBannerBlockProps = {
   // options as Feature Grid's own iconSize prop.
   iconSize?: IconSize
   headingLayout?: 'stacked' | 'inline'
-  titleSize?: 'h3' | 'h4'
+  titleSize?: 'h3' | 'h4' | 'h5'
   items?: DarkBannerItem[]
 }
 

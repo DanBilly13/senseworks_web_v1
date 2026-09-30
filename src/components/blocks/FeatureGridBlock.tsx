@@ -41,7 +41,7 @@ type FeatureGridBlockProps = {
   columns?: '2' | '3' | '4'
   iconSize?: IconSize
   headingLayout?: 'stacked' | 'inline'
-  titleSize?: 'h3' | 'h4'
+  titleSize?: 'h3' | 'h4' | 'h5'
   items?: FeatureGridItem[]
 }
 
