@@ -1,8 +1,19 @@
+import Image from 'next/image'
 import { Button } from '@/components/ui/Button'
 import { SectionIntro } from '@/components/ui/SectionIntro'
 import { SECTION_GAP_PB_CLASS } from '@/components/ui/SectionShell'
 import { Media } from '@/components/ui/Media'
 import type { MediaField } from '@/lib/sanity/media'
+
+// Same "full line-height" gap SectionIntro's own gapToLineHeight uses
+// (this block already opts into that below) — keyed by headingLevel
+// so the brandmark's own distance from the text matches whichever
+// heading size is actually in play, same reasoning as Card Grid's
+// CARD_PADDING_BOTTOM_VAR.
+const BRANDMARK_GAP: Record<'h2' | 'h3', string> = {
+  h2: 'var(--text-h2--full-line-height)',
+  h3: 'var(--text-h3--full-line-height)',
+}
 
 type FeatureSplitBlockProps = {
   eyebrow?: string
@@ -68,6 +79,19 @@ export function FeatureSplitBlock({
                 </Button>
               )
             }
+          />
+          {/* A small brand signature closing out each block's text
+              column, like a footer — gap above it matches the heading's
+              own full line-height, same rhythm gapToLineHeight already
+              uses between eyebrow/heading/body/cta above. */}
+          <Image
+            src="/senseworks-brandmark-pos.svg"
+            alt=""
+            aria-hidden="true"
+            width={61}
+            height={18}
+            className="h-medium-large w-auto"
+            style={{ marginTop: BRANDMARK_GAP[headingLevel] }}
           />
         </div>
       </div>
