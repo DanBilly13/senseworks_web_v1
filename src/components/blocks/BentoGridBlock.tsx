@@ -21,6 +21,7 @@ type BentoGridBlockProps = {
   columns?: '2' | '3'
   headingLayout?: 'stacked' | 'inline'
   titleSize?: 'h3' | 'h4' | 'h5'
+  spacing?: 'loose' | 'medium' | 'tight'
   items?: BentoItem[]
 }
 
@@ -36,6 +37,7 @@ export function BentoGridBlock({
   columns = '3',
   headingLayout = 'stacked',
   titleSize = 'h5',
+  spacing = 'loose',
   items = [],
 }: BentoGridBlockProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
@@ -45,7 +47,7 @@ export function BentoGridBlock({
 
   return (
     <>
-      <SectionShell px="boxed" className="flex flex-col gap-2xl">
+      <SectionShell px="boxed" py={spacing} className="flex flex-col gap-2xl">
         <SectionIntro as="h3" eyebrow={eyebrow} heading={heading} body={body} maxWidth="md" />
         {/* gap-small/md:gap-large + each card's p-medium-large/md:p-large:
             same 8+24=32px-from-edge mobile rhythm as Card Grid — see its

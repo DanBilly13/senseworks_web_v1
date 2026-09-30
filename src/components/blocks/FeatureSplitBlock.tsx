@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/Button'
 import { SectionIntro } from '@/components/ui/SectionIntro'
+import { SECTION_GAP_PB_CLASS } from '@/components/ui/SectionShell'
 import { Media } from '@/components/ui/Media'
 import type { MediaField } from '@/lib/sanity/media'
 
@@ -12,6 +13,7 @@ type FeatureSplitBlockProps = {
   imagePosition?: 'left' | 'right'
   headingLevel?: 'h2' | 'h3'
   media?: MediaField
+  spacing?: 'loose' | 'medium' | 'tight'
 }
 
 export function FeatureSplitBlock({
@@ -23,6 +25,7 @@ export function FeatureSplitBlock({
   imagePosition = 'left',
   headingLevel = 'h3',
   media,
+  spacing = 'loose',
 }: FeatureSplitBlockProps) {
   // px-large/md:px-medium-large (32/24) — this is plain, non-boxed
   // content (an image + text row, no card around either), so it gets
@@ -35,7 +38,7 @@ export function FeatureSplitBlock({
   ].join(' ')
 
   return (
-    <section className="pb-section-gap-loose">
+    <section className={SECTION_GAP_PB_CLASS[spacing]}>
       <div className={rowClassName}>
         {/* Fills remaining space (not a 50/50 split) — matches the
             agreed Figma, where the text column is a fixed 460px and

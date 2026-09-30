@@ -1,5 +1,6 @@
 import { defineType, defineField } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
+import { spacingField } from '../fields/spacingField'
 
 export const testimonialLargeBlock = defineType({
   name: 'testimonialLargeBlock',
@@ -13,6 +14,7 @@ export const testimonialLargeBlock = defineType({
       to: [{ type: 'testimonial' }],
       validation: (Rule) => Rule.required(),
     }),
+    spacingField,
   ],
   preview: {
     select: {

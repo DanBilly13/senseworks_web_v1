@@ -1,5 +1,6 @@
 import { defineType, defineField } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
+import { spacingField } from '../fields/spacingField'
 
 export const fiftyFiftyBannerBlock = defineType({
   name: 'fiftyFiftyBannerBlock',
@@ -41,6 +42,7 @@ export const fiftyFiftyBannerBlock = defineType({
       description: 'Sized for a 700x500 image on desktop — fills its half edge-to-edge (cropped to fit, not letterboxed).',
       type: 'media',
     }),
+    spacingField,
   ],
   preview: {
     select: { title: 'heading', position: 'imagePosition' },

@@ -12,6 +12,7 @@ type FiftyFiftyBannerBlockProps = {
   ctaHref?: string
   imagePosition?: 'left' | 'right'
   media?: MediaField
+  spacing?: 'loose' | 'medium' | 'tight'
 }
 
 export function FiftyFiftyBannerBlock({
@@ -22,6 +23,7 @@ export function FiftyFiftyBannerBlock({
   ctaHref,
   imagePosition = 'right',
   media,
+  spacing = 'loose',
 }: FiftyFiftyBannerBlockProps) {
   // Text renders first in the DOM either way (keeps reading order/
   // accessibility sane regardless of visual position) — 'left'
@@ -32,7 +34,7 @@ export function FiftyFiftyBannerBlock({
   return (
     // px="boxed" (8px mobile / 24px desktop) — same single-boxed-panel
     // rhythm as Dark Banner/Feature Split Dark.
-    <SectionShell px="boxed">
+    <SectionShell px="boxed" py={spacing}>
       {/* Fixed height, not aspect-ratio, on desktop — sized to the
           700x500 reference asset (see --height-banner-5050) so an
           image at that resolution fills its half with no

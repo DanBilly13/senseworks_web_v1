@@ -5,11 +5,16 @@ import { SectionShell } from '@/components/ui/SectionShell'
 import { SectionIntro } from '@/components/ui/SectionIntro'
 
 type FaqItem = { question: string; answer: string }
-type FaqAccordionBlockProps = { heading?: string; items?: FaqItem[] }
+type FaqAccordionBlockProps = {
+  heading?: string
+  items?: FaqItem[]
+  spacing?: 'loose' | 'medium' | 'tight'
+}
 
 export function FaqAccordionBlock({
   heading = 'Frequently asked questions',
   items = [],
+  spacing = 'loose',
 }: FaqAccordionBlockProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
 
@@ -22,7 +27,7 @@ export function FaqAccordionBlock({
     // room to sit right-aligned in the leftover 2 columns instead of
     // hugging the question text. The divider (divide-y below) and each
     // item's own row span this full prose-xl width automatically.
-    <SectionShell maxWidth="prose-xl" ariaLabel={heading}>
+    <SectionShell maxWidth="prose-xl" py={spacing} ariaLabel={heading}>
       <SectionIntro as="h2" heading={heading} maxWidth="lg" />
       <dl className="mt-2xl divide-y divide-border">
         {items.map((item, index) => {

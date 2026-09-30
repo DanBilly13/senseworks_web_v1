@@ -12,6 +12,7 @@ type StepsItem = {
 type StepsBlockProps = {
   headingLayout?: 'stacked' | 'inline'
   titleSize?: 'h3' | 'h4' | 'h5'
+  spacing?: 'loose' | 'medium' | 'tight'
   items?: StepsItem[]
 }
 
@@ -20,13 +21,14 @@ type StepsBlockProps = {
 export function StepsBlock({
   headingLayout = 'stacked',
   titleSize = 'h4',
+  spacing = 'loose',
   items = [],
 }: StepsBlockProps) {
   // D7: a block with no content simply doesn't render.
   if (!items.length) return null
 
   return (
-    <SectionShell>
+    <SectionShell py={spacing}>
       {/* Stacked on mobile (plain flex-col), a row of equal-width steps
           on desktop. On mobile, the connector (line + down arrow) is
           its own flex child between steps (see below). On desktop, the

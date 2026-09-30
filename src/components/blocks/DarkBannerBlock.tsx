@@ -31,6 +31,7 @@ type DarkBannerBlockProps = {
   iconSize?: IconSize
   headingLayout?: 'stacked' | 'inline'
   titleSize?: 'h3' | 'h4' | 'h5'
+  spacing?: 'loose' | 'medium' | 'tight'
   items?: DarkBannerItem[]
 }
 
@@ -75,6 +76,7 @@ export function DarkBannerBlock({
   iconSize = 'small',
   headingLayout = 'stacked',
   titleSize = 'h4',
+  spacing = 'loose',
   items = [],
 }: DarkBannerBlockProps) {
   // D7: a block with no content simply doesn't render.
@@ -91,7 +93,7 @@ export function DarkBannerBlock({
     // same 32px-from-edge line as everywhere else. Vertical padding is
     // its own 32px on mobile (deliberately not the same token as the
     // horizontal 24px). Desktop's p-2xl (64px, all sides) is unchanged.
-    <SectionShell px="boxed">
+    <SectionShell px="boxed" py={spacing}>
       {/* overflow-hidden clips leftImage (below) to these rounded
           corners. Padding used to live on this shared grid container —
           now it's split per column (see each column's own className)

@@ -17,6 +17,7 @@ type FeatureSplitDarkBlockProps = {
   ctaHref?: string
   imagePosition?: 'left' | 'right'
   media?: MediaField
+  spacing?: 'loose' | 'medium' | 'tight'
 }
 
 export function FeatureSplitDarkBlock({
@@ -27,6 +28,7 @@ export function FeatureSplitDarkBlock({
   ctaHref,
   imagePosition = 'right',
   media,
+  spacing = 'loose',
 }: FeatureSplitDarkBlockProps) {
   // p-medium-large/md:p-2xl (24/64) — same "boxed panel" mobile rhythm
   // as DarkBannerBlock: paired with SectionShell's px="boxed" (8px)
@@ -38,7 +40,7 @@ export function FeatureSplitDarkBlock({
   ].join(' ')
 
   return (
-    <SectionShell px="boxed">
+    <SectionShell px="boxed" py={spacing}>
       <div className={panelClassName}>
         <div className="w-full md:max-w-prose-xs md:shrink-0">
           <div className="flex flex-col gap-medium">

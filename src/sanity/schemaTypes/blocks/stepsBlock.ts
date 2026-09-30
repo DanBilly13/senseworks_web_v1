@@ -2,6 +2,7 @@ import { defineType, defineField, defineArrayMember } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
 import { headingLayoutField } from '../fields/headingLayoutField'
 import { titleSizeField } from '../fields/titleSizeField'
+import { spacingField } from '../fields/spacingField'
 
 // Same reasoning as Feature Grid/Bento Grid: no intro of its own —
 // pair with a separate Section Headline block above it when one's
@@ -14,6 +15,7 @@ export const stepsBlock = defineType({
     hiddenField,
     headingLayoutField,
     titleSizeField(),
+    spacingField,
     defineField({
       name: 'items',
       title: 'Steps',

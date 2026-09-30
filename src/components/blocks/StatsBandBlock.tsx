@@ -7,14 +7,21 @@ type StatsBandBlockProps = {
   heading?: string
   body?: string
   items?: StatItem[]
+  spacing?: 'loose' | 'medium' | 'tight'
 }
 
-export function StatsBandBlock({ eyebrow, heading, body, items = [] }: StatsBandBlockProps) {
+export function StatsBandBlock({
+  eyebrow,
+  heading,
+  body,
+  items = [],
+  spacing = 'loose',
+}: StatsBandBlockProps) {
   // D7: a block with no content simply doesn't render.
   if (!items.length) return null
 
   return (
-    <SectionShell className="flex flex-col gap-2xl">
+    <SectionShell py={spacing} className="flex flex-col gap-2xl">
       <SectionIntro
         as="h2"
         eyebrow={eyebrow}

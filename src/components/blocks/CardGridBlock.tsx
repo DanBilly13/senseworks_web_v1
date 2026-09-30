@@ -55,6 +55,7 @@ type CardGridBlockProps = {
   // Adds an optional 7:5 image above each card's eyebrow — off by
   // default, and only shown on a card that actually has one uploaded.
   showImage?: boolean
+  spacing?: 'loose' | 'medium' | 'tight'
 }
 
 const GRID_COLS_CLASS: Record<'1' | '2' | '3' | '4', string> = {
@@ -121,12 +122,13 @@ export function CardGridBlock({
   headingLevel = 'h4',
   numberedEyebrow = false,
   showImage = false,
+  spacing = 'loose',
 }: CardGridBlockProps) {
   // D7: a block with no content simply doesn't render.
   if (!items.length) return null
 
   return (
-    <SectionShell px="boxed">
+    <SectionShell px="boxed" py={spacing}>
       {/* Grid's default align-items: stretch makes every card in a row
           match the tallest one, on desktop's multi-column row — no
           extra height/flex wiring needed for that. Single column on

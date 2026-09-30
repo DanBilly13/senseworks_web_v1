@@ -9,15 +9,22 @@ type FeatureListBlockProps = {
   eyebrow?: string
   heading?: string
   body?: string
+  spacing?: 'loose' | 'medium' | 'tight'
   items?: FeatureListItem[]
 }
 
-export function FeatureListBlock({ eyebrow, heading, body, items = [] }: FeatureListBlockProps) {
+export function FeatureListBlock({
+  eyebrow,
+  heading,
+  body,
+  spacing = 'loose',
+  items = [],
+}: FeatureListBlockProps) {
   // D7: a block with no content simply doesn't render.
   if (!items.length) return null
 
   return (
-    <SectionShell className="flex flex-col gap-2xl">
+    <SectionShell py={spacing} className="flex flex-col gap-2xl">
       <SectionIntro as="h2" eyebrow={eyebrow} heading={heading} body={body} maxWidth="md" />
       <div className="flex flex-col divide-y divide-border">
         {items.map((item, index) => {

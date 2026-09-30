@@ -1,5 +1,6 @@
 import { defineType, defineField, defineArrayMember } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
+import { spacingField } from '../fields/spacingField'
 
 // Deliberately no top-level eyebrow/heading/body — unlike most grid
 // blocks, this one is meant to be paired with a separate intro block
@@ -68,6 +69,7 @@ export const cardGridBlock = defineType({
       type: 'boolean',
       initialValue: false,
     }),
+    spacingField,
     defineField({
       name: 'items',
       title: 'Cards',

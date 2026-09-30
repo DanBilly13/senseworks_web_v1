@@ -12,6 +12,7 @@ type ComparisonTableBlockProps = {
   body?: string
   columns?: ComparisonColumn[]
   rows?: ComparisonRow[]
+  spacing?: 'loose' | 'medium' | 'tight'
 }
 
 function Cell({ cell, highlighted }: { cell?: ComparisonCell; highlighted: boolean }) {
@@ -62,12 +63,13 @@ export function ComparisonTableBlock({
   body,
   columns = [],
   rows = [],
+  spacing = 'loose',
 }: ComparisonTableBlockProps) {
   // D7: a block with no content simply doesn't render.
   if (!columns.length || !rows.length) return null
 
   return (
-    <SectionShell className="flex flex-col gap-2xl">
+    <SectionShell py={spacing} className="flex flex-col gap-2xl">
       <SectionIntro as="h2" eyebrow={eyebrow} heading={heading} body={body} maxWidth="md" />
       <div className="w-full overflow-hidden rounded-lg border border-border">
         <div className="overflow-x-auto">

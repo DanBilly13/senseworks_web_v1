@@ -1,5 +1,6 @@
 import { defineType, defineField, defineArrayMember } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
+import { spacingField } from '../fields/spacingField'
 
 export const faqAccordionBlock = defineType({
   name: 'faqAccordionBlock',
@@ -12,6 +13,7 @@ export const faqAccordionBlock = defineType({
       type: 'string',
       initialValue: 'Frequently asked questions',
     }),
+    spacingField,
     defineField({
       name: 'items',
       title: 'Questions',

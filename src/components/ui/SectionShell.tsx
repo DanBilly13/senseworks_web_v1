@@ -42,13 +42,22 @@ const PX_CLASS = {
   boxed: 'px-small md:px-medium-large',
 }
 
+// Exported so the couple of blocks that can't route through
+// SectionShell itself (a full-bleed carousel scroller, a mirrored row
+// that needs its own markup — see Testimonial Carousel/Feature Split's
+// own comments) can still offer the same loose/medium/tight choice on
+// their own hand-rolled <section>, without duplicating these values.
+export const SECTION_GAP_PB_CLASS: Record<'loose' | 'medium' | 'tight', string> = {
+  loose: 'pb-section-gap-loose',
+  medium: 'pb-section-gap-medium',
+  tight: 'pb-section-gap-tight',
+}
+
 const PB_CLASS = {
   '3xl': 'pb-3xl',
   large: 'pb-large',
   'section-edge': 'pb-section-edge',
-  loose: 'pb-section-gap-loose',
-  medium: 'pb-section-gap-medium',
-  tight: 'pb-section-gap-tight',
+  ...SECTION_GAP_PB_CLASS,
 }
 
 const PT_CLASS = {

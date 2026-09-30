@@ -1,5 +1,6 @@
 import { defineType, defineField, defineArrayMember } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
+import { spacingField } from '../fields/spacingField'
 
 export const testimonialCarouselBlock = defineType({
   name: 'testimonialCarouselBlock',
@@ -27,6 +28,7 @@ export const testimonialCarouselBlock = defineType({
       type: 'array',
       of: [defineArrayMember({ type: 'reference', to: [{ type: 'testimonial' }] })],
     }),
+    spacingField,
   ],
   preview: {
     select: { title: 'heading', items: 'items' },

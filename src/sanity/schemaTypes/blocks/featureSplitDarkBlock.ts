@@ -1,5 +1,6 @@
 import { defineType, defineField } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
+import { spacingField } from '../fields/spacingField'
 
 export const featureSplitDarkBlock = defineType({
   name: 'featureSplitDarkBlock',
@@ -48,6 +49,7 @@ export const featureSplitDarkBlock = defineType({
       type: 'media',
       description: 'Sits directly on the dark background — a transparent PNG works best.',
     }),
+    spacingField,
   ],
   preview: {
     select: { title: 'heading', position: 'imagePosition' },

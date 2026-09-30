@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import { LeftOutlined, RightOutlined, UserOutlined } from '@ant-design/icons'
 import { Button } from '@/components/ui/Button'
 import { SectionIntro } from '@/components/ui/SectionIntro'
+import { SECTION_GAP_PB_CLASS } from '@/components/ui/SectionShell'
 import { Media } from '@/components/ui/Media'
 import type { MediaField } from '@/lib/sanity/media'
 
@@ -18,6 +19,7 @@ type TestimonialCarouselBlockProps = {
   body?: string
   ctaLabel?: string
   ctaHref?: string
+  spacing?: 'loose' | 'medium' | 'tight'
   items?: TestimonialItem[]
 }
 
@@ -27,6 +29,7 @@ export function TestimonialCarouselBlock({
   body,
   ctaLabel,
   ctaHref,
+  spacing = 'loose',
   items = [],
 }: TestimonialCarouselBlockProps) {
   const scrollerRef = useRef<HTMLDivElement>(null)
@@ -60,7 +63,7 @@ export function TestimonialCarouselBlock({
   if (!items.length) return null
 
   return (
-    <section className="pb-section-gap-loose">
+    <section className={SECTION_GAP_PB_CLASS[spacing]}>
       {/* This header text isn't itself boxed — the cards below are —
           so it gets the plain 32px-from-edge mobile treatment (same as
           SectionShell's default px), not the 8px boxed one. Text here

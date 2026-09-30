@@ -17,14 +17,21 @@ type PricingBlockProps = {
   heading: string
   body?: string
   plans?: PricingPlan[]
+  spacing?: 'loose' | 'medium' | 'tight'
 }
 
-export function PricingBlock({ eyebrow, heading, body, plans = [] }: PricingBlockProps) {
+export function PricingBlock({
+  eyebrow,
+  heading,
+  body,
+  plans = [],
+  spacing = 'loose',
+}: PricingBlockProps) {
   // D7: a block with no content simply doesn't render.
   if (!plans.length) return null
 
   return (
-    <SectionShell px="boxed" className="flex flex-col gap-2xl">
+    <SectionShell px="boxed" py={spacing} className="flex flex-col gap-2xl">
       <SectionIntro as="h2" eyebrow={eyebrow} heading={heading} body={body} maxWidth="md" />
       {/* Same 8+24=32px-from-edge mobile rhythm as Card Grid — see its
           own comment. Desktop unchanged. */}

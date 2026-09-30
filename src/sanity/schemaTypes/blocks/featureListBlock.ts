@@ -1,5 +1,6 @@
 import { defineType, defineField, defineArrayMember } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
+import { spacingField } from '../fields/spacingField'
 
 export const featureListBlock = defineType({
   name: 'featureListBlock',
@@ -21,6 +22,7 @@ export const featureListBlock = defineType({
       rows: 3,
       validation: (Rule) => Rule.max(500),
     }),
+    spacingField,
     defineField({
       name: 'items',
       title: 'Rows',
