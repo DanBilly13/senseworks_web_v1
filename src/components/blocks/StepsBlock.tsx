@@ -58,16 +58,18 @@ export function StepsBlock({ items = [] }: StepsBlockProps) {
                 )}
               </div>
               {/* Title and description grouped in their own gap-less
-                  flex-col so they sit flush together with zero space
-                  between — the outer gap-small-medium (above, between
-                  this group and the circle row) doesn't reach inside
-                  a nested flex container, only between its own direct
-                  children. */}
+                  flex-col — no explicit margin between them at all,
+                  just the heading's own line-height (h1-h6 get a
+                  cap-height text-box trim in globals.css). No custom
+                  spacing to maintain here, and it scales naturally: a
+                  short title next to a short description doesn't read
+                  as artificially gappy the way a fixed margin would.
+                  The outer gap-small-medium (above, between this group
+                  and the circle row) doesn't reach inside this nested
+                  flex container, only between its own direct children. */}
               <div className="mt-small-medium flex flex-col">
                 <h4 className="text-h4 font-semibold text-balance text-foreground">{item.title}</h4>
-                {item.body && (
-                  <p className="mt-xs text-h4 text-muted-foreground">{item.body}</p>
-                )}
+                {item.body && <p className="text-h4 text-muted-foreground">{item.body}</p>}
               </div>
             </div>
             {index < items.length - 1 && (
