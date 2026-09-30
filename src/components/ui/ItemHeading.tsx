@@ -40,12 +40,10 @@ const HEADING_TEXT_CLASS: Record<ItemHeadingLevel, string> = {
   h5: 'text-h5',
 }
 
-// h3 is bold everywhere else on the site (SectionIntro); h4/h5 stay
-// semibold, matching every existing item-heading usage.
 const HEADING_WEIGHT_CLASS: Record<ItemHeadingLevel, string> = {
   h3: 'font-bold',
-  h4: 'font-semibold',
-  h5: 'font-semibold',
+  h4: 'font-bold',
+  h5: 'font-bold',
 }
 
 const GAP_CLASS: Record<ItemHeadingGap, string> = {

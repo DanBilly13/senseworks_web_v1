@@ -63,7 +63,7 @@ export function Modal({ open, onClose, title, children, tone = 'default' }: Moda
               heading inline with the photo — `title` still sets the
               dialog's accessible name, it just isn't drawn twice. */}
           {title && tone !== 'inverse' && (
-            <h4 className="pr-2xl text-h4 font-semibold text-balance">{title}</h4>
+            <h4 className="pr-2xl text-h4 font-bold text-balance">{title}</h4>
           )}
           {children}
         </div>
