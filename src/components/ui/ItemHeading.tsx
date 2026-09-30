@@ -106,7 +106,7 @@ export function ItemHeading({
         {description && (
           <>
             {' '}
-            <span className={`font-normal ${descriptionColor}`}>{description}</span>
+            <span className={`font-medium ${descriptionColor}`}>{description}</span>
           </>
         )}
       </Tag>
