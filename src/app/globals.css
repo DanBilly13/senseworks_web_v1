@@ -172,6 +172,12 @@
      and shouldn't become one just for this. */
   --height-button-xl: 5.5rem;
 
+  /* Media block's mobile height — a true viewport fraction, not an
+     aspect-ratio, so it holds steady at 75% of the screen regardless
+     of the (now full-bleed) width. Desktop keeps its own aspect-ratio
+     sizing (aspect-media/aspect-media-portrait) unaffected. */
+  --height-media-mobile: 75vh;
+
   /* Team roster avatar, desktop size — a dedicated --size-* token
      (not the shared --spacing-* scale) since 180px is specific to
      this one avatar and doesn't need to ripple into every other

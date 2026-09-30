@@ -22,10 +22,22 @@ export function MediaBlock({ media, eyebrow, headline, body, ctaLabel, ctaHref, 
   // back an image or animation off 100%/cover if they want the
   // frame's gradient showing around it, rather than this block
   // special-casing that layout in code.
+  //
+  // Full-bleed and a true 75vh on mobile (not an aspect-ratio — see
+  // --height-media-mobile), contained and aspect-media from md: up —
+  // same "-mx-large cancels SectionShell's own mobile px-large" trick
+  // as the overlay branch below. No explicit width utility: a plain
+  // block's width:auto already expands to fill (or, with the negative
+  // margin, overflow) its container — adding w-full would fight the
+  // negative margin instead of cooperating with it.
   if (!hasOverlay) {
     return (
       <SectionShell>
-        <Media media={media} alt={media?.alt ?? ''} className="aspect-media w-full rounded-lg" />
+        <Media
+          media={media}
+          alt={media?.alt ?? ''}
+          className="-mx-large h-media-mobile rounded-none md:mx-0 md:aspect-media md:h-auto md:w-full md:rounded-lg"
+        />
       </SectionShell>
     )
   }
@@ -42,7 +54,8 @@ export function MediaBlock({ media, eyebrow, headline, body, ctaLabel, ctaHref, 
           also take `absolute` from here without the two conflicting in
           the same class list.
 
-          Full-bleed and taller (3:4) on mobile, contained and 7:5 from
+          Full-bleed and a true 75vh on mobile (not an aspect-ratio —
+          see --height-media-mobile), contained and aspect-media from
           md: up — same "-mx-large cancels SectionShell's own mobile
           px-large" trick as the mobile Hero card (SectionShell's
           default mobile padding — see its own px="default" comment).
@@ -51,7 +64,7 @@ export function MediaBlock({ media, eyebrow, headline, body, ctaLabel, ctaHref, 
           overflow) its container — adding w-full here would fight the
           negative margin (both non-auto, over-constrained) instead of
           cooperating with it. */}
-      <div className="relative -mx-large aspect-media-portrait overflow-hidden rounded-none md:mx-0 md:aspect-media md:rounded-lg">
+      <div className="relative -mx-large h-media-mobile overflow-hidden rounded-none md:mx-0 md:aspect-media md:h-auto md:rounded-lg">
         <div className="absolute inset-0">
           <Media media={media} alt={headline || media?.alt || ''} className="size-full" />
         </div>
