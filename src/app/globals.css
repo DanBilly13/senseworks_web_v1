@@ -179,6 +179,15 @@
      --spacing-* would. */
   --size-avatar-lg: 11.25rem;
 
+  /* Shared "Large" content-icon size, mobile only — desktop reuses the
+     existing --spacing-2xl (64px) rung via size-2xl, but 56px isn't a
+     rung on that scale, so it gets its own token here rather than
+     joining it. Pairs with any content-icon block's "Small" size,
+     which needs no new token at all — it's just the existing
+     size-medium-large (24px) mobile / size-large (32px) desktop pair,
+     already in use on Dark Banner's icons. */
+  --size-icon-lg: 3.5rem;
+
   /* D5: new marketing type scale — NOT the product's Heading1-5.
      Heading sizes (display/h1-h4) get a tightened 1.3 line-height —
      the browser default of ~1.5 (body-copy proportions) reads loose

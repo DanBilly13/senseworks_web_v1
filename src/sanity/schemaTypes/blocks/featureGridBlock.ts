@@ -26,6 +26,20 @@ export const featureGridBlock = defineType({
       initialValue: '3',
     }),
     defineField({
+      name: 'iconSize',
+      title: 'Icon size',
+      description: 'Large: 64px desktop / 56px mobile. Small: 32px desktop / 24px mobile.',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Large (default)', value: 'large' },
+          { title: 'Small', value: 'small' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'large',
+    }),
+    defineField({
       name: 'items',
       title: 'Features',
       type: 'array',

@@ -35,9 +35,21 @@ type FeatureGridItem = {
   ctaLabel?: string
   ctaHref?: string
 }
+type IconSize = 'large' | 'small'
 type FeatureGridBlockProps = {
   columns?: '2' | '3' | '4'
+  iconSize?: IconSize
   items?: FeatureGridItem[]
+}
+
+// Shared "Large"/"Small" content-icon sizes — 64/56 desktop/mobile for
+// Large (size-icon-lg is the dedicated 56px mobile token, size-2xl
+// reuses the existing 64px spacing rung for desktop), 32/24 for Small
+// (both already-existing spacing rungs, same pair Dark Banner's icons
+// use). Same two options as Dark Banner's own iconSize prop below.
+const ICON_BOX_CLASS: Record<IconSize, string> = {
+  large: 'size-icon-lg md:size-2xl',
+  small: 'size-medium-large md:size-large',
 }
 
 // Tablet stays a fixed 2-column layout regardless of this choice —
@@ -52,7 +64,7 @@ const LG_COLS_CLASS: Record<'2' | '3' | '4', string> = {
 
 // No eyebrow/heading/body of its own — pair it with a separate intro
 // block (e.g. Section Headline) above it when one's needed.
-export function FeatureGridBlock({ columns = '3', items = [] }: FeatureGridBlockProps) {
+export function FeatureGridBlock({ columns = '3', iconSize = 'large', items = [] }: FeatureGridBlockProps) {
   // D7: a block with no content simply doesn't render.
   if (!items.length) return null
 
@@ -61,13 +73,12 @@ export function FeatureGridBlock({ columns = '3', items = [] }: FeatureGridBlock
       <div className={`grid grid-cols-1 gap-2xl sm:grid-cols-2 ${LG_COLS_CLASS[columns]}`}>
         {items.map((item, index) => (
           <div key={index} className="flex flex-col gap-small-medium">
-            {/* No chip background/radius — just the icon itself, at a
-                uniform 64px on both mobile and desktop. Both icon
-                types fill the same box via size-full so a default
+            {/* No chip background/radius — just the icon itself. Both
+                icon types fill the same box via size-full so a default
                 checkmark and a custom SVG line up identically
                 regardless of which an item uses. */}
             <div
-              className="flex size-2xl items-center justify-center text-muted-foreground"
+              className={`flex items-center justify-center text-muted-foreground ${ICON_BOX_CLASS[iconSize]}`}
               aria-hidden="true"
             >
               {item.icon ? (

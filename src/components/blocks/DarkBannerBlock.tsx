@@ -12,6 +12,7 @@ type DarkBannerItem = {
   description?: string
 }
 type DarkBannerTone = 'dark' | 'accent' | 'white'
+type IconSize = 'large' | 'small'
 type DarkBannerBlockProps = {
   eyebrow?: string
   heading: string
@@ -23,7 +24,16 @@ type DarkBannerBlockProps = {
   // the panel's own padding like the text above it.
   leftImage?: SanityImageSource
   showIcons?: boolean
+  // Large: 64px desktop / 56px mobile. Small (default, matching this
+  // block's original fixed size): 32px desktop / 24px mobile. Same two
+  // options as Feature Grid's own iconSize prop.
+  iconSize?: IconSize
   items?: DarkBannerItem[]
+}
+
+const ICON_BOX_CLASS: Record<IconSize, string> = {
+  large: 'size-icon-lg md:size-2xl',
+  small: 'size-medium-large md:size-large',
 }
 
 // Panel background per tone — 'dark' keeps the original bg-foreground
@@ -59,6 +69,7 @@ export function DarkBannerBlock({
   tone = 'dark',
   leftImage,
   showIcons = true,
+  iconSize = 'small',
   items = [],
 }: DarkBannerBlockProps) {
   // D7: a block with no content simply doesn't render.
@@ -121,7 +132,7 @@ export function DarkBannerBlock({
                   // colors don't matter.
                   <span
                     aria-hidden="true"
-                    className={`size-medium-large shrink-0 md:size-large ${ICON_MASK_BG_CLASS[tone]}`}
+                    className={`shrink-0 ${ICON_BOX_CLASS[iconSize]} ${ICON_MASK_BG_CLASS[tone]}`}
                     style={{
                       maskImage: `url(${urlFor(item.icon).url()})`,
                       maskRepeat: 'no-repeat',
@@ -145,7 +156,7 @@ export function DarkBannerBlock({
                   // .anticon class sidesteps it, same as Feature Grid's
                   // default-checkmark treatment.
                   <div
-                    className={`flex size-medium-large shrink-0 items-center justify-center md:size-large ${ICON_COLOR_CLASS[tone]}`}
+                    className={`flex shrink-0 items-center justify-center ${ICON_BOX_CLASS[iconSize]} ${ICON_COLOR_CLASS[tone]}`}
                     aria-hidden="true"
                   >
                     <CheckCircleOutlined className="size-full [&>svg]:size-full" />

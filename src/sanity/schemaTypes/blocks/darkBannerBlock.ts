@@ -50,6 +50,20 @@ export const darkBannerBlock = defineType({
       initialValue: true,
     }),
     defineField({
+      name: 'iconSize',
+      title: 'Icon size',
+      description: 'Large: 64px desktop / 56px mobile. Small: 32px desktop / 24px mobile.',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Large', value: 'large' },
+          { title: 'Small (default)', value: 'small' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'small',
+    }),
+    defineField({
       name: 'items',
       title: 'Items',
       type: 'array',
