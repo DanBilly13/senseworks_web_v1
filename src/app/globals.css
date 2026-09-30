@@ -155,6 +155,12 @@
      more room to breathe than the plain-text 50vh default above. */
   --height-cta-banner-image: 75vh;
 
+  /* Button's xl size, desktop-only height — 64px (h-2xl) everywhere
+     else, but a dedicated bigger value from md: up rather than reusing
+     a shared --spacing-* token, since 88px isn't a rung on that scale
+     and shouldn't become one just for this. */
+  --height-button-xl: 5.5rem;
+
   /* Team roster avatar, desktop size — a dedicated --size-* token
      (not the shared --spacing-* scale) since 180px is specific to
      this one avatar and doesn't need to ripple into every other
