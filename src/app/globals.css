@@ -229,7 +229,7 @@
   --text-body-lg: 1.125rem;
   --text-body: 1rem;
   --text-body-sm: 0.875rem;
-  --text-caption: 0.75rem;
+  --text-caption: 0.8125rem;
 
   /* A dedicated size for long-form reading (Knowledge Bank article
      bodies) — deliberately its own token, not a reuse of --text-body
@@ -312,7 +312,7 @@
     --text-display: 3rem;
     --text-h1: 2.375rem;
     --text-h2: 2.5rem;
-    --text-h3: 1.75rem;
+    --text-h3: 2rem;
     --text-h4: 1.25rem;
     --text-h5: 1.125rem;
 
