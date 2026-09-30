@@ -1,5 +1,6 @@
 import { defineType, defineField } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
+import { spacingField } from '../fields/spacingField'
 
 // Split out of heroBlock's `layout` options (was "imageOverlayCard")
 // once it grew its own scroll-driven pin/morph interaction and two
@@ -55,21 +56,7 @@ export const heroImageOverlayCardBlock = defineType({
       },
       initialValue: '50',
     }),
-    defineField({
-      name: 'spacing',
-      title: 'Section spacing',
-      description: 'The gap below this block, before the next one. Loose unless a page needs tighter rhythm here.',
-      type: 'string',
-      options: {
-        list: [
-          { title: 'Loose (200px)', value: 'loose' },
-          { title: 'Medium (120px)', value: 'medium' },
-          { title: 'Tight (60px)', value: 'tight' },
-        ],
-        layout: 'radio',
-      },
-      initialValue: 'loose',
-    }),
+    spacingField,
   ],
   preview: {
     select: { title: 'headline', cardBackground: 'cardBackground' },

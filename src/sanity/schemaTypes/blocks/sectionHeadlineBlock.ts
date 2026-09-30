@@ -1,5 +1,6 @@
 import { defineType, defineField } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
+import { spacingField } from '../fields/spacingField'
 
 export const sectionHeadlineBlock = defineType({
   name: 'sectionHeadlineBlock',
@@ -48,21 +49,7 @@ export const sectionHeadlineBlock = defineType({
       },
       initialValue: 'center',
     }),
-    defineField({
-      name: 'spacing',
-      title: 'Section spacing',
-      description: 'The gap below this block, before the next one. Loose unless a page needs tighter rhythm here.',
-      type: 'string',
-      options: {
-        list: [
-          { title: 'Loose (200px)', value: 'loose' },
-          { title: 'Medium (120px)', value: 'medium' },
-          { title: 'Tight (60px)', value: 'tight' },
-        ],
-        layout: 'radio',
-      },
-      initialValue: 'loose',
-    }),
+    spacingField,
   ],
   preview: {
     select: { title: 'headline' },

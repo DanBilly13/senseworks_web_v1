@@ -1,5 +1,6 @@
 import { defineType, defineField, defineArrayMember } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
+import { spacingField } from '../fields/spacingField'
 
 export const logoCloudBlock = defineType({
   name: 'logoCloudBlock',
@@ -13,21 +14,7 @@ export const logoCloudBlock = defineType({
       type: 'array',
       of: [defineArrayMember({ type: 'reference', to: [{ type: 'client' }] })],
     }),
-    defineField({
-      name: 'spacing',
-      title: 'Section spacing',
-      description: 'The gap below this block, before the next one. Loose unless a page needs tighter rhythm here.',
-      type: 'string',
-      options: {
-        list: [
-          { title: 'Loose (200px)', value: 'loose' },
-          { title: 'Medium (120px)', value: 'medium' },
-          { title: 'Tight (60px)', value: 'tight' },
-        ],
-        layout: 'radio',
-      },
-      initialValue: 'loose',
-    }),
+    spacingField,
   ],
   preview: {
     select: { logos: 'logos' },

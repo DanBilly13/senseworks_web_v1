@@ -42,6 +42,7 @@ type FeatureGridBlockProps = {
   iconSize?: IconSize
   headingLayout?: 'stacked' | 'inline'
   titleSize?: 'h3' | 'h4' | 'h5'
+  spacing?: 'loose' | 'medium' | 'tight'
   items?: FeatureGridItem[]
 }
 
@@ -72,13 +73,14 @@ export function FeatureGridBlock({
   iconSize = 'large',
   headingLayout = 'stacked',
   titleSize = 'h4',
+  spacing = 'loose',
   items = [],
 }: FeatureGridBlockProps) {
   // D7: a block with no content simply doesn't render.
   if (!items.length) return null
 
   return (
-    <SectionShell>
+    <SectionShell py={spacing}>
       <div className={`grid grid-cols-1 gap-2xl sm:grid-cols-2 ${LG_COLS_CLASS[columns]}`}>
         {items.map((item, index) => (
           <div key={index} className="flex flex-col gap-small-medium">
