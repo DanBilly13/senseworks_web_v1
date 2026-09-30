@@ -90,9 +90,9 @@ const CARD_PADDING_BOTTOM_VAR: Record<'h3' | 'h4', string> = {
 // badge on the dark card would put yellow text on a yellow badge and
 // disappear, so dark gets the inverse pairing instead.
 const NUMBER_BADGE_CLASS: Record<CardTone, string> = {
-  default: 'rounded-xs bg-foreground px-xs text-accent',
-  dark: 'rounded-xs bg-accent px-xs text-foreground',
-  accent: 'rounded-xs bg-foreground px-xs text-accent',
+  default: 'rounded-xs bg-foreground px-xs py-xs text-accent',
+  dark: 'rounded-xs bg-accent px-xs py-xs text-foreground',
+  accent: 'rounded-xs bg-foreground px-xs py-xs text-accent',
 }
 
 // Splits only the first word off as "the number" — existing content is
@@ -168,7 +168,12 @@ export function CardGridBlock({
                   // On the dark card specifically, the kicker reads as an
                   // accent highlight rather than faded white — a look Dan
                   // asked for after seeing the plain white/70% version.
-                  eyebrowColor={tone === 'dark' ? 'text-accent' : undefined}
+                  // Numbered eyebrows go full foreground instead of the
+                  // usual muted grey — next to a bold number badge, grey
+                  // text read washed out.
+                  eyebrowColor={
+                    tone === 'dark' ? 'text-accent' : numberedEyebrow ? 'text-foreground' : undefined
+                  }
                   // Card headings vary per instance (h3 or h4), so a single
                   // fixed gap would only ever suit one of them — see
                   // SectionIntro's own comment on this prop.
