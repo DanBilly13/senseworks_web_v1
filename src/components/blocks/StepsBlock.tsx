@@ -65,7 +65,9 @@ export function StepsBlock({ items = [] }: StepsBlockProps) {
                   children. */}
               <div className="mt-small-medium flex flex-col">
                 <h4 className="text-h4 font-semibold text-balance text-foreground">{item.title}</h4>
-                {item.body && <p className="text-h4 text-muted-foreground">{item.body}</p>}
+                {item.body && (
+                  <p className="mt-xs text-h4 text-muted-foreground">{item.body}</p>
+                )}
               </div>
             </div>
             {index < items.length - 1 && (
