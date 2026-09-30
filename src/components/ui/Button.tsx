@@ -36,6 +36,12 @@ export const buttonVariants = cva(
         // which reads squeezed at md's py-small-medium next to the
         // ~44px-tall nav rows above it.
         lg: 'p-medium-large',
+        // Fixed 64px height (h-2xl) rather than padding driving the
+        // height like the sizes above — none of the spacing scale's
+        // symmetric-padding values land exactly on 64px combined with
+        // text-body-sm's own line-height, so this pins the height
+        // directly and lets the button's own items-center do the rest.
+        xl: 'h-2xl px-large',
       },
     },
     defaultVariants: { variant: 'filled-dark', size: 'md' },
