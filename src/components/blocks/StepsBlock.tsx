@@ -58,17 +58,29 @@ export function StepsBlock({ items = [] }: StepsBlockProps) {
                 )}
               </div>
               {/* Title and description grouped in their own gap-less
-                  flex-col — no explicit margin between them at all,
-                  just the heading's own line-height (h1-h6 get a
-                  cap-height text-box trim in globals.css). No custom
-                  spacing to maintain here, and it scales naturally: a
-                  short title next to a short description doesn't read
-                  as artificially gappy the way a fixed margin would.
-                  The outer gap-small-medium (above, between this group
-                  and the circle row) doesn't reach inside this nested
-                  flex container, only between its own direct children. */}
+                  flex-col, no explicit margin between them — the gap
+                  is entirely down to line-height/trim. globals.css
+                  trims ALL of h1-h6 to cap-height/baseline (trim-both),
+                  but the description below is a <p> (correctly, for
+                  semantics) and so never gets trimmed at all: its top
+                  keeps full natural leading above the first line's
+                  cap-height. Trimming the title's bottom too (the
+                  global default) would leave that leading with nothing
+                  to pair against, reading as a lopsided gap instead of
+                  a normal line-to-line one. trim-start here keeps the
+                  title flush against the circle row above (unchanged)
+                  but leaves its OWN bottom leading intact, so title
+                  bottom + description top leading add up to the same
+                  double-half-leading gap the description's own
+                  internal lines already use — i.e. it reads as one
+                  continuous paragraph. */}
               <div className="mt-small-medium flex flex-col">
-                <h4 className="text-h4 font-semibold text-balance text-foreground">{item.title}</h4>
+                <h4
+                  className="text-h4 font-semibold text-balance text-foreground"
+                  style={{ textBox: 'trim-start cap alphabetic' }}
+                >
+                  {item.title}
+                </h4>
                 {item.body && <p className="text-h4 text-muted-foreground">{item.body}</p>}
               </div>
             </div>
