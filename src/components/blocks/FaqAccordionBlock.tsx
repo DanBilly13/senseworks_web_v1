@@ -62,7 +62,7 @@ export function FaqAccordionBlock({
                 role="region"
                 aria-labelledby={buttonId}
                 hidden={!isOpen}
-                className="max-w-prose-lg pb-small text-body text-muted-foreground"
+                className="max-w-prose-lg pb-small text-body font-medium text-muted-foreground md:font-normal"
               >
                 {item.answer}
               </dd>

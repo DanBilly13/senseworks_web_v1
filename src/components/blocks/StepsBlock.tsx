@@ -60,17 +60,14 @@ export function StepsBlock({ items = [] }: StepsBlockProps) {
               <h4 className="mt-small-medium text-h4 font-semibold text-balance text-foreground">
                 {item.title}
               </h4>
-              {item.body && (
-                <p className="mt-small-medium text-body text-muted-foreground">{item.body}</p>
-              )}
+              {item.body && <p className="text-h4 text-muted-foreground">{item.body}</p>}
             </div>
             {index < items.length - 1 && (
               // Fixed at the mobile circle's own width (size-xl) and
               // left-aligned like it (not centered on the full row), so
-              // the line/arrow land directly under the circle instead
-              // of under the row's horizontal center.
-              <div className="flex w-xl flex-col items-center gap-small md:hidden" aria-hidden="true">
-                <div className="h-2xl w-px bg-muted-foreground/40" />
+              // the arrow lands directly under the circle instead of
+              // under the row's horizontal center.
+              <div className="flex w-xl items-center justify-center md:hidden" aria-hidden="true">
                 <ArrowDownOutlined className="text-body text-muted-foreground" />
               </div>
             )}

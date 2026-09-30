@@ -131,7 +131,9 @@ export function TestimonialCarouselBlock({
               className="size-2xl rounded-full text-muted-foreground"
               fallback={<UserOutlined />}
             />
-            <p className="text-body-lg text-foreground">&ldquo;{item.quote}&rdquo;</p>
+            <p className="text-body-lg font-medium text-foreground md:font-normal">
+              &ldquo;{item.quote}&rdquo;
+            </p>
             <div className="flex flex-col">
               <span className="text-body-sm font-semibold text-foreground">
                 {item.authorName}
