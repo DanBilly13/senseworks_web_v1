@@ -90,7 +90,7 @@ export function FeatureSplitBlock({
             aria-hidden="true"
             width={61}
             height={18}
-            className="h-medium-large w-auto"
+            className="h-medium w-auto"
             style={{ marginTop: BRANDMARK_GAP[headingLevel] }}
           />
         </div>
