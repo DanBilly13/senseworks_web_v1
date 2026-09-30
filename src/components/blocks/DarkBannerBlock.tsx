@@ -125,7 +125,7 @@ export function DarkBannerBlock({
             />
           </div>
         </div>
-        <div className="flex flex-col gap-large pb-large px-medium-large md:p-2xl md:pl-0">
+        <div className="flex flex-col gap-xl pb-large px-medium-large md:p-2xl md:pl-0">
           {items.map((item, index) => (
             <div key={index} className="flex flex-col gap-small-medium">
               {showIcons &&
