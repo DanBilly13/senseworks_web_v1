@@ -50,6 +50,26 @@ export const buttonVariants = cva(
   },
 )
 
+type ButtonSize = NonNullable<VariantProps<typeof buttonVariants>['size']>
+
+// The reveal-on-hover arrow circle was a fixed size-large (32px)
+// regardless of button size — fine for sm/md/lg, but next to xl's much
+// taller 64px/88px pill it read as a tiny, out-of-balance afterthought.
+// Scales the circle (and the slot it grows into, and the gap before
+// it) up for xl specifically, at both its own breakpoints.
+const ICON_CIRCLE_CLASS: Record<ButtonSize, string> = {
+  sm: 'size-large',
+  md: 'size-large',
+  lg: 'size-large',
+  xl: 'size-xl md:size-2xl',
+}
+const ICON_SLOT_CLASS: Record<ButtonSize, string> = {
+  sm: 'group-hover:ml-small group-hover:max-w-large',
+  md: 'group-hover:ml-small group-hover:max-w-large',
+  lg: 'group-hover:ml-small group-hover:max-w-large',
+  xl: 'group-hover:ml-small group-hover:max-w-button-icon-slot md:group-hover:ml-medium md:group-hover:max-w-button-icon-slot-lg',
+}
+
 type ButtonProps = VariantProps<typeof buttonVariants> & {
   href: string
   children: ReactNode
@@ -63,6 +83,7 @@ type ButtonProps = VariantProps<typeof buttonVariants> & {
 export function Button({ href, variant, size, children, animated }: ButtonProps) {
   const contextAnimated = useContext(AnimatedButtonContext)
   const isAnimated = animated ?? contextAnimated
+  const resolvedSize = size ?? 'md'
 
   return (
     <Link
@@ -86,8 +107,12 @@ export function Button({ href, variant, size, children, animated }: ButtonProps)
         // vs group-hover) rather than one shared class, since a CSS
         // transition always takes its delay/duration from the rule that
         // applies *after* the change, so enter and exit can differ.
-        <span className="ml-0 flex max-w-0 items-center justify-center overflow-hidden delay-150 transition-all duration-300 ease-spring group-hover:ml-small group-hover:max-w-large group-hover:delay-0">
-          <span className="flex size-large shrink-0 items-center justify-center rounded-full border border-current opacity-0 transition-opacity delay-0 duration-150 group-hover:opacity-100 group-hover:delay-100 group-hover:duration-200">
+        <span
+          className={`ml-0 flex max-w-0 items-center justify-center overflow-hidden delay-150 transition-all duration-300 ease-spring group-hover:delay-0 ${ICON_SLOT_CLASS[resolvedSize]}`}
+        >
+          <span
+            className={`flex shrink-0 items-center justify-center rounded-full border border-current opacity-0 transition-opacity delay-0 duration-150 group-hover:opacity-100 group-hover:delay-100 group-hover:duration-200 ${ICON_CIRCLE_CLASS[resolvedSize]}`}
+          >
             <ArrowRightOutlined />
           </span>
         </span>

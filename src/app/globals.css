@@ -68,6 +68,17 @@
      aligned in the extra space instead of hugging the question text. */
   --container-prose-xl: 60rem;
 
+  /* Button's animated-hover arrow-reveal slot, xl size only — its own
+     max-w-* tokens rather than reaching for max-w-xl/max-w-2xl:
+     Tailwind v4 resolves those against this project's --spacing-xl/2xl
+     (48px/64px) before its own much-bigger --container-xl/2xl, so they
+     silently compute to spacing values, not container widths — see the
+     no-arbitrary-value note above (D5/R14). Naming these distinctly
+     avoids that trap entirely, even though the resolved values here
+     happen to be the same 48px/64px the spacing tokens would give. */
+  --container-button-icon-slot: 3rem;
+  --container-button-icon-slot-lg: 4rem;
+
   /* A percentage, not a fixed rem width like the prose-* scale above —
      deliberately, so a heading using it stays ~80% of whatever row
      it's in rather than one fixed breakpoint-independent number. Only
