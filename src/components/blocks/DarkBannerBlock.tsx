@@ -30,6 +30,7 @@ type DarkBannerBlockProps = {
   // options as Feature Grid's own iconSize prop.
   iconSize?: IconSize
   headingLayout?: 'stacked' | 'inline'
+  titleSize?: 'h3' | 'h4'
   items?: DarkBannerItem[]
 }
 
@@ -73,6 +74,7 @@ export function DarkBannerBlock({
   showIcons = true,
   iconSize = 'small',
   headingLayout = 'stacked',
+  titleSize = 'h4',
   items = [],
 }: DarkBannerBlockProps) {
   // D7: a block with no content simply doesn't render.
@@ -166,7 +168,7 @@ export function DarkBannerBlock({
                   </div>
                 ))}
               <ItemHeading
-                as="h4"
+                as={titleSize}
                 title={item.title}
                 description={item.description}
                 layout={headingLayout}

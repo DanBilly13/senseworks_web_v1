@@ -11,12 +11,17 @@ type StepsItem = {
 }
 type StepsBlockProps = {
   headingLayout?: 'stacked' | 'inline'
+  titleSize?: 'h3' | 'h4'
   items?: StepsItem[]
 }
 
 // No eyebrow/heading/body of its own — pair it with a separate intro
 // block (e.g. Section Headline) above it when one's needed.
-export function StepsBlock({ headingLayout = 'stacked', items = [] }: StepsBlockProps) {
+export function StepsBlock({
+  headingLayout = 'stacked',
+  titleSize = 'h4',
+  items = [],
+}: StepsBlockProps) {
   // D7: a block with no content simply doesn't render.
   if (!items.length) return null
 
@@ -60,7 +65,7 @@ export function StepsBlock({ headingLayout = 'stacked', items = [] }: StepsBlock
                 )}
               </div>
               <ItemHeading
-                as="h4"
+                as={titleSize}
                 title={item.title}
                 description={item.body}
                 layout={headingLayout}

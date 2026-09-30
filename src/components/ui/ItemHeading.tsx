@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-type ItemHeadingLevel = 'h4' | 'h5'
+type ItemHeadingLevel = 'h3' | 'h4' | 'h5'
 type ItemHeadingLayout = 'stacked' | 'inline'
 type ItemHeadingTone = 'default' | 'inverse'
 type ItemHeadingGap = 'none' | 'small' | 'medium' | 'medium-large'
@@ -35,8 +35,17 @@ type ItemHeadingProps = {
 }
 
 const HEADING_TEXT_CLASS: Record<ItemHeadingLevel, string> = {
+  h3: 'text-h3',
   h4: 'text-h4',
   h5: 'text-h5',
+}
+
+// h3 is bold everywhere else on the site (SectionIntro); h4/h5 stay
+// semibold, matching every existing item-heading usage.
+const HEADING_WEIGHT_CLASS: Record<ItemHeadingLevel, string> = {
+  h3: 'font-bold',
+  h4: 'font-semibold',
+  h5: 'font-semibold',
 }
 
 const GAP_CLASS: Record<ItemHeadingGap, string> = {
@@ -83,7 +92,13 @@ export function ItemHeading({
   if (layout === 'inline') {
     return (
       <Tag
-        className={['font-semibold text-balance', HEADING_TEXT_CLASS[as], titleColor, className]
+        className={[
+          'text-balance',
+          HEADING_TEXT_CLASS[as],
+          HEADING_WEIGHT_CLASS[as],
+          titleColor,
+          className,
+        ]
           .filter(Boolean)
           .join(' ')}
       >
@@ -101,7 +116,12 @@ export function ItemHeading({
   return (
     <div className={['flex flex-col', className].filter(Boolean).join(' ')}>
       <Tag
-        className={['font-semibold text-balance', HEADING_TEXT_CLASS[as], titleColor].join(' ')}
+        className={[
+          'text-balance',
+          HEADING_TEXT_CLASS[as],
+          HEADING_WEIGHT_CLASS[as],
+          titleColor,
+        ].join(' ')}
         style={gap === 'none' ? ZERO_GAP_TITLE_STYLE : undefined}
       >
         {title}

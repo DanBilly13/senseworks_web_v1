@@ -1,6 +1,7 @@
 import { defineType, defineField, defineArrayMember } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
 import { headingLayoutField } from '../fields/headingLayoutField'
+import { titleSizeField } from '../fields/titleSizeField'
 
 export const darkBannerBlock = defineType({
   name: 'darkBannerBlock',
@@ -65,6 +66,7 @@ export const darkBannerBlock = defineType({
       initialValue: 'small',
     }),
     headingLayoutField,
+    titleSizeField,
     defineField({
       name: 'items',
       title: 'Items',

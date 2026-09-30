@@ -41,6 +41,7 @@ type FeatureGridBlockProps = {
   columns?: '2' | '3' | '4'
   iconSize?: IconSize
   headingLayout?: 'stacked' | 'inline'
+  titleSize?: 'h3' | 'h4'
   items?: FeatureGridItem[]
 }
 
@@ -70,6 +71,7 @@ export function FeatureGridBlock({
   columns = '3',
   iconSize = 'large',
   headingLayout = 'stacked',
+  titleSize = 'h4',
   items = [],
 }: FeatureGridBlockProps) {
   // D7: a block with no content simply doesn't render.
@@ -113,7 +115,7 @@ export function FeatureGridBlock({
                 default 24px (mt-medium-large) title-to-description
                 gap below it. */}
             <ItemHeading
-              as="h4"
+              as={titleSize}
               title={
                 // Plain-text field, so a manual line break only
                 // survives as a literal "\n" in the source — HTML
