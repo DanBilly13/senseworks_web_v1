@@ -49,6 +49,19 @@ const HEADING_LINE_HEIGHT_GAP: Record<HeadingLevel, string> = {
   h4: 'calc(var(--text-h4--full-line-height) - var(--spacing-medium))',
 }
 
+// The new default (always on, not opt-in) — half the heading's own
+// line-height, same "minus the container's base gap-medium" trick as
+// the full version above, so the TOTAL visible gap equals exactly
+// half the line-height rather than half-line-height-plus-16px.
+// Replaces the old fixed mt-small/mt-large/mt-medium bumps, which
+// didn't scale with the heading's own size at all.
+const HALF_HEADING_LINE_HEIGHT_GAP: Record<HeadingLevel, string> = {
+  h1: 'calc((var(--text-h1--full-line-height) / 2) - var(--spacing-medium))',
+  h2: 'calc((var(--text-h2--full-line-height) / 2) - var(--spacing-medium))',
+  h3: 'calc((var(--text-h3--full-line-height) / 2) - var(--spacing-medium))',
+  h4: 'calc((var(--text-h4--full-line-height) / 2) - var(--spacing-medium))',
+}
+
 const HEADING_TEXT_CLASS: Record<HeadingLevel, string> = {
   h1: 'text-h1',
   h2: 'text-h2',
@@ -100,6 +113,7 @@ export function SectionIntro({
   // bodyColor every h3/h4 body still uses.
   const isSubtitle = Heading === 'h1' || Heading === 'h2'
   const lineHeightGap = gapToLineHeight ? HEADING_LINE_HEIGHT_GAP[Heading] : undefined
+  const halfLineHeightGap = HALF_HEADING_LINE_HEIGHT_GAP[Heading]
 
   // Width lives on each child, not this wrapping div, so the heading
   // can run wider than the body/eyebrow via headingMaxWidth — flexbox's
@@ -128,17 +142,14 @@ export function SectionIntro({
             'text-balance',
             headingColor,
             MAX_WIDTH_CLASS[headingMaxWidth ?? maxWidth],
-            // Extra bump on top of the container's gap-medium, eyebrow
-            // to heading only — text-box-trim (globals.css) tightened
-            // every heading's own box, which made this specific gap
-            // read tighter than the rest of the block's rhythm once
-            // there was an eyebrow above it to compare against. Skipped
-            // when gapToLineHeight supplies its own margin instead.
-            eyebrow && !gapToLineHeight ? 'mt-small' : '',
           ]
             .filter(Boolean)
             .join(' ')}
-          style={eyebrow && gapToLineHeight ? { marginTop: lineHeightGap } : undefined}
+          // Half the heading's own line-height by default (was a fixed
+          // mt-small bump) — gapToLineHeight steps this up to the FULL
+          // line-height instead, for a caller whose heading needs even
+          // more breathing room above it.
+          style={eyebrow ? { marginTop: gapToLineHeight ? lineHeightGap : halfLineHeightGap } : undefined}
         >
           {heading}
         </Heading>
@@ -158,25 +169,22 @@ export function SectionIntro({
             // desktop only — mobile has no spare width to give up),
             // not whatever maxWidth the caller passed for the eyebrow.
             isSubtitle ? 'md:max-w-subtitle' : MAX_WIDTH_CLASS[maxWidth],
-            // Doubles the total heading-to-body gap (16px container
-            // gap + this) from 24px to 48px, on top of the same
-            // trimmed-box reasoning as the heading's own mt-small above.
-            // Skipped when gapToLineHeight supplies its own margin.
-            heading && !gapToLineHeight ? 'mt-large' : '',
           ]
             .filter(Boolean)
             .join(' ')}
-          style={heading && gapToLineHeight ? { marginTop: lineHeightGap } : undefined}
+          // Same half/full line-height choice as the heading's own gap
+          // above, just keyed off the heading's presence instead of the
+          // eyebrow's.
+          style={heading ? { marginTop: gapToLineHeight ? lineHeightGap : halfLineHeightGap } : undefined}
         >
           {body}
         </p>
       )}
       {cta && (
-        // Doubles the body-to-button gap (16px container gap + this)
-        // from 16px to 32px, same reasoning as the heading/body
-        // mt-* bumps above. Only when there's a body to double the
-        // gap from — a heading-to-button gap (no body) is untouched.
-        <div className={body ? 'mt-medium' : ''}>{cta}</div>
+        // Same half-the-heading's-line-height gap as above, only when
+        // there's a body above it to apply it from — a heading-to-
+        // button gap (no body) is untouched, same as before.
+        <div style={body ? { marginTop: halfLineHeightGap } : undefined}>{cta}</div>
       )}
     </div>
   )
