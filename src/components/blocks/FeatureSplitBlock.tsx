@@ -48,7 +48,7 @@ export function FeatureSplitBlock({
         <Media
           media={media}
           alt={heading}
-          className="aspect-media w-full rounded-lg md:flex-1"
+          className="aspect-media w-full rounded-lg border border-border md:flex-1"
         />
         <div className="w-full md:max-w-prose-xs md:shrink-0">
           <SectionIntro
