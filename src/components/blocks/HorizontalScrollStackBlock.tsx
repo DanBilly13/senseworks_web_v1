@@ -131,7 +131,7 @@ function PanelContent({ panel, mobileImageStyle }: { panel: ScrollStackPanelData
       )}
       {panel.body && (
         <p
-          className="max-w-prose-lg text-body text-background/80"
+          className="max-w-prose-lg text-scroll-stack-body text-background/80"
           style={panel.media ? { marginTop: 'calc(var(--spacing-large) - var(--spacing-2xl))' } : undefined}
         >
           {panel.body}

@@ -266,6 +266,16 @@
   --text-article-body: 1.25rem;
   --text-article-body--line-height: 1.7;
 
+  /* Horizontal Scroll Stack's body copy — Body-lg (18px) on desktop,
+     same as --text-body-lg, but a dedicated token rather than reusing
+     it directly: desktop matches body-lg exactly, but mobile steps
+     down to 17px specifically (see the mobile override below), a
+     one-off between --text-body (16px) and --text-body-lg (18px) that
+     isn't its own rung on the shared scale. Keeping it separate means
+     this doesn't also shrink --text-body-lg's mobile value everywhere
+     else it's used (SectionIntro's h1/h2 subtitle, etc.). */
+  --text-scroll-stack-body: 1.125rem;
+
   /* D5: semantic color slots — see solution-spec.md. foreground was
      grayscale (#1a1a1a) for v1; now the brand's dark navy, which
      cascades everywhere text-foreground/bg-foreground is already used
@@ -346,6 +356,10 @@
     --spacing-section-gap-medium: var(--spacing-2xl);
     --spacing-section-gap-tight: var(--spacing-large);
     --spacing-section-edge: var(--spacing-2xl);
+
+    /* 17px — one step down from desktop's 18px (Body-lg), not the
+       same ~50% compression the headings above get. */
+    --text-scroll-stack-body: 1.0625rem;
   }
 
   /* Letter-spacing isn't part of the --text-h1--line-height-style
