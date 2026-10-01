@@ -276,6 +276,14 @@
      else it's used (SectionIntro's h1/h2 subtitle, etc.). */
   --text-scroll-stack-body: 1.125rem;
 
+  /* Horizontal Scroll Stack's heading-to-media gap — 0 by default
+     (desktop keeps the panel's own gap-2xl, 64px, untouched), redefined
+     inside the mobile override below to pull the media up to a 32px
+     visible gap instead, without changing the shared gap-2xl container
+     gap itself (which the body's own media-to-body pull-up elsewhere
+     in this panel is calculated against, and needs to stay 64 there). */
+  --gap-scroll-stack-heading-to-media: 0px;
+
   /* D5: semantic color slots — see solution-spec.md. foreground was
      grayscale (#1a1a1a) for v1; now the brand's dark navy, which
      cascades everywhere text-foreground/bg-foreground is already used
@@ -360,6 +368,10 @@
     /* 17px — one step down from desktop's 18px (Body-lg), not the
        same ~50% compression the headings above get. */
     --text-scroll-stack-body: 1.0625rem;
+
+    /* Pulls the media up from the panel's 64px gap-2xl to a 32px
+       visible gap below the heading, mobile only. */
+    --gap-scroll-stack-heading-to-media: calc(var(--spacing-large) - var(--spacing-2xl));
   }
 
   /* Letter-spacing isn't part of the --text-h1--line-height-style

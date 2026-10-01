@@ -122,16 +122,24 @@ function PanelContent({ panel, mobileImageStyle }: { panel: ScrollStackPanelData
         tone="inverse"
       />
       {panel.media && (
-        <PanelImage
-          media={panel.media}
-          alt={panel.heading ?? ''}
-          className="aspect-media w-full rounded-lg md:aspect-media-wide md:rounded-t-lg md:rounded-b-none"
-          imageStyle={mobileImageStyle}
-        />
+        // marginTop on this wrapper, not PanelImage's own imageStyle
+        // (that targets the <Image> itself, which is absolutely
+        // positioned via `fill` — shifting IT doesn't move the box in
+        // the flex layout). 0 on desktop (the panel's own gap-2xl,
+        // 64px, is untouched); pulls up to a 32px visible gap on
+        // mobile instead (see --gap-scroll-stack-heading-to-media).
+        <div style={{ marginTop: 'var(--gap-scroll-stack-heading-to-media)' }}>
+          <PanelImage
+            media={panel.media}
+            alt={panel.heading ?? ''}
+            className="aspect-media w-full rounded-lg md:aspect-media-wide md:rounded-t-lg md:rounded-b-none"
+            imageStyle={mobileImageStyle}
+          />
+        </div>
       )}
       {panel.body && (
         <p
-          className="max-w-prose-lg text-scroll-stack-body text-background/80"
+          className="max-w-prose-lg text-scroll-stack-body font-medium text-background/80"
           style={panel.media ? { marginTop: 'calc(var(--spacing-large) - var(--spacing-2xl))' } : undefined}
         >
           {panel.body}
