@@ -442,6 +442,8 @@ export default async function BlocksPage({
       <GroupHeading>Social Proof</GroupHeading>
       <BlockCaption name="Logo Cloud" type="logoCloudBlock" />
       <LogoCloudBlock logos={clientLogos} />
+      <BlockCaption name="Logo Cloud — Accent" type="logoCloudBlock" variant='tone: "accent"' />
+      <LogoCloudBlock logos={clientLogos} tone="accent" />
       <BlockCaption name="Testimonial Carousel" type="testimonialCarouselBlock" />
       <TestimonialCarouselBlock
         eyebrow={EYEBROW}

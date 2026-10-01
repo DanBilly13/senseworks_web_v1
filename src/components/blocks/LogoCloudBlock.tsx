@@ -9,11 +9,22 @@ type LogoCloudItem = { name: string; media?: MediaField }
 type LogoCloudBlockProps = {
   logos?: LogoCloudItem[]
   spacing?: 'loose' | 'medium' | 'tight' | 'none'
+  // Same default/inverse/accent tones as CTA Banner/Full Width
+  // Single/Hero Image Overlay Card — there's no text in this block
+  // either, so no color-switching logic needed beyond the background
+  // itself.
+  tone?: 'default' | 'inverse' | 'accent'
+}
+
+const SECTION_BG: Record<NonNullable<LogoCloudBlockProps['tone']>, string> = {
+  default: 'bg-muted',
+  inverse: 'bg-foreground',
+  accent: 'bg-accent',
 }
 
 const PIXELS_PER_SECOND = 42
 
-export function LogoCloudBlock({ logos = [], spacing = 'loose' }: LogoCloudBlockProps) {
+export function LogoCloudBlock({ logos = [], spacing = 'loose', tone = 'default' }: LogoCloudBlockProps) {
   const wrapperRef = useRef<HTMLDivElement>(null)
   const setRef = useRef<HTMLDivElement>(null)
   const [copies, setCopies] = useState(2)
@@ -49,7 +60,7 @@ export function LogoCloudBlock({ logos = [], spacing = 'loose' }: LogoCloudBlock
   if (!logos.length) return null
 
   return (
-    <SectionShell py={spacing}>
+    <SectionShell py={spacing} sectionClassName={SECTION_BG[tone]}>
       <div ref={wrapperRef} className="overflow-hidden">
         <div
           // The animation class is only added once `setWidth` is measured

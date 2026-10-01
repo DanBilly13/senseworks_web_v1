@@ -14,6 +14,20 @@ export const logoCloudBlock = defineType({
       type: 'array',
       of: [defineArrayMember({ type: 'reference', to: [{ type: 'client' }] })],
     }),
+    defineField({
+      name: 'tone',
+      title: 'Background',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Default (muted background)', value: 'default' },
+          { title: 'Inverse (dark background)', value: 'inverse' },
+          { title: 'Accent (accent background)', value: 'accent' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'default',
+    }),
     spacingField,
   ],
   preview: {
