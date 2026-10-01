@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, type CSSProperties } from 'react'
 import Image from 'next/image'
 import { motion, useScroll, useTransform, type MotionValue } from 'framer-motion'
 import { SectionIntro } from '@/components/ui/SectionIntro'
@@ -22,7 +22,23 @@ function isRealImage(
 // Single uses, desktop only — --media-fade-bottom is 'none' below
 // md:). Falls back to Media for anything else (video/lottie/an image
 // type with no asset uploaded yet).
-function PanelImage({ media, alt, className }: { media?: MediaField; alt: string; className: string }) {
+function PanelImage({
+  media,
+  alt,
+  className,
+  imageStyle,
+}: {
+  media?: MediaField
+  alt: string
+  className: string
+  // TEMP, testing only (Dan: "let's just test locally a minute") — a
+  // mobile-only scale/anchor experiment, not yet a named token or a
+  // real decision. Plain inline style rather than a Tailwind class
+  // since scale/transform-origin aren't part of any --theme namespace
+  // Tailwind maps to a utility, and arbitrary-value classes are banned
+  // project-wide regardless.
+  imageStyle?: CSSProperties
+}) {
   if (isRealImage(media)) {
     return (
       <div className={`relative overflow-hidden ${className}`}>
@@ -32,7 +48,11 @@ function PanelImage({ media, alt, className }: { media?: MediaField; alt: string
           fill
           sizes="50vw"
           className="object-cover object-top"
-          style={{ maskImage: 'var(--media-fade-bottom)', WebkitMaskImage: 'var(--media-fade-bottom)' }}
+          style={{
+            maskImage: 'var(--media-fade-bottom)',
+            WebkitMaskImage: 'var(--media-fade-bottom)',
+            ...imageStyle,
+          }}
         />
       </div>
     )
@@ -75,7 +95,7 @@ const SECTION_GAP_MB_CLASS: Record<SpacingValue, string> = {
 // gap-2xl (64px); media-to-body is narrower (32px, half that), so the
 // body pulls itself up by the difference (64 − 32) via a negative
 // marginTop rather than the gap simply being smaller for that one pair.
-function PanelContent({ panel }: { panel: ScrollStackPanelData }) {
+function PanelContent({ panel, mobileImageStyle }: { panel: ScrollStackPanelData; mobileImageStyle?: CSSProperties }) {
   return (
     // Mobile: 32px top/left/right (matches the sitewide edge line every
     // other full-bleed block lands on — this panel has no outer margin
@@ -97,6 +117,7 @@ function PanelContent({ panel }: { panel: ScrollStackPanelData }) {
           media={panel.media}
           alt={panel.heading ?? ''}
           className="aspect-media w-full rounded-lg md:aspect-media-wide md:rounded-t-lg md:rounded-b-none"
+          imageStyle={mobileImageStyle}
         />
       )}
       {panel.body && (
@@ -224,7 +245,12 @@ export function HorizontalScrollStackBlock({ panels, spacing = 'loose' }: Horizo
           through the sliver between adjacent dark slides. */}
       <div className="flex flex-col md:hidden">
         {panels.map((panel, i) => (
-          <PanelContent key={i} panel={panel} />
+          <PanelContent
+            key={i}
+            panel={panel}
+            // TEMP — testing only, see PanelImage's own comment.
+            mobileImageStyle={{ transform: 'scale(2.25)', transformOrigin: 'top left' }}
+          />
         ))}
       </div>
       <div
