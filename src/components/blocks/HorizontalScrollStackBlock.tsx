@@ -141,7 +141,14 @@ export function HorizontalScrollStackBlock({ panels, spacing = 'loose' }: Horizo
         className="relative hidden md:block"
         style={{ height: `${100 + (panels.length - 1) * DWELL_VH_PER_PANEL}vh` }}
       >
-        <div className="sticky top-0 h-screen overflow-hidden">
+        {/* The dark background belongs to the whole pinned section, not
+            each individual slide — a slide is only --width-scroll-panel
+            (78vw) wide, so without this the page's own light background
+            showed through the gutters on either side of it as you
+            scrolled. PanelContent's own bg-foreground stays too
+            (needed for mobile's separately-stacked slides); here it's
+            just redundant with this one, not fighting it. */}
+        <div className="sticky top-0 h-screen overflow-hidden bg-foreground">
           <motion.div
             className="flex h-full gap-medium-large"
             style={{
