@@ -21,8 +21,23 @@ function isRealImage(
 // share — image-only (video/lottie/the placeholder fall back to
 // Media, handled by the caller before reaching for this). `className`
 // carries whatever sizing/rounding differs between a single full-
-// width image and one half of a split pair.
-function CropFadeImage({ media, alt, sizes, className }: { media: MediaField; alt: string; sizes: string; className: string }) {
+// width image and one half of a split pair; `objectPosition` likewise
+// differs between a single centered image (object-center, top-cropped
+// on desktop only) and a split pair, which each crop toward their own
+// outer top corner at every width instead.
+function CropFadeImage({
+  media,
+  alt,
+  sizes,
+  className,
+  objectPosition = 'object-center md:object-top',
+}: {
+  media: MediaField
+  alt: string
+  sizes: string
+  className: string
+  objectPosition?: string
+}) {
   if (!isRealImage(media)) return null
   return (
     <div className={`relative overflow-hidden ${className}`}>
@@ -31,7 +46,7 @@ function CropFadeImage({ media, alt, sizes, className }: { media: MediaField; al
         alt={media.alt || alt}
         fill
         sizes={sizes}
-        className="object-cover object-center md:object-top"
+        className={`object-cover ${objectPosition}`}
         style={{ maskImage: 'var(--media-fade-bottom)', WebkitMaskImage: 'var(--media-fade-bottom)' }}
       />
     </div>
@@ -213,7 +228,10 @@ export function FullWidthSingleBlock({
             each one ending up (container width − gutter) / 2 wide ×
             the full container height, rather than needing to compute
             an odd per-image ratio by hand. Each one keeps its own
-            outer corner only (not the one facing the gutter). */}
+            outer corner only (not the one facing the gutter), and
+            crops toward that same outer top corner (left image:
+            top-left, right image: top-right) at every width, rather
+            than the single image's centered/top-only crop. */}
         {isSplit ? (
           <div className="flex aspect-media w-full gap-medium md:aspect-media-wide">
             <CropFadeImage
@@ -221,12 +239,14 @@ export function FullWidthSingleBlock({
               alt={heading || ''}
               sizes="50vw"
               className="h-full flex-1 rounded-l-lg md:rounded-tl-lg md:rounded-bl-none"
+              objectPosition="object-left-top"
             />
             <CropFadeImage
               media={media2}
               alt={heading || ''}
               sizes="50vw"
               className="h-full flex-1 rounded-r-lg md:rounded-tr-lg md:rounded-br-none"
+              objectPosition="object-right-top"
             />
           </div>
         ) : singleImageMedia ? (
