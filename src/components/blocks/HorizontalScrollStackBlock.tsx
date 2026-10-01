@@ -77,7 +77,12 @@ const SECTION_GAP_MB_CLASS: Record<SpacingValue, string> = {
 // marginTop rather than the gap simply being smaller for that one pair.
 function PanelContent({ panel }: { panel: ScrollStackPanelData }) {
   return (
-    <div className="flex h-full flex-col justify-center gap-2xl bg-foreground p-medium-large text-background md:p-2xl">
+    // Mobile: 32px top/left/right (matches the sitewide edge line every
+    // other full-bleed block lands on — this panel has no outer margin
+    // of its own to make up the difference, unlike Dark Banner's boxed
+    // 8px+24px split), but 64px on the bottom specifically. Desktop
+    // unchanged at a flat p-2xl (64px all sides).
+    <div className="flex h-full flex-col justify-center gap-2xl bg-foreground px-large pt-large pb-2xl text-background md:p-2xl">
       <SectionIntro
         as="h2"
         eyebrow={panel.eyebrow && renderNumberedEyebrow(panel.eyebrow, true, true)}
