@@ -294,13 +294,24 @@
   --color-background: #ffffff;
   --color-foreground: #101829;
   --color-border: #e0e0e0;
-  --color-muted: #f7f7f7;
+  /* Locked to --color-surface (declared below) rather than its own
+     hardcoded value, so every "default/muted" section background
+     (Full Width Single, CTA Banner, Hero Image Overlay Card, Logo
+     Cloud, etc.) always tracks whatever the page canvas color actually
+     is instead of drifting to a separate, slightly-different grey —
+     exactly what broke when --color-surface moved to match
+     --gradient-accent's end stop below and this didn't follow. */
+  --color-muted: var(--color-surface);
   --color-muted-foreground: #6b6b6b;
   /* Light grey — the site's default page canvas (set on `body` below),
-     not a card/section fill. Kept a few % lighter than
-     --gradient-accent's own end stop (#f2f2f3) below so a page using
-     this doesn't blend into the gradient where they meet. */
-  --color-surface: #f8f8f9;
+     not a card/section fill. Matches --gradient-accent's own end stop
+     (#f2f2f3) below exactly — was #f8f8f9 (a few % lighter) specifically
+     to avoid blending into the gradient where they meet, but Dan
+     tried this and preferred it. Any card/panel that sits directly on
+     this canvas using that same gradient fill (e.g. Testimonial —
+     Large) needs its own border now that the two shades match — see
+     that component's own comment. */
+  --color-surface: #f2f2f3;
 
   /* Accent: a bright highlight color, not a text/background workhorse
      — too light to hold readable text itself (see accent-foreground).

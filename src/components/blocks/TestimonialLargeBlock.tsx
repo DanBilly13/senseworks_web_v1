@@ -26,7 +26,11 @@ export function TestimonialLargeBlock({
     // line as everywhere else, instead of the default 32px page margin
     // stacking with the card's own padding to 56px.
     <SectionShell px="boxed" py={spacing}>
-      <div className="bg-accent-gradient flex flex-col gap-2xl rounded-lg p-medium-large md:p-2xl">
+      {/* border-border (light grey) — without it, the gradient's own
+          end-stop grey now matches the page background exactly (see
+          --color-surface), so the card's edge was disappearing into
+          the page behind it. */}
+      <div className="bg-accent-gradient flex flex-col gap-2xl rounded-lg border border-border p-medium-large md:p-2xl">
         <p className="text-h4 text-balance text-foreground">&ldquo;{quote}&rdquo;</p>
         <div className="flex items-center gap-medium">
           <Media
