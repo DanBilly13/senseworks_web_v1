@@ -101,14 +101,16 @@
      ultrawide monitors. Narrower than that is prose width, above. */
   --container-page: 90rem;
 
-  /* Horizontal Scroll Stack (experimental, demo-only for now) — each
-     slide's width as a percentage of the viewport, used as a plain
-     `width` (Tailwind's --width-* namespace, same mechanism as
-     --height-cta-banner generating h-cta-banner). 78vw leaves enough
-     of the next slide peeking in on the right to read as "there's
-     more" before it's scrolled into place — not yet settled, this is
-     the first value to tune once we're playing with the real motion. */
-  --width-scroll-panel: 78vw;
+  /* Horizontal Scroll Stack (experimental) — each slide's width,
+     used as a plain `width` (Tailwind's --width-* namespace, same
+     mechanism as --height-cta-banner generating h-cta-banner). A flat
+     78vw read as too wide and had no page-width cap of its own, so
+     this is the same "12 column" structural content width every other
+     block uses (--container-page, 1440px, minus the standard desktop
+     md:px-medium-large edge padding on each side) rather than a
+     one-off vw number — this component only renders this branch at
+     md: and up, so only the desktop edge padding value is needed. */
+  --width-scroll-panel: min(var(--container-page), calc(100vw - 2 * var(--spacing-medium-large)));
 
   /* Image/media placeholder ratio (Tailwind's own --aspect-* namespace
      — same mechanism that generates its built-in aspect-video). Used
