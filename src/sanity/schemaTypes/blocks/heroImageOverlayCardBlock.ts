@@ -56,6 +56,22 @@ export const heroImageOverlayCardBlock = defineType({
       },
       initialValue: '50',
     }),
+    defineField({
+      name: 'tone',
+      title: 'Area around video',
+      description:
+        'Background color for the space around the video — to its sides once it narrows on desktop, the gutter beside it on mobile. Not the card overlay itself (Card background, above).',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Default (muted background)', value: 'default' },
+          { title: 'Inverse (dark background)', value: 'inverse' },
+          { title: 'Accent (accent background)', value: 'accent' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'default',
+    }),
     spacingField,
   ],
   preview: {
