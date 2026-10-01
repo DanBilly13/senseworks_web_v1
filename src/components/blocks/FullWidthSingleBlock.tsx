@@ -31,6 +31,14 @@ type FullWidthSingleBlockProps = {
   // this panel has no neighboring section to supply the other half.
   paddingTop?: SpacingValue
   paddingBottom?: SpacingValue
+  // The gap AFTER the colored panel, before the next block — distinct
+  // from paddingBottom above, which is INSIDE the panel. Every other
+  // block's "Section spacing" governs the space outside its own
+  // content; this block needs that too, on top of (not instead of)
+  // its own internal padding, since the panel's tone fill makes the
+  // two visually very different things (inside the color vs. the page
+  // background showing again after it).
+  spacing?: SpacingValue
 }
 
 // Same three tones as CTA Banner, same reasoning.
@@ -38,6 +46,17 @@ const SECTION_BG: Record<FullWidthSingleBlockTone, string> = {
   default: 'bg-muted',
   inverse: 'bg-foreground',
   accent: 'bg-accent',
+}
+
+// Margin equivalents of SectionShell's own SECTION_GAP_PB_CLASS — same
+// four values, applied to the outer tone-filled div's bottom margin
+// instead of SectionShell's inner padding (which this block already
+// uses for paddingTop/paddingBottom).
+const SECTION_GAP_MB_CLASS: Record<SpacingValue, string> = {
+  loose: 'mb-section-gap-loose',
+  medium: 'mb-section-gap-medium',
+  tight: 'mb-section-gap-tight',
+  none: 'mb-none',
 }
 
 // Like CTA Banner, but the background is the only thing that's full
@@ -57,38 +76,52 @@ export function FullWidthSingleBlock({
   media,
   paddingTop = 'loose',
   paddingBottom = 'loose',
+  spacing = 'loose',
 }: FullWidthSingleBlockProps) {
   const resolvedButtonVariant = buttonVariant ?? (tone === 'inverse' ? 'filled-light' : 'filled-dark')
+  // Body renders outside SectionIntro (see below) rather than through
+  // its own body prop — neither of SectionIntro's two built-in body
+  // treatments (the h1/h2 "subtitle" size, or h3/h4's body-lg) lands
+  // on the plain 16px Body size this block wants.
+  const bodyColor = tone === 'inverse' ? 'text-background/80' : 'text-muted-foreground'
 
   return (
-    <div className={SECTION_BG[tone]}>
+    <div className={`${SECTION_BG[tone]} ${SECTION_GAP_MB_CLASS[spacing]}`}>
       {/* pt/pb independently, not py/pad="both" — this section has no
           neighboring section to supply the other half of a gap (its
           own tone fill IS the section, same reasoning as CTA Banner/
           Dark Banner's own pad="both"), but unlike those, each edge is
           its own editor choice here. */}
       <SectionShell pt={paddingTop} pb={paddingBottom} className="flex flex-col gap-2xl">
-        <SectionIntro
-          as="h2"
-          eyebrow={eyebrow && renderNumberedEyebrow(eyebrow, numberedEyebrow, tone === 'inverse')}
-          // Numbered eyebrows go full-strength instead of the usual
-          // muted/70% — next to a bold number badge, the faded default
-          // read washed out (same call Card Grid made).
-          eyebrowColor={numberedEyebrow ? (tone === 'inverse' ? 'text-background' : 'text-foreground') : undefined}
-          heading={heading}
-          body={body}
-          align={align}
-          maxWidth="md"
-          tone={tone === 'inverse' ? 'inverse' : 'default'}
-          cta={
-            ctaLabel &&
-            ctaHref && (
-              <Button href={ctaHref} variant={resolvedButtonVariant}>
-                {ctaLabel}
-              </Button>
-            )
-          }
-        />
+        {/* gap-medium matches SectionIntro's own internal gap between
+            eyebrow/heading/body/cta — this just extends that same flat
+            rhythm to the body/button rendered below, now that they've
+            moved outside SectionIntro's own body/cta slots. */}
+        <div className={`flex flex-col gap-medium ${align === 'center' ? 'items-center text-center' : ''}`}>
+          <SectionIntro
+            as="h2"
+            eyebrow={eyebrow && renderNumberedEyebrow(eyebrow, numberedEyebrow, tone === 'inverse')}
+            // Numbered eyebrows go full-strength instead of the usual
+            // muted/70% — next to a bold number badge, the faded
+            // default read washed out (same call Card Grid made).
+            eyebrowColor={
+              numberedEyebrow ? (tone === 'inverse' ? 'text-background' : 'text-foreground') : undefined
+            }
+            heading={heading}
+            align={align}
+            // "8 columns" — same prose-lg token the FAQ block's question/
+            // answer column uses for the same "8 columns" mental model,
+            // reused here rather than inventing a new one-off width.
+            maxWidth="lg"
+            tone={tone === 'inverse' ? 'inverse' : 'default'}
+          />
+          {body && <p className={`max-w-prose-lg text-body ${bodyColor}`}>{body}</p>}
+          {ctaLabel && ctaHref && (
+            <Button href={ctaHref} variant={resolvedButtonVariant}>
+              {ctaLabel}
+            </Button>
+          )}
+        </div>
         <Media media={media} alt={heading ?? ''} className="aspect-media w-full rounded-lg" />
       </SectionShell>
     </div>

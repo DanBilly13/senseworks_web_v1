@@ -1,6 +1,6 @@
 import { defineType, defineField } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
-import { paddingField } from '../fields/spacingField'
+import { spacingField, paddingField } from '../fields/spacingField'
 
 export const fullWidthSingleBlock = defineType({
   name: 'fullWidthSingleBlock',
@@ -58,6 +58,7 @@ export const fullWidthSingleBlock = defineType({
       initialValue: 'center',
     }),
     defineField({ name: 'media', title: 'Media', type: 'media' }),
+    spacingField,
     paddingField('top'),
     paddingField('bottom'),
   ],
