@@ -10,6 +10,7 @@ import type { MediaField } from '@/lib/sanity/media'
 type ButtonVariant = 'filled-dark' | 'filled-accent' | 'filled-light' | 'ghost'
 type FullWidthSingleBlockTone = 'default' | 'inverse' | 'accent'
 type SpacingValue = 'loose' | 'medium' | 'tight' | 'none'
+type MediaPosition = 'afterBody' | 'afterHeading'
 
 function isRealImage(
   media?: MediaField
@@ -79,6 +80,11 @@ type FullWidthSingleBlockProps = {
   // either slot falls back to the single-media treatment using
   // whichever of the two is real (see hasAnyImage below).
   media2?: MediaField
+  // Where the media sits relative to the text — after the full text
+  // cluster (body/cta included, the original layout), or between the
+  // heading and the body/cta instead. Defaults to the original so
+  // existing content elsewhere is unaffected.
+  mediaPosition?: MediaPosition
   // Independent top/bottom internal padding — same four tiers/values
   // as the shared Section spacing field, just settable per edge since
   // this panel has no neighboring section to supply the other half.
@@ -128,6 +134,7 @@ export function FullWidthSingleBlock({
   buttonVariant,
   media,
   media2,
+  mediaPosition = 'afterBody',
   paddingTop = 'loose',
   paddingBottom = 'loose',
   spacing = 'loose',
@@ -156,6 +163,90 @@ export function FullWidthSingleBlock({
     (media?.mediaType === 'lottie' && !!media.lottieUrl) ||
     (media?.mediaType === 'reactAnimation' && !!media.animation)
 
+  const alignClass = align === 'center' ? 'items-center text-center' : ''
+
+  // Bypasses Media for a real image — it has no hook for either effect
+  // below (object-position at full scale, or a mask), both of which
+  // only make sense for an actual image anyway (video/lottie/the
+  // placeholder fall back to Media underneath). 7:5 on mobile, wider/
+  // shorter on desktop (2:1), cropping more off the BOTTOM there
+  // (object-top) rather than evenly off both sides — paired with a
+  // bottom fade (desktop only, --media-fade-bottom is 'none' below
+  // md:) using the exact same multi-stop curve as Card Grid's own
+  // image-fade feature, just one direction and capped at 10% opacity
+  // instead of fully transparent, so the panel's own background shows
+  // through gradually rather than the image just stopping dead at a
+  // hard edge. Bottom corners drop their rounding at desktop too — a
+  // rounded corner reads as a deliberate edge, which the fade is
+  // specifically trying not to look like. Two images: the SAME overall
+  // shape (aspect ratio) as one, split by a gutter — a flex row with a
+  // fixed aspect-ratio and two flex-1 children does this natively, each
+  // one ending up (container width − gutter) / 2 wide × the full
+  // container height, rather than needing to compute an odd per-image
+  // ratio by hand. Both top corners round on each image — outer AND
+  // the one facing the gutter — while the bottom stays square on the
+  // inner (gutter) side always and on the outer side too once
+  // desktop's square-bottom fade kicks in. Each one crops toward its
+  // own outer top corner (left image: top-left, right image: top-
+  // right) at every width, rather than the single image's centered/
+  // top-only crop.
+  const mediaElement = isSplit ? (
+    <div className="flex aspect-media w-full gap-medium md:aspect-media-wide">
+      <CropFadeImage
+        media={media}
+        alt={heading || ''}
+        sizes="50vw"
+        className="h-full flex-1 rounded-t-lg rounded-bl-lg md:rounded-bl-none"
+        objectPosition="object-left-top"
+      />
+      <CropFadeImage
+        media={media2}
+        alt={heading || ''}
+        sizes="50vw"
+        className="h-full flex-1 rounded-t-lg rounded-br-lg md:rounded-br-none"
+        objectPosition="object-right-top"
+      />
+    </div>
+  ) : singleImageMedia ? (
+    <CropFadeImage
+      media={singleImageMedia}
+      alt={heading || ''}
+      sizes="100vw"
+      className="aspect-media w-full rounded-lg md:aspect-media-wide md:rounded-t-lg md:rounded-b-none"
+    />
+  ) : (
+    hasAsset && <Media media={media} alt={heading ?? ''} className="aspect-media w-full rounded-lg" />
+  )
+
+  const headingCluster = (
+    <SectionIntro
+      as="h2"
+      eyebrow={eyebrow && renderNumberedEyebrow(eyebrow, numberedEyebrow, tone === 'inverse')}
+      // Numbered eyebrows go full-strength instead of the usual
+      // muted/70% — next to a bold number badge, the faded
+      // default read washed out (same call Card Grid made).
+      eyebrowColor={numberedEyebrow ? (tone === 'inverse' ? 'text-background' : 'text-foreground') : undefined}
+      heading={heading}
+      align={align}
+      // "8 columns" — same prose-lg token the FAQ block's question/
+      // answer column uses for the same "8 columns" mental model,
+      // reused here rather than inventing a new one-off width.
+      maxWidth="lg"
+      tone={tone === 'inverse' ? 'inverse' : 'default'}
+    />
+  )
+
+  const cta = ctaLabel && ctaHref && (
+    // Button has no style prop of its own (unlike the p below) —
+    // wrapped in a plain div for the marginTop, same as SectionIntro's
+    // own cta slot does internally.
+    <div style={body ? { marginTop: HALF_HEADING_LINE_HEIGHT_GAP.h2 } : undefined}>
+      <Button href={ctaHref} variant={resolvedButtonVariant}>
+        {ctaLabel}
+      </Button>
+    </div>
+  )
+
   return (
     <div className={`${SECTION_BG[tone]} ${SECTION_GAP_MB_CLASS[spacing]}`}>
       {/* pt/pb independently, not py/pad="both" — this section has no
@@ -164,103 +255,46 @@ export function FullWidthSingleBlock({
           Dark Banner's own pad="both"), but unlike those, each edge is
           its own editor choice here. */}
       <SectionShell pt={paddingTop} pb={paddingBottom} className="flex flex-col gap-2xl">
-        {/* gap-medium is the container's own base gap SectionIntro's
-            formula is built on top of (see HALF_HEADING_LINE_HEIGHT_GAP's
-            own comment) — the body/button marginTop below adds the
-            remainder needed to reach exactly half the heading's line-
-            height, same as eyebrow-to-heading already gets inside
-            SectionIntro itself. */}
-        <div className={`flex flex-col gap-medium ${align === 'center' ? 'items-center text-center' : ''}`}>
-          <SectionIntro
-            as="h2"
-            eyebrow={eyebrow && renderNumberedEyebrow(eyebrow, numberedEyebrow, tone === 'inverse')}
-            // Numbered eyebrows go full-strength instead of the usual
-            // muted/70% — next to a bold number badge, the faded
-            // default read washed out (same call Card Grid made).
-            eyebrowColor={
-              numberedEyebrow ? (tone === 'inverse' ? 'text-background' : 'text-foreground') : undefined
-            }
-            heading={heading}
-            align={align}
-            // "8 columns" — same prose-lg token the FAQ block's question/
-            // answer column uses for the same "8 columns" mental model,
-            // reused here rather than inventing a new one-off width.
-            maxWidth="lg"
-            tone={tone === 'inverse' ? 'inverse' : 'default'}
-          />
-          {body && (
-            <p
-              className={`max-w-prose-lg text-body ${bodyColor}`}
-              style={heading ? { marginTop: HALF_HEADING_LINE_HEIGHT_GAP.h2 } : undefined}
-            >
-              {body}
-            </p>
-          )}
-          {ctaLabel && ctaHref && (
-            // Button has no style prop of its own (unlike the p above) —
-            // wrapped in a plain div for the marginTop, same as
-            // SectionIntro's own cta slot does internally.
-            <div style={body ? { marginTop: HALF_HEADING_LINE_HEIGHT_GAP.h2 } : undefined}>
-              <Button href={ctaHref} variant={resolvedButtonVariant}>
-                {ctaLabel}
-              </Button>
-            </div>
-          )}
-        </div>
-        {/* Bypasses Media for a real image — it has no hook for either
-            effect below (object-position at full scale, or a mask),
-            both of which only make sense for an actual image anyway
-            (video/lottie/the placeholder fall back to Media
-            underneath). 7:5 on mobile, wider/shorter on desktop (2:1),
-            cropping more off the BOTTOM there (object-top) rather than
-            evenly off both sides — paired with a bottom fade (desktop
-            only, --media-fade-bottom is 'none' below md:) using the
-            exact same multi-stop curve as Card Grid's own image-fade
-            feature, just one direction and capped at 10% opacity
-            instead of fully transparent, so the panel's own background
-            shows through gradually rather than the image just
-            stopping dead at a hard edge. Bottom corners drop their
-            rounding at desktop too — a rounded corner reads as a
-            deliberate edge, which the fade is specifically trying not
-            to look like. Two images: the SAME overall shape (aspect
-            ratio) as one, split by a gutter — a flex row with a fixed
-            aspect-ratio and two flex-1 children does this natively,
-            each one ending up (container width − gutter) / 2 wide ×
-            the full container height, rather than needing to compute
-            an odd per-image ratio by hand. Both top corners round on
-            each image — outer AND the one facing the gutter — while
-            the bottom stays square on the inner (gutter) side always
-            and on the outer side too once desktop's square-bottom
-            fade kicks in. Each one crops toward its own outer top
-            corner (left image: top-left, right image: top-right) at
-            every width, rather than the single image's centered/
-            top-only crop. */}
-        {isSplit ? (
-          <div className="flex aspect-media w-full gap-medium md:aspect-media-wide">
-            <CropFadeImage
-              media={media}
-              alt={heading || ''}
-              sizes="50vw"
-              className="h-full flex-1 rounded-t-lg rounded-bl-lg md:rounded-bl-none"
-              objectPosition="object-left-top"
-            />
-            <CropFadeImage
-              media={media2}
-              alt={heading || ''}
-              sizes="50vw"
-              className="h-full flex-1 rounded-t-lg rounded-br-lg md:rounded-br-none"
-              objectPosition="object-right-top"
-            />
-          </div>
-        ) : singleImageMedia ? (
-          <CropFadeImage
-            media={singleImageMedia}
-            alt={heading || ''}
-            sizes="100vw"
-            className="aspect-media w-full rounded-lg md:aspect-media-wide md:rounded-t-lg md:rounded-b-none"
-          />
+        {mediaPosition === 'afterHeading' ? (
+          // Media sits right after the heading, body/cta move below it
+          // instead — each of the three pieces (heading cluster, media,
+          // body+cta cluster) is now its own direct child of this gap-2xl
+          // flex container, so the 64px intro-text-to-content gap applies
+          // on BOTH sides of the media, same convention, just split
+          // across two edges instead of one.
+          <>
+            <div className={`flex flex-col gap-medium ${alignClass}`}>{headingCluster}</div>
+            {mediaElement}
+            {(body || cta) && (
+              <div className={`flex flex-col gap-medium ${alignClass}`}>
+                {body && <p className={`max-w-prose-lg text-body ${bodyColor}`}>{body}</p>}
+                {cta}
+              </div>
+            )}
+          </>
         ) : (
-          hasAsset && <Media media={media} alt={heading ?? ''} className="aspect-media w-full rounded-lg" />
+          // Default: the whole text cluster together, media last.
+          <>
+            {/* gap-medium is the container's own base gap SectionIntro's
+                formula is built on top of (see HALF_HEADING_LINE_HEIGHT_GAP's
+                own comment) — the body/button marginTop below adds the
+                remainder needed to reach exactly half the heading's line-
+                height, same as eyebrow-to-heading already gets inside
+                SectionIntro itself. */}
+            <div className={`flex flex-col gap-medium ${alignClass}`}>
+              {headingCluster}
+              {body && (
+                <p
+                  className={`max-w-prose-lg text-body ${bodyColor}`}
+                  style={heading ? { marginTop: HALF_HEADING_LINE_HEIGHT_GAP.h2 } : undefined}
+                >
+                  {body}
+                </p>
+              )}
+              {cta}
+            </div>
+            {mediaElement}
+          </>
         )}
       </SectionShell>
     </div>

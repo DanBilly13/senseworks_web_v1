@@ -65,6 +65,20 @@ export const fullWidthSingleBlock = defineType({
         'Fill this in alongside Media above to show two images side by side with a gutter, instead of one. Only takes effect when both are images — a video/lottie/animation in either slot falls back to the single-media treatment.',
       type: 'media',
     }),
+    defineField({
+      name: 'mediaPosition',
+      title: 'Media position',
+      description: 'Where the image sits relative to the heading and body text.',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'After body (default)', value: 'afterBody' },
+          { title: 'Between heading and body', value: 'afterHeading' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'afterBody',
+    }),
     spacingField,
     paddingField('top'),
     paddingField('bottom'),
