@@ -18,19 +18,22 @@ type HeroImageOverlayCardBlockProps = {
   cardBackground?: 'dark' | 'gradient'
   cardWidth?: '50' | '100'
   spacing?: 'loose' | 'medium' | 'tight'
-  // Same three tones as CTA Banner/Full Width Single — colors the area
-  // AROUND the video (the margin left over once it's narrower than the
-  // viewport on desktop, or the gutter beside it on mobile), not the
-  // card overlay itself (that's cardBackground, above) or any text —
-  // there's no text in that area, so unlike other tone props this one
-  // doesn't need its own eyebrow/heading/body color-switching logic.
-  tone?: 'default' | 'inverse' | 'accent'
+  // Same tones as CTA Banner/Full Width Single, plus gradient (this
+  // block's own cardBackground already has one, reused here as the
+  // same bg-accent-gradient fill) — colors the area AROUND the video
+  // (the margin left over once it's narrower than the viewport on
+  // desktop, or the gutter beside it on mobile), not the card overlay
+  // itself (that's cardBackground, above) or any text — there's no
+  // text in that area, so unlike other tone props this one doesn't
+  // need its own eyebrow/heading/body color-switching logic.
+  tone?: 'default' | 'inverse' | 'accent' | 'gradient'
 }
 
 const SECTION_BG: Record<NonNullable<HeroImageOverlayCardBlockProps['tone']>, string> = {
   default: 'bg-muted',
   inverse: 'bg-foreground',
   accent: 'bg-accent',
+  gradient: 'bg-accent-gradient',
 }
 
 // Matches SectionShell's own loose/medium/tight tiers (see globals.css)

@@ -67,6 +67,7 @@ export const heroImageOverlayCardBlock = defineType({
           { title: 'Default (muted background)', value: 'default' },
           { title: 'Inverse (dark background)', value: 'inverse' },
           { title: 'Accent (accent background)', value: 'accent' },
+          { title: 'Gradient (same as the gradient card background)', value: 'gradient' },
         ],
         layout: 'radio',
       },
