@@ -227,25 +227,28 @@ export function FullWidthSingleBlock({
             aspect-ratio and two flex-1 children does this natively,
             each one ending up (container width − gutter) / 2 wide ×
             the full container height, rather than needing to compute
-            an odd per-image ratio by hand. Each one keeps its own
-            outer corner only (not the one facing the gutter), and
-            crops toward that same outer top corner (left image:
-            top-left, right image: top-right) at every width, rather
-            than the single image's centered/top-only crop. */}
+            an odd per-image ratio by hand. Both top corners round on
+            each image — outer AND the one facing the gutter — while
+            the bottom stays square on the inner (gutter) side always
+            and on the outer side too once desktop's square-bottom
+            fade kicks in. Each one crops toward its own outer top
+            corner (left image: top-left, right image: top-right) at
+            every width, rather than the single image's centered/
+            top-only crop. */}
         {isSplit ? (
           <div className="flex aspect-media w-full gap-medium md:aspect-media-wide">
             <CropFadeImage
               media={media}
               alt={heading || ''}
               sizes="50vw"
-              className="h-full flex-1 rounded-l-lg md:rounded-tl-lg md:rounded-bl-none"
+              className="h-full flex-1 rounded-t-lg rounded-bl-lg md:rounded-bl-none"
               objectPosition="object-left-top"
             />
             <CropFadeImage
               media={media2}
               alt={heading || ''}
               sizes="50vw"
-              className="h-full flex-1 rounded-r-lg md:rounded-tr-lg md:rounded-br-none"
+              className="h-full flex-1 rounded-t-lg rounded-br-lg md:rounded-br-none"
               objectPosition="object-right-top"
             />
           </div>
