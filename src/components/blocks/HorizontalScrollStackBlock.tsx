@@ -46,7 +46,16 @@ function PanelImage({
           src={urlFor(media.image).url()}
           alt={media.alt || alt}
           fill
-          sizes="50vw"
+          // Was "50vw" (copied from Full Width Single's two-image SPLIT
+          // case) — wrong here, this is always one full-width image per
+          // slide, not half. That alone was already fetching a lower-res
+          // image than the display actually needed; on top of that, a
+          // CSS transform (the mobile scale experiment above) stretches
+          // the already-downloaded bitmap with no way for `sizes` to
+          // know that's coming — so mobile asks for extra headroom
+          // (roughly the slide's ~100vw times the 2.25 scale factor) to
+          // still look sharp after being blown up. Desktop isn't scaled.
+          sizes="(max-width: 767px) 225vw, 100vw"
           className="object-cover object-top"
           style={{
             maskImage: 'var(--media-fade-bottom)',
