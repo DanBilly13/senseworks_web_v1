@@ -257,16 +257,21 @@ export function FullWidthSingleBlock({
       <SectionShell pt={paddingTop} pb={paddingBottom} className="flex flex-col gap-2xl">
         {mediaPosition === 'afterHeading' ? (
           // Media sits right after the heading, body/cta move below it
-          // instead — each of the three pieces (heading cluster, media,
-          // body+cta cluster) is now its own direct child of this gap-2xl
-          // flex container, so the 64px intro-text-to-content gap applies
-          // on BOTH sides of the media, same convention, just split
-          // across two edges instead of one.
+          // instead. Heading-to-media keeps the container's own gap-2xl
+          // (64px) — same intro-text-to-content convention as every
+          // other block. Media-to-body is narrower (32px, half that) —
+          // since the container's gap-2xl still applies between EVERY
+          // child, the body/cta cluster pulls itself up by the
+          // difference (64 − 32) via a negative marginTop, rather than
+          // the gap simply being smaller for this one pair.
           <>
             <div className={`flex flex-col gap-medium ${alignClass}`}>{headingCluster}</div>
             {mediaElement}
             {(body || cta) && (
-              <div className={`flex flex-col gap-medium ${alignClass}`}>
+              <div
+                className={`flex flex-col gap-medium ${alignClass}`}
+                style={mediaElement ? { marginTop: 'calc(var(--spacing-large) - var(--spacing-2xl))' } : undefined}
+              >
                 {body && <p className={`max-w-prose-lg text-body ${bodyColor}`}>{body}</p>}
                 {cta}
               </div>
