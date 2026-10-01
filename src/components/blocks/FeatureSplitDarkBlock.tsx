@@ -61,14 +61,17 @@ export function FeatureSplitDarkBlock({
                 {body}
               </p>
             )}
+            {ctaLabel && ctaHref && (
+              // Same line-height gap as subhead/body above — was a flat
+              // mt-medium/mt-medium-large, outside this gap-medium
+              // container entirely, so it never matched.
+              <div style={subhead || body ? { marginTop: HEADING_LINE_HEIGHT_GAP } : undefined}>
+                <Button href={ctaHref} variant="filled-light">
+                  {ctaLabel}
+                </Button>
+              </div>
+            )}
           </div>
-          {ctaLabel && ctaHref && (
-            <div className={subhead || body ? 'mt-medium' : 'mt-medium-large'}>
-              <Button href={ctaHref} variant="filled-light">
-                {ctaLabel}
-              </Button>
-            </div>
-          )}
         </div>
         <Media
           media={media}
