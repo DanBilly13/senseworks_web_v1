@@ -45,6 +45,7 @@ export const page = defineType({
         defineArrayMember({ type: 'caseStudyGridBlock' }),
         defineArrayMember({ type: 'ctaBannerBlock' }),
         defineArrayMember({ type: 'darkBannerBlock' }),
+        defineArrayMember({ type: 'fullWidthSingleBlock' }),
         defineArrayMember({ type: 'footerBlock' }),
       ],
     }),
