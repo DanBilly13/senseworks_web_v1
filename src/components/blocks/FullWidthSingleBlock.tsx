@@ -1,8 +1,10 @@
+import Image from 'next/image'
 import { Button } from '@/components/ui/Button'
 import { SectionShell } from '@/components/ui/SectionShell'
 import { SectionIntro, HALF_HEADING_LINE_HEIGHT_GAP } from '@/components/ui/SectionIntro'
 import { Media } from '@/components/ui/Media'
 import { renderNumberedEyebrow } from '@/components/ui/numberedEyebrow'
+import { urlFor } from '@/lib/sanity/image'
 import type { MediaField } from '@/lib/sanity/media'
 
 type ButtonVariant = 'filled-dark' | 'filled-accent' | 'filled-light' | 'ghost'
@@ -84,6 +86,7 @@ export function FullWidthSingleBlock({
   // treatments (the h1/h2 "subtitle" size, or h3/h4's body-lg) lands
   // on the plain 16px Body size this block wants.
   const bodyColor = tone === 'inverse' ? 'text-background/80' : 'text-muted-foreground'
+  const hasImage = media?.mediaType === 'image' && !!media.image
 
   return (
     <div className={`${SECTION_BG[tone]} ${SECTION_GAP_MB_CLASS[spacing]}`}>
@@ -136,7 +139,36 @@ export function FullWidthSingleBlock({
             </div>
           )}
         </div>
-        <Media media={media} alt={heading ?? ''} className="aspect-media w-full rounded-lg" />
+        {hasImage ? (
+          // Bypasses Media here — it has no hook for either effect
+          // below (object-position at full scale, or a mask), both of
+          // which only make sense for a real image anyway (video/
+          // lottie/the placeholder fall back to Media underneath).
+          // 7:5 on mobile, wider/shorter on desktop (2:1), cropping
+          // more off the BOTTOM there (object-top) rather than evenly
+          // off both sides — paired with a bottom fade (desktop only,
+          // --media-fade-bottom is 'none' below md:) using the exact
+          // same multi-stop curve as Card Grid's own image-fade
+          // feature, just one direction and capped at 10% opacity
+          // instead of fully transparent, so the panel's own
+          // background shows through gradually rather than the image
+          // just stopping dead at a hard edge. Bottom corners drop
+          // their rounding at desktop too — a rounded corner reads as
+          // a deliberate edge, which the fade is specifically trying
+          // not to look like.
+          <div className="relative aspect-media w-full overflow-hidden rounded-lg md:aspect-media-wide md:rounded-t-lg md:rounded-b-none">
+            <Image
+              src={urlFor(media.image!).url()}
+              alt={media?.alt || heading || ''}
+              fill
+              sizes="100vw"
+              className="object-cover object-center md:object-top"
+              style={{ maskImage: 'var(--media-fade-bottom)', WebkitMaskImage: 'var(--media-fade-bottom)' }}
+            />
+          </div>
+        ) : (
+          <Media media={media} alt={heading ?? ''} className="aspect-media w-full rounded-lg" />
+        )}
       </SectionShell>
     </div>
   )
