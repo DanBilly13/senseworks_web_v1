@@ -1,6 +1,6 @@
 import { defineType, defineField } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
-import { spacingField } from '../fields/spacingField'
+import { paddingField } from '../fields/spacingField'
 
 export const fullWidthSingleBlock = defineType({
   name: 'fullWidthSingleBlock',
@@ -9,6 +9,14 @@ export const fullWidthSingleBlock = defineType({
   fields: [
     hiddenField,
     defineField({ name: 'eyebrow', type: 'string' }),
+    defineField({
+      name: 'numberedEyebrow',
+      title: 'Numbered eyebrow',
+      description:
+        'Highlights the first word of the eyebrow (e.g. "01") as a small colored badge, matching the panel style above.',
+      type: 'boolean',
+      initialValue: false,
+    }),
     defineField({
       name: 'heading',
       type: 'string',
@@ -50,7 +58,8 @@ export const fullWidthSingleBlock = defineType({
       initialValue: 'center',
     }),
     defineField({ name: 'media', title: 'Media', type: 'media' }),
-    spacingField,
+    paddingField('top'),
+    paddingField('bottom'),
   ],
   preview: {
     select: { title: 'heading', media: 'media.image' },

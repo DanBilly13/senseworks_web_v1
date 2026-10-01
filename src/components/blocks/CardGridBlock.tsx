@@ -2,6 +2,7 @@ import type { SanityImageSource } from '@sanity/image-url'
 import Image from 'next/image'
 import { SectionShell } from '@/components/ui/SectionShell'
 import { SectionIntro } from '@/components/ui/SectionIntro'
+import { renderNumberedEyebrow } from '@/components/ui/numberedEyebrow'
 import { urlFor } from '@/lib/sanity/image'
 
 type CardGridItem = {
@@ -98,33 +99,6 @@ const CARD_PADDING_BOTTOM_VAR: Record<'h3' | 'h4', string> = {
   h4: 'var(--text-h4--full-line-height)',
 }
 
-// bg-foreground/text-accent for anything NOT dark (default's light
-// background, accent's yellow background) — a solid accent-yellow
-// badge on the dark card would put yellow text on a yellow badge and
-// disappear, so dark gets the inverse pairing instead.
-const NUMBER_BADGE_CLASS: Record<CardTone, string> = {
-  default: 'rounded-xs bg-foreground px-xs py-xs text-accent',
-  dark: 'rounded-xs bg-accent px-xs py-xs text-foreground',
-  accent: 'rounded-xs bg-foreground px-xs py-xs text-accent',
-}
-
-// Splits only the first word off as "the number" — existing content is
-// already written as one string ("01 TID"), so this avoids a separate
-// schema field and any content migration. The badge only gets that
-// first word's own classes (background/padding/radius/color); it
-// inherits the eyebrow paragraph's font-size/weight/tracking as-is,
-// so the number reads at the same size as the rest of the eyebrow.
-function renderEyebrow(eyebrow: string, numbered: boolean, tone: CardTone) {
-  if (!numbered) return eyebrow
-  const [number, ...rest] = eyebrow.trim().split(' ')
-  const restText = rest.join(' ')
-  return (
-    <>
-      <span className={NUMBER_BADGE_CLASS[tone]}>{number}</span>
-      {restText && ` ${restText}`}
-    </>
-  )
-}
 
 // No eyebrow/heading/body of its own — pair it with a separate intro
 // block (e.g. Section Headline) above it when one's needed.
@@ -201,7 +175,7 @@ export function CardGridBlock({
               >
                 <SectionIntro
                   as={headingLevel}
-                  eyebrow={renderEyebrow(item.eyebrow, numberedEyebrow, tone)}
+                  eyebrow={renderNumberedEyebrow(item.eyebrow, numberedEyebrow, tone === 'dark')}
                   heading={item.heading}
                   body={item.body}
                   tone={tone === 'dark' ? 'inverse' : 'default'}

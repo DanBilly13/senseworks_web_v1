@@ -2,12 +2,18 @@ import { Button } from '@/components/ui/Button'
 import { SectionShell } from '@/components/ui/SectionShell'
 import { SectionIntro } from '@/components/ui/SectionIntro'
 import { Media } from '@/components/ui/Media'
+import { renderNumberedEyebrow } from '@/components/ui/numberedEyebrow'
 import type { MediaField } from '@/lib/sanity/media'
 
 type ButtonVariant = 'filled-dark' | 'filled-accent' | 'filled-light' | 'ghost'
 type FullWidthSingleBlockTone = 'default' | 'inverse' | 'accent'
+type SpacingValue = 'loose' | 'medium' | 'tight' | 'none'
 type FullWidthSingleBlockProps = {
   eyebrow?: string
+  // Highlights the eyebrow's leading word (e.g. "01") as a small
+  // colored badge instead of plain text — same treatment as Card
+  // Grid's numbered eyebrow.
+  numberedEyebrow?: boolean
   heading?: string
   body?: string
   ctaLabel?: string
@@ -20,7 +26,11 @@ type FullWidthSingleBlockProps = {
   // invisible there).
   buttonVariant?: ButtonVariant
   media?: MediaField
-  spacing?: 'loose' | 'medium' | 'tight' | 'none'
+  // Independent top/bottom internal padding — same four tiers/values
+  // as the shared Section spacing field, just settable per edge since
+  // this panel has no neighboring section to supply the other half.
+  paddingTop?: SpacingValue
+  paddingBottom?: SpacingValue
 }
 
 // Same three tones as CTA Banner, same reasoning.
@@ -36,6 +46,7 @@ const SECTION_BG: Record<FullWidthSingleBlockTone, string> = {
 // split like Feature Split/Dark Banner.
 export function FullWidthSingleBlock({
   eyebrow,
+  numberedEyebrow = false,
   heading,
   body,
   ctaLabel,
@@ -44,19 +55,26 @@ export function FullWidthSingleBlock({
   align = 'center',
   buttonVariant,
   media,
-  spacing = 'loose',
+  paddingTop = 'loose',
+  paddingBottom = 'loose',
 }: FullWidthSingleBlockProps) {
   const resolvedButtonVariant = buttonVariant ?? (tone === 'inverse' ? 'filled-light' : 'filled-dark')
 
   return (
     <div className={SECTION_BG[tone]}>
-      {/* pad="both": this section has no neighboring section to supply
-          the other half of the gap (its own tone fill IS the section),
-          same reasoning as CTA Banner/Dark Banner's own pad="both". */}
-      <SectionShell pad="both" py={spacing} className="flex flex-col gap-2xl">
+      {/* pt/pb independently, not py/pad="both" — this section has no
+          neighboring section to supply the other half of a gap (its
+          own tone fill IS the section, same reasoning as CTA Banner/
+          Dark Banner's own pad="both"), but unlike those, each edge is
+          its own editor choice here. */}
+      <SectionShell pt={paddingTop} pb={paddingBottom} className="flex flex-col gap-2xl">
         <SectionIntro
           as="h2"
-          eyebrow={eyebrow}
+          eyebrow={eyebrow && renderNumberedEyebrow(eyebrow, numberedEyebrow, tone === 'inverse')}
+          // Numbered eyebrows go full-strength instead of the usual
+          // muted/70% — next to a bold number badge, the faded default
+          // read washed out (same call Card Grid made).
+          eyebrowColor={numberedEyebrow ? (tone === 'inverse' ? 'text-background' : 'text-foreground') : undefined}
           heading={heading}
           body={body}
           align={align}

@@ -15,6 +15,12 @@ type SectionShellProps = {
   // both, since there's no neighboring section to supply the other
   // half of the gap instead.
   pad?: 'bottom' | 'both'
+  // Independent overrides for pt/pb's own tier, for a caller that
+  // needs its top and bottom padding set separately (e.g. Full Width
+  // Single) rather than tied together via py/pad. Either one left
+  // unset falls back to the py/pad-derived value above.
+  pt?: '3xl' | 'large' | 'section-edge' | 'loose' | 'medium' | 'tight' | 'none'
+  pb?: '3xl' | 'large' | 'section-edge' | 'loose' | 'medium' | 'tight' | 'none'
   // Mobile rhythm rule (desktop is identical either way, 24px):
   // 'default' for plain content — the text itself sits 32px from the
   // screen edge. 'boxed' for a section whose content is one or more
@@ -82,16 +88,24 @@ export function SectionShell({
   maxWidth = 'page',
   py = 'loose',
   pad = 'bottom',
+  pt,
+  pb,
   px = 'default',
   sectionClassName,
   className,
   ariaLabel,
   children,
 }: SectionShellProps) {
+  const resolvedPb = pb ?? py
+  const resolvedPt = pt ?? (pad === 'both' ? py : undefined)
   return (
     <section
       aria-label={ariaLabel}
-      className={[PB_CLASS[py], pad === 'both' ? PT_CLASS[py] : '', sectionClassName]
+      className={[
+        PB_CLASS[resolvedPb],
+        resolvedPt ? PT_CLASS[resolvedPt] : '',
+        sectionClassName,
+      ]
         .filter(Boolean)
         .join(' ')}
     >

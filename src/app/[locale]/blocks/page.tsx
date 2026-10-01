@@ -574,9 +574,9 @@ export default async function BlocksPage({
         tone="inverse"
       />
       <BlockCaption
-        name="Full Width Single — Spacing: none"
+        name="Full Width Single — Padding top/bottom: none"
         type="fullWidthSingleBlock"
-        variant='tone: "accent", spacing: "none"'
+        variant='tone: "accent", paddingTop: "none", paddingBottom: "none"'
       />
       <FullWidthSingleBlock
         eyebrow={EYEBROW}
@@ -585,7 +585,23 @@ export default async function BlocksPage({
         ctaLabel="Lorem ipsum"
         ctaHref="#"
         tone="accent"
-        spacing="none"
+        paddingTop="none"
+        paddingBottom="none"
+      />
+      <BlockCaption
+        name="Full Width Single — Numbered eyebrow, asymmetric padding"
+        type="fullWidthSingleBlock"
+        variant='numberedEyebrow: true, paddingTop: "tight", paddingBottom: "loose"'
+      />
+      <FullWidthSingleBlock
+        eyebrow="01 Lorem ipsum"
+        numberedEyebrow
+        heading={HEADING}
+        body={BODY}
+        ctaLabel="Lorem ipsum"
+        ctaHref="#"
+        paddingTop="tight"
+        paddingBottom="loose"
       />
       <BlockCaption name="Dark Banner" type="darkBannerBlock" />
       <DarkBannerBlock
