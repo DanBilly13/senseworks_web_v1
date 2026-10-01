@@ -1,10 +1,35 @@
 'use client'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
+import Image from 'next/image'
 import { motion, useScroll, useTransform, type MotionValue } from 'framer-motion'
-import { SectionIntro, HALF_HEADING_LINE_HEIGHT_GAP } from '@/components/ui/SectionIntro'
+import { SectionIntro } from '@/components/ui/SectionIntro'
 import { renderNumberedEyebrow } from '@/components/ui/numberedEyebrow'
 import { Media } from '@/components/ui/Media'
+import { urlFor } from '@/lib/sanity/image'
 import type { MediaField } from '@/lib/sanity/media'
+
+function isRealImage(
+  media?: MediaField
+): media is NonNullable<MediaField> & { mediaType: 'image'; image: NonNullable<NonNullable<MediaField>['image']> } {
+  return !!media && media.mediaType === 'image' && !!media.image
+}
+
+// Bypasses Media for a real image — same reasoning as Full Width
+// Single's own CropFadeImage: Media has no hook for a fixed
+// object-position at full (100%) scale, which is all this needs
+// (object-top, so a tall app screenshot crops from the bottom rather
+// than the vertical center). Falls back to Media for anything else
+// (video/lottie/an image type with no asset uploaded yet).
+function PanelImage({ media, alt, className }: { media?: MediaField; alt: string; className: string }) {
+  if (isRealImage(media)) {
+    return (
+      <div className={`relative overflow-hidden ${className}`}>
+        <Image src={urlFor(media.image).url()} alt={media.alt || alt} fill sizes="50vw" className="object-cover object-top" />
+      </div>
+    )
+  }
+  return <Media media={media} alt={alt} className={className} />
+}
 
 export type ScrollStackPanelData = {
   eyebrow?: string
@@ -36,6 +61,11 @@ const SECTION_GAP_MB_CLASS: Record<SpacingValue, string> = {
 // Single (numbered eyebrow, heading, body, image), always on the
 // inverse/dark tone (this prototype hasn't got a per-panel tone field
 // yet — one more thing to settle once the motion itself feels right).
+// Media sits between the heading and the body (Full Width Single's
+// "afterHeading" layout) — heading-to-media keeps this container's own
+// gap-2xl (64px); media-to-body is narrower (32px, half that), so the
+// body pulls itself up by the difference (64 − 32) via a negative
+// marginTop rather than the gap simply being smaller for that one pair.
 function PanelContent({ panel }: { panel: ScrollStackPanelData }) {
   return (
     <div className="flex h-full flex-col justify-center gap-2xl bg-foreground p-medium-large text-background md:p-2xl">
@@ -48,20 +78,20 @@ function PanelContent({ panel }: { panel: ScrollStackPanelData }) {
         maxWidth="lg"
         tone="inverse"
       />
-      {panel.body && (
-        <p
-          className="max-w-prose-lg text-body text-background/80"
-          style={{ marginTop: HALF_HEADING_LINE_HEIGHT_GAP.h2 }}
-        >
-          {panel.body}
-        </p>
-      )}
       {panel.media && (
-        <Media
+        <PanelImage
           media={panel.media}
           alt={panel.heading ?? ''}
           className="aspect-media w-full rounded-lg md:aspect-media-wide"
         />
+      )}
+      {panel.body && (
+        <p
+          className="max-w-prose-lg text-body text-background/80"
+          style={panel.media ? { marginTop: 'calc(var(--spacing-large) - var(--spacing-2xl))' } : undefined}
+        >
+          {panel.body}
+        </p>
       )}
     </div>
   )
@@ -86,7 +116,7 @@ function ScrollStackPanel({
   activeIndex: MotionValue<number>
   panel: ScrollStackPanelData
 }) {
-  const opacity = useTransform(activeIndex, [index - 1, index, index + 1], [0.3, 1, 0.3])
+  const opacity = useTransform(activeIndex, [index - 1, index, index + 1], [0.1, 1, 0.1])
   return (
     <motion.div className="h-full w-scroll-panel shrink-0" style={{ opacity }}>
       <PanelContent panel={panel} />
@@ -124,6 +154,50 @@ export function HorizontalScrollStackBlock({ panels, spacing = 'loose' }: Horizo
     (v) => `calc(-1 * ${v} * (var(--width-scroll-panel) + var(--spacing-medium-large)))`,
   )
 
+  // "Locks into" the nearest slide once scrolling stops, instead of
+  // leaving it resting at whatever fractional position the user
+  // happened to stop at — a plain debounced scroll listener + a
+  // smooth-scroll to the nearest slide's own resting scrollY, rather
+  // than real CSS scroll-snap: this isn't a scrollable element with
+  // its own snap points, it's the page's own vertical scroll being
+  // repurposed to drive a horizontal transform, so there's no overflow
+  // container for scroll-snap-type to attach to.
+  useEffect(() => {
+    let timeoutId: ReturnType<typeof setTimeout> | undefined
+    const SNAP_DELAY_MS = 150
+    const SETTLED_THRESHOLD = 0.02
+
+    function snapToNearestSlide() {
+      const wrapper = wrapperRef.current
+      if (!wrapper) return
+      const rect = wrapper.getBoundingClientRect()
+      const viewportHeight = window.innerHeight
+      // Only while the pinned stage is actually stuck (its top has
+      // reached the viewport top but its bottom hasn't yet) — before
+      // or after that range, this is just the page's normal scroll
+      // and shouldn't get pulled back into this block.
+      if (rect.top > 1 || rect.bottom < viewportHeight - 1) return
+      const current = activeIndex.get()
+      const nearest = Math.round(current)
+      if (Math.abs(current - nearest) < SETTLED_THRESHOLD) return
+      const scrollableRange = wrapper.offsetHeight - viewportHeight
+      const targetProgress = nearest / Math.max(panels.length - 1, 1)
+      const targetScrollY = window.scrollY + rect.top + targetProgress * scrollableRange
+      window.scrollTo({ top: targetScrollY, behavior: 'smooth' })
+    }
+
+    function handleScroll() {
+      if (timeoutId) clearTimeout(timeoutId)
+      timeoutId = setTimeout(snapToNearestSlide, SNAP_DELAY_MS)
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      if (timeoutId) clearTimeout(timeoutId)
+    }
+  }, [activeIndex, panels.length])
+
   // Editor hasn't added any slides yet — nothing sensible to pin/scroll.
   // After all hooks above, never before — hooks can't be called
   // conditionally.
@@ -131,7 +205,10 @@ export function HorizontalScrollStackBlock({ panels, spacing = 'loose' }: Horizo
 
   return (
     <div className={SECTION_GAP_MB_CLASS[spacing]}>
-      <div className="flex flex-col gap-large md:hidden">
+      {/* No gap — each slide already carries its own full bg-foreground,
+          so a flex gap here would show the page's own light background
+          through the sliver between adjacent dark slides. */}
+      <div className="flex flex-col md:hidden">
         {panels.map((panel, i) => (
           <PanelContent key={i} panel={panel} />
         ))}
