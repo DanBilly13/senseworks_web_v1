@@ -62,7 +62,7 @@ export const pageBySlugAndLocaleQuery = groq`
       _type == "fiftyFiftyBannerBlock" => { ${mediaProjection()} },
       _type == "bentoGridBlock" => { items[]{ ..., ${mediaProjection()} } },
       _type == "mediaBlock" => { ${mediaProjection()} },
-      _type == "fullWidthSingleBlock" => { ${mediaProjection()} },
+      _type == "fullWidthSingleBlock" => { ${mediaProjection()}, ${mediaProjection('media2', 'media2')} },
       _type == "caseStudyGridBlock" => { items[]{ ..., ${mediaProjection()} } },
       _type == "logoCloudBlock" => { logos[]->{ name, ${mediaProjection('logo')} } },
       _type == "testimonialCarouselBlock" => {

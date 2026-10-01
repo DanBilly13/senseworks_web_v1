@@ -579,6 +579,32 @@ export default async function BlocksPage({
         }}
       />
       <BlockCaption
+        name="Full Width Single — Two images, split with a gutter"
+        type="fullWidthSingleBlock"
+        variant="media + media2: both real images"
+      />
+      <FullWidthSingleBlock
+        eyebrow={EYEBROW}
+        heading={HEADING}
+        body={BODY}
+        ctaLabel="Lorem ipsum"
+        ctaHref="#"
+        media={{
+          mediaType: 'image',
+          image: {
+            _type: 'image',
+            asset: { _type: 'reference', _ref: 'image-514afea5d88ffb013be9c17be09f35668480f249-3240x1818-webp' },
+          },
+        }}
+        media2={{
+          mediaType: 'image',
+          image: {
+            _type: 'image',
+            asset: { _type: 'reference', _ref: 'image-514afea5d88ffb013be9c17be09f35668480f249-3240x1818-webp' },
+          },
+        }}
+      />
+      <BlockCaption
         name="Full Width Single — Left, inverse"
         type="fullWidthSingleBlock"
         variant='align: "left", tone: "inverse"'

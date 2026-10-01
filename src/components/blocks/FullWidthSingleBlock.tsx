@@ -10,6 +10,34 @@ import type { MediaField } from '@/lib/sanity/media'
 type ButtonVariant = 'filled-dark' | 'filled-accent' | 'filled-light' | 'ghost'
 type FullWidthSingleBlockTone = 'default' | 'inverse' | 'accent'
 type SpacingValue = 'loose' | 'medium' | 'tight' | 'none'
+
+function isRealImage(
+  media?: MediaField
+): media is NonNullable<MediaField> & { mediaType: 'image'; image: NonNullable<NonNullable<MediaField>['image']> } {
+  return !!media && media.mediaType === 'image' && !!media.image
+}
+
+// The cropped/faded treatment both the one- and two-image layouts
+// share — image-only (video/lottie/the placeholder fall back to
+// Media, handled by the caller before reaching for this). `className`
+// carries whatever sizing/rounding differs between a single full-
+// width image and one half of a split pair.
+function CropFadeImage({ media, alt, sizes, className }: { media: MediaField; alt: string; sizes: string; className: string }) {
+  if (!isRealImage(media)) return null
+  return (
+    <div className={`relative overflow-hidden ${className}`}>
+      <Image
+        src={urlFor(media.image).url()}
+        alt={media.alt || alt}
+        fill
+        sizes={sizes}
+        className="object-cover object-center md:object-top"
+        style={{ maskImage: 'var(--media-fade-bottom)', WebkitMaskImage: 'var(--media-fade-bottom)' }}
+      />
+    </div>
+  )
+}
+
 type FullWidthSingleBlockProps = {
   eyebrow?: string
   // Highlights the eyebrow's leading word (e.g. "01") as a small
@@ -28,6 +56,14 @@ type FullWidthSingleBlockProps = {
   // invisible there).
   buttonVariant?: ButtonVariant
   media?: MediaField
+  // Optional second image — fill this in too (alongside an image in
+  // Media above) to show two images side by side with a gutter
+  // between them, instead of one. Side by side at every width,
+  // including mobile — not a responsive grid that stacks them. Only
+  // takes effect when BOTH are actual images; a video/lottie in
+  // either slot falls back to the single-media treatment using
+  // whichever of the two is real (see hasAnyImage below).
+  media2?: MediaField
   // Independent top/bottom internal padding — same four tiers/values
   // as the shared Section spacing field, just settable per edge since
   // this panel has no neighboring section to supply the other half.
@@ -76,6 +112,7 @@ export function FullWidthSingleBlock({
   align = 'center',
   buttonVariant,
   media,
+  media2,
   paddingTop = 'loose',
   paddingBottom = 'loose',
   spacing = 'loose',
@@ -86,13 +123,20 @@ export function FullWidthSingleBlock({
   // treatments (the h1/h2 "subtitle" size, or h3/h4's body-lg) lands
   // on the plain 16px Body size this block wants.
   const bodyColor = tone === 'inverse' ? 'text-background/80' : 'text-muted-foreground'
-  const hasImage = media?.mediaType === 'image' && !!media.image
+  const hasImage1 = isRealImage(media)
+  const hasImage2 = isRealImage(media2)
+  // Both real images: the side-by-side split. Otherwise fall back to
+  // whichever ONE of the two is a real image (so filling in only
+  // media2 still shows something, rather than silently doing nothing
+  // because media itself is empty).
+  const isSplit = hasImage1 && hasImage2
+  const singleImageMedia = hasImage1 ? media : hasImage2 ? media2 : undefined
   // Media is optional — no placeholder/gradient box when nothing's
   // uploaded, unlike most other blocks' media slots. Mirrors Media's
   // own internal hasAsset check rather than just `!!media`, since a
   // media object can exist with its type set but no asset attached yet.
   const hasAsset =
-    hasImage ||
+    !!singleImageMedia ||
     (media?.mediaType === 'video' && !!media.videoUrl) ||
     (media?.mediaType === 'lottie' && !!media.lottieUrl) ||
     (media?.mediaType === 'reactAnimation' && !!media.animation)
@@ -148,37 +192,53 @@ export function FullWidthSingleBlock({
             </div>
           )}
         </div>
-        {hasAsset &&
-          (hasImage ? (
-            // Bypasses Media here — it has no hook for either effect
-            // below (object-position at full scale, or a mask), both
-            // of which only make sense for a real image anyway (video/
-            // lottie fall back to Media underneath). 7:5 on mobile,
-            // wider/shorter on desktop (2:1), cropping more off the
-            // BOTTOM there (object-top) rather than evenly off both
-            // sides — paired with a bottom fade (desktop only,
-            // --media-fade-bottom is 'none' below md:) using the exact
-            // same multi-stop curve as Card Grid's own image-fade
-            // feature, just one direction and capped at 10% opacity
-            // instead of fully transparent, so the panel's own
-            // background shows through gradually rather than the image
-            // just stopping dead at a hard edge. Bottom corners drop
-            // their rounding at desktop too — a rounded corner reads
-            // as a deliberate edge, which the fade is specifically
-            // trying not to look like.
-            <div className="relative aspect-media w-full overflow-hidden rounded-lg md:aspect-media-wide md:rounded-t-lg md:rounded-b-none">
-              <Image
-                src={urlFor(media.image!).url()}
-                alt={media?.alt || heading || ''}
-                fill
-                sizes="100vw"
-                className="object-cover object-center md:object-top"
-                style={{ maskImage: 'var(--media-fade-bottom)', WebkitMaskImage: 'var(--media-fade-bottom)' }}
-              />
-            </div>
-          ) : (
-            <Media media={media} alt={heading ?? ''} className="aspect-media w-full rounded-lg" />
-          ))}
+        {/* Bypasses Media for a real image — it has no hook for either
+            effect below (object-position at full scale, or a mask),
+            both of which only make sense for an actual image anyway
+            (video/lottie/the placeholder fall back to Media
+            underneath). 7:5 on mobile, wider/shorter on desktop (2:1),
+            cropping more off the BOTTOM there (object-top) rather than
+            evenly off both sides — paired with a bottom fade (desktop
+            only, --media-fade-bottom is 'none' below md:) using the
+            exact same multi-stop curve as Card Grid's own image-fade
+            feature, just one direction and capped at 10% opacity
+            instead of fully transparent, so the panel's own background
+            shows through gradually rather than the image just
+            stopping dead at a hard edge. Bottom corners drop their
+            rounding at desktop too — a rounded corner reads as a
+            deliberate edge, which the fade is specifically trying not
+            to look like. Two images: the SAME overall shape (aspect
+            ratio) as one, split by a gutter — a flex row with a fixed
+            aspect-ratio and two flex-1 children does this natively,
+            each one ending up (container width − gutter) / 2 wide ×
+            the full container height, rather than needing to compute
+            an odd per-image ratio by hand. Each one keeps its own
+            outer corner only (not the one facing the gutter). */}
+        {isSplit ? (
+          <div className="flex aspect-media w-full gap-medium md:aspect-media-wide">
+            <CropFadeImage
+              media={media}
+              alt={heading || ''}
+              sizes="50vw"
+              className="h-full flex-1 rounded-l-lg md:rounded-tl-lg md:rounded-bl-none"
+            />
+            <CropFadeImage
+              media={media2}
+              alt={heading || ''}
+              sizes="50vw"
+              className="h-full flex-1 rounded-r-lg md:rounded-tr-lg md:rounded-br-none"
+            />
+          </div>
+        ) : singleImageMedia ? (
+          <CropFadeImage
+            media={singleImageMedia}
+            alt={heading || ''}
+            sizes="100vw"
+            className="aspect-media w-full rounded-lg md:aspect-media-wide md:rounded-t-lg md:rounded-b-none"
+          />
+        ) : (
+          hasAsset && <Media media={media} alt={heading ?? ''} className="aspect-media w-full rounded-lg" />
+        )}
       </SectionShell>
     </div>
   )

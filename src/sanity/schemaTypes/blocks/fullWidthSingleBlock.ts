@@ -58,6 +58,13 @@ export const fullWidthSingleBlock = defineType({
       initialValue: 'center',
     }),
     defineField({ name: 'media', title: 'Media', type: 'media' }),
+    defineField({
+      name: 'media2',
+      title: 'Second image (optional)',
+      description:
+        'Fill this in alongside Media above to show two images side by side with a gutter, instead of one. Only takes effect when both are images — a video/lottie/animation in either slot falls back to the single-media treatment.',
+      type: 'media',
+    }),
     spacingField,
     paddingField('top'),
     paddingField('bottom'),
