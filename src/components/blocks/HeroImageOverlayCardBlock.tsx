@@ -18,6 +18,19 @@ type HeroImageOverlayCardBlockProps = {
   cardBackground?: 'dark' | 'gradient'
   cardWidth?: '50' | '100'
   spacing?: 'loose' | 'medium' | 'tight'
+  // Same three tones as CTA Banner/Full Width Single — colors the area
+  // AROUND the video (the margin left over once it's narrower than the
+  // viewport on desktop, or the gutter beside it on mobile), not the
+  // card overlay itself (that's cardBackground, above) or any text —
+  // there's no text in that area, so unlike other tone props this one
+  // doesn't need its own eyebrow/heading/body color-switching logic.
+  tone?: 'default' | 'inverse' | 'accent'
+}
+
+const SECTION_BG: Record<NonNullable<HeroImageOverlayCardBlockProps['tone']>, string> = {
+  default: 'bg-muted',
+  inverse: 'bg-foreground',
+  accent: 'bg-accent',
 }
 
 // Matches SectionShell's own loose/medium/tight tiers (see globals.css)
@@ -117,6 +130,7 @@ function MobileImageOverlayCard({
   ctaHref,
   media,
   spacing = 'loose',
+  tone = 'default',
 }: HeroImageOverlayCardBlockProps) {
   return (
     // No header pull-up here (unlike HeroBackdropBlock/HeroBlock's
@@ -127,7 +141,10 @@ function MobileImageOverlayCard({
     // shorter than the header's height, so pulling it up just hid the
     // eyebrow behind an opaque bar (confirmed by hand on a live
     // deploy). Same reasoning as the desktop version's own top offset.
-    <section className={`relative ${MB_CLASS[spacing]}`}>
+    // SECTION_BG only actually shows in the px-medium gutter around the
+    // video below — the intro block above keeps its own explicit
+    // bg-surface regardless of tone (see that div's own comment).
+    <section className={`relative ${MB_CLASS[spacing]} ${SECTION_BG[tone]}`}>
       <div className="relative z-10 mx-auto flex w-full max-w-page flex-col px-medium-large">
         {/* -mx-medium-large breaks out to full-bleed (cancels this
             wrapper's own px-medium-large) — negative margin-right
@@ -161,8 +178,11 @@ function MobileImageOverlayCard({
           bottom, now that it's not edge-to-edge). Same grey as the
           desktop version's border-border token (#e0e0e0). Back to
           aspect-media (7:5) — briefly tried aspect-media-portrait
-          (3:4), reverted. */}
-      <div className="px-medium">
+          (3:4), reverted. py-medium-large (24px) added alongside the
+          existing px-medium so a non-default tone actually reads as a
+          deliberate colored area around the video, not just a thin
+          16px side sliver. */}
+      <div className="px-medium py-medium-large">
         <div className="relative aspect-media w-full overflow-hidden rounded-lg border border-border">
           <Media media={media} alt={headline} className="size-full" />
         </div>
@@ -196,6 +216,7 @@ function DesktopImageOverlayCard({
   cardBackground = 'dark',
   cardWidth = '50',
   spacing = 'loose',
+  tone = 'default',
 }: HeroImageOverlayCardBlockProps) {
   const isDark = cardBackground === 'dark'
   const wrapperRef = useRef<HTMLDivElement>(null)
@@ -367,7 +388,11 @@ function DesktopImageOverlayCard({
       // (see the md:hidden toggle above) — HeaderBlock separately
       // guards against reading it there anyway (offsetParent check).
       data-keep-nav-visible-until={navReleaseScrollY}
-      className="relative"
+      // Shows wherever the shrinking/narrowing video box doesn't cover
+      // — the area to its sides once it's narrower than the viewport,
+      // and below it as the wrapper's own extra scroll height (shrink +
+      // dwell) continues after the video has settled at its small size.
+      className={`relative ${SECTION_BG[tone]}`}
       style={{ height: `${100 + SHRINK_VH + DWELL_VH}vh`, marginBottom: SPACING_PX[spacing] }}
     >
       {/* The sticky box IS the video box — no separate always-full-

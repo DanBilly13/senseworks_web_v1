@@ -160,6 +160,21 @@ export default async function BlocksPage({
         ctaHref="#"
       />
       <BlockCaption
+        name="Hero — Image Overlay Card (experimental, accent tone around video)"
+        type="heroImageOverlayCardBlock"
+        variant='cardBackground: "dark", cardWidth: "50", tone: "accent"'
+      />
+      <HeroImageOverlayCardBlock
+        cardBackground="dark"
+        cardWidth="50"
+        tone="accent"
+        eyebrow={EYEBROW}
+        headline={HEADING}
+        subhead={BODY}
+        ctaLabel="Lorem ipsum"
+        ctaHref="#"
+      />
+      <BlockCaption
         name="Hero — Scroll Reveal (experimental, full-width media, keep scrolling)"
         type="heroBlock"
         variant='layout: "scrollReveal", mediaWidth: "full"'
