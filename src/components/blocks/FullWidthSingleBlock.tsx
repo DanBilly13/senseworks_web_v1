@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/Button'
 import { SectionShell } from '@/components/ui/SectionShell'
-import { SectionIntro } from '@/components/ui/SectionIntro'
+import { SectionIntro, HALF_HEADING_LINE_HEIGHT_GAP } from '@/components/ui/SectionIntro'
 import { Media } from '@/components/ui/Media'
 import { renderNumberedEyebrow } from '@/components/ui/numberedEyebrow'
 import type { MediaField } from '@/lib/sanity/media'
@@ -93,10 +93,12 @@ export function FullWidthSingleBlock({
           Dark Banner's own pad="both"), but unlike those, each edge is
           its own editor choice here. */}
       <SectionShell pt={paddingTop} pb={paddingBottom} className="flex flex-col gap-2xl">
-        {/* gap-medium matches SectionIntro's own internal gap between
-            eyebrow/heading/body/cta — this just extends that same flat
-            rhythm to the body/button rendered below, now that they've
-            moved outside SectionIntro's own body/cta slots. */}
+        {/* gap-medium is the container's own base gap SectionIntro's
+            formula is built on top of (see HALF_HEADING_LINE_HEIGHT_GAP's
+            own comment) — the body/button marginTop below adds the
+            remainder needed to reach exactly half the heading's line-
+            height, same as eyebrow-to-heading already gets inside
+            SectionIntro itself. */}
         <div className={`flex flex-col gap-medium ${align === 'center' ? 'items-center text-center' : ''}`}>
           <SectionIntro
             as="h2"
@@ -115,11 +117,23 @@ export function FullWidthSingleBlock({
             maxWidth="lg"
             tone={tone === 'inverse' ? 'inverse' : 'default'}
           />
-          {body && <p className={`max-w-prose-lg text-body ${bodyColor}`}>{body}</p>}
+          {body && (
+            <p
+              className={`max-w-prose-lg text-body ${bodyColor}`}
+              style={heading ? { marginTop: HALF_HEADING_LINE_HEIGHT_GAP.h2 } : undefined}
+            >
+              {body}
+            </p>
+          )}
           {ctaLabel && ctaHref && (
-            <Button href={ctaHref} variant={resolvedButtonVariant}>
-              {ctaLabel}
-            </Button>
+            // Button has no style prop of its own (unlike the p above) —
+            // wrapped in a plain div for the marginTop, same as
+            // SectionIntro's own cta slot does internally.
+            <div style={body ? { marginTop: HALF_HEADING_LINE_HEIGHT_GAP.h2 } : undefined}>
+              <Button href={ctaHref} variant={resolvedButtonVariant}>
+                {ctaLabel}
+              </Button>
+            </div>
           )}
         </div>
         <Media media={media} alt={heading ?? ''} className="aspect-media w-full rounded-lg" />

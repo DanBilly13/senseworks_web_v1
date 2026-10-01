@@ -54,8 +54,12 @@ const HEADING_LINE_HEIGHT_GAP: Record<HeadingLevel, string> = {
 // the full version above, so the TOTAL visible gap equals exactly
 // half the line-height rather than half-line-height-plus-16px.
 // Replaces the old fixed mt-small/mt-large/mt-medium bumps, which
-// didn't scale with the heading's own size at all.
-const HALF_HEADING_LINE_HEIGHT_GAP: Record<HeadingLevel, string> = {
+// didn't scale with the heading's own size at all. Exported so a
+// caller that renders its own body/cta outside SectionIntro (e.g.
+// Full Width Single, which needs a body size SectionIntro doesn't
+// offer) can still apply this exact same gap, rather than a
+// disconnected flat value drifting from it over time.
+export const HALF_HEADING_LINE_HEIGHT_GAP: Record<HeadingLevel, string> = {
   h1: 'calc((var(--text-h1--full-line-height) / 2) - var(--spacing-medium))',
   h2: 'calc((var(--text-h2--full-line-height) / 2) - var(--spacing-medium))',
   h3: 'calc((var(--text-h3--full-line-height) / 2) - var(--spacing-medium))',
