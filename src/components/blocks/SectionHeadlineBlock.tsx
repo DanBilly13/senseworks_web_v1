@@ -9,7 +9,7 @@ type SectionHeadlineBlockProps = {
   ctaLabel?: string
   ctaHref?: string
   align?: 'left' | 'center'
-  spacing?: 'loose' | 'medium' | 'tight'
+  spacing?: 'loose' | 'medium' | 'tight' | 'none'
   // H1 only when this block IS the page's title (e.g. a page with no
   // Hero) — every other section heading stays H2, the default.
   headingLevel?: 'h1' | 'h2'

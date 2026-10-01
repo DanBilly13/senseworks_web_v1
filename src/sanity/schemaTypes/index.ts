@@ -32,6 +32,7 @@ import { comparisonTableBlock } from './blocks/comparisonTableBlock'
 import { ctaBannerBlock } from './blocks/ctaBannerBlock'
 import { caseStudyGridBlock } from './blocks/caseStudyGridBlock'
 import { darkBannerBlock } from './blocks/darkBannerBlock'
+import { fullWidthSingleBlock } from './blocks/fullWidthSingleBlock'
 
 export const schemaTypes = [
   page,
@@ -67,5 +68,6 @@ export const schemaTypes = [
   caseStudyGridBlock,
   ctaBannerBlock,
   darkBannerBlock,
+  fullWidthSingleBlock,
   footerBlock,
 ]

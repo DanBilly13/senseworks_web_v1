@@ -24,6 +24,7 @@ import { PricingBlock } from '@/components/blocks/PricingBlock'
 import { ComparisonTableBlock } from '@/components/blocks/ComparisonTableBlock'
 import { CtaBannerBlock } from '@/components/blocks/CtaBannerBlock'
 import { DarkBannerBlock } from '@/components/blocks/DarkBannerBlock'
+import { FullWidthSingleBlock } from '@/components/blocks/FullWidthSingleBlock'
 import { BentoGridBlock } from '@/components/blocks/BentoGridBlock'
 import { MediaBlock } from '@/components/blocks/MediaBlock'
 import { FaqAccordionBlock } from '@/components/blocks/FaqAccordionBlock'
@@ -533,6 +534,42 @@ export default async function BlocksPage({
         ctaLabel="Lorem ipsum"
         ctaHref="#"
         tone="accent"
+      />
+      <BlockCaption name="Full Width Single" type="fullWidthSingleBlock" />
+      <FullWidthSingleBlock
+        eyebrow={EYEBROW}
+        heading={HEADING}
+        body={BODY}
+        ctaLabel="Lorem ipsum"
+        ctaHref="#"
+      />
+      <BlockCaption
+        name="Full Width Single — Left, inverse"
+        type="fullWidthSingleBlock"
+        variant='align: "left", tone: "inverse"'
+      />
+      <FullWidthSingleBlock
+        eyebrow={EYEBROW}
+        heading={HEADING}
+        body={BODY}
+        ctaLabel="Lorem ipsum"
+        ctaHref="#"
+        align="left"
+        tone="inverse"
+      />
+      <BlockCaption
+        name="Full Width Single — Spacing: none"
+        type="fullWidthSingleBlock"
+        variant='tone: "accent", spacing: "none"'
+      />
+      <FullWidthSingleBlock
+        eyebrow={EYEBROW}
+        heading={HEADING}
+        body={BODY}
+        ctaLabel="Lorem ipsum"
+        ctaHref="#"
+        tone="accent"
+        spacing="none"
       />
       <BlockCaption name="Dark Banner" type="darkBannerBlock" />
       <DarkBannerBlock

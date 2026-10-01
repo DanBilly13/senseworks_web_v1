@@ -55,7 +55,7 @@ type CardGridBlockProps = {
   // Adds an optional 7:5 image above each card's eyebrow — off by
   // default, and only shown on a card that actually has one uploaded.
   showImage?: boolean
-  spacing?: 'loose' | 'medium' | 'tight'
+  spacing?: 'loose' | 'medium' | 'tight' | 'none'
 }
 
 const GRID_COLS_CLASS: Record<'1' | '2' | '3' | '4', string> = {

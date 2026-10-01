@@ -19,7 +19,7 @@ type TestimonialCarouselBlockProps = {
   body?: string
   ctaLabel?: string
   ctaHref?: string
-  spacing?: 'loose' | 'medium' | 'tight'
+  spacing?: 'loose' | 'medium' | 'tight' | 'none'
   items?: TestimonialItem[]
 }
 

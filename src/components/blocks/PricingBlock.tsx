@@ -17,7 +17,7 @@ type PricingBlockProps = {
   heading: string
   body?: string
   plans?: PricingPlan[]
-  spacing?: 'loose' | 'medium' | 'tight'
+  spacing?: 'loose' | 'medium' | 'tight' | 'none'
 }
 
 export function PricingBlock({

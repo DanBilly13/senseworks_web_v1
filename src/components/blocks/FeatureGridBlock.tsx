@@ -42,7 +42,7 @@ type FeatureGridBlockProps = {
   iconSize?: IconSize
   headingLayout?: 'stacked' | 'inline'
   titleSize?: 'h3' | 'h4' | 'h5'
-  spacing?: 'loose' | 'medium' | 'tight'
+  spacing?: 'loose' | 'medium' | 'tight' | 'none'
   items?: FeatureGridItem[]
 }
 

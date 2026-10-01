@@ -12,7 +12,7 @@ type ComparisonTableBlockProps = {
   body?: string
   columns?: ComparisonColumn[]
   rows?: ComparisonRow[]
-  spacing?: 'loose' | 'medium' | 'tight'
+  spacing?: 'loose' | 'medium' | 'tight' | 'none'
 }
 
 function Cell({ cell, highlighted }: { cell?: ComparisonCell; highlighted: boolean }) {

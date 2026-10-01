@@ -8,7 +8,7 @@ type FaqItem = { question: string; answer: string }
 type FaqAccordionBlockProps = {
   heading?: string
   items?: FaqItem[]
-  spacing?: 'loose' | 'medium' | 'tight'
+  spacing?: 'loose' | 'medium' | 'tight' | 'none'
 }
 
 export function FaqAccordionBlock({

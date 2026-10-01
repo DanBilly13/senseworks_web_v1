@@ -13,6 +13,7 @@ export const spacingField = defineField({
       { title: 'Loose (200px)', value: 'loose' },
       { title: 'Medium (120px)', value: 'medium' },
       { title: 'Tight (60px)', value: 'tight' },
+      { title: 'None (0px)', value: 'none' },
     ],
     layout: 'radio',
   },

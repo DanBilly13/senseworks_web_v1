@@ -7,7 +7,7 @@ type StatsBandBlockProps = {
   heading?: string
   body?: string
   items?: StatItem[]
-  spacing?: 'loose' | 'medium' | 'tight'
+  spacing?: 'loose' | 'medium' | 'tight' | 'none'
 }
 
 export function StatsBandBlock({

@@ -5,7 +5,9 @@ type SectionShellProps = {
   // 'loose'/'medium'/'tight' are the three section-to-section rhythm
   // tiers (200/120/60px desktop — see globals.css); every block stays
   // on 'loose' for now, this just makes the other two selectable.
-  py?: '3xl' | 'large' | 'section-edge' | 'loose' | 'medium' | 'tight'
+  // 'none' is a flat 0 — two blocks meant to sit flush against each
+  // other with no gap at all.
+  py?: '3xl' | 'large' | 'section-edge' | 'loose' | 'medium' | 'tight' | 'none'
   // Most sections only need bottom padding — two adjacent sections
   // each contributing their own top+bottom padding doubled the visual
   // gap between them. Page boundaries (Hero, Footer) and sections with
@@ -47,10 +49,11 @@ const PX_CLASS = {
 // that needs its own markup — see Testimonial Carousel/Feature Split's
 // own comments) can still offer the same loose/medium/tight choice on
 // their own hand-rolled <section>, without duplicating these values.
-export const SECTION_GAP_PB_CLASS: Record<'loose' | 'medium' | 'tight', string> = {
+export const SECTION_GAP_PB_CLASS: Record<'loose' | 'medium' | 'tight' | 'none', string> = {
   loose: 'pb-section-gap-loose',
   medium: 'pb-section-gap-medium',
   tight: 'pb-section-gap-tight',
+  none: 'pb-none',
 }
 
 const PB_CLASS = {
@@ -67,6 +70,7 @@ const PT_CLASS = {
   loose: 'pt-section-gap-loose',
   medium: 'pt-section-gap-medium',
   tight: 'pt-section-gap-tight',
+  none: 'pt-none',
 }
 
 export function SectionShell({

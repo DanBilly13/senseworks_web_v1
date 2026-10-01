@@ -12,7 +12,7 @@ type FiftyFiftyBannerBlockProps = {
   ctaHref?: string
   imagePosition?: 'left' | 'right'
   media?: MediaField
-  spacing?: 'loose' | 'medium' | 'tight'
+  spacing?: 'loose' | 'medium' | 'tight' | 'none'
 }
 
 export function FiftyFiftyBannerBlock({

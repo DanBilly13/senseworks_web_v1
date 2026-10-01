@@ -8,7 +8,7 @@ import type { MediaField } from '@/lib/sanity/media'
 type LogoCloudItem = { name: string; media?: MediaField }
 type LogoCloudBlockProps = {
   logos?: LogoCloudItem[]
-  spacing?: 'loose' | 'medium' | 'tight'
+  spacing?: 'loose' | 'medium' | 'tight' | 'none'
 }
 
 const PIXELS_PER_SECOND = 42

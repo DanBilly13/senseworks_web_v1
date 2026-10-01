@@ -16,7 +16,7 @@ type CaseStudyGridBlockProps = {
   eyebrow?: string
   heading: string
   body?: string
-  spacing?: 'loose' | 'medium' | 'tight'
+  spacing?: 'loose' | 'medium' | 'tight' | 'none'
   items?: CaseStudyItem[]
 }
 

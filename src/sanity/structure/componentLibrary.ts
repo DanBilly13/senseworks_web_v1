@@ -148,6 +148,12 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
       'Contained rounded dark panel (page-margined, not full-bleed — same treatment as Media/Feature Split Dark), 50/50 split — heading/body on the left, a short checkmark list on the right.',
   },
   {
+    type: 'fullWidthSingleBlock',
+    title: 'Full Width Single',
+    description:
+      'Like CTA Banner, but with an image below the text — full-bleed tone background, text and image both capped at the normal page content width.',
+  },
+  {
     type: 'footerBlock',
     title: 'Footer',
     description: 'Site footer with link columns and newsletter signup.',

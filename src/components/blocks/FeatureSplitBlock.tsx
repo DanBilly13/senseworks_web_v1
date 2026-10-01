@@ -24,7 +24,7 @@ type FeatureSplitBlockProps = {
   imagePosition?: 'left' | 'right'
   headingLevel?: 'h2' | 'h3'
   media?: MediaField
-  spacing?: 'loose' | 'medium' | 'tight'
+  spacing?: 'loose' | 'medium' | 'tight' | 'none'
 }
 
 export function FeatureSplitBlock({
