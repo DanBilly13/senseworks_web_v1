@@ -25,6 +25,7 @@ import { ComparisonTableBlock } from '@/components/blocks/ComparisonTableBlock'
 import { CtaBannerBlock } from '@/components/blocks/CtaBannerBlock'
 import { DarkBannerBlock } from '@/components/blocks/DarkBannerBlock'
 import { FullWidthSingleBlock } from '@/components/blocks/FullWidthSingleBlock'
+import { HorizontalScrollStackBlock } from '@/components/blocks/HorizontalScrollStackBlock'
 import { BentoGridBlock } from '@/components/blocks/BentoGridBlock'
 import { MediaBlock } from '@/components/blocks/MediaBlock'
 import { FaqAccordionBlock } from '@/components/blocks/FaqAccordionBlock'
@@ -743,6 +744,52 @@ export default async function BlocksPage({
           { title: 'Lorem ipsum dolor.', description: BODY },
           { title: 'Sit amet consectetur.', description: BODY },
           { title: 'Adipiscing elit sed.', description: BODY },
+        ]}
+      />
+
+      <BlockCaption
+        name="Horizontal Scroll Stack (EXPERIMENTAL, demo-only — not in Sanity yet)"
+        type="horizontalScrollStackBlock"
+        variant="keep scrolling — desktop only, stacks normally on mobile"
+      />
+      <HorizontalScrollStackBlock
+        panels={[
+          {
+            eyebrow: '01 Spara tid',
+            heading: 'Tiden tas från insamlingen, inte från granskningen.',
+            body: BODY,
+            media: {
+              mediaType: 'image',
+              image: {
+                _type: 'image',
+                asset: { _type: 'reference', _ref: 'image-514afea5d88ffb013be9c17be09f35668480f249-3240x1818-webp' },
+              },
+            },
+          },
+          {
+            eyebrow: '02 Kvalitet',
+            heading: 'Vyn visar var granskningen står, inte vem som är sämst.',
+            body: BODY,
+            media: {
+              mediaType: 'image',
+              image: {
+                _type: 'image',
+                asset: { _type: 'reference', _ref: 'image-514afea5d88ffb013be9c17be09f35668480f249-3240x1818-webp' },
+              },
+            },
+          },
+          {
+            eyebrow: '03 Egenart',
+            heading: 'Lorem ipsum dolor sit amet consectetur adipiscing.',
+            body: BODY,
+            media: {
+              mediaType: 'image',
+              image: {
+                _type: 'image',
+                asset: { _type: 'reference', _ref: 'image-514afea5d88ffb013be9c17be09f35668480f249-3240x1818-webp' },
+              },
+            },
+          },
         ]}
       />
 
