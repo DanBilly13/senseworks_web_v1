@@ -80,6 +80,14 @@ const HEADING_WEIGHT_CLASS: Record<HeadingLevel, string> = {
   h4: 'font-bold',
 }
 
+// Trying Medium instead of Bold specifically for light text on a dark
+// background — white-on-dark optically reads heavier than the same
+// weight in dark-on-light (an old print-typography effect, not a
+// rendering bug — see the WebKit font-smoothing attempt this replaced,
+// which didn't actually move the needle on modern macOS). Only the
+// inverse tone steps down; default-tone headings are unaffected.
+const INVERSE_HEADING_WEIGHT_CLASS = 'font-medium'
+
 const MAX_WIDTH_CLASS: Record<WidthKey, string> = {
   sm: 'max-w-prose-sm',
   md: 'max-w-prose-md',
@@ -141,7 +149,7 @@ export function SectionIntro({
         <Heading
           className={[
             HEADING_TEXT_CLASS[Heading],
-            HEADING_WEIGHT_CLASS[Heading],
+            tone === 'inverse' ? INVERSE_HEADING_WEIGHT_CLASS : HEADING_WEIGHT_CLASS[Heading],
             'text-balance',
             headingColor,
             MAX_WIDTH_CLASS[headingMaxWidth ?? maxWidth],

@@ -380,17 +380,6 @@ body {
   background: var(--color-surface);
   color: var(--color-foreground);
   font-family: var(--font-sans);
-  /* Thins down the extra weight macOS/iOS WebKit's default anti-
-     aliasing adds to text — most noticeable on light text over a dark
-     background (Dark Banner, Horizontal Scroll Stack, inverse-tone
-     sections), where it reads as visibly heavier than the same weight
-     in dark-on-light. Doesn't touch the separate, genuine optical
-     illusion at play there (light shapes on dark optically "bleed" and
-     look bolder regardless of rendering) — just removes the renderer's
-     own extra contribution on top of it. No effect on Windows
-     (ClearType isn't governed by this). */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Lenis (SmoothScrollProvider) drives scroll via JS rather than the

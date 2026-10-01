@@ -44,7 +44,11 @@ export function FeatureSplitDarkBlock({
       <div className={panelClassName}>
         <div className="w-full md:max-w-prose-xs md:shrink-0">
           <div className="flex flex-col gap-medium">
-            {heading && <h3 className="text-h3 font-bold text-balance text-background">{heading}</h3>}
+            {/* Medium, not Bold — same "Dan: try Medium on dark
+                backgrounds" call as SectionIntro's inverse tone; this
+                block is always on a dark bg so it never gets the
+                default-tone Bold at all. */}
+            {heading && <h3 className="text-h3 font-medium text-balance text-background">{heading}</h3>}
             {subhead && (
               <p
                 className="text-body-lg font-medium text-background"
