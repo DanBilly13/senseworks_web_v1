@@ -16,6 +16,7 @@ type SocialPlatform = 'x' | 'linkedin' | 'github' | 'youtube' | 'instagram'
 type SocialLink = { platform: SocialPlatform; href: string }
 type FooterBlockProps = {
   linkColumns?: FooterLinkColumn[]
+  showNewsletter?: boolean
   newsletterHeading?: string
   newsletterPlaceholder?: string
   socialLinks?: SocialLink[]
@@ -33,6 +34,7 @@ const SOCIAL_ICON: Record<SocialPlatform, ReactNode> = {
 
 export function FooterBlock({
   linkColumns = [],
+  showNewsletter = true,
   newsletterHeading,
   newsletterPlaceholder = 'you@company.com',
   socialLinks = [],
@@ -51,10 +53,14 @@ export function FooterBlock({
               height={31}
               className="h-medium-large w-auto self-start"
             />
-            {newsletterHeading && (
-              <p className="text-body text-background/80">{newsletterHeading}</p>
+            {showNewsletter && (
+              <>
+                {newsletterHeading && (
+                  <p className="text-body text-background/80">{newsletterHeading}</p>
+                )}
+                <NewsletterForm heading={newsletterHeading} placeholder={newsletterPlaceholder} />
+              </>
             )}
-            <NewsletterForm heading={newsletterHeading} placeholder={newsletterPlaceholder} />
           </div>
           {linkColumns.length > 0 && (
             <div className="grid grid-cols-2 gap-large sm:grid-cols-3">

@@ -46,15 +46,23 @@ export const footerBlock = defineType({
       ],
     }),
     defineField({
+      name: 'showNewsletter',
+      title: 'Show newsletter signup',
+      type: 'boolean',
+      initialValue: true,
+    }),
+    defineField({
       name: 'newsletterHeading',
       title: 'Newsletter heading',
       type: 'string',
+      hidden: ({ parent }) => parent?.showNewsletter === false,
     }),
     defineField({
       name: 'newsletterPlaceholder',
       title: 'Newsletter input placeholder',
       type: 'string',
       initialValue: 'you@company.com',
+      hidden: ({ parent }) => parent?.showNewsletter === false,
     }),
     defineField({
       name: 'socialLinks',

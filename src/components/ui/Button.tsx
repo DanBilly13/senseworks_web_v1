@@ -42,8 +42,11 @@ export const buttonVariants = cva(
         // line-height, so this pins the height directly and lets the
         // button's own items-center do the rest. 64px on mobile, 88px
         // (--height-button-xl) from md: up, with the label bumped up
-        // one type step (body-sm -> body) to match the bigger button.
-        xl: 'h-2xl px-large text-body-sm md:h-button-xl md:px-2xl md:text-body',
+        // one type step at each breakpoint (body -> body-lg, mobile's
+        // own step up from the other sizes' body-sm) so it stands out
+        // against the bigger button instead of reading proportionally
+        // smaller.
+        xl: 'h-2xl px-large text-body md:h-button-xl md:px-2xl md:text-body-lg',
       },
     },
     defaultVariants: { variant: 'filled-dark', size: 'md' },
