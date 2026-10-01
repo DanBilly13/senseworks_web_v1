@@ -25,6 +25,7 @@ import { CaseStudyGridBlock } from './CaseStudyGridBlock'
 import { CtaBannerBlock } from './CtaBannerBlock'
 import { DarkBannerBlock } from './DarkBannerBlock'
 import { FullWidthSingleBlock } from './FullWidthSingleBlock'
+import { HorizontalScrollStackBlock } from './HorizontalScrollStackBlock'
 import type { PageBlock } from '@/lib/sanity/getPage'
 
 const BLOCK_COMPONENTS = {
@@ -54,6 +55,7 @@ const BLOCK_COMPONENTS = {
   ctaBannerBlock: CtaBannerBlock,
   darkBannerBlock: DarkBannerBlock,
   fullWidthSingleBlock: FullWidthSingleBlock,
+  horizontalScrollStackBlock: HorizontalScrollStackBlock,
   footerBlock: FooterBlock,
 } as const
 

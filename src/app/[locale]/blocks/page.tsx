@@ -748,7 +748,7 @@ export default async function BlocksPage({
       />
 
       <BlockCaption
-        name="Horizontal Scroll Stack (EXPERIMENTAL, demo-only — not in Sanity yet)"
+        name="Horizontal Scroll Stack (EXPERIMENTAL)"
         type="horizontalScrollStackBlock"
         variant="keep scrolling — desktop only, stacks normally on mobile"
       />

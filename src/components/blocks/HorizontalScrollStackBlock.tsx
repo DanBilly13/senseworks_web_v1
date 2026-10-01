@@ -13,8 +13,23 @@ export type ScrollStackPanelData = {
   media?: MediaField
 }
 
+type SpacingValue = 'loose' | 'medium' | 'tight' | 'none'
+
 type HorizontalScrollStackBlockProps = {
   panels: ScrollStackPanelData[]
+  spacing?: SpacingValue
+}
+
+// Same four tiers/values as the shared "Section spacing" field, applied
+// as a margin-bottom on this block's own outer wrapper — same reasoning
+// as Full Width Single's own SECTION_GAP_MB_CLASS (this block can't
+// route through SectionShell itself: desktop's pinned stage needs
+// bespoke full-bleed markup).
+const SECTION_GAP_MB_CLASS: Record<SpacingValue, string> = {
+  loose: 'mb-section-gap-loose',
+  medium: 'mb-section-gap-medium',
+  tight: 'mb-section-gap-tight',
+  none: 'mb-none',
 }
 
 // Shared markup for a single slide — same content shape as Full Width
@@ -79,26 +94,27 @@ function ScrollStackPanel({
   )
 }
 
-// Experimental, demo-page-only for now (not wired into Sanity yet —
-// deliberately, so the motion/feel can be tuned freely without a
-// schema migration every adjustment). Horizontally scrolls through a
-// handful of full-bleed slides as the page scrolls vertically, instead
-// of them stacking on top of each other — like Apple's pinned
-// horizontal-scroll product sections. The first slide starts centered
-// in the viewport; later slides peek in from the right and the one
-// behind dims as the next one takes over. Reverts to a plain vertical
-// stack on mobile via a CSS-only md:hidden/hidden md:block split (not
-// a JS check) — same pattern as Hero Image Overlay Card's own
-// desktop-only scroll rig.
-export function HorizontalScrollStackBlock({ panels }: HorizontalScrollStackBlockProps) {
+// Still experimental — the motion timing and the opacity floor on the
+// "already passed" side are tuned by eye, not settled — but now wired
+// into Sanity (2-6 editor-authored slides) rather than demo-only.
+// Horizontally scrolls through a handful of full-bleed slides as the
+// page scrolls vertically, instead of them stacking on top of each
+// other — like Apple's pinned horizontal-scroll product sections. The
+// first slide starts centered in the viewport; later slides peek in
+// from the right and the one behind dims as the next one takes over.
+// Reverts to a plain vertical stack on mobile via a CSS-only
+// md:hidden/hidden md:block split (not a JS check) — same pattern as
+// Hero Image Overlay Card's own desktop-only scroll rig.
+export function HorizontalScrollStackBlock({ panels, spacing = 'loose' }: HorizontalScrollStackBlockProps) {
   const wrapperRef = useRef<HTMLDivElement>(null)
   // How much extra scroll each panel-to-panel step takes, tuned by eye
   // — not yet settled, part of what we're playing with.
   const DWELL_VH_PER_PANEL = 70
   const { scrollYProgress } = useScroll({ target: wrapperRef, offset: ['start start', 'end end'] })
   // 0 while the first slide is centered, panels.length - 1 once the
-  // last one is.
-  const activeIndex = useTransform(scrollYProgress, [0, 1], [0, panels.length - 1])
+  // last one is (clamped at 0 below when there's only one slide, since
+  // useTransform's input range can't collapse to a single point).
+  const activeIndex = useTransform(scrollYProgress, [0, 1], [0, Math.max(panels.length - 1, 1)])
   // Shifts the track left by one slide-width-plus-gutter per whole
   // step of activeIndex — the CSS calc (not a numeric px transform)
   // is what lets the slide width stay a vw-relative token instead of
@@ -108,8 +124,13 @@ export function HorizontalScrollStackBlock({ panels }: HorizontalScrollStackBloc
     (v) => `calc(-1 * ${v} * (var(--width-scroll-panel) + var(--spacing-medium-large)))`,
   )
 
+  // Editor hasn't added any slides yet — nothing sensible to pin/scroll.
+  // After all hooks above, never before — hooks can't be called
+  // conditionally.
+  if (!panels.length) return null
+
   return (
-    <>
+    <div className={SECTION_GAP_MB_CLASS[spacing]}>
       <div className="flex flex-col gap-large md:hidden">
         {panels.map((panel, i) => (
           <PanelContent key={i} panel={panel} />
@@ -139,6 +160,6 @@ export function HorizontalScrollStackBlock({ panels }: HorizontalScrollStackBloc
           </motion.div>
         </div>
       </div>
-    </>
+    </div>
   )
 }

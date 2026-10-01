@@ -154,6 +154,12 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
       'Like CTA Banner, but with an image below the text — full-bleed tone background, text and image both capped at the normal page content width.',
   },
   {
+    type: 'horizontalScrollStackBlock',
+    title: 'Horizontal Scroll Stack',
+    description:
+      'Desktop: pins in place and scrolls horizontally through 2-6 full-bleed slides as the page scrolls down, one centered at a time, dimming as each is scrolled past. Stacks vertically on mobile.',
+  },
+  {
     type: 'footerBlock',
     title: 'Footer',
     description: 'Site footer with link columns and newsletter signup.',
