@@ -16,15 +16,24 @@ function isRealImage(
 
 // Bypasses Media for a real image — same reasoning as Full Width
 // Single's own CropFadeImage: Media has no hook for a fixed
-// object-position at full (100%) scale, which is all this needs
-// (object-top, so a tall app screenshot crops from the bottom rather
-// than the vertical center). Falls back to Media for anything else
-// (video/lottie/an image type with no asset uploaded yet).
+// object-position at full (100%) scale or a mask, both of which this
+// needs (object-top, so a tall app screenshot crops from the bottom
+// rather than the vertical center; the same bottom fade Full Width
+// Single uses, desktop only — --media-fade-bottom is 'none' below
+// md:). Falls back to Media for anything else (video/lottie/an image
+// type with no asset uploaded yet).
 function PanelImage({ media, alt, className }: { media?: MediaField; alt: string; className: string }) {
   if (isRealImage(media)) {
     return (
       <div className={`relative overflow-hidden ${className}`}>
-        <Image src={urlFor(media.image).url()} alt={media.alt || alt} fill sizes="50vw" className="object-cover object-top" />
+        <Image
+          src={urlFor(media.image).url()}
+          alt={media.alt || alt}
+          fill
+          sizes="50vw"
+          className="object-cover object-top"
+          style={{ maskImage: 'var(--media-fade-bottom)', WebkitMaskImage: 'var(--media-fade-bottom)' }}
+        />
       </div>
     )
   }
@@ -82,7 +91,7 @@ function PanelContent({ panel }: { panel: ScrollStackPanelData }) {
         <PanelImage
           media={panel.media}
           alt={panel.heading ?? ''}
-          className="aspect-media w-full rounded-lg md:aspect-media-wide"
+          className="aspect-media w-full rounded-lg md:aspect-media-wide md:rounded-t-lg md:rounded-b-none"
         />
       )}
       {panel.body && (
