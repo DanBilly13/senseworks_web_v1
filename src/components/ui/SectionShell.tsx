@@ -26,7 +26,11 @@ type SectionShellProps = {
   // also give their card grid a matching mobile gap (gap-small) and
   // their cards matching internal padding (p-medium-large) — this
   // prop only handles the section's own edge, not those.
-  px?: 'default' | 'boxed'
+  // 'full' is 0 on mobile (edge-to-edge) — for a single boxed panel
+  // that itself goes full screen width there, not a grid of several
+  // separately-boxed cards (that's 'boxed') — same md:px-medium-large
+  // as 'boxed' at desktop.
+  px?: 'default' | 'boxed' | 'full'
   sectionClassName?: string
   className?: string
   ariaLabel?: string
@@ -42,6 +46,7 @@ const MAX_WIDTH_CLASS = {
 const PX_CLASS = {
   default: 'px-large md:px-medium-large',
   boxed: 'px-small md:px-medium-large',
+  full: 'md:px-medium-large',
 }
 
 // Exported so the couple of blocks that can't route through

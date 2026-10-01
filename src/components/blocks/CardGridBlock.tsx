@@ -55,6 +55,16 @@ type CardGridBlockProps = {
   // Adds an optional 7:5 image above each card's eyebrow — off by
   // default, and only shown on a card that actually has one uploaded.
   showImage?: boolean
+  // 'cards' (default): every item is its own separately rounded,
+  // backgrounded box with a real gap between them — today's look.
+  // 'merged': the tone's background/rounding/border move from each
+  // item onto the grid itself instead — one shared panel, columns
+  // sitting flush with no gap between them, no divider either (Dan's
+  // call — "start with nothing"). Goes full screen width on mobile
+  // (0 outer margin, rounding dropped there — same reasoning as Media
+  // Block's full-bleed image) with each item's own padding widened to
+  // match, so text still lands 32px from the true screen edge.
+  layout?: 'cards' | 'merged'
   spacing?: 'loose' | 'medium' | 'tight' | 'none'
 }
 
@@ -69,10 +79,13 @@ const GRID_COLS_CLASS: Record<'1' | '2' | '3' | '4', string> = {
 // contrasts against the page). accent: our accent-yellow bg, plain
 // black text — same default SectionIntro tone as the light card,
 // since --color-accent-foreground already resolves to --color-foreground.
-const CARD_CLASS: Record<CardTone, string> = {
-  default: 'rounded-lg border border-border bg-background',
-  dark: 'rounded-lg bg-foreground',
-  accent: 'rounded-lg bg-accent',
+// Rounding lives separately from this (see TONE_SURFACE_CLASS call
+// sites below) since 'merged' layout needs it on the grid itself
+// instead of each item, and drops it on mobile entirely.
+const TONE_SURFACE_CLASS: Record<CardTone, string> = {
+  default: 'border border-border bg-background',
+  dark: 'bg-foreground',
+  accent: 'bg-accent',
 }
 
 // Mirrors SectionIntro's own HEADING_LINE_HEIGHT_GAP but without the
@@ -122,30 +135,52 @@ export function CardGridBlock({
   headingLevel = 'h4',
   numberedEyebrow = false,
   showImage = false,
+  layout = 'cards',
   spacing = 'loose',
 }: CardGridBlockProps) {
   // D7: a block with no content simply doesn't render.
   if (!items.length) return null
 
+  const merged = layout === 'merged'
+
   return (
-    <SectionShell px="boxed" py={spacing}>
+    <SectionShell px={merged ? 'full' : 'boxed'} py={spacing}>
       {/* Grid's default align-items: stretch makes every card in a row
           match the tallest one, on desktop's multi-column row — no
           extra height/flex wiring needed for that. Single column on
           mobile just stacks them at their own natural heights instead.
-          gap-small/md:gap-large pairs with SectionShell's px="boxed"
-          (8px) and each card's own horizontal px-medium-large (24px):
-          the card's TEXT lands 8+24=32px from the edge either way, same
-          as every non-boxed section's direct 32px padding — only the
-          box itself hugs closer to the edge on mobile. Desktop's
-          horizontal padding (32px gap, 32px card padding) is unchanged.
-          The card's own TOP padding is separate from this rhythm and
-          responds to whether it has an image — see hasImage below. */}
-      <div className={`grid grid-cols-1 gap-small md:gap-large ${GRID_COLS_CLASS[columns]}`}>
+          'cards': gap-small/md:gap-large pairs with SectionShell's
+          px="boxed" (8px) and each card's own horizontal
+          px-medium-large (24px): the card's TEXT lands 8+24=32px from
+          the edge either way, same as every non-boxed section's direct
+          32px padding — only the box itself hugs closer to the edge on
+          mobile. Desktop's horizontal padding (32px gap, 32px card
+          padding) is unchanged. 'merged': no gap at all (columns sit
+          flush — see TONE_SURFACE_CLASS above), and the surface/
+          rounding move here instead of onto each item — rounded-none
+          on mobile since the panel goes full screen width there (same
+          reasoning as Media Block's full-bleed image), rounded-lg
+          again once SectionShell's own px="full" restores a page
+          margin at md:. The card's own TOP padding is separate from
+          this rhythm and responds to whether it has an image — see
+          hasImage below. */}
+      <div
+        className={[
+          'grid grid-cols-1',
+          merged ? 'overflow-hidden rounded-none md:rounded-lg' : 'gap-small md:gap-large',
+          merged ? TONE_SURFACE_CLASS[tone] : '',
+          GRID_COLS_CLASS[columns],
+        ]
+          .filter(Boolean)
+          .join(' ')}
+      >
         {items.map((item, index) => {
           const hasImage = showImage && !!item.image
           return (
-            <div key={index} className={`flex flex-col ${CARD_CLASS[tone]}`}>
+            <div
+              key={index}
+              className={`flex flex-col ${merged ? '' : `rounded-lg ${TONE_SURFACE_CLASS[tone]}`}`}
+            >
               {/* Image (when present) sits below the text, inset within
                   the card's own padding like Bento Grid's media — not
                   flush against the card's edges. Top padding is always
@@ -154,9 +189,14 @@ export function CardGridBlock({
                   image-to-card-edge gap) and the image's own mt-large
                   supplies the 32px gap up from the body text. With no
                   image, bottom padding falls back to the heading-line-
-                  height-based gap it always used. */}
+                  height-based gap it always used. Horizontal padding is
+                  wider on mobile in 'merged' layout (flat px-large,
+                  32px) than 'cards' (px-medium-large, 24px) — 'merged'
+                  has no outer section padding of its own on mobile to
+                  combine with, so this is the only thing standing
+                  between the text and the true screen edge there. */}
               <div
-                className="flex flex-1 flex-col px-medium-large pt-large md:px-large"
+                className={`flex flex-1 flex-col pt-large ${merged ? 'px-large' : 'px-medium-large md:px-large'}`}
                 style={{ paddingBottom: hasImage ? undefined : CARD_PADDING_BOTTOM_VAR[headingLevel] }}
               >
                 <SectionIntro

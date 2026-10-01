@@ -69,6 +69,21 @@ export const cardGridBlock = defineType({
       type: 'boolean',
       initialValue: false,
     }),
+    defineField({
+      name: 'layout',
+      title: 'Card layout',
+      description:
+        'Cards: each column is its own separately boxed card, with a gap between them. Merged: the card style becomes one shared panel — columns sit flush with no gap, and it goes full screen width on mobile.',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Cards (default)', value: 'cards' },
+          { title: 'Merged', value: 'merged' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'cards',
+    }),
     spacingField,
     defineField({
       name: 'items',

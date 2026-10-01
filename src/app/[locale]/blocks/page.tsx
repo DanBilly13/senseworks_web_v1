@@ -393,6 +393,22 @@ export default async function BlocksPage({
         ]}
       />
       <BlockCaption
+        name="Card Grid — Merged, Dark"
+        type="cardGridBlock"
+        variant='numberedEyebrow: true, tone: "dark", layout: "merged"'
+      />
+      <CardGridBlock
+        columns="3"
+        tone="dark"
+        numberedEyebrow
+        layout="merged"
+        items={[
+          { eyebrow: '01 TID', heading: 'Lorem ipsum dolor', body: BODY },
+          { eyebrow: '02 KVALITET', heading: 'Sit amet consectetur', body: BODY },
+          { eyebrow: '03 EGENART', heading: 'Adipiscing elit sed', body: BODY },
+        ]}
+      />
+      <BlockCaption
         name="Card Grid — Numbered Eyebrow, Default"
         type="cardGridBlock"
         variant='numberedEyebrow: true'
