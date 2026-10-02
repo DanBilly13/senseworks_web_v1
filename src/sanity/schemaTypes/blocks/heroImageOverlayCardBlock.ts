@@ -30,7 +30,9 @@ export const heroImageOverlayCardBlock = defineType({
     defineField({ name: 'media', title: 'Media', type: 'media' }),
     defineField({
       name: 'cardBackground',
-      title: 'Card background',
+      title: 'Text card background',
+      description:
+        'The fill behind the eyebrow/headline/body/button card itself — not the backdrop around it or the video (see Backdrop color, below).',
       type: 'string',
       options: {
         list: [
@@ -58,16 +60,16 @@ export const heroImageOverlayCardBlock = defineType({
     }),
     defineField({
       name: 'tone',
-      title: 'Area around video',
+      title: 'Backdrop color',
       description:
-        'Background color for the space around the video — to its sides once it narrows on desktop, the gutter beside it on mobile. Not the card overlay itself (Card background, above).',
+        'The page background showing around the video and (at Card width 50%) beside the text card — NOT the text card’s own fill (see Text card background, above). Only visible where the card doesn’t fully cover the row, e.g. has little effect at Card width 100%.',
       type: 'string',
       options: {
         list: [
           { title: 'Default (muted background)', value: 'default' },
           { title: 'Inverse (dark background)', value: 'inverse' },
           { title: 'Accent (accent background)', value: 'accent' },
-          { title: 'Gradient (same as the gradient card background)', value: 'gradient' },
+          { title: 'Gradient (same accent gradient as the card option)', value: 'gradient' },
         ],
         layout: 'radio',
       },
