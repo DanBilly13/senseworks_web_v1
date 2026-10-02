@@ -84,7 +84,15 @@ function Field({ label, htmlFor, children }: { label: string; htmlFor: string; c
   )
 }
 
-function BookMeetingContent({ copy, contact }: { copy: Copy; contact: NonNullable<BookMeetingSettings>['contact'] }) {
+function BookMeetingContent({
+  copy,
+  contact,
+  showContact,
+}: {
+  copy: Copy
+  contact: NonNullable<BookMeetingSettings>['contact']
+  showContact: boolean
+}) {
   const [submitted, setSubmitted] = useState(false)
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -104,28 +112,30 @@ function BookMeetingContent({ copy, contact }: { copy: Copy; contact: NonNullabl
           <h2 className="text-h2 font-bold text-balance text-foreground">{copy.heading}</h2>
           <p className="text-body-lg text-muted-foreground">{copy.intro}</p>
         </div>
-        <div className="flex flex-col gap-medium">
-          {contact?.photo && (
-            <Media
-              media={{ mediaType: 'image', image: contact.photo }}
-              alt={contact.name ?? ''}
-              className="size-2xl shrink-0 rounded-full"
-              background="none"
-            />
-          )}
-          <div className="flex flex-col gap-small">
-            <h3 className="text-body-lg font-bold text-foreground">{copy.contactTitle}</h3>
-            <p className="text-body text-muted-foreground">{copy.contactBody}</p>
-            {contact?.email && (
-              <a
-                href={`mailto:${contact.email}`}
-                className="text-body font-medium text-foreground underline underline-offset-4"
-              >
-                {contact.email}
-              </a>
+        {showContact && (
+          <div className="flex flex-col gap-medium">
+            {contact?.photo && (
+              <Media
+                media={{ mediaType: 'image', image: contact.photo }}
+                alt={contact.name ?? ''}
+                className="size-2xl shrink-0 rounded-full"
+                background="none"
+              />
             )}
+            <div className="flex flex-col gap-small">
+              <h3 className="text-body-lg font-bold text-foreground">{copy.contactTitle}</h3>
+              <p className="text-body text-muted-foreground">{copy.contactBody}</p>
+              {contact?.email && (
+                <a
+                  href={`mailto:${contact.email}`}
+                  className="text-body font-medium text-foreground underline underline-offset-4"
+                >
+                  {contact.email}
+                </a>
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {submitted ? (
@@ -214,7 +224,12 @@ export function BookMeetingProvider({
       {/* Closing unmounts the content, so reopening starts from a blank
           form rather than the previous "thank you" state. */}
       <Modal open={isOpen} onClose={close} title={copy.heading} size="lg" showTitle={false}>
-        <BookMeetingContent copy={copy} contact={settings?.contact} />
+        <BookMeetingContent
+          copy={copy}
+          contact={settings?.contact}
+          // Unset (an older document, or no document at all) counts as on.
+          showContact={settings?.showContact !== false}
+        />
       </Modal>
     </BookMeetingContext.Provider>
   )

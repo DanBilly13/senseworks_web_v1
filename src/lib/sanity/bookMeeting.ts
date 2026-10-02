@@ -10,6 +10,7 @@ export type BookMeetingSettings = {
   submitLabel?: string
   thanksHeading?: string
   thanksBody?: string
+  showContact?: boolean
   contact?: { name?: string; photo?: SanityImageSource; email?: string } | null
 } | null
 
@@ -26,6 +27,7 @@ const bookMeetingQuery = groq`
     "submitLabel": coalesce(submitLabel[$locale], submitLabel.en),
     "thanksHeading": coalesce(thanksHeading[$locale], thanksHeading.en),
     "thanksBody": coalesce(thanksBody[$locale], thanksBody.en),
+    showContact,
     "contact": contact->{ name, photo, email }
   }
 `

@@ -6,16 +6,23 @@ import { defineType, defineField } from 'sanity'
 // each other in one place is easier to keep in step than two documents.
 // A language left empty falls back to English, then to the copy
 // hardcoded in BookMeetingModal.tsx.
+// Hides the contact-block fields while "Show contact block" is off.
+const hiddenWhenContactOff = ({ document }: { document?: Record<string, unknown> }) =>
+  document?.showContact === false
+
 function localized(
   name: string,
   title: string,
-  options: { multiline?: boolean; description?: string } = {},
+  options: { multiline?: boolean; description?: string; hiddenWhenContactOff?: boolean } = {},
 ) {
   const type = options.multiline ? 'text' : 'string'
   return defineField({
     name,
     title,
     description: options.description,
+    ...(options.hiddenWhenContactOff
+      ? { hidden: hiddenWhenContactOff }
+      : {}),
     type: 'object',
     options: { columns: 2 },
     fields: [
@@ -35,8 +42,17 @@ export const bookMeetingSettings = defineType({
     localized('heading', 'Heading', { description: 'The big title at the top left of the modal.' }),
     localized('intro', 'Intro', { multiline: true }),
     defineField({
+      name: 'showContact',
+      title: 'Show contact block',
+      description:
+        'The photo, heading, text and email under the intro. Turn off to show just the heading and intro on the left.',
+      type: 'boolean',
+      initialValue: true,
+    }),
+    defineField({
       name: 'contact',
       title: 'Contact person',
+      hidden: hiddenWhenContactOff,
       description:
         'Picked from the team. Their photo and email are shown in the modal — which makes that email public, so only pick someone happy to be contacted directly. The email comes from their Team member entry.',
       type: 'reference',
