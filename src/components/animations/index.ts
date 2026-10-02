@@ -6,6 +6,7 @@ import { SettingsFormAnimation } from './SettingsFormAnimation'
 import { SenseworksTableWalkthrough } from './SenseworksTableWalkthrough'
 import { RosterFill } from './RosterFill'
 import { CustomiseCanvas } from './CustomiseCanvas'
+import { IntegrationsScreenAnimation } from './IntegrationsScreenAnimation'
 
 type AnimationEntry = {
   // Every animation accepts `paused` — Media freezes it (not unmounts
@@ -50,6 +51,10 @@ export const ANIMATION_COMPONENTS = {
   } as AnimationEntry,
   customiseAnimation: {
     component: CustomiseCanvas,
+    canvas: { width: 700, height: 500 },
+  } as AnimationEntry,
+  integrationsScreenAnimation: {
+    component: IntegrationsScreenAnimation,
     canvas: { width: 700, height: 500 },
   } as AnimationEntry,
 } satisfies Record<string, AnimationEntry>

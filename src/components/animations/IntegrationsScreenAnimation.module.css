@@ -1,0 +1,380 @@
+/* IntegrationsAnimation — 700×500 native canvas. All layout geometry is literal px:
+   the canvas in canvas px, everything inside .camera in world px (the Data page at 1584 px). */
+
+.canvas {
+  --isc-ink: var(--color-foreground);
+  --isc-ink-soft: rgba(16, 24, 41, 0.8);
+  --isc-white: #ffffff;
+  --isc-rule: rgba(16, 24, 41, 0.08);
+  --isc-element-border: rgba(0, 0, 0, 0.1);
+  --isc-layer: rgba(255, 255, 255, 0.6);
+  --isc-layer-border: #ffffff;
+  --isc-drop-fill: rgba(255, 255, 255, 0.4);
+  --isc-drop-border: #91caff;
+  --isc-link: #1677ff;
+  --isc-success: #20cb7d;
+  --isc-success-bg: #f0fff6;
+  --isc-success-ink: #12a668;
+  --isc-muted: #909aac;
+  --isc-wash-from: var(--color-accent);
+  --isc-wash-to: var(--color-surface);
+
+  position: relative;
+  width: 700px;
+  height: 500px;
+  overflow: hidden;
+  font-family: var(--font-sans);
+  color: var(--isc-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+.camera {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1600px;
+  height: 1200px;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+.icon { display: block; flex: none; }
+
+/* ---- page ---------------------------------------------------------------- */
+.page {
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  width: 1584px;
+  height: 1184px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: radial-gradient(300% 200% at 130% 90%, var(--isc-wash-from) 0%, var(--isc-wash-to) 50%);
+}
+
+.hero,
+.viewSwitch,
+.integrations,
+.types2 {
+  position: absolute;
+  left: 8px;
+  width: 1568px;
+  box-sizing: border-box;
+  border: 1px solid var(--isc-layer-border);
+  border-radius: 4px;
+  background: var(--isc-layer);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+.hero { top: 58px; height: 219px; }
+.viewSwitch { top: 285px; height: 66px; }
+.integrations { top: 359px; height: 329.5px; }
+.types2 { top: 696.5px; height: 295.5px; }
+
+/* upload hero */
+.heroTitle {
+  position: absolute;
+  left: 0;
+  top: 32px;
+  width: 1566px;
+  margin: 0;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 36.8px;
+  text-align: center;
+}
+.drop {
+  position: absolute;
+  left: 495px;
+  top: 84.8px;
+  width: 576px;
+  height: 64px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border: 1px dashed var(--isc-drop-border);
+  border-radius: 4px;
+  background: var(--isc-drop-fill);
+}
+.dropText { font-size: 16px; line-height: 24px; }
+.sources {
+  position: absolute;
+  left: 0;
+  top: 164.8px;
+  width: 1566px;
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+}
+.source {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 20px;
+  white-space: nowrap;
+}
+.link { color: var(--isc-link); }
+
+/* view switch */
+.segmented {
+  position: absolute;
+  left: 510.5px;
+  top: 18px;
+  display: flex;
+}
+.segItem {
+  box-sizing: border-box;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 21.7px;
+  color: var(--isc-ink-soft);
+  white-space: nowrap;
+}
+.segItemOn { background: var(--isc-ink); color: var(--isc-white); }
+.viewAction { position: absolute; left: 1396.4px; top: 16px; }
+
+/* panel titles */
+.panelTitle {
+  position: absolute;
+  left: 16px;
+  top: 20px;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 18.5px;
+}
+
+/* ---- integration card ------------------------------------------------------ */
+.card {
+  position: absolute;
+  width: 294px;
+  height: 249px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  background: var(--isc-white);
+  border: 1px solid var(--isc-element-border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.cardHead {
+  flex: none;
+  height: 56px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 12px 0 16px;
+}
+.logo { width: 168px; height: 40px; display: flex; align-items: center; overflow: hidden; }
+.logoImg { display: block; object-fit: contain; object-position: left center; }
+.logoName { font-size: 14px; font-weight: 500; white-space: nowrap; }
+.sync {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--isc-ink);
+  border-radius: 999px;
+}
+.cardBody {
+  flex: 1 1 auto;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 8px 16px 16px;
+}
+.note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+}
+.notePlain { font-weight: 400; }
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--isc-success-bg);
+  color: var(--isc-success-ink);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 18px;
+}
+.types { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+.type { display: flex; align-items: center; gap: 8px; }
+.typeLabel { font-size: 14px; line-height: 18px; white-space: nowrap; }
+.mark {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--isc-success);
+  color: var(--isc-white);
+}
+.markMuted {
+  background: transparent;
+  color: var(--isc-muted);
+  box-shadow: inset 0 0 0 1px var(--isc-muted);
+}
+.cardFoot {
+  flex: none;
+  height: 49px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 8px 12px 8px 16px;
+  border-top: 1px solid var(--isc-rule);
+}
+
+/* ---- button ------------------------------------------------------------------ */
+.btn {
+  box-sizing: border-box;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: var(--isc-ink);
+  color: var(--isc-white);
+  white-space: nowrap;
+}
+.btnSuccess { background: var(--isc-success); }
+.btnSecondary { background: transparent; color: var(--isc-ink); box-shadow: inset 0 0 0 1px var(--isc-ink); }
+.btnLabel { font-size: 13px; font-weight: 500; line-height: 15.6px; }
+.btnTrail {
+  width: 24px;
+  height: 24px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: -8px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+}
+
+/* ---- pointer (world px: 24px = 18px on the canvas at 150%) -------------------- */
+.pointer {
+  position: absolute;
+  left: 902.1px;
+  top: 653.9px;
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
+}
+.pointerSvg { display: block; filter: drop-shadow(0 0.67px 1.33px rgba(16, 24, 41, 0.35)); }
+
+/* ---- emphasis — sampled from the press spring (stiffness 400, damping 17) ---- */
+@keyframes iscPress {
+    0% { transform: scale(1); }
+    2.44% { transform: scale(0.9943); }
+    4.88% { transform: scale(0.9804); }
+    7.32% { transform: scale(0.9623); }
+    9.76% { transform: scale(0.9438); }
+    12.2% { transform: scale(0.9275); }
+    14.63% { transform: scale(0.9148); }
+    17.07% { transform: scale(0.9122); }
+    19.51% { transform: scale(0.9221); }
+    21.95% { transform: scale(0.9395); }
+    24.39% { transform: scale(0.96); }
+    26.83% { transform: scale(0.98); }
+    29.27% { transform: scale(0.9969); }
+    31.71% { transform: scale(1.0093); }
+    34.15% { transform: scale(1.0169); }
+    36.59% { transform: scale(1.0201); }
+    39.02% { transform: scale(1.0196); }
+    41.46% { transform: scale(1.0167); }
+    43.9% { transform: scale(1.0124); }
+    46.34% { transform: scale(1.0076); }
+    48.78% { transform: scale(1.0032); }
+    51.22% { transform: scale(0.9997); }
+    53.66% { transform: scale(0.9972); }
+    56.1% { transform: scale(0.9958); }
+    58.54% { transform: scale(0.9954); }
+    60.98% { transform: scale(0.9957); }
+    63.41% { transform: scale(0.9965); }
+    65.85% { transform: scale(0.9975); }
+    68.29% { transform: scale(0.9986); }
+    70.73% { transform: scale(0.9995); }
+    73.17% { transform: scale(1.0003); }
+    75.61% { transform: scale(1.0008); }
+    78.05% { transform: scale(1.001); }
+    80.49% { transform: scale(1.0011); }
+    82.93% { transform: scale(1.0009); }
+    85.37% { transform: scale(1.0007); }
+    87.8% { transform: scale(1.0005); }
+    90.24% { transform: scale(1.0002); }
+    92.68% { transform: scale(1); }
+    95.12% { transform: scale(0.9999); }
+    97.56% { transform: scale(0.9998); }
+    100% { transform: scale(1); }
+}
+@keyframes iscPop {
+    0% { transform: scale(1); }
+    2.56% { transform: scale(1.0099); }
+    5.13% { transform: scale(1.0344); }
+    7.69% { transform: scale(1.0659); }
+    10.26% { transform: scale(1.0983); }
+    12.82% { transform: scale(1.117); }
+    15.38% { transform: scale(1.1147); }
+    17.95% { transform: scale(1.0977); }
+    20.51% { transform: scale(1.0725); }
+    23.08% { transform: scale(1.0449); }
+    25.64% { transform: scale(1.0192); }
+    28.21% { transform: scale(0.9984); }
+    30.77% { transform: scale(0.9837); }
+    33.33% { transform: scale(0.9755); }
+    35.9% { transform: scale(0.9729); }
+    38.46% { transform: scale(0.9747); }
+    41.03% { transform: scale(0.9794); }
+    43.59% { transform: scale(0.9855); }
+    46.15% { transform: scale(0.9917); }
+    48.72% { transform: scale(0.9973); }
+    51.28% { transform: scale(1.0016); }
+    53.85% { transform: scale(1.0045); }
+    56.41% { transform: scale(1.0059); }
+    58.97% { transform: scale(1.0062); }
+    61.54% { transform: scale(1.0055); }
+    64.1% { transform: scale(1.0043); }
+    66.67% { transform: scale(1.0029); }
+    69.23% { transform: scale(1.0015); }
+    71.79% { transform: scale(1.0003); }
+    74.36% { transform: scale(0.9994); }
+    76.92% { transform: scale(0.9988); }
+    79.49% { transform: scale(0.9986); }
+    82.05% { transform: scale(0.9986); }
+    84.62% { transform: scale(0.9988); }
+    87.18% { transform: scale(0.9991); }
+    89.74% { transform: scale(0.9995); }
+    92.31% { transform: scale(0.9998); }
+    94.87% { transform: scale(1); }
+    97.44% { transform: scale(1.0002); }
+    100% { transform: scale(1); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .press { animation: iscPress 820ms linear both; }
+  .pop { animation: iscPop 780ms linear both; }
+}

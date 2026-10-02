@@ -55,6 +55,7 @@ export const media = defineType({
           { title: 'Företag Table', value: 'foretagTableAnimation' },
           { title: 'Roster Fill', value: 'rosterFillAnimation' },
           { title: 'Customise', value: 'customiseAnimation' },
+          { title: 'Integrations Screen', value: 'integrationsScreenAnimation' },
         ],
       },
       hidden: ({ parent }) => parent?.mediaType !== 'reactAnimation',

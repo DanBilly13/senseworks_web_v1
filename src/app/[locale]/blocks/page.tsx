@@ -934,6 +934,12 @@ export default async function BlocksPage({
         variant='mediaType: "reactAnimation", animation: "customiseAnimation"'
       />
       <MediaBlock media={{ mediaType: 'reactAnimation', animation: 'customiseAnimation' }} />
+      <BlockCaption
+        name="Media — React Animation (Integrations Screen)"
+        type="mediaBlock"
+        variant='mediaType: "reactAnimation", animation: "integrationsScreenAnimation"'
+      />
+      <MediaBlock media={{ mediaType: 'reactAnimation', animation: 'integrationsScreenAnimation' }} />
 
       <GroupHeading>Support</GroupHeading>
       <BlockCaption name="FAQ Accordion" type="faqAccordionBlock" />
