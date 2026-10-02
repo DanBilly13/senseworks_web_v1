@@ -139,17 +139,6 @@
      generic one. */
   --aspect-article-cover: 13 / 6;
 
-  /* The 1600x1200 (4:3) canvas the in-progress product-walkthrough
-     animation/video is authored at — distinct from --aspect-media's
-     7:5 used everywhere else (Hero split, Feature Split, Bento Grid,
-     Case Study Grid, Media block) so a box sized to this asset's real
-     shape doesn't change anyone else's frame. Shared by any
-     experimental block placing that same fixed-canvas asset at its
-     native ratio (Hero Backdrop's showcase media, Hero's Scroll
-     Reveal content-width media) rather than cropping it to fit a
-     differently-shaped box. */
-  --aspect-fixed-canvas: 4 / 3;
-
   /* 1200x1600 (3:4, portrait) — the Media block's text-overlay variant
      switches to this on mobile instead of --aspect-media's 7:5: a
      landscape ratio on a narrow phone screen leaves too little height

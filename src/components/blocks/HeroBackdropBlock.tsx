@@ -137,7 +137,7 @@ export function HeroBackdropBlock({
             // shadow-xl for more spread/blur, shadow-foreground/15
             // (the site's ink token at 15% instead of Tailwind's
             // default ~10% black) for more opacity.
-            className="-mx-medium-large aspect-fixed-canvas border-y border-border md:mx-0 md:w-full md:rounded-lg md:border md:shadow-xl md:shadow-foreground/15"
+            className="-mx-medium-large aspect-media border-y border-border md:mx-0 md:w-full md:rounded-lg md:border md:shadow-xl md:shadow-foreground/15"
           />
         )}
       </div>
