@@ -134,6 +134,7 @@ function MobileImageOverlayCard({
   media,
   spacing = 'loose',
   tone = 'default',
+  cardBackground = 'dark',
 }: HeroImageOverlayCardBlockProps) {
   return (
     // No header pull-up here (unlike HeroBackdropBlock/HeroBlock's
@@ -155,16 +156,18 @@ function MobileImageOverlayCard({
             and stretch sizing does account for negative margins,
             unlike a plain block's width:auto. No rounded corners
             either — edge-to-edge doesn't read as a floating card.
-            Always light (bg-surface — the same light grey used for
-            the page's own canvas elsewhere, not pure white) regardless
-            of the cardBackground field — that field only drives the
-            desktop version now; a dark or gradient fill read worse on
-            mobile once this became the plain, unrounded full-bleed
-            strip it is today. isDark={false} below keeps
-            text/button/eyebrow colors matching (the same "not dark"
-            path the gradient variant already used, just on a light
-            fill instead of dark). */}
-        <div className="hero-overlay-card-padding -mx-medium-large bg-surface">
+            Gradient now follows cardBackground here too (Dan: it had
+            been hardcoded light regardless) — safe to re-enable
+            without touching isDark/text colors below, since the
+            gradient fill already pairs with dark text, the same as
+            the light fill it replaces. "dark" still forces light here
+            deliberately — that one actually did read worse on mobile's
+            plain, unrounded full-bleed strip, and would need its own
+            text-color switch (isDark=false below is hardcoded) to even
+            be legible. */}
+        <div
+          className={`hero-overlay-card-padding -mx-medium-large ${cardBackground === 'gradient' ? 'bg-accent-gradient' : 'bg-surface'}`}
+        >
           <CardIntro
             eyebrow={eyebrow}
             headline={headline}
