@@ -32,9 +32,17 @@ export default async function Page({
   // site-wide default (see body in globals.css), not LP-specific.
   const isLandingPage = slug[0] === 'lp'
 
+  // Landing pages never show the footer's newsletter signup (a
+  // landing page has one job — the Book a meeting CTA), regardless of
+  // what each page's own footer block has set in Studio — forced here
+  // rather than patched per page so every future lp/* page gets it too.
+  const blocks = isLandingPage
+    ? page.blocks.map((block) => (block._type === 'footerBlock' ? { ...block, showNewsletter: false } : block))
+    : page.blocks
+
   return (
     <AnimatedButtonProvider value={isLandingPage}>
-      <BlockRenderer blocks={page.blocks} />
+      <BlockRenderer blocks={blocks} />
     </AnimatedButtonProvider>
   )
 }
