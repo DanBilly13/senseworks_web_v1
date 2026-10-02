@@ -13,9 +13,14 @@ type HeroImageOverlayCardBlockProps = {
   ctaLabel?: string
   ctaHref?: string
   media?: MediaField
-  // Desktop only — mobile always uses a light card regardless of this
-  // (see MobileImageOverlayCard's own comment).
+  // Desktop only — mobile has its own independent cardBackgroundMobile
+  // below, since the two can legitimately want different fills (e.g.
+  // dark on desktop, gradient on mobile).
   cardBackground?: 'dark' | 'gradient'
+  // Mobile-only equivalent of cardBackground above — 'light' is the
+  // original always-on mobile default (kept as the fallback so any
+  // instance that hasn't set this explicitly renders unchanged).
+  cardBackgroundMobile?: 'light' | 'dark' | 'gradient'
   cardWidth?: '50' | '100'
   spacing?: 'loose' | 'medium' | 'tight'
   // Same tones as CTA Banner/Full Width Single, plus gradient (this
@@ -134,8 +139,11 @@ function MobileImageOverlayCard({
   media,
   spacing = 'loose',
   tone = 'default',
-  cardBackground = 'dark',
+  cardBackgroundMobile = 'light',
 }: HeroImageOverlayCardBlockProps) {
+  // Only 'dark' needs light text — 'gradient' and 'light' both pair
+  // with dark text, same as the desktop card's own isDark logic.
+  const isDark = cardBackgroundMobile === 'dark'
   return (
     // No header pull-up here (unlike HeroBackdropBlock/HeroBlock's
     // full-bleed layouts) — that trick only reads right when the
@@ -147,7 +155,8 @@ function MobileImageOverlayCard({
     // deploy). Same reasoning as the desktop version's own top offset.
     // SECTION_BG only actually shows in the px-medium gutter around the
     // video below — the intro block above keeps its own explicit
-    // bg-surface regardless of tone (see that div's own comment).
+    // cardBackgroundMobile fill regardless of tone (see that div's own
+    // comment).
     <section className={`relative ${MB_CLASS[spacing]} ${SECTION_BG[tone]}`}>
       <div className="relative z-10 mx-auto flex w-full max-w-page flex-col px-medium-large">
         {/* -mx-medium-large breaks out to full-bleed (cancels this
@@ -156,17 +165,18 @@ function MobileImageOverlayCard({
             and stretch sizing does account for negative margins,
             unlike a plain block's width:auto. No rounded corners
             either — edge-to-edge doesn't read as a floating card.
-            Gradient now follows cardBackground here too (Dan: it had
-            been hardcoded light regardless) — safe to re-enable
-            without touching isDark/text colors below, since the
-            gradient fill already pairs with dark text, the same as
-            the light fill it replaces. "dark" still forces light here
-            deliberately — that one actually did read worse on mobile's
-            plain, unrounded full-bleed strip, and would need its own
-            text-color switch (isDark=false below is hardcoded) to even
-            be legible. */}
+            Independent of the desktop card's own cardBackground (Dan
+            wanted dark on desktop, gradient on mobile, on the same
+            instance) — see cardBackgroundMobile's own schema comment. */}
         <div
-          className={`hero-overlay-card-padding -mx-medium-large ${cardBackground === 'gradient' ? 'bg-accent-gradient' : 'bg-surface'}`}
+          className={[
+            'hero-overlay-card-padding -mx-medium-large',
+            cardBackgroundMobile === 'gradient'
+              ? 'bg-accent-gradient'
+              : cardBackgroundMobile === 'dark'
+                ? 'bg-foreground'
+                : 'bg-surface',
+          ].join(' ')}
         >
           <CardIntro
             eyebrow={eyebrow}
@@ -174,7 +184,7 @@ function MobileImageOverlayCard({
             subhead={subhead}
             ctaLabel={ctaLabel}
             ctaHref={ctaHref}
-            isDark={false}
+            isDark={isDark}
             gapToLineHeight
           />
         </div>

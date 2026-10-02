@@ -30,9 +30,9 @@ export const heroImageOverlayCardBlock = defineType({
     defineField({ name: 'media', title: 'Media', type: 'media' }),
     defineField({
       name: 'cardBackground',
-      title: 'Text card background',
+      title: 'Text card background — desktop',
       description:
-        'The fill behind the eyebrow/headline/body/button card itself — not the backdrop around it or the video (see Backdrop color, below).',
+        'The fill behind the eyebrow/headline/body/button card itself, desktop only — not the backdrop around it or the video (see Backdrop color, below), and not mobile (see Text card background — mobile, below) — desktop and mobile can each have their own fill.',
       type: 'string',
       options: {
         list: [
@@ -42,6 +42,22 @@ export const heroImageOverlayCardBlock = defineType({
         layout: 'radio',
       },
       initialValue: 'dark',
+    }),
+    defineField({
+      name: 'cardBackgroundMobile',
+      title: 'Text card background — mobile',
+      description:
+        'Same fill, mobile only — independent of the desktop option above (e.g. dark on desktop, gradient on mobile, or any other combination).',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Light (dark text) — the original mobile default', value: 'light' },
+          { title: 'Dark (light text)', value: 'dark' },
+          { title: 'Gradient (dark text)', value: 'gradient' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'light',
     }),
     defineField({
       name: 'cardWidth',
