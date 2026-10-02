@@ -20,6 +20,19 @@ type HeroBackdropBlockProps = {
   ctaLabel?: string
   ctaHref?: string
   showcaseMedia?: MediaField
+  spacing?: 'loose' | 'medium' | 'tight' | 'none'
+}
+
+// Margin-bottom after the hero (outside its backdrop, before the next
+// block) — same four tiers as every other block's Section spacing.
+// Medium is the default because it's exactly the old fixed
+// mb-section-edge (120px desktop / 64px mobile), so heroes that never
+// set this look unchanged.
+const SECTION_GAP_MB_CLASS: Record<NonNullable<HeroBackdropBlockProps['spacing']>, string> = {
+  loose: 'mb-section-gap-loose',
+  medium: 'mb-section-gap-medium',
+  tight: 'mb-section-gap-tight',
+  none: 'mb-none',
 }
 
 const BACKGROUND_COLOR_CLASS: Record<BackgroundColor, string> = {
@@ -39,6 +52,7 @@ export function HeroBackdropBlock({
   ctaLabel,
   ctaHref,
   showcaseMedia,
+  spacing = 'medium',
 }: HeroBackdropBlockProps) {
   // Only a plain image gets to set its own height from its real aspect
   // ratio (via the asset ref's encoded dimensions) — video/lottie/
@@ -58,7 +72,8 @@ export function HeroBackdropBlock({
     // the zone's own bottom padding already provides that space.
     <section
       className={[
-        'relative mb-section-edge',
+        'relative',
+        SECTION_GAP_MB_CLASS[spacing],
         backgroundType === 'color' ? BACKGROUND_COLOR_CLASS[backgroundColor] : '',
         backgroundType === 'gradient' ? 'bg-accent-gradient' : '',
       ]
@@ -80,7 +95,7 @@ export function HeroBackdropBlock({
         <div className="absolute inset-0 bg-foreground/55" aria-hidden="true" />
       )}
       {/* pb-section-edge here (inside the backdrop) is separate from
-          the section's own mb-section-edge above (outside it, before
+          the section's own bottom margin above (outside it, before
           the next block) — without it the showcase media sat flush
           against the very edge of its own colored/gradient/image
           background, with only page background (not this hero's own

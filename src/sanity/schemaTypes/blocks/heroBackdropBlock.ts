@@ -1,5 +1,6 @@
 import { defineType, defineField } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
+import { spacingField } from '../fields/spacingField'
 
 // Experimental Hero variant: a flexible full-bleed backdrop (image,
 // solid color, or the shared accent gradient) behind text plus a
@@ -83,6 +84,14 @@ export const heroBackdropBlock = defineType({
         'Sits on top of the backdrop, below the text — starts at 50% of the viewport height while we dial this in.',
       type: 'media',
     }),
+    // Default Medium (not the shared field's Loose): that's the old
+    // fixed gap this hero already had, so existing ones don't shift.
+    {
+      ...spacingField,
+      initialValue: 'medium',
+      description:
+        'The gap below this hero, before the next block. Medium is the hero\u2019s original fixed gap.',
+    },
   ],
   preview: {
     select: { title: 'headline', backgroundType: 'backgroundType' },
