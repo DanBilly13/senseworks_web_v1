@@ -6,6 +6,7 @@ import { tag } from './documents/tag'
 import { article } from './documents/article'
 import { testimonial } from './documents/testimonial'
 import { client } from './documents/client'
+import { bookMeetingSettings } from './documents/bookMeetingSettings'
 import { headerBlock } from './blocks/headerBlock'
 import { heroBlock } from './blocks/heroBlock'
 import { heroBackdropBlock } from './blocks/heroBackdropBlock'
@@ -44,6 +45,7 @@ export const schemaTypes = [
   article,
   testimonial,
   client,
+  bookMeetingSettings,
   headerBlock,
   heroBlock,
   heroBackdropBlock,

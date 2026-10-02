@@ -1,17 +1,17 @@
 'use client'
 import { useCallback, useState } from 'react'
 import type { FormEvent, ReactNode } from 'react'
-import { usePathname } from 'next/navigation'
 import { Modal } from '@/components/ui/Modal'
+import { Media } from '@/components/ui/Media'
 import { buttonVariants } from '@/components/ui/Button'
 import { BookMeetingContext } from '@/components/ui/bookMeetingContext'
+import type { BookMeetingSettings } from '@/lib/sanity/bookMeeting'
 
 type Copy = {
   heading: string
   intro: string
   contactTitle: string
   contactBody: string
-  contactEmail: string
   nameLabel: string
   namePlaceholder: string
   emailLabel: string
@@ -25,16 +25,17 @@ type Copy = {
   thanksBody: string
 }
 
-// Hardcoded per locale for now — design-only pass, nothing is wired to a
-// backend or to Sanity yet (same D10 stance as NewsletterForm). Swedish is
-// the real copy from the existing site's contact form.
+// Fallback copy per locale — used for anything not filled in under
+// "Book a meeting" in Studio (heading, intro, contact text, button and
+// thank-you text come from there when set), and for the form field
+// labels/placeholders, which stay here. Nothing is sent anywhere yet
+// (same D10 stance as NewsletterForm).
 const COPY: Record<'sv' | 'en', Copy> = {
   sv: {
-    heading: 'Boka en tid',
-    intro: 'Kontakta oss direkt eller skicka ett meddelande så hör vi av oss.',
-    contactTitle: 'Kontakta Ian',
-    contactBody: 'Jag finns här för att hjälpa dig med alla frågor!',
-    contactEmail: 'ian@senseworks.io',
+    heading: 'Boka en genomgång',
+    intro: 'Fyll i dina uppgifter så hör vi av oss för att boka en tid som passar er.',
+    contactTitle: 'Kontakta Ian direkt',
+    contactBody: 'Jag finns här för att svara på frågor eller boka in dig direkt!',
     nameLabel: 'Ditt namn',
     namePlaceholder: 'Förnamn Efternamn',
     emailLabel: 'Epost',
@@ -48,11 +49,10 @@ const COPY: Record<'sv' | 'en', Copy> = {
     thanksBody: 'Vi hör av oss så snart vi kan.',
   },
   en: {
-    heading: 'Book a meeting',
-    intro: 'Get in touch directly or send us a message and we’ll get back to you.',
-    contactTitle: 'Contact Ian',
-    contactBody: 'I’m here to help you with any questions!',
-    contactEmail: 'ian@senseworks.io',
+    heading: 'Book a walkthrough',
+    intro: 'Fill in your details and we’ll get in touch to book a time that suits you.',
+    contactTitle: 'Contact Ian directly',
+    contactBody: 'I’m here to answer questions or book you in directly!',
     nameLabel: 'Your name',
     namePlaceholder: 'First name Last name',
     emailLabel: 'Email',
@@ -84,7 +84,7 @@ function Field({ label, htmlFor, children }: { label: string; htmlFor: string; c
   )
 }
 
-function BookMeetingContent({ copy }: { copy: Copy }) {
+function BookMeetingContent({ copy, contact }: { copy: Copy; contact: NonNullable<BookMeetingSettings>['contact'] }) {
   const [submitted, setSubmitted] = useState(false)
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -101,15 +101,27 @@ function BookMeetingContent({ copy }: { copy: Copy }) {
           <h2 className="text-h2 font-bold text-balance text-foreground">{copy.heading}</h2>
           <p className="text-body-lg text-muted-foreground">{copy.intro}</p>
         </div>
-        <div className="flex flex-col gap-small">
-          <h3 className="text-h5 font-bold text-foreground">{copy.contactTitle}</h3>
-          <p className="text-body text-muted-foreground">{copy.contactBody}</p>
-          <a
-            href={`mailto:${copy.contactEmail}`}
-            className="text-body font-medium text-foreground underline underline-offset-4"
-          >
-            {copy.contactEmail}
-          </a>
+        <div className="flex items-start gap-medium-large">
+          {contact?.photo && (
+            <Media
+              media={{ mediaType: 'image', image: contact.photo }}
+              alt={contact.name ?? ''}
+              className="size-2xl shrink-0 rounded-full"
+              background="none"
+            />
+          )}
+          <div className="flex flex-col gap-small">
+            <h3 className="text-h5 font-bold text-foreground">{copy.contactTitle}</h3>
+            <p className="text-body text-muted-foreground">{copy.contactBody}</p>
+            {contact?.email && (
+              <a
+                href={`mailto:${contact.email}`}
+                className="text-body font-medium text-foreground underline underline-offset-4"
+              >
+                {contact.email}
+              </a>
+            )}
+          </div>
         </div>
       </div>
 
@@ -172,14 +184,26 @@ function BookMeetingContent({ copy }: { copy: Copy }) {
 
 // Mounted once for the whole site (see the locale layout) so any Button
 // with href="#book-meeting" can open it, wherever it sits.
-export function BookMeetingProvider({ children }: { children: ReactNode }) {
+export function BookMeetingProvider({
+  children,
+  locale,
+  settings,
+}: {
+  children: ReactNode
+  locale: string
+  settings: BookMeetingSettings
+}) {
   const [isOpen, setIsOpen] = useState(false)
   const open = useCallback(() => setIsOpen(true), [])
   const close = useCallback(() => setIsOpen(false), [])
-  // Every route lives under a locale segment, same as HeaderBlock reads it.
-  const pathname = usePathname()
-  const locale = pathname.split('/')[1] === 'sv' ? 'sv' : 'en'
-  const copy = COPY[locale]
+
+  // Studio's text wins where it's filled in; anything blank falls back
+  // to the hardcoded copy for that locale.
+  const copy: Copy = { ...COPY[locale === 'sv' ? 'sv' : 'en'] }
+  for (const key of ['heading', 'intro', 'contactTitle', 'contactBody', 'submit', 'thanksHeading', 'thanksBody'] as const) {
+    const fromStudio = key === 'submit' ? settings?.submitLabel : settings?.[key]
+    if (fromStudio) copy[key] = fromStudio
+  }
 
   return (
     <BookMeetingContext.Provider value={{ open }}>
@@ -187,7 +211,7 @@ export function BookMeetingProvider({ children }: { children: ReactNode }) {
       {/* Closing unmounts the content, so reopening starts from a blank
           form rather than the previous "thank you" state. */}
       <Modal open={isOpen} onClose={close} title={copy.heading} size="lg" showTitle={false}>
-        <BookMeetingContent copy={copy} />
+        <BookMeetingContent copy={copy} contact={settings?.contact} />
       </Modal>
     </BookMeetingContext.Provider>
   )

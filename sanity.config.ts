@@ -33,4 +33,13 @@ export default defineConfig({
     }),
   ],
   schema: { types: schemaTypes },
+  document: {
+    // Book a meeting is a singleton: no "create new", and no way to
+    // delete or duplicate the one that exists.
+    newDocumentOptions: (prev) => prev.filter((option) => option.templateId !== 'bookMeetingSettings'),
+    actions: (prev, { schemaType }) =>
+      schemaType === 'bookMeetingSettings'
+        ? prev.filter(({ action }) => action !== 'delete' && action !== 'duplicate' && action !== 'unpublish')
+        : prev,
+  },
 })

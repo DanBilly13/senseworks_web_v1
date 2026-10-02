@@ -23,7 +23,7 @@ export const teamMember = defineType({
       name: 'email',
       type: 'string',
       description:
-        'Internal use only — never queried by the public site (Om Oss shows LinkedIn/X instead), so this is safe to fill in without it becoming a public spam target.',
+        'Not shown anywhere by default — Om Oss shows LinkedIn/X instead, so this is safe to fill in without it becoming a public spam target. The one exception: if this person is picked as the contact on "Book a meeting", their email is shown publicly in that modal.',
     }),
   ],
   preview: {
