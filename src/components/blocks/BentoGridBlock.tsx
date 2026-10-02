@@ -64,13 +64,13 @@ export function BentoGridBlock({
             return (
               <div
                 key={index}
-                className={`relative flex flex-col rounded-lg border border-border bg-background p-medium-large md:p-large ${cardSpanClass} ${spansTwoRows ? 'md:row-span-2' : ''}`}
+                className={`relative flex flex-col rounded-lg border border-border p-medium-large md:p-large ${cardSpanClass} ${spansTwoRows ? 'md:row-span-2' : ''}`}
               >
                 <button
                   type="button"
                   onClick={() => setOpenIndex(index)}
                   aria-label={`Expand ${item.heading}`}
-                  className="absolute top-medium-large right-medium-large flex size-large items-center justify-center rounded-full border border-border text-foreground hover:bg-muted"
+                  className="absolute top-medium-large right-medium-large flex size-large items-center justify-center rounded-full border border-border text-foreground hover:bg-background"
                 >
                   <ExpandAltOutlined />
                 </button>
