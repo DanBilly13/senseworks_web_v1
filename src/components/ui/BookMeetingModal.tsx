@@ -96,12 +96,15 @@ function BookMeetingContent({ copy, contact }: { copy: Copy; contact: NonNullabl
 
   return (
     <div className="grid gap-large md:grid-cols-2 md:gap-2xl">
-      <div className="flex flex-col gap-large md:pr-large">
-        <div className="flex flex-col gap-medium">
+      {/* justify-between: on desktop this column is as tall as the form
+          beside it, so the contact block sits at the bottom, level with
+          the Send button, rather than floating right under the intro. */}
+      <div className="flex flex-col gap-large md:justify-between md:pr-large">
+        <div className="flex flex-col gap-large">
           <h2 className="text-h2 font-bold text-balance text-foreground">{copy.heading}</h2>
           <p className="text-body-lg text-muted-foreground">{copy.intro}</p>
         </div>
-        <div className="flex items-start gap-medium-large">
+        <div className="flex flex-col gap-medium">
           {contact?.photo && (
             <Media
               media={{ mediaType: 'image', image: contact.photo }}
@@ -111,7 +114,7 @@ function BookMeetingContent({ copy, contact }: { copy: Copy; contact: NonNullabl
             />
           )}
           <div className="flex flex-col gap-small">
-            <h3 className="text-h5 font-bold text-foreground">{copy.contactTitle}</h3>
+            <h3 className="text-body-lg font-bold text-foreground">{copy.contactTitle}</h3>
             <p className="text-body text-muted-foreground">{copy.contactBody}</p>
             {contact?.email && (
               <a
