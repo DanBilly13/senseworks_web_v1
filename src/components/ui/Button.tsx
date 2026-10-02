@@ -4,6 +4,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import Link from 'next/link'
 import { ArrowRightOutlined } from '@ant-design/icons'
 import type { ReactNode } from 'react'
+import { BOOK_MEETING_HREF, useBookMeeting } from '@/components/ui/bookMeetingContext'
 
 // Lets a page turn on the animated hover treatment for every Button
 // underneath it (v1/v2) without threading an `animated` prop through
@@ -87,17 +88,17 @@ export function Button({ href, variant, size, children, animated }: ButtonProps)
   const contextAnimated = useContext(AnimatedButtonContext)
   const isAnimated = animated ?? contextAnimated
   const resolvedSize = size ?? 'md'
+  const { open: openBookMeeting } = useBookMeeting()
 
-  return (
-    <Link
-      href={href}
-      className={[
-        buttonVariants({ variant, size }),
-        isAnimated && 'transition-all duration-300 ease-spring hover:pr-small',
-      ]
-        .filter(Boolean)
-        .join(' ')}
-    >
+  const className = [
+    buttonVariants({ variant, size }),
+    isAnimated && 'transition-all duration-300 ease-spring hover:pr-small',
+  ]
+    .filter(Boolean)
+    .join(' ')
+
+  const content = (
+    <>
       {children}
       {isAnimated && (
         // Staggered both ways, in reverse order of each other. In: the
@@ -120,6 +121,22 @@ export function Button({ href, variant, size, children, animated }: ButtonProps)
           </span>
         </span>
       )}
+    </>
+  )
+
+  // "#book-meeting" opens the modal instead of navigating — a real
+  // <button>, not a Link, since there's no destination to go to.
+  if (href === BOOK_MEETING_HREF) {
+    return (
+      <button type="button" onClick={openBookMeeting} className={className}>
+        {content}
+      </button>
+    )
+  }
+
+  return (
+    <Link href={href} className={className}>
+      {content}
     </Link>
   )
 }

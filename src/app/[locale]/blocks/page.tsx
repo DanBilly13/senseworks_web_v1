@@ -1062,6 +1062,15 @@ export default async function BlocksPage({
       </div>
 
       <BlockCaption
+        name="Book a meeting (modal)"
+        type="@/components/ui/BookMeetingModal"
+        variant='any Button / CTA with href: "#book-meeting" opens it'
+      />
+      <div className="mx-auto flex w-full max-w-page flex-wrap items-center gap-medium-large px-medium-large py-2xl">
+        <Button href="#book-meeting">Book a meeting</Button>
+      </div>
+
+      <BlockCaption
         name="Menu"
         type="@/components/ui/Menu"
         variant="leadingIcon / trailingIcon are optional"
