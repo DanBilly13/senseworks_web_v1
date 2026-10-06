@@ -40,6 +40,8 @@ type SectionShellProps = {
   sectionClassName?: string
   className?: string
   ariaLabel?: string
+  // Anchor target for in-page links (e.g. a nav item pointing at #pricing).
+  id?: string
   children: ReactNode
 }
 
@@ -94,12 +96,14 @@ export function SectionShell({
   sectionClassName,
   className,
   ariaLabel,
+  id,
   children,
 }: SectionShellProps) {
   const resolvedPb = pb ?? py
   const resolvedPt = pt ?? (pad === 'both' ? py : undefined)
   return (
     <section
+      id={id}
       aria-label={ariaLabel}
       className={[
         PB_CLASS[resolvedPb],

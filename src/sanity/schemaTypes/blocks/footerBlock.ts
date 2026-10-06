@@ -82,6 +82,7 @@ export const footerBlock = defineType({
                   { title: 'GitHub', value: 'github' },
                   { title: 'YouTube', value: 'youtube' },
                   { title: 'Instagram', value: 'instagram' },
+                  { title: 'Facebook', value: 'facebook' },
                 ],
               },
               validation: (Rule) => Rule.required(),

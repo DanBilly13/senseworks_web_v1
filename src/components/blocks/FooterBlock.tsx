@@ -2,6 +2,7 @@
 import type { ReactNode } from 'react'
 import Image from 'next/image'
 import {
+  FacebookOutlined,
   GithubOutlined,
   InstagramOutlined,
   LinkedinOutlined,
@@ -12,7 +13,7 @@ import { NewsletterForm } from '@/components/ui/NewsletterForm'
 
 type FooterLink = { label: string; href: string }
 type FooterLinkColumn = { title: string; links?: FooterLink[] }
-type SocialPlatform = 'x' | 'linkedin' | 'github' | 'youtube' | 'instagram'
+type SocialPlatform = 'x' | 'linkedin' | 'github' | 'youtube' | 'instagram' | 'facebook'
 type SocialLink = { platform: SocialPlatform; href: string }
 type FooterBlockProps = {
   linkColumns?: FooterLinkColumn[]
@@ -30,6 +31,7 @@ const SOCIAL_ICON: Record<SocialPlatform, ReactNode> = {
   github: <GithubOutlined />,
   youtube: <YoutubeOutlined />,
   instagram: <InstagramOutlined />,
+  facebook: <FacebookOutlined />,
 }
 
 export function FooterBlock({

@@ -78,6 +78,12 @@ export const heroBackdropBlock = defineType({
     defineField({ name: 'ctaLabel', type: 'string' }),
     defineField({ name: 'ctaHref', type: 'string' }),
     defineField({
+      name: 'ctaNote',
+      title: 'Button note',
+      description: 'Small line of microcopy under the button, e.g. what happens after clicking it.',
+      type: 'string',
+    }),
+    defineField({
       name: 'showcaseMedia',
       title: 'Showcase Media',
       description:
