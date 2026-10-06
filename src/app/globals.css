@@ -526,29 +526,78 @@ p {
    arbitrary-value syntax. See --gradient-accent above for the source. */
 .bg-accent-gradient {
   background-image: var(--gradient-accent);
+  /* Only matters for a themed gradient that has the dither layer on top
+     (first); a single-layer gradient just ignores the extra value. */
+  background-blend-mode: soft-light, normal;
 }
 
 /* Page themes — a page's "Page theme" setting in Studio puts one of
    these on a wrapper around the whole page (see [...slug]/page.tsx),
    swapping the accent color and the accent gradient for everything
-   inside it, since every block reads those two tokens. Values are the
+   inside it, since every block reads those two tokens. Colors are the
    product app's own per-area themes (sw-repo frontend,
    src/theme/config/AuditConfigProvider.tsx and
-   AnalysisConfigProvider.tsx, light mode): the product's background
-   gradient is its area's primary color fading into the same #f2f2f3
-   grey, and its primary button/accent color. Each gradient is
-   re-declared in full rather than via a --gradient-accent-start var,
-   because a custom property that contains var() is resolved where it's
-   DECLARED (:root), so a descendant overriding the inner var would
-   never reach it. */
+   AnalysisConfigProvider.tsx, light mode): its primary color fading
+   into the same #f2f2f3 grey, plus its primary button/accent color.
+
+   Each gradient is re-declared in full rather than via a
+   --gradient-accent-start var, because a custom property that contains
+   var() is resolved where it's DECLARED (:root), so a descendant
+   overriding the inner var would never reach it.
+
+   The yellow default is nearly the same lightness as the grey, so its
+   plain two-stop ramp already looks soft. A saturated color (purple,
+   green) on the same ramp reads heavy, with a hard-edged knee where
+   the flat color starts to change and visible banding. So these fade
+   along an ease curve instead: the same start color, held to 15% then
+   10 smoothstep-spaced stops down to the grey at 85%, blended in OKLab
+   so the in-between colors stay clean rather than going muddy. See the
+   dev-only comparison at /en/blocks/gradients. A faint neutral dither
+   layer sits on top (soft-light over mid-grey noise changes nothing on
+   average, so the grey still matches the page) to break up 8-bit
+   banding — .bg-accent-gradient blends it in. */
+:root {
+  --gradient-dither: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0.04 0.04 0.04 0 0.44 0.04 0.04 0.04 0 0.44 0.04 0.04 0.04 0 0.44 0 0 0 0 1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
 [data-page-theme='revision'] {
   --color-accent: #d0b3ff;
-  --gradient-accent: linear-gradient(208deg, #ceb2f4 38.9423%, #f2f2f3 62.0192%);
+  --gradient-accent:
+    var(--gradient-dither),
+    linear-gradient(
+      208deg in oklab,
+      #ceb2f4 15%,
+      #cfb4f4 22%,
+      #d2b9f4 29%,
+      #d6c0f4 36%,
+      #dbc9f4 43%,
+      #e0d2f4 50%,
+      #e5dbf3 57%,
+      #eae4f3 64%,
+      #eeebf3 71%,
+      #f1f0f3 78%,
+      #f2f2f3 85%
+    );
 }
 
 [data-page-theme='analysis'] {
   --color-accent: #5eec94;
-  --gradient-accent: linear-gradient(208deg, #5eec94 38.9423%, #f2f2f3 62.0192%);
+  --gradient-accent:
+    var(--gradient-dither),
+    linear-gradient(
+      208deg in oklab,
+      #5eec94 15%,
+      #62ec97 22%,
+      #6ded9e 29%,
+      #7eeda9 36%,
+      #92eeb5 43%,
+      #a8efc4 50%,
+      #bef0d2 57%,
+      #d2f1de 64%,
+      #e3f1e9 71%,
+      #eef2f0 78%,
+      #f2f2f3 85%
+    );
 }
 
 /* Hero Image Overlay Card's (experimental) padding — not a Tailwind
