@@ -49,6 +49,7 @@ export const pageBySlugAndLocaleQuery = groq`
     title,
     language,
     "slug": slug.current,
+    theme,
     seoTitle,
     seoDescription,
     blocks[]{

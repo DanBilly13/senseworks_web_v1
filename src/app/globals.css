@@ -528,6 +528,29 @@ p {
   background-image: var(--gradient-accent);
 }
 
+/* Page themes — a page's "Page theme" setting in Studio puts one of
+   these on a wrapper around the whole page (see [...slug]/page.tsx),
+   swapping the accent color and the accent gradient for everything
+   inside it, since every block reads those two tokens. Values are the
+   product app's own per-area themes (sw-repo frontend,
+   src/theme/config/AuditConfigProvider.tsx and
+   AnalysisConfigProvider.tsx, light mode): the product's background
+   gradient is its area's primary color fading into the same #f2f2f3
+   grey, and its primary button/accent color. Each gradient is
+   re-declared in full rather than via a --gradient-accent-start var,
+   because a custom property that contains var() is resolved where it's
+   DECLARED (:root), so a descendant overriding the inner var would
+   never reach it. */
+[data-page-theme='revision'] {
+  --color-accent: #d0b3ff;
+  --gradient-accent: linear-gradient(208deg, #ceb2f4 38.9423%, #f2f2f3 62.0192%);
+}
+
+[data-page-theme='analysis'] {
+  --color-accent: #5eec94;
+  --gradient-accent: linear-gradient(208deg, #5eec94 38.9423%, #f2f2f3 62.0192%);
+}
+
 /* Hero Image Overlay Card's (experimental) padding — not a Tailwind
    utility since the desktop right side (288px) isn't on the named
    spacing scale, and it needs a real per-breakpoint value rather than

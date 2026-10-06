@@ -16,6 +16,22 @@ export const page = defineType({
     // Set by @sanity/document-internationalization — not hand-edited.
     defineField({ name: 'language', type: 'string', readOnly: true }),
     defineField({
+      name: 'theme',
+      title: 'Page theme',
+      description:
+        'Swaps the accent color and the gradient for the whole page, matching the product areas: Default is the yellow marketing look, Revision is purple, Analysis is green.',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Default (yellow)', value: 'default' },
+          { title: 'Revision (purple)', value: 'revision' },
+          { title: 'Analysis (green)', value: 'analysis' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'default',
+    }),
+    defineField({
       name: 'seoTitle',
       title: 'SEO title',
       description: 'The browser tab / search result title. Aim for under about 60 characters. Falls back to the site default if empty.',

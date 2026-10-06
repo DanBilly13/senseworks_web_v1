@@ -58,8 +58,13 @@ export default async function Page({
     : page.blocks
 
   return (
-    <AnimatedButtonProvider value={isLandingPage}>
-      <BlockRenderer blocks={blocks} />
-    </AnimatedButtonProvider>
+    // "contents": no box of its own, so it can't affect the blocks'
+    // layout inside body's flex column — it only exists to carry the
+    // page theme's CSS variables (see data-page-theme in globals.css).
+    <div className="contents" data-page-theme={page.theme ?? 'default'}>
+      <AnimatedButtonProvider value={isLandingPage}>
+        <BlockRenderer blocks={blocks} />
+      </AnimatedButtonProvider>
+    </div>
   )
 }
