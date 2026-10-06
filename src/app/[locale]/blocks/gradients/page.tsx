@@ -3,6 +3,7 @@
 const GREY: [number, number, number] = [242, 242, 243] // #f2f2f3
 const PURPLE: [number, number, number] = [206, 178, 244] // #ceb2f4
 const YELLOW: [number, number, number] = [251, 254, 172] // #fbfeac
+const GREEN: [number, number, number] = [94, 236, 148] // #5eec94 (product Analysis)
 
 const smoothstep = (t: number) => t * t * (3 - 2 * t)
 const easeOutQuad = (t: number) => 1 - (1 - t) * (1 - t)
@@ -84,6 +85,26 @@ const VARIANTS: { name: string; note: string; background: string; blend?: string
     note: 'Soft-light grey noise, amplitude 0.3',
     background: `${noise(0.3)}, ${eased({ from: PURPLE, start: 15, end: 85, steps: 10, ease: smoothstep })}`,
     blend: 'soft-light, normal',
+  },
+  {
+    name: '9 · Green — ease-out cubic 0→90 (what Analysis uses)',
+    note: 'Same curve as the purple, product green #5eec94',
+    background: eased({ from: GREEN, start: 0, end: 90, steps: 14, ease: easeOutCubic }),
+  },
+  {
+    name: '10 · Green — smoothstep 15→85',
+    note: 'The earlier, heavier curve',
+    background: eased({ from: GREEN, start: 15, end: 85, steps: 10, ease: smoothstep }),
+  },
+  {
+    name: '11 · Green — ease-out quad 0→85',
+    note: 'Leaves the green a little more slowly than cubic',
+    background: eased({ from: GREEN, start: 0, end: 85, steps: 12, ease: easeOutQuad }),
+  },
+  {
+    name: '12 · Green — softer start (25% toward grey)',
+    note: 'Less neon: starts at #5eec94 mixed a quarter of the way to grey',
+    background: eased({ from: mix(GREEN, GREY, 0.25), start: 0, end: 90, steps: 14, ease: easeOutCubic }),
   },
   {
     name: '8 · Yellow eased (for comparison)',
