@@ -16,6 +16,21 @@ export const page = defineType({
     // Set by @sanity/document-internationalization — not hand-edited.
     defineField({ name: 'language', type: 'string', readOnly: true }),
     defineField({
+      name: 'seoTitle',
+      title: 'SEO title',
+      description: 'The browser tab / search result title. Aim for under about 60 characters. Falls back to the site default if empty.',
+      type: 'string',
+      validation: (Rule) => Rule.max(70).warning('Search engines usually cut titles off past about 60 characters.'),
+    }),
+    defineField({
+      name: 'seoDescription',
+      title: 'SEO description',
+      description: 'The summary shown under the title in search results. Aim for under about 160 characters. Falls back to the site default if empty.',
+      type: 'text',
+      rows: 3,
+      validation: (Rule) => Rule.max(200).warning('Search engines usually cut descriptions off past about 160 characters.'),
+    }),
+    defineField({
       name: 'blocks',
       type: 'array',
       components: { item: BlockListItem },

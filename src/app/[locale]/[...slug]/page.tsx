@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getPage } from '@/lib/sanity/getPage'
 import { BlockRenderer } from '@/components/blocks/BlockRenderer'
@@ -10,6 +11,22 @@ import { AnimatedButtonProvider } from '@/components/ui/Button'
 // single dynamic segment was the thing that couldn't hold a "/".
 export function generateStaticParams() {
   return [{ slug: ['home'] }, { slug: ['lp', 'v1'] }, { slug: ['lp', 'v2'] }]
+}
+
+// Per-page title/description from Studio's SEO fields; a page that
+// leaves them empty just inherits the site-wide defaults in the root
+// layout (and the site-wide noindex, which this doesn't touch).
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; slug: string[] }>
+}): Promise<Metadata> {
+  const { locale, slug } = await params
+  const page = await getPage(slug.join('/'), locale)
+  return {
+    ...(page?.seoTitle ? { title: page.seoTitle } : {}),
+    ...(page?.seoDescription ? { description: page.seoDescription } : {}),
+  }
 }
 
 export default async function Page({

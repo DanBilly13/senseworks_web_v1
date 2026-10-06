@@ -49,6 +49,8 @@ export const pageBySlugAndLocaleQuery = groq`
     title,
     language,
     "slug": slug.current,
+    seoTitle,
+    seoDescription,
     blocks[]{
       ...,
       _type == "heroBlock" => { ${mediaProjection()} },

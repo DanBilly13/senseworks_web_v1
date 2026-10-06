@@ -7,6 +7,8 @@ export type PageDoc = {
   title: string
   language: string
   slug: string
+  seoTitle?: string
+  seoDescription?: string
   blocks: PageBlock[]
 } | null
 
