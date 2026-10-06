@@ -549,10 +549,11 @@ p {
    plain two-stop ramp already looks soft. A saturated color (purple,
    green) on the same ramp reads heavy, with a hard-edged knee where
    the flat color starts to change and visible banding. So these fade
-   along an ease curve instead: the same start color, held to 15% then
-   10 smoothstep-spaced stops down to the grey at 85%, blended in OKLab
-   so the in-between colors stay clean rather than going muddy. See the
-   dev-only comparison at /en/blocks/gradients. A faint neutral dither
+   along an ease curve instead: the same start color at 0%, leaving it
+   quickly (ease-out cubic, 14 stops) into a long soft tail that reaches
+   the grey at 90%, blended in OKLab so the in-between colors stay
+   clean rather than going muddy. See the dev-only comparison (variant
+   5) at /en/blocks/gradients. A faint neutral dither
    layer sits on top (soft-light over mid-grey noise changes nothing on
    average, so the grey still matches the page) to break up 8-bit
    banding — .bg-accent-gradient blends it in. */
@@ -566,17 +567,21 @@ p {
     var(--gradient-dither),
     linear-gradient(
       208deg in oklab,
-      #ceb2f4 15%,
-      #cfb4f4 22%,
-      #d2b9f4 29%,
-      #d6c0f4 36%,
-      #dbc9f4 43%,
-      #e0d2f4 50%,
-      #e5dbf3 57%,
-      #eae4f3 64%,
-      #eeebf3 71%,
-      #f1f0f3 78%,
-      #f2f2f3 85%
+      #ceb2f4 0%,
+      #d5bff4 6.43%,
+      #dbcaf4 12.86%,
+      #e1d3f3 19.29%,
+      #e5dbf3 25.71%,
+      #e8e1f3 32.14%,
+      #ebe6f3 38.57%,
+      #eeeaf3 45%,
+      #efedf3 51.43%,
+      #f0eff3 57.86%,
+      #f1f1f3 64.29%,
+      #f2f1f3 70.71%,
+      #f2f2f3 77.14%,
+      #f2f2f3 83.57%,
+      #f2f2f3 90%
     );
 }
 
@@ -586,17 +591,21 @@ p {
     var(--gradient-dither),
     linear-gradient(
       208deg in oklab,
-      #5eec94 15%,
-      #62ec97 22%,
-      #6ded9e 29%,
-      #7eeda9 36%,
-      #92eeb5 43%,
-      #a8efc4 50%,
-      #bef0d2 57%,
-      #d2f1de 64%,
-      #e3f1e9 71%,
-      #eef2f0 78%,
-      #f2f2f3 85%
+      #5eec94 0%,
+      #7ceda7 6.43%,
+      #95eeb7 12.86%,
+      #aaefc5 19.29%,
+      #bcf0d0 25.71%,
+      #cbf0da 32.14%,
+      #d6f1e1 38.57%,
+      #e0f1e7 45%,
+      #e6f2ec 51.43%,
+      #ebf2ef 57.86%,
+      #eff2f1 64.29%,
+      #f1f2f2 70.71%,
+      #f2f2f3 77.14%,
+      #f2f2f3 83.57%,
+      #f2f2f3 90%
     );
 }
 
