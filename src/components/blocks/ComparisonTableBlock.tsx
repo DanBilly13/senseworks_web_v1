@@ -10,6 +10,8 @@ type ComparisonTableBlockProps = {
   eyebrow?: string
   heading: string
   body?: string
+  // Title for the first (row label) column — blank header cell if unset.
+  rowHeader?: string
   columns?: ComparisonColumn[]
   rows?: ComparisonRow[]
   spacing?: 'loose' | 'medium' | 'tight' | 'none'
@@ -61,6 +63,7 @@ export function ComparisonTableBlock({
   eyebrow,
   heading,
   body,
+  rowHeader,
   columns = [],
   rows = [],
   spacing = 'loose',
@@ -76,7 +79,9 @@ export function ComparisonTableBlock({
           <table className="w-full border-collapse text-left">
             <thead>
               <tr className="bg-muted">
-                <th className="sticky left-0 z-10 w-56 min-w-56 bg-muted p-medium-large" />
+                <th className="sticky left-0 z-10 w-56 min-w-56 bg-muted p-medium-large text-body-lg font-semibold text-foreground">
+                  {rowHeader}
+                </th>
                 {columns.map((column, columnIndex) => {
                   // Sticky is structural — always the first data column,
                   // regardless of which column content marks as

@@ -21,6 +21,13 @@ export const comparisonTableBlock = defineType({
       validation: (Rule) => Rule.max(300),
     }),
     defineField({
+      name: 'rowHeader',
+      title: 'Row header',
+      description:
+        'Optional title for the first column (the row labels), e.g. "Common way of working today" — left blank, that header cell is empty.',
+      type: 'string',
+    }),
+    defineField({
       name: 'columns',
       title: 'Columns',
       description: 'One per thing being compared — first one is usually us.',
