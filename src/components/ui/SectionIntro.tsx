@@ -6,6 +6,12 @@ type WidthKey = 'sm' | 'md' | 'lg' | 'wide' | 'subtitle' | 'none'
 
 type SectionIntroProps = {
   as: HeadingLevel
+  // Which heading level to LOOK like, when that should differ from the
+  // real element in `as` — for a block that needs a particular level
+  // in the page outline (e.g. an h2) but the visual size/weight/body
+  // style of a lower one (an h3), so it matches its siblings. Defaults
+  // to `as`, so every existing caller is unchanged.
+  styleAs?: HeadingLevel
   // A plain string in every existing caller — widened to ReactNode so
   // a caller can compose something richer (e.g. Card Grid's numbered
   // badge on the eyebrow's leading word) without SectionIntro needing
@@ -101,6 +107,7 @@ const MAX_WIDTH_CLASS: Record<WidthKey, string> = {
 
 export function SectionIntro({
   as: Heading,
+  styleAs,
   eyebrow,
   heading,
   body,
@@ -122,9 +129,10 @@ export function SectionIntro({
   // h1/h2's body reads as a subtitle, not muted body copy — full
   // strength (same color as the heading itself), not the faded
   // bodyColor every h3/h4 body still uses.
-  const isSubtitle = Heading === 'h1' || Heading === 'h2'
-  const lineHeightGap = gapToLineHeight ? HEADING_LINE_HEIGHT_GAP[Heading] : undefined
-  const halfLineHeightGap = HALF_HEADING_LINE_HEIGHT_GAP[Heading]
+  const styleLevel = styleAs ?? Heading
+  const isSubtitle = styleLevel === 'h1' || styleLevel === 'h2'
+  const lineHeightGap = gapToLineHeight ? HEADING_LINE_HEIGHT_GAP[styleLevel] : undefined
+  const halfLineHeightGap = HALF_HEADING_LINE_HEIGHT_GAP[styleLevel]
 
   // Width lives on each child, not this wrapping div, so the heading
   // can run wider than the body/eyebrow via headingMaxWidth — flexbox's
@@ -148,8 +156,8 @@ export function SectionIntro({
       {heading && (
         <Heading
           className={[
-            HEADING_TEXT_CLASS[Heading],
-            tone === 'inverse' ? INVERSE_HEADING_WEIGHT_CLASS : HEADING_WEIGHT_CLASS[Heading],
+            HEADING_TEXT_CLASS[styleLevel],
+            tone === 'inverse' ? INVERSE_HEADING_WEIGHT_CLASS : HEADING_WEIGHT_CLASS[styleLevel],
             'text-balance',
             headingColor,
             MAX_WIDTH_CLASS[headingMaxWidth ?? maxWidth],

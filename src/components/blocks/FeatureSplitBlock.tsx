@@ -6,12 +6,9 @@ import { Media } from '@/components/ui/Media'
 import type { MediaField } from '@/lib/sanity/media'
 
 // Same "full line-height" gap SectionIntro's own gapToLineHeight uses
-// (this block already opts into that below) — keyed by headingLevel
-// so the brandmark's own distance from the text matches whichever
-// heading size is actually in play, same reasoning as Card Grid's
-// CARD_PADDING_BOTTOM_VAR.
-const BRANDMARK_GAP: Record<'h2' | 'h3', string> = {
-  h2: 'var(--text-h2--full-line-height)',
+// (this block already opts into that below), for the heading size it
+// actually renders at — always h3-sized, whatever headingLevel is.
+const BRANDMARK_GAP = {
   h3: 'var(--text-h3--full-line-height)',
 }
 
@@ -64,6 +61,11 @@ export function FeatureSplitBlock({
         <div className="w-full md:max-w-prose-xs md:shrink-0">
           <SectionIntro
             as={headingLevel}
+            // Heading level here is only about the page outline — every
+            // Feature Split looks like an h3 (size, weight, body style)
+            // either way. Without this, picking h2 also switched the
+            // body to SectionIntro's big "subtitle" treatment.
+            styleAs="h3"
             eyebrow={eyebrow}
             heading={heading}
             body={body}
@@ -91,7 +93,7 @@ export function FeatureSplitBlock({
             width={61}
             height={18}
             className="h-medium w-auto"
-            style={{ marginTop: BRANDMARK_GAP[headingLevel] }}
+            style={{ marginTop: BRANDMARK_GAP.h3 }}
           />
         </div>
       </div>
