@@ -73,6 +73,33 @@ function BlockCaption({ name, type, variant }: { name: string; type: string; var
   )
 }
 
+const CASE_STUDY_ITEMS = [
+          {
+            companyName: 'Lorem Ipsum',
+            quote: BODY,
+            personName: 'Lorem Ipsum',
+            personRole: 'Lorem, Ipsum',
+            ctaLabel: 'Lorem ipsum',
+            ctaHref: '#',
+          },
+          {
+            companyName: 'Dolor Sit',
+            quote: BODY,
+            personName: 'Dolor Sit',
+            personRole: 'Dolor, Sit',
+            ctaLabel: 'Lorem ipsum',
+            ctaHref: '#',
+          },
+          {
+            companyName: 'Amet Consectetur',
+            quote: BODY,
+            personName: 'Amet Consectetur',
+            personRole: 'Amet, Consectetur',
+            ctaLabel: 'Lorem ipsum',
+            ctaHref: '#',
+          },
+        ]
+
 export default async function BlocksPage({
   params,
 }: {
@@ -490,37 +517,11 @@ export default async function BlocksPage({
       <BlockCaption name="Testimonial — Large" type="testimonialLargeBlock" />
       <TestimonialLargeBlock quote={BODY_LONG} authorName="Lorem Ipsum" authorRole="Lorem, Ipsum" />
       <BlockCaption name="Case Study Card Grid" type="caseStudyGridBlock" />
-      <CaseStudyGridBlock
-        eyebrow={EYEBROW}
-        heading={HEADING}
-        body={BODY}
-        items={[
-          {
-            companyName: 'Lorem Ipsum',
-            quote: BODY,
-            personName: 'Lorem Ipsum',
-            personRole: 'Lorem, Ipsum',
-            ctaLabel: 'Lorem ipsum',
-            ctaHref: '#',
-          },
-          {
-            companyName: 'Dolor Sit',
-            quote: BODY,
-            personName: 'Dolor Sit',
-            personRole: 'Dolor, Sit',
-            ctaLabel: 'Lorem ipsum',
-            ctaHref: '#',
-          },
-          {
-            companyName: 'Amet Consectetur',
-            quote: BODY,
-            personName: 'Amet Consectetur',
-            personRole: 'Amet, Consectetur',
-            ctaLabel: 'Lorem ipsum',
-            ctaHref: '#',
-          },
-        ]}
-      />
+      <CaseStudyGridBlock items={CASE_STUDY_ITEMS} />
+      <BlockCaption name="Case Study Card Grid — Dark" type="caseStudyGridBlock" variant='tone: "dark"' />
+      <CaseStudyGridBlock tone="dark" items={CASE_STUDY_ITEMS} />
+      <BlockCaption name="Case Study Card Grid — Accent" type="caseStudyGridBlock" variant='tone: "accent"' />
+      <CaseStudyGridBlock tone="accent" items={CASE_STUDY_ITEMS} />
       <BlockCaption name="Stats Band" type="statsBandBlock" />
       <StatsBandBlock
         eyebrow={EYEBROW}

@@ -8,17 +8,19 @@ export const caseStudyGridBlock = defineType({
   type: 'object',
   fields: [
     hiddenField,
-    defineField({ name: 'eyebrow', type: 'string' }),
     defineField({
-      name: 'heading',
+      name: 'tone',
+      title: 'Card style',
       type: 'string',
-      validation: (Rule) => Rule.required().max(100),
-    }),
-    defineField({
-      name: 'body',
-      type: 'text',
-      rows: 3,
-      validation: (Rule) => Rule.max(300),
+      options: {
+        list: [
+          { title: 'Default (light)', value: 'default' },
+          { title: 'Dark (black background, white text)', value: 'dark' },
+          { title: 'Accent (accent background, black text)', value: 'accent' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'default',
     }),
     spacingField,
     defineField({
@@ -56,9 +58,9 @@ export const caseStudyGridBlock = defineType({
     }),
   ],
   preview: {
-    select: { title: 'heading', items: 'items' },
-    prepare: ({ title, items }) => ({
-      title: `Case Study Card Grid — ${title || 'Untitled'}`,
+    select: { items: 'items' },
+    prepare: ({ items }) => ({
+      title: 'Case Study Card Grid',
       subtitle: `${items?.length ?? 0} case studies`,
     }),
   },

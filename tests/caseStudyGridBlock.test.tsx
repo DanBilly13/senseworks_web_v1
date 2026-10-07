@@ -6,7 +6,6 @@ describe('CaseStudyGridBlock', () => {
   it('renders each case study with its quote, person, and link', () => {
     render(
       <CaseStudyGridBlock
-        heading="A closer look"
         items={[
           {
             companyName: 'Acme Corp',
@@ -19,8 +18,8 @@ describe('CaseStudyGridBlock', () => {
         ]}
       />,
     )
-    expect(screen.getByRole('heading', { name: 'A closer look' })).toBeInTheDocument()
-    expect(screen.getByRole('img', { name: 'Acme Corp logo' })).toBeInTheDocument()
+    // No logo uploaded, so the company name stands in for it.
+    expect(screen.getByRole('heading', { name: 'Acme Corp' })).toBeInTheDocument()
     expect(
       screen.getByText(/We rebuilt our whole marketing site in a week/),
     ).toBeInTheDocument()
@@ -32,8 +31,16 @@ describe('CaseStudyGridBlock', () => {
     )
   })
 
+  it('applies the dark and accent card styles', () => {
+    const items = [{ companyName: 'Acme Corp', quote: 'Quote.' }]
+    const { container, rerender } = render(<CaseStudyGridBlock tone="dark" items={items} />)
+    expect(container.querySelector('.bg-foreground')).not.toBeNull()
+    rerender(<CaseStudyGridBlock tone="accent" items={items} />)
+    expect(container.querySelector('.bg-accent')).not.toBeNull()
+  })
+
   it('renders nothing when there are no case studies', () => {
-    const { container } = render(<CaseStudyGridBlock heading="Empty" items={[]} />)
+    const { container } = render(<CaseStudyGridBlock items={[]} />)
     expect(container).toBeEmptyDOMElement()
   })
 })

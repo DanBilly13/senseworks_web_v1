@@ -134,7 +134,7 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
   {
     type: 'caseStudyGridBlock',
     title: 'Case Study Card Grid',
-    description: 'Grid of case study cards with a company logo, quote, and CTA.',
+    description: 'Grid of case study cards with a company logo or name, facts, quote, and CTA. Light, dark or accent. Add a Section Headline block above for the title.',
   },
   {
     type: 'ctaBannerBlock',
