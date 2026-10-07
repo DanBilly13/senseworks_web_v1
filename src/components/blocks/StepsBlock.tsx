@@ -42,7 +42,7 @@ export function StepsBlock({
             <div className="flex flex-1 flex-col gap-small-medium">
               <div className="flex items-center gap-large">
                 <div className="flex size-xl shrink-0 items-center justify-center rounded-full bg-foreground md:size-2xl">
-                  <span className="text-h5 font-bold text-accent md:text-h4">
+                  <span className="font-mono text-h5 font-bold text-accent md:text-h4">
                     {String(index + 1).padStart(2, '0')}
                   </span>
                 </div>

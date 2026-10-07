@@ -17,8 +17,8 @@ export function renderNumberedEyebrow(eyebrow: string, numbered: boolean, isDark
   const [number, ...rest] = eyebrow.trim().split(' ')
   const restText = rest.join(' ')
   const badgeClass = isDark
-    ? 'rounded-xs bg-accent px-xs py-xs text-foreground'
-    : 'rounded-xs bg-foreground px-xs py-xs text-accent'
+    ? 'rounded-xs bg-accent px-xs py-xs font-mono text-foreground'
+    : 'rounded-xs bg-foreground px-xs py-xs font-mono text-accent'
   return (
     <>
       <span className={badgeClass}>{number}</span>

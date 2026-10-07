@@ -332,6 +332,11 @@
      per-component className, so every heading in every block picks it
      up automatically. Never use this for body copy. */
   --font-heading: var(--font-aeonik), var(--font-sans);
+
+  /* Numbers only — Roboto Mono, loaded in layout.tsx as
+     --font-roboto-mono. Use the font-mono utility on step counters,
+     numbered eyebrow badges and stat values. */
+  --font-mono: var(--font-roboto-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 /* Mobile type scale + section rhythm (two-tier for now: mobile below

@@ -36,7 +36,7 @@ export function StatsBandBlock({
             key={index}
             className="flex flex-col items-center gap-small px-medium-large text-center"
           >
-            <span className="text-h1 font-semibold text-foreground">{item.value}</span>
+            <span className="font-mono text-h1 font-medium text-foreground">{item.value}</span>
             <span className="text-body text-muted-foreground">{item.label}</span>
           </div>
         ))}

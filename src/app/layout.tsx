@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Roboto_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import { SmoothScrollProvider } from "@/components/SmoothScrollProvider";
 import "./globals.css";
@@ -9,6 +9,14 @@ import "./globals.css";
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+});
+
+// Numbers — step counters, numbered eyebrows, stat values. Applied with
+// the font-mono utility (see --font-mono in globals.css).
+const robotoMono = Roboto_Mono({
+  variable: "--font-roboto-mono",
+  subsets: ["latin"],
+  weight: ["500", "700"],
 });
 
 // Headings only (D18) — Aeonik, the real licensed family, supplied by
@@ -37,7 +45,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${aeonik.variable} h-full antialiased`}
+      className={`${inter.variable} ${aeonik.variable} ${robotoMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
         <SmoothScrollProvider />
