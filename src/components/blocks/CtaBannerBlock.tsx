@@ -14,6 +14,8 @@ type CtaBannerBlockProps = {
   ctaHref: string
   secondaryCtaLabel?: string
   secondaryCtaHref?: string
+  // Small line of microcopy under the buttons.
+  ctaNote?: string
   tone?: 'default' | 'inverse' | 'accent'
   // Optional — sits behind the centered text, filling the whole
   // section edge-to-edge. A transparent PNG is the intended use, so
@@ -39,27 +41,37 @@ export function CtaBannerBlock({
   ctaHref,
   secondaryCtaLabel,
   secondaryCtaHref,
+  ctaNote,
   tone = 'inverse',
   backgroundImage,
   buttonVariant,
 }: CtaBannerBlockProps) {
   const resolvedButtonVariant = buttonVariant ?? (tone === 'inverse' ? 'filled-light' : 'filled-dark')
   const ctaButtons = (
-    <div className="flex flex-wrap items-center justify-center gap-medium-large">
-      <Button href={ctaHref} variant={resolvedButtonVariant} size="xl">
-        {ctaLabel}
-      </Button>
-      {secondaryCtaLabel && secondaryCtaHref && (
-        <a
-          href={secondaryCtaHref}
-          className={
-            tone === 'inverse'
-              ? 'text-body-sm font-medium text-background underline underline-offset-4'
-              : 'text-body-sm font-medium text-foreground underline underline-offset-4'
-          }
+    <div className="flex flex-col items-center gap-medium">
+      <div className="flex flex-wrap items-center justify-center gap-medium-large">
+        <Button href={ctaHref} variant={resolvedButtonVariant} size="xl">
+          {ctaLabel}
+        </Button>
+        {secondaryCtaLabel && secondaryCtaHref && (
+          <a
+            href={secondaryCtaHref}
+            className={
+              tone === 'inverse'
+                ? 'text-body-sm font-medium text-background underline underline-offset-4'
+                : 'text-body-sm font-medium text-foreground underline underline-offset-4'
+            }
+          >
+            {secondaryCtaLabel}
+          </a>
+        )}
+      </div>
+      {ctaNote && (
+        <p
+          className={`text-body-sm ${tone === 'inverse' ? 'text-background/70' : 'text-muted-foreground'}`}
         >
-          {secondaryCtaLabel}
-        </a>
+          {ctaNote}
+        </p>
       )}
     </div>
   )

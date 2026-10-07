@@ -20,6 +20,8 @@ type HeroBackdropBlockProps = {
   ctaLabel?: string
   ctaHref?: string
   ctaNote?: string
+  secondaryCtaLabel?: string
+  secondaryCtaHref?: string
   showcaseMedia?: MediaField
   spacing?: 'loose' | 'medium' | 'tight' | 'none'
 }
@@ -53,6 +55,8 @@ export function HeroBackdropBlock({
   ctaLabel,
   ctaHref,
   ctaNote,
+  secondaryCtaLabel,
+  secondaryCtaHref,
   showcaseMedia,
   spacing = 'medium',
 }: HeroBackdropBlockProps) {
@@ -123,9 +127,22 @@ export function HeroBackdropBlock({
               ctaLabel &&
               ctaHref && (
                 <div className="flex flex-col items-start gap-small-medium">
-                  <Button href={ctaHref} variant={textTone === 'light' ? 'filled-light' : 'filled-dark'}>
-                    {ctaLabel}
-                  </Button>
+                  <div className="flex flex-wrap items-center gap-medium-large">
+                    <Button href={ctaHref} variant={textTone === 'light' ? 'filled-light' : 'filled-dark'}>
+                      {ctaLabel}
+                    </Button>
+                    {secondaryCtaLabel && secondaryCtaHref && (
+                      <a
+                        href={secondaryCtaHref}
+                        className={[
+                          'text-body-sm font-medium underline underline-offset-4',
+                          textTone === 'light' ? 'text-background' : 'text-foreground',
+                        ].join(' ')}
+                      >
+                        {secondaryCtaLabel}
+                      </a>
+                    )}
+                  </div>
                   {ctaNote && (
                     <p
                       className={[

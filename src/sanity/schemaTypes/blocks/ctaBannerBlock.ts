@@ -31,6 +31,7 @@ export const ctaBannerBlock = defineType({
     }),
     defineField({ name: 'secondaryCtaLabel', type: 'string' }),
     defineField({ name: 'secondaryCtaHref', type: 'string' }),
+    defineField({ name: 'ctaNote', title: 'Button note', description: 'Small line of microcopy under the buttons.', type: 'string' }),
     defineField({
       name: 'buttonVariant',
       title: 'Button color',

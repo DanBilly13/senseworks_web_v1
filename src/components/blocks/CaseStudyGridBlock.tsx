@@ -5,6 +5,10 @@ import type { MediaField } from '@/lib/sanity/media'
 
 type CaseStudyItem = {
   companyName: string
+  // Short facts line under the name (size, offices, what they switched
+  // from) and which Senseworks products they use.
+  facts?: string
+  products?: string
   quote?: string
   personName?: string
   personRole?: string
@@ -41,12 +45,24 @@ export function CaseStudyGridBlock({
             key={index}
             className="flex flex-col gap-medium-large rounded-lg border border-border bg-background p-medium-large md:p-large"
           >
-            <Media
-              media={item.media}
-              alt={`${item.companyName} logo`}
-              className="h-xl w-3xl rounded-md"
-              fit="contain"
-            />
+            {item.media?.mediaType ? (
+              <Media
+                media={item.media}
+                alt={`${item.companyName} logo`}
+                className="h-xl w-3xl rounded-md"
+                fit="contain"
+              />
+            ) : (
+              <h3 className="text-h4 font-bold text-foreground">{item.companyName}</h3>
+            )}
+            {(item.facts || item.products) && (
+              <div className="flex flex-col gap-small">
+                {item.facts && <p className="text-body-sm text-muted-foreground">{item.facts}</p>}
+                {item.products && (
+                  <p className="text-body-sm font-semibold text-foreground">{item.products}</p>
+                )}
+              </div>
+            )}
             <div className="flex flex-col gap-small-medium">
               {item.quote && <p className="text-body text-foreground">&ldquo;{item.quote}&rdquo;</p>}
               {(item.personName || item.personRole) && (

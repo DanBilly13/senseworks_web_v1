@@ -34,6 +34,8 @@ export const caseStudyGridBlock = defineType({
               type: 'string',
               validation: (Rule) => Rule.required().max(60),
             }),
+            defineField({ name: 'facts', type: 'string', description: 'e.g. "25 staff, six offices".' }),
+            defineField({ name: 'products', type: 'string', description: 'Which Senseworks products they use, e.g. "Audit".' }),
             defineField({
               name: 'quote',
               type: 'text',

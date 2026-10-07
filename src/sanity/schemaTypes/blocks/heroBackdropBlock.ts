@@ -77,6 +77,8 @@ export const heroBackdropBlock = defineType({
     }),
     defineField({ name: 'ctaLabel', type: 'string' }),
     defineField({ name: 'ctaHref', type: 'string' }),
+    defineField({ name: 'secondaryCtaLabel', title: 'Secondary link label', type: 'string' }),
+    defineField({ name: 'secondaryCtaHref', title: 'Secondary link href', type: 'string' }),
     defineField({
       name: 'ctaNote',
       title: 'Button note',

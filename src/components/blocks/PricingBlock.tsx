@@ -35,7 +35,12 @@ export function PricingBlock({
       <SectionIntro as="h2" eyebrow={eyebrow} heading={heading} body={body} maxWidth="md" />
       {/* Same 8+24=32px-from-edge mobile rhythm as Card Grid — see its
           own comment. Desktop unchanged. */}
-      <div className="grid grid-cols-1 gap-small md:grid-cols-2 md:gap-large">
+      <div
+        className={[
+          'grid grid-cols-1 gap-small md:gap-large',
+          plans.length === 3 ? 'md:grid-cols-3' : 'md:grid-cols-2',
+        ].join(' ')}
+      >
         {plans.map((plan, index) => {
           const featured = !!plan.featured
           return (
