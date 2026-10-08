@@ -113,7 +113,7 @@ export function MediaCarouselBlock({
           </div>
         ))}
       </div>
-      <div className="mx-auto mt-2xl flex w-full max-w-page justify-center gap-small px-large md:px-medium-large">
+      <div className="mx-auto mt-2xl flex w-full max-w-page justify-end gap-small px-large md:px-medium-large">
         <button
           type="button"
           onClick={() => scrollBySlide(-1)}
