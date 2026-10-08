@@ -121,7 +121,7 @@ export function MediaCarouselBlock({
               alt={slide.title}
               className={`aspect-media w-full rounded-lg border ${dark ? 'border-background/20' : 'border-border'}`}
             />
-            <div className="flex max-w-prose-sm flex-col gap-small-medium">
+            <div className="flex w-full flex-col gap-small-medium md:w-4/5">
               <ItemHeading
                 as={titleSize}
                 title={slide.title}
