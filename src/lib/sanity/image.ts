@@ -15,6 +15,12 @@ export function maskUrlFor(source: SanityImageSource): string {
   return urlFor(source).url().replace('https://cdn.sanity.io/images/', '/sanity-images/')
 }
 
+// An uploaded SVG icon at its same-origin path, with its near-black
+// parts swapped for `ink` (a '#rrggbb' colour) — see the route handler.
+export function iconUrlFor(source: SanityImageSource, ink: string): string {
+  return `${maskUrlFor(source)}?ink=${ink.replace('#', '')}`
+}
+
 // Sanity image asset IDs encode their pixel dimensions in the ref
 // itself (e.g. "image-<hash>-1752x810-png") — reading them here avoids
 // a separate GROQ projection just to get width/height for rendering an

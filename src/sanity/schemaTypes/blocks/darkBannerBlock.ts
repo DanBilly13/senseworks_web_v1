@@ -81,7 +81,7 @@ export const darkBannerBlock = defineType({
               name: 'icon',
               title: 'Icon',
               description:
-                'Optional — upload an SVG to replace the default checkmark. Only used when "Show icons" is on above.',
+                'Optional — upload an SVG to replace the default checkmark. Black in the file follows the panel (white on the dark panel); other colours in it are kept. Only used when "Show icons" is on above.',
               type: 'image',
               options: { accept: 'image/svg+xml' },
             }),

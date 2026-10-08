@@ -57,7 +57,7 @@ export const featureGridBlock = defineType({
               name: 'iconImage',
               title: 'Icon (upload)',
               description:
-                'Optional — upload a single-colour SVG (or a PNG with a transparent background). The site recolours it to match, so the file\'s own colours don\'t matter. Material Symbols (fonts.google.com/icons) downloads as SVG. Leave empty to use the checkmark, or pick one from the list below.',
+                'Optional — upload an SVG (or a PNG with a transparent background). Any black in the file follows the site\'s text colour; other colours (an accent, say) are kept as they are. A PNG is drawn in a single colour. Material Symbols (fonts.google.com/icons) downloads as SVG. Leave empty to use the checkmark, or pick one from the list below.',
               type: 'image',
               options: { accept: 'image/svg+xml,image/png' },
             }),

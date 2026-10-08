@@ -9,6 +9,8 @@ import { cleanup } from '@testing-library/react'
 vi.mock('@/lib/sanity/image', () => ({
   urlFor: () => ({ url: () => 'https://cdn.sanity.io/images/mock-project/production/mock.jpg' }),
   maskUrlFor: () => '/sanity-images/mock-project/production/mock.jpg',
+  iconUrlFor: (_source: unknown, ink: string) =>
+    `/sanity-images/mock-project/production/mock.jpg?ink=${ink.replace('#', '')}`,
 }))
 
 // Without `test.globals: true` in vitest.config.ts, Testing Library's

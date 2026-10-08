@@ -17,7 +17,7 @@ describe('FeatureGridBlock', () => {
     expect(screen.getByRole('heading', { name: 'Permissions' })).toBeInTheDocument()
   })
 
-  it('draws an uploaded icon as a mask, ahead of the list icon', () => {
+  it('draws an uploaded SVG icon through the recolouring route, ahead of the list icon', () => {
     const { container } = render(
       <FeatureGridBlock
         items={[
@@ -29,8 +29,23 @@ describe('FeatureGridBlock', () => {
         ]}
       />,
     )
+    const img = container.querySelector('img')
+    expect(img?.getAttribute('src')).toContain('?ink=101829')
+  })
+
+  it('draws an uploaded PNG icon as a single-colour mask', () => {
+    const { container } = render(
+      <FeatureGridBlock
+        items={[
+          {
+            title: 'Uploaded',
+            iconImage: { _type: 'image', asset: { _type: 'reference', _ref: 'image-0123456789abcdef0123456789abcdef01234567-24x24-png' } },
+          },
+        ]}
+      />,
+    )
     expect(container.querySelector('img')).toBeNull()
-    const masked = container.querySelector<HTMLElement>('span.bg-foreground')
+    const masked = container.querySelector<HTMLElement>('span[style*="mask"]')
     expect(masked?.style.maskImage || masked?.style.webkitMaskImage).toContain('mock.jpg')
   })
 

@@ -5,7 +5,7 @@ import type { SanityImageSource } from '@sanity/image-url'
 import { CheckCircleOutlined } from '@ant-design/icons'
 import { SectionShell } from '@/components/ui/SectionShell'
 import { ItemHeading } from '@/components/ui/ItemHeading'
-import { maskUrlFor } from '@/lib/sanity/image'
+import { UploadedIcon } from '@/components/ui/UploadedIcon'
 
 type FeatureGridIcon =
   | 'home_work'
@@ -98,22 +98,9 @@ export function FeatureGridBlock({
               aria-hidden="true"
             >
               {item.iconImage ? (
-                // Uploaded icon, drawn as a mask so it takes the site's
-                // foreground color whatever colors the file itself
-                // has — same technique as Dark Banner's uploaded icons.
-                <span
-                  className="size-full bg-foreground"
-                  style={{
-                    maskImage: `url(${maskUrlFor(item.iconImage)})`,
-                    maskRepeat: 'no-repeat',
-                    maskPosition: 'center',
-                    maskSize: 'contain',
-                    WebkitMaskImage: `url(${maskUrlFor(item.iconImage)})`,
-                    WebkitMaskRepeat: 'no-repeat',
-                    WebkitMaskPosition: 'center',
-                    WebkitMaskSize: 'contain',
-                  }}
-                />
+                // Uploaded icon: its black follows the site's foreground
+                // color, any other colors in the file (an accent) stay.
+                <UploadedIcon source={item.iconImage} ink="#101829" className="size-full" />
               ) : item.icon ? (
                 <Image
                   src={ICON_SRC[item.icon]}

@@ -5,7 +5,8 @@ import { CheckCircleOutlined } from '@ant-design/icons'
 import { SectionShell } from '@/components/ui/SectionShell'
 import { SectionIntro } from '@/components/ui/SectionIntro'
 import { ItemHeading } from '@/components/ui/ItemHeading'
-import { maskUrlFor, urlFor } from '@/lib/sanity/image'
+import { urlFor } from '@/lib/sanity/image'
+import { UploadedIcon } from '@/components/ui/UploadedIcon'
 
 type DarkBannerItem = {
   icon?: SanityImageSource
@@ -49,21 +50,21 @@ const PANEL_BG_CLASS: Record<DarkBannerTone, string> = {
   white: 'bg-background',
 }
 
-// Icon color follows the panel style, not the default checkmark's own
-// muted tone — accent on the dark panel (it's the one splash of color
-// against black), dark foreground on the light panels (mirrors their
-// heading color). Used both for the default AntD checkmark (text-*,
-// relies on currentColor) and as a background-color for the masked
-// custom-SVG icon below (mask techniques can't use currentColor).
+// Default AntD checkmark color follows the panel style — accent on the
+// dark panel (it's the one splash of color against black), dark
+// foreground on the light panels (mirrors their heading color).
 const ICON_COLOR_CLASS: Record<DarkBannerTone, string> = {
   dark: 'text-accent',
   accent: 'text-foreground',
   white: 'text-foreground',
 }
-const ICON_MASK_BG_CLASS: Record<DarkBannerTone, string> = {
-  dark: 'bg-accent',
-  accent: 'bg-foreground',
-  white: 'bg-foreground',
+// Color for an uploaded icon's black parts, as a hex value (the image
+// route needs the literal color). Matches --color-background /
+// --color-foreground in globals.css.
+const ICON_INK: Record<DarkBannerTone, string> = {
+  dark: '#ffffff',
+  accent: '#101829',
+  white: '#101829',
 }
 
 export function DarkBannerBlock({
@@ -134,24 +135,13 @@ export function DarkBannerBlock({
             <div key={index} className="flex flex-col gap-small-medium">
               {showIcons &&
                 (item.icon ? (
-                  // Custom-uploaded SVG, recolored via CSS mask so it
-                  // follows the tone the same way the default checkmark
-                  // does via currentColor — a mask uses the image only
-                  // as an alpha shape, so the uploaded SVG's own fill
-                  // colors don't matter.
-                  <span
-                    aria-hidden="true"
-                    className={`shrink-0 ${ICON_BOX_CLASS[iconSize]} ${ICON_MASK_BG_CLASS[tone]}`}
-                    style={{
-                      maskImage: `url(${maskUrlFor(item.icon)})`,
-                      maskRepeat: 'no-repeat',
-                      maskPosition: 'center',
-                      maskSize: 'contain',
-                      WebkitMaskImage: `url(${maskUrlFor(item.icon)})`,
-                      WebkitMaskRepeat: 'no-repeat',
-                      WebkitMaskPosition: 'center',
-                      WebkitMaskSize: 'contain',
-                    }}
+                  // Custom-uploaded icon. Its black follows the panel
+                  // (white on the dark panel, foreground on the light
+                  // ones); any other color in the file, an accent, stays.
+                  <UploadedIcon
+                    source={item.icon}
+                    ink={ICON_INK[tone]}
+                    className={`shrink-0 ${ICON_BOX_CLASS[iconSize]}`}
                   />
                 ) : (
                   // Wrapped in a plain div rather than putting color/
