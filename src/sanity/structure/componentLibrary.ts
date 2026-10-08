@@ -99,7 +99,7 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
     type: 'mediaCarouselBlock',
     title: 'Media Carousel',
     description:
-      'Slides that scroll sideways and run off the screen edge — an image or video the size of a Feature Split image, with a bold-lead caption under it. Light or dark. No title of its own; add a Section Headline block above it.',
+      'Slides that scroll sideways and run off the screen edge — an image or video the size of a Feature Split image, with a bold-lead caption under it. Light or dark. Optional left-aligned heading and text above the slides that stay put as they scroll.',
   },
   {
     type: 'testimonialLargeBlock',

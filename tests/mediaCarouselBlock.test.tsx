@@ -20,6 +20,19 @@ describe('MediaCarouselBlock', () => {
     expect(screen.getByRole('button', { name: 'Next slide' })).toBeInTheDocument()
   })
 
+  it('shows the optional heading and text above the slides', () => {
+    render(
+      <MediaCarouselBlock
+        eyebrow="Features"
+        heading="Everything in one place"
+        body="A short line of context."
+        slides={[{ title: 'One.' }]}
+      />,
+    )
+    expect(screen.getByRole('heading', { name: 'Everything in one place' })).toBeInTheDocument()
+    expect(screen.getByText('A short line of context.')).toBeInTheDocument()
+  })
+
   it('goes dark on a black band', () => {
     const { container } = render(
       <MediaCarouselBlock tone="dark" slides={[{ title: 'One.' }]} />,

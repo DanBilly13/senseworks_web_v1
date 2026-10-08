@@ -8,6 +8,20 @@ export const mediaCarouselBlock = defineType({
   type: 'object',
   fields: [
     hiddenField,
+    defineField({ name: 'eyebrow', type: 'string' }),
+    defineField({
+      name: 'heading',
+      description: 'Optional. Sits above the slides, left-aligned, and stays put as they scroll.',
+      type: 'string',
+      validation: (Rule) => Rule.max(100),
+    }),
+    defineField({
+      name: 'body',
+      title: 'Text under the heading',
+      type: 'text',
+      rows: 3,
+      validation: (Rule) => Rule.max(300),
+    }),
     defineField({
       name: 'tone',
       title: 'Style',
@@ -61,9 +75,9 @@ export const mediaCarouselBlock = defineType({
     spacingField,
   ],
   preview: {
-    select: { slides: 'slides' },
-    prepare: ({ slides }) => ({
-      title: 'Media Carousel',
+    select: { heading: 'heading', slides: 'slides' },
+    prepare: ({ heading, slides }) => ({
+      title: heading ? `Media Carousel — ${heading}` : 'Media Carousel',
       subtitle: `${slides?.length ?? 0} slides`,
     }),
   },

@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { LeftOutlined, RightOutlined } from '@ant-design/icons'
 import { Media } from '@/components/ui/Media'
+import { SectionIntro } from '@/components/ui/SectionIntro'
 import { SECTION_GAP_PB_CLASS } from '@/components/ui/SectionShell'
 import type { MediaField } from '@/lib/sanity/media'
 
@@ -12,6 +13,9 @@ type Slide = {
   note?: string
 }
 type MediaCarouselBlockProps = {
+  eyebrow?: string
+  heading?: string
+  body?: string
   tone?: 'default' | 'dark'
   spacing?: 'loose' | 'medium' | 'tight' | 'none'
   slides?: Slide[]
@@ -29,9 +33,13 @@ const SECTION_GAP_MB_CLASS: Record<NonNullable<MediaCarouselBlockProps['spacing'
 // A row of slides that scrolls sideways and runs off the right edge of
 // the screen. Each slide's image is the same size as the one in a
 // Feature Split block (see .media-carousel-slide in globals.css), with
-// its caption underneath. No title of its own — pair it with a Section
-// Headline block above.
+// its caption underneath. The optional heading and text sit above the
+// row, left-aligned, outside the scroller — they stay put while the
+// slides move.
 export function MediaCarouselBlock({
+  eyebrow,
+  heading,
+  body,
   tone = 'default',
   spacing = 'loose',
   slides = [],
@@ -78,6 +86,18 @@ export function MediaCarouselBlock({
           : SECTION_GAP_PB_CLASS[spacing]
       }
     >
+      {(eyebrow || heading) && (
+        <div className="mx-auto mb-2xl w-full max-w-page px-large md:px-medium-large">
+          <SectionIntro
+            as="h2"
+            eyebrow={eyebrow}
+            heading={heading}
+            body={body}
+            maxWidth="md"
+            tone={dark ? 'inverse' : 'default'}
+          />
+        </div>
+      )}
       <div
         ref={scrollerRef}
         onScroll={updateEdges}

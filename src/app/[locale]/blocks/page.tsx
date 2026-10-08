@@ -525,9 +525,9 @@ export default async function BlocksPage({
       <BlockCaption name="Testimonial — Large" type="testimonialLargeBlock" />
       <TestimonialLargeBlock quote={BODY_LONG} authorName="Lorem Ipsum" authorRole="Lorem, Ipsum" />
       <BlockCaption name="Media Carousel" type="mediaCarouselBlock" />
-      <MediaCarouselBlock slides={CAROUSEL_SLIDES} />
+      <MediaCarouselBlock eyebrow={EYEBROW} heading={HEADING} body={BODY} slides={CAROUSEL_SLIDES} />
       <BlockCaption name="Media Carousel — Dark" type="mediaCarouselBlock" variant='tone: "dark"' />
-      <MediaCarouselBlock tone="dark" slides={CAROUSEL_SLIDES} />
+      <MediaCarouselBlock tone="dark" eyebrow={EYEBROW} heading={HEADING} body={BODY} slides={CAROUSEL_SLIDES} />
       <BlockCaption name="Case Study Card Grid" type="caseStudyGridBlock" />
       <CaseStudyGridBlock items={CASE_STUDY_ITEMS} />
       <BlockCaption name="Case Study Card Grid — Dark" type="caseStudyGridBlock" variant='tone: "dark"' />
