@@ -1,11 +1,14 @@
 'use client'
-import { CalendarOutlined, CheckCircleFilled } from '@ant-design/icons'
+import { CalendarOutlined, CheckCircleFilled, UserOutlined } from '@ant-design/icons'
+import type { SanityImageSource } from '@sanity/image-url'
 import { SectionShell } from '@/components/ui/SectionShell'
 import { Media } from '@/components/ui/Media'
 import { Tag } from '@/components/ui/Tag'
 import type { MediaField } from '@/lib/sanity/media'
 
 type ReleaseTag = 'audit' | 'analysis' | 'customerService'
+
+type TeamMember = { name?: string; photo?: SanityImageSource }
 
 type ReleaseCard = {
   tag?: ReleaseTag
@@ -17,10 +20,12 @@ type ReleaseCard = {
   status?: string
   progress?: number
   date?: string
+  // Up to 6 people who worked on it, shown as overlapping round photos.
+  team?: TeamMember[]
 }
 
 type ReleaseCardsBlockProps = {
-  columns?: '2' | '3'
+  columns?: '2' | '3' | '4'
   spacing?: 'loose' | 'medium' | 'tight' | 'none'
   cards?: ReleaseCard[]
 }
@@ -33,10 +38,13 @@ const TAG: Record<ReleaseTag, { label: string; color: 'purple' | 'green' | 'yell
   customerService: { label: 'Customer Service', color: 'yellow', bar: 'bg-tag-yellow-bar' },
 }
 
-const COLS_CLASS: Record<'2' | '3', string> = {
+const COLS_CLASS: Record<'2' | '3' | '4', string> = {
   '2': 'md:grid-cols-2',
   '3': 'md:grid-cols-2 lg:grid-cols-3',
+  '4': 'md:grid-cols-2 lg:grid-cols-4',
 }
+
+const MAX_TEAM = 6
 
 // Project-management-style cards for what's been released: a colored
 // category chip, title, text, an optional image, a progress bar (full,
@@ -63,22 +71,34 @@ export function ReleaseCardsBlock({
               className="flex flex-col rounded-lg border border-border bg-background"
             >
               <div className="flex flex-1 flex-col gap-medium p-medium-large md:p-large">
-                {(tag || card.area) && (
+                {(tag || card.team?.length) && (
                   <div className="flex items-center justify-between gap-medium">
-                    {tag ? (
-                      <Tag color={tag.color}>{tag.label}</Tag>
-                    ) : (
-                      <span />
-                    )}
-                    {card.area && (
-                      <span className="text-caption font-medium tracking-wider text-muted-foreground uppercase">
-                        {card.area}
-                      </span>
+                    {tag ? <Tag color={tag.color}>{tag.label}</Tag> : <span />}
+                    {card.team && card.team.length > 0 && (
+                      // 32px round photos, each overlapping the one before
+                      // by 4px. The ring in the card's own color keeps the
+                      // edges apart where they overlap.
+                      <ul className="flex items-center" aria-label="Team">
+                        {card.team.slice(0, MAX_TEAM).map((person, i) => (
+                          <li
+                            key={i}
+                            className={`size-large shrink-0 rounded-full ring-2 ring-background ${i > 0 ? '-ml-xs' : ''}`}
+                          >
+                            <Media
+                              media={person.photo ? { mediaType: 'image', image: person.photo } : undefined}
+                              alt={person.name ?? ''}
+                              className="size-full rounded-full text-muted-foreground"
+                              fallback={<UserOutlined />}
+                              background="none"
+                            />
+                          </li>
+                        ))}
+                      </ul>
                     )}
                   </div>
                 )}
-                <div className="flex flex-col gap-small">
-                  <h3 className="text-h4 font-bold text-balance text-foreground">{card.title}</h3>
+                <div className="flex flex-col gap-large">
+                  <h3 className="text-h5 font-bold text-balance text-foreground">{card.title}</h3>
                   {card.description && (
                     <p className="text-body text-muted-foreground">{card.description}</p>
                   )}
@@ -114,10 +134,21 @@ export function ReleaseCardsBlock({
                     />
                   </div>
                 </div>
-                {card.date && (
-                  <div className="flex items-center gap-small text-body-sm text-muted-foreground">
-                    <CalendarOutlined aria-hidden="true" />
-                    <span>{card.date}</span>
+                {(card.date || card.area) && (
+                  <div className="flex items-center justify-between gap-medium text-body-sm text-muted-foreground">
+                    {card.date ? (
+                      <span className="flex items-center gap-small">
+                        <CalendarOutlined aria-hidden="true" />
+                        {card.date}
+                      </span>
+                    ) : (
+                      <span />
+                    )}
+                    {card.area && (
+                      <span className="text-caption font-medium tracking-wider uppercase">
+                        {card.area}
+                      </span>
+                    )}
                   </div>
                 )}
               </div>

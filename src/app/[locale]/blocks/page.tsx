@@ -76,7 +76,7 @@ function BlockCaption({ name, type, variant }: { name: string; type: string; var
 }
 
 const RELEASE_CARDS = [
-  { tag: 'analysis' as const, area: 'Integrations', title: 'Lorem ipsum dolor sit amet', description: 'Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', date: '1 Oct 2026' },
+  { tag: 'analysis' as const, area: 'Integrations', title: 'Lorem ipsum dolor sit amet', description: 'Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', date: '1 Oct 2026', team: [{ name: 'Lorem Ipsum' }, { name: 'Dolor Sit' }, { name: 'Amet Elit' }] },
   { tag: 'audit' as const, area: 'Audit report', title: 'Ut enim ad minim veniam', description: 'Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', date: '24 Sep 2026' },
   { tag: 'customerService' as const, area: 'Support', title: 'Duis aute irure dolor', description: 'In reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.', date: '17 Sep 2026', progress: 60, status: 'In progress' },
 ]

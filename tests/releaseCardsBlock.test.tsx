@@ -44,6 +44,14 @@ describe('ReleaseCardsBlock', () => {
     expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuenow', '60')
   })
 
+  it('shows up to six team members, overlapping, and offers four columns', () => {
+    const team = Array.from({ length: 8 }, (_, i) => ({ name: `Person ${i + 1}` }))
+    const { container } = render(<ReleaseCardsBlock columns="4" cards={[{ title: 'X', team }]} />)
+    expect(container.querySelectorAll('ul[aria-label="Team"] li')).toHaveLength(6)
+    expect(container.querySelectorAll('ul[aria-label="Team"] li.-ml-xs')).toHaveLength(5)
+    expect(container.querySelector('.lg\\:grid-cols-4')).not.toBeNull()
+  })
+
   it('renders nothing with no cards', () => {
     const { container } = render(<ReleaseCardsBlock cards={[]} />)
     expect(container).toBeEmptyDOMElement()

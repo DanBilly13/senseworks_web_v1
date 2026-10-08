@@ -15,6 +15,7 @@ export const releaseCardsBlock = defineType({
         list: [
           { title: '2 (default)', value: '2' },
           { title: '3', value: '3' },
+          { title: '4', value: '4' },
         ],
         layout: 'radio',
       },
@@ -44,7 +45,7 @@ export const releaseCardsBlock = defineType({
             }),
             defineField({
               name: 'area',
-              description: 'Where in the product it landed, top right of the card. e.g. "Integrations".',
+              description: 'Where in the product it landed, bottom right of the card. e.g. "Integrations".',
               type: 'string',
             }),
             defineField({
@@ -76,6 +77,14 @@ export const releaseCardsBlock = defineType({
               type: 'number',
               initialValue: 100,
               validation: (Rule) => Rule.min(0).max(100),
+            }),
+            defineField({
+              name: 'team',
+              title: 'Team',
+              description: 'Up to 6 people who worked on it, shown as small overlapping round photos.',
+              type: 'array',
+              of: [defineArrayMember({ type: 'reference', to: [{ type: 'teamMember' }] })],
+              validation: (Rule) => Rule.max(6).unique(),
             }),
             defineField({
               name: 'date',
