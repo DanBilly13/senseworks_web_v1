@@ -528,8 +528,13 @@ p {
   scroll-padding-inline-start: calc(
     max((100% - var(--container-page)) / 2, 0px) + var(--spacing-large)
   );
-  /* Without it the last slide can't scroll fully to the left edge. */
-  padding-inline-end: var(--spacing-large);
+  /* Same space on the right, so scrolled all the way along, the last
+     slide ends the same distance from the screen edge that the first
+     one starts from (a lot, on a wide screen — the page content is
+     centered at 1440px). */
+  padding-inline-end: calc(
+    max((100% - var(--container-page)) / 2, 0px) + var(--spacing-large)
+  );
 }
 .media-carousel-slide {
   /* 16px narrower than the full row so the next slide peeks in at the
@@ -544,7 +549,9 @@ p {
     scroll-padding-inline-start: calc(
       max((100% - var(--container-page)) / 2, 0px) + var(--spacing-medium-large)
     );
-    padding-inline-end: var(--spacing-medium-large);
+    padding-inline-end: calc(
+      max((100% - var(--container-page)) / 2, 0px) + var(--spacing-medium-large)
+    );
   }
   .media-carousel-slide {
     /* max(): at tablet widths the Feature Split image itself gets very
