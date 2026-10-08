@@ -15,8 +15,6 @@ type ReleaseCard = {
   title: string
   description?: string
   media?: MediaField
-  // Where in the product it landed, e.g. "Integrations".
-  area?: string
   status?: string
   progress?: number
   date?: string
@@ -70,7 +68,7 @@ export function ReleaseCardsBlock({
               key={index}
               className="flex flex-col rounded-lg border border-border bg-background"
             >
-              <div className="flex flex-1 flex-col gap-medium p-medium-large md:p-large">
+              <div className="flex flex-1 flex-col gap-medium-large p-medium-large md:p-large">
                 {(tag || card.team?.length) && (
                   <div className="flex items-center justify-between gap-medium">
                     {tag ? <Tag color={tag.color}>{tag.label}</Tag> : <span />}
@@ -97,7 +95,7 @@ export function ReleaseCardsBlock({
                     )}
                   </div>
                 )}
-                <div className="flex flex-col gap-large">
+                <div className="flex flex-col gap-medium-large">
                   <h3 className="text-h5 font-bold text-balance text-foreground">{card.title}</h3>
                   {card.description && (
                     <p className="text-body text-muted-foreground">{card.description}</p>
@@ -134,21 +132,10 @@ export function ReleaseCardsBlock({
                     />
                   </div>
                 </div>
-                {(card.date || card.area) && (
-                  <div className="flex items-center justify-between gap-medium text-body-sm text-muted-foreground">
-                    {card.date ? (
-                      <span className="flex items-center gap-small">
-                        <CalendarOutlined aria-hidden="true" />
-                        {card.date}
-                      </span>
-                    ) : (
-                      <span />
-                    )}
-                    {card.area && (
-                      <span className="text-caption font-medium tracking-wider uppercase">
-                        {card.area}
-                      </span>
-                    )}
+                {card.date && (
+                  <div className="flex items-center gap-small text-body-sm text-muted-foreground">
+                    <CalendarOutlined aria-hidden="true" />
+                    <span>{card.date}</span>
                   </div>
                 )}
               </div>

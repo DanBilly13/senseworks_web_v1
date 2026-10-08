@@ -44,11 +44,6 @@ export const releaseCardsBlock = defineType({
               },
             }),
             defineField({
-              name: 'area',
-              description: 'Where in the product it landed, bottom right of the card. e.g. "Integrations".',
-              type: 'string',
-            }),
-            defineField({
               name: 'title',
               type: 'string',
               validation: (Rule) => Rule.required().max(100),

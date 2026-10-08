@@ -3,13 +3,12 @@ import { render, screen } from '@testing-library/react'
 import { ReleaseCardsBlock } from '@/components/blocks/ReleaseCardsBlock'
 
 describe('ReleaseCardsBlock', () => {
-  it('renders a card with its chip, text, area, date and a full progress bar', () => {
+  it('renders a card with its chip, text, date and a full progress bar', () => {
     render(
       <ReleaseCardsBlock
         cards={[
           {
             tag: 'audit',
-            area: 'Audit report',
             title: 'RevR 21',
             description: 'Add the statement to the audit report.',
             date: '24 Sep 2026',
@@ -19,7 +18,6 @@ describe('ReleaseCardsBlock', () => {
     )
     expect(screen.getByRole('heading', { name: 'RevR 21' })).toBeInTheDocument()
     expect(screen.getByText('Audit')).toHaveClass('bg-tag-purple')
-    expect(screen.getByText('Audit report')).toBeInTheDocument()
     expect(screen.getByText('24 Sep 2026')).toBeInTheDocument()
     expect(screen.getByText('Shipped')).toBeInTheDocument()
     expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuenow', '100')
