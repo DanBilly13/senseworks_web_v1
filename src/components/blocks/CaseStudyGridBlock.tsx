@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/Button'
 import { SectionShell } from '@/components/ui/SectionShell'
 import { Media } from '@/components/ui/Media'
 import type { MediaField } from '@/lib/sanity/media'
@@ -91,23 +90,14 @@ export function CaseStudyGridBlock({
               )}
             </div>
             {item.ctaLabel && item.ctaHref && (
-              <div className="mt-auto">
-                {tone === 'dark' ? (
-                  // On a dark card the link becomes a button in the
-                  // page's accent color (yellow, Audit purple,
-                  // Analytics green), like every other dark surface.
-                  <Button href={item.ctaHref} variant="filled-accent" size="sm">
-                    {item.ctaLabel}
-                  </Button>
-                ) : (
-                  <a
-                    href={item.ctaHref}
-                    className="text-body-sm font-medium underline underline-offset-4"
-                  >
-                    {item.ctaLabel} →
-                  </a>
-                )}
-              </div>
+              <a
+                href={item.ctaHref}
+                // On a dark card the link takes the page's accent color
+                // (yellow, Audit purple, Analytics green).
+                className={`mt-auto text-body-sm font-medium underline underline-offset-4 ${tone === 'dark' ? 'text-accent' : ''}`}
+              >
+                {item.ctaLabel} →
+              </a>
             )}
           </div>
         ))}

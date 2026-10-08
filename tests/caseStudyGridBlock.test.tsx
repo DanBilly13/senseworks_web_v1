@@ -39,7 +39,7 @@ describe('CaseStudyGridBlock', () => {
     expect(container.querySelector('.bg-accent')).not.toBeNull()
   })
 
-  it('turns the link into an accent button on a dark card', () => {
+  it('colors the link with the accent on a dark card', () => {
     render(
       <CaseStudyGridBlock
         tone="dark"
@@ -48,7 +48,8 @@ describe('CaseStudyGridBlock', () => {
     )
     const link = screen.getByRole('link', { name: /Read their story/ })
     expect(link).toHaveAttribute('href', '#acme')
-    expect(link.className).toContain('bg-accent')
+    expect(link.className).toContain('text-accent')
+    expect(link.textContent).toContain('→')
   })
 
   it('renders nothing when there are no case studies', () => {
