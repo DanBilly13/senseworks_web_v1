@@ -18,6 +18,7 @@ import { StatsBandBlock } from './StatsBandBlock'
 import { PricingBlock } from './PricingBlock'
 import { BentoGridBlock } from './BentoGridBlock'
 import { MediaBlock } from './MediaBlock'
+import { MediaCarouselBlock } from './MediaCarouselBlock'
 import { FaqAccordionBlock } from './FaqAccordionBlock'
 import { FooterBlock } from './FooterBlock'
 import { ComparisonTableBlock } from './ComparisonTableBlock'
@@ -49,6 +50,7 @@ const BLOCK_COMPONENTS = {
   pricingBlock: PricingBlock,
   bentoGridBlock: BentoGridBlock,
   mediaBlock: MediaBlock,
+  mediaCarouselBlock: MediaCarouselBlock,
   faqAccordionBlock: FaqAccordionBlock,
   comparisonTableBlock: ComparisonTableBlock,
   caseStudyGridBlock: CaseStudyGridBlock,

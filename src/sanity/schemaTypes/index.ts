@@ -35,6 +35,7 @@ import { caseStudyGridBlock } from './blocks/caseStudyGridBlock'
 import { darkBannerBlock } from './blocks/darkBannerBlock'
 import { fullWidthSingleBlock } from './blocks/fullWidthSingleBlock'
 import { horizontalScrollStackBlock } from './blocks/horizontalScrollStackBlock'
+import { mediaCarouselBlock } from './blocks/mediaCarouselBlock'
 
 export const schemaTypes = [
   page,
@@ -73,5 +74,6 @@ export const schemaTypes = [
   darkBannerBlock,
   fullWidthSingleBlock,
   horizontalScrollStackBlock,
+  mediaCarouselBlock,
   footerBlock,
 ]

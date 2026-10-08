@@ -28,6 +28,7 @@ import { FullWidthSingleBlock } from '@/components/blocks/FullWidthSingleBlock'
 import { HorizontalScrollStackBlock } from '@/components/blocks/HorizontalScrollStackBlock'
 import { BentoGridBlock } from '@/components/blocks/BentoGridBlock'
 import { MediaBlock } from '@/components/blocks/MediaBlock'
+import { MediaCarouselBlock } from '@/components/blocks/MediaCarouselBlock'
 import { FaqAccordionBlock } from '@/components/blocks/FaqAccordionBlock'
 import { SectionShell } from '@/components/ui/SectionShell'
 import { SectionIntro } from '@/components/ui/SectionIntro'
@@ -72,6 +73,13 @@ function BlockCaption({ name, type, variant }: { name: string; type: string; var
     </div>
   )
 }
+
+const CAROUSEL_SLIDES = [
+  { title: 'Lorem ipsum dolor.', body: 'Sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' },
+  { title: 'Ut enim ad minim.', body: 'Veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', note: 'Lorem ipsum fine print.' },
+  { title: 'Duis aute irure.', body: 'Dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.' },
+  { title: 'Excepteur sint.', body: 'Occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.' },
+]
 
 const CASE_STUDY_ITEMS = [
           {
@@ -516,6 +524,10 @@ export default async function BlocksPage({
       />
       <BlockCaption name="Testimonial — Large" type="testimonialLargeBlock" />
       <TestimonialLargeBlock quote={BODY_LONG} authorName="Lorem Ipsum" authorRole="Lorem, Ipsum" />
+      <BlockCaption name="Media Carousel" type="mediaCarouselBlock" />
+      <MediaCarouselBlock slides={CAROUSEL_SLIDES} />
+      <BlockCaption name="Media Carousel — Dark" type="mediaCarouselBlock" variant='tone: "dark"' />
+      <MediaCarouselBlock tone="dark" slides={CAROUSEL_SLIDES} />
       <BlockCaption name="Case Study Card Grid" type="caseStudyGridBlock" />
       <CaseStudyGridBlock items={CASE_STUDY_ITEMS} />
       <BlockCaption name="Case Study Card Grid — Dark" type="caseStudyGridBlock" variant='tone: "dark"' />

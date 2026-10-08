@@ -1,0 +1,34 @@
+import { describe, expect, it } from 'vitest'
+import { render, screen } from '@testing-library/react'
+import { MediaCarouselBlock } from '@/components/blocks/MediaCarouselBlock'
+
+describe('MediaCarouselBlock', () => {
+  it('renders each slide with its bold title and body, and the two nav buttons', () => {
+    render(
+      <MediaCarouselBlock
+        slides={[
+          { title: 'Pro controls.', body: 'Put your settings first.', note: 'Limits apply.' },
+          { title: 'Photographic styles.', body: 'Adjust tone and warmth.' },
+        ]}
+      />,
+    )
+    expect(screen.getByText('Pro controls.')).toBeInTheDocument()
+    expect(screen.getByText(/Put your settings first/)).toBeInTheDocument()
+    expect(screen.getByText('Limits apply.')).toBeInTheDocument()
+    expect(screen.getByText('Photographic styles.')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Previous slide' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Next slide' })).toBeInTheDocument()
+  })
+
+  it('goes dark on a black band', () => {
+    const { container } = render(
+      <MediaCarouselBlock tone="dark" slides={[{ title: 'One.' }]} />,
+    )
+    expect(container.querySelector('section.bg-foreground')).not.toBeNull()
+  })
+
+  it('renders nothing when there are no slides', () => {
+    const { container } = render(<MediaCarouselBlock slides={[]} />)
+    expect(container).toBeEmptyDOMElement()
+  })
+})

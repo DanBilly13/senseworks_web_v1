@@ -78,6 +78,7 @@ export const page = defineType({
         defineArrayMember({ type: 'darkBannerBlock' }),
         defineArrayMember({ type: 'fullWidthSingleBlock' }),
         defineArrayMember({ type: 'horizontalScrollStackBlock' }),
+        defineArrayMember({ type: 'mediaCarouselBlock' }),
         defineArrayMember({ type: 'footerBlock' }),
       ],
     }),

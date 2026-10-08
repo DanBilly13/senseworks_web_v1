@@ -512,6 +512,53 @@ p {
     max((100% - var(--container-page)) / 2, 0px) + var(--spacing-medium-large)
   );
 }
+/* Media Carousel: a slide's image is the same size as the image in a
+   Feature Split block. On desktop that image takes whatever's left of
+   the page-width row after the 24px side padding, the 64px gap and the
+   text column (--container-prose-xs) — 868px at 1440 and wider. On
+   mobile it's the full row between the 32px side paddings, less 16px
+   so the next slide peeks in. The
+   scroller's left edge lines up with the page content the same way
+   .carousel-inset does, but with the 32px mobile gutter, since a slide
+   has no card padding of its own. */
+.media-carousel-inset {
+  padding-inline-start: calc(
+    max((100% - var(--container-page)) / 2, 0px) + var(--spacing-large)
+  );
+  scroll-padding-inline-start: calc(
+    max((100% - var(--container-page)) / 2, 0px) + var(--spacing-large)
+  );
+  /* Without it the last slide can't scroll fully to the left edge. */
+  padding-inline-end: var(--spacing-large);
+}
+.media-carousel-slide {
+  /* 16px narrower than the full row so the next slide peeks in at the
+     right edge, which is what tells a visitor it scrolls. */
+  width: calc(100vw - 2 * var(--spacing-large) - var(--spacing-medium));
+}
+@media (min-width: 768px) {
+  .media-carousel-inset {
+    padding-inline-start: calc(
+      max((100% - var(--container-page)) / 2, 0px) + var(--spacing-medium-large)
+    );
+    scroll-padding-inline-start: calc(
+      max((100% - var(--container-page)) / 2, 0px) + var(--spacing-medium-large)
+    );
+    padding-inline-end: var(--spacing-medium-large);
+  }
+  .media-carousel-slide {
+    /* max(): at tablet widths the Feature Split image itself gets very
+       small beside its text column; a slide shouldn't follow it down. */
+    width: max(
+      22rem,
+      calc(
+        min(100vw, var(--container-page)) - 2 * var(--spacing-medium-large) - var(--spacing-2xl) -
+          var(--container-prose-xs)
+      )
+    );
+  }
+}
+
 /* Mobile boxed-section rhythm (SectionShell's `px="boxed"`): the
    leading inset shrinks to --spacing-small (8px) so the card's own
    ~24px internal padding lands its text on the same 32px-from-edge

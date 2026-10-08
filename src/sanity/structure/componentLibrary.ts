@@ -96,6 +96,12 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
     description: 'Horizontally scrolling carousel of customer quotes.',
   },
   {
+    type: 'mediaCarouselBlock',
+    title: 'Media Carousel',
+    description:
+      'Slides that scroll sideways and run off the screen edge — an image or video the size of a Feature Split image, with a bold-lead caption under it. Light or dark. No title of its own; add a Section Headline block above it.',
+  },
+  {
     type: 'testimonialLargeBlock',
     title: 'Testimonial — Large',
     description: 'Single large standalone quote with avatar, name, and role — no carousel.',
