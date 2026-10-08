@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
 import { Button } from '@/components/ui/Button'
 import { SectionIntro } from '@/components/ui/SectionIntro'
 import { Media } from '@/components/ui/Media'
@@ -33,6 +33,10 @@ type HeroImageOverlayCardBlockProps = {
   // need its own eyebrow/heading/body color-switching logic.
   tone?: 'default' | 'inverse' | 'accent' | 'gradient'
 }
+
+// How blurred the desktop video starts, in px — sharpens to nothing as
+// the card over it fades out.
+const VIDEO_BLUR_START_PX = 30
 
 const SECTION_BG: Record<NonNullable<HeroImageOverlayCardBlockProps['tone']>, string> = {
   default: 'bg-muted',
@@ -353,6 +357,7 @@ function DesktopImageOverlayCard({
   // correctly every time). Driving it off the same `scrollYProgress`
   // via a manual subscription sidesteps whatever that is.
   const [cardOpacity, setCardOpacity] = useState(1)
+  const reduceMotion = useReducedMotion()
   useEffect(() => {
     return shrinkProgress.on('change', (v) => setCardOpacity(Math.max(0, 1 - v / 0.4)))
   }, [shrinkProgress])
@@ -432,7 +437,23 @@ function DesktopImageOverlayCard({
           borderColor: videoBorderColor,
         }}
       >
-        <Media media={media} alt={headline} className="size-full" />
+        {/* Blurred while the card is fully showing and sharpening in step
+            with it fading out — same cardOpacity, so the two finish
+            together. Scaled up a touch while blurred, so the blur's
+            soft edges stay hidden outside the box. */}
+        <div
+          className="absolute inset-0"
+          style={
+            reduceMotion
+              ? undefined
+              : {
+                  filter: `blur(${VIDEO_BLUR_START_PX * cardOpacity}px)`,
+                  transform: `scale(${1 + 0.1 * cardOpacity})`,
+                }
+          }
+        >
+          <Media media={media} alt={headline} className="size-full" />
+        </div>
         {/* Opacity only (not a translateY percentage) — a %-based
             transform recalculates against this box's OWN current size,
             which is shrinking underneath it, and would visibly drag
