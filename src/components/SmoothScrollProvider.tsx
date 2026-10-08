@@ -27,7 +27,13 @@ import Lenis from 'lenis'
 // it loops back here, and the recursive call is a no-op.
 export function SmoothScrollProvider() {
   useEffect(() => {
-    const lenis = new Lenis()
+    // Measure and observe <body>, not the default <html>: the root
+    // layout gives <html> h-full, so its own box never grows as content
+    // loads in below it. Lenis only re-measures the page when that
+    // observed box resizes, so it kept the limit it first saw and the
+    // wheel went dead at that point on a long page ("stops scrolling").
+    // <body> is min-h-full, so it grows with the content.
+    const lenis = new Lenis({ content: document.body })
     let isDispatching = false
     lenis.on('scroll', () => {
       if (isDispatching) return
