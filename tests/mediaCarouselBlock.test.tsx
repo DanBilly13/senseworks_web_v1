@@ -33,6 +33,16 @@ describe('MediaCarouselBlock', () => {
     expect(screen.getByText('A short line of context.')).toBeInTheDocument()
   })
 
+  it('follows the title style and size, like Bento Grid', () => {
+    const slides = [{ title: 'Pro controls.', body: 'Put your settings first.' }]
+    const { container, rerender } = render(<MediaCarouselBlock slides={slides} />)
+    // Inline (default): title and text flow together in one heading.
+    expect(container.querySelector('h5')?.textContent).toContain('Put your settings first.')
+    rerender(<MediaCarouselBlock headingLayout="stacked" titleSize="h3" slides={slides} />)
+    expect(container.querySelector('h3')?.textContent).toBe('Pro controls.')
+    expect(screen.getByText('Put your settings first.').tagName).toBe('P')
+  })
+
   it('goes dark on a black band', () => {
     const { container } = render(
       <MediaCarouselBlock tone="dark" slides={[{ title: 'One.' }]} />,

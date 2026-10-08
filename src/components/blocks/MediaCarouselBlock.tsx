@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import { LeftOutlined, RightOutlined } from '@ant-design/icons'
 import { Media } from '@/components/ui/Media'
 import { SectionIntro } from '@/components/ui/SectionIntro'
+import { ItemHeading } from '@/components/ui/ItemHeading'
 import { SECTION_GAP_PB_CLASS } from '@/components/ui/SectionShell'
 import type { MediaField } from '@/lib/sanity/media'
 
@@ -17,6 +18,10 @@ type MediaCarouselBlockProps = {
   heading?: string
   body?: string
   tone?: 'default' | 'dark'
+  // Same two type options as Bento Grid's cards. Inline (the default
+  // here) runs the title and text on as one line, title bold.
+  headingLayout?: 'stacked' | 'inline'
+  titleSize?: 'h3' | 'h4' | 'h5'
   spacing?: 'loose' | 'medium' | 'tight' | 'none'
   slides?: Slide[]
 }
@@ -41,6 +46,8 @@ export function MediaCarouselBlock({
   heading,
   body,
   tone = 'default',
+  headingLayout = 'inline',
+  titleSize = 'h5',
   spacing = 'loose',
   slides = [],
 }: MediaCarouselBlockProps) {
@@ -115,15 +122,14 @@ export function MediaCarouselBlock({
               className={`aspect-media w-full rounded-lg border ${dark ? 'border-background/20' : 'border-border'}`}
             />
             <div className="flex max-w-prose-sm flex-col gap-small-medium">
-              <p className="text-body">
-                <span className="font-semibold">{slide.title}</span>
-                {slide.body && (
-                  <span className={dark ? 'text-background/80' : 'text-muted-foreground'}>
-                    {' '}
-                    {slide.body}
-                  </span>
-                )}
-              </p>
+              <ItemHeading
+                as={titleSize}
+                title={slide.title}
+                description={slide.body}
+                layout={headingLayout}
+                tone={dark ? 'inverse' : 'default'}
+                gap="medium"
+              />
               {slide.note && (
                 <p className={`text-caption ${dark ? 'text-background/60' : 'text-muted-foreground'}`}>
                   {slide.note}

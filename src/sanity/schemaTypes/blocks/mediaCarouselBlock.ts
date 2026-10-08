@@ -1,6 +1,8 @@
 import { defineType, defineField, defineArrayMember } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
 import { spacingField } from '../fields/spacingField'
+import { headingLayoutField } from '../fields/headingLayoutField'
+import { titleSizeField } from '../fields/titleSizeField'
 
 export const mediaCarouselBlock = defineType({
   name: 'mediaCarouselBlock',
@@ -35,6 +37,8 @@ export const mediaCarouselBlock = defineType({
       },
       initialValue: 'default',
     }),
+    { ...headingLayoutField, initialValue: 'inline' },
+    titleSizeField('h5'),
     defineField({
       name: 'slides',
       type: 'array',
@@ -50,13 +54,13 @@ export const mediaCarouselBlock = defineType({
             }),
             defineField({
               name: 'title',
-              description: 'The bold opening words of the caption, e.g. "Pro controls."',
+              description: 'The slide\'s title. In the Inline title style it opens the caption in bold, e.g. "Pro controls."',
               type: 'string',
               validation: (Rule) => Rule.required().max(80),
             }),
             defineField({
               name: 'body',
-              description: 'Continues straight on after the title.',
+              description: 'Runs on after the title (Inline) or sits under it (Stacked).',
               type: 'text',
               rows: 3,
               validation: (Rule) => Rule.max(400),
