@@ -536,6 +536,24 @@ p {
     max((100% - var(--container-page)) / 2, 0px) + var(--spacing-large)
   );
 }
+/* Horizontal Scroll Stack Medium (desktop only — mobile stacks): same
+   slide width as .media-carousel-slide, but also capped by the screen
+   height, so the pinned title + image + caption fit in one screen. */
+@media (min-width: 768px) {
+  .scroll-stack-medium-slide {
+    width: min(
+      max(
+        22rem,
+        calc(
+          min(100vw, var(--container-page)) - 2 * var(--spacing-medium-large) - var(--spacing-2xl) -
+            var(--container-prose-xs)
+        )
+      ),
+      calc((100vh - 24rem) * 1.4)
+    );
+  }
+}
+
 .media-carousel-slide {
   /* 16px narrower than the full row so the next slide peeks in at the
      right edge, which is what tells a visitor it scrolls. */

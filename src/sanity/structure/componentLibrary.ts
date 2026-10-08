@@ -96,6 +96,12 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
     description: 'Horizontally scrolling carousel of customer quotes.',
   },
   {
+    type: 'horizontalScrollStackMediumBlock',
+    title: 'Horizontal Scroll Stack Medium',
+    description:
+      'Desktop: pins in place and slides a row of Feature-Split-sized images with captions sideways as the page scrolls down, under a left-aligned H2/H3 title and optional text that stay put. Stacks vertically on mobile. Light or dark.',
+  },
+  {
     type: 'mediaCarouselBlock',
     title: 'Media Carousel',
     description:

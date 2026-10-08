@@ -36,6 +36,7 @@ import { darkBannerBlock } from './blocks/darkBannerBlock'
 import { fullWidthSingleBlock } from './blocks/fullWidthSingleBlock'
 import { horizontalScrollStackBlock } from './blocks/horizontalScrollStackBlock'
 import { mediaCarouselBlock } from './blocks/mediaCarouselBlock'
+import { horizontalScrollStackMediumBlock } from './blocks/horizontalScrollStackMediumBlock'
 
 export const schemaTypes = [
   page,
@@ -75,5 +76,6 @@ export const schemaTypes = [
   fullWidthSingleBlock,
   horizontalScrollStackBlock,
   mediaCarouselBlock,
+  horizontalScrollStackMediumBlock,
   footerBlock,
 ]
