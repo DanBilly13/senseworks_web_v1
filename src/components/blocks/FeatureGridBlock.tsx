@@ -1,9 +1,11 @@
 'use client'
 import { Fragment } from 'react'
 import Image from 'next/image'
+import type { SanityImageSource } from '@sanity/image-url'
 import { CheckCircleOutlined } from '@ant-design/icons'
 import { SectionShell } from '@/components/ui/SectionShell'
 import { ItemHeading } from '@/components/ui/ItemHeading'
+import { maskUrlFor } from '@/lib/sanity/image'
 
 type FeatureGridIcon =
   | 'home_work'
@@ -30,6 +32,9 @@ const ICON_SRC: Record<FeatureGridIcon, string> = {
 }
 
 type FeatureGridItem = {
+  // An uploaded icon wins over the curated `icon` below, which stays
+  // so content set up before uploads existed keeps rendering.
+  iconImage?: SanityImageSource
   icon?: FeatureGridIcon
   title: string
   description?: string
@@ -92,7 +97,24 @@ export function FeatureGridBlock({
               className={`flex items-center justify-center text-muted-foreground ${ICON_BOX_CLASS[iconSize]}`}
               aria-hidden="true"
             >
-              {item.icon ? (
+              {item.iconImage ? (
+                // Uploaded icon, drawn as a mask so it takes the site's
+                // foreground color whatever colors the file itself
+                // has — same technique as Dark Banner's uploaded icons.
+                <span
+                  className="size-full bg-foreground"
+                  style={{
+                    maskImage: `url(${maskUrlFor(item.iconImage)})`,
+                    maskRepeat: 'no-repeat',
+                    maskPosition: 'center',
+                    maskSize: 'contain',
+                    WebkitMaskImage: `url(${maskUrlFor(item.iconImage)})`,
+                    WebkitMaskRepeat: 'no-repeat',
+                    WebkitMaskPosition: 'center',
+                    WebkitMaskSize: 'contain',
+                  }}
+                />
+              ) : item.icon ? (
                 <Image
                   src={ICON_SRC[item.icon]}
                   alt=""

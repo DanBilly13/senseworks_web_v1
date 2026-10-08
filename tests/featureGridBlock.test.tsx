@@ -17,6 +17,23 @@ describe('FeatureGridBlock', () => {
     expect(screen.getByRole('heading', { name: 'Permissions' })).toBeInTheDocument()
   })
 
+  it('draws an uploaded icon as a mask, ahead of the list icon', () => {
+    const { container } = render(
+      <FeatureGridBlock
+        items={[
+          {
+            title: 'Uploaded',
+            icon: 'lock',
+            iconImage: { _type: 'image', asset: { _type: 'reference', _ref: 'image-0123456789abcdef0123456789abcdef01234567-24x24-svg' } },
+          },
+        ]}
+      />,
+    )
+    expect(container.querySelector('img')).toBeNull()
+    const masked = container.querySelector<HTMLElement>('span.bg-foreground')
+    expect(masked?.style.maskImage || masked?.style.webkitMaskImage).toContain('mock.jpg')
+  })
+
   it('renders nothing when there are no items', () => {
     const { container } = render(<FeatureGridBlock items={[]} />)
     expect(container).toBeEmptyDOMElement()

@@ -8,6 +8,13 @@ export function urlFor(source: SanityImageSource) {
   return builder.image(source)
 }
 
+// For CSS mask-image: the same asset URL, routed through this site
+// (see the rewrite in next.config.ts) so the browser treats it as
+// same-origin and actually applies the mask.
+export function maskUrlFor(source: SanityImageSource): string {
+  return urlFor(source).url().replace('https://cdn.sanity.io/images/', '/sanity-images/')
+}
+
 // Sanity image asset IDs encode their pixel dimensions in the ref
 // itself (e.g. "image-<hash>-1752x810-png") — reading them here avoids
 // a separate GROQ projection just to get width/height for rendering an

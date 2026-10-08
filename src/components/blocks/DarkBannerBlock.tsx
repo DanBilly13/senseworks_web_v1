@@ -5,7 +5,7 @@ import { CheckCircleOutlined } from '@ant-design/icons'
 import { SectionShell } from '@/components/ui/SectionShell'
 import { SectionIntro } from '@/components/ui/SectionIntro'
 import { ItemHeading } from '@/components/ui/ItemHeading'
-import { urlFor } from '@/lib/sanity/image'
+import { maskUrlFor, urlFor } from '@/lib/sanity/image'
 
 type DarkBannerItem = {
   icon?: SanityImageSource
@@ -143,11 +143,11 @@ export function DarkBannerBlock({
                     aria-hidden="true"
                     className={`shrink-0 ${ICON_BOX_CLASS[iconSize]} ${ICON_MASK_BG_CLASS[tone]}`}
                     style={{
-                      maskImage: `url(${urlFor(item.icon).url()})`,
+                      maskImage: `url(${maskUrlFor(item.icon)})`,
                       maskRepeat: 'no-repeat',
                       maskPosition: 'center',
                       maskSize: 'contain',
-                      WebkitMaskImage: `url(${urlFor(item.icon).url()})`,
+                      WebkitMaskImage: `url(${maskUrlFor(item.icon)})`,
                       WebkitMaskRepeat: 'no-repeat',
                       WebkitMaskPosition: 'center',
                       WebkitMaskSize: 'contain',

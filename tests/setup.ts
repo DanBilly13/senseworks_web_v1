@@ -8,6 +8,7 @@ import { cleanup } from '@testing-library/react'
 // is mocked globally rather than per test file.
 vi.mock('@/lib/sanity/image', () => ({
   urlFor: () => ({ url: () => 'https://cdn.sanity.io/images/mock-project/production/mock.jpg' }),
+  maskUrlFor: () => '/sanity-images/mock-project/production/mock.jpg',
 }))
 
 // Without `test.globals: true` in vitest.config.ts, Testing Library's

@@ -54,10 +54,18 @@ export const featureGridBlock = defineType({
           type: 'object',
           fields: [
             defineField({
-              name: 'icon',
-              title: 'Icon',
+              name: 'iconImage',
+              title: 'Icon (upload)',
               description:
-                'Optional — a curated set of Material Symbols SVGs (public/icons/), not the site\'s default Ant Design icon set (D16). Leave unset to keep the default checkmark.',
+                'Optional — upload a single-colour SVG (or a PNG with a transparent background). The site recolours it to match, so the file\'s own colours don\'t matter. Material Symbols (fonts.google.com/icons) downloads as SVG. Leave empty to use the checkmark, or pick one from the list below.',
+              type: 'image',
+              options: { accept: 'image/svg+xml,image/png' },
+            }),
+            defineField({
+              name: 'icon',
+              title: 'Icon (from the list)',
+              description:
+                'Optional — a short list of ready-made icons. Ignored if an icon is uploaded above. Leave both empty to keep the default checkmark.',
               type: 'string',
               options: {
                 list: [
