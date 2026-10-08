@@ -70,7 +70,7 @@ export function FeatureSplitDarkBlock({
               // mt-medium/mt-medium-large, outside this gap-medium
               // container entirely, so it never matched.
               <div style={subhead || body ? { marginTop: HEADING_LINE_HEIGHT_GAP } : undefined}>
-                <Button href={ctaHref} variant="filled-light">
+                <Button href={ctaHref} variant="filled-accent">
                   {ctaLabel}
                 </Button>
               </div>

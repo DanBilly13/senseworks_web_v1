@@ -24,9 +24,10 @@ export const buttonVariants = cva(
       variant: {
         'filled-dark': 'bg-foreground text-background hover:opacity-90',
         'filled-accent': 'bg-accent text-accent-foreground hover:opacity-90',
-        // For use on a dark/foreground-colored surface (e.g. a
-        // featured pricing card) where filled-dark would be invisible
-        // against the same-colored background.
+        // Plain white, for a dark/foreground-colored surface where the
+        // accent color isn't wanted. Dark surfaces default to
+        // filled-accent instead, so their button takes the page theme's
+        // color (yellow, Audit purple, Analytics green).
         'filled-light': 'bg-background text-foreground hover:opacity-90',
         ghost: 'border border-border text-foreground hover:bg-muted',
       },

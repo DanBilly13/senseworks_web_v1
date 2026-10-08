@@ -128,7 +128,7 @@ export function HeroBackdropBlock({
               ctaHref && (
                 <div className="flex flex-col items-start gap-small-medium">
                   <div className="flex flex-wrap items-center gap-medium-large">
-                    <Button href={ctaHref} variant={textTone === 'light' ? 'filled-light' : 'filled-dark'}>
+                    <Button href={ctaHref} variant={textTone === 'light' ? 'filled-accent' : 'filled-dark'}>
                       {ctaLabel}
                     </Button>
                     {secondaryCtaLabel && secondaryCtaHref && (

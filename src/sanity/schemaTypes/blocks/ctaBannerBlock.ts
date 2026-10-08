@@ -35,13 +35,13 @@ export const ctaBannerBlock = defineType({
     defineField({
       name: 'buttonVariant',
       title: 'Button color',
-      description: 'Leave unset to auto-match the tone below (light on Inverse, dark otherwise).',
+      description: 'Leave unset to auto-match the tone below (the page\'s accent colour on Inverse, dark otherwise).',
       type: 'string',
       options: {
         list: [
           { title: 'Dark', value: 'filled-dark' },
           { title: 'Accent', value: 'filled-accent' },
-          { title: 'Light', value: 'filled-light' },
+          { title: 'White', value: 'filled-light' },
           { title: 'Ghost (outlined)', value: 'ghost' },
         ],
         layout: 'radio',

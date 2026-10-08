@@ -67,7 +67,7 @@ type FullWidthSingleBlockProps = {
   tone?: FullWidthSingleBlockTone
   align?: 'left' | 'center'
   // Overrides the button's color — leave unset to keep the same auto
-  // behavior CTA Banner uses (filled-light on the inverse/dark tone,
+  // behavior CTA Banner uses (filled-accent on the inverse/dark tone,
   // filled-dark on every other tone, since filled-dark would be
   // invisible there).
   buttonVariant?: ButtonVariant
@@ -139,7 +139,7 @@ export function FullWidthSingleBlock({
   paddingBottom = 'loose',
   spacing = 'loose',
 }: FullWidthSingleBlockProps) {
-  const resolvedButtonVariant = buttonVariant ?? (tone === 'inverse' ? 'filled-light' : 'filled-dark')
+  const resolvedButtonVariant = buttonVariant ?? (tone === 'inverse' ? 'filled-accent' : 'filled-dark')
   // Body renders outside SectionIntro (see below) rather than through
   // its own body prop — neither of SectionIntro's two built-in body
   // treatments (the h1/h2 "subtitle" size, or h3/h4's body-lg) lands

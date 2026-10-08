@@ -78,7 +78,7 @@ export function PricingBlock({
               )}
               {plan.ctaLabel && plan.ctaHref && (
                 <div className="mt-auto">
-                  <Button href={plan.ctaHref} variant={featured ? 'filled-light' : 'filled-dark'}>
+                  <Button href={plan.ctaHref} variant={featured ? 'filled-accent' : 'filled-dark'}>
                     {plan.ctaLabel}
                   </Button>
                 </div>

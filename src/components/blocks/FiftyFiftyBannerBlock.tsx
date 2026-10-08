@@ -61,7 +61,7 @@ export function FiftyFiftyBannerBlock({
               cta={
                 ctaLabel &&
                 ctaHref && (
-                  <Button href={ctaHref} variant="filled-light">
+                  <Button href={ctaHref} variant="filled-accent">
                     {ctaLabel}
                   </Button>
                 )

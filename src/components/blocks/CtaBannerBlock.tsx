@@ -22,7 +22,7 @@ type CtaBannerBlockProps = {
   // the tone's own background color still shows through it.
   backgroundImage?: SanityImageSource
   // Overrides the button's color — leave unset to keep the previous
-  // auto behavior (filled-light on the inverse/dark tone, filled-dark
+  // auto behavior (filled-accent on the inverse/dark tone, filled-dark
   // on every other tone, since filled-dark would be invisible there).
   buttonVariant?: ButtonVariant
 }
@@ -46,7 +46,7 @@ export function CtaBannerBlock({
   backgroundImage,
   buttonVariant,
 }: CtaBannerBlockProps) {
-  const resolvedButtonVariant = buttonVariant ?? (tone === 'inverse' ? 'filled-light' : 'filled-dark')
+  const resolvedButtonVariant = buttonVariant ?? (tone === 'inverse' ? 'filled-accent' : 'filled-dark')
   const ctaButtons = (
     <div className="flex flex-col items-center gap-medium">
       <div className="flex flex-wrap items-center justify-center gap-medium-large">

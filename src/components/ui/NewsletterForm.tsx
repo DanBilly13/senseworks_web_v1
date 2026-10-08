@@ -35,7 +35,7 @@ export function NewsletterForm({ heading, placeholder }: NewsletterFormProps) {
         aria-label={heading ?? 'Email address'}
         className="w-full rounded-md border border-background/30 bg-transparent px-medium py-small-medium text-body-sm text-background placeholder:text-background/50 sm:max-w-prose-xs"
       />
-      <button type="submit" className={buttonVariants({ variant: 'filled-light', size: 'sm' })}>
+      <button type="submit" className={buttonVariants({ variant: 'filled-accent', size: 'sm' })}>
         Subscribe
       </button>
     </form>
