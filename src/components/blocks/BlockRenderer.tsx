@@ -19,6 +19,7 @@ import { PricingBlock } from './PricingBlock'
 import { BentoGridBlock } from './BentoGridBlock'
 import { MediaBlock } from './MediaBlock'
 import { MediaCarouselBlock } from './MediaCarouselBlock'
+import { ReleaseCardsBlock } from './ReleaseCardsBlock'
 import { HorizontalScrollStackMediumBlock } from './HorizontalScrollStackMediumBlock'
 import { FaqAccordionBlock } from './FaqAccordionBlock'
 import { FooterBlock } from './FooterBlock'
@@ -52,6 +53,7 @@ const BLOCK_COMPONENTS = {
   bentoGridBlock: BentoGridBlock,
   mediaBlock: MediaBlock,
   mediaCarouselBlock: MediaCarouselBlock,
+  releaseCardsBlock: ReleaseCardsBlock,
   horizontalScrollStackMediumBlock: HorizontalScrollStackMediumBlock,
   faqAccordionBlock: FaqAccordionBlock,
   comparisonTableBlock: ComparisonTableBlock,

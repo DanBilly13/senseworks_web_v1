@@ -67,6 +67,7 @@ export const pageBySlugAndLocaleQuery = groq`
       _type == "mediaBlock" => { ${mediaProjection()} },
       _type == "fullWidthSingleBlock" => { ${mediaProjection()}, ${mediaProjection('media2', 'media2')} },
       _type == "horizontalScrollStackMediumBlock" => { slides[]{ ..., ${mediaProjection()} } },
+      _type == "releaseCardsBlock" => { cards[]{ ..., ${mediaProjection()} } },
       _type == "mediaCarouselBlock" => { slides[]{ ..., ${mediaProjection()} } },
       _type == "horizontalScrollStackBlock" => { panels[]{ ..., ${mediaProjection()} } },
       _type == "caseStudyGridBlock" => { items[]{ ..., ${mediaProjection()} } },

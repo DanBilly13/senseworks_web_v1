@@ -102,6 +102,12 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
       'Desktop: pins in place and slides a row of Feature-Split-sized images with captions sideways as the page scrolls down, under a left-aligned H2/H3 title and optional text that stay put. Stacks vertically on mobile. Light or dark.',
   },
   {
+    type: 'releaseCardsBlock',
+    title: 'Release Cards',
+    description:
+      'Project-management-style cards for what has shipped: a colored category chip (Audit purple, Analysis green, Customer Service yellow), title, text, optional image, a progress bar (full for shipped) and the date. 2 or 3 columns. No intro of its own; add a Section Headline above it.',
+  },
+  {
     type: 'mediaCarouselBlock',
     title: 'Media Carousel',
     description:

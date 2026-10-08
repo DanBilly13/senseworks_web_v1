@@ -29,6 +29,7 @@ import { HorizontalScrollStackBlock } from '@/components/blocks/HorizontalScroll
 import { BentoGridBlock } from '@/components/blocks/BentoGridBlock'
 import { MediaBlock } from '@/components/blocks/MediaBlock'
 import { MediaCarouselBlock } from '@/components/blocks/MediaCarouselBlock'
+import { ReleaseCardsBlock } from '@/components/blocks/ReleaseCardsBlock'
 import { FaqAccordionBlock } from '@/components/blocks/FaqAccordionBlock'
 import { SectionShell } from '@/components/ui/SectionShell'
 import { SectionIntro } from '@/components/ui/SectionIntro'
@@ -73,6 +74,12 @@ function BlockCaption({ name, type, variant }: { name: string; type: string; var
     </div>
   )
 }
+
+const RELEASE_CARDS = [
+  { tag: 'analysis' as const, area: 'Integrations', title: 'Lorem ipsum dolor sit amet', description: 'Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', date: '1 Oct 2026' },
+  { tag: 'audit' as const, area: 'Audit report', title: 'Ut enim ad minim veniam', description: 'Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', date: '24 Sep 2026' },
+  { tag: 'customerService' as const, area: 'Support', title: 'Duis aute irure dolor', description: 'In reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.', date: '17 Sep 2026', progress: 60, status: 'In progress' },
+]
 
 const CAROUSEL_SLIDES = [
   { title: 'Lorem ipsum dolor.', body: 'Sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' },
@@ -524,6 +531,8 @@ export default async function BlocksPage({
       />
       <BlockCaption name="Testimonial — Large" type="testimonialLargeBlock" />
       <TestimonialLargeBlock quote={BODY_LONG} authorName="Lorem Ipsum" authorRole="Lorem, Ipsum" />
+      <BlockCaption name="Release Cards" type="releaseCardsBlock" />
+      <ReleaseCardsBlock cards={RELEASE_CARDS} />
       <BlockCaption name="Media Carousel" type="mediaCarouselBlock" />
       <MediaCarouselBlock eyebrow={EYEBROW} heading={HEADING} body={BODY} slides={CAROUSEL_SLIDES} />
       <BlockCaption name="Media Carousel — Dark" type="mediaCarouselBlock" variant='tone: "dark"' />
