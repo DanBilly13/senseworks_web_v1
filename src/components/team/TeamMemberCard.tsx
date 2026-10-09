@@ -17,12 +17,14 @@ export function TeamMemberCard({
     <button
       type="button"
       onClick={onSelect}
-      className="flex flex-col items-center gap-small-medium rounded-lg p-medium text-center"
+      className="flex flex-col items-center gap-small-medium rounded-lg text-center"
     >
+      {/* Fills its grid column (no card padding), so the outer photos
+          in a row sit exactly on the page content's left/right edges. */}
       <Media
         media={photo}
         alt={member.name}
-        className="size-4xl shrink-0 rounded-full md:size-avatar-lg"
+        className="aspect-square w-full shrink-0 rounded-full"
         fallback={<UserOutlined />}
       />
       <div className="flex flex-col">

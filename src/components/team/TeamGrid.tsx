@@ -38,7 +38,7 @@ export function TeamGrid({ members }: { members: TeamMember[] }) {
 
   return (
     <>
-      <div className="grid grid-cols-2 gap-medium sm:grid-cols-3 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-x-large gap-y-xl sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
         {members.map((member) => (
           <TeamMemberCard key={member._id} member={member} onSelect={() => setSelected(member)} />
         ))}
