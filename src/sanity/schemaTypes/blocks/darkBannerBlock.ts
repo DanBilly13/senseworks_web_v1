@@ -19,8 +19,7 @@ export const darkBannerBlock = defineType({
     defineField({
       name: 'body',
       type: 'text',
-      rows: 2,
-      validation: (Rule) => Rule.max(300),
+      rows: 4,
     }),
     defineField({
       name: 'tone',
