@@ -311,20 +311,17 @@
   --color-accent-foreground: var(--color-foreground);
 
   /* Colored chips (project-card style tags — Tag's `color` prop, Release
-     Cards): a soft tint with a darker text color of the same hue, plus a
-     stronger bar color for a progress bar. Purple and green match the
+     Cards): a soft tint with a darker text color of the same hue. Progress bars
+     are always foreground black. Purple and green match the
      Audit and Analytics page themes; yellow the default accent. Fixed
      colors, not the page theme's accent, so a card keeps its meaning
      whichever page it sits on. */
   --color-tag-purple: #ece2ff;
   --color-tag-purple-text: #4b2a99;
-  --color-tag-purple-bar: #b995f5;
   --color-tag-green: #d7f7e3;
   --color-tag-green-text: #12683a;
-  --color-tag-green-bar: #4ede88;
   --color-tag-yellow: #fbf6c4;
   --color-tag-yellow-text: #6b5b00;
-  --color-tag-yellow-bar: #efdf4a;
 
   /* Accent Gradient — from the Figma source SVG (linearGradient,
      userSpaceOnUse, x1=233.815 y1=-517.437 x2=-294.35 y2=468.681,
@@ -351,7 +348,7 @@
 
   /* Numbers only — Roboto Mono, loaded in layout.tsx as
      --font-roboto-mono. Use the font-mono utility on step counters,
-     numbered eyebrow badges and stat values. */
+     numbered eyebrow badges. (Stat values use font-heading.) */
   --font-mono: var(--font-roboto-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 

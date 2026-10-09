@@ -30,10 +30,10 @@ type ReleaseCardsBlockProps = {
 
 // Audit and Analysis take the same colors as their page themes (purple,
 // green); Customer Service takes yellow.
-const TAG: Record<ReleaseTag, { label: string; color: 'purple' | 'green' | 'yellow'; bar: string }> = {
-  audit: { label: 'Audit', color: 'purple', bar: 'bg-tag-purple-bar' },
-  analysis: { label: 'Analysis', color: 'green', bar: 'bg-tag-green-bar' },
-  customerService: { label: 'Customer Service', color: 'yellow', bar: 'bg-tag-yellow-bar' },
+const TAG: Record<ReleaseTag, { label: string; color: 'purple' | 'green' | 'yellow' }> = {
+  audit: { label: 'Audit', color: 'purple' },
+  analysis: { label: 'Analysis', color: 'green' },
+  customerService: { label: 'Customer Service', color: 'yellow' },
 }
 
 const COLS_CLASS: Record<'2' | '3' | '4', string> = {
@@ -127,7 +127,7 @@ export function ReleaseCardsBlock({
                     className="h-small w-full overflow-hidden rounded-full bg-muted"
                   >
                     <div
-                      className={`h-full rounded-full ${tag ? tag.bar : 'bg-foreground'}`}
+                      className="h-full rounded-full bg-foreground"
                       style={{ width: `${progress}%` }}
                     />
                   </div>
