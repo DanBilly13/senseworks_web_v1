@@ -9,10 +9,11 @@ type Slot = 'ink' | 'paper' | 'accent'
 
 // Colour per slot (see lib/svgLayer) on each surface — all CSS
 // variables, so the page theme's accent reaches the icon with no prop:
-// yellow by default, purple on Audit pages, green on Analysis.
+// yellow by default, purple on Audit pages, green on Analysis (via
+// --color-icon-accent, a slightly stronger yellow than the buttons').
 const SLOT_COLOR: Record<IconSurface, Record<Slot, string>> = {
-  light: { ink: 'var(--color-foreground)', paper: 'var(--color-background)', accent: 'var(--color-accent)' },
-  dark: { ink: 'var(--color-background)', paper: 'var(--color-foreground)', accent: 'var(--color-accent)' },
+  light: { ink: 'var(--color-foreground)', paper: 'var(--color-background)', accent: 'var(--color-icon-accent)' },
+  dark: { ink: 'var(--color-background)', paper: 'var(--color-foreground)', accent: 'var(--color-icon-accent)' },
   // The accent would vanish into an accent panel, so it goes white there.
   accent: { ink: 'var(--color-foreground)', paper: 'var(--color-accent)', accent: 'var(--color-background)' },
 }

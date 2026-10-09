@@ -309,6 +309,11 @@
      everywhere else, not a separate "on-accent" color. */
   --color-accent: #fbfeac;
   --color-accent-foreground: var(--color-foreground);
+  /* The accent part of an uploaded icon (see UploadedIcon). The same as
+     the accent on every theme except the default yellow, which is a
+     touch stronger here (#f7faa8) since #fbfeac is too pale for a small
+     icon shape. Each page theme below sets its own. */
+  --color-icon-accent: #f7faa8;
 
   /* Colored chips (project-card style tags — Tag's `color` prop, Release
      Cards): a soft tint with a darker text color of the same hue. Progress bars
@@ -653,6 +658,7 @@ p {
 
 [data-page-theme='revision'] {
   --color-accent: #b38aff;
+  --color-icon-accent: #b38aff;
   --gradient-accent:
     var(--gradient-dither),
     linear-gradient(
@@ -677,6 +683,7 @@ p {
 
 [data-page-theme='analysis'] {
   --color-accent: #5eec94;
+  --color-icon-accent: #5eec94;
   --gradient-accent:
     var(--gradient-dither),
     linear-gradient(

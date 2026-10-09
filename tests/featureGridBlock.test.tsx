@@ -31,7 +31,7 @@ describe('FeatureGridBlock', () => {
     )
     const layers = [...container.querySelectorAll<HTMLElement>('[data-slot]')]
     expect(layers.map((l) => l.dataset.slot)).toEqual(['accent', 'paper', 'ink'])
-    expect(layers[0].style.backgroundColor).toBe('var(--color-accent)')
+    expect(layers[0].style.backgroundColor).toBe('var(--color-icon-accent)')
   })
 
   it('draws an uploaded PNG icon as a single-colour mask', () => {
