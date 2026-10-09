@@ -224,6 +224,10 @@
   --text-h4--line-height: 1.3;
   --text-h5: 1.375rem;
   --text-h5--line-height: 1.3;
+  /* Smallest heading, one step above body-lg — Paragraphs' column
+     titles. Same size on mobile (no override below). */
+  --text-h6: 1.125rem;
+  --text-h6--line-height: 1.3;
 
   /* Each heading's own rendered line-height in px, derived from its
      size × ratio above rather than hand-copied — stays correct

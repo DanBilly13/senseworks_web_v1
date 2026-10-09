@@ -69,6 +69,12 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
       'Numbered sequence (01, 02, ... — numbered automatically from list order) with a title and body per step, arrow connectors between them on desktop. Stacks on mobile, no arrows. Carries its own optional eyebrow/heading/body lead-in.',
   },
   {
+    type: 'paragraphsBlock',
+    title: 'Paragraphs',
+    description:
+      'Text-only columns (3 or 4 on desktop), no boxes: an optional H4/H5/H6 title, stacked or inline, over body text. Add an "Empty column" item to leave a desktop column blank and push text across (e.g. text, text, empty); it disappears on mobile. No intro of its own; add a Section Headline above it.',
+  },
+  {
     type: 'featureGridBlock',
     title: 'Feature Grid',
     description:

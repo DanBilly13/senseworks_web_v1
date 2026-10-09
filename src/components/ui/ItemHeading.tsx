@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-type ItemHeadingLevel = 'h3' | 'h4' | 'h5'
+type ItemHeadingLevel = 'h3' | 'h4' | 'h5' | 'h6'
 type ItemHeadingLayout = 'stacked' | 'inline'
 type ItemHeadingTone = 'default' | 'inverse'
 type ItemHeadingGap = 'none' | 'small' | 'medium' | 'medium-large'
@@ -38,12 +38,14 @@ const HEADING_TEXT_CLASS: Record<ItemHeadingLevel, string> = {
   h3: 'text-h3',
   h4: 'text-h4',
   h5: 'text-h5',
+  h6: 'text-h6',
 }
 
 const HEADING_WEIGHT_CLASS: Record<ItemHeadingLevel, string> = {
   h3: 'font-bold',
   h4: 'font-bold',
   h5: 'font-bold',
+  h6: 'font-bold',
 }
 
 const GAP_CLASS: Record<ItemHeadingGap, string> = {

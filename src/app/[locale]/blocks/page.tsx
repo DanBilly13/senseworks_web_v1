@@ -13,6 +13,7 @@ import { FeatureSplitDarkBlock } from '@/components/blocks/FeatureSplitDarkBlock
 import { FiftyFiftyBannerBlock } from '@/components/blocks/FiftyFiftyBannerBlock'
 import { StepsBlock } from '@/components/blocks/StepsBlock'
 import { FeatureGridBlock } from '@/components/blocks/FeatureGridBlock'
+import { ParagraphsBlock } from '@/components/blocks/ParagraphsBlock'
 import { FeatureListBlock } from '@/components/blocks/FeatureListBlock'
 import { CardGridBlock } from '@/components/blocks/CardGridBlock'
 import { LogoCloudBlock } from '@/components/blocks/LogoCloudBlock'
@@ -368,6 +369,26 @@ export default async function BlocksPage({
           { title: 'Developing a prototype', body: 'Sed do eiusmod tempor incididunt ut labore et dolore.' },
           { title: 'Coding and programming', body: 'Ut enim ad minim veniam, quis nostrud exercitation.' },
           { title: 'Testing and optimizing', body: 'Duis aute irure dolor in reprehenderit in voluptate.' },
+        ]}
+      />
+      <BlockCaption name="Paragraphs" type="paragraphsBlock" variant="text, text, empty" />
+      <ParagraphsBlock
+        items={[
+          { _type: 'paragraph', title: 'Lorem ipsum dolor', text: `${BODY}\n\n${BODY}` },
+          { _type: 'paragraph', title: 'Sit amet consectetur', text: BODY },
+          { _type: 'emptyColumn' },
+        ]}
+      />
+      <BlockCaption name="Paragraphs — 4 columns, H6, inline" type="paragraphsBlock" variant='columns: "4", empty first' />
+      <ParagraphsBlock
+        columns="4"
+        titleSize="h6"
+        headingLayout="inline"
+        items={[
+          { _type: 'emptyColumn' },
+          { _type: 'paragraph', title: 'Lorem ipsum dolor.', text: BODY },
+          { _type: 'paragraph', title: 'Sit amet consectetur.', text: BODY },
+          { _type: 'paragraph', title: 'Adipiscing elit sed.', text: BODY },
         ]}
       />
       <BlockCaption name="Feature Grid" type="featureGridBlock" />
