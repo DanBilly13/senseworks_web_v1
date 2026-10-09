@@ -1,4 +1,8 @@
-import { SectionShell } from '@/components/ui/SectionShell'
+'use client'
+import { Button } from '@/components/ui/Button'
+import { CarouselNav, CarouselScroller, useCarousel } from '@/components/ui/Carousel'
+import { SectionIntro } from '@/components/ui/SectionIntro'
+import { SECTION_GAP_PB_CLASS } from '@/components/ui/SectionShell'
 import { Media } from '@/components/ui/Media'
 import type { MediaField } from '@/lib/sanity/media'
 
@@ -17,8 +21,14 @@ type CaseStudyItem = {
 }
 type CardTone = 'default' | 'dark' | 'accent'
 type CaseStudyGridBlockProps = {
-  // The section title lives in its own Section Headline block above —
-  // this block is just the grid.
+  // Optional intro, laid out like Testimonial Carousel's: heading left,
+  // prev/next buttons right. Without one (the title in a Section
+  // Headline block above instead), the buttons sit alone on the right.
+  eyebrow?: string
+  heading?: string
+  body?: string
+  ctaLabel?: string
+  ctaHref?: string
   tone?: CardTone
   spacing?: 'loose' | 'medium' | 'tight' | 'none'
   items?: CaseStudyItem[]
@@ -38,23 +48,70 @@ const TONE_MUTED_CLASS: Record<CardTone, string> = {
   accent: 'text-foreground/70',
 }
 
+// A carousel, same mechanics and layout as Testimonial Carousel (see
+// ui/Carousel): a full-bleed snap-scrolling row of cards, its first
+// card lined up with the page content, stepped with prev/next buttons.
 export function CaseStudyGridBlock({
+  eyebrow,
+  heading,
+  body,
+  ctaLabel,
+  ctaHref,
   tone = 'default',
   spacing = 'loose',
   items = [],
 }: CaseStudyGridBlockProps) {
+  const { scrollerRef, firstCardRef, atStart, atEnd, updateEdges, scrollByCard } = useCarousel(items.length)
+
   // D7: a block with no content simply doesn't render.
   if (!items.length) return null
 
+  const hasIntro = Boolean(eyebrow || heading)
+
   return (
-    <SectionShell px="boxed" py={spacing}>
-      {/* Same 8+24=32px-from-edge mobile rhythm as Card Grid — see its
-          own comment. Desktop unchanged. */}
-      <div className="grid grid-cols-1 gap-small sm:grid-cols-2 md:gap-large lg:grid-cols-3">
+    <section className={SECTION_GAP_PB_CLASS[spacing]}>
+      {/* Same header row as Testimonial Carousel — see its comments. */}
+      <div className="mx-auto flex w-full max-w-page flex-col px-large md:px-medium-large">
+        <div
+          className={`flex flex-wrap items-end gap-medium-large ${hasIntro ? 'justify-between' : 'justify-end'}`}
+        >
+          {hasIntro && (
+            <div className="min-w-0 flex-1">
+              <SectionIntro
+                as="h2"
+                eyebrow={eyebrow}
+                heading={heading}
+                body={body}
+                maxWidth="sm"
+                headingMaxWidth="wide"
+                cta={
+                  ctaLabel &&
+                  ctaHref && (
+                    <Button href={ctaHref} variant="ghost">
+                      {ctaLabel}
+                    </Button>
+                  )
+                }
+              />
+            </div>
+          )}
+          <CarouselNav
+            label="case studies"
+            atStart={atStart}
+            atEnd={atEnd}
+            onStep={scrollByCard}
+          />
+        </div>
+      </div>
+      {/* The intro-to-content gap is 64px (mt-2xl) under a heading, as
+          every block; under the buttons alone it's the smaller 24px, so
+          they read as the carousel's own controls. */}
+      <CarouselScroller scrollerRef={scrollerRef} onScroll={updateEdges} className={hasIntro ? 'mt-2xl' : 'mt-medium-large'}>
         {items.map((item, index) => (
           <div
             key={index}
-            className={`flex flex-col gap-medium-large rounded-lg p-medium-large md:p-large ${TONE_CARD_CLASS[tone]}`}
+            ref={index === 0 ? firstCardRef : undefined}
+            className={`flex w-80 shrink-0 snap-start flex-col gap-medium-large rounded-lg p-medium-large md:w-96 md:p-large ${TONE_CARD_CLASS[tone]}`}
           >
             {item.media?.mediaType ? (
               <Media
@@ -101,7 +158,7 @@ export function CaseStudyGridBlock({
             )}
           </div>
         ))}
-      </div>
-    </SectionShell>
+      </CarouselScroller>
+    </section>
   )
 }

@@ -4,10 +4,19 @@ import { spacingField } from '../fields/spacingField'
 
 export const caseStudyGridBlock = defineType({
   name: 'caseStudyGridBlock',
-  title: 'Case Study Card Grid',
+  title: 'Case Study Carousel',
   type: 'object',
   fields: [
     hiddenField,
+    defineField({
+      name: 'eyebrow',
+      type: 'string',
+      description: 'Optional. With a heading here, it sits left of the carousel buttons, like Testimonial Carousel.',
+    }),
+    defineField({ name: 'heading', type: 'string', validation: (Rule) => Rule.max(100) }),
+    defineField({ name: 'body', type: 'text', rows: 3, validation: (Rule) => Rule.max(300) }),
+    defineField({ name: 'ctaLabel', type: 'string' }),
+    defineField({ name: 'ctaHref', type: 'string' }),
     defineField({
       name: 'tone',
       title: 'Card style',
@@ -58,9 +67,9 @@ export const caseStudyGridBlock = defineType({
     }),
   ],
   preview: {
-    select: { items: 'items' },
-    prepare: ({ items }) => ({
-      title: 'Case Study Card Grid',
+    select: { items: 'items', heading: 'heading' },
+    prepare: ({ items, heading }) => ({
+      title: `Case Study Carousel${heading ? ` — ${heading}` : ''}`,
       subtitle: `${items?.length ?? 0} case studies`,
     }),
   },

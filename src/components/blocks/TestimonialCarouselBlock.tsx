@@ -1,7 +1,7 @@
 'use client'
-import { useEffect, useRef, useState } from 'react'
-import { LeftOutlined, RightOutlined, UserOutlined } from '@ant-design/icons'
+import { UserOutlined } from '@ant-design/icons'
 import { Button } from '@/components/ui/Button'
+import { CarouselNav, CarouselScroller, useCarousel } from '@/components/ui/Carousel'
 import { SectionIntro } from '@/components/ui/SectionIntro'
 import { SECTION_GAP_PB_CLASS } from '@/components/ui/SectionShell'
 import { Media } from '@/components/ui/Media'
@@ -32,32 +32,7 @@ export function TestimonialCarouselBlock({
   spacing = 'loose',
   items = [],
 }: TestimonialCarouselBlockProps) {
-  const scrollerRef = useRef<HTMLDivElement>(null)
-  const firstCardRef = useRef<HTMLDivElement>(null)
-  const [atStart, setAtStart] = useState(true)
-  const [atEnd, setAtEnd] = useState(false)
-
-  const updateEdges = () => {
-    const el = scrollerRef.current
-    if (!el) return
-    // A small tolerance, not an exact 0/max comparison: scroll-snap
-    // combined with the scroller's own leading inset can settle a
-    // couple of pixels off scrollLeft 0 depending on the browser.
-    setAtStart(el.scrollLeft <= 4)
-    setAtEnd(el.scrollLeft + el.clientWidth >= el.scrollWidth - 4)
-  }
-
-  useEffect(() => {
-    updateEdges()
-  }, [items.length])
-
-  const scrollByCard = (direction: 1 | -1) => {
-    const el = scrollerRef.current
-    const card = firstCardRef.current
-    if (!el || !card || !el.scrollBy) return
-    const gap = parseFloat(getComputedStyle(el).columnGap || '0')
-    el.scrollBy({ left: direction * (card.offsetWidth + gap), behavior: 'smooth' })
-  }
+  const { scrollerRef, firstCardRef, atStart, atEnd, updateEdges, scrollByCard } = useCarousel(items.length)
 
   // D7: a block with no content simply doesn't render.
   if (!items.length) return null
@@ -95,33 +70,15 @@ export function TestimonialCarouselBlock({
               }
             />
           </div>
-          <div className="flex shrink-0 gap-small">
-            <button
-              type="button"
-              onClick={() => scrollByCard(-1)}
-              disabled={atStart}
-              aria-label="Previous testimonials"
-              className="flex size-xl items-center justify-center rounded-full bg-foreground text-background disabled:opacity-30"
-            >
-              <LeftOutlined />
-            </button>
-            <button
-              type="button"
-              onClick={() => scrollByCard(1)}
-              disabled={atEnd}
-              aria-label="Next testimonials"
-              className="flex size-xl items-center justify-center rounded-full bg-foreground text-background disabled:opacity-30"
-            >
-              <RightOutlined />
-            </button>
-          </div>
+          <CarouselNav
+            label="testimonials"
+            atStart={atStart}
+            atEnd={atEnd}
+            onStep={scrollByCard}
+          />
         </div>
       </div>
-      <div
-        ref={scrollerRef}
-        onScroll={updateEdges}
-        className="carousel-inset scrollbar-hide mt-2xl flex snap-x snap-mandatory gap-large overflow-x-auto scroll-smooth py-small"
-      >
+      <CarouselScroller scrollerRef={scrollerRef} onScroll={updateEdges} className="mt-2xl">
         {items.map((item, index) => (
           <div
             key={index}
@@ -147,7 +104,7 @@ export function TestimonialCarouselBlock({
             </div>
           </div>
         ))}
-      </div>
+      </CarouselScroller>
     </section>
   )
 }
