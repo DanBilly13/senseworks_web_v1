@@ -652,7 +652,7 @@ p {
 }
 
 [data-page-theme='revision'] {
-  --color-accent: #d0b3ff;
+  --color-accent: #b38aff;
   --gradient-accent:
     var(--gradient-dither),
     linear-gradient(

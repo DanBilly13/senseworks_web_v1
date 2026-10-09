@@ -98,9 +98,9 @@ export function FeatureGridBlock({
               aria-hidden="true"
             >
               {item.iconImage ? (
-                // Uploaded icon: its black follows the site's foreground
-                // color, any other colors in the file (an accent) stay.
-                <UploadedIcon source={item.iconImage} ink="#101829" className="size-full" />
+                // Uploaded icon: black and white follow the card, its
+                // accent follows the page theme (see UploadedIcon).
+                <UploadedIcon source={item.iconImage} className="size-full" />
               ) : item.icon ? (
                 <Image
                   src={ICON_SRC[item.icon]}

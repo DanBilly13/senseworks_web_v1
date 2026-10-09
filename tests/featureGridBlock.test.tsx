@@ -17,7 +17,7 @@ describe('FeatureGridBlock', () => {
     expect(screen.getByRole('heading', { name: 'Permissions' })).toBeInTheDocument()
   })
 
-  it('draws an uploaded SVG icon through the recolouring route, ahead of the list icon', () => {
+  it('draws an uploaded SVG icon as three colour layers, ahead of the list icon', () => {
     const { container } = render(
       <FeatureGridBlock
         items={[
@@ -29,8 +29,9 @@ describe('FeatureGridBlock', () => {
         ]}
       />,
     )
-    const img = container.querySelector('img')
-    expect(img?.getAttribute('src')).toContain('?ink=101829')
+    const layers = [...container.querySelectorAll<HTMLElement>('[data-slot]')]
+    expect(layers.map((l) => l.dataset.slot)).toEqual(['accent', 'paper', 'ink'])
+    expect(layers[0].style.backgroundColor).toBe('var(--color-accent)')
   })
 
   it('draws an uploaded PNG icon as a single-colour mask', () => {

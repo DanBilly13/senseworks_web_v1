@@ -1,4 +1,4 @@
-import { recolorSvg } from '@/lib/recolorSvg'
+import { svgLayer, type IconSlot } from '@/lib/svgLayer'
 
 // Same-origin path to Sanity's image CDN, used for icons drawn as a CSS
 // mask (Feature Grid, Dark Banner — see maskUrlFor in lib/sanity/image).
@@ -9,9 +9,11 @@ import { recolorSvg } from '@/lib/recolorSvg'
 // server-side, with no Origin, sidesteps both.
 const CDN_IMAGES = 'https://cdn.sanity.io/images/'
 
-// For an SVG, ?ink=<6 hex digits> swaps its near-black parts for that
-// colour and leaves the rest alone (see recolorSvg) — how a two-colour
-// icon follows light and dark cards while keeping its accent colour.
+// For an SVG, ?layer=ink|paper|accent returns just that colour slot as
+// a luminance mask (see svgLayer) — UploadedIcon stacks the three and
+// paints each from CSS, so an icon follows its card and page theme.
+const LAYERS: IconSlot[] = ['ink', 'paper', 'accent']
+
 export async function GET(request: Request, ctx: RouteContext<'/sanity-images/[...path]'>) {
   const { path } = await ctx.params
   if (path.some((segment) => segment === '..' || segment === '.')) {
@@ -19,10 +21,10 @@ export async function GET(request: Request, ctx: RouteContext<'/sanity-images/[.
   }
   const upstream = await fetch(CDN_IMAGES + path.map(encodeURIComponent).join('/'))
   if (!upstream.ok) return new Response('Not found', { status: upstream.status === 404 ? 404 : 502 })
-  const ink = new URL(request.url).searchParams.get('ink')
+  const layer = new URL(request.url).searchParams.get('layer') as IconSlot | null
   const contentType = upstream.headers.get('content-type') ?? 'application/octet-stream'
-  if (ink && /^[0-9a-fA-F]{6}$/.test(ink) && contentType.includes('svg')) {
-    return new Response(recolorSvg(await upstream.text(), `#${ink}`), {
+  if (layer && LAYERS.includes(layer) && contentType.includes('svg')) {
+    return new Response(svgLayer(await upstream.text(), layer), {
       headers: { 'content-type': contentType, 'cache-control': 'public, max-age=31536000, immutable' },
     })
   }

@@ -6,7 +6,7 @@ import { SectionShell } from '@/components/ui/SectionShell'
 import { SectionIntro } from '@/components/ui/SectionIntro'
 import { ItemHeading } from '@/components/ui/ItemHeading'
 import { urlFor } from '@/lib/sanity/image'
-import { UploadedIcon } from '@/components/ui/UploadedIcon'
+import { UploadedIcon, type IconSurface } from '@/components/ui/UploadedIcon'
 
 type DarkBannerItem = {
   icon?: SanityImageSource
@@ -58,13 +58,12 @@ const ICON_COLOR_CLASS: Record<DarkBannerTone, string> = {
   accent: 'text-foreground',
   white: 'text-foreground',
 }
-// Color for an uploaded icon's black parts, as a hex value (the image
-// route needs the literal color). Matches --color-background /
-// --color-foreground in globals.css.
-const ICON_INK: Record<DarkBannerTone, string> = {
-  dark: '#ffffff',
-  accent: '#101829',
-  white: '#101829',
+// What an uploaded icon sits on, which sets its black, white and
+// accent colours (see UploadedIcon).
+const ICON_SURFACE: Record<DarkBannerTone, IconSurface> = {
+  dark: 'dark',
+  accent: 'accent',
+  white: 'light',
 }
 
 export function DarkBannerBlock({
@@ -135,12 +134,12 @@ export function DarkBannerBlock({
             <div key={index} className="flex flex-col gap-small-medium">
               {showIcons &&
                 (item.icon ? (
-                  // Custom-uploaded icon. Its black follows the panel
-                  // (white on the dark panel, foreground on the light
-                  // ones); any other color in the file, an accent, stays.
+                  // Custom-uploaded icon. Its black and white follow the
+                  // panel, its accent the page theme (white on the
+                  // accent panel, where the accent would vanish).
                   <UploadedIcon
                     source={item.icon}
-                    ink={ICON_INK[tone]}
+                    surface={ICON_SURFACE[tone]}
                     className={`shrink-0 ${ICON_BOX_CLASS[iconSize]}`}
                   />
                 ) : (

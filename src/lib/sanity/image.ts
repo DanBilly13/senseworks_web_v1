@@ -15,10 +15,10 @@ export function maskUrlFor(source: SanityImageSource): string {
   return urlFor(source).url().replace('https://cdn.sanity.io/images/', '/sanity-images/')
 }
 
-// An uploaded SVG icon at its same-origin path, with its near-black
-// parts swapped for `ink` (a '#rrggbb' colour) — see the route handler.
-export function iconUrlFor(source: SanityImageSource, ink: string): string {
-  return `${maskUrlFor(source)}?ink=${ink.replace('#', '')}`
+// One colour slot of an uploaded SVG icon (its black lines, its white
+// parts, or its accent), as a mask — see the route handler and svgLayer.
+export function iconLayerUrlFor(source: SanityImageSource, layer: 'ink' | 'paper' | 'accent'): string {
+  return `${maskUrlFor(source)}?layer=${layer}`
 }
 
 // Sanity image asset IDs encode their pixel dimensions in the ref
