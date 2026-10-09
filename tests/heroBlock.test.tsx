@@ -16,4 +16,9 @@ describe('HeroBlock headline size', () => {
     expect(heading).toHaveClass('text-display')
     expect(heading).not.toHaveClass('text-h1')
   })
+
+  it('turns a typed line break in the headline into a real one', () => {
+    render(<HeroBlock headline={'More genius.\nLess grunt.'} />)
+    expect(screen.getByRole('heading', { level: 1 }).querySelectorAll('br')).toHaveLength(1)
+  })
 })

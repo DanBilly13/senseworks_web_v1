@@ -17,7 +17,10 @@ export const heroImageOverlayCardBlock = defineType({
     defineField({ name: 'eyebrow', type: 'string' }),
     defineField({
       name: 'headline',
-      type: 'string',
+      // Text, not string, so Enter adds a line break (see SectionIntro).
+      type: 'text',
+      rows: 2,
+      description: 'Press Enter for a line break.',
       validation: (Rule) => Rule.required().max(80),
     }),
     headlineSizeField(),
