@@ -14,7 +14,7 @@ export const heroTextBlock = defineType({
       type: 'string',
       validation: (Rule) => Rule.required().max(80),
     }),
-    headlineSizeField,
+    headlineSizeField(),
     defineField({
       name: 'subhead',
       type: 'text',

@@ -1,20 +1,23 @@
 import { defineField } from 'sanity'
 
-// Shared by every Hero block: the headline stays the page's h1, this
-// only changes how big it's drawn — Display is one step above H1 (see
-// --text-display in globals.css, and SectionIntro's `display` prop).
-export const headlineSizeField = defineField({
-  name: 'headlineSize',
-  title: 'Headline size',
-  description: 'Display is much bigger than the standard H1: 144px vs 64px on desktop, 94px vs 38px on mobile.',
-  type: 'string',
-  options: {
-    list: [
-      { title: 'H1 (default)', value: 'h1' },
-      { title: 'Display', value: 'display' },
-    ],
-    layout: 'radio',
-    direction: 'horizontal',
-  },
-  initialValue: 'h1',
-})
+// Shared by every Hero block and Section Headline: the heading keeps
+// its real level (h1/h2), this only changes how big it's drawn —
+// Display is the biggest size on the site (see --text-display in
+// globals.css, and SectionIntro's `display` prop). `standard` is the
+// default option's stored value and label: Heroes always store 'h1'
+// (their standard size), Section Headline's follows its Heading level.
+export const headlineSizeField = (
+  standard: { value: string; title: string } = { value: 'h1', title: 'H1 (default)' },
+) =>
+  defineField({
+    name: 'headlineSize',
+    title: 'Headline size',
+    description: 'Display is the biggest size on the site: 144px on desktop, 94px on mobile.',
+    type: 'string',
+    options: {
+      list: [standard, { title: 'Display', value: 'display' }],
+      layout: 'radio',
+      direction: 'horizontal',
+    },
+    initialValue: standard.value,
+  })

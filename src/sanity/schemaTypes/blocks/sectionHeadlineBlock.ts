@@ -1,6 +1,7 @@
 import { defineType, defineField } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
 import { spacingField } from '../fields/spacingField'
+import { headlineSizeField } from '../fields/headlineSizeField'
 
 export const sectionHeadlineBlock = defineType({
   name: 'sectionHeadlineBlock',
@@ -37,6 +38,7 @@ export const sectionHeadlineBlock = defineType({
       },
       initialValue: 'h2',
     }),
+    headlineSizeField({ value: 'standard', title: 'Standard, per Heading level (default)' }),
     defineField({
       name: 'align',
       type: 'string',

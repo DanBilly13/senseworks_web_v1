@@ -42,8 +42,9 @@ type SectionIntroProps = {
   // (h3 vs h4), where a single fixed gap would suit only one of them.
   // Every other caller keeps the standard fixed gaps untouched.
   gapToLineHeight?: boolean
-  // Opt-in: an h1 drawn at the display size, one step above text-h1
-  // (Hero's "Headline size" field). Only meaningful with an h1 look.
+  // Opt-in: the heading drawn at the display size, the biggest on the
+  // site, whatever its level (the "Headline size" field on Heroes and
+  // Section Headline).
   display?: boolean
 }
 
@@ -75,7 +76,7 @@ export const HALF_HEADING_LINE_HEIGHT_GAP: Record<HeadingLevel, string> = {
   h4: 'calc((var(--text-h4--full-line-height) / 2) - var(--spacing-medium))',
 }
 
-// The same two gaps for a display-size h1 (see the `display` prop).
+// The same two gaps for a display-size heading (see the `display` prop).
 const DISPLAY_LINE_HEIGHT_GAP = 'calc(var(--text-display--full-line-height) - var(--spacing-medium))'
 const HALF_DISPLAY_LINE_HEIGHT_GAP = 'calc((var(--text-display--full-line-height) / 2) - var(--spacing-medium))'
 
@@ -139,13 +140,12 @@ export function SectionIntro({
   // bodyColor every h3/h4 body still uses.
   const styleLevel = styleAs ?? Heading
   const isSubtitle = styleLevel === 'h1' || styleLevel === 'h2'
-  const isDisplay = display && styleLevel === 'h1'
   const lineHeightGap = gapToLineHeight
-    ? isDisplay
+    ? display
       ? DISPLAY_LINE_HEIGHT_GAP
       : HEADING_LINE_HEIGHT_GAP[styleLevel]
     : undefined
-  const halfLineHeightGap = isDisplay ? HALF_DISPLAY_LINE_HEIGHT_GAP : HALF_HEADING_LINE_HEIGHT_GAP[styleLevel]
+  const halfLineHeightGap = display ? HALF_DISPLAY_LINE_HEIGHT_GAP : HALF_HEADING_LINE_HEIGHT_GAP[styleLevel]
 
   // Width lives on each child, not this wrapping div, so the heading
   // can run wider than the body/eyebrow via headingMaxWidth — flexbox's
@@ -169,7 +169,7 @@ export function SectionIntro({
       {heading && (
         <Heading
           className={[
-            isDisplay ? 'text-display' : HEADING_TEXT_CLASS[styleLevel],
+            display ? 'text-display' : HEADING_TEXT_CLASS[styleLevel],
             tone === 'inverse' ? INVERSE_HEADING_WEIGHT_CLASS : HEADING_WEIGHT_CLASS[styleLevel],
             'text-balance',
             headingColor,
