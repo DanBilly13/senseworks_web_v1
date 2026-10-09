@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { Fragment, type ReactNode } from 'react'
 
 type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4'
 
@@ -183,7 +183,15 @@ export function SectionIntro({
           // more breathing room above it.
           style={eyebrow ? { marginTop: gapToLineHeight ? lineHeightGap : halfLineHeightGap } : undefined}
         >
-          {heading}
+          {/* A line break typed in the field (Section Headline's is a
+              multi-line text field) is a literal "\n", which HTML
+              would collapse, so it becomes a real <br>. */}
+          {heading.split('\n').map((line, i, lines) => (
+            <Fragment key={i}>
+              {line}
+              {i < lines.length - 1 && <br />}
+            </Fragment>
+          ))}
         </Heading>
       )}
       {body && (

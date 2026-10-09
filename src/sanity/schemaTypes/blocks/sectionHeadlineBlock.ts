@@ -12,7 +12,11 @@ export const sectionHeadlineBlock = defineType({
     defineField({ name: 'eyebrow', type: 'string' }),
     defineField({
       name: 'headline',
-      type: 'string',
+      // Text, not string, so Enter adds a line break (shown as one on
+      // the site, see SectionIntro). Stored the same either way.
+      type: 'text',
+      rows: 2,
+      description: 'Press Enter for a line break.',
       validation: (Rule) => Rule.required().max(100),
     }),
     defineField({

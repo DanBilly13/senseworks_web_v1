@@ -14,4 +14,11 @@ describe('SectionHeadlineBlock headline size', () => {
     render(<SectionHeadlineBlock headline="Go ahead, audit us." />)
     expect(screen.getByRole('heading', { level: 2 })).toHaveClass('text-h2')
   })
+
+  it('turns a typed line break into a real one', () => {
+    render(<SectionHeadlineBlock headline={'Go ahead,\naudit us.'} />)
+    const heading = screen.getByRole('heading', { level: 2 })
+    expect(heading.querySelectorAll('br')).toHaveLength(1)
+    expect(heading).toHaveTextContent('Go ahead,audit us.')
+  })
 })
