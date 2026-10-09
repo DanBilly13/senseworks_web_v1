@@ -38,6 +38,7 @@ import { horizontalScrollStackBlock } from './blocks/horizontalScrollStackBlock'
 import { mediaCarouselBlock } from './blocks/mediaCarouselBlock'
 import { releaseCardsBlock } from './blocks/releaseCardsBlock'
 import { horizontalScrollStackMediumBlock } from './blocks/horizontalScrollStackMediumBlock'
+import { teamGridBlock } from './blocks/teamGridBlock'
 
 export const schemaTypes = [
   page,
@@ -79,5 +80,6 @@ export const schemaTypes = [
   mediaCarouselBlock,
   releaseCardsBlock,
   horizontalScrollStackMediumBlock,
+  teamGridBlock,
   footerBlock,
 ]

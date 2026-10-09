@@ -1,7 +1,11 @@
-import { groq } from 'next-sanity'
 import type { SanityImageSource } from '@sanity/image-url'
-import { sanityClient } from './client'
 
+// A Team member as the site sees it — resolved by the Team Grid
+// block's projection in queries.ts. `email` is deliberately never
+// selected for it: it's a Studio-only field (see teamMember.ts)
+// precisely so a bug in that query can't leak it to the public site.
+// The one place it IS read is bookMeeting.ts, for only the single
+// person picked as that modal's contact.
 export type TeamMember = {
   _id: string
   name: string
@@ -10,25 +14,4 @@ export type TeamMember = {
   bio?: string
   linkedinUrl?: string
   xUrl?: string
-}
-
-// `email` is deliberately never selected here — it's a Studio-only
-// field (see teamMember.ts) precisely so a bug in this query can't
-// leak it to the public site. The one place it IS read is
-// bookMeeting.ts, for only the single person picked as that modal's
-// contact.
-export const teamQuery = groq`
-  *[_type == "teamMember"] | order(name asc) {
-    _id,
-    name,
-    role,
-    photo,
-    bio,
-    linkedinUrl,
-    xUrl,
-  }
-`
-
-export function getTeam(): Promise<TeamMember[]> {
-  return sanityClient.fetch(teamQuery)
 }

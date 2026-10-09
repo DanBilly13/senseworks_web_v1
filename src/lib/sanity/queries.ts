@@ -75,6 +75,13 @@ export const pageBySlugAndLocaleQuery = groq`
       _type == "testimonialCarouselBlock" => {
         items[]->{ quote, authorName, authorRole, ${mediaProjection()} }
       },
+      // The TeamMember fields (lib/sanity/team), never email.
+      _type == "teamGridBlock" => {
+        "members": select(
+          count(members) > 0 => members[]->{ _id, name, role, photo, bio, linkedinUrl, xUrl },
+          *[_type == "teamMember"] | order(name asc) { _id, name, role, photo, bio, linkedinUrl, xUrl }
+        )
+      },
       _type == "testimonialLargeBlock" => {
         "quote": testimonial->quote,
         "authorName": testimonial->authorName,

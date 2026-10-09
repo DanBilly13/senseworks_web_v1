@@ -80,6 +80,7 @@ export const page = defineType({
         defineArrayMember({ type: 'horizontalScrollStackBlock' }),
         defineArrayMember({ type: 'mediaCarouselBlock' }),
         defineArrayMember({ type: 'releaseCardsBlock' }),
+        defineArrayMember({ type: 'teamGridBlock' }),
         defineArrayMember({ type: 'horizontalScrollStackMediumBlock' }),
         defineArrayMember({ type: 'footerBlock' }),
       ],
