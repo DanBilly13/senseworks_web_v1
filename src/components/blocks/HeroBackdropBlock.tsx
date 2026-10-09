@@ -24,6 +24,8 @@ type HeroBackdropBlockProps = {
   secondaryCtaHref?: string
   showcaseMedia?: MediaField
   spacing?: 'loose' | 'medium' | 'tight' | 'none'
+  // 'display' draws the headline one step above the standard h1.
+  headlineSize?: 'h1' | 'display'
 }
 
 // Margin-bottom after the hero (outside its backdrop, before the next
@@ -59,6 +61,7 @@ export function HeroBackdropBlock({
   secondaryCtaHref,
   showcaseMedia,
   spacing = 'medium',
+  headlineSize,
 }: HeroBackdropBlockProps) {
   // Only a plain image gets to set its own height from its real aspect
   // ratio (via the asset ref's encoded dimensions) — video/lottie/
@@ -117,6 +120,7 @@ export function HeroBackdropBlock({
         >
           <SectionIntro
             as="h1"
+            display={headlineSize === 'display'}
             eyebrow={eyebrow}
             heading={headline}
             body={subhead}

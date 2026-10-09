@@ -17,6 +17,8 @@ type HeroBlockProps = {
   // full browser width or is capped/centered at max-w-page like
   // everything else on the site.
   mediaWidth?: 'full' | 'content'
+  // 'display' draws the headline one step above the standard h1.
+  headlineSize?: 'h1' | 'display'
 }
 
 export function HeroBlock({ layout = 'split', ...props }: HeroBlockProps) {
@@ -28,12 +30,12 @@ export function HeroBlock({ layout = 'split', ...props }: HeroBlockProps) {
 
 type HeroVariantProps = Omit<HeroBlockProps, 'layout'>
 
-function HeroSplit({ eyebrow, headline, subhead, ctaLabel, ctaHref, media }: HeroVariantProps) {
+function HeroSplit({ eyebrow, headline, subhead, ctaLabel, ctaHref, media, headlineSize }: HeroVariantProps) {
   return (
     <SectionShell py="section-edge" pad="both" className="flex flex-col gap-2xl">
       <div className="flex flex-col gap-large md:flex-row md:items-start md:justify-between md:gap-2xl">
         <div className="md:max-w-prose-md md:flex-1">
-          <SectionIntro as="h1" eyebrow={eyebrow} heading={headline} />
+          <SectionIntro as="h1" display={headlineSize === 'display'} eyebrow={eyebrow} heading={headline} />
         </div>
         {(subhead || (ctaLabel && ctaHref)) && (
           <div className="flex flex-col gap-medium md:max-w-prose-xs md:shrink-0">
@@ -74,12 +76,13 @@ function HeroSplit({ eyebrow, headline, subhead, ctaLabel, ctaHref, media }: Her
   )
 }
 
-function HeroSplitEven({ eyebrow, headline, subhead, ctaLabel, ctaHref, media }: HeroVariantProps) {
+function HeroSplitEven({ eyebrow, headline, subhead, ctaLabel, ctaHref, media, headlineSize }: HeroVariantProps) {
   return (
     <SectionShell py="section-edge" pad="both">
       <div className="grid grid-cols-1 gap-2xl md:grid-cols-2 md:items-center">
         <SectionIntro
           as="h1"
+          display={headlineSize === 'display'}
           eyebrow={eyebrow}
           heading={headline}
           body={subhead}
@@ -107,6 +110,7 @@ function HeroImageOverlay({
   ctaLabel,
   ctaHref,
   media,
+  headlineSize,
 }: HeroVariantProps) {
   return (
     <section
@@ -139,6 +143,7 @@ function HeroImageOverlay({
       <div className="relative mx-auto flex min-h-screen w-full max-w-page flex-col justify-center px-medium-large py-section-edge">
         <SectionIntro
           as="h1"
+          display={headlineSize === 'display'}
           eyebrow={eyebrow}
           heading={headline}
           body={subhead}
@@ -167,6 +172,7 @@ function HeroScrollReveal({
   ctaHref,
   media,
   mediaWidth = 'full',
+  headlineSize,
 }: HeroVariantProps) {
   return (
     // Header pull-up, same as the other full-bleed layouts. No
@@ -186,6 +192,7 @@ function HeroScrollReveal({
         <div className="mx-auto w-full max-w-page">
           <SectionIntro
             as="h1"
+            display={headlineSize === 'display'}
             eyebrow={eyebrow}
             heading={headline}
             body={subhead}

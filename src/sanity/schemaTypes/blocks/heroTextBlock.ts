@@ -1,5 +1,6 @@
 import { defineType, defineField } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
+import { headlineSizeField } from '../fields/headlineSizeField'
 
 export const heroTextBlock = defineType({
   name: 'heroTextBlock',
@@ -13,6 +14,7 @@ export const heroTextBlock = defineType({
       type: 'string',
       validation: (Rule) => Rule.required().max(80),
     }),
+    headlineSizeField,
     defineField({
       name: 'subhead',
       type: 'text',

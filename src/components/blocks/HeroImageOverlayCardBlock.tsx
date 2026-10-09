@@ -32,6 +32,8 @@ type HeroImageOverlayCardBlockProps = {
   // text in that area, so unlike other tone props this one doesn't
   // need its own eyebrow/heading/body color-switching logic.
   tone?: 'default' | 'inverse' | 'accent' | 'gradient'
+  // 'display' draws the headline one step above the standard h1.
+  headlineSize?: 'h1' | 'display'
 }
 
 // How blurred the desktop video starts, in px — sharpens to nothing as
@@ -93,6 +95,7 @@ function CardIntro({
   // reasoning as Card Grid's own use of this — see SectionIntro's
   // comment on the prop itself.
   gapToLineHeight = false,
+  headlineSize,
 }: {
   eyebrow?: string
   headline: string
@@ -101,10 +104,12 @@ function CardIntro({
   ctaHref?: string
   isDark: boolean
   gapToLineHeight?: boolean
+  headlineSize?: 'h1' | 'display'
 }) {
   return (
     <SectionIntro
       as="h1"
+      display={headlineSize === 'display'}
       eyebrow={eyebrow}
       heading={headline}
       body={subhead}
@@ -144,6 +149,7 @@ function MobileImageOverlayCard({
   spacing = 'loose',
   tone = 'default',
   cardBackgroundMobile = 'light',
+  headlineSize,
 }: HeroImageOverlayCardBlockProps) {
   // Only 'dark' needs light text — 'gradient' and 'light' both pair
   // with dark text, same as the desktop card's own isDark logic.
@@ -190,6 +196,7 @@ function MobileImageOverlayCard({
             ctaHref={ctaHref}
             isDark={isDark}
             gapToLineHeight
+            headlineSize={headlineSize}
           />
         </div>
       </div>
@@ -237,6 +244,7 @@ function DesktopImageOverlayCard({
   cardWidth = '50',
   spacing = 'loose',
   tone = 'default',
+  headlineSize,
 }: HeroImageOverlayCardBlockProps) {
   const isDark = cardBackground === 'dark'
   const wrapperRef = useRef<HTMLDivElement>(null)
@@ -476,6 +484,7 @@ function DesktopImageOverlayCard({
               ctaLabel={ctaLabel}
               ctaHref={ctaHref}
               isDark={isDark}
+              headlineSize={headlineSize}
             />
           </div>
         </motion.div>

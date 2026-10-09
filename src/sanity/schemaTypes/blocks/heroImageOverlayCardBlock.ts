@@ -1,6 +1,7 @@
 import { defineType, defineField } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
 import { spacingField } from '../fields/spacingField'
+import { headlineSizeField } from '../fields/headlineSizeField'
 
 // Split out of heroBlock's `layout` options (was "imageOverlayCard")
 // once it grew its own scroll-driven pin/morph interaction and two
@@ -19,6 +20,7 @@ export const heroImageOverlayCardBlock = defineType({
       type: 'string',
       validation: (Rule) => Rule.required().max(80),
     }),
+    headlineSizeField,
     defineField({
       name: 'subhead',
       type: 'text',

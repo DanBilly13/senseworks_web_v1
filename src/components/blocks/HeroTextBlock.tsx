@@ -14,6 +14,8 @@ type HeroTextBlockProps = {
   // the page-boundary padding piled on top of the previous section's
   // own bottom padding.
   boundary?: boolean
+  // 'display' draws the headline one step above the standard h1.
+  headlineSize?: 'h1' | 'display'
 }
 
 export function HeroTextBlock({
@@ -23,11 +25,13 @@ export function HeroTextBlock({
   ctaLabel,
   ctaHref,
   boundary = true,
+  headlineSize,
 }: HeroTextBlockProps) {
   return (
     <SectionShell py={boundary ? 'section-edge' : 'loose'} pad={boundary ? 'both' : 'bottom'}>
       <SectionIntro
         as="h1"
+        display={headlineSize === 'display'}
         eyebrow={eyebrow}
         heading={headline}
         body={subhead}
