@@ -22,15 +22,16 @@ export const comparisonTableBlock = defineType({
     }),
     defineField({
       name: 'rowHeader',
-      title: 'Row header',
+      title: 'Left column heading',
       description:
-        'Optional title for the first column (the row labels), e.g. "Common way of working today" — left blank, that header cell is empty.',
+        'Heading over the left column, e.g. "What it looks like today". Each row\'s left cell is its "Left cell" below. Left blank, this header cell is empty.',
       type: 'string',
     }),
     defineField({
       name: 'columns',
-      title: 'Columns',
-      description: 'One per thing being compared — first one is usually us.',
+      title: 'Right-hand columns',
+      description:
+        'The columns to the right of the left column, e.g. just "In Senseworks Analytics" for a before/after table. Each row fills these in under "Right-hand cells".',
       type: 'array',
       of: [
         defineArrayMember({
@@ -61,14 +62,21 @@ export const comparisonTableBlock = defineType({
           type: 'object',
           fields: [
             defineField({
+              name: 'labelLead',
+              title: 'Left cell, bold lead-in',
+              description: 'Optional, e.g. "Start from scratch."',
+              type: 'string',
+            }),
+            defineField({
               name: 'label',
+              title: 'Left cell',
               type: 'string',
               validation: (Rule) => Rule.required().max(80),
             }),
             defineField({
               name: 'cells',
-              title: 'Cells',
-              description: 'One per column, in the same order as the columns above.',
+              title: 'Right-hand cells',
+              description: 'One per right-hand column, in the same order as those columns.',
               type: 'array',
               of: [
                 defineArrayMember({
@@ -90,20 +98,38 @@ export const comparisonTableBlock = defineType({
                       validation: (Rule) => Rule.required(),
                     }),
                     defineField({
+                      name: 'lead',
+                      title: 'Bold lead-in (only used when type is Text)',
+                      description: 'Optional, e.g. "Rolls forward."',
+                      type: 'string',
+                    }),
+                    defineField({
                       name: 'text',
                       title: 'Text (only used when type is Text)',
                       type: 'string',
                     }),
                   ],
                   preview: {
-                    select: { type: 'type', text: 'text' },
-                    prepare: ({ type, text }) => ({ title: type === 'text' ? text || 'Text' : type }),
+                    select: { type: 'type', lead: 'lead', text: 'text' },
+                    prepare: ({ type, lead, text }) => ({
+                      title: type === 'text' ? [lead, text].filter(Boolean).join(' ') || 'Text' : type,
+                    }),
                   },
                 }),
               ],
             }),
           ],
-          preview: { select: { title: 'label' } },
+          // Reads as the row does on the site: left cell → first right cell.
+          preview: {
+            select: { labelLead: 'labelLead', label: 'label', cells: 'cells' },
+            prepare: ({ labelLead, label, cells }) => {
+              const first = cells?.[0]
+              return {
+                title: [labelLead, label].filter(Boolean).join(' '),
+                subtitle: first?.type === 'text' ? `→ ${[first.lead, first.text].filter(Boolean).join(' ')}` : undefined,
+              }
+            },
+          },
         }),
       ],
     }),
