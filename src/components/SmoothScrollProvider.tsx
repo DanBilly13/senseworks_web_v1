@@ -1,5 +1,6 @@
 'use client'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
+import { usePathname } from 'next/navigation'
 import Lenis from 'lenis'
 
 // Site-wide smooth/eased scroll (the "floaty" feel Dan wanted, seen
@@ -26,6 +27,12 @@ import Lenis from 'lenis'
 // dispatchEvent call below, so the guard is already true by the time
 // it loops back here, and the recursive call is a no-op.
 export function SmoothScrollProvider() {
+  const lenisRef = useRef<Lenis | null>(null)
+  const pathname = usePathname()
+  // Set by a Back/Forward press, which should land where you were on
+  // that page, not at the top.
+  const isPopState = useRef(false)
+
   useEffect(() => {
     // Measure and observe <body>, not the default <html>: the root
     // layout gives <html> h-full, so its own box never grows as content
@@ -34,6 +41,11 @@ export function SmoothScrollProvider() {
     // wheel went dead at that point on a long page ("stops scrolling").
     // <body> is min-h-full, so it grows with the content.
     const lenis = new Lenis({ content: document.body })
+    lenisRef.current = lenis
+    const onPopState = () => {
+      isPopState.current = true
+    }
+    window.addEventListener('popstate', onPopState)
     let isDispatching = false
     lenis.on('scroll', () => {
       if (isDispatching) return
@@ -51,9 +63,28 @@ export function SmoothScrollProvider() {
 
     return () => {
       cancelAnimationFrame(frameId)
+      window.removeEventListener('popstate', onPopState)
       lenis.destroy()
+      lenisRef.current = null
     }
   }, [])
+
+  // A new page starts at the top. Next.js scrolls the window there on a
+  // client-side navigation, but Lenis keeps its own copy of the scroll
+  // position and eased the page straight back to where the last page
+  // was left. Jumping Lenis to the top (immediately, no easing) on each
+  // route change fixes that. Skipped for Back/Forward (the browser
+  // restores the old position) and for a link to a #section.
+  useEffect(() => {
+    const lenis = lenisRef.current
+    if (!lenis) return
+    if (isPopState.current) {
+      isPopState.current = false
+      return
+    }
+    if (window.location.hash) return
+    lenis.scrollTo(0, { immediate: true, force: true })
+  }, [pathname])
 
   return null
 }
