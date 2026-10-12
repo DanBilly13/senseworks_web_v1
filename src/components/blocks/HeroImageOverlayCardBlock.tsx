@@ -89,12 +89,6 @@ function CardIntro({
   ctaLabel,
   ctaHref,
   isDark,
-  // Off by default (desktop keeps the old fixed gaps — its headline is
-  // much bigger, so this would blow the gap out a lot more there, and
-  // that hasn't been seen live yet). Mobile opts in below, same
-  // reasoning as Card Grid's own use of this — see SectionIntro's
-  // comment on the prop itself.
-  gapToLineHeight = false,
   headlineSize,
 }: {
   eyebrow?: string
@@ -103,7 +97,6 @@ function CardIntro({
   ctaLabel?: string
   ctaHref?: string
   isDark: boolean
-  gapToLineHeight?: boolean
   headlineSize?: 'h1' | 'display'
 }) {
   return (
@@ -120,7 +113,6 @@ function CardIntro({
       // (see --gradient-accent), so accent text/button there would
       // have poor contrast; that variant keeps its default styling.
       eyebrowColor={isDark ? 'text-accent' : undefined}
-      gapToLineHeight={gapToLineHeight}
       cta={
         ctaLabel &&
         ctaHref && (
@@ -195,7 +187,6 @@ function MobileImageOverlayCard({
             ctaLabel={ctaLabel}
             ctaHref={ctaHref}
             isDark={isDark}
-            gapToLineHeight
             headlineSize={headlineSize}
           />
         </div>

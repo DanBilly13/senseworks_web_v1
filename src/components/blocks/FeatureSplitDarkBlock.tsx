@@ -1,13 +1,14 @@
 import { Button } from '@/components/ui/Button'
+import { HALF_HEADING_LINE_HEIGHT_GAP } from '@/components/ui/SectionIntro'
 import { SectionShell } from '@/components/ui/SectionShell'
 import { Media } from '@/components/ui/Media'
 import type { MediaField } from '@/lib/sanity/media'
 
-// Same formula as SectionIntro's own gapToLineHeight (heading's full
-// line-height, minus the container's base gap-medium) — this block
-// hand-rolls its own heading/subhead/body stack instead of going
-// through SectionIntro, so it needs its own copy rather than the prop.
-const HEADING_LINE_HEIGHT_GAP = 'calc(var(--text-h3--full-line-height) - var(--spacing-medium))'
+// The site-wide eyebrow/heading/body gap (half the heading's own
+// line-height) — this block hand-rolls its own heading/subhead/body
+// stack instead of going through SectionIntro, so it borrows the same
+// shared value rather than the component.
+const HEADING_LINE_HEIGHT_GAP = HALF_HEADING_LINE_HEIGHT_GAP.h3
 
 type FeatureSplitDarkBlockProps = {
   heading?: string

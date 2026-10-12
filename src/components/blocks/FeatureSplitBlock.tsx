@@ -5,9 +5,9 @@ import { SECTION_GAP_PB_CLASS } from '@/components/ui/SectionShell'
 import { Media } from '@/components/ui/Media'
 import type { MediaField } from '@/lib/sanity/media'
 
-// Same "full line-height" gap SectionIntro's own gapToLineHeight uses
-// (this block already opts into that below), for the heading size it
-// actually renders at — always h3-sized, whatever headingLevel is.
+// The heading's full line-height, for the size it actually renders at
+// (always h3-sized, whatever headingLevel is) — spaces the closing
+// brandmark off from the text above.
 const BRANDMARK_GAP = {
   h3: 'var(--text-h3--full-line-height)',
 }
@@ -69,10 +69,6 @@ export function FeatureSplitBlock({
             eyebrow={eyebrow}
             heading={heading}
             body={body}
-            // Matches the same line-height-based eyebrow/heading/body
-            // gap the rest of the site uses (Card Grid, Hero mobile) —
-            // this block had been missed when that convention landed.
-            gapToLineHeight
             cta={
               ctaLabel &&
               ctaHref && (
@@ -83,9 +79,9 @@ export function FeatureSplitBlock({
             }
           />
           {/* A small brand signature closing out each block's text
-              column, like a footer — gap above it matches the heading's
-              own full line-height, same rhythm gapToLineHeight already
-              uses between eyebrow/heading/body/cta above. */}
+              column, like a footer — set off by the heading's full
+              line-height, a clear step more than the half-line-height
+              gaps between eyebrow/heading/body/cta above. */}
           <Image
             src="/senseworks-brandmark-pos.svg"
             alt=""

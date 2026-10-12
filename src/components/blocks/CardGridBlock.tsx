@@ -89,11 +89,9 @@ const TONE_SURFACE_CLASS: Record<CardTone, string> = {
   accent: 'bg-accent',
 }
 
-// Mirrors SectionIntro's own HEADING_LINE_HEIGHT_GAP but without the
-// "minus the container's base gap" adjustment — this is a standalone
-// padding value, not stacking on top of any other gap, so it should
-// equal the heading's full line-height exactly (matching the visual
-// gap SectionIntro now produces between heading and body).
+// The card's bottom padding: the heading's full line-height, so it
+// scales with h3 vs h4 like the gaps inside the card do (those are
+// half the line-height, SectionIntro's site-wide rule).
 const CARD_PADDING_BOTTOM_VAR: Record<'h3' | 'h4', string> = {
   h3: 'var(--text-h3--full-line-height)',
   h4: 'var(--text-h4--full-line-height)',
@@ -188,10 +186,10 @@ export function CardGridBlock({
                   eyebrowColor={
                     tone === 'dark' ? 'text-accent' : numberedEyebrow ? 'text-foreground' : undefined
                   }
-                  // Card headings vary per instance (h3 or h4), so a single
-                  // fixed gap would only ever suit one of them — see
-                  // SectionIntro's own comment on this prop.
-                  gapToLineHeight
+                  // Gaps follow the site-wide rule (half the heading's own
+                  // line-height, SectionIntro's default), which already
+                  // scales with h3 vs h4. Card Grid used to opt into the
+                  // full line-height, which read noticeably loose.
                 />
                 {hasImage && (
                   // bg-accent-gradient backdrop — same treatment
