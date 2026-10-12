@@ -65,6 +65,10 @@ function NavDropdown({ label, links }: { label: string; links: NavSubLink[] }) {
   )
 }
 
+// Pixels of movement before a scroll counts as a change of direction
+// for the hide-on-scroll nav (see below).
+const DIRECTION_THRESHOLD = 8
+
 export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref }: HeaderBlockProps) {
   const [open, setOpen] = useState(false)
   // Every route lives under a locale segment (D12), so the first path
@@ -136,9 +140,22 @@ export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref }: Head
         // and permanently force the nav visible on mobile too.
         const until = marker && marker.offsetParent !== null ? Number(marker.dataset.keepNavVisibleUntil) : NaN
         const keepVisible = Number.isFinite(until) && y < until
-        setHidden(!keepVisible && y > lastY.current && y > barHeight)
-        lastY.current = y
         ticking = false
+        if (keepVisible || y <= barHeight) {
+          setHidden(false)
+          lastY.current = y
+          return
+        }
+        // Only a real move changes direction. Lenis eases the page to a
+        // stop and fires a last scroll event or two as it settles, often
+        // at the same position or a fraction of a pixel back — read as
+        // "scrolling up", that flashed the nav in and out again at rest.
+        // lastY isn't advanced on a small move, so a slow scroll still
+        // adds up past the threshold and isn't ignored.
+        const dy = y - lastY.current
+        if (Math.abs(dy) < DIRECTION_THRESHOLD) return
+        setHidden(dy > 0)
+        lastY.current = y
       })
     }
     window.addEventListener('scroll', onScroll, { passive: true })
