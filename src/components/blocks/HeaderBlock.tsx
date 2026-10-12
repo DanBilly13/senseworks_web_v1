@@ -69,6 +69,15 @@ function NavDropdown({ label, links }: { label: string; links: NavSubLink[] }) {
 // for the hide-on-scroll nav (see below).
 const DIRECTION_THRESHOLD = 8
 
+// Whether a nav link points at the page being viewed. Ignores the
+// locale segment (a link to /en/produkter/revision is still "this
+// page" on /sv/produkter/revision) and in-page #anchors.
+function isCurrentPage(href: string | undefined, pathname: string) {
+  if (!href || href.startsWith('#')) return false
+  const strip = (path: string) => path.split(/[?#]/)[0].replace(/^\/(en|sv)(?=\/|$)/, '').replace(/\/$/, '')
+  return strip(href) === strip(pathname)
+}
+
 export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref }: HeaderBlockProps) {
   const [open, setOpen] = useState(false)
   // Every route lives under a locale segment (D12), so the first path
@@ -208,7 +217,17 @@ export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref }: Head
               link.links?.length ? (
                 <NavDropdown key={link.label} label={link.label} links={link.links} />
               ) : (
-                <a key={link.label} href={link.href} className="text-body-sm text-muted-foreground">
+                <a
+                  key={link.label}
+                  href={link.href}
+                  aria-current={isCurrentPage(link.href, pathname) ? 'page' : undefined}
+                  // Current page: full-strength text, underlined.
+                  className={
+                    isCurrentPage(link.href, pathname)
+                      ? 'text-body-sm text-foreground underline decoration-2 underline-offset-8'
+                      : 'text-body-sm text-muted-foreground hover:text-foreground'
+                  }
+                >
                   {link.label}
                 </a>
               ),
@@ -277,7 +296,10 @@ export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref }: Head
                 <a
                   key={link.label}
                   href={link.href}
-                  className={`border-b border-border text-h5 font-semibold text-foreground ${styles.navRow}`}
+                  aria-current={isCurrentPage(link.href, pathname) ? 'page' : undefined}
+                  className={`border-b border-border text-h5 font-semibold text-foreground ${styles.navRow} ${
+                    isCurrentPage(link.href, pathname) ? 'underline decoration-2 underline-offset-8' : ''
+                  }`}
                 >
                   {link.label}
                 </a>
