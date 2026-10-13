@@ -465,7 +465,7 @@ export default async function BlocksPage({
           { eyebrow: '04 — Sit', heading: 'Do eiusmod tempor', body: BODY },
         ]}
       />
-      <BlockCaption name="Card Grid — Dark" type="cardGridBlock" variant='tone: "dark"' />
+      <BlockCaption name="Card Grid — Dark" type="cardGridBlock" variant='tone: "dark", contentGap: "tight", with button' />
       <CardGridBlock
         columns="3"
         tone="dark"
@@ -588,6 +588,9 @@ export default async function BlocksPage({
       <BlockCaption name="Stats Band — Dark background" type="statsBandBlock" variant='tone: "dark"' />
       <StatsBandBlock
         tone="dark"
+        contentGap="tight"
+        ctaLabel="Lorem ipsum"
+        ctaHref="#"
         heading={HEADING}
         items={[
           { value: '00%', label: 'Lorem ipsum dolor' },

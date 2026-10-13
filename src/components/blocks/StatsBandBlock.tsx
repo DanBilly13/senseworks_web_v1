@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/Button'
 import { SectionShell } from '@/components/ui/SectionShell'
 import { SectionIntro } from '@/components/ui/SectionIntro'
 import { Media } from '@/components/ui/Media'
@@ -20,8 +21,22 @@ type StatsBandBlockProps = {
   backgroundImage?: MediaField
   paddingTop?: SpacingValue
   paddingBottom?: SpacingValue
+  // Text-to-stats gap: 'standard' is the site-wide 64px intro-to-
+  // content gap; the rest are the section spacing tiers.
+  contentGap?: 'standard' | SpacingValue
+  // Optional button, centred under the stats.
+  ctaLabel?: string
+  ctaHref?: string
   // The gap below the block, before the next one.
   spacing?: SpacingValue
+}
+
+const CONTENT_GAP_CLASS: Record<'standard' | SpacingValue, string> = {
+  standard: 'mt-2xl',
+  loose: 'mt-section-gap-loose',
+  medium: 'mt-section-gap-medium',
+  tight: 'mt-section-gap-tight',
+  none: 'mt-none',
 }
 
 const PANEL_BG: Record<Exclude<StatsBandTone, 'none'>, string> = {
@@ -43,12 +58,16 @@ export function StatsBandBlock({
   backgroundImage,
   paddingTop = 'medium',
   paddingBottom = 'medium',
+  contentGap = 'standard',
+  ctaLabel,
+  ctaHref,
   spacing = 'loose',
 }: StatsBandBlockProps) {
   // D7: a block with no content simply doesn't render.
   if (!items.length) return null
 
   const light = isLight(tone)
+  const hasIntro = Boolean(eyebrow || heading)
   const content = (
     <>
       <SectionIntro
@@ -61,7 +80,7 @@ export function StatsBandBlock({
         tone={light ? 'inverse' : 'default'}
       />
       <div
-        className={`grid grid-cols-2 gap-large lg:grid-cols-4 lg:divide-x ${
+        className={`grid grid-cols-2 gap-large lg:grid-cols-4 lg:divide-x ${hasIntro ? CONTENT_GAP_CLASS[contentGap] : ''} ${
           light ? 'lg:divide-background/20' : tone === 'accent' ? 'lg:divide-foreground/15' : 'lg:divide-border'
         }`}
       >
@@ -83,12 +102,21 @@ export function StatsBandBlock({
           </div>
         ))}
       </div>
+      {ctaLabel && ctaHref && (
+        // Yellow on the dark/image panels, dark everywhere else — same
+        // rule as Full Width Single's button.
+        <div className="mt-xl flex justify-center">
+          <Button href={ctaHref} variant={light ? 'filled-accent' : 'filled-dark'}>
+            {ctaLabel}
+          </Button>
+        </div>
+      )}
     </>
   )
 
   if (tone === 'none') {
     return (
-      <SectionShell py={spacing} className="flex flex-col gap-2xl">
+      <SectionShell py={spacing} className="flex flex-col">
         {content}
       </SectionShell>
     )
@@ -113,7 +141,7 @@ export function StatsBandBlock({
           pt={paddingTop}
           pb={paddingBottom}
           sectionClassName="relative"
-          className="flex flex-col gap-2xl"
+          className="flex flex-col"
         >
           {content}
         </SectionShell>

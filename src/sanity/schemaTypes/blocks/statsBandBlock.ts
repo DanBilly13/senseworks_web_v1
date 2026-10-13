@@ -17,6 +17,25 @@ export const statsBandBlock = defineType({
       validation: (Rule) => Rule.max(300),
     }),
     defineField({
+      name: 'contentGap',
+      title: 'Gap between text and stats',
+      description: 'Standard is the 64px every block uses between its intro text and its content.',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Standard (64px, default)', value: 'standard' },
+          { title: 'Loose (200px)', value: 'loose' },
+          { title: 'Medium (120px)', value: 'medium' },
+          { title: 'Tight (60px)', value: 'tight' },
+          { title: 'None (0px)', value: 'none' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'standard',
+    }),
+    defineField({ name: 'ctaLabel', title: 'Button label', description: 'Optional button under the stats.', type: 'string' }),
+    defineField({ name: 'ctaHref', title: 'Button link', type: 'string' }),
+    defineField({
       name: 'tone',
       title: 'Background',
       description:
