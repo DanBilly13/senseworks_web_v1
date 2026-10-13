@@ -10,12 +10,10 @@ type SectionHeadlineBlockProps = {
   ctaHref?: string
   align?: 'left' | 'center'
   spacing?: 'loose' | 'medium' | 'tight' | 'none'
-  // H1 only when this block IS the page's title (e.g. a page with no
-  // Hero) — every other section heading stays H2, the default.
-  headingLevel?: 'h1' | 'h2'
-  // 'display' draws the headline at the site's biggest size, whatever
-  // its heading level.
-  headlineSize?: 'standard' | 'display'
+  // How big the headline is drawn, named after the type styles. Purely
+  // visual: it's always an h2 on the page, since every page starts
+  // with a Hero and the Hero is the page's one h1.
+  size?: 'display' | 'h1' | 'h2' | 'h3'
 }
 
 export function SectionHeadlineBlock({
@@ -26,14 +24,16 @@ export function SectionHeadlineBlock({
   ctaHref,
   align = 'center',
   spacing = 'loose',
-  headingLevel = 'h2',
-  headlineSize,
+  size = 'h2',
 }: SectionHeadlineBlockProps) {
   return (
     <SectionShell py={spacing}>
       <SectionIntro
-        as={headingLevel}
-        display={headlineSize === 'display'}
+        as="h2"
+        // Display draws at the display size; styleAs h1 gives it the
+        // h1-size body underneath (the h5 subtitle style).
+        styleAs={size === 'display' ? 'h1' : size}
+        display={size === 'display'}
         eyebrow={eyebrow}
         heading={headline}
         body={body}

@@ -1,7 +1,6 @@
 import { defineType, defineField } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
 import { spacingField } from '../fields/spacingField'
-import { headlineSizeField } from '../fields/headlineSizeField'
 
 export const sectionHeadlineBlock = defineType({
   name: 'sectionHeadlineBlock',
@@ -28,21 +27,21 @@ export const sectionHeadlineBlock = defineType({
     defineField({ name: 'ctaLabel', type: 'string' }),
     defineField({ name: 'ctaHref', type: 'string' }),
     defineField({
-      name: 'headingLevel',
-      title: 'Heading level',
-      description:
-        'H1 only when this block IS the page\'s title (e.g. a page with no Hero) — every other section heading stays H2.',
+      name: 'size',
+      title: 'Size',
       type: 'string',
       options: {
         list: [
+          { title: 'Display', value: 'display' },
           { title: 'H1', value: 'h1' },
           { title: 'H2 (default)', value: 'h2' },
+          { title: 'H3', value: 'h3' },
         ],
         layout: 'radio',
+        direction: 'horizontal',
       },
       initialValue: 'h2',
     }),
-    headlineSizeField({ value: 'standard', title: 'Standard, per Heading level (default)' }),
     defineField({
       name: 'align',
       type: 'string',

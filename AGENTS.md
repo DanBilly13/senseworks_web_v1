@@ -93,6 +93,12 @@ repo): `solution-spec.md`, `decision-log.md`, `risk-register.md`,
     Bento Grid both did this early on (an `h2` styled at `text-h1`
     size) and it was never actually a deliberate choice, just
     copy-paste from Hero.
+  - **Every page starts with a Hero block** — that's what gives the
+    page its one `h1`. Section Headline is therefore always an `h2`;
+    its "Size" field (Display / H1 / H2 / H3) is purely visual, named
+    after the type styles. Don't reintroduce a heading-level choice on
+    it — an editor-facing "Heading level" field was removed because it
+    confused people and let LP v3 end up with three `h1`s.
 - Block components live in `src/components/blocks/`, one file per
   Sanity block schema in `src/sanity/schemaTypes/blocks/`. Register
   new blocks in **both** `src/sanity/schemaTypes/index.ts` and
