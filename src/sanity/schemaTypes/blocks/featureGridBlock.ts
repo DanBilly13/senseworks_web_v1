@@ -43,6 +43,20 @@ export const featureGridBlock = defineType({
       initialValue: 'large',
     }),
     headingLayoutField,
+    defineField({
+      name: 'linkStyle',
+      title: 'Link style',
+      description: 'For items with a link. Inline puts it at the end of the description, as a text link in the paragraph.',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Below the text (default)', value: 'below' },
+          { title: 'Inline, at the end of the text', value: 'inline' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'below',
+    }),
     titleSizeField(),
     spacingField,
     defineField({

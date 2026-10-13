@@ -34,6 +34,18 @@ describe('FeatureGridBlock', () => {
     expect(layers[0].style.backgroundColor).toBe('var(--color-icon-accent)')
   })
 
+  it('puts the link at the end of the description when the link style is inline', () => {
+    render(
+      <FeatureGridBlock
+        linkStyle="inline"
+        items={[{ title: 'Hosted in Sweden', description: 'Every access is logged.', ctaLabel: 'How we protect your data', ctaHref: '/security' }]}
+      />,
+    )
+    const link = screen.getByRole('link', { name: /How we protect your data/ })
+    expect(link).toHaveAttribute('href', '/security')
+    expect(link.closest('p')).toHaveTextContent('Every access is logged. How we protect your data →')
+  })
+
   it('draws an uploaded PNG icon as a single-colour mask', () => {
     const { container } = render(
       <FeatureGridBlock

@@ -46,6 +46,9 @@ type FeatureGridBlockProps = {
   columns?: '2' | '3' | '4'
   iconSize?: IconSize
   headingLayout?: 'stacked' | 'inline'
+  // Where an item's link sits: its own line under the text, or as a
+  // text link closing out the description itself.
+  linkStyle?: 'below' | 'inline'
   titleSize?: 'h3' | 'h4' | 'h5'
   spacing?: 'loose' | 'medium' | 'tight' | 'none'
   items?: FeatureGridItem[]
@@ -77,6 +80,7 @@ export function FeatureGridBlock({
   columns = '3',
   iconSize = 'large',
   headingLayout = 'stacked',
+  linkStyle = 'below',
   titleSize = 'h4',
   spacing = 'loose',
   items = [],
@@ -139,12 +143,28 @@ export function FeatureGridBlock({
                   </Fragment>
                 ))
               }
-              description={item.description}
+              description={
+                linkStyle === 'inline' && item.description && item.ctaLabel && item.ctaHref ? (
+                  <>
+                    {item.description}{' '}
+                    <a
+                      href={item.ctaHref}
+                      className="whitespace-nowrap text-foreground underline underline-offset-4"
+                    >
+                      {item.ctaLabel} →
+                    </a>
+                  </>
+                ) : (
+                  item.description
+                )
+              }
               layout={headingLayout}
               gap="medium"
               className="mt-small-medium"
             />
-            {item.ctaLabel && item.ctaHref && (
+            {/* Inline links live in the description above; this one is
+                the default, or the fallback for an item with no text. */}
+            {item.ctaLabel && item.ctaHref && !(linkStyle === 'inline' && item.description) && (
               <a
                 href={item.ctaHref}
                 className="mt-auto text-body-sm font-medium text-foreground underline underline-offset-4"

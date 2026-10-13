@@ -399,6 +399,15 @@ export default async function BlocksPage({
           { title: 'Adipiscing elit sed', description: BODY },
         ]}
       />
+      <BlockCaption name="Feature Grid — inline links" type="featureGridBlock" variant='linkStyle: "inline"' />
+      <FeatureGridBlock
+        linkStyle="inline"
+        items={[
+          { title: 'Lorem ipsum dolor', description: BODY, ctaLabel: 'Lorem ipsum', ctaHref: '#' },
+          { title: 'Sit amet consectetur', description: BODY, ctaLabel: 'Dolor sit amet', ctaHref: '#' },
+          { title: 'Adipiscing elit sed', description: BODY },
+        ]}
+      />
       <BlockCaption name="Feature Grid — 4 Columns" type="featureGridBlock" variant='columns: "4"' />
       <FeatureGridBlock
         columns="4"
