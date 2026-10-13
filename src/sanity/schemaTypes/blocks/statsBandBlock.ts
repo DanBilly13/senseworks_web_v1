@@ -19,7 +19,8 @@ export const statsBandBlock = defineType({
     defineField({
       name: 'tone',
       title: 'Background',
-      description: 'None sits straight on the page. Any other fills a full-screen-width band, with its own top and bottom padding below.',
+      description:
+        'None sits straight on the page. Any other puts the stats in a panel (content width with rounded corners on desktop, edge to edge on mobile), with its own top and bottom padding below.',
       type: 'string',
       options: {
         list: [
@@ -27,10 +28,17 @@ export const statsBandBlock = defineType({
           { title: 'Muted (light grey background, dark text)', value: 'muted' },
           { title: 'Dark (dark background, light text)', value: 'dark' },
           { title: 'Accent (accent background, dark text)', value: 'accent' },
+          { title: 'Image (photo under a dark tint, light text)', value: 'image' },
         ],
         layout: 'radio',
       },
       initialValue: 'none',
+    }),
+    defineField({
+      name: 'backgroundImage',
+      title: 'Background image',
+      type: 'media',
+      hidden: ({ parent }) => parent?.tone !== 'image',
     }),
     {
       ...paddingField('top', 'medium'),

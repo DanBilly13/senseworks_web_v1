@@ -61,6 +61,7 @@ export const pageBySlugAndLocaleQuery = groq`
         ${mediaProjection('showcaseMedia', 'showcaseMedia')}
       },
       _type == "featureSplitBlock" => { ${mediaProjection()} },
+      _type == "statsBandBlock" => { ${mediaProjection('backgroundImage', 'backgroundImage')} },
       _type == "featureSplitDarkBlock" => { ${mediaProjection()} },
       _type == "fiftyFiftyBannerBlock" => { ${mediaProjection()} },
       _type == "bentoGridBlock" => { items[]{ ..., ${mediaProjection()} } },

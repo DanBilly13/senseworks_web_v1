@@ -607,6 +607,17 @@ export default async function BlocksPage({
           { value: '00M', label: 'Do eiusmod tempor' },
         ]}
       />
+      <BlockCaption name="Stats Band — Image background" type="statsBandBlock" variant='tone: "image" (placeholder, no photo set)' />
+      <StatsBandBlock
+        tone="image"
+        heading={HEADING}
+        items={[
+          { value: '00%', label: 'Lorem ipsum dolor' },
+          { value: '000+', label: 'Sit amet consectetur' },
+          { value: '00%', label: 'Adipiscing elit sed' },
+          { value: '00M', label: 'Do eiusmod tempor' },
+        ]}
+      />
       <BlockCaption name="Stats Band — Muted background" type="statsBandBlock" variant='tone: "muted"' />
       <StatsBandBlock
         tone="muted"
