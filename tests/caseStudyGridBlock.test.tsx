@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { render, screen } from '@testing-library/react'
+import { fakeOverflowingScroller } from './helpers/overflow'
 import { CaseStudyGridBlock } from '@/components/blocks/CaseStudyGridBlock'
 
 describe('CaseStudyGridBlock', () => {
@@ -52,15 +53,30 @@ describe('CaseStudyGridBlock', () => {
     expect(link.textContent).toContain('→')
   })
 
-  it('renders prev/next controls, and an optional heading beside them', () => {
-    render(<CaseStudyGridBlock heading="How firms audit" items={[{ companyName: 'Acme Corp' }]} />)
-    expect(screen.getByRole('heading', { level: 2, name: 'How firms audit' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Previous case studies' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Next case studies' })).toBeInTheDocument()
-  })
 
   it('renders nothing when there are no case studies', () => {
     const { container } = render(<CaseStudyGridBlock items={[]} />)
     expect(container).toBeEmptyDOMElement()
+  })
+})
+
+describe('CaseStudyGridBlock arrows', () => {
+  describe('when the cards overflow', () => {
+    fakeOverflowingScroller()
+
+    it('shows prev/next controls', () => {
+      render(
+        <CaseStudyGridBlock items={[{ companyName: 'Acme Corp' }]} />
+      )
+      expect(screen.getByRole('button', { name: 'Previous case studies' })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'Next case studies' })).toBeInTheDocument()
+    })
+  })
+
+  it('hides them when every card already fits', () => {
+    render(
+      <CaseStudyGridBlock items={[{ companyName: 'Acme Corp' }]} />
+    )
+    expect(screen.queryByRole('button', { name: 'Next case studies' })).toBeNull()
   })
 })

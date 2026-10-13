@@ -32,7 +32,7 @@ export function TestimonialCarouselBlock({
   spacing = 'loose',
   items = [],
 }: TestimonialCarouselBlockProps) {
-  const { scrollerRef, firstCardRef, atStart, atEnd, updateEdges, scrollByCard } = useCarousel(items.length)
+  const { scrollerRef, firstCardRef, atStart, atEnd, canScroll, updateEdges, scrollByCard } = useCarousel(items.length)
 
   // D7: a block with no content simply doesn't render.
   if (!items.length) return null
@@ -70,12 +70,14 @@ export function TestimonialCarouselBlock({
               }
             />
           </div>
-          <CarouselNav
-            label="testimonials"
-            atStart={atStart}
-            atEnd={atEnd}
-            onStep={scrollByCard}
-          />
+          {canScroll && (
+            <CarouselNav
+              label="testimonials"
+              atStart={atStart}
+              atEnd={atEnd}
+              onStep={scrollByCard}
+            />
+          )}
         </div>
       </div>
       <CarouselScroller scrollerRef={scrollerRef} onScroll={updateEdges} className="mt-2xl">

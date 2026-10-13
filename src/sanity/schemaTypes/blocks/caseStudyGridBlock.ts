@@ -9,15 +9,6 @@ export const caseStudyGridBlock = defineType({
   fields: [
     hiddenField,
     defineField({
-      name: 'eyebrow',
-      type: 'string',
-      description: 'Optional. With a heading here, it sits left of the carousel buttons, like Testimonial Carousel.',
-    }),
-    defineField({ name: 'heading', type: 'string', validation: (Rule) => Rule.max(100) }),
-    defineField({ name: 'body', type: 'text', rows: 3, validation: (Rule) => Rule.max(300) }),
-    defineField({ name: 'ctaLabel', type: 'string' }),
-    defineField({ name: 'ctaHref', type: 'string' }),
-    defineField({
       name: 'tone',
       title: 'Card style',
       type: 'string',
@@ -67,9 +58,9 @@ export const caseStudyGridBlock = defineType({
     }),
   ],
   preview: {
-    select: { items: 'items', heading: 'heading' },
-    prepare: ({ items, heading }) => ({
-      title: `Case Study Carousel${heading ? ` — ${heading}` : ''}`,
+    select: { items: 'items' },
+    prepare: ({ items }) => ({
+      title: 'Case Study Carousel',
       subtitle: `${items?.length ?? 0} case studies`,
     }),
   },
