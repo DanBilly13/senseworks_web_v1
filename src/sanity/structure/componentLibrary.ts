@@ -143,7 +143,7 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
   {
     type: 'bentoGridBlock',
     title: 'Bento Grid',
-    description: 'Asymmetric grid of cards with mixed sizes, each with its own media.',
+    description: 'Asymmetric grid of cards with mixed sizes, each with its own media. No intro of its own; add a Section Headline above it (left-aligned).',
   },
   {
     type: 'mediaBlock',

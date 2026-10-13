@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { ExpandAltOutlined } from '@ant-design/icons'
 import { Modal } from '@/components/ui/Modal'
 import { SectionShell } from '@/components/ui/SectionShell'
-import { SectionIntro } from '@/components/ui/SectionIntro'
 import { ItemHeading } from '@/components/ui/ItemHeading'
 import { Media } from '@/components/ui/Media'
 import type { MediaField } from '@/lib/sanity/media'
@@ -14,10 +13,9 @@ type BentoItem = {
   size?: 'normal' | 'large' | 'tall'
   media?: MediaField
 }
+// No eyebrow/heading/body of its own — pair it with a Section Headline
+// block above it (left-aligned on the site so far).
 type BentoGridBlockProps = {
-  eyebrow?: string
-  heading: string
-  body?: string
   columns?: '2' | '3'
   headingLayout?: 'stacked' | 'inline'
   titleSize?: 'h3' | 'h4' | 'h5'
@@ -31,9 +29,6 @@ const GRID_COLS_CLASS: Record<'2' | '3', string> = {
 }
 
 export function BentoGridBlock({
-  eyebrow,
-  heading,
-  body,
   columns = '3',
   headingLayout = 'stacked',
   titleSize = 'h5',
@@ -47,8 +42,7 @@ export function BentoGridBlock({
 
   return (
     <>
-      <SectionShell px="boxed" py={spacing} className="flex flex-col gap-2xl">
-        <SectionIntro as="h3" eyebrow={eyebrow} heading={heading} body={body} maxWidth="md" />
+      <SectionShell px="boxed" py={spacing}>
         {/* gap-small/md:gap-large + each card's p-medium-large/md:p-large:
             same 8+24=32px-from-edge mobile rhythm as Card Grid — see its
             own comment for the full reasoning. Desktop unchanged. */}

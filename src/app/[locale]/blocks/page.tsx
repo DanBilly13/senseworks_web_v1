@@ -943,9 +943,6 @@ export default async function BlocksPage({
       <GroupHeading>Media &amp; Content</GroupHeading>
       <BlockCaption name="Bento Grid" type="bentoGridBlock" />
       <BentoGridBlock
-        eyebrow={EYEBROW}
-        heading={HEADING}
-        body={BODY}
         columns="3"
         items={[
           { heading: 'Lorem ipsum', body: BODY, size: 'large' },
@@ -956,9 +953,6 @@ export default async function BlocksPage({
       />
       <BlockCaption name="Bento Grid — H3 titles" type="bentoGridBlock" variant='titleSize: "h3"' />
       <BentoGridBlock
-        eyebrow={EYEBROW}
-        heading={HEADING}
-        body={BODY}
         columns="3"
         titleSize="h3"
         items={[

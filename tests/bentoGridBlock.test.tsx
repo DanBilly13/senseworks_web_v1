@@ -9,8 +9,7 @@ describe('BentoGridBlock', () => {
   ]
 
   it('renders each card and marks large cards for a 2-column span', () => {
-    render(<BentoGridBlock heading="Everything in one place" items={items} />)
-    expect(screen.getByRole('heading', { name: 'Everything in one place' })).toBeInTheDocument()
+    render(<BentoGridBlock items={items} />)
     expect(screen.getByRole('heading', { name: 'Card one' })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Card two' })).toBeInTheDocument()
 
@@ -19,7 +18,7 @@ describe('BentoGridBlock', () => {
   })
 
   it('opens a modal with the card title when its expand button is clicked, and closes on request', () => {
-    render(<BentoGridBlock heading="Everything in one place" items={items} />)
+    render(<BentoGridBlock items={items} />)
 
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
 
@@ -34,7 +33,7 @@ describe('BentoGridBlock', () => {
   })
 
   it('renders nothing when there are no cards', () => {
-    const { container } = render(<BentoGridBlock heading="Empty" items={[]} />)
+    const { container } = render(<BentoGridBlock items={[]} />)
     expect(container).toBeEmptyDOMElement()
   })
 })
