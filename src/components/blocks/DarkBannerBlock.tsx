@@ -37,7 +37,7 @@ type DarkBannerBlockProps = {
 }
 
 const ICON_BOX_CLASS: Record<IconSize, string> = {
-  large: 'size-icon-lg md:size-2xl',
+  large: 'size-icon-lg',
   small: 'size-medium-large md:size-large',
 }
 

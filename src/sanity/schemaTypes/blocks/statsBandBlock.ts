@@ -1,6 +1,6 @@
 import { defineType, defineField, defineArrayMember } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
-import { spacingField } from '../fields/spacingField'
+import { spacingField, paddingField } from '../fields/spacingField'
 
 export const statsBandBlock = defineType({
   name: 'statsBandBlock',
@@ -16,6 +16,30 @@ export const statsBandBlock = defineType({
       rows: 3,
       validation: (Rule) => Rule.max(300),
     }),
+    defineField({
+      name: 'tone',
+      title: 'Background',
+      description: 'None sits straight on the page. Any other fills a full-screen-width band, with its own top and bottom padding below.',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'None (default)', value: 'none' },
+          { title: 'Muted (light grey background, dark text)', value: 'muted' },
+          { title: 'Dark (dark background, light text)', value: 'dark' },
+          { title: 'Accent (accent background, dark text)', value: 'accent' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'none',
+    }),
+    {
+      ...paddingField('top', 'medium'),
+      hidden: ({ parent }: { parent?: { tone?: string } }) => !parent?.tone || parent.tone === 'none',
+    },
+    {
+      ...paddingField('bottom', 'medium'),
+      hidden: ({ parent }: { parent?: { tone?: string } }) => !parent?.tone || parent.tone === 'none',
+    },
     spacingField,
     defineField({
       name: 'items',

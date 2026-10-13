@@ -69,6 +69,18 @@ export const SECTION_GAP_PB_CLASS: Record<'loose' | 'medium' | 'tight' | 'none',
   none: 'pb-none',
 }
 
+// The same four gaps as a bottom MARGIN — for a block whose own
+// full-bleed background fill is the section (Full Width Single, a
+// Stats Band with a background): the fill ends at the block's edge and
+// the gap to the next block sits outside it, while SectionShell's own
+// padding is spent on the block's internal top/bottom padding.
+export const SECTION_GAP_MB_CLASS: Record<'loose' | 'medium' | 'tight' | 'none', string> = {
+  loose: 'mb-section-gap-loose',
+  medium: 'mb-section-gap-medium',
+  tight: 'mb-section-gap-tight',
+  none: 'mb-none',
+}
+
 const PB_CLASS = {
   '3xl': 'pb-3xl',
   large: 'pb-large',

@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { Button } from '@/components/ui/Button'
-import { SectionShell } from '@/components/ui/SectionShell'
+import { SECTION_GAP_MB_CLASS, SectionShell } from '@/components/ui/SectionShell'
 import { SectionIntro, HALF_HEADING_LINE_HEIGHT_GAP } from '@/components/ui/SectionIntro'
 import { Media } from '@/components/ui/Media'
 import { renderNumberedEyebrow } from '@/components/ui/numberedEyebrow'
@@ -105,17 +105,6 @@ const SECTION_BG: Record<FullWidthSingleBlockTone, string> = {
   default: 'bg-muted',
   inverse: 'bg-foreground',
   accent: 'bg-accent',
-}
-
-// Margin equivalents of SectionShell's own SECTION_GAP_PB_CLASS — same
-// four values, applied to the outer tone-filled div's bottom margin
-// instead of SectionShell's inner padding (which this block already
-// uses for paddingTop/paddingBottom).
-const SECTION_GAP_MB_CLASS: Record<SpacingValue, string> = {
-  loose: 'mb-section-gap-loose',
-  medium: 'mb-section-gap-medium',
-  tight: 'mb-section-gap-tight',
-  none: 'mb-none',
 }
 
 // Like CTA Banner, but the background is the only thing that's full

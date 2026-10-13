@@ -51,13 +51,13 @@ type FeatureGridBlockProps = {
   items?: FeatureGridItem[]
 }
 
-// Shared "Large"/"Small" content-icon sizes — 64/56 desktop/mobile for
-// Large (size-icon-lg is the dedicated 56px mobile token, size-2xl
-// reuses the existing 64px spacing rung for desktop), 32/24 for Small
+// Shared "Large"/"Small" content-icon sizes — 56px at every size for
+// Large (size-icon-lg, its dedicated token; was 64px on desktop until
+// Dan asked for 56 throughout), 32/24 desktop/mobile for Small
 // (both already-existing spacing rungs, same pair Dark Banner's icons
 // use). Same two options as Dark Banner's own iconSize prop below.
 const ICON_BOX_CLASS: Record<IconSize, string> = {
-  large: 'size-icon-lg md:size-2xl',
+  large: 'size-icon-lg',
   small: 'size-medium-large md:size-large',
 }
 

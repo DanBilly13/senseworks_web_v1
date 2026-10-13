@@ -576,6 +576,39 @@ export default async function BlocksPage({
           { value: '00M', label: 'Do eiusmod tempor' },
         ]}
       />
+      <BlockCaption name="Stats Band — Dark background" type="statsBandBlock" variant='tone: "dark"' />
+      <StatsBandBlock
+        tone="dark"
+        heading={HEADING}
+        items={[
+          { value: '00%', label: 'Lorem ipsum dolor' },
+          { value: '000+', label: 'Sit amet consectetur' },
+          { value: '00%', label: 'Adipiscing elit sed' },
+          { value: '00M', label: 'Do eiusmod tempor' },
+        ]}
+      />
+      <BlockCaption name="Stats Band — Accent background" type="statsBandBlock" variant='tone: "accent"' />
+      <StatsBandBlock
+        tone="accent"
+        heading={HEADING}
+        items={[
+          { value: '00%', label: 'Lorem ipsum dolor' },
+          { value: '000+', label: 'Sit amet consectetur' },
+          { value: '00%', label: 'Adipiscing elit sed' },
+          { value: '00M', label: 'Do eiusmod tempor' },
+        ]}
+      />
+      <BlockCaption name="Stats Band — Muted background" type="statsBandBlock" variant='tone: "muted"' />
+      <StatsBandBlock
+        tone="muted"
+        heading={HEADING}
+        items={[
+          { value: '00%', label: 'Lorem ipsum dolor' },
+          { value: '000+', label: 'Sit amet consectetur' },
+          { value: '00%', label: 'Adipiscing elit sed' },
+          { value: '00M', label: 'Do eiusmod tempor' },
+        ]}
+      />
 
       <GroupHeading>Conversion</GroupHeading>
       <BlockCaption name="Pricing Cards" type="pricingBlock" />
