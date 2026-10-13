@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/Button'
 import { SectionShell } from '@/components/ui/SectionShell'
-import { SectionIntro } from '@/components/ui/SectionIntro'
+import { HALF_HEADING_LINE_HEIGHT_GAP, SectionIntro } from '@/components/ui/SectionIntro'
 import { Media } from '@/components/ui/Media'
 import type { MediaField } from '@/lib/sanity/media'
 
@@ -24,7 +24,8 @@ type StatsBandBlockProps = {
   // Text-to-stats gap: 'standard' is the site-wide 64px intro-to-
   // content gap; the rest are the section spacing tiers.
   contentGap?: 'standard' | SpacingValue
-  // Optional button, centred under the stats.
+  // Optional closing text and button, centred under the stats.
+  closingText?: string
   ctaLabel?: string
   ctaHref?: string
   // The gap below the block, before the next one.
@@ -59,6 +60,7 @@ export function StatsBandBlock({
   paddingTop = 'medium',
   paddingBottom = 'medium',
   contentGap = 'standard',
+  closingText,
   ctaLabel,
   ctaHref,
   spacing = 'loose',
@@ -79,8 +81,12 @@ export function StatsBandBlock({
         maxWidth="md"
         tone={light ? 'inverse' : 'default'}
       />
+      {/* No column gap once the dividers show (lg): a divider sits on
+          its column's left edge, so a gap on top made every divided
+          section but the last 32px wider than its neighbour. The
+          columns' own px-medium-large keeps text off the dividers. */}
       <div
-        className={`grid grid-cols-2 gap-large lg:grid-cols-4 lg:divide-x ${hasIntro ? CONTENT_GAP_CLASS[contentGap] : ''} ${
+        className={`grid grid-cols-2 gap-large lg:grid-cols-4 lg:gap-x-0 lg:divide-x ${hasIntro ? CONTENT_GAP_CLASS[contentGap] : ''} ${
           light ? 'lg:divide-background/20' : tone === 'accent' ? 'lg:divide-foreground/15' : 'lg:divide-border'
         }`}
       >
@@ -102,13 +108,26 @@ export function StatsBandBlock({
           </div>
         ))}
       </div>
-      {ctaLabel && ctaHref && (
-        // Yellow on the dark/image panels, dark everywhere else — same
-        // rule as Full Width Single's button.
-        <div className="mt-xl flex justify-center">
-          <Button href={ctaHref} variant={light ? 'filled-accent' : 'filled-dark'}>
-            {ctaLabel}
-          </Button>
+      {(closingText || (ctaLabel && ctaHref)) && (
+        // Mirrors the intro above the stats: the same gap from the stats
+        // as from the intro (contentGap), closing text styled like the
+        // h2 intro's own body, and the same text-to-button gap
+        // (half the h2's line-height).
+        <div className={`flex flex-col items-center gap-medium text-center ${CONTENT_GAP_CLASS[contentGap]}`}>
+          {closingText && (
+            <p className={`text-h5 font-medium md:max-w-subtitle ${light ? 'text-background' : 'text-foreground'}`}>
+              {closingText}
+            </p>
+          )}
+          {ctaLabel && ctaHref && (
+            // Yellow on the dark/image panels, dark everywhere else — same
+            // rule as Full Width Single's button.
+            <div style={closingText ? { marginTop: HALF_HEADING_LINE_HEIGHT_GAP.h2 } : undefined}>
+              <Button href={ctaHref} variant={light ? 'filled-accent' : 'filled-dark'}>
+                {ctaLabel}
+              </Button>
+            </div>
+          )}
         </div>
       )}
     </>

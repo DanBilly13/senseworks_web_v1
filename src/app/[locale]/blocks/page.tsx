@@ -589,6 +589,7 @@ export default async function BlocksPage({
       <StatsBandBlock
         tone="dark"
         contentGap="tight"
+        closingText={BODY}
         ctaLabel="Lorem ipsum"
         ctaHref="#"
         heading={HEADING}
