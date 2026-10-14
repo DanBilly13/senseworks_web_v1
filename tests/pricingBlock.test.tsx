@@ -6,7 +6,6 @@ describe('PricingBlock', () => {
   it('renders each plan with its features and CTA', () => {
     render(
       <PricingBlock
-        heading="Pricing"
         plans={[
           {
             name: 'License',
@@ -26,7 +25,6 @@ describe('PricingBlock', () => {
         ]}
       />,
     )
-    expect(screen.getByRole('heading', { name: 'Pricing' })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'License' })).toBeInTheDocument()
     expect(screen.getByText('Full block library')).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Get started' })).toHaveAttribute('href', '#license')
@@ -36,7 +34,7 @@ describe('PricingBlock', () => {
   })
 
   it('renders nothing when there are no plans', () => {
-    const { container } = render(<PricingBlock heading="Empty" plans={[]} />)
+    const { container } = render(<PricingBlock plans={[]} />)
     expect(container).toBeEmptyDOMElement()
   })
 })

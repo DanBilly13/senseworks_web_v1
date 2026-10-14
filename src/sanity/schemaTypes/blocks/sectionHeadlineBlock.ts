@@ -54,6 +54,15 @@ export const sectionHeadlineBlock = defineType({
       },
       initialValue: 'center',
     }),
+    defineField({
+      name: 'anchor',
+      title: 'Anchor',
+      description:
+        'Optional. Lets a link jump to this headline: an anchor of "pricing" is reached by a link to "#pricing" (the menu\'s Pricing link uses this on Home). Lowercase letters, numbers and dashes.',
+      type: 'string',
+      validation: (Rule) =>
+        Rule.regex(/^[a-z0-9-]+$/, { name: 'lowercase letters, numbers and dashes' }),
+    }),
     spacingField,
   ],
   preview: {

@@ -1,8 +1,6 @@
 'use client'
 import { UserOutlined } from '@ant-design/icons'
-import { Button } from '@/components/ui/Button'
 import { CarouselNav, CarouselScroller, useCarousel } from '@/components/ui/Carousel'
-import { SectionIntro } from '@/components/ui/SectionIntro'
 import { SECTION_GAP_PB_CLASS } from '@/components/ui/SectionShell'
 import { Media } from '@/components/ui/Media'
 import type { MediaField } from '@/lib/sanity/media'
@@ -13,22 +11,14 @@ type TestimonialItem = {
   authorRole?: string
   media?: MediaField
 }
+// No eyebrow/heading/body of its own — pair it with a Section Headline
+// block above it.
 type TestimonialCarouselBlockProps = {
-  eyebrow?: string
-  heading: string
-  body?: string
-  ctaLabel?: string
-  ctaHref?: string
   spacing?: 'loose' | 'medium' | 'tight' | 'none'
   items?: TestimonialItem[]
 }
 
 export function TestimonialCarouselBlock({
-  eyebrow,
-  heading,
-  body,
-  ctaLabel,
-  ctaHref,
   spacing = 'loose',
   items = [],
 }: TestimonialCarouselBlockProps) {
@@ -39,48 +29,7 @@ export function TestimonialCarouselBlock({
 
   return (
     <section className={SECTION_GAP_PB_CLASS[spacing]}>
-      {/* This header text isn't itself boxed — the cards below are —
-          so it gets the plain 32px-from-edge mobile treatment (same as
-          SectionShell's default px), not the 8px boxed one. Text here
-          and text inside the boxed cards below (8px section + 24px
-          card padding) end up on the same 32px line either way. */}
-      <div className="mx-auto flex w-full max-w-page flex-col px-large md:px-medium-large">
-        <div className="flex flex-wrap items-end justify-between gap-medium-large">
-          {/* min-w-0 + flex-1 so headingMaxWidth="wide" (80%) resolves
-              against the space actually left over after the nav
-              buttons, not the whole row — otherwise a long heading
-              claims the full row width and pushes the buttons onto
-              their own (left-aligned) line instead of staying pinned
-              right next to it. */}
-          <div className="min-w-0 flex-1">
-            <SectionIntro
-              as="h2"
-              eyebrow={eyebrow}
-              heading={heading}
-              body={body}
-              maxWidth="sm"
-              headingMaxWidth="wide"
-              cta={
-                ctaLabel &&
-                ctaHref && (
-                  <Button href={ctaHref} variant="ghost">
-                    {ctaLabel}
-                  </Button>
-                )
-              }
-            />
-          </div>
-          {canScroll && (
-            <CarouselNav
-              label="testimonials"
-              atStart={atStart}
-              atEnd={atEnd}
-              onStep={scrollByCard}
-            />
-          )}
-        </div>
-      </div>
-      <CarouselScroller scrollerRef={scrollerRef} onScroll={updateEdges} className="mt-2xl">
+      <CarouselScroller scrollerRef={scrollerRef} onScroll={updateEdges}>
         {items.map((item, index) => (
           <div
             key={index}
@@ -107,6 +56,14 @@ export function TestimonialCarouselBlock({
           </div>
         ))}
       </CarouselScroller>
+      {/* Prev/next under the cards, right-aligned to the content edge —
+          only when there's something to scroll. Same as Case Study
+          Carousel. */}
+      {canScroll && (
+        <div className="mx-auto mt-medium-large flex w-full max-w-page justify-end px-large md:px-medium-large">
+          <CarouselNav label="testimonials" atStart={atStart} atEnd={atEnd} onStep={scrollByCard} />
+        </div>
+      )}
     </section>
   )
 }

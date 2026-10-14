@@ -2,7 +2,6 @@
 import { CheckOutlined } from '@ant-design/icons'
 import { Button } from '@/components/ui/Button'
 import { SectionShell } from '@/components/ui/SectionShell'
-import { SectionIntro } from '@/components/ui/SectionIntro'
 
 type PricingPlan = {
   name: string
@@ -12,18 +11,15 @@ type PricingPlan = {
   ctaHref?: string
   featured?: boolean
 }
+// No eyebrow/heading/body of its own — pair it with a Section Headline
+// block above it (whose Anchor is "pricing" on Home, so the
+// menu's Pricing link lands on the heading, not below it).
 type PricingBlockProps = {
-  eyebrow?: string
-  heading: string
-  body?: string
   plans?: PricingPlan[]
   spacing?: 'loose' | 'medium' | 'tight' | 'none'
 }
 
 export function PricingBlock({
-  eyebrow,
-  heading,
-  body,
   plans = [],
   spacing = 'loose',
 }: PricingBlockProps) {
@@ -31,8 +27,7 @@ export function PricingBlock({
   if (!plans.length) return null
 
   return (
-    <SectionShell id="pricing" px="boxed" py={spacing} className="flex flex-col gap-2xl">
-      <SectionIntro as="h2" eyebrow={eyebrow} heading={heading} body={body} maxWidth="md" />
+    <SectionShell px="boxed" py={spacing}>
       {/* Same 8+24=32px-from-edge mobile rhythm as Card Grid — see its
           own comment. Desktop unchanged. */}
       <div

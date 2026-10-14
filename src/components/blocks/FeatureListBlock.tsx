@@ -1,22 +1,17 @@
 import { SectionShell } from '@/components/ui/SectionShell'
-import { SectionIntro } from '@/components/ui/SectionIntro'
 
 type FeatureListItem = {
   label: string
   body: string
 }
+// No eyebrow/heading/body of its own — pair it with a Section Headline
+// block above it.
 type FeatureListBlockProps = {
-  eyebrow?: string
-  heading?: string
-  body?: string
   spacing?: 'loose' | 'medium' | 'tight' | 'none'
   items?: FeatureListItem[]
 }
 
 export function FeatureListBlock({
-  eyebrow,
-  heading,
-  body,
   spacing = 'loose',
   items = [],
 }: FeatureListBlockProps) {
@@ -24,8 +19,7 @@ export function FeatureListBlock({
   if (!items.length) return null
 
   return (
-    <SectionShell py={spacing} className="flex flex-col gap-2xl">
-      <SectionIntro as="h2" eyebrow={eyebrow} heading={heading} body={body} maxWidth="md" />
+    <SectionShell py={spacing}>
       <div className="flex flex-col divide-y divide-border">
         {items.map((item, index) => {
           // Plain-text field, so paragraph breaks only survive as literal

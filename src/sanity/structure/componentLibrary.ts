@@ -83,7 +83,7 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
   {
     type: 'featureListBlock',
     title: 'Feature List',
-    description: 'Left label / right body text rows, stacked — a lighter alternative to Feature Grid.',
+    description: 'Left label / right body text rows, stacked — a lighter alternative to Feature Grid. No intro of its own; add a Section Headline above it.',
   },
   {
     type: 'cardGridBlock',
@@ -99,7 +99,7 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
   {
     type: 'testimonialCarouselBlock',
     title: 'Testimonial Carousel',
-    description: 'Horizontally scrolling carousel of customer quotes.',
+    description: 'Horizontally scrolling carousel of customer quotes. No intro of its own; add a Section Headline above it. Prev/next arrows sit under the cards.',
   },
   {
     type: 'horizontalScrollStackMediumBlock',
@@ -138,7 +138,7 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
   {
     type: 'pricingBlock',
     title: 'Pricing Cards',
-    description: 'Pricing plan cards for comparing tiers.',
+    description: 'Pricing plan cards for comparing tiers. No intro of its own; add a Section Headline above it.',
   },
   {
     type: 'bentoGridBlock',
@@ -159,7 +159,7 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
   {
     type: 'comparisonTableBlock',
     title: 'Comparison Table',
-    description: 'Feature comparison table across columns, e.g. plans or competitors.',
+    description: 'Feature comparison table across columns, e.g. plans or competitors. No intro of its own; add a Section Headline above it.',
   },
   {
     type: 'caseStudyGridBlock',

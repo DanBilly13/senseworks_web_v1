@@ -8,18 +8,6 @@ export const comparisonTableBlock = defineType({
   type: 'object',
   fields: [
     hiddenField,
-    defineField({ name: 'eyebrow', type: 'string' }),
-    defineField({
-      name: 'heading',
-      type: 'string',
-      validation: (Rule) => Rule.required().max(100),
-    }),
-    defineField({
-      name: 'body',
-      type: 'text',
-      rows: 3,
-      validation: (Rule) => Rule.max(300),
-    }),
     defineField({
       name: 'rowHeader',
       title: 'Left column heading',
@@ -136,7 +124,7 @@ export const comparisonTableBlock = defineType({
     spacingField,
   ],
   preview: {
-    select: { title: 'heading', rows: 'rows' },
+    select: { title: 'rowHeader', rows: 'rows' },
     prepare: ({ title, rows }) => ({
       title: `Comparison Table — ${title || 'Untitled'}`,
       subtitle: `${rows?.length ?? 0} rows`,

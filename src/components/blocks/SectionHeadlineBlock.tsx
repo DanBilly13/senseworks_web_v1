@@ -14,6 +14,9 @@ type SectionHeadlineBlockProps = {
   // visual: it's always an h2 on the page, since every page starts
   // with a Hero and the Hero is the page's one h1.
   size?: 'display' | 'h1' | 'h2' | 'h3'
+  // Optional id, so a "#anchor" link (e.g. the menu's Pricing link)
+  // lands on this headline.
+  anchor?: string
 }
 
 export function SectionHeadlineBlock({
@@ -25,9 +28,10 @@ export function SectionHeadlineBlock({
   align = 'center',
   spacing = 'loose',
   size = 'h2',
+  anchor,
 }: SectionHeadlineBlockProps) {
   return (
-    <SectionShell py={spacing}>
+    <SectionShell py={spacing} id={anchor}>
       <SectionIntro
         as="h2"
         // Display draws at the display size; styleAs h1 gives it the

@@ -438,9 +438,6 @@ export default async function BlocksPage({
       />
       <BlockCaption name="Feature List" type="featureListBlock" />
       <FeatureListBlock
-        eyebrow={EYEBROW}
-        heading={HEADING}
-        body={BODY}
         items={[
           { label: 'Lorem ipsum dolor sit amet', body: BODY },
           { label: 'Consectetur adipiscing elit', body: BODY },
@@ -548,11 +545,6 @@ export default async function BlocksPage({
       <LogoCloudBlock logos={clientLogos} tone="accent" />
       <BlockCaption name="Testimonial Carousel" type="testimonialCarouselBlock" />
       <TestimonialCarouselBlock
-        eyebrow={EYEBROW}
-        heading={HEADING}
-        body={BODY}
-        ctaLabel="Lorem ipsum"
-        ctaHref="#"
         items={[
           { quote: BODY, authorName: 'Lorem Ipsum', authorRole: 'Lorem, Ipsum' },
           { quote: BODY, authorName: 'Dolor Sit', authorRole: 'Dolor, Sit' },
@@ -637,9 +629,6 @@ export default async function BlocksPage({
       <GroupHeading>Conversion</GroupHeading>
       <BlockCaption name="Pricing Cards" type="pricingBlock" />
       <PricingBlock
-        eyebrow={EYEBROW}
-        heading={HEADING}
-        body={BODY}
         plans={[
           {
             name: 'Lorem',
@@ -666,9 +655,6 @@ export default async function BlocksPage({
       />
       <BlockCaption name="Comparison Table" type="comparisonTableBlock" />
       <ComparisonTableBlock
-        eyebrow={EYEBROW}
-        heading={HEADING}
-        body={BODY}
         columns={[{ label: 'Lorem' }, { label: 'Ipsum', highlighted: true }, { label: 'Dolor' }]}
         rows={[
           { label: 'Lorem ipsum dolor', cells: [{ type: 'check' }, { type: 'check' }, { type: 'cross' }] },

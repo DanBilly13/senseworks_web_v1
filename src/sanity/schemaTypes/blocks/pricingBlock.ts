@@ -8,18 +8,6 @@ export const pricingBlock = defineType({
   type: 'object',
   fields: [
     hiddenField,
-    defineField({ name: 'eyebrow', type: 'string' }),
-    defineField({
-      name: 'heading',
-      type: 'string',
-      validation: (Rule) => Rule.required().max(100),
-    }),
-    defineField({
-      name: 'body',
-      type: 'text',
-      rows: 3,
-      validation: (Rule) => Rule.max(300),
-    }),
     spacingField,
     defineField({
       name: 'plans',
@@ -66,7 +54,7 @@ export const pricingBlock = defineType({
     }),
   ],
   preview: {
-    select: { title: 'heading', plans: 'plans' },
+    select: { title: 'plans.0.name', plans: 'plans' },
     prepare: ({ title, plans }) => ({
       title: `Pricing Cards — ${title || 'Untitled'}`,
       subtitle: `${plans?.length ?? 0} plans`,

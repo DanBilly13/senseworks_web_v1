@@ -8,20 +8,6 @@ export const testimonialCarouselBlock = defineType({
   type: 'object',
   fields: [
     hiddenField,
-    defineField({ name: 'eyebrow', type: 'string' }),
-    defineField({
-      name: 'heading',
-      type: 'string',
-      validation: (Rule) => Rule.required().max(100),
-    }),
-    defineField({
-      name: 'body',
-      type: 'text',
-      rows: 3,
-      validation: (Rule) => Rule.max(300),
-    }),
-    defineField({ name: 'ctaLabel', type: 'string' }),
-    defineField({ name: 'ctaHref', type: 'string' }),
     defineField({
       name: 'items',
       title: 'Testimonials',
@@ -31,9 +17,9 @@ export const testimonialCarouselBlock = defineType({
     spacingField,
   ],
   preview: {
-    select: { title: 'heading', items: 'items' },
-    prepare: ({ title, items }) => ({
-      title: `Testimonial Carousel — ${title || 'Untitled'}`,
+    select: { items: 'items' },
+    prepare: ({ items }) => ({
+      title: 'Testimonial Carousel',
       subtitle: `${items?.length ?? 0} testimonials`,
     }),
   },

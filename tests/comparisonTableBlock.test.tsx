@@ -18,9 +18,8 @@ describe('ComparisonTableBlock', () => {
     },
   ]
 
-  it('renders the heading, column labels, row labels, and cell values', () => {
-    render(<ComparisonTableBlock heading="How we compare" columns={columns} rows={rows} />)
-    expect(screen.getByRole('heading', { name: 'How we compare' })).toBeInTheDocument()
+  it('renders the column labels, row labels, and cell values', () => {
+    render(<ComparisonTableBlock columns={columns} rows={rows} />)
     expect(screen.getByText('Senseworks')).toBeInTheDocument()
     expect(screen.getByText('Spreadsheets')).toBeInTheDocument()
     expect(screen.getByText('CMS-driven content')).toBeInTheDocument()
@@ -33,12 +32,12 @@ describe('ComparisonTableBlock', () => {
 
   it('renders nothing when there are no columns or no rows', () => {
     const { container: noColumns } = render(
-      <ComparisonTableBlock heading="Empty" columns={[]} rows={rows} />,
+      <ComparisonTableBlock columns={[]} rows={rows} />,
     )
     expect(noColumns).toBeEmptyDOMElement()
 
     const { container: noRows } = render(
-      <ComparisonTableBlock heading="Empty" columns={columns} rows={[]} />,
+      <ComparisonTableBlock columns={columns} rows={[]} />,
     )
     expect(noRows).toBeEmptyDOMElement()
   })

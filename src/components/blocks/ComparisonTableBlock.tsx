@@ -1,15 +1,13 @@
 'use client'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import { SectionShell } from '@/components/ui/SectionShell'
-import { SectionIntro } from '@/components/ui/SectionIntro'
 
 type ComparisonCell = { type: 'check' | 'cross' | 'partial' | 'text'; lead?: string; text?: string }
 type ComparisonColumn = { label: string; highlighted?: boolean }
 type ComparisonRow = { labelLead?: string; label: string; cells?: ComparisonCell[] }
+// No eyebrow/heading/body of its own — pair it with a Section Headline
+// block above it.
 type ComparisonTableBlockProps = {
-  eyebrow?: string
-  heading: string
-  body?: string
   // Title for the first (row label) column — blank header cell if unset.
   rowHeader?: string
   columns?: ComparisonColumn[]
@@ -68,9 +66,6 @@ function Lead({ text, className }: { text?: string; className: string }) {
 }
 
 export function ComparisonTableBlock({
-  eyebrow,
-  heading,
-  body,
   rowHeader,
   columns = [],
   rows = [],
@@ -80,8 +75,7 @@ export function ComparisonTableBlock({
   if (!columns.length || !rows.length) return null
 
   return (
-    <SectionShell py={spacing} className="flex flex-col gap-2xl">
-      <SectionIntro as="h2" eyebrow={eyebrow} heading={heading} body={body} maxWidth="md" />
+    <SectionShell py={spacing}>
       <div className="w-full overflow-hidden rounded-lg border border-border">
         <div className="overflow-x-auto">
           <table className="w-full border-collapse text-left">

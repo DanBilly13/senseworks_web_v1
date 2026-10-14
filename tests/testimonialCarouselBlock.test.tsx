@@ -4,17 +4,15 @@ import { fakeOverflowingScroller } from './helpers/overflow'
 import { TestimonialCarouselBlock } from '@/components/blocks/TestimonialCarouselBlock'
 
 describe('TestimonialCarouselBlock', () => {
-  it('renders the heading and each testimonial', () => {
+  it('renders each testimonial', () => {
     render(
       <TestimonialCarouselBlock
-        heading="What customers say"
         items={[
           { quote: 'This saved us weeks of work.', authorName: 'Jane Doe', authorRole: 'Acme' },
           { quote: 'Rock solid and fast to ship with.', authorName: 'John Smith' },
         ]}
       />,
     )
-    expect(screen.getByRole('heading', { name: 'What customers say' })).toBeInTheDocument()
     expect(screen.getByText(/This saved us weeks of work/)).toBeInTheDocument()
     expect(screen.getByText('Jane Doe')).toBeInTheDocument()
     expect(screen.getByText('Acme')).toBeInTheDocument()
@@ -24,7 +22,7 @@ describe('TestimonialCarouselBlock', () => {
 
 
   it('renders nothing when there are no testimonials', () => {
-    const { container } = render(<TestimonialCarouselBlock heading="Empty" items={[]} />)
+    const { container } = render(<TestimonialCarouselBlock items={[]} />)
     expect(container).toBeEmptyDOMElement()
   })
 })
@@ -36,7 +34,6 @@ describe('TestimonialCarouselBlock arrows', () => {
     it('shows prev/next controls', () => {
       render(
         <TestimonialCarouselBlock
-        heading="What customers say"
         items={[{ quote: 'Great product.', authorName: 'A' }]}
       />
       )
@@ -48,7 +45,6 @@ describe('TestimonialCarouselBlock arrows', () => {
   it('hides them when every card already fits', () => {
     render(
       <TestimonialCarouselBlock
-        heading="What customers say"
         items={[{ quote: 'Great product.', authorName: 'A' }]}
       />
     )
