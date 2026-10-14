@@ -149,7 +149,7 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
     type: 'mediaBlock',
     title: 'Media',
     description:
-      'Single full-width image, video, Lottie, or curated React animation, 7:5 ratio. Optional eyebrow/headline/body/button overlay with left or center alignment.',
+      'Single image, video, Lottie, or curated React animation. Content width (7:5, rounded) or full screen width (edge to edge, CTA Banner height). Optional eyebrow/headline/body/button overlay with left or center alignment.',
   },
   {
     type: 'faqAccordionBlock',

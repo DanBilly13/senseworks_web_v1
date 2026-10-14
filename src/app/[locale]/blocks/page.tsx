@@ -950,6 +950,8 @@ export default async function BlocksPage({
       />
       <BlockCaption name="Media" type="mediaBlock" />
       <MediaBlock />
+      <BlockCaption name="Media — full screen width" type="mediaBlock" variant='width: "full"' />
+      <MediaBlock width="full" />
       {/* No media set on purpose — a busy React-animation demo (a bright
           white UI card) fights the scrim/text instead of showing it
           off; the gradient placeholder reads closer to a real photo/

@@ -12,6 +12,21 @@ export const mediaBlock = defineType({
     // already renders a placeholder when it's empty, so this was
     // blocking Studio publish for no real reason.
     defineField({ name: 'media', title: 'Media', type: 'media' }),
+    defineField({
+      name: 'width',
+      title: 'Width',
+      description:
+        'Full screen width runs edge to edge with square corners, at the same height as a CTA Banner with an image (the image is cropped to fill).',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Content width (default)', value: 'content' },
+          { title: 'Full screen width', value: 'full' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'content',
+    }),
     // All optional, and all off by default (empty) — an editor using
     // this block for plain media, no text, sees no change. Filling any
     // of these in switches the component into the overlay layout: a

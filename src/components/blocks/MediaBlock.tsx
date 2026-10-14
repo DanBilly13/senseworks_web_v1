@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/Button'
-import { SectionShell } from '@/components/ui/SectionShell'
+import { SECTION_GAP_PB_CLASS, SectionShell } from '@/components/ui/SectionShell'
 import { SectionIntro } from '@/components/ui/SectionIntro'
 import { Media } from '@/components/ui/Media'
 import type { MediaField } from '@/lib/sanity/media'
@@ -12,10 +12,68 @@ type MediaBlockProps = {
   ctaLabel?: string
   ctaHref?: string
   align?: 'left' | 'center'
+  // 'full': edge to edge at every screen size, square corners, and the
+  // same height as a CTA Banner with a background image (75vh, image
+  // cropped to fill) so the two match when used near each other.
+  width?: 'content' | 'full'
 }
 
-export function MediaBlock({ media, eyebrow, headline, body, ctaLabel, ctaHref, align = 'left' }: MediaBlockProps) {
+export function MediaBlock({
+  media,
+  eyebrow,
+  headline,
+  body,
+  ctaLabel,
+  ctaHref,
+  align = 'left',
+  width = 'content',
+}: MediaBlockProps) {
   const hasOverlay = Boolean(eyebrow || headline || body || (ctaLabel && ctaHref))
+
+  if (width === 'full') {
+    // Same bottom gap as SectionShell's default (loose), but no width
+    // cap or side padding — the media is the full width of the screen.
+    return (
+      <section className={SECTION_GAP_PB_CLASS.loose}>
+        <div className="relative h-cta-banner-image w-full overflow-hidden">
+          <div className="absolute inset-0">
+            <Media
+              media={media}
+              alt={hasOverlay ? headline || media?.alt || '' : media?.alt ?? ''}
+              className="size-full rounded-none"
+            />
+          </div>
+          {hasOverlay && (
+            // Text lines up with the page content, not the screen edge.
+            <div
+              className={[
+                'relative mx-auto flex size-full max-w-page flex-col justify-center px-large md:px-medium-large',
+                align === 'center' ? 'items-center' : 'items-start',
+              ].join(' ')}
+            >
+              <SectionIntro
+                as="h2"
+                eyebrow={eyebrow}
+                heading={headline}
+                body={body}
+                align={align}
+                maxWidth="md"
+                tone="inverse"
+                cta={
+                  ctaLabel &&
+                  ctaHref && (
+                    <Button href={ctaHref} variant="filled-accent">
+                      {ctaLabel}
+                    </Button>
+                  )
+                }
+              />
+            </div>
+          )}
+        </div>
+      </section>
+    )
+  }
 
   // Plain media, no text — the original, still-common case. Scale/
   // Position (on the media object itself, in Studio) let an editor
