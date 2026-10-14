@@ -71,7 +71,17 @@ export const pageBySlugAndLocaleQuery = groq`
       _type == "releaseCardsBlock" => { cards[]{ ..., ${mediaProjection()}, "team": team[]->{ name, photo } } },
       _type == "mediaCarouselBlock" => { slides[]{ ..., ${mediaProjection()} } },
       _type == "horizontalScrollStackBlock" => { panels[]{ ..., ${mediaProjection()} } },
-      _type == "caseStudyGridBlock" => { items[]{ ..., ${mediaProjection()} } },
+      // Customer stories for the carousel: the page's language, English
+      // as the per-story fallback, filtered by the block's "Which
+      // stories" (a story ticked for both products shows under either).
+      _type == "caseStudyGridBlock" => {
+        "stories": *[_type == "customerStory" && (
+          language == $locale ||
+          (language == "en" && !(slug.current in *[_type == "customerStory" && language == $locale].slug.current))
+        ) && (coalesce(^.productFilter, "all") == "all" || ^.productFilter in products)] | order(publishedAt desc) {
+          companyName, "slug": slug.current, summary, products, coverImage
+        }
+      },
       _type == "logoCloudBlock" => { logos[]->{ name, ${mediaProjection('logo')} } },
       _type == "testimonialCarouselBlock" => {
         items[]->{ quote, authorName, authorRole, ${mediaProjection()} }

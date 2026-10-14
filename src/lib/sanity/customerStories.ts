@@ -9,7 +9,10 @@ export type CustomerStorySummary = {
   companyName: string
   slug: string
   facts?: string
-  products?: string
+  // "audit" / "analytics" — see productLabels.
+  products?: string[]
+  // The one-line outcome shown on the card.
+  summary?: string
   quote?: string
   personName?: string
   personRole?: string
@@ -36,6 +39,7 @@ const summaryProjection = groq`
   "slug": slug.current,
   facts,
   products,
+  summary,
   quote,
   personName,
   personRole,

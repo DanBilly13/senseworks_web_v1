@@ -9,9 +9,11 @@ import { LeftOutlined, RightOutlined } from '@ant-design/icons'
 // `canScroll` is false when every card already fits on screen (a wide
 // monitor, few cards) — callers hide the buttons then, rather than
 // showing two permanently greyed-out ones that look broken.
-export function useCarousel(itemCount: number) {
+// `Card` is the card's element type (a <div>, or an <a> for a card
+// that is itself a link).
+export function useCarousel<Card extends HTMLElement = HTMLDivElement>(itemCount: number) {
   const scrollerRef = useRef<HTMLDivElement>(null)
-  const firstCardRef = useRef<HTMLDivElement>(null)
+  const firstCardRef = useRef<Card>(null)
   const [atStart, setAtStart] = useState(true)
   const [atEnd, setAtEnd] = useState(false)
   const [canScroll, setCanScroll] = useState(true)

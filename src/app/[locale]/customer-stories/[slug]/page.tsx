@@ -1,9 +1,10 @@
 import type { ReactNode } from 'react'
+import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getPage } from '@/lib/sanity/getPage'
 import type { PageBlock } from '@/lib/sanity/getPage'
 import { getCustomerStory, type CustomerStoryDoc } from '@/lib/sanity/customerStories'
-import { splitProducts } from '@/lib/customerStoryProducts'
+import { productLabels } from '@/lib/customerStoryProducts'
 import { BlockRenderer } from '@/components/blocks/BlockRenderer'
 import { SectionShell } from '@/components/ui/SectionShell'
 import { SectionIntro } from '@/components/ui/SectionIntro'
@@ -22,6 +23,23 @@ import { LikeProvider } from '@/components/knowledge-bank/LikeProvider'
 //   quotes stay in the running text, as in a magazine; the one quote
 //   that's set large is the Hero quote, shown wherever the editor drops
 //   a "Pull quote" item into the body — breaking out of the column.
+// The browser tab title is the story's headline; the search-result
+// description is its one-line summary (the summary isn't shown on the
+// page itself — it's the card's line).
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; slug: string }>
+}): Promise<Metadata> {
+  const { locale, slug } = await params
+  const story = await getCustomerStory(slug, locale)
+  if (!story) return {}
+  return {
+    title: `${story.title || story.companyName} – Senseworks`,
+    ...(story.summary ? { description: story.summary } : {}),
+  }
+}
+
 export default async function CustomerStoryPage({
   params,
 }: {
@@ -34,7 +52,7 @@ export default async function CustomerStoryPage({
 
   const header = home.blocks.find((block) => block._type === 'headerBlock')
   const footer = home.blocks.find((block) => block._type === 'footerBlock')
-  const products = splitProducts(story.products)
+  const products = productLabels(story.products)
   const headline = story.title || story.companyName
   // The body's opening paragraph, so the fact box can sit right after it.
   const body = story.body ?? []

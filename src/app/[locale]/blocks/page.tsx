@@ -89,32 +89,12 @@ const CAROUSEL_SLIDES = [
   { title: 'Excepteur sint.', body: 'Occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.' },
 ]
 
-const CASE_STUDY_ITEMS = [
-          {
-            companyName: 'Lorem Ipsum',
-            quote: BODY,
-            personName: 'Lorem Ipsum',
-            personRole: 'Lorem, Ipsum',
-            ctaLabel: 'Lorem ipsum',
-            ctaHref: '#',
-          },
-          {
-            companyName: 'Dolor Sit',
-            quote: BODY,
-            personName: 'Dolor Sit',
-            personRole: 'Dolor, Sit',
-            ctaLabel: 'Lorem ipsum',
-            ctaHref: '#',
-          },
-          {
-            companyName: 'Amet Consectetur',
-            quote: BODY,
-            personName: 'Amet Consectetur',
-            personRole: 'Amet, Consectetur',
-            ctaLabel: 'Lorem ipsum',
-            ctaHref: '#',
-          },
-        ]
+const STORY_CARDS = [
+  { companyName: 'Lorem Ipsum', slug: 'lorem', products: ['audit'], summary: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor.' },
+  { companyName: 'Dolor Sit', slug: 'dolor', products: ['audit', 'analytics'], summary: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi.' },
+  { companyName: 'Amet Consectetur', slug: 'amet', products: ['analytics'], summary: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.' },
+  { companyName: 'Adipiscing Elit', slug: 'adipiscing', products: ['audit'], summary: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia.' },
+]
 
 export default async function BlocksPage({
   params,
@@ -559,12 +539,10 @@ export default async function BlocksPage({
       <MediaCarouselBlock eyebrow={EYEBROW} heading={HEADING} body={BODY} slides={CAROUSEL_SLIDES} />
       <BlockCaption name="Media Carousel — Dark" type="mediaCarouselBlock" variant='tone: "dark"' />
       <MediaCarouselBlock tone="dark" eyebrow={EYEBROW} heading={HEADING} body={BODY} slides={CAROUSEL_SLIDES} />
-      <BlockCaption name="Case Study Card Grid" type="caseStudyGridBlock" />
-      <CaseStudyGridBlock items={CASE_STUDY_ITEMS} />
-      <BlockCaption name="Case Study Card Grid — Dark" type="caseStudyGridBlock" variant='tone: "dark"' />
-      <CaseStudyGridBlock tone="dark" items={CASE_STUDY_ITEMS} />
-      <BlockCaption name="Case Study Card Grid — Accent" type="caseStudyGridBlock" variant='tone: "accent"' />
-      <CaseStudyGridBlock tone="accent" items={CASE_STUDY_ITEMS} />
+      <BlockCaption name="Case Study Carousel" type="caseStudyGridBlock" variant="stories come from Customer story documents" />
+      <CaseStudyGridBlock stories={STORY_CARDS} />
+      <BlockCaption name="Case Study Carousel — Dark" type="caseStudyGridBlock" variant='tone: "dark"' />
+      <CaseStudyGridBlock tone="dark" stories={STORY_CARDS} />
       <BlockCaption name="Stats Band" type="statsBandBlock" />
       <StatsBandBlock
         eyebrow={EYEBROW}

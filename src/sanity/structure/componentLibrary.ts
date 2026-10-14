@@ -164,7 +164,7 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
   {
     type: 'caseStudyGridBlock',
     title: 'Case Study Carousel',
-    description: 'Horizontally scrolling carousel of case study cards (company logo or name, facts, quote, CTA), with prev/next arrows under the cards. Light, dark or accent. No intro of its own; add a Section Headline above it.',
+    description: 'Horizontally scrolling carousel of customer story cards (photo, products, company, one-line outcome), pulled from the Customer story documents: all, Audit or Analytics stories. Arrows under the cards. No intro of its own; add a Section Headline above it.',
   },
   {
     type: 'ctaBannerBlock',

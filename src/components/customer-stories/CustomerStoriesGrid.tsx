@@ -1,16 +1,16 @@
 'use client'
 import { useMemo, useState } from 'react'
 import { Tag } from '@/components/ui/Tag'
-import { CaseStudyCard } from './CaseStudyCard'
-import { splitProducts } from '@/lib/customerStoryProducts'
+import { StoryCard } from './StoryCard'
+import { productLabels } from '@/lib/customerStoryProducts'
 import type { CustomerStorySummary } from '@/lib/sanity/customerStories'
 
 type SortOrder = 'newest' | 'oldest'
 
 // The Customer stories start page's grid — same filter-and-sort
 // structure as the Knowledge Bank's, with product chips (Audit,
-// Analytics) in place of article tags and case study cards linking to
-// each story.
+// Analytics) in place of article tags and story cards linking to each
+// story.
 export function CustomerStoriesGrid({ stories, locale }: { stories: CustomerStorySummary[]; locale: string }) {
   const [selected, setSelected] = useState<Set<string>>(new Set())
   const [sort, setSort] = useState<SortOrder>('newest')
@@ -18,7 +18,7 @@ export function CustomerStoriesGrid({ stories, locale }: { stories: CustomerStor
   // Only products some story actually names, so no chip filters to an
   // empty grid.
   const products = useMemo(
-    () => [...new Set(stories.flatMap((story) => splitProducts(story.products)))].sort(),
+    () => [...new Set(stories.flatMap((story) => productLabels(story.products)))].sort(),
     [stories],
   )
 
@@ -34,7 +34,7 @@ export function CustomerStoriesGrid({ stories, locale }: { stories: CustomerStor
   const visible = useMemo(() => {
     // No chips selected shows everything.
     const filtered = selected.size
-      ? stories.filter((story) => splitProducts(story.products).some((product) => selected.has(product)))
+      ? stories.filter((story) => productLabels(story.products).some((product) => selected.has(product)))
       : stories
     return [...filtered].sort((a, b) => {
       const diff = new Date(a.publishedAt).getTime() - new Date(b.publishedAt).getTime()
@@ -69,15 +69,7 @@ export function CustomerStoriesGrid({ stories, locale }: { stories: CustomerStor
       {visible.length ? (
         <div className="grid grid-cols-1 gap-large sm:grid-cols-2 lg:grid-cols-3">
           {visible.map((story) => (
-            <CaseStudyCard
-              key={story.slug}
-              tone="dark"
-              item={{
-                ...story,
-                ctaLabel: 'Read their story',
-                ctaHref: `/${locale}/customer-stories/${story.slug}`,
-              }}
-            />
+            <StoryCard key={story.slug} story={story} locale={locale} />
           ))}
         </div>
       ) : (

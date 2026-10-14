@@ -29,6 +29,14 @@ const ALIGN_CLASSES: Record<MediaAlign, string> = {
   right: 'items-center justify-end',
 }
 
+// The image's Sanity hotspot as a CSS object-position, or nothing when
+// none is set (the default centre crop).
+function hotspotPosition(image: unknown) {
+  const hotspot = (image as { hotspot?: { x?: number; y?: number } } | undefined)?.hotspot
+  if (hotspot?.x == null || hotspot?.y == null) return undefined
+  return { objectPosition: `${hotspot.x * 100}% ${hotspot.y * 100}%` }
+}
+
 type MediaProps = {
   media?: MediaField
   alt: string
@@ -107,6 +115,10 @@ export function Media({
             fill
             sizes={sizes ?? '100vw'}
             className={`size-full ${fitClassName}`}
+            // Crop around the image's focus point (Sanity's hotspot, set
+            // in Studio) instead of always from the centre — keeps a
+            // face in frame when a portrait is cropped to a wide box.
+            style={hotspotPosition(media.image)}
           />
         ) : (
           // Below 100%, the image is a sized box anchored within the

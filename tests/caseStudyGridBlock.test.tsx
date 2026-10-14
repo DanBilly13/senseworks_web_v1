@@ -1,61 +1,31 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
-import { fakeOverflowingScroller } from './helpers/overflow'
 import { CaseStudyGridBlock } from '@/components/blocks/CaseStudyGridBlock'
+import { fakeOverflowingScroller } from './helpers/overflow'
+
+vi.mock('next/navigation', () => ({ usePathname: () => '/sv/home' }))
+
+const stories = [
+  { companyName: 'Retora', slug: 'retora', products: ['audit', 'analytics'], summary: 'Replaced manual Excel analytics.' },
+  { companyName: 'Göteborgs Revision', slug: 'goteborgs-revision', products: ['audit'] },
+]
 
 describe('CaseStudyGridBlock', () => {
-  it('renders each case study with its quote, person, and link', () => {
-    render(
-      <CaseStudyGridBlock
-        items={[
-          {
-            companyName: 'Acme Corp',
-            quote: 'We rebuilt our whole marketing site in a week.',
-            personName: 'Priya Nair',
-            personRole: 'Marketing',
-            ctaLabel: 'Read their story',
-            ctaHref: '#acme',
-          },
-        ]}
-      />,
-    )
-    // No logo uploaded, so the company name stands in for it.
-    expect(screen.getByRole('heading', { name: 'Acme Corp' })).toBeInTheDocument()
-    expect(
-      screen.getByText(/We rebuilt our whole marketing site in a week/),
-    ).toBeInTheDocument()
-    expect(screen.getByText('Priya Nair')).toBeInTheDocument()
-    expect(screen.getByText('Marketing')).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /Read their story/ })).toHaveAttribute(
-      'href',
-      '#acme',
-    )
+  it('renders a story card per story, linking to the story in the page language', () => {
+    render(<CaseStudyGridBlock stories={stories} />)
+    expect(screen.getByRole('heading', { name: 'Retora' })).toBeInTheDocument()
+    expect(screen.getByText('Replaced manual Excel analytics.')).toBeInTheDocument()
+    expect(screen.getByText('Audit / Analytics')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /Retora/ })).toHaveAttribute('href', '/sv/customer-stories/retora')
   })
 
-  it('applies the dark and accent card styles', () => {
-    const items = [{ companyName: 'Acme Corp', quote: 'Quote.' }]
-    const { container, rerender } = render(<CaseStudyGridBlock tone="dark" items={items} />)
-    expect(container.querySelector('.bg-foreground')).not.toBeNull()
-    rerender(<CaseStudyGridBlock tone="accent" items={items} />)
-    expect(container.querySelector('.bg-accent')).not.toBeNull()
+  it('applies the dark card style', () => {
+    const { container } = render(<CaseStudyGridBlock tone="dark" stories={stories} />)
+    expect(container.querySelector('a.bg-foreground')).not.toBeNull()
   })
 
-  it('colors the link with the accent on a dark card', () => {
-    render(
-      <CaseStudyGridBlock
-        tone="dark"
-        items={[{ companyName: 'Acme Corp', ctaLabel: 'Read their story', ctaHref: '#acme' }]}
-      />,
-    )
-    const link = screen.getByRole('link', { name: /Read their story/ })
-    expect(link).toHaveAttribute('href', '#acme')
-    expect(link.className).toContain('text-accent')
-    expect(link.textContent).toContain('→')
-  })
-
-
-  it('renders nothing when there are no case studies', () => {
-    const { container } = render(<CaseStudyGridBlock items={[]} />)
+  it('renders nothing when there are no stories', () => {
+    const { container } = render(<CaseStudyGridBlock stories={[]} />)
     expect(container).toBeEmptyDOMElement()
   })
 })
@@ -65,18 +35,14 @@ describe('CaseStudyGridBlock arrows', () => {
     fakeOverflowingScroller()
 
     it('shows prev/next controls', () => {
-      render(
-        <CaseStudyGridBlock items={[{ companyName: 'Acme Corp' }]} />
-      )
+      render(<CaseStudyGridBlock stories={stories} />)
       expect(screen.getByRole('button', { name: 'Previous case studies' })).toBeInTheDocument()
       expect(screen.getByRole('button', { name: 'Next case studies' })).toBeInTheDocument()
     })
   })
 
   it('hides them when every card already fits', () => {
-    render(
-      <CaseStudyGridBlock items={[{ companyName: 'Acme Corp' }]} />
-    )
+    render(<CaseStudyGridBlock stories={stories} />)
     expect(screen.queryByRole('button', { name: 'Next case studies' })).toBeNull()
   })
 })

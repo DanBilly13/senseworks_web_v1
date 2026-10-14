@@ -43,9 +43,28 @@ export const customerStory = defineType({
     defineField({ name: 'facts', type: 'string', group: 'card', description: 'e.g. "25 staff, six offices".' }),
     defineField({
       name: 'products',
-      type: 'string',
+      title: 'Products',
+      type: 'array',
       group: 'card',
-      description: 'Which Senseworks products they use, e.g. "Audit" or "Audit + Analytics". Also the start page filters.',
+      of: [{ type: 'string' }],
+      description:
+        'Tick what they use. Decides where the story shows: a carousel set to Audit shows stories ticked Audit (including both), likewise Analytics. Also the start page filters.',
+      options: {
+        list: [
+          { title: 'Audit', value: 'audit' },
+          { title: 'Analytics', value: 'analytics' },
+        ],
+        layout: 'grid',
+      },
+      validation: (Rule) => Rule.required().min(1),
+    }),
+    defineField({
+      name: 'summary',
+      type: 'text',
+      rows: 2,
+      group: 'card',
+      description: 'The outcome, in one line, e.g. "Replaced manual Excel analytics with real-time, multi-user audit collaboration." Shown on the card (not on the story page) and as the description in search results.',
+      validation: (Rule) => Rule.max(160),
     }),
     defineField({
       name: 'quote',
@@ -53,7 +72,7 @@ export const customerStory = defineType({
       type: 'text',
       rows: 3,
       group: 'card',
-      description: 'Shown on the card, and as the big pull quote in the story (place it with a "Pull quote" item in the Body).',
+      description: 'The big pull quote in the story (place it with a "Pull quote" item in the Body).',
       validation: (Rule) => Rule.max(220),
     }),
     defineField({ name: 'personName', title: 'Person name', type: 'string', group: 'card' }),
@@ -143,6 +162,6 @@ export const customerStory = defineType({
     }),
   ],
   preview: {
-    select: { title: 'companyName', subtitle: 'title', media: 'coverImage' },
+    select: { title: 'companyName', subtitle: 'summary', media: 'coverImage' },
   },
 })
