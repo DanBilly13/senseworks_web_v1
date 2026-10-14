@@ -1,5 +1,6 @@
 import { defineType, defineField, defineArrayMember } from 'sanity'
 import { blockContentMembers } from '../objects/blockContent'
+import { isUniqueInLanguage } from '../../lib/isUniqueInLanguage'
 
 // A customer story: the firm's case study card (shown on the Customer
 // stories start page) plus the full story behind it, laid out like a
@@ -36,7 +37,8 @@ export const customerStory = defineType({
       name: 'slug',
       type: 'slug',
       group: 'card',
-      options: { source: 'companyName' },
+      // Unique per language: the en and sv versions share a slug.
+      options: { source: 'companyName', isUnique: isUniqueInLanguage },
       validation: (Rule) => Rule.required(),
     }),
     defineField({ name: 'logo', title: 'Logo', type: 'media', group: 'card', description: 'Shown instead of the company name when set.' }),

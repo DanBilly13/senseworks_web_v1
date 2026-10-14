@@ -1,5 +1,6 @@
 import { defineType, defineField, defineArrayMember } from 'sanity'
 import { BlockListItem } from '../components/BlockListItem'
+import { isUniqueInLanguage } from '../lib/isUniqueInLanguage'
 
 export const page = defineType({
   name: 'page',
@@ -10,7 +11,8 @@ export const page = defineType({
     defineField({
       name: 'slug',
       type: 'slug',
-      options: { source: 'title' },
+      // Unique per language: the en and sv versions share a slug.
+      options: { source: 'title', isUnique: isUniqueInLanguage },
       validation: (Rule) => Rule.required(),
     }),
     // Set by @sanity/document-internationalization — not hand-edited.

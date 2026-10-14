@@ -1,4 +1,5 @@
 import { defineType, defineField, defineArrayMember } from 'sanity'
+import { isUniqueInLanguage } from '../../lib/isUniqueInLanguage'
 
 export const article = defineType({
   name: 'article',
@@ -9,7 +10,8 @@ export const article = defineType({
     defineField({
       name: 'slug',
       type: 'slug',
-      options: { source: 'title' },
+      // Unique per language: the en and sv versions share a slug.
+      options: { source: 'title', isUnique: isUniqueInLanguage },
       validation: (Rule) => Rule.required(),
     }),
     defineField({ name: 'subtitle', type: 'string' }),
