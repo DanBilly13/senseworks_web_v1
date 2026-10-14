@@ -1,5 +1,6 @@
 import { defineType, defineField } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
+import { spacingField } from '../fields/spacingField'
 
 export const mediaBlock = defineType({
   name: 'mediaBlock',
@@ -59,6 +60,7 @@ export const mediaBlock = defineType({
       },
       initialValue: 'left',
     }),
+    spacingField,
   ],
   preview: {
     select: { alt: 'media.alt', mediaType: 'media.mediaType', headline: 'headline' },

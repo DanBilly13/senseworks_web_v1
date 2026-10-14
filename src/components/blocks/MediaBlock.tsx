@@ -16,6 +16,8 @@ type MediaBlockProps = {
   // same height as a CTA Banner with a background image (75vh, image
   // cropped to fill) so the two match when used near each other.
   width?: 'content' | 'full'
+  // The gap below the block, before the next one.
+  spacing?: 'loose' | 'medium' | 'tight' | 'none'
 }
 
 export function MediaBlock({
@@ -27,14 +29,15 @@ export function MediaBlock({
   ctaHref,
   align = 'left',
   width = 'content',
+  spacing = 'loose',
 }: MediaBlockProps) {
   const hasOverlay = Boolean(eyebrow || headline || body || (ctaLabel && ctaHref))
 
   if (width === 'full') {
-    // Same bottom gap as SectionShell's default (loose), but no width
-    // cap or side padding — the media is the full width of the screen.
+    // Same bottom gap as SectionShell, but no width cap or side padding
+    // — the media is the full width of the screen.
     return (
-      <section className={SECTION_GAP_PB_CLASS.loose}>
+      <section className={SECTION_GAP_PB_CLASS[spacing]}>
         <div className="relative h-cta-banner-image w-full overflow-hidden">
           <div className="absolute inset-0">
             <Media
@@ -90,7 +93,7 @@ export function MediaBlock({
   // negative margin instead of cooperating with it.
   if (!hasOverlay) {
     return (
-      <SectionShell>
+      <SectionShell py={spacing}>
         <Media
           media={media}
           alt={media?.alt ?? ''}
@@ -101,7 +104,7 @@ export function MediaBlock({
   }
 
   return (
-    <SectionShell>
+    <SectionShell py={spacing}>
       {/* Same structure as Hero's "image overlay" layout: an absolute
           media layer, then the copy as a normal relative sibling on
           top (no scrim — Dan asked for the dark tint over the image
