@@ -32,13 +32,13 @@ export const releaseCardsBlock = defineType({
             defineField({
               name: 'tag',
               title: 'Category chip',
-              description: 'Audit is purple, Analysis green, Customer Service yellow.',
+              description: 'Audit is purple, Analytics green, Support yellow.',
               type: 'string',
               options: {
                 list: [
                   { title: 'Audit (purple)', value: 'audit' },
-                  { title: 'Analysis (green)', value: 'analysis' },
-                  { title: 'Customer Service (yellow)', value: 'customerService' },
+                  { title: 'Analytics (green)', value: 'analysis' },
+                  { title: 'Support (yellow)', value: 'customerService' },
                 ],
                 layout: 'radio',
               },

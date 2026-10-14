@@ -28,12 +28,14 @@ type ReleaseCardsBlockProps = {
   cards?: ReleaseCard[]
 }
 
-// Audit and Analysis take the same colors as their page themes (purple,
-// green); Customer Service takes yellow.
+// Audit and Analytics take the same colors as their page themes (purple,
+// green); Support takes yellow. The stored values (analysis,
+// customerService) are the original names, kept so existing cards
+// don't need re-saving; only the labels changed.
 const TAG: Record<ReleaseTag, { label: string; color: 'purple' | 'green' | 'yellow' }> = {
   audit: { label: 'Audit', color: 'purple' },
-  analysis: { label: 'Analysis', color: 'green' },
-  customerService: { label: 'Customer Service', color: 'yellow' },
+  analysis: { label: 'Analytics', color: 'green' },
+  customerService: { label: 'Support', color: 'yellow' },
 }
 
 const COLS_CLASS: Record<'2' | '3' | '4', string> = {

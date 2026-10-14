@@ -32,8 +32,8 @@ describe('ReleaseCardsBlock', () => {
         ]}
       />,
     )
-    expect(screen.getByText('Analysis')).toHaveClass('bg-tag-green')
-    expect(screen.getByText('Customer Service')).toHaveClass('bg-tag-yellow')
+    expect(screen.getByText('Analytics')).toHaveClass('bg-tag-green')
+    expect(screen.getByText('Support')).toHaveClass('bg-tag-yellow')
   })
 
   it('shows a partly filled bar with its own label', () => {
