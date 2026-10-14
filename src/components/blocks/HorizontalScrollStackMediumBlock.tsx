@@ -116,7 +116,8 @@ export function HorizontalScrollStackMediumBlock({
         alt={slide.title}
         className={`aspect-media w-full rounded-lg border ${dark ? 'border-background/20' : 'border-border'}`}
       />
-      <div className="flex w-full flex-col gap-small-medium md:w-4/5">
+      {/* 95% of the slide width on desktop (was 80%), full width on mobile. */}
+      <div className="flex w-full flex-col gap-small-medium md:w-19/20">
         <ItemHeading
           as={titleSize}
           title={slide.title}
