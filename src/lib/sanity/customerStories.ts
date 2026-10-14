@@ -3,6 +3,7 @@ import type { SanityImageSource } from '@sanity/image-url'
 import { sanityClient } from './client'
 import { mediaProjection } from './queries'
 import type { MediaField } from './media'
+import type { ArticleAuthor } from './knowledgeBank'
 
 export type CustomerStorySummary = {
   companyName: string
@@ -18,6 +19,8 @@ export type CustomerStorySummary = {
   location?: string
   companySize?: string
   customerSince?: string
+  // The interviewer, shown in the byline like an article's author.
+  author?: ArticleAuthor
   coverImage?: SanityImageSource
   // The logo, as the case study card's `media`.
   media?: MediaField
@@ -42,6 +45,7 @@ const summaryProjection = groq`
   location,
   companySize,
   customerSince,
+  "author": author->{ name, role, photo },
   coverImage,
   ${mediaProjection('logo')},
 `

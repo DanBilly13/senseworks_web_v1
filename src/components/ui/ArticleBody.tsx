@@ -18,6 +18,11 @@ const portableTextComponents: PortableTextComponents = {
     h4: ({ children }) => (
       <h4 className="mt-large mb-medium text-h5 font-semibold text-foreground">{children}</h4>
     ),
+    // An interview question (customer stories): body size, semi-bold,
+    // a little closer to the answer that follows.
+    question: ({ children }) => (
+      <p className="mt-large mb-small text-article-body font-semibold text-foreground">{children}</p>
+    ),
     blockquote: ({ children }) => (
       <blockquote className="mb-medium border-l-2 border-border pl-medium text-body-lg text-muted-foreground italic">
         {children}

@@ -10,6 +10,9 @@ import { SectionIntro } from '@/components/ui/SectionIntro'
 import { Tag } from '@/components/ui/Tag'
 import { Media } from '@/components/ui/Media'
 import { ArticleBody } from '@/components/ui/ArticleBody'
+import { AuthorByline } from '@/components/knowledge-bank/AuthorByline'
+import { ArticleActions } from '@/components/knowledge-bank/ArticleActions'
+import { LikeProvider } from '@/components/knowledge-bank/LikeProvider'
 
 // The customer story template, laid out like a magazine feature:
 // - a full-content-width hero: date, headline and standfirst on the
@@ -40,17 +43,14 @@ export default async function CustomerStoryPage({
       {header && <BlockRenderer blocks={[header as PageBlock]} />}
       <SectionShell pt="section-edge" pb="none">
         <div className="grid grid-cols-1 items-center gap-2xl md:grid-cols-2">
-          {/* Date as the eyebrow, headline, standfirst (the h1 intro's
-              subtitle style) — SectionIntro, so the gaps between them
-              follow the site-wide half-line-height rule. */}
+          {/* "Customer story" kicker, headline, standfirst (the h1
+              intro's subtitle style) — SectionIntro, so the gaps between
+              them follow the site-wide half-line-height rule. The date
+              is in the byline below, as on a Knowledge Bank article. */}
           <div className="flex flex-col gap-large">
             <SectionIntro
               as="h1"
-              eyebrow={new Date(story.publishedAt).toLocaleDateString(locale === 'sv' ? 'sv-SE' : 'en-GB', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })}
+              eyebrow="Customer story"
               heading={headline}
               body={story.subtitle}
             />
@@ -72,20 +72,32 @@ export default async function CustomerStoryPage({
         </div>
       </SectionShell>
       {/* 64px below the hero — the site-wide intro-to-content gap. */}
-      <SectionShell pt="none" py="section-edge" maxWidth="page" className="article-grid story-drop-cap mt-2xl">
-        <AtAGlance story={story} products={products} />
-        {!!story.body?.length && (
-          <ArticleBody
-            value={story.body}
-            extraTypes={{ pullQuote: () => <PullQuote story={story} /> }}
-          />
-        )}
-        <div className="mt-large border-t border-border pt-medium">
-          <a href={`/${locale}/customer-stories`} className="text-body-sm font-medium underline underline-offset-4">
-            ← All customer stories
-          </a>
-        </div>
-      </SectionShell>
+      <LikeProvider articleSlug={`customer-story-${slug}`}>
+        <SectionShell pt="none" py="section-edge" maxWidth="page" className="article-grid story-drop-cap mt-2xl">
+          {/* Byline: the interviewer and date, with like/share — the
+              same row as a Knowledge Bank article's, repeated at the end. */}
+          <div className="mb-large flex items-center justify-between gap-medium border-y border-border py-medium">
+            <AuthorByline author={story.author} publishedAt={story.publishedAt} locale={locale} label="Interviewed by" />
+            <ArticleActions />
+          </div>
+          <AtAGlance story={story} products={products} />
+          {!!story.body?.length && (
+            <ArticleBody
+              value={story.body}
+              extraTypes={{ pullQuote: () => <PullQuote story={story} /> }}
+            />
+          )}
+          <div className="mt-large flex items-center justify-between gap-medium border-t border-border pt-medium">
+            <AuthorByline author={story.author} publishedAt={story.publishedAt} locale={locale} label="Interviewed by" />
+            <ArticleActions />
+          </div>
+          <div className="mt-large">
+            <a href={`/${locale}/customer-stories`} className="text-body-sm font-medium underline underline-offset-4">
+              ← All customer stories
+            </a>
+          </div>
+        </SectionShell>
+      </LikeProvider>
       {footer && <BlockRenderer blocks={[footer as PageBlock]} />}
     </>
   )

@@ -10,10 +10,13 @@ export function AuthorByline({
   author,
   publishedAt,
   locale,
+  label = 'Written by',
 }: {
   author?: ArticleAuthor
   publishedAt: string
   locale: string
+  // "Written by" on an article, "Interviewed by" on a customer story.
+  label?: string
 }) {
   const photo: MediaField = author?.photo ? { mediaType: 'image', image: author.photo } : null
 
@@ -23,7 +26,7 @@ export function AuthorByline({
       <div className="flex flex-col">
         {author?.name && (
           <span className="text-body-sm font-semibold text-foreground">
-            Written by {author.name}
+            {label} {author.name}
           </span>
         )}
         <span className="text-caption text-muted-foreground">
