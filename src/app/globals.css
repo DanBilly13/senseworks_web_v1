@@ -514,6 +514,21 @@ p {
   grid-column: 1 / -1;
 }
 
+/* Magazine drop cap on a customer story's first paragraph: the first
+   letter set in the heading face, three lines tall, text wrapping round
+   it. The first <p> in the story column is the body's opening
+   paragraph (the standfirst sits in the hero, the fact box is an
+   <aside>). */
+.story-drop-cap > p:first-of-type::first-letter {
+  float: left;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: calc(var(--text-article-body) * 4.4);
+  line-height: 0.85;
+  margin: 0.08em var(--spacing-small) 0 0;
+  color: var(--color-foreground);
+}
+
 /* Full-bleed horizontal scroller inset: replicates the same left edge
    as mx-auto + max-w-page (D15) without capping the scroller's own
    width, so cards start flush with the page content but are free to

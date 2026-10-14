@@ -55,7 +55,18 @@ const portableTextComponents: PortableTextComponents = {
   },
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Portable Text block shape, rendered generically via @portabletext/react
-export function ArticleBody({ value }: { value: any[] }) {
-  return <PortableText value={value} components={portableTextComponents} />
+// `extraTypes` renders item types beyond the shared set — a customer
+// story's Pull quote.
+export function ArticleBody({
+  value,
+  extraTypes,
+}: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Portable Text block shape, rendered generically via @portabletext/react
+  value: any[]
+  extraTypes?: PortableTextComponents['types']
+}) {
+  const components = extraTypes
+    ? { ...portableTextComponents, types: { ...portableTextComponents.types, ...extraTypes } }
+    : portableTextComponents
+  return <PortableText value={value} components={components} />
 }

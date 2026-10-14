@@ -15,6 +15,9 @@ export type CustomerStorySummary = {
   publishedAt: string
   title?: string
   subtitle?: string
+  location?: string
+  companySize?: string
+  customerSince?: string
   coverImage?: SanityImageSource
   // The logo, as the case study card's `media`.
   media?: MediaField
@@ -36,6 +39,9 @@ const summaryProjection = groq`
   publishedAt,
   title,
   subtitle,
+  location,
+  companySize,
+  customerSince,
   coverImage,
   ${mediaProjection('logo')},
 `

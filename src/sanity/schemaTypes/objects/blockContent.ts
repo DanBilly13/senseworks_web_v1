@@ -6,11 +6,10 @@ import { defineType, defineArrayMember, defineField } from 'sanity'
 // curated set of richer embeds (callout, code, numbered step) is a
 // likely v2 addition once real content shows which of those are
 // actually needed, rather than guessing them in now.
-export const blockContent = defineType({
-  name: 'blockContent',
-  title: 'Body',
-  type: 'array',
-  of: [
+// The item types the body offers, exported so a document with a richer
+// body (a customer story's, which adds a Pull quote) builds on the same
+// set instead of copying it.
+export const blockContentMembers = [
     defineArrayMember({
       type: 'block',
       styles: [
@@ -44,5 +43,11 @@ export const blockContent = defineType({
       options: { hotspot: true },
       fields: [defineField({ name: 'alt', title: 'Alt text', type: 'string' })],
     }),
-  ],
+]
+
+export const blockContent = defineType({
+  name: 'blockContent',
+  title: 'Body',
+  type: 'array',
+  of: blockContentMembers,
 })
