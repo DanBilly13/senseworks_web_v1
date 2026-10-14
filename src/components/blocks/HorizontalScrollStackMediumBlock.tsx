@@ -125,6 +125,9 @@ export function HorizontalScrollStackMediumBlock({
           layout={headingLayout}
           tone={dark ? 'inverse' : 'default'}
           gap="medium"
+          // Unbalanced, so the text actually runs to the 95% width
+          // instead of wrapping early to even out its lines.
+          balance={false}
         />
         {slide.note && (
           <p className={`text-caption ${dark ? 'text-background/60' : 'text-muted-foreground'}`}>

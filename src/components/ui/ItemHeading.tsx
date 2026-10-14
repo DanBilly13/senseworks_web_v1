@@ -32,6 +32,10 @@ type ItemHeadingProps = {
   // the heading tag in inline mode (there's no separate wrapper then)
   // — e.g. a caller's own icon-to-title margin.
   className?: string
+  // text-balance evens out line lengths by wrapping lines early. On by
+  // default; off where the text should run to the full width it's
+  // given (Horizontal Scroll Stack Medium's wide slide text).
+  balance?: boolean
 }
 
 const HEADING_TEXT_CLASS: Record<ItemHeadingLevel, string> = {
@@ -84,6 +88,7 @@ export function ItemHeading({
   descriptionSize = 'body',
   descriptionClassName,
   className,
+  balance = true,
 }: ItemHeadingProps) {
   const Tag = as
   const titleColor = TITLE_COLOR_CLASS[tone]
@@ -93,7 +98,7 @@ export function ItemHeading({
     return (
       <Tag
         className={[
-          'text-balance',
+          balance ? 'text-balance' : '',
           HEADING_TEXT_CLASS[as],
           HEADING_WEIGHT_CLASS[as],
           titleColor,
@@ -117,7 +122,7 @@ export function ItemHeading({
     <div className={['flex flex-col', className].filter(Boolean).join(' ')}>
       <Tag
         className={[
-          'text-balance',
+          balance ? 'text-balance' : '',
           HEADING_TEXT_CLASS[as],
           HEADING_WEIGHT_CLASS[as],
           titleColor,

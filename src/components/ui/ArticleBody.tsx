@@ -61,17 +61,22 @@ const portableTextComponents: PortableTextComponents = {
 }
 
 // `extraTypes` renders item types beyond the shared set — a customer
-// story's Pull quote.
+// story's Pull quote. `blockStyles` overrides how a text style renders
+// on one kind of page (a customer story's body-size subheads).
 export function ArticleBody({
   value,
   extraTypes,
+  blockStyles,
 }: {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Portable Text block shape, rendered generically via @portabletext/react
   value: any[]
   extraTypes?: PortableTextComponents['types']
+  blockStyles?: PortableTextComponents['block']
 }) {
-  const components = extraTypes
-    ? { ...portableTextComponents, types: { ...portableTextComponents.types, ...extraTypes } }
-    : portableTextComponents
+  const components: PortableTextComponents = {
+    ...portableTextComponents,
+    types: { ...portableTextComponents.types, ...extraTypes },
+    block: { ...(portableTextComponents.block as object), ...(blockStyles as object) },
+  }
   return <PortableText value={value} components={components} />
 }

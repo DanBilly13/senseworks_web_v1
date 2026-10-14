@@ -514,12 +514,13 @@ p {
   grid-column: 1 / -1;
 }
 
-/* Magazine drop cap on a customer story's first paragraph: the first
-   letter set in the heading face, three lines tall, text wrapping round
-   it. The first <p> in the story column is the body's opening
-   paragraph (the standfirst sits in the hero, the fact box is an
-   <aside>). */
-.story-drop-cap > p:first-of-type::first-letter {
+/* A customer story's text column.
+
+   Magazine drop cap on the first paragraph: the first letter set in the
+   heading face, three lines tall, text wrapping round it. The first <p>
+   in the story column is the body's opening paragraph (the standfirst
+   sits in the hero, the fact box is an <aside>). */
+.story-body > p:first-of-type::first-letter {
   float: left;
   font-family: var(--font-heading);
   font-weight: 700;
@@ -527,6 +528,14 @@ p {
   line-height: 0.85;
   margin: 0.08em var(--spacing-small) 0 0;
   color: var(--color-foreground);
+}
+
+/* Subheads are the body text, just bold: Inter, not the heading face —
+   Aeonik reads noticeably smaller at body size. Here, not as a
+   font-sans class, because the h1–h6 heading-face rule above is
+   unlayered and would win over a Tailwind utility. */
+.story-body > h2 {
+  font-family: var(--font-sans);
 }
 
 /* Full-bleed horizontal scroller inset: replicates the same left edge
