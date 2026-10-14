@@ -74,7 +74,23 @@ export const customerStory = defineType({
       description: 'The short summary under the headline, in larger type.',
     }),
     defineField({ name: 'location', type: 'string', group: 'story', description: 'For the "At a glance" box, e.g. "Northern Stockholm".' }),
-    defineField({ name: 'companySize', title: 'Size', type: 'string', group: 'story', description: 'For the "At a glance" box, e.g. "A handful of staff".' }),
+    defineField({
+      name: 'companySize',
+      title: 'Size',
+      type: 'string',
+      group: 'story',
+      description: 'Number of employees, for the "At a glance" box. Shown as e.g. "1–10 employees" ("1–10 anställda" on Swedish pages).',
+      options: {
+        list: [
+          { title: '1–10 employees', value: '1-10' },
+          { title: '11–25 employees', value: '11-25' },
+          { title: '26–50 employees', value: '26-50' },
+          { title: '51–100 employees', value: '51-100' },
+          { title: '100+ employees', value: '100+' },
+        ],
+        layout: 'radio',
+      },
+    }),
     defineField({ name: 'customerSince', title: 'Customer since', type: 'string', group: 'story', description: 'For the "At a glance" box, e.g. "Autumn 2024".' }),
     defineField({ name: 'coverImage', title: 'Cover image', type: 'image', group: 'story', options: { hotspot: true } }),
     defineField({

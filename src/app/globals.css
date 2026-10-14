@@ -524,10 +524,26 @@ p {
   float: left;
   font-family: var(--font-heading);
   font-weight: 700;
-  font-size: calc(var(--text-article-body) * 4.4);
-  line-height: 0.85;
-  margin: 0.08em var(--spacing-small) 0 0;
+  /* Fallback (Firefox): sized so the capital spans three lines — two
+     line-heights plus the body text's own cap height — at the body's
+     1.7 line-height. */
+  font-size: calc(var(--text-article-body) * 5.9);
+  line-height: 0.8;
+  margin: 0.06em var(--spacing-small) 0 0;
   color: var(--color-foreground);
+}
+/* Where supported (Chrome, Safari), the browser sinks it exactly three
+   lines: its top on the first line's cap height, its baseline on the
+   third line's baseline. */
+@supports (initial-letter: 3) or (-webkit-initial-letter: 3) {
+  .story-body > p:first-of-type::first-letter {
+    float: none;
+    font-size: inherit;
+    line-height: inherit;
+    margin: 0 var(--spacing-small) 0 0;
+    initial-letter: 3;
+    -webkit-initial-letter: 3;
+  }
 }
 
 /* Subheads are the body text, just bold: Inter, not the heading face —

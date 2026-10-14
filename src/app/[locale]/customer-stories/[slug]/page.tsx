@@ -46,7 +46,7 @@ export default async function CustomerStoryPage({
     <>
       {header && <BlockRenderer blocks={[header as PageBlock]} />}
       <LikeProvider articleSlug={`customer-story-${slug}`}>
-        <SectionShell pt="section-edge" pb="none">
+        <SectionShell pt="section-edge" pb="medium">
           <div className="grid grid-cols-1 items-center gap-2xl md:grid-cols-2">
             {/* Kicker ("Customer story · Audit / Analytics"), headline,
                 standfirst (the h1 intro's subtitle style) — SectionIntro, so
@@ -60,27 +60,30 @@ export default async function CustomerStoryPage({
                 heading={headline}
                 body={story.subtitle}
               />
-              <div className="flex items-center justify-between gap-medium">
+              {/* Ruled above and below like a Knowledge Bank byline, and
+                  capped at the standfirst's own width (md:max-w-subtitle),
+                  so the row and its like/share end where the text does. */}
+              <div className="flex items-center justify-between gap-medium border-y border-border py-medium md:max-w-subtitle">
                 <AuthorByline author={story.author} publishedAt={story.publishedAt} locale={locale} label="Interviewed by" />
                 <ArticleActions />
               </div>
             </div>
-            {/* Portrait (4:5) — suits a photo of the person interviewed;
-                the gradient placeholder until a cover image is set. */}
+            {/* Square, cropped to fill; the gradient placeholder until a
+                cover image is set. */}
             <Media
               media={story.coverImage ? { mediaType: 'image', image: story.coverImage } : null}
               alt={headline}
-              className="aspect-4/5 w-full rounded-lg"
+              className="aspect-square w-full rounded-lg"
             />
           </div>
         </SectionShell>
-        {/* 64px below the hero — the site-wide intro-to-content gap. */}
-        <SectionShell pt="none" py="section-edge" maxWidth="page" className="article-grid story-body mt-2xl">
+        {/* The gap above is the hero's own Medium section spacing. */}
+        <SectionShell pt="none" py="section-edge" maxWidth="page" className="article-grid story-body">
           {/* The opening paragraph (with its drop cap) runs straight on
               from the hero; the "At a glance" box follows it, like a
               magazine sidebar, then the rest of the story. */}
           {!!lede.length && <ArticleBody value={lede} />}
-          <AtAGlance story={story} products={products} />
+          <AtAGlance story={story} products={products} locale={locale} />
           {!!rest.length && (
             <ArticleBody
               value={rest}
@@ -113,13 +116,18 @@ export default async function CustomerStoryPage({
 }
 
 // The fact box: who the customer is, in one glance.
-function AtAGlance({ story, products }: { story: CustomerStoryDoc; products: string[] }) {
-  const facts: [string, ReactNode][] = [
-    ['Company', story.companyName],
-    ['Location', story.location],
-    ['Size', story.companySize],
-    ['Customer since', story.customerSince],
-    ['Uses', products.join(' + ')],
+// "1-10" → "1–10 employees" / "1–10 anställda" (the Size field stores
+// the range; the word follows the page's language).
+function sizeLabel(range: string | undefined, locale: string) {
+  if (!range) return undefined
+  return `${range.replace('-', '–')} ${locale === 'sv' ? 'anställda' : 'employees'}`
+}
+
+function AtAGlance({ story, products, locale }: { story: CustomerStoryDoc; products: string[]; locale: string }) {
+  // [label, value, label shown?] — the interviewee comes first and needs
+  // no label: their name and role speak for themselves (screen readers
+  // still hear "Interviewed").
+  const facts: [string, ReactNode, boolean][] = [
     [
       'Interviewed',
       story.personName && (
@@ -128,7 +136,13 @@ function AtAGlance({ story, products }: { story: CustomerStoryDoc; products: str
           {story.personRole && <span className="block font-normal text-background/70">{story.personRole}</span>}
         </>
       ),
+      false,
     ],
+    ['Company', story.companyName, true],
+    ['Size', sizeLabel(story.companySize, locale), true],
+    ['Location', story.location, true],
+    ['Customer since', story.customerSince, true],
+    ['Uses', products.join(' + '), true],
   ]
   const shown = facts.filter(([, value]) => value)
   if (shown.length < 2) return null
@@ -136,10 +150,13 @@ function AtAGlance({ story, products }: { story: CustomerStoryDoc; products: str
     // Dark, like the customer story cards.
     <aside className="my-medium rounded-lg bg-foreground p-medium-large text-background md:p-large" aria-label="At a glance">
       <p className="mb-medium text-caption font-bold tracking-wider text-background/70 uppercase">At a glance</p>
-      <dl className="grid grid-cols-2 gap-x-large gap-y-medium md:grid-cols-3">
-        {shown.map(([label, value]) => (
+      {/* Desktop: three columns of two, filled down each column — who
+          (name, company), the firm (size, location), the relationship
+          (customer since, uses). Mobile: one list in the same order. */}
+      <dl className="grid grid-cols-1 gap-y-medium md:grid-flow-col md:grid-cols-3 md:grid-rows-2 md:gap-x-large">
+        {shown.map(([label, value, labelShown]) => (
           <div key={label} className="flex flex-col gap-xs">
-            <dt className="text-caption text-background/70">{label}</dt>
+            <dt className={labelShown ? 'text-caption text-background/70' : 'sr-only'}>{label}</dt>
             <dd className="text-body-sm font-semibold text-background">{value}</dd>
           </div>
         ))}
