@@ -82,7 +82,19 @@ export default async function CustomerStoryPage({
           {/* The opening paragraph (with its drop cap) runs straight on
               from the hero; the "At a glance" box follows it, like a
               magazine sidebar, then the rest of the story. */}
-          {!!lede.length && <ArticleBody value={lede} />}
+          {!!lede.length && (
+            <ArticleBody
+              value={lede}
+              // The opening paragraph carries the drop cap (.story-lede in
+              // globals.css) — only when the story opens with one; a Q&A
+              // that opens with a question gets none.
+              blockStyles={{
+                normal: ({ children }) => (
+                  <p className="story-lede mb-medium text-article-body text-foreground">{children}</p>
+                ),
+              }}
+            />
+          )}
           <AtAGlance story={story} products={products} locale={locale} />
           {!!rest.length && (
             <ArticleBody
@@ -124,40 +136,53 @@ function sizeLabel(range: string | undefined, locale: string) {
 }
 
 function AtAGlance({ story, products, locale }: { story: CustomerStoryDoc; products: string[]; locale: string }) {
-  // [label, value, label shown?] — the interviewee comes first and needs
-  // no label: their name and role speak for themselves (screen readers
-  // still hear "Interviewed").
-  const facts: [string, ReactNode, boolean][] = [
+  // Three fixed columns of two — who (name, company), the firm (size,
+  // location), the relationship (customer since, uses). Fixed, so a
+  // fact a story doesn't have leaves its slot empty instead of shifting
+  // the others. The interviewee needs no label: their name and role
+  // speak for themselves (screen readers still hear "Interviewed").
+  type Fact = { label: string; value: ReactNode; labelShown: boolean }
+  const columns: Fact[][] = [
     [
-      'Interviewed',
-      story.personName && (
-        <>
-          {story.personName}
-          {story.personRole && <span className="block font-normal text-background/70">{story.personRole}</span>}
-        </>
-      ),
-      false,
+      {
+        label: 'Interviewed',
+        value: story.personName && (
+          <>
+            {story.personName}
+            {story.personRole && <span className="block font-normal text-background/70">{story.personRole}</span>}
+          </>
+        ),
+        labelShown: false,
+      },
+      { label: 'Company', value: story.companyName, labelShown: true },
     ],
-    ['Company', story.companyName, true],
-    ['Size', sizeLabel(story.companySize, locale), true],
-    ['Location', story.location, true],
-    ['Customer since', story.customerSince, true],
-    ['Uses', products.join(' + '), true],
+    [
+      { label: 'Size', value: sizeLabel(story.companySize, locale), labelShown: true },
+      { label: 'Location', value: story.location, labelShown: true },
+    ],
+    [
+      { label: 'Customer since', value: story.customerSince, labelShown: true },
+      { label: 'Uses', value: products.join(' + '), labelShown: true },
+    ],
   ]
-  const shown = facts.filter(([, value]) => value)
+  const shown = columns.flat().filter((fact) => fact.value)
   if (shown.length < 2) return null
   return (
     // Dark, like the customer story cards.
     <aside className="my-medium rounded-lg bg-foreground p-medium-large text-background md:p-large" aria-label="At a glance">
       <p className="mb-medium text-caption font-bold tracking-wider text-background/70 uppercase">At a glance</p>
-      {/* Desktop: three columns of two, filled down each column — who
-          (name, company), the firm (size, location), the relationship
-          (customer since, uses). Mobile: one list in the same order. */}
-      <dl className="grid grid-cols-1 gap-y-medium md:grid-flow-col md:grid-cols-3 md:grid-rows-2 md:gap-x-large">
-        {shown.map(([label, value, labelShown]) => (
-          <div key={label} className="flex flex-col gap-xs">
-            <dt className={labelShown ? 'text-caption text-background/70' : 'sr-only'}>{label}</dt>
-            <dd className="text-body-sm font-semibold text-background">{value}</dd>
+      {/* Mobile: one list in the same order. */}
+      <dl className="grid grid-cols-1 gap-x-large gap-y-medium md:grid-cols-3">
+        {columns.map((column, index) => (
+          <div key={index} className="flex flex-col gap-medium">
+            {column
+              .filter((fact) => fact.value)
+              .map((fact) => (
+                <div key={fact.label} className="flex flex-col gap-xs">
+                  <dt className={fact.labelShown ? 'text-caption text-background/70' : 'sr-only'}>{fact.label}</dt>
+                  <dd className="text-body-sm font-semibold text-background">{fact.value}</dd>
+                </div>
+              ))}
           </div>
         ))}
       </dl>

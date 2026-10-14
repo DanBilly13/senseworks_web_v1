@@ -516,11 +516,11 @@ p {
 
 /* A customer story's text column.
 
-   Magazine drop cap on the first paragraph: the first letter set in the
-   heading face, three lines tall, text wrapping round it. The first <p>
-   in the story column is the body's opening paragraph (the standfirst
-   sits in the hero, the fact box is an <aside>). */
-.story-body > p:first-of-type::first-letter {
+   Magazine drop cap on the opening paragraph (.story-lede — set only
+   when the story opens with a paragraph, not a Q&A question): the
+   first letter set in the heading face, three lines tall, text
+   wrapping round it. */
+.story-lede::first-letter {
   float: left;
   font-family: var(--font-heading);
   font-weight: 700;
@@ -536,7 +536,7 @@ p {
    lines: its top on the first line's cap height, its baseline on the
    third line's baseline. */
 @supports (initial-letter: 3) or (-webkit-initial-letter: 3) {
-  .story-body > p:first-of-type::first-letter {
+  .story-lede::first-letter {
     float: none;
     font-size: inherit;
     line-height: inherit;
