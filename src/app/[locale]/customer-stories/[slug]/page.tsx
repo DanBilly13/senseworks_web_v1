@@ -7,13 +7,13 @@ import { BlockRenderer } from '@/components/blocks/BlockRenderer'
 import { SectionShell } from '@/components/ui/SectionShell'
 import { Tag } from '@/components/ui/Tag'
 import { Media } from '@/components/ui/Media'
-import { ArticleImage } from '@/components/knowledge-bank/ArticleImage'
 import { ArticleBody } from '@/components/ui/ArticleBody'
 
-// The customer story template — laid out like a Knowledge Bank article
-// (same text column, cover image and body styles), with the company in
-// the byline row where an article has its author, and the customer's
-// own quote leading into the story.
+// The customer story template: a full-content-width hero (headline
+// beside the cover image), then the story laid out like a Knowledge
+// Bank article (same text column and body styles) — the company in the
+// byline row where an article has its author, and the customer's own
+// quote leading into the story.
 export default async function CustomerStoryPage({
   params,
 }: {
@@ -31,18 +31,41 @@ export default async function CustomerStoryPage({
   return (
     <>
       {header && <BlockRenderer blocks={[header as PageBlock]} />}
-      <SectionShell py="section-edge" pad="both" maxWidth="page" className="article-grid">
-        {!!products.length && (
-          <div className="mb-large flex flex-wrap gap-xs">
-            {products.map((product) => (
-              <Tag key={product}>{product}</Tag>
-            ))}
+      {/* Hero: the full content width (12 columns) — headline on the
+          left half, the cover image on the right half (stacked on
+          mobile, text first). Everything below sits in the narrower
+          8-column article text column, like a Knowledge Bank article. */}
+      <SectionShell pt="section-edge" pb="none">
+        <div className="grid grid-cols-1 items-center gap-2xl md:grid-cols-2">
+          <div className="flex flex-col gap-medium">
+            <span className="text-caption text-muted-foreground">
+              {new Date(story.publishedAt).toLocaleDateString(locale === 'sv' ? 'sv-SE' : 'en-GB', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}
+            </span>
+            <h1 className="text-h1 font-bold text-balance text-foreground">{story.title || story.companyName}</h1>
+            {story.subtitle && <p className="text-body-lg text-muted-foreground">{story.subtitle}</p>}
+            {!!products.length && (
+              <div className="flex flex-wrap gap-xs">
+                {products.map((product) => (
+                  <Tag key={product}>{product}</Tag>
+                ))}
+              </div>
+            )}
           </div>
-        )}
-        <div className="mb-large flex flex-col gap-medium">
-          <h1 className="text-h1 font-bold text-balance text-foreground">{story.title || story.companyName}</h1>
-          {story.subtitle && <p className="text-body-lg text-muted-foreground">{story.subtitle}</p>}
+          {/* Square, cropped to fill; the gradient placeholder until a
+              cover image is set. */}
+          <Media
+            media={story.coverImage ? { mediaType: 'image', image: story.coverImage } : null}
+            alt={story.title || story.companyName}
+            className="aspect-square w-full rounded-lg"
+          />
         </div>
+      </SectionShell>
+      {/* 64px below the hero — the site-wide intro-to-content gap. */}
+      <SectionShell pt="none" py="section-edge" maxWidth="page" className="article-grid mt-2xl">
         <div className="mb-large flex items-center gap-medium border-y border-border py-medium">
           {story.media?.mediaType ? (
             <Media media={story.media} alt={`${story.companyName} logo`} className="h-xl w-3xl rounded-md" fit="contain" />
@@ -52,11 +75,6 @@ export default async function CustomerStoryPage({
             {story.facts && <span className="text-caption text-muted-foreground">{story.facts}</span>}
           </div>
         </div>
-        {story.coverImage && (
-          <div className="article-grid-wide mb-large overflow-hidden rounded-lg">
-            <ArticleImage image={story.coverImage} alt={story.title || story.companyName} />
-          </div>
-        )}
         {story.quote && (
           <figure className="mb-large flex flex-col gap-medium">
             <blockquote className="text-h4 font-medium text-balance text-foreground">
