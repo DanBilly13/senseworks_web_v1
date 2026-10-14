@@ -2,6 +2,7 @@ import { page } from './page'
 import { media } from './objects/media'
 import { blockContent } from './objects/blockContent'
 import { teamMember } from './documents/teamMember'
+import { customerStory } from './documents/customerStory'
 import { tag } from './documents/tag'
 import { article } from './documents/article'
 import { testimonial } from './documents/testimonial'
@@ -48,6 +49,7 @@ export const schemaTypes = [
   teamMember,
   tag,
   article,
+  customerStory,
   testimonial,
   client,
   bookMeetingSettings,
