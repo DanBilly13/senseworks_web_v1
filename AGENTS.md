@@ -119,9 +119,21 @@ repo): `solution-spec.md`, `decision-log.md`, `risk-register.md`,
   plain Server Component.
 - i18n: locale-prefixed routes only (`/en/...`, `/sv/...`), English
   is the default. Data fetching always goes through
-  `src/lib/sanity/getPage.ts`, which already implements the
-  locale-fallback `coalesce()` query (D12) — don't write ad hoc
-  Sanity queries elsewhere for page content.
+  `src/lib/sanity/getPage.ts` — don't write ad hoc Sanity queries
+  elsewhere for page content.
+- **Field-level translation for pages and blocks**: one page document
+  holds both languages. `src/sanity/i18n/localizeSchema.ts` turns every
+  copy text field of `page`, `media` and every `*Block` type into an
+  `{ en, sv }` pair automatically — write block schemas with plain
+  `string`/`text` fields as usual. Pick-lists, `*href` fields and
+  `anchor`/`logoText`/`note` are skipped; opt a field out with
+  `options: { localize: false }`. On the site, `localize()`
+  (`src/lib/i18n/localize.ts`) resolves the pairs at fetch time (empty
+  Swedish → English) and prefixes internal hrefs with the locale, so
+  components receive plain strings. A custom preview `prepare` that
+  reads text out of a raw nested object (not via `select`) gets the
+  pair and must read `.en` itself (see comparisonTableBlock). Articles
+  and customer stories are still one document per language.
 - Test runner is **Vitest** (unit/component, `yarn test`) +
   **Playwright** (e2e, `yarn test:e2e`) — not Jest.
 - Package manager is **yarn**. `yarn.lock` is the source of truth; do

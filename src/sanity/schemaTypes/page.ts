@@ -1,6 +1,5 @@
 import { defineType, defineField, defineArrayMember } from 'sanity'
 import { BlockListItem } from '../components/BlockListItem'
-import { isUniqueInLanguage } from '../lib/isUniqueInLanguage'
 
 export const page = defineType({
   name: 'page',
@@ -11,12 +10,15 @@ export const page = defineType({
     defineField({
       name: 'slug',
       type: 'slug',
-      // Unique per language: the en and sv versions share a slug.
-      options: { source: 'title', isUnique: isUniqueInLanguage },
+      // One document per page, both languages inside it, so the slug is
+      // simply unique. Generated from the English title (the title is an
+      // English/Swedish pair, see localizeSchema.ts).
+      options: { source: (doc) => (doc.title as { en?: string } | undefined)?.en ?? '' },
       validation: (Rule) => Rule.required(),
     }),
-    // Set by @sanity/document-internationalization — not hand-edited.
-    defineField({ name: 'language', type: 'string', readOnly: true }),
+    // Left over from when each language was its own page document; no
+    // longer used, hidden so older pages' value doesn't confuse anyone.
+    defineField({ name: 'language', type: 'string', readOnly: true, hidden: true }),
     defineField({
       name: 'theme',
       title: 'Page theme',
@@ -92,7 +94,7 @@ export const page = defineType({
     }),
   ],
   preview: {
-    select: { title: 'title', language: 'language' },
-    prepare: ({ title, language }) => ({ title: `${title} (${language})` }),
+    select: { title: 'title', slug: 'slug.current' },
+    prepare: ({ title, slug }) => ({ title, subtitle: slug ? `/${slug}` : undefined }),
   },
 })

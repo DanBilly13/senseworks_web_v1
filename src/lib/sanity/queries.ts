@@ -35,17 +35,13 @@ export const clientLogosQuery = groq`
   }
 `
 
-// D12: requested locale first, fall back to English (default locale)
-// when no translation exists yet — a missing translation is absence,
-// not an error. Both language versions of a demo page use the same
-// literal slug (e.g. "home") for v1 — a documented simplification;
-// production content with per-locale slugs would need to resolve the
-// fallback through translation.metadata instead.
+// One document per page, holding every language side by side (each
+// text field is { en, sv }) — getPage() picks the language with
+// localize(). The order is a safety net while older per-language page
+// documents still exist: the requested language first, then English.
 export const pageBySlugAndLocaleQuery = groq`
-  coalesce(
-    *[_type == "page" && slug.current == $slug && language == $locale][0],
-    *[_type == "page" && slug.current == $slug && language == "en"][0]
-  ){
+  *[_type == "page" && slug.current == $slug]
+    | order(select(language == $locale => 0, language == "en" => 1, 2) asc)[0]{
     title,
     language,
     "slug": slug.current,

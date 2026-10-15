@@ -1,5 +1,6 @@
 import { sanityClient } from './client'
 import { pageBySlugAndLocaleQuery } from './queries'
+import { localize } from '@/lib/i18n/localize'
 
 export type PageBlock = { _type: string; _key: string; [key: string]: unknown }
 
@@ -13,6 +14,10 @@ export type PageDoc = {
   blocks: PageBlock[]
 } | null
 
+// Every translatable field comes back as { en, sv }; localize() picks
+// the page's language (English as the fallback) and points internal
+// links at it, so the page and every block receive plain strings.
 export async function getPage(slug: string, locale: string): Promise<PageDoc> {
-  return sanityClient.fetch(pageBySlugAndLocaleQuery, { slug, locale })
+  const page = await sanityClient.fetch(pageBySlugAndLocaleQuery, { slug, locale })
+  return localize(page, locale)
 }

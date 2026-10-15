@@ -1,3 +1,4 @@
+import { localizeSchemaTypes } from '../i18n/localizeSchema'
 import { page } from './page'
 import { media } from './objects/media'
 import { blockContent } from './objects/blockContent'
@@ -42,7 +43,7 @@ import { horizontalScrollStackMediumBlock } from './blocks/horizontalScrollStack
 import { teamGridBlock } from './blocks/teamGridBlock'
 import { paragraphsBlock } from './blocks/paragraphsBlock'
 
-export const schemaTypes = [
+const allTypes = [
   page,
   media,
   blockContent,
@@ -87,3 +88,10 @@ export const schemaTypes = [
   paragraphsBlock,
   footerBlock,
 ]
+
+// Pages, their blocks and the media object get English/Swedish pairs
+// for every text field (see localizeSchema.ts). Customer stories,
+// articles and the other documents are still one document per language.
+const LOCALIZED_TYPES = new Set(['page', 'media', ...allTypes.map((type) => type.name).filter((name) => name.endsWith('Block'))])
+
+export const schemaTypes = localizeSchemaTypes(allTypes, LOCALIZED_TYPES)

@@ -112,9 +112,12 @@ export const comparisonTableBlock = defineType({
             select: { labelLead: 'labelLead', label: 'label', cells: 'cells' },
             prepare: ({ labelLead, label, cells }) => {
               const first = cells?.[0]
+              // The cells come through raw, so their text is still the
+              // English/Swedish pair (see localizeSchema.ts).
+              const english = (value?: string | { en?: string }) => (typeof value === 'string' ? value : value?.en)
               return {
                 title: [labelLead, label].filter(Boolean).join(' '),
-                subtitle: first?.type === 'text' ? `→ ${[first.lead, first.text].filter(Boolean).join(' ')}` : undefined,
+                subtitle: first?.type === 'text' ? `→ ${[english(first.lead), english(first.text)].filter(Boolean).join(' ')}` : undefined,
               }
             },
           },

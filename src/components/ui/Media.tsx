@@ -75,7 +75,7 @@ export function Media({
     const el = videoRef.current
     if (!el) return
     if (paused) el.pause()
-    else el.play().catch(() => {})
+    else el.play()?.catch(() => {})
   }, [paused])
   const resolvedAlt = media?.alt || alt
   const animationEntry =

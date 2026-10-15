@@ -11,7 +11,10 @@ import { structure } from './src/sanity/structure'
 // Next.js's NEXT_PUBLIC_* vars from .env.local the way `next dev`
 // does — only `next build`/`next dev` reliably pick those up.
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'rm507cjs'
-const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || 'production'
+// SANITY_STUDIO_DATASET lets the standalone Studio (`npx sanity dev`,
+// which only sees SANITY_STUDIO_* vars) open another dataset, e.g. a
+// test copy.
+const dataset = process.env.SANITY_STUDIO_DATASET || process.env.NEXT_PUBLIC_SANITY_DATASET || 'production'
 
 export default defineConfig({
   name: 'default',
@@ -23,12 +26,15 @@ export default defineConfig({
     structureTool({ structure }),
     visionTool(),
     // D12: en is the default/base locale; sv is the second locale.
+    // Pages aren't here: they hold both languages side by side, field by
+    // field (src/sanity/i18n/localizeSchema.ts). Articles and customer
+    // stories are still one document per language, for now.
     documentInternationalization({
       supportedLanguages: [
         { id: 'en', title: 'English' },
         { id: 'sv', title: 'Swedish' },
       ],
-      schemaTypes: ['page', 'article', 'customerStory'],
+      schemaTypes: ['article', 'customerStory'],
       languageField: 'language',
     }),
   ],

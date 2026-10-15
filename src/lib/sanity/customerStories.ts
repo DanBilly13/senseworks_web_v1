@@ -4,6 +4,7 @@ import { sanityClient } from './client'
 import { mediaProjection } from './queries'
 import type { MediaField } from './media'
 import type { ArticleAuthor } from './knowledgeBank'
+import { localize } from '@/lib/i18n/localize'
 
 export type CustomerStorySummary = {
   companyName: string
@@ -76,10 +77,12 @@ export const customerStoryBySlugQuery = groq`
   }
 `
 
-export function getCustomerStories(locale: string): Promise<CustomerStorySummary[]> {
-  return sanityClient.fetch(customerStoriesQuery, { locale })
+// Run through localize() like pages, so a translatable field nested in a
+// story (e.g. a logo's alt text) arrives as a plain string.
+export async function getCustomerStories(locale: string): Promise<CustomerStorySummary[]> {
+  return localize(await sanityClient.fetch(customerStoriesQuery, { locale }), locale)
 }
 
-export function getCustomerStory(slug: string, locale: string): Promise<CustomerStoryDoc | null> {
-  return sanityClient.fetch(customerStoryBySlugQuery, { slug, locale })
+export async function getCustomerStory(slug: string, locale: string): Promise<CustomerStoryDoc | null> {
+  return localize(await sanityClient.fetch(customerStoryBySlugQuery, { slug, locale }), locale)
 }
