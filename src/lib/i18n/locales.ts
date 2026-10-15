@@ -1,10 +1,11 @@
 import { DEFAULT_LOCALE, type Locale } from './localize'
 
-// The site's languages, as the language switcher lists them (each in
-// its own language) with their flag in public/flags/.
-export const LOCALES: { id: Locale; name: string; flag: string }[] = [
-  { id: 'en', name: 'English', flag: '/flags/gb.svg' },
-  { id: 'sv', name: 'Svenska', flag: '/flags/se.svg' },
+// The site's languages, as the language switcher shows them: the short
+// code next to the globe, and in its menu each language's name (in that
+// language) with its flag from public/flags/.
+export const LOCALES: { id: Locale; code: string; name: string; flag: string }[] = [
+  { id: 'en', code: 'EN', name: 'English', flag: '/flags/gb.svg' },
+  { id: 'sv', code: 'SV', name: 'Svenska', flag: '/flags/se.svg' },
 ]
 
 // Set by the language switcher; read when someone lands on the bare

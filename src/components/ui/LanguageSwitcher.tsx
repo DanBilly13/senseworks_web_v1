@@ -7,7 +7,18 @@ import { Menu, MenuItem } from '@/components/ui/Menu'
 import { LOCALES, pathInLocale, rememberLocale } from '@/lib/i18n/locales'
 import type { Locale } from '@/lib/i18n/localize'
 
-function Flag({ src, size }: { src: string; size: 'sm' | 'md' }) {
+const GLOBE_MASK = {
+  maskImage: 'url(/icons/language.svg)',
+  maskSize: 'contain',
+  maskRepeat: 'no-repeat',
+  maskPosition: 'center',
+  WebkitMaskImage: 'url(/icons/language.svg)',
+  WebkitMaskSize: 'contain',
+  WebkitMaskRepeat: 'no-repeat',
+  WebkitMaskPosition: 'center',
+}
+
+function Flag({ src }: { src: string }) {
   // A round flag, cropped from the middle of the rectangular one, with a
   // hairline edge so a light flag still reads on a white background.
   return (
@@ -16,13 +27,13 @@ function Flag({ src, size }: { src: string; size: 'sm' | 'md' }) {
       alt=""
       width={24}
       height={24}
-      className={`${size === 'md' ? 'size-6' : 'size-5'} shrink-0 rounded-full object-cover ring-1 ring-border`}
+      className="size-5 shrink-0 rounded-full object-cover ring-1 ring-border"
     />
   )
 }
 
-// The header's language picker: the current language's flag (no arrow —
-// the flag is the button); clicking it opens a menu of every language (flag + name), each going to the
+// The header's language picker: a globe and the current language's code
+// ("EN"/"SV"); clicking it opens a menu of every language (flag + name), each going to the
 // same page in that language. The choice is remembered in a cookie, so
 // the bare site address ("/") opens in it next time (see app/page.tsx).
 export function LanguageSwitcher() {
@@ -56,13 +67,17 @@ export function LanguageSwitcher() {
     <div ref={rootRef} className="relative">
       <button
         type="button"
-        className="flex items-center rounded-full transition-opacity hover:opacity-80"
+        className="flex items-center gap-xs text-body-sm text-muted-foreground hover:text-foreground"
         aria-expanded={open}
         aria-haspopup="menu"
         aria-label={`Language: ${current.name}`}
         onClick={() => setOpen((v) => !v)}
       >
-        <Flag src={current.flag} size="md" />
+        {/* The globe is a Material Symbols file (public/icons/, the same
+            curated exception to Ant Design icons as Feature Grid's),
+            drawn as a mask so it takes the text colour. */}
+        <span aria-hidden="true" className="size-5 bg-current" style={GLOBE_MASK} />
+        {current.code}
       </button>
       {open && (
         <Menu className="absolute top-full right-0 z-50 mt-small w-max border border-border shadow-lg">
@@ -74,7 +89,7 @@ export function LanguageSwitcher() {
               trailingIcon={locale.id === current.id ? <CheckOutlined className="text-body" /> : undefined}
             >
               <span className="flex items-center gap-small" lang={locale.id}>
-                <Flag src={locale.flag} size="sm" />
+                <Flag src={locale.flag} />
                 {locale.name}
               </span>
             </MenuItem>
