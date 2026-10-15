@@ -1,6 +1,7 @@
 import { groq } from 'next-sanity'
 import type { SanityImageSource } from '@sanity/image-url'
 import { sanityClient } from './client'
+import { localize } from '@/lib/i18n/localize'
 
 export type ArticleTag = { title: string; slug: string }
 export type ArticleAuthor = { name: string; role?: string; photo?: SanityImageSource }
@@ -30,26 +31,31 @@ const articleSummaryProjection = groq`
   "author": author->{ name, role, photo },
 `
 
-// No cross-locale fallback here (unlike getPage's D12 coalesce) — an
-// empty result for a locale with no published articles yet is a real,
-// expected state, not a missing-translation gap to paper over.
+// One document per article, title/subtitle/body as English/Swedish
+// pairs. An article shows only in a language it has a title in — no
+// cross-language fallback (unlike pages): an empty Knowledge Bank for a
+// language with no articles yet is a real, expected state.
+// `language == $locale` covers an article still in the old one-document-
+// per-language form, until scripts/merge-language-versions.ts has run.
+const ARTICLE_IN_LOCALE = `(defined(title[$locale]) || language == $locale)`
+
 export const articlesByLocaleQuery = groq`
-  *[_type == "article" && language == $locale] | order(publishedAt desc) {
+  *[_type == "article" && ${ARTICLE_IN_LOCALE}] | order(publishedAt desc) {
     ${articleSummaryProjection}
   }
 `
 
 export const articleBySlugAndLocaleQuery = groq`
-  *[_type == "article" && slug.current == $slug && language == $locale][0] {
+  *[_type == "article" && slug.current == $slug && ${ARTICLE_IN_LOCALE}][0] {
     ${articleSummaryProjection}
     body,
   }
 `
 
-export function getArticles(locale: string): Promise<ArticleSummary[]> {
-  return sanityClient.fetch(articlesByLocaleQuery, { locale })
+export async function getArticles(locale: string): Promise<ArticleSummary[]> {
+  return localize(await sanityClient.fetch(articlesByLocaleQuery, { locale }), locale)
 }
 
-export function getArticle(slug: string, locale: string): Promise<ArticleDoc | null> {
-  return sanityClient.fetch(articleBySlugAndLocaleQuery, { slug, locale })
+export async function getArticle(slug: string, locale: string): Promise<ArticleDoc | null> {
+  return localize(await sanityClient.fetch(articleBySlugAndLocaleQuery, { slug, locale }), locale)
 }

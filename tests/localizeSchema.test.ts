@@ -43,8 +43,22 @@ describe('localizeSchema', () => {
     expect(byName.get('pricingBlock')!.preview.select.title).toBe('plans.0.name.en')
   })
 
-  it('leaves non-page documents unchanged', () => {
-    expect(field(byName.get('customerStory')!, 'title').type).toBe('string')
+  it('pairs story and article text, but not names, and stacks a rich-text body', () => {
+    const story = byName.get('customerStory')!
+    expect(isPair(field(story, 'title'))).toBe(true)
+    expect(field(story, 'companyName').type).toBe('string')
+    expect(field(story, 'personName').type).toBe('string')
+    expect(field(story, 'products').of[0].type).toBe('string')
+    const body = field(story, 'body')
+    expect(isPair(body)).toBe(true)
+    expect(body.options.columns).toBe(1)
+    expect(body.fields[0].of.some((member: Def) => member.name === 'pullQuote')).toBe(true)
+    const article = byName.get('article')!
+    expect(field(article, 'body').fields[0].type).toBe('blockContent')
+    // An article's title is required in at least one language, not in English.
+    expect(field(article, 'title').validation).toBeTypeOf('function')
+    expect(field(article, 'title').fields[0].validation).toBeUndefined()
+    expect(field(byName.get('testimonial')!, 'quote').type).not.toBe('object')
   })
 })
 
@@ -75,5 +89,36 @@ describe('migrateDocument', () => {
     // Read back in English, it's the original page.
     expect(localize(migrated, 'en')).toEqual(doc)
     expect(localize(migrated, 'sv').blocks[0].heading).toBe('FAQ')
+  })
+})
+
+describe('mergeLanguageVersions', () => {
+  it('merges an English and a Swedish story into one document', async () => {
+    const { mergeLanguageVersions } = await import('@/sanity/i18n/migrateToPairs')
+    const { localize } = await import('@/lib/i18n/localize')
+    const body = (text: string) => [{ _type: 'block', _key: text, children: [{ _type: 'span', _key: 's', text }] }]
+    const en = { _id: 's-en', _type: 'customerStory', language: 'en', companyName: 'Retora', slug: { _type: 'slug', current: 'retora' }, products: ['audit'], title: 'Steps into the future', summary: 'Less Excel', body: body('Hello'), logo: { mediaType: 'image', alt: 'Logo' } }
+    const sv = { _id: 's-sv', _type: 'customerStory', language: 'sv', companyName: 'Retora', slug: { _type: 'slug', current: 'retora' }, products: ['audit'], title: 'Tar klivet', body: body('Hej') }
+    const merged = mergeLanguageVersions({ en, sv }, schemaTypes as Def[], 'customerStory-retora') as any
+    expect(merged._id).toBe('customerStory-retora')
+    expect(merged.language).toBeUndefined()
+    expect(merged.companyName).toBe('Retora')
+    expect(merged.title).toEqual({ en: 'Steps into the future', sv: 'Tar klivet' })
+    expect(merged.summary).toEqual({ en: 'Less Excel' })
+    expect(merged.body.sv).toEqual(body('Hej'))
+    expect(merged.logo.alt).toEqual({ en: 'Logo' })
+    // Each language reads back as its own original.
+    const omit = (doc: Def, ...keys: string[]) => Object.fromEntries(Object.entries(doc).filter(([key]) => !keys.includes(key)))
+    const enRest = omit(en, 'language', '_id')
+    const svRest = omit(sv, 'language', '_id')
+    expect(localize(merged, 'en')).toEqual({ _id: 'customerStory-retora', ...enRest })
+    expect(localize(merged, 'sv')).toMatchObject({ ...svRest, summary: 'Less Excel' })
+  })
+
+  it('keeps a Swedish-only article Swedish', async () => {
+    const { mergeLanguageVersions } = await import('@/sanity/i18n/migrateToPairs')
+    const sv = { _id: 'a', _type: 'article', language: 'sv', title: 'Navigera som ett proffs', slug: { _type: 'slug', current: 'navigera' } }
+    const merged = mergeLanguageVersions({ sv }, schemaTypes as Def[], 'article-navigera') as any
+    expect(merged.title).toEqual({ sv: 'Navigera som ett proffs' })
   })
 })

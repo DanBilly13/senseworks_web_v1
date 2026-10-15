@@ -19,7 +19,6 @@
   "dependencies": {
     "@ant-design/icons": "^6.3.4",
     "@portabletext/react": "^8.0.1",
-    "@sanity/document-internationalization": "^6.2.34",
     "@sanity/image-url": "^2.1.1",
     "@sanity/language-filter": "^5.0.18",
     "@sanity/ui": "^4.0.7",

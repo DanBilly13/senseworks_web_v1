@@ -31,11 +31,20 @@ export function localizeHref(href: string, locale: string): string {
   return `/${locale}${href}`
 }
 
+const isEmpty = (value: unknown) =>
+  value === undefined ||
+  value === null ||
+  (typeof value === 'string' && value.trim() === '') ||
+  (Array.isArray(value) && value.length === 0)
+
 export function localize<T>(value: T, locale: string): T {
   if (isLocalizedValue(value)) {
-    const chosen = value[locale] ?? value[DEFAULT_LOCALE]
-    // An empty translation falls back to English rather than showing a gap.
-    return (typeof chosen === 'string' && chosen.trim() === '' ? value[DEFAULT_LOCALE] : chosen) as T
+    // The requested language; an empty one falls back to English, then
+    // to whichever language is filled in (a Swedish-only article keeps
+    // its Swedish text rather than showing a gap).
+    const chosen = [locale, DEFAULT_LOCALE, ...LOCALE_KEYS].map((key) => value[key]).find((item) => !isEmpty(item))
+    // Recursed into: a chosen rich-text body still has links to rewrite.
+    return localize(chosen, locale) as T
   }
   if (Array.isArray(value)) return value.map((item) => localize(item, locale)) as T
   if (value && typeof value === 'object') {

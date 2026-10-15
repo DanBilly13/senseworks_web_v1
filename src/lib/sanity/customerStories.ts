@@ -1,7 +1,7 @@
 import { groq } from 'next-sanity'
 import type { SanityImageSource } from '@sanity/image-url'
 import { sanityClient } from './client'
-import { mediaProjection } from './queries'
+import { mediaProjection, STORY_IN_LOCALE } from './queries'
 import type { MediaField } from './media'
 import type { ArticleAuthor } from './knowledgeBank'
 import { localize } from '@/lib/i18n/localize'
@@ -55,23 +55,15 @@ const summaryProjection = groq`
   ${mediaProjection('logo')},
 `
 
-// D12-style fallback, per story: the requested locale's version when it
-// exists, the English one otherwise — so /sv/customer-stories lists
-// every story even before any are translated.
+// See STORY_IN_LOCALE: the page's language, English as the fallback.
 export const customerStoriesQuery = groq`
-  *[_type == "customerStory" && (
-    language == $locale ||
-    (language == "en" && !(slug.current in *[_type == "customerStory" && language == $locale].slug.current))
-  )] | order(publishedAt desc) {
+  *[_type == "customerStory" && ${STORY_IN_LOCALE}] | order(publishedAt desc) {
     ${summaryProjection}
   }
 `
 
 export const customerStoryBySlugQuery = groq`
-  coalesce(
-    *[_type == "customerStory" && slug.current == $slug && language == $locale][0],
-    *[_type == "customerStory" && slug.current == $slug && language == "en"][0]
-  ) {
+  *[_type == "customerStory" && slug.current == $slug && ${STORY_IN_LOCALE}][0] {
     ${summaryProjection}
     body,
   }

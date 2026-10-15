@@ -1,7 +1,6 @@
 import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
 import { visionTool } from '@sanity/vision'
-import { documentInternationalization } from '@sanity/document-internationalization'
 import { schemaTypes } from './src/sanity/schemaTypes'
 import { structure } from './src/sanity/structure'
 
@@ -25,18 +24,9 @@ export default defineConfig({
   plugins: [
     structureTool({ structure }),
     visionTool(),
-    // D12: en is the default/base locale; sv is the second locale.
-    // Pages aren't here: they hold both languages side by side, field by
-    // field (src/sanity/i18n/localizeSchema.ts). Articles and customer
-    // stories are still one document per language, for now.
-    documentInternationalization({
-      supportedLanguages: [
-        { id: 'en', title: 'English' },
-        { id: 'sv', title: 'Swedish' },
-      ],
-      schemaTypes: ['article', 'customerStory'],
-      languageField: 'language',
-    }),
+    // English and Swedish live side by side in each document, field by
+    // field (src/sanity/i18n/localizeSchema.ts), so there's no
+    // per-language document plugin.
   ],
   schema: { types: schemaTypes },
   document: {

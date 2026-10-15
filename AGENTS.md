@@ -132,8 +132,13 @@ repo): `solution-spec.md`, `decision-log.md`, `risk-register.md`,
   Swedish → English) and prefixes internal hrefs with the locale, so
   components receive plain strings. A custom preview `prepare` that
   reads text out of a raw nested object (not via `select`) gets the
-  pair and must read `.en` itself (see comparisonTableBlock). Articles
-  and customer stories are still one document per language.
+  pair and must read `.en` itself (see comparisonTableBlock). Customer
+  stories and articles work the same way (one document per story/
+  article; rich-text bodies opt in with `options: { localize: true }`
+  and stack English above Swedish). Names stay single fields
+  (`options: { localize: false }`). A story shows in its own language
+  or falls back to English (`STORY_IN_LOCALE` in queries.ts); an
+  article shows only in a language it has a title in.
 - Test runner is **Vitest** (unit/component, `yarn test`) +
   **Playwright** (e2e, `yarn test:e2e`) — not Jest.
 - Package manager is **yarn**. `yarn.lock` is the source of truth; do

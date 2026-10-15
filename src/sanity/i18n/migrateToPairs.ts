@@ -49,3 +49,41 @@ export function migrateDocument<T extends { _type: string }>(doc: T, schemaTypes
   const def = registry.get(doc._type)
   return def ? migrateValue(doc, def, registry) : doc
 }
+
+const isEmptyValue = (value: unknown) =>
+  value === undefined || value === null || value === '' || (Array.isArray(value) && value.length === 0)
+
+// Second migration, for documents that used to be one per language
+// (customer stories, articles): merges the English and Swedish versions
+// of one story/article into a single document. Each text pair takes its
+// English box from the English version and its Swedish box from the
+// Swedish one; everything else (names, images, tick boxes, dates) is
+// shared, taken from the English version when there is one.
+export function mergeLanguageVersions(
+  versions: { en?: Def; sv?: Def },
+  schemaTypes: Def[],
+  id: string,
+): Def {
+  const registry: Registry = new Map(schemaTypes.map((type) => [type.name, type]))
+  const base = versions.en ?? versions.sv
+  if (!base) throw new Error(`No versions to merge for ${id}`)
+  const other = versions.en ? versions.sv : undefined
+  const def = registry.get(base._type)
+  if (!def) throw new Error(`Unknown type ${base._type}`)
+  const merged: Def = { _id: id, _type: base._type }
+  for (const field of def.fields as Def[]) {
+    if (field.name === 'language') continue
+    if (isPair(field)) {
+      const pair: Def = {}
+      for (const language of ['en', 'sv'] as const) {
+        const value = versions[language]?.[field.name]
+        if (!isEmptyValue(value)) pair[language] = value
+      }
+      if (Object.keys(pair).length) merged[field.name] = pair
+    } else {
+      const value = isEmptyValue(base[field.name]) ? other?.[field.name] : base[field.name]
+      if (value !== undefined) merged[field.name] = migrateValue(value, field, registry)
+    }
+  }
+  return merged
+}

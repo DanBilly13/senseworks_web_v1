@@ -35,6 +35,20 @@ export const clientLogosQuery = groq`
   }
 `
 
+// A customer story is one document with English/Swedish text pairs. It
+// shows in a language it's written in (any of its card text filled in),
+// or in English as the fallback — so Swedish pages list every story,
+// English ones only the stories with English.
+const storyWrittenIn = (language: string) =>
+  `defined(coalesce(${['summary', 'title', 'facts', 'quote', 'personRole'].map((field) => `${field}[${language}]`).join(', ')}))`
+// The second line covers a story still in the old one-document-per-
+// language form (it has a `language`), until scripts/merge-language-
+// versions.ts has run.
+export const STORY_IN_LOCALE = `(
+  (!defined(language) && (${storyWrittenIn('$locale')} || ${storyWrittenIn('"en"')})) ||
+  language == $locale || (language == "en" && !(slug.current in *[_type == "customerStory" && language == $locale].slug.current))
+)`
+
 // One document per page, holding every language side by side (each
 // text field is { en, sv }) — getPage() picks the language with
 // localize(). The order is a safety net while older per-language page
@@ -68,13 +82,11 @@ export const pageBySlugAndLocaleQuery = groq`
       _type == "mediaCarouselBlock" => { slides[]{ ..., ${mediaProjection()} } },
       _type == "horizontalScrollStackBlock" => { panels[]{ ..., ${mediaProjection()} } },
       // Customer stories for the carousel: the page's language, English
-      // as the per-story fallback, filtered by the block's "Which
-      // stories" (a story ticked for both products shows under either).
+      // as the per-story fallback (STORY_IN_LOCALE), filtered by the
+      // block's "Which stories" (a story ticked for both products shows
+      // under either).
       _type == "caseStudyGridBlock" => {
-        "stories": *[_type == "customerStory" && (
-          language == $locale ||
-          (language == "en" && !(slug.current in *[_type == "customerStory" && language == $locale].slug.current))
-        ) && (coalesce(^.productFilter, "all") == "all" || ^.productFilter in products)] | order(publishedAt desc) {
+        "stories": *[_type == "customerStory" && ${STORY_IN_LOCALE} && (coalesce(^.productFilter, "all") == "all" || ^.productFilter in products)] | order(publishedAt desc) {
           companyName, "slug": slug.current, summary, products, coverImage
         }
       },

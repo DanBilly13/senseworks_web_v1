@@ -1,10 +1,11 @@
 import { defineType, defineField, defineArrayMember } from 'sanity'
 import { blockContentMembers } from '../objects/blockContent'
-import { isUniqueInLanguage } from '../../lib/isUniqueInLanguage'
 
 // A customer story: the firm's case study card (shown on the Customer
 // stories start page) plus the full story behind it, laid out like a
-// Knowledge Bank article.
+// Knowledge Bank article. One document per story, both languages in it:
+// every text field is an English/Swedish pair (localizeSchema.ts) except
+// the names, which are the same in both.
 export const customerStory = defineType({
   name: 'customerStory',
   title: 'Customer story',
@@ -31,14 +32,14 @@ export const customerStory = defineType({
       title: 'Company name',
       type: 'string',
       group: 'card',
+      options: { localize: false } as object,
       validation: (Rule) => Rule.required().max(60),
     }),
     defineField({
       name: 'slug',
       type: 'slug',
       group: 'card',
-      // Unique per language: the en and sv versions share a slug.
-      options: { source: 'companyName', isUnique: isUniqueInLanguage },
+      options: { source: 'companyName' },
       validation: (Rule) => Rule.required(),
     }),
     defineField({ name: 'logo', title: 'Logo', type: 'media', group: 'card', description: 'Shown instead of the company name when set.' }),
@@ -77,7 +78,7 @@ export const customerStory = defineType({
       description: 'The big pull quote in the story (place it with a "Pull quote" item in the Body).',
       validation: (Rule) => Rule.max(220),
     }),
-    defineField({ name: 'personName', title: 'Person name', type: 'string', group: 'card' }),
+    defineField({ name: 'personName', title: 'Person name', type: 'string', group: 'card', options: { localize: false } as object }),
     defineField({ name: 'personRole', title: 'Person role', type: 'string', group: 'card' }),
     // Story
     defineField({
@@ -129,13 +130,14 @@ export const customerStory = defineType({
       initialValue: () => new Date().toISOString(),
       validation: (Rule) => Rule.required(),
     }),
-    // Set by @sanity/document-internationalization — not hand-edited.
-    defineField({ name: 'language', type: 'string', readOnly: true }),
+    // Left over from when each language was its own document; unused.
+    defineField({ name: 'language', type: 'string', readOnly: true, hidden: true }),
     defineField({
       name: 'body',
       type: 'array',
       group: 'story',
       description: 'Add a "Pull quote" item where the Hero quote should appear, ideally about halfway down.',
+      options: { localize: true } as object,
       of: [
         // The shared body item types, with one extra paragraph style for
         // interviews: "Question", set semi-bold.
@@ -164,6 +166,7 @@ export const customerStory = defineType({
     }),
   ],
   preview: {
-    select: { title: 'companyName', subtitle: 'summary', media: 'coverImage' },
+    select: { title: 'companyName', summaryEn: 'summary.en', summarySv: 'summary.sv', media: 'coverImage' },
+    prepare: ({ title, summaryEn, summarySv, media }) => ({ title, subtitle: summaryEn || summarySv, media }),
   },
 })

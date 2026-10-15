@@ -23,6 +23,8 @@ const TEXT_TYPES = new Set(['string', 'text'])
 const SKIP_NAMES = new Set(['anchor', 'logoText', 'note', 'language'])
 
 export function isLocalizableField(field: Def): boolean {
+  // Opt-in for anything that isn't plain text, e.g. a rich-text body.
+  if (field.options?.localize === true) return true
   if (!TEXT_TYPES.has(field.type)) return false
   if (field.options?.list || field.options?.localize === false) return false
   if (/href$/i.test(field.name ?? '')) return false
@@ -30,29 +32,48 @@ export function isLocalizableField(field: Def): boolean {
 }
 
 // The parts of a field that stay on the outer pair; everything else
-// (type, rows, validation…) describes the text box itself.
+// (type, rows, of, options…) describes the box itself.
 const OUTER_KEYS = ['name', 'title', 'description', 'group', 'fieldset', 'hidden', 'readOnly', 'deprecated'] as const
+const PAIR_ONLY_KEYS = new Set<string>([...OUTER_KEYS, 'initialValue', 'validation', 'components'])
 
 function pairField(field: Def): Def {
   const outer: Def = {}
   for (const key of OUTER_KEYS) if (field[key] !== undefined) outer[key] = field[key]
+  const requireOneLanguage = field.options?.requireOneLanguage
+  // Our own two options steer this transform; the rest belong to the box.
+  const boxOptions: Def = { ...field.options }
+  delete boxOptions.localize
+  delete boxOptions.requireOneLanguage
+  const boxBase: Def = {}
+  for (const [key, value] of Object.entries(field)) if (!PAIR_ONLY_KEYS.has(key) && key !== 'options') boxBase[key] = value
+  if (Object.keys(boxOptions).length) boxBase.options = boxOptions
   const box = (language: (typeof LANGUAGES)[number], isDefault: boolean): Def => ({
+    ...boxBase,
     name: language.id,
     title: language.title,
-    type: field.type,
-    ...(field.rows ? { rows: field.rows } : {}),
-    ...(field.placeholder ? { placeholder: field.placeholder } : {}),
     // English keeps the field's own rules (required, max length…).
     // Swedish has none: it's optional, and an empty box shows the
-    // English on the site.
-    ...(isDefault && field.validation ? { validation: field.validation } : {}),
+    // English on the site. With requireOneLanguage (for documents that
+    // may be written in Swedish only) neither box is required on its
+    // own; the pair is, below.
+    ...(isDefault && field.validation && !requireOneLanguage ? { validation: field.validation } : {}),
   })
   return {
     ...outer,
     type: 'object',
-    options: { columns: 2, collapsible: false },
+    // Short text side by side; a rich-text body is too wide for that,
+    // so its English and Swedish versions stack.
+    options: { columns: TEXT_TYPES.has(field.type) ? 2 : 1, collapsible: false },
     fields: LANGUAGES.map((language, i) => box(language, i === 0)),
     ...(field.initialValue !== undefined ? { initialValue: { en: field.initialValue } } : {}),
+    ...(requireOneLanguage
+      ? {
+          validation: (Rule: any) =>
+            Rule.custom((value: Def | undefined) =>
+              LANGUAGES.some((language) => value?.[language.id]?.length) ? true : 'Fill in at least one language',
+            ),
+        }
+      : {}),
   }
 }
 
@@ -90,7 +111,7 @@ function endsOnLocalized(path: string, fields: Def[] | undefined, registry: Regi
     // Skip the index segment ("0") and look inside the array's members.
     const after = /^\d+$/.test(rest[0]) ? rest.slice(1) : rest
     if (after.length === 0) {
-      return (field.of ?? []).some((m: Def) => TEXT_TYPES.has(m.type) && !m.options?.list)
+      return !field.options?.list && (field.of ?? []).some((m: Def) => TEXT_TYPES.has(m.type) && !m.options?.list)
     }
     return (field.of ?? []).some((m: Def) => endsOnLocalized(after.join('.'), fieldsOf(m, registry), registry))
   }
@@ -117,6 +138,9 @@ function localizeField(field: Def, registry: Registry): Def {
       ...(field.preview ? { preview: fixPreview(field.preview, field.fields, registry) } : {}),
     }
   }
+  // A list of strings with options.list is tick boxes (e.g. a story's
+  // Products) — values, not copy.
+  if (field.type === 'array' && field.options?.list) return field
   if (field.type === 'array' && field.of) {
     return {
       ...field,

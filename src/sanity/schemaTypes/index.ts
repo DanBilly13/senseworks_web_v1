@@ -89,9 +89,8 @@ const allTypes = [
   footerBlock,
 ]
 
-// Pages, their blocks and the media object get English/Swedish pairs
-// for every text field (see localizeSchema.ts). Customer stories,
-// articles and the other documents are still one document per language.
-const LOCALIZED_TYPES = new Set(['page', 'media', ...allTypes.map((type) => type.name).filter((name) => name.endsWith('Block'))])
+// Pages, their blocks, the media object, customer stories and articles
+// get English/Swedish pairs for every text field (see localizeSchema.ts).
+const LOCALIZED_TYPES = new Set(['page', 'media', 'customerStory', 'article', ...allTypes.map((type) => type.name).filter((name) => name.endsWith('Block'))])
 
 export const schemaTypes = localizeSchemaTypes(allTypes, LOCALIZED_TYPES)
