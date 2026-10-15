@@ -1,11 +1,9 @@
 import type { ReactNode } from 'react'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { getPage } from '@/lib/sanity/getPage'
-import type { PageBlock } from '@/lib/sanity/getPage'
 import { getCustomerStory, type CustomerStoryDoc } from '@/lib/sanity/customerStories'
 import { productLabels } from '@/lib/customerStoryProducts'
-import { BlockRenderer } from '@/components/blocks/BlockRenderer'
+import { SiteFooter, SiteHeader } from '@/components/layout/SiteNavigation'
 import { SectionShell } from '@/components/ui/SectionShell'
 import { SectionIntro } from '@/components/ui/SectionIntro'
 import { Media } from '@/components/ui/Media'
@@ -46,12 +44,10 @@ export default async function CustomerStoryPage({
   params: Promise<{ locale: string; slug: string }>
 }) {
   const { locale, slug } = await params
-  const [home, story] = await Promise.all([getPage('home', locale), getCustomerStory(slug, locale)])
+  const story = await getCustomerStory(slug, locale)
 
-  if (!home || !story) notFound()
+  if (!story) notFound()
 
-  const header = home.blocks.find((block) => block._type === 'headerBlock')
-  const footer = home.blocks.find((block) => block._type === 'footerBlock')
   const products = productLabels(story.products)
   const headline = story.title || story.companyName
   // The body's opening paragraph, so the fact box can sit right after it.
@@ -62,7 +58,7 @@ export default async function CustomerStoryPage({
 
   return (
     <>
-      {header && <BlockRenderer blocks={[header as PageBlock]} />}
+      <SiteHeader locale={locale} />
       <LikeProvider articleSlug={`customer-story-${slug}`}>
         <SectionShell pt="section-edge" pb="medium">
           <div className="grid grid-cols-1 items-center gap-2xl md:grid-cols-2">
@@ -140,7 +136,7 @@ export default async function CustomerStoryPage({
           </div>
         </SectionShell>
       </LikeProvider>
-      {footer && <BlockRenderer blocks={[footer as PageBlock]} />}
+      <SiteFooter locale={locale} />
     </>
   )
 }

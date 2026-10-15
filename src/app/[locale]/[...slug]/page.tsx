@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import { getPage } from '@/lib/sanity/getPage'
 import { BlockRenderer } from '@/components/blocks/BlockRenderer'
 import { AnimatedButtonProvider } from '@/components/ui/Button'
+import { SiteFooter, SiteHeader } from '@/components/layout/SiteNavigation'
 
 // Static generation (SSG) for v1 — matches solution-spec.md's Loading
 // state decision (no per-page loading UI needed). Catch-all segment
@@ -49,13 +50,12 @@ export default async function Page({
   // site-wide default (see body in globals.css), not LP-specific.
   const isLandingPage = slug[0] === 'lp'
 
-  // Landing pages never show the footer's newsletter signup (a
-  // landing page has one job — the Book a meeting CTA), regardless of
-  // what each page's own footer block has set in Studio — forced here
-  // rather than patched per page so every future lp/* page gets it too.
-  const blocks = isLandingPage
-    ? page.blocks.map((block) => (block._type === 'footerBlock' ? { ...block, showNewsletter: false } : block))
-    : page.blocks
+  // The header and footer are the shared ones from "Site navigation",
+  // the short landing-page versions when the page asks for that (lp/*
+  // pages do by default). Any header/footer block still inside the
+  // page's own blocks, from before navigation was shared, is skipped.
+  const navigation = page.navigation ?? (isLandingPage ? 'landing' : 'full')
+  const blocks = page.blocks.filter((block) => block._type !== 'headerBlock' && block._type !== 'footerBlock')
 
   return (
     // "contents": no box of its own, so it can't affect the blocks'
@@ -63,7 +63,9 @@ export default async function Page({
     // page theme's CSS variables (see data-page-theme in globals.css).
     <div className="contents" data-page-theme={page.theme ?? 'default'}>
       <AnimatedButtonProvider value={isLandingPage}>
+        <SiteHeader locale={locale} variant={navigation} />
         <BlockRenderer blocks={blocks} />
+        <SiteFooter locale={locale} variant={navigation} />
       </AnimatedButtonProvider>
     </div>
   )

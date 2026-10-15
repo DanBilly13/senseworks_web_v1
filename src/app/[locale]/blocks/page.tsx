@@ -1,8 +1,5 @@
-import { notFound } from 'next/navigation'
-import { getPage } from '@/lib/sanity/getPage'
-import type { PageBlock } from '@/lib/sanity/getPage'
 import { getClientLogos } from '@/lib/sanity/clients'
-import { BlockRenderer } from '@/components/blocks/BlockRenderer'
+import { SiteFooter, SiteHeader } from '@/components/layout/SiteNavigation'
 import { HeroBlock } from '@/components/blocks/HeroBlock'
 import { HeroBackdropBlock } from '@/components/blocks/HeroBackdropBlock'
 import { HeroImageOverlayCardBlock } from '@/components/blocks/HeroImageOverlayCardBlock'
@@ -105,16 +102,11 @@ export default async function BlocksPage({
   // Real logo images, unlike everything else on this page — Logo
   // Cloud has no text fallback, only images, so Lorem Ipsum names
   // alone would render as empty slots.
-  const [home, clientLogos] = await Promise.all([getPage('home', locale), getClientLogos()])
-
-  if (!home) notFound()
-
-  const header = home.blocks.find((block) => block._type === 'headerBlock')
-  const footer = home.blocks.find((block) => block._type === 'footerBlock')
+  const clientLogos = await getClientLogos()
 
   return (
     <>
-      {header && <BlockRenderer blocks={[header as PageBlock]} />}
+      <SiteHeader locale={locale} />
 
       <div className="mx-auto w-full max-w-page px-medium-large py-2xl">
         <p className="text-caption font-semibold text-muted-foreground uppercase">
@@ -1145,7 +1137,7 @@ export default async function BlocksPage({
         <MenuShowcase />
       </div>
 
-      {footer && <BlockRenderer blocks={[footer as PageBlock]} />}
+      <SiteFooter locale={locale} />
     </>
   )
 }

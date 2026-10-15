@@ -1,8 +1,5 @@
-import { notFound } from 'next/navigation'
-import { getPage } from '@/lib/sanity/getPage'
-import type { PageBlock } from '@/lib/sanity/getPage'
 import { getCustomerStories } from '@/lib/sanity/customerStories'
-import { BlockRenderer } from '@/components/blocks/BlockRenderer'
+import { SiteFooter, SiteHeader } from '@/components/layout/SiteNavigation'
 import { SectionShell } from '@/components/ui/SectionShell'
 import { SectionIntro } from '@/components/ui/SectionIntro'
 import { CustomerStoriesGrid } from '@/components/customer-stories/CustomerStoriesGrid'
@@ -16,16 +13,11 @@ export default async function CustomerStoriesPage({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-  const [home, stories] = await Promise.all([getPage('home', locale), getCustomerStories(locale)])
-
-  if (!home) notFound()
-
-  const header = home.blocks.find((block) => block._type === 'headerBlock')
-  const footer = home.blocks.find((block) => block._type === 'footerBlock')
+  const stories = await getCustomerStories(locale)
 
   return (
     <>
-      {header && <BlockRenderer blocks={[header as PageBlock]} />}
+      <SiteHeader locale={locale} />
       <SectionShell py="section-edge" pad="both" className="flex flex-col gap-2xl">
         <SectionIntro
           as="h1"
@@ -36,7 +28,7 @@ export default async function CustomerStoriesPage({
         />
         <CustomerStoriesGrid stories={stories} locale={locale} />
       </SectionShell>
-      {footer && <BlockRenderer blocks={[footer as PageBlock]} />}
+      <SiteFooter locale={locale} />
     </>
   )
 }

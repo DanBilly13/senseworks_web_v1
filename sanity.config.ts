@@ -15,6 +15,8 @@ const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'rm507cjs'
 // test copy.
 const dataset = process.env.SANITY_STUDIO_DATASET || process.env.NEXT_PUBLIC_SANITY_DATASET || 'production'
 
+const SINGLETONS = ['siteNavigation', 'bookMeetingSettings']
+
 export default defineConfig({
   name: 'default',
   title: 'Senseworks Web Block Library',
@@ -30,11 +32,11 @@ export default defineConfig({
   ],
   schema: { types: schemaTypes },
   document: {
-    // Book a meeting is a singleton: no "create new", and no way to
-    // delete or duplicate the one that exists.
-    newDocumentOptions: (prev) => prev.filter((option) => option.templateId !== 'bookMeetingSettings'),
+    // Site navigation and Book a meeting are singletons: no "create
+    // new", and no way to delete or duplicate the one that exists.
+    newDocumentOptions: (prev) => prev.filter((option) => !SINGLETONS.includes(option.templateId)),
     actions: (prev, { schemaType }) =>
-      schemaType === 'bookMeetingSettings'
+      SINGLETONS.includes(schemaType)
         ? prev.filter(({ action }) => action !== 'delete' && action !== 'duplicate' && action !== 'unpublish')
         : prev,
   },

@@ -1,8 +1,6 @@
 import { notFound } from 'next/navigation'
-import { getPage } from '@/lib/sanity/getPage'
-import type { PageBlock } from '@/lib/sanity/getPage'
 import { getArticle } from '@/lib/sanity/knowledgeBank'
-import { BlockRenderer } from '@/components/blocks/BlockRenderer'
+import { SiteFooter, SiteHeader } from '@/components/layout/SiteNavigation'
 import { SectionShell } from '@/components/ui/SectionShell'
 import { Tag } from '@/components/ui/Tag'
 import { AuthorByline } from '@/components/knowledge-bank/AuthorByline'
@@ -17,16 +15,13 @@ export default async function ArticlePage({
   params: Promise<{ locale: string; slug: string }>
 }) {
   const { locale, slug } = await params
-  const [home, article] = await Promise.all([getPage('home', locale), getArticle(slug, locale)])
+  const article = await getArticle(slug, locale)
 
-  if (!home || !article) notFound()
-
-  const header = home.blocks.find((block) => block._type === 'headerBlock')
-  const footer = home.blocks.find((block) => block._type === 'footerBlock')
+  if (!article) notFound()
 
   return (
     <>
-      {header && <BlockRenderer blocks={[header as PageBlock]} />}
+      <SiteHeader locale={locale} />
       <LikeProvider articleSlug={slug}>
         <SectionShell py="section-edge" pad="both" maxWidth="page" className="article-grid">
           {!!article.tags?.length && (
@@ -63,7 +58,7 @@ export default async function ArticlePage({
           </div>
         </SectionShell>
       </LikeProvider>
-      {footer && <BlockRenderer blocks={[footer as PageBlock]} />}
+      <SiteFooter locale={locale} />
     </>
   )
 }

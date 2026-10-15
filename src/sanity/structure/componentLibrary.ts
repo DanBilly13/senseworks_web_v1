@@ -13,7 +13,7 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
   {
     type: 'headerBlock',
     title: 'Header',
-    description: 'Site navigation bar with logo and links.',
+    description: 'Site navigation bar with logo and links. Not added to pages: there is one, edited in "Site navigation".',
   },
   {
     type: 'heroBlock',
@@ -192,6 +192,6 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
   {
     type: 'footerBlock',
     title: 'Footer',
-    description: 'Site footer with link columns and newsletter signup.',
+    description: 'Site footer with link columns and newsletter signup. Not added to pages: there is one, edited in "Site navigation".',
   },
 ]

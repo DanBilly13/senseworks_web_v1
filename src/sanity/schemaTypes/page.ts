@@ -36,6 +36,21 @@ export const page = defineType({
       initialValue: 'default',
     }),
     defineField({
+      name: 'navigation',
+      title: 'Navigation',
+      description:
+        'The header and footer come from "Site navigation" (edited once for every page). A landing page can show a shorter version: the logo and button only, and just the footer\'s bottom row.',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Full', value: 'full' },
+          { title: 'Landing page (logo and button, short footer)', value: 'landing' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'full',
+    }),
+    defineField({
       name: 'seoTitle',
       title: 'SEO title',
       description: 'The browser tab / search result title. Aim for under about 60 characters. Falls back to the site default if empty.',
@@ -69,9 +84,7 @@ export const page = defineType({
         defineArrayMember({ type: 'featureListBlock' }),
         defineArrayMember({ type: 'featureSplitBlock' }),
         defineArrayMember({ type: 'featureSplitDarkBlock' }),
-        defineArrayMember({ type: 'footerBlock' }),
         defineArrayMember({ type: 'fullWidthSingleBlock' }),
-        defineArrayMember({ type: 'headerBlock' }),
         defineArrayMember({ type: 'heroBlock' }),
         defineArrayMember({ type: 'heroBackdropBlock' }),
         defineArrayMember({ type: 'heroImageOverlayCardBlock' }),

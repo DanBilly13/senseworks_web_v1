@@ -9,6 +9,7 @@ export type PageDoc = {
   language: string
   slug: string
   theme?: 'default' | 'revision' | 'analysis'
+  navigation?: 'full' | 'landing'
   seoTitle?: string
   seoDescription?: string
   blocks: PageBlock[]
