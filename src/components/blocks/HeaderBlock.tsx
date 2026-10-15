@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import { CloseOutlined, DownOutlined, MenuOutlined } from '@ant-design/icons'
 import { Button } from '@/components/ui/Button'
 import { Menu, MenuItem } from '@/components/ui/Menu'
+import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher'
 import styles from './HeaderBlock.module.css'
 
 type NavSubLink = { label: string; href?: string }
@@ -212,42 +213,47 @@ export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref }: Head
           <a href={homeHref} aria-label="Go to homepage" className="shrink-0">
             <Image src="/senseworks-logo.svg" alt={logoText} width={240} height={31} className="h-medium-large w-auto" priority />
           </a>
-          <nav className="hidden items-center gap-medium-large md:flex">
-            {navLinks.map((link) =>
-              link.links?.length ? (
-                <NavDropdown key={link.label} label={link.label} links={link.links} />
-              ) : (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  aria-current={isCurrentPage(link.href, pathname) ? 'page' : undefined}
-                  // Current page: full-strength text, underlined.
-                  className={
-                    isCurrentPage(link.href, pathname)
-                      ? 'text-body-sm text-foreground underline decoration-2 underline-offset-8'
-                      : 'text-body-sm text-muted-foreground hover:text-foreground'
-                  }
-                >
-                  {link.label}
-                </a>
-              ),
-            )}
-            {ctaLabel && ctaHref && (
-              <Button href={ctaHref} size="sm">
-                {ctaLabel}
-              </Button>
-            )}
-          </nav>
-          <button
-            type="button"
-            className="flex md:hidden"
-            aria-expanded={open}
-            aria-controls="mobile-nav-drawer"
-            aria-label={open ? 'Close menu' : 'Open menu'}
-            onClick={() => setOpen((v) => !v)}
-          >
-            {open ? <CloseOutlined /> : <MenuOutlined />}
-          </button>
+          <div className="flex items-center gap-medium-large">
+            <nav className="hidden items-center gap-medium-large md:flex">
+              {navLinks.map((link) =>
+                link.links?.length ? (
+                  <NavDropdown key={link.label} label={link.label} links={link.links} />
+                ) : (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    aria-current={isCurrentPage(link.href, pathname) ? 'page' : undefined}
+                    // Current page: full-strength text, underlined.
+                    className={
+                      isCurrentPage(link.href, pathname)
+                        ? 'text-body-sm text-foreground underline decoration-2 underline-offset-8'
+                        : 'text-body-sm text-muted-foreground hover:text-foreground'
+                    }
+                  >
+                    {link.label}
+                  </a>
+                ),
+              )}
+              {ctaLabel && ctaHref && (
+                <Button href={ctaHref} size="sm">
+                  {ctaLabel}
+                </Button>
+              )}
+            </nav>
+            {/* On every screen size: after the button on desktop, next to
+                the menu toggle on mobile. */}
+            <LanguageSwitcher />
+            <button
+              type="button"
+              className="flex md:hidden"
+              aria-expanded={open}
+              aria-controls="mobile-nav-drawer"
+              aria-label={open ? 'Close menu' : 'Open menu'}
+              onClick={() => setOpen((v) => !v)}
+            >
+              {open ? <CloseOutlined /> : <MenuOutlined />}
+            </button>
+          </div>
         </div>
         {open && (
           <nav
