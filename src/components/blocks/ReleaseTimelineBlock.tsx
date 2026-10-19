@@ -26,8 +26,9 @@ const LABELS = {
   filter: { en: 'Filter releases', sv: 'Filtrera släpp' },
 }
 
-// Three across on desktop, two on a tablet, one per row on mobile.
-const GRID_CLASS = 'grid grid-cols-1 gap-small md:grid-cols-2 md:gap-large lg:grid-cols-3'
+// Four across on desktop (three on a small laptop, where four would be
+// cramped), two on a tablet, one per row on mobile.
+const GRID_CLASS = 'grid grid-cols-1 gap-small md:grid-cols-2 md:gap-large lg:grid-cols-3 xl:grid-cols-4'
 
 function Section({ heading, body, children }: { heading?: string; body?: string; children: ReactNode }) {
   return (
