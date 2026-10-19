@@ -11,7 +11,11 @@ export const featureSplitDarkBlock = defineType({
     defineField({
       name: 'heading',
       title: 'Header',
-      type: 'string',
+      // Text, not string, so Enter adds a line break (shown as one on
+      // the site). Stored the same either way.
+      type: 'text',
+      rows: 2,
+      description: 'Press Enter for a line break.',
       validation: (Rule) => Rule.max(100),
     }),
     defineField({
