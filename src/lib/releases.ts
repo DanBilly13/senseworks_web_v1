@@ -12,6 +12,8 @@ export type Release = {
   title: string
   description?: string
   tag?: ReleaseTag
+  // An AI feature: an extra "AI" chip, alongside the category.
+  ai?: boolean
   stage?: ReleaseStage
   // "2026-10-01" from a Release document; older hand-typed cards had free
   // text ("1 Oct 2026"), shown as typed.

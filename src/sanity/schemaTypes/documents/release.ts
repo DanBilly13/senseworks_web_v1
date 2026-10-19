@@ -34,6 +34,13 @@ export const release = defineType({
         layout: 'radio',
       },
     }),
+    defineField({
+      name: 'ai',
+      title: 'AI',
+      description: 'Adds a dark "AI" chip next to the category chip, and puts it under the AI filter on the Releases page.',
+      type: 'boolean',
+      initialValue: false,
+    }),
     // A stage rather than a percentage: "Rolling out 70%" read as a
     // precise measure and a hidden date ("so, December?").
     defineField({

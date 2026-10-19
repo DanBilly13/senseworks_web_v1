@@ -20,9 +20,12 @@ export function ReleaseCard({ release, locale }: { release: Release; locale: Rel
   return (
     <div className="flex flex-col rounded-lg border border-border bg-background">
       <div className="flex flex-1 flex-col gap-medium-large p-medium-large md:p-large">
-        {(tag || release.team?.length) && (
+        {(tag || release.ai || release.team?.length) && (
           <div className="flex items-center justify-between gap-medium">
-            {tag ? <Tag color={tag.color}>{tag.label[locale]}</Tag> : <span />}
+            <div className="flex flex-wrap items-center gap-xs">
+              {tag && <Tag color={tag.color}>{tag.label[locale]}</Tag>}
+              {release.ai && <Tag color="dark">AI</Tag>}
+            </div>
             {release.team && release.team.length > 0 && (
               // 32px round photos, each overlapping the one before by 4px.
               // The ring in the card's own color keeps the edges apart

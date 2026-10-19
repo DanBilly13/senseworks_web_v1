@@ -37,7 +37,7 @@ export const clientLogosQuery = groq`
 
 // A Release document as both release blocks show it.
 const releaseProjection = groq`
-  _id, title, description, tag, stage, date,
+  _id, title, description, tag, ai, stage, date,
   ${mediaProjection()},
   "team": team[]->{ name, photo }
 `

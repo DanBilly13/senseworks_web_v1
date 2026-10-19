@@ -88,7 +88,7 @@ const monthsAgo = (months: number, day: number) => {
 }
 const TIMELINE_RELEASES = [
   { _id: 't1', tag: 'customerService' as const, title: 'Duis aute irure dolor', description: 'In reprehenderit in voluptate velit esse cillum dolore.', stage: 'rollingOut' as const },
-  { _id: 't2', tag: 'analysis' as const, title: 'Lorem ipsum dolor sit amet', description: 'Consectetur adipiscing elit, sed do eiusmod tempor.', stage: 'shipped' as const, date: monthsAgo(0, 2) },
+  { _id: 't2', tag: 'analysis' as const, ai: true, title: 'Lorem ipsum dolor sit amet', description: 'Consectetur adipiscing elit, sed do eiusmod tempor.', stage: 'shipped' as const, date: monthsAgo(0, 2) },
   { _id: 't3', tag: 'audit' as const, title: 'Ut enim ad minim veniam', description: 'Quis nostrud exercitation ullamco laboris nisi ut aliquip.', stage: 'shipped' as const, date: monthsAgo(1, 24) },
   { _id: 't4', tag: 'audit' as const, title: 'Excepteur sint occaecat', description: 'Cupidatat non proident, sunt in culpa qui officia.', stage: 'shipped' as const, date: monthsAgo(1, 10) },
   { _id: 't5', tag: 'analysis' as const, title: 'Sed ut perspiciatis', description: 'Unde omnis iste natus error sit voluptatem.', stage: 'shipped' as const, date: monthsAgo(8, 15) },

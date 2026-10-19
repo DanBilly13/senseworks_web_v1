@@ -57,7 +57,7 @@ export function ReleaseTimelineBlock({
   releases = [],
 }: ReleaseTimelineBlockProps) {
   const locale = releaseLocale(usePathname())
-  const [filter, setFilter] = useState<ReleaseTag | 'all'>('all')
+  const [filter, setFilter] = useState<ReleaseTag | 'ai' | 'all'>('all')
   const [showEarlier, setShowEarlier] = useState(false)
 
   // D7: a block with no content simply doesn't render.
@@ -65,7 +65,15 @@ export function ReleaseTimelineBlock({
 
   // Only the categories some release actually has get a chip.
   const tags = (Object.keys(TAGS) as ReleaseTag[]).filter((tag) => releases.some((release) => release.tag === tag))
-  const filtered = filter === 'all' ? releases : releases.filter((release) => release.tag === filter)
+  // "AI" is a filter of its own, on top of the categories (an AI release
+  // still shows under Audit or Analytics too).
+  const hasAi = releases.some((release) => release.ai)
+  const filtered =
+    filter === 'all'
+      ? releases
+      : filter === 'ai'
+        ? releases.filter((release) => release.ai)
+        : releases.filter((release) => release.tag === filter)
   const rollingOut = filtered.filter((release) => release.stage === 'rollingOut')
   const development = filtered.filter((release) => release.stage === 'development')
   const { recent, earlier } = groupShippedByMonth(
@@ -84,7 +92,7 @@ export function ReleaseTimelineBlock({
 
   return (
     <SectionShell px="boxed" py={spacing} className="flex flex-col gap-2xl">
-      {tags.length > 1 && (
+      {tags.length + (hasAi ? 1 : 0) > 1 && (
         <div role="group" aria-label={LABELS.filter[locale]} className="flex flex-wrap gap-small">
           <Tag as="button" active={filter === 'all'} onClick={() => setFilter('all')}>
             {LABELS.all[locale]}
@@ -94,6 +102,11 @@ export function ReleaseTimelineBlock({
               {TAGS[tag].label[locale]}
             </Tag>
           ))}
+          {hasAi && (
+            <Tag as="button" active={filter === 'ai'} onClick={() => setFilter('ai')}>
+              AI
+            </Tag>
+          )}
         </div>
       )}
       <div className="flex flex-col gap-3xl">

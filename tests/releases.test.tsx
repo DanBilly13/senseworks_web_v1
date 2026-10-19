@@ -62,6 +62,15 @@ describe('ReleaseTimelineBlock', () => {
     expect(screen.queryByText('Chat')).toBeNull()
   })
 
+  it('shows an AI chip next to the category, and filters by AI', () => {
+    const withAi: Release[] = [...releases, { _id: '5', title: 'Smart match', tag: 'analysis', ai: true, stage: 'shipped', date: iso(0) }]
+    render(<ReleaseTimelineBlock releases={withAi} />)
+    expect(screen.getByText('AI', { selector: 'span' })).toHaveClass('bg-foreground')
+    fireEvent.click(screen.getByRole('button', { name: 'AI' }))
+    expect(screen.getByText('Smart match')).toBeInTheDocument()
+    expect(screen.queryByText('VAT')).toBeNull()
+  })
+
   it('speaks Swedish on Swedish pages', () => {
     pathname.current = '/sv/releases'
     render(<ReleaseTimelineBlock releases={releases} rollingOutHeading="Rullas ut" />)

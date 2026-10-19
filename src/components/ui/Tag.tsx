@@ -1,9 +1,11 @@
-type TagColor = 'purple' | 'green' | 'yellow'
+type TagColor = 'purple' | 'green' | 'yellow' | 'dark'
 
 const COLOR_CLASS: Record<TagColor, string> = {
   purple: 'bg-tag-purple text-tag-purple-text',
   green: 'bg-tag-green text-tag-green-text',
   yellow: 'bg-tag-yellow text-tag-yellow-text',
+  // Not a category — a marker on top of one (a release's "AI" chip).
+  dark: 'bg-foreground text-background',
 }
 
 type TagProps = {
