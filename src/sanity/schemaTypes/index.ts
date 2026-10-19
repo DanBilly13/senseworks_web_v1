@@ -40,6 +40,8 @@ import { fullWidthSingleBlock } from './blocks/fullWidthSingleBlock'
 import { horizontalScrollStackBlock } from './blocks/horizontalScrollStackBlock'
 import { mediaCarouselBlock } from './blocks/mediaCarouselBlock'
 import { releaseCardsBlock } from './blocks/releaseCardsBlock'
+import { releaseTimelineBlock } from './blocks/releaseTimelineBlock'
+import { release } from './documents/release'
 import { horizontalScrollStackMediumBlock } from './blocks/horizontalScrollStackMediumBlock'
 import { teamGridBlock } from './blocks/teamGridBlock'
 import { paragraphsBlock } from './blocks/paragraphsBlock'
@@ -56,6 +58,7 @@ const allTypes = [
   client,
   bookMeetingSettings,
   siteNavigation,
+  release,
   headerBlock,
   heroBlock,
   heroBackdropBlock,
@@ -85,6 +88,7 @@ const allTypes = [
   horizontalScrollStackBlock,
   mediaCarouselBlock,
   releaseCardsBlock,
+  releaseTimelineBlock,
   horizontalScrollStackMediumBlock,
   teamGridBlock,
   paragraphsBlock,
@@ -93,6 +97,6 @@ const allTypes = [
 
 // Pages, their blocks, the media object, customer stories and articles
 // get English/Swedish pairs for every text field (see localizeSchema.ts).
-const LOCALIZED_TYPES = new Set(['page', 'media', 'customerStory', 'article', ...allTypes.map((type) => type.name).filter((name) => name.endsWith('Block'))])
+const LOCALIZED_TYPES = new Set(['page', 'media', 'customerStory', 'article', 'release', ...allTypes.map((type) => type.name).filter((name) => name.endsWith('Block'))])
 
 export const schemaTypes = localizeSchemaTypes(allTypes, LOCALIZED_TYPES)

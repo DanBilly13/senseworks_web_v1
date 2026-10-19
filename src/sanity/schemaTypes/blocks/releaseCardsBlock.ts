@@ -1,4 +1,4 @@
-import { defineType, defineField, defineArrayMember } from 'sanity'
+import { defineType, defineField } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
 import { spacingField } from '../fields/spacingField'
 
@@ -22,88 +22,22 @@ export const releaseCardsBlock = defineType({
       initialValue: '2',
     }),
     spacingField,
+    // The newest shipped releases (Release documents), not cards typed
+    // here — the same releases the Releases page lists in full.
     defineField({
-      name: 'cards',
-      type: 'array',
-      of: [
-        defineArrayMember({
-          type: 'object',
-          fields: [
-            defineField({
-              name: 'tag',
-              title: 'Category chip',
-              description: 'Audit is purple, Analytics green, Support yellow.',
-              type: 'string',
-              options: {
-                list: [
-                  { title: 'Audit (purple)', value: 'audit' },
-                  { title: 'Analytics (green)', value: 'analysis' },
-                  { title: 'Support (yellow)', value: 'customerService' },
-                ],
-                layout: 'radio',
-              },
-            }),
-            defineField({
-              name: 'title',
-              type: 'string',
-              validation: (Rule) => Rule.required().max(100),
-            }),
-            defineField({
-              name: 'description',
-              type: 'text',
-              rows: 3,
-              validation: (Rule) => Rule.max(300),
-            }),
-            defineField({
-              name: 'media',
-              title: 'Image',
-              description: 'Optional — a screenshot of what was released.',
-              type: 'media',
-            }),
-            // A stage rather than a percentage: "Rolling out 70%" read as a
-            // precise measure and a hidden date ("so, December?"). The bar
-            // shows three steps, filled up to this one.
-            defineField({
-              name: 'stage',
-              description: 'Where it is. The bar shows three steps, filled up to this one — no percentage, so no implied date.',
-              type: 'string',
-              options: {
-                list: [
-                  { title: 'In development', value: 'development' },
-                  { title: 'Rolling out', value: 'rollingOut' },
-                  { title: 'Shipped', value: 'shipped' },
-                ],
-                layout: 'radio',
-                direction: 'horizontal',
-              },
-              initialValue: 'shipped',
-            }),
-            defineField({
-              name: 'team',
-              title: 'Team',
-              description: 'Up to 6 people who worked on it, shown as small overlapping round photos.',
-              type: 'array',
-              of: [defineArrayMember({ type: 'reference', to: [{ type: 'teamMember' }] })],
-              validation: (Rule) => Rule.max(6).unique(),
-            }),
-            defineField({
-              name: 'date',
-              description: 'Shown with a calendar icon, as typed. e.g. "1 Oct 2026".',
-              type: 'string',
-            }),
-          ],
-          preview: {
-            select: { title: 'title', subtitle: 'date', media: 'media.image' },
-          },
-        }),
-      ],
+      name: 'count',
+      title: 'How many',
+      description: 'The newest shipped releases (edited under "Release" in Studio), newest first.',
+      type: 'number',
+      options: { list: [2, 3, 4, 6, 8], layout: 'radio', direction: 'horizontal' },
+      initialValue: 4,
     }),
   ],
   preview: {
-    select: { cards: 'cards' },
-    prepare: ({ cards }) => ({
+    select: { count: 'count' },
+    prepare: ({ count }) => ({
       title: 'Release Cards',
-      subtitle: `${cards?.length ?? 0} cards`,
+      subtitle: `Latest ${count ?? 4} shipped releases`,
     }),
   },
 })

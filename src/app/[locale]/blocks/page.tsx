@@ -28,6 +28,7 @@ import { BentoGridBlock } from '@/components/blocks/BentoGridBlock'
 import { MediaBlock } from '@/components/blocks/MediaBlock'
 import { MediaCarouselBlock } from '@/components/blocks/MediaCarouselBlock'
 import { ReleaseCardsBlock } from '@/components/blocks/ReleaseCardsBlock'
+import { ReleaseTimelineBlock } from '@/components/blocks/ReleaseTimelineBlock'
 import { FaqAccordionBlock } from '@/components/blocks/FaqAccordionBlock'
 import { SectionShell } from '@/components/ui/SectionShell'
 import { SectionIntro } from '@/components/ui/SectionIntro'
@@ -77,6 +78,21 @@ const RELEASE_CARDS = [
   { tag: 'analysis' as const, title: 'Lorem ipsum dolor sit amet', description: 'Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', date: '1 Oct 2026', team: [{ name: 'Lorem Ipsum' }, { name: 'Dolor Sit' }, { name: 'Amet Elit' }] },
   { tag: 'audit' as const, title: 'Ut enim ad minim veniam', description: 'Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', date: '24 Sep 2026' },
   { tag: 'customerService' as const, title: 'Duis aute irure dolor', description: 'In reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.', date: '17 Sep 2026', stage: 'rollingOut' as const },
+]
+
+// Dated relative to today, so the showcase always has this month, a
+// month still within the last six, and one behind "Show earlier".
+const monthsAgo = (months: number, day: number) => {
+  const now = new Date()
+  return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - months, day)).toISOString().slice(0, 10)
+}
+const TIMELINE_RELEASES = [
+  { _id: 't1', tag: 'customerService' as const, title: 'Duis aute irure dolor', description: 'In reprehenderit in voluptate velit esse cillum dolore.', stage: 'rollingOut' as const },
+  { _id: 't2', tag: 'analysis' as const, title: 'Lorem ipsum dolor sit amet', description: 'Consectetur adipiscing elit, sed do eiusmod tempor.', stage: 'shipped' as const, date: monthsAgo(0, 2) },
+  { _id: 't3', tag: 'audit' as const, title: 'Ut enim ad minim veniam', description: 'Quis nostrud exercitation ullamco laboris nisi ut aliquip.', stage: 'shipped' as const, date: monthsAgo(1, 24) },
+  { _id: 't4', tag: 'audit' as const, title: 'Excepteur sint occaecat', description: 'Cupidatat non proident, sunt in culpa qui officia.', stage: 'shipped' as const, date: monthsAgo(1, 10) },
+  { _id: 't5', tag: 'analysis' as const, title: 'Sed ut perspiciatis', description: 'Unde omnis iste natus error sit voluptatem.', stage: 'shipped' as const, date: monthsAgo(8, 15) },
+  { _id: 't6', tag: 'audit' as const, title: 'Nemo enim ipsam', description: 'Voluptatem quia voluptas sit aspernatur aut odit.', stage: 'development' as const },
 ]
 
 const CAROUSEL_SLIDES = [
@@ -527,6 +543,9 @@ export default async function BlocksPage({
       <TestimonialLargeBlock quote={BODY_LONG} authorName="Lorem Ipsum" authorRole="Lorem, Ipsum" />
       <BlockCaption name="Release Cards" type="releaseCardsBlock" />
       <ReleaseCardsBlock cards={RELEASE_CARDS} />
+
+      <BlockCaption name="Releases Timeline" type="releaseTimelineBlock" />
+      <ReleaseTimelineBlock releases={TIMELINE_RELEASES} rollingOutBody="Lorem ipsum dolor sit amet." developmentBody="Consectetur adipiscing elit." />
       <BlockCaption name="Media Carousel" type="mediaCarouselBlock" />
       <MediaCarouselBlock eyebrow={EYEBROW} heading={HEADING} body={BODY} slides={CAROUSEL_SLIDES} />
       <BlockCaption name="Media Carousel — Dark" type="mediaCarouselBlock" variant='tone: "dark"' />

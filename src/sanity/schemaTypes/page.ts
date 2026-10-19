@@ -97,6 +97,7 @@ export const page = defineType({
         defineArrayMember({ type: 'paragraphsBlock' }),
         defineArrayMember({ type: 'pricingBlock' }),
         defineArrayMember({ type: 'releaseCardsBlock' }),
+        defineArrayMember({ type: 'releaseTimelineBlock' }),
         defineArrayMember({ type: 'sectionHeadlineBlock' }),
         defineArrayMember({ type: 'statsBandBlock' }),
         defineArrayMember({ type: 'stepsBlock' }),

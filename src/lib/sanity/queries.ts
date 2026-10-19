@@ -35,6 +35,13 @@ export const clientLogosQuery = groq`
   }
 `
 
+// A Release document as both release blocks show it.
+const releaseProjection = groq`
+  _id, title, description, tag, stage, date,
+  ${mediaProjection()},
+  "team": team[]->{ name, photo }
+`
+
 // A customer story is one document with English/Swedish text pairs. It
 // shows in a language it's written in (any of its card text filled in),
 // or in English as the fallback — so Swedish pages list every story,
@@ -79,7 +86,17 @@ export const pageBySlugAndLocaleQuery = groq`
       _type == "mediaBlock" => { ${mediaProjection()} },
       _type == "fullWidthSingleBlock" => { ${mediaProjection()}, ${mediaProjection('media2', 'media2')} },
       _type == "horizontalScrollStackMediumBlock" => { slides[]{ ..., ${mediaProjection()} } },
-      _type == "releaseCardsBlock" => { cards[]{ ..., ${mediaProjection()}, "team": team[]->{ name, photo } } },
+      // The newest shipped releases (the block shows its "How many");
+      // "cards" are hand-typed cards from before releases were documents,
+      // shown only until scripts/move-releases-to-documents.ts has run.
+      _type == "releaseCardsBlock" => {
+        "releases": *[_type == "release" && stage == "shipped"] | order(date desc)[0...8]{ ${releaseProjection} },
+        cards[]{ ..., ${mediaProjection()}, "team": team[]->{ name, photo } }
+      },
+      // Every release; the block sorts them into its sections.
+      _type == "releaseTimelineBlock" => {
+        "releases": *[_type == "release"] | order(date desc){ ${releaseProjection} }
+      },
       _type == "mediaCarouselBlock" => { slides[]{ ..., ${mediaProjection()} } },
       _type == "horizontalScrollStackBlock" => { panels[]{ ..., ${mediaProjection()} } },
       // Customer stories for the carousel: the page's language, English

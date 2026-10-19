@@ -111,7 +111,13 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
     type: 'releaseCardsBlock',
     title: 'Release Cards',
     description:
-      'Project-management-style cards for what has shipped: a colored category chip (Audit purple, Analytics green, Support yellow), title, text, optional image, a three-step stage bar (In development, Rolling out, Shipped; no percentages) and the date. 2 or 3 columns. No intro of its own; add a Section Headline above it.',
+      'The newest shipped releases (from "Release" in Studio) as project-management-style cards: a colored category chip (Audit purple, Analytics green, Support yellow), title, text, optional image, a three-step stage bar and the date. 2 to 4 columns. No intro of its own; add a Section Headline above it.',
+  },
+  {
+    type: 'releaseTimelineBlock',
+    title: 'Releases Timeline',
+    description:
+      'Every release (from "Release" in Studio) in three stacked sections: Rolling out, Shipped grouped by month (last six months, then "Show earlier releases"), In development. Category chips at the top filter all three; an empty section is hidden. For the Releases page.',
   },
   {
     type: 'teamGridBlock',
