@@ -1,9 +1,12 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { ReleaseCardsBlock } from '@/components/blocks/ReleaseCardsBlock'
 
+const pathname = vi.hoisted(() => ({ current: '/en/home' }))
+vi.mock('next/navigation', () => ({ usePathname: () => pathname.current }))
+
 describe('ReleaseCardsBlock', () => {
-  it('renders a card with its chip, text, date and a full progress bar', () => {
+  it('renders a card with its chip, text, date and a full stage bar (Shipped by default)', () => {
     render(
       <ReleaseCardsBlock
         cards={[
@@ -20,7 +23,8 @@ describe('ReleaseCardsBlock', () => {
     expect(screen.getByText('Audit')).toHaveClass('bg-tag-purple')
     expect(screen.getByText('24 Sep 2026')).toBeInTheDocument()
     expect(screen.getByText('Shipped')).toBeInTheDocument()
-    expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuenow', '100')
+    expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuenow', '3')
+    expect(screen.queryByText(/%/)).toBeNull()
   })
 
   it('colors the chip by category: analysis green, customer service yellow', () => {
@@ -36,10 +40,19 @@ describe('ReleaseCardsBlock', () => {
     expect(screen.getByText('Support')).toHaveClass('bg-tag-yellow')
   })
 
-  it('shows a partly filled bar with its own label', () => {
-    render(<ReleaseCardsBlock cards={[{ title: 'X', progress: 60, status: 'In progress' }]} />)
-    expect(screen.getByText('In progress')).toBeInTheDocument()
-    expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuenow', '60')
+  it('shows the stage, not a percentage: two of three steps for Rolling out', () => {
+    const { container } = render(<ReleaseCardsBlock cards={[{ title: 'X', stage: 'rollingOut' }]} />)
+    expect(screen.getByText('Rolling out')).toBeInTheDocument()
+    expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuenow', '2')
+    expect(container.querySelectorAll('[role="progressbar"] .bg-foreground')).toHaveLength(2)
+    expect(screen.queryByText(/%/)).toBeNull()
+  })
+
+  it('names the stage in Swedish on Swedish pages', () => {
+    pathname.current = '/sv/home'
+    render(<ReleaseCardsBlock cards={[{ title: 'X', stage: 'development' }]} />)
+    expect(screen.getByText('Under utveckling')).toBeInTheDocument()
+    pathname.current = '/en/home'
   })
 
   it('shows up to six team members, overlapping, and offers four columns', () => {

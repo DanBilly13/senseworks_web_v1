@@ -60,18 +60,23 @@ export const releaseCardsBlock = defineType({
               description: 'Optional — a screenshot of what was released.',
               type: 'media',
             }),
+            // A stage rather than a percentage: "Rolling out 70%" read as a
+            // precise measure and a hidden date ("so, December?"). The bar
+            // shows three steps, filled up to this one.
             defineField({
-              name: 'status',
-              description: 'The progress bar\'s label. Leave empty for "Shipped".',
+              name: 'stage',
+              description: 'Where it is. The bar shows three steps, filled up to this one — no percentage, so no implied date.',
               type: 'string',
-            }),
-            defineField({
-              name: 'progress',
-              title: 'Progress (%)',
-              description: 'How full the bar is. Leave at 100 for something shipped.',
-              type: 'number',
-              initialValue: 100,
-              validation: (Rule) => Rule.min(0).max(100),
+              options: {
+                list: [
+                  { title: 'In development', value: 'development' },
+                  { title: 'Rolling out', value: 'rollingOut' },
+                  { title: 'Shipped', value: 'shipped' },
+                ],
+                layout: 'radio',
+                direction: 'horizontal',
+              },
+              initialValue: 'shipped',
             }),
             defineField({
               name: 'team',

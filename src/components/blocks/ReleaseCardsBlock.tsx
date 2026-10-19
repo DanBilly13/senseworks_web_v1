@@ -1,12 +1,22 @@
 'use client'
 import { CalendarOutlined, CheckCircleFilled, UserOutlined } from '@ant-design/icons'
 import type { SanityImageSource } from '@sanity/image-url'
+import { usePathname } from 'next/navigation'
 import { SectionShell } from '@/components/ui/SectionShell'
 import { Media } from '@/components/ui/Media'
 import { Tag } from '@/components/ui/Tag'
 import type { MediaField } from '@/lib/sanity/media'
 
 type ReleaseTag = 'audit' | 'analysis' | 'customerService'
+
+type Stage = 'development' | 'rollingOut' | 'shipped'
+
+// The three steps of the bar, in order, with their labels per language.
+const STAGES: { id: Stage; label: Record<'en' | 'sv', string> }[] = [
+  { id: 'development', label: { en: 'In development', sv: 'Under utveckling' } },
+  { id: 'rollingOut', label: { en: 'Rolling out', sv: 'Rullas ut' } },
+  { id: 'shipped', label: { en: 'Shipped', sv: 'Lanserad' } },
+]
 
 type TeamMember = { name?: string; photo?: SanityImageSource }
 
@@ -15,8 +25,7 @@ type ReleaseCard = {
   title: string
   description?: string
   media?: MediaField
-  status?: string
-  progress?: number
+  stage?: Stage
   date?: string
   // Up to 6 people who worked on it, shown as overlapping round photos.
   team?: TeamMember[]
@@ -47,14 +56,19 @@ const COLS_CLASS: Record<'2' | '3' | '4', string> = {
 const MAX_TEAM = 6
 
 // Project-management-style cards for what's been released: a colored
-// category chip, title, text, an optional image, a progress bar (full,
-// for something shipped), and the date. No intro of its own — pair it
+// category chip, title, text, an optional image, a three-step stage bar
+// (In development → Rolling out → Shipped — a stage, never a percentage,
+// so nothing reads as a promised date), and the date. No intro of its own — pair it
 // with a Section Headline block above.
 export function ReleaseCardsBlock({
   columns = '2',
   spacing = 'loose',
   cards = [],
 }: ReleaseCardsBlockProps) {
+  // Every route lives under a locale segment, so the first path segment
+  // is "en"/"sv" — the stage names follow the page's language.
+  const locale = usePathname().split('/')[1] === 'sv' ? 'sv' : 'en'
+
   // D7: a block with no content simply doesn't render.
   if (!cards.length) return null
 
@@ -63,8 +77,9 @@ export function ReleaseCardsBlock({
       <div className={`grid grid-cols-1 gap-small md:gap-large ${COLS_CLASS[columns]}`}>
         {cards.map((card, index) => {
           const tag = card.tag ? TAG[card.tag] : undefined
-          const progress = Math.min(100, Math.max(0, card.progress ?? 100))
-          const status = card.status ?? 'Shipped'
+          const stageIndex = Math.max(0, STAGES.findIndex((stage) => stage.id === (card.stage ?? 'shipped')))
+          const stage = STAGES[stageIndex]
+          const shipped = stage.id === 'shipped'
           return (
             <div
               key={index}
@@ -113,25 +128,23 @@ export function ReleaseCardsBlock({
               </div>
               <div className="flex flex-col gap-medium border-t border-border p-medium-large md:px-large md:py-medium-large">
                 <div className="flex flex-col gap-small">
-                  <div className="flex items-center justify-between text-body-sm font-medium text-foreground">
-                    <span className="flex items-center gap-small">
-                      {progress === 100 && <CheckCircleFilled aria-hidden="true" />}
-                      {status}
-                    </span>
-                    <span className="font-mono">{progress}%</span>
-                  </div>
+                  <span className="flex items-center gap-small text-body-sm font-medium text-foreground">
+                    {shipped && <CheckCircleFilled aria-hidden="true" />}
+                    {stage.label[locale]}
+                  </span>
+                  {/* Three equal segments, filled up to the current stage. */}
                   <div
                     role="progressbar"
-                    aria-valuemin={0}
-                    aria-valuemax={100}
-                    aria-valuenow={progress}
-                    aria-label={`${card.title}: ${status}`}
-                    className="h-small w-full overflow-hidden rounded-full bg-muted"
+                    aria-valuemin={1}
+                    aria-valuemax={STAGES.length}
+                    aria-valuenow={stageIndex + 1}
+                    aria-valuetext={stage.label[locale]}
+                    aria-label={card.title}
+                    className="grid w-full grid-cols-3 gap-xs"
                   >
-                    <div
-                      className="h-full rounded-full bg-foreground"
-                      style={{ width: `${progress}%` }}
-                    />
+                    {STAGES.map((step, i) => (
+                      <div key={step.id} className={`h-small rounded-full ${i <= stageIndex ? 'bg-foreground' : 'bg-muted'}`} />
+                    ))}
                   </div>
                 </div>
                 {card.date && (

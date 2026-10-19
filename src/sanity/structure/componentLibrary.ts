@@ -111,7 +111,7 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
     type: 'releaseCardsBlock',
     title: 'Release Cards',
     description:
-      'Project-management-style cards for what has shipped: a colored category chip (Audit purple, Analytics green, Support yellow), title, text, optional image, a progress bar (full for shipped) and the date. 2 or 3 columns. No intro of its own; add a Section Headline above it.',
+      'Project-management-style cards for what has shipped: a colored category chip (Audit purple, Analytics green, Support yellow), title, text, optional image, a three-step stage bar (In development, Rolling out, Shipped; no percentages) and the date. 2 or 3 columns. No intro of its own; add a Section Headline above it.',
   },
   {
     type: 'teamGridBlock',
