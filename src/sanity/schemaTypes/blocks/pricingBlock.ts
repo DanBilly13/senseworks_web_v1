@@ -18,6 +18,19 @@ export const pricingBlock = defineType({
           type: 'object',
           fields: [
             defineField({
+              name: 'tag',
+              title: 'Product chip',
+              description: 'Optional — a colored chip above the name: Audit purple, Analytics green.',
+              type: 'string',
+              options: {
+                list: [
+                  { title: 'Audit (purple)', value: 'audit' },
+                  { title: 'Analytics (green)', value: 'analysis' },
+                ],
+                layout: 'radio',
+              },
+            }),
+            defineField({
               name: 'name',
               type: 'string',
               validation: (Rule) => Rule.required().max(40),
@@ -27,6 +40,26 @@ export const pricingBlock = defineType({
               type: 'text',
               rows: 2,
               validation: (Rule) => Rule.max(200),
+            }),
+            defineField({
+              name: 'price',
+              description: 'Optional, shown large, as typed — e.g. "899 kr", "SEK 899", "Quote".',
+              type: 'string',
+              validation: (Rule) => Rule.max(30),
+            }),
+            defineField({
+              name: 'pricePeriod',
+              title: 'Price period',
+              description: 'Next to the price, smaller — e.g. "per month".',
+              type: 'string',
+              validation: (Rule) => Rule.max(40),
+            }),
+            defineField({
+              name: 'priceNote',
+              title: 'Price note',
+              description: 'A small line under the price — e.g. "Billed annually, per user".',
+              type: 'string',
+              validation: (Rule) => Rule.max(80),
             }),
             defineField({
               name: 'features',

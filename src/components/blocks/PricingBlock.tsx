@@ -1,11 +1,20 @@
 'use client'
+import { usePathname } from 'next/navigation'
 import { CheckOutlined } from '@ant-design/icons'
 import { Button } from '@/components/ui/Button'
 import { SectionShell } from '@/components/ui/SectionShell'
+import { Tag } from '@/components/ui/Tag'
+import { TAGS, releaseLocale } from '@/lib/releases'
 
 type PricingPlan = {
+  // Optional product chip, colored like Release cards' (Audit purple,
+  // Analytics green).
+  tag?: 'audit' | 'analysis'
   name: string
   description?: string
+  price?: string
+  pricePeriod?: string
+  priceNote?: string
   features?: string[]
   ctaLabel?: string
   ctaHref?: string
@@ -23,6 +32,8 @@ export function PricingBlock({
   plans = [],
   spacing = 'loose',
 }: PricingBlockProps) {
+  const locale = releaseLocale(usePathname())
+
   // D7: a block with no content simply doesn't render.
   if (!plans.length) return null
 
@@ -48,6 +59,11 @@ export function PricingBlock({
               }
             >
               <div className="flex flex-col gap-small">
+                {plan.tag && (
+                  <div className="mb-small">
+                    <Tag color={TAGS[plan.tag].color}>{TAGS[plan.tag].label[locale]}</Tag>
+                  </div>
+                )}
                 <h3 className="text-h3 font-bold text-balance">{plan.name}</h3>
                 {plan.description && (
                   <p
@@ -61,6 +77,23 @@ export function PricingBlock({
                   </p>
                 )}
               </div>
+              {plan.price && (
+                <div className="flex flex-col gap-xs">
+                  <p className="flex flex-wrap items-baseline gap-x-small">
+                    <span className="text-h2 font-bold">{plan.price}</span>
+                    {plan.pricePeriod && (
+                      <span className={featured ? 'text-body text-background/70' : 'text-body text-muted-foreground'}>
+                        {plan.pricePeriod}
+                      </span>
+                    )}
+                  </p>
+                  {plan.priceNote && (
+                    <p className={featured ? 'text-body-sm text-background/70' : 'text-body-sm text-muted-foreground'}>
+                      {plan.priceNote}
+                    </p>
+                  )}
+                </div>
+              )}
               {plan.features && plan.features.length > 0 && (
                 <ul className="flex flex-col gap-small">
                   {plan.features.map((feature, featureIndex) => (
