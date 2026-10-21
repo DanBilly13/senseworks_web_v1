@@ -48,7 +48,10 @@ export function BlogRow({ post, locale }: { post: BlogPostSummary; locale: BlogL
       <BlogCover post={post} className="aspect-blog-thumb w-full overflow-hidden rounded-md md:col-span-2" />
       <div className="flex flex-col justify-between gap-medium md:col-span-6">
         <div className="flex items-start justify-between gap-large">
-          <h3 className="text-h4 font-semibold text-pretty text-foreground group-hover:underline">{post.title}</h3>
+          {/* Capped at 85% of its space (the subtitle width) and balanced, so
+              a long title wraps into even lines rather than running to the
+              arrow and leaving a stub. */}
+          <h3 className="max-w-subtitle text-h4 font-semibold text-balance text-foreground group-hover:underline">{post.title}</h3>
           <ArrowRightOutlined aria-hidden="true" className="shrink-0 text-h4 text-foreground transition-transform group-hover:translate-x-xs" />
         </div>
         <Meta post={post} locale={locale} surface="page" />
