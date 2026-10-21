@@ -44,7 +44,7 @@ function NavDropdown({ label, links }: { label: string; links: NavSubLink[] }) {
       >
         {label}
         <DownOutlined
-          className={`text-caption transition-transform ${open ? 'rotate-180' : ''}`}
+          className={`text-chevron transition-transform ${open ? 'rotate-180' : ''}`}
         />
       </button>
       {open && (

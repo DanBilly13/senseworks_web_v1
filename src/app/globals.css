@@ -253,6 +253,8 @@
   --text-body: 1rem;
   --text-body-sm: 0.875rem;
   --text-caption: 0.875rem;
+  /* The menu's dropdown chevrons: 10px, smaller than the text beside them. */
+  --text-chevron: 0.625rem;
 
   /* A dedicated size for long-form reading (Knowledge Bank article
      bodies) — deliberately its own token, not a reuse of --text-body
