@@ -11,7 +11,6 @@ export const BLOG_TEXT = {
   intro: { en: 'News and insights from Senseworks since 2022.', sv: 'Nyheter och insikter från Senseworks sedan 2022.' },
   all: { en: 'All', sv: 'Alla' },
   filter: { en: 'Filter posts', sv: 'Filtrera inlägg' },
-  latest: { en: 'Latest', sv: 'Senaste' },
   posts: { en: 'posts', sv: 'inlägg' },
   post: { en: 'post', sv: 'inlägg' },
   allPosts: { en: '← All posts', sv: '← Alla inlägg' },

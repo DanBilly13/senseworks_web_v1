@@ -1,4 +1,6 @@
+'use client'
 import Link from 'next/link'
+import { ArrowRightOutlined } from '@ant-design/icons'
 import Image from 'next/image'
 import { Media } from '@/components/ui/Media'
 import { Tag } from '@/components/ui/Tag'
@@ -48,19 +50,24 @@ export function BlogCardLarge({ post, locale }: { post: BlogPostSummary; locale:
   )
 }
 
-// Compact: the archive — one row per post: date and tag, title, and a
-// small cover on wider screens. Long old titles wrap rather than cut off.
-export function BlogCardCompact({ post, locale }: { post: BlogPostSummary; locale: BlogLocale }) {
+// Every post on the blog's list, the same way: a rule across the top,
+// the cover on the left, the title large on the right with an arrow,
+// and the tag and date at the foot of the text. On mobile the cover sits
+// above the text. Long old titles wrap rather than cut off.
+export function BlogRow({ post, locale }: { post: BlogPostSummary; locale: BlogLocale }) {
   return (
     <Link
       href={`/${locale}/blog/${post.slug}`}
-      className="group flex items-center gap-medium-large border-b border-border py-medium-large first:border-t"
+      className="group grid grid-cols-1 gap-medium border-t border-foreground/20 py-medium-large md:grid-cols-12 md:gap-large"
     >
-      <div className="flex flex-1 flex-col gap-small">
+      <BlogCover post={post} className="aspect-blog-cover w-full overflow-hidden rounded-md md:col-span-4" />
+      <div className="flex flex-col justify-between gap-medium md:col-span-8">
+        <div className="flex items-start justify-between gap-large">
+          <h3 className="text-h4 font-semibold text-pretty text-foreground group-hover:underline">{post.title}</h3>
+          <ArrowRightOutlined aria-hidden="true" className="shrink-0 text-h4 text-foreground transition-transform group-hover:translate-x-xs" />
+        </div>
         <Meta post={post} locale={locale} />
-        <h3 className="text-body-lg font-semibold text-pretty text-foreground group-hover:underline">{post.title}</h3>
       </div>
-      <BlogCover post={post} className="hidden aspect-blog-cover w-40 shrink-0 overflow-hidden rounded-md sm:flex" />
     </Link>
   )
 }

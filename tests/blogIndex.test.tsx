@@ -14,10 +14,10 @@ const posts = [
 ]
 
 describe('BlogIndex', () => {
-  it('shows the newest three large, then the rest under their years', () => {
+  it('lists every post as the same row, under its year, newest first', () => {
     render(<BlogIndex posts={posts} locale="en" />)
-    expect(screen.getByRole('region', { name: 'Latest' }).querySelectorAll('a')).toHaveLength(3)
-    expect(screen.getAllByRole('heading', { level: 2 }).map((h) => h.textContent)).toEqual(['2025', '2023', '2022'])
+    expect(screen.getAllByRole('heading', { level: 2 }).map((h) => h.textContent)).toEqual(['2026', '2025', '2023', '2022'])
+    expect(screen.getAllByRole('link').map((a) => a.getAttribute('href'))).toEqual(posts.map((p) => `/en/blog/${p.slug}`))
   })
 
   it('filters every section by tag, in the page language', () => {
