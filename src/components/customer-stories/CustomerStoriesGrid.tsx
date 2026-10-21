@@ -1,11 +1,11 @@
 'use client'
 import { useMemo, useState } from 'react'
 import { Tag } from '@/components/ui/Tag'
+import { SortSelect, type SortOrder } from '@/components/ui/SortSelect'
 import { StoryCard } from './StoryCard'
 import { productLabels } from '@/lib/customerStoryProducts'
 import type { CustomerStorySummary } from '@/lib/sanity/customerStories'
 
-type SortOrder = 'newest' | 'oldest'
 
 // The Customer stories start page's grid — same filter-and-sort
 // structure as the Knowledge Bank's, with product chips (Audit,
@@ -54,17 +54,7 @@ export function CustomerStoriesGrid({ stories, locale }: { stories: CustomerStor
             ))}
           </div>
         )}
-        <label className="flex items-center gap-small text-body-sm text-muted-foreground">
-          Sort
-          <select
-            value={sort}
-            onChange={(e) => setSort(e.target.value as SortOrder)}
-            className="rounded-md border border-border bg-background px-small-medium py-xs text-body-sm text-foreground"
-          >
-            <option value="newest">Newest first</option>
-            <option value="oldest">Oldest first</option>
-          </select>
-        </label>
+        <SortSelect value={sort} onChange={setSort} locale={locale} />
       </div>
       {visible.length ? (
         <div className="grid grid-cols-1 gap-large sm:grid-cols-2 lg:grid-cols-3">

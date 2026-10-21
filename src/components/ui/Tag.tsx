@@ -26,7 +26,13 @@ export function Tag({ children, active = false, color, as = 'span', onClick }: T
     ? `rounded-md px-small-medium py-xs text-caption font-medium ${COLOR_CLASS[color]}`
     : [
         'rounded-full px-small-medium py-xs text-caption font-medium transition-colors',
-        active ? 'bg-foreground text-background' : 'bg-muted text-foreground',
+        // A filter chip (a button) sits on the grey page, so it's white
+        // when off; a static label sits inside a white card, so it's grey.
+        active
+          ? 'bg-foreground text-background'
+          : as === 'button'
+            ? 'bg-background text-foreground hover:ring-1 hover:ring-border'
+            : 'bg-muted text-foreground',
       ].join(' ')
 
   if (as === 'button') {

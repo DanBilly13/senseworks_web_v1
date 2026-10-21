@@ -1,10 +1,10 @@
 'use client'
 import { useMemo, useState } from 'react'
 import { Tag } from '@/components/ui/Tag'
+import { SortSelect, type SortOrder } from '@/components/ui/SortSelect'
 import { ArticleCard } from './ArticleCard'
 import type { ArticleSummary } from '@/lib/sanity/knowledgeBank'
 
-type SortOrder = 'newest' | 'oldest'
 
 type KnowledgeBankGridProps = {
   articles: ArticleSummary[]
@@ -50,17 +50,7 @@ export function KnowledgeBankGrid({ articles, tags, locale }: KnowledgeBankGridP
             ))}
           </div>
         )}
-        <label className="flex items-center gap-small text-body-sm text-muted-foreground">
-          Sort
-          <select
-            value={sort}
-            onChange={(e) => setSort(e.target.value as SortOrder)}
-            className="rounded-md border border-border bg-background px-small-medium py-xs text-body-sm text-foreground"
-          >
-            <option value="newest">Newest first</option>
-            <option value="oldest">Oldest first</option>
-          </select>
-        </label>
+        <SortSelect value={sort} onChange={setSort} locale={locale} />
       </div>
       {visibleArticles.length ? (
         <div className="grid grid-cols-1 gap-large sm:grid-cols-2 lg:grid-cols-3">
