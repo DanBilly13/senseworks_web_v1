@@ -312,11 +312,20 @@ export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref, curren
                   key={link.label}
                   href={link.href}
                   aria-current={isCurrentPage(link.href, pathname) ? 'page' : undefined}
-                  className={`border-b border-border text-h5 font-semibold text-foreground ${styles.navRow} ${
-                    isCurrentPage(link.href, pathname) ? 'underline decoration-2 underline-offset-8' : ''
-                  }`}
+                  className={`border-b border-border text-h5 font-semibold text-foreground ${styles.navRow}`}
                 >
-                  {link.label}
+                  {/* The current page: the same drawn 2px bar as the
+                      desktop menu, under the word only — 4px below it
+                      here (not 8), clear of the row's dividing line. */}
+                  <span
+                    className={
+                      isCurrentPage(link.href, pathname)
+                        ? 'relative after:absolute after:inset-x-0 after:-bottom-xs after:h-0.5 after:rounded-full after:bg-foreground'
+                        : undefined
+                    }
+                  >
+                    {link.label}
+                  </span>
                 </a>
               ),
             )}
