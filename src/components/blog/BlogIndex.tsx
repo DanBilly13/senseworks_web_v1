@@ -36,14 +36,19 @@ export function BlogIndex({ posts, locale }: { posts: BlogPostSummary[]; locale:
       )}
       {!visible.length && <p className="text-body text-muted-foreground">{BLOG_TEXT.noPosts[locale]}</p>}
       {[...years.entries()].map(([year, yearPosts]) => (
-        <section key={year} className="flex flex-col gap-medium">
-          <div className="flex items-baseline gap-small">
-            <h2 className="text-h2 font-bold text-foreground">{year}</h2>
-            <p className="text-body-sm text-muted-foreground">
-              {yearPosts.length} {yearPosts.length === 1 ? BLOG_TEXT.post[locale] : BLOG_TEXT.posts[locale]}
-            </p>
+        // 12 columns: the year in the first 2 (it stays in view while its
+        // posts scroll past), the posts in the next 8, the last 2 empty.
+        // On mobile the year sits above its posts.
+        <section key={year} className="grid grid-cols-1 gap-medium md:grid-cols-12 md:gap-large">
+          <div className="md:col-span-2">
+            <div className="flex items-baseline gap-small md:sticky md:top-2xl md:flex-col md:gap-xs md:border-t md:border-foreground/20 md:pt-medium-large">
+              <h2 className="text-h2 font-bold text-foreground">{year}</h2>
+              <p className="text-body-sm text-muted-foreground">
+                {yearPosts.length} {yearPosts.length === 1 ? BLOG_TEXT.post[locale] : BLOG_TEXT.posts[locale]}
+              </p>
+            </div>
           </div>
-          <div>
+          <div className="md:col-span-8">
             {yearPosts.map((post) => (
               <BlogRow key={post.slug} post={post} locale={locale} />
             ))}

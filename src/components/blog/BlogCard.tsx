@@ -58,10 +58,11 @@ export function BlogRow({ post, locale }: { post: BlogPostSummary; locale: BlogL
   return (
     <Link
       href={`/${locale}/blog/${post.slug}`}
-      className="group grid grid-cols-1 gap-medium border-t border-foreground/20 py-medium-large md:grid-cols-12 md:gap-large"
+      className="group grid grid-cols-1 gap-medium border-t border-foreground/20 py-medium-large md:grid-cols-8 md:gap-large"
     >
-      <BlogCover post={post} className="aspect-blog-cover w-full overflow-hidden rounded-md md:col-span-4" />
-      <div className="flex flex-col justify-between gap-medium md:col-span-8">
+      {/* 2 of the row's 8 columns; the text and arrow take the other 6. */}
+      <BlogCover post={post} className="aspect-blog-thumb w-full overflow-hidden rounded-md md:col-span-2" />
+      <div className="flex flex-col justify-between gap-medium md:col-span-6">
         <div className="flex items-start justify-between gap-large">
           <h3 className="text-h4 font-semibold text-pretty text-foreground group-hover:underline">{post.title}</h3>
           <ArrowRightOutlined aria-hidden="true" className="shrink-0 text-h4 text-foreground transition-transform group-hover:translate-x-xs" />
