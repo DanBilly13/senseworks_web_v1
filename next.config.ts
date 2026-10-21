@@ -9,6 +9,21 @@ const nextConfig: NextConfig = {
     // one needing a quality prop.
     qualities: [85],
   },
+  // The old site's News section lives on as the blog, under the same
+  // post slugs: /nyheter/<slug> (Swedish) and /en/nyheter/<slug>.
+  async redirects() {
+    // Webflow saved Adsum's post under Höglandets' slug with "-2"; it
+    // has its own slug now (scripts/import-blog-posts.ts).
+    const adsum = 'adsum-revision-valjer-senseworks-revision'
+    return [
+      { source: '/nyheter/hoglandets-revisionsbyra-valjer-senseworks-revision-2', destination: `/sv/blog/${adsum}`, permanent: true },
+      { source: '/en/nyheter/hoglandets-revisionsbyra-valjer-senseworks-revision-2', destination: `/en/blog/${adsum}`, permanent: true },
+      { source: '/nyheter', destination: '/sv/blog', permanent: true },
+      { source: '/nyheter/:slug', destination: '/sv/blog/:slug', permanent: true },
+      { source: '/en/nyheter', destination: '/en/blog', permanent: true },
+      { source: '/en/nyheter/:slug', destination: '/en/blog/:slug', permanent: true },
+    ]
+  },
 };
 
 export default nextConfig;

@@ -11,12 +11,15 @@ export function AuthorByline({
   publishedAt,
   locale,
   label = 'Written by',
+  showRole = false,
 }: {
   author?: ArticleAuthor
   publishedAt: string
   locale: string
   // "Written by" on an article, "Interviewed by" on a customer story.
   label?: string
+  // The author's role after their name (the blog's byline).
+  showRole?: boolean
 }) {
   const photo: MediaField = author?.photo ? { mediaType: 'image', image: author.photo } : null
 
@@ -27,6 +30,7 @@ export function AuthorByline({
         {author?.name && (
           <span className="text-body-sm font-semibold text-foreground">
             {label} {author.name}
+            {showRole && author.role && <span className="font-normal text-muted-foreground">, {author.role}</span>}
           </span>
         )}
         <span className="text-caption text-muted-foreground">
