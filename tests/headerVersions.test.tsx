@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { act, fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { HeaderBlock } from '@/components/blocks/HeaderBlock'
 
 vi.mock('next/navigation', () => ({ usePathname: () => '/sv/home' }))
@@ -21,23 +21,30 @@ const navLinks = [
   { label: 'Priser', href: '/sv/pris' },
 ]
 
+// The header fetches the versions (api/versions) in team mode.
+const fetchMock = vi.fn(async () => ({ ok: true, json: async () => versions }))
+vi.stubGlobal('fetch', fetchMock)
+
 afterEach(() => {
   document.cookie = 'sw_team=; path=/; max-age=0'
+  fetchMock.mockClear()
 })
 
 describe('HeaderBlock versions (team mode)', () => {
   it('looks exactly as normal without team mode: the logo and items are plain links', () => {
-    render(<HeaderBlock logoText="Senseworks" navLinks={navLinks} versions={versions} currentPath="/sv/home" />)
+    render(<HeaderBlock logoText="Senseworks" navLinks={navLinks} currentPath="/sv/home" />)
     expect(screen.getByRole('link', { name: 'Go to homepage' })).toHaveAttribute('href', '/sv/home')
     expect(screen.getByRole('link', { name: 'Revision' })).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: 'Home versions' })).toBeNull()
+    // Nothing is fetched for visitors.
+    expect(fetchMock).not.toHaveBeenCalled()
   })
 
   it('in team mode, the logo and an item with versions open their versions', async () => {
     document.cookie = 'sw_team=1; path=/'
-    render(<HeaderBlock logoText="Senseworks" navLinks={navLinks} versions={versions} currentPath="/sv/home" />)
-    await act(async () => {})
-    fireEvent.click(screen.getByRole('button', { name: 'Home versions' }))
+    render(<HeaderBlock logoText="Senseworks" navLinks={navLinks} currentPath="/sv/home" />)
+    fireEvent.click(await screen.findByRole('button', { name: 'Home versions' }))
+    expect(fetchMock).toHaveBeenCalledWith('/api/versions?locale=sv')
     expect(screen.getAllByRole('menuitem').map((item) => [item.textContent, item.getAttribute('href')])).toEqual([
       ['Live', '/sv/home'],
       ['Home: bold hero', '/sv/home/bold-hero'],
@@ -50,8 +57,7 @@ describe('HeaderBlock versions (team mode)', () => {
 
   it('on a version, its page\'s menu item shows as the current one', async () => {
     document.cookie = 'sw_team=1; path=/'
-    render(<HeaderBlock logoText="Senseworks" navLinks={navLinks} versions={versions} currentPath="/sv/produkter/revision/short" />)
-    await act(async () => {})
-    expect(screen.getByRole('button', { name: 'Revision versions' })).toHaveClass('after:bg-foreground')
+    render(<HeaderBlock logoText="Senseworks" navLinks={navLinks} currentPath="/sv/produkter/revision/short" />)
+    expect(await screen.findByRole('button', { name: 'Revision versions' })).toHaveClass('after:bg-foreground')
   })
 })

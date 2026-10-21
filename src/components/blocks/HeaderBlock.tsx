@@ -6,7 +6,7 @@ import { CheckOutlined, CloseOutlined, DownOutlined, MenuOutlined } from '@ant-d
 import { Button } from '@/components/ui/Button'
 import { Menu, MenuItem } from '@/components/ui/Menu'
 import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher'
-import { useTeamMode } from '@/lib/teamMode'
+import { usePageVersions, useTeamMode } from '@/lib/teamMode'
 import type { PageVersion } from '@/lib/sanity/siteNavigation'
 import styles from './HeaderBlock.module.css'
 
@@ -22,9 +22,6 @@ type HeaderBlockProps = {
   // pathname didn't match the menu's links, so no item was marked as the
   // current page until the page had loaded — the underline popped in late.
   currentPath?: string
-  // Every page version (page.ts's "Version of"), for the team's versions
-  // menus. Ignored unless team mode is on (lib/teamMode).
-  versions?: PageVersion[]
 }
 
 // Team mode only: a menu of a page's versions, opened by clicking the
@@ -148,7 +145,7 @@ function isCurrentPage(href: string | undefined, pathname: string) {
   return stripLocale(href) === stripLocale(pathname)
 }
 
-export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref, currentPath, versions = [] }: HeaderBlockProps) {
+export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref, currentPath }: HeaderBlockProps) {
   const [open, setOpen] = useState(false)
   // Every route lives under a locale segment (D12), so the first path
   // segment is always "en"/"sv" — the logo goes to that locale's home
@@ -162,6 +159,9 @@ export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref, curren
   // → its versions). On a version, its own page's menu item counts as
   // the current one.
   const team = useTeamMode()
+  // Fetched when team mode is on, not baked into the cached page, so a new
+  // version shows up as soon as it's published.
+  const versions = usePageVersions<PageVersion>(team, locale)
   const versionsOf = (href?: string) => (team && href ? versions.filter((v) => `/${v.of}` === stripLocale(href)) : [])
   const onVersion = versions.find((v) => `/${v.slug}` === stripLocale(pathname))
   const isCurrent = (href?: string) => isCurrentPage(href, pathname) || (!!onVersion && !!href && stripLocale(href) === `/${onVersion.of}`)
