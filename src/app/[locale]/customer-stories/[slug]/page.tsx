@@ -59,7 +59,7 @@ export default async function CustomerStoryPage({
 
   return (
     <>
-      <SiteHeader locale={locale} />
+      <SiteHeader locale={locale} path={`/${locale}/customer-stories/${slug}`} />
       <LikeProvider articleSlug={`customer-story-${slug}`}>
         <SectionShell pt="section-edge" pb="medium" className="flex flex-col gap-xl">
           <div>

@@ -6,10 +6,13 @@ import { getSiteNavigation } from '@/lib/sanity/siteNavigation'
 // links) without link columns, newsletter or social links.
 export type NavigationVariant = 'full' | 'landing'
 
-export async function SiteHeader({ locale, variant = 'full' }: { locale: string; variant?: NavigationVariant }) {
+// `path` is the page's own address, so the menu marks the current page
+// already in the pre-built HTML (see HeaderBlock's currentPath).
+export async function SiteHeader({ locale, path, variant = 'full' }: { locale: string; path?: string; variant?: NavigationVariant }) {
   const { header } = await getSiteNavigation(locale)
   if (!header) return null
-  return <BlockRenderer blocks={[variant === 'landing' ? { ...header, navLinks: [] } : header]} />
+  const block = { ...header, ...(path ? { currentPath: path } : {}) }
+  return <BlockRenderer blocks={[variant === 'landing' ? { ...block, navLinks: [] } : block]} />
 }
 
 export async function SiteFooter({ locale, variant = 'full' }: { locale: string; variant?: NavigationVariant }) {

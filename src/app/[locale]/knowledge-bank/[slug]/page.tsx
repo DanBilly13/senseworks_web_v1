@@ -22,7 +22,7 @@ export default async function ArticlePage({
 
   return (
     <>
-      <SiteHeader locale={locale} />
+      <SiteHeader locale={locale} path={`/${locale}/knowledge-bank/${slug}`} />
       <LikeProvider articleSlug={slug}>
         <SectionShell py="section-edge" pad="both" maxWidth="page" className="article-grid">
           {/* The way back (just the arrow), then the article's tags. */}

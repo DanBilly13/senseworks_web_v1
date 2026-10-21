@@ -122,7 +122,7 @@ export default async function BlocksPage({
 
   return (
     <>
-      <SiteHeader locale={locale} />
+      <SiteHeader locale={locale} path={`/${locale}/blocks`} />
 
       <div className="mx-auto w-full max-w-page px-medium-large py-2xl">
         <p className="text-caption font-semibold text-muted-foreground uppercase">

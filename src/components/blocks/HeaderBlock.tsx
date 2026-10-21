@@ -15,6 +15,11 @@ type HeaderBlockProps = {
   navLinks?: NavLink[]
   ctaLabel?: string
   ctaHref?: string
+  // The page's own address ("/sv/produkter/revision"), passed in by the
+  // page (SiteHeader). Pages are pre-built, and there the browser-side
+  // pathname didn't match the menu's links, so no item was marked as the
+  // current page until the page had loaded — the underline popped in late.
+  currentPath?: string
 }
 
 // Desktop-only dropdown trigger — a plain nav link renders as a bare
@@ -79,12 +84,13 @@ function isCurrentPage(href: string | undefined, pathname: string) {
   return strip(href) === strip(pathname)
 }
 
-export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref }: HeaderBlockProps) {
+export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref, currentPath }: HeaderBlockProps) {
   const [open, setOpen] = useState(false)
   // Every route lives under a locale segment (D12), so the first path
   // segment is always "en"/"sv" — the logo goes to that locale's home
   // page regardless of which page/LP it's clicked from.
-  const pathname = usePathname()
+  const browserPathname = usePathname()
+  const pathname = currentPath ?? browserPathname
   const locale = pathname.split('/')[1] || 'en'
   const homeHref = `/${locale}/home`
 

@@ -63,7 +63,7 @@ export default async function Page({
     // page theme's CSS variables (see data-page-theme in globals.css).
     <div className="contents" data-page-theme={page.theme ?? 'default'}>
       <AnimatedButtonProvider value={isLandingPage}>
-        <SiteHeader locale={locale} variant={navigation} />
+        <SiteHeader locale={locale} path={`/${locale}/${slug.join('/')}`} variant={navigation} />
         <BlockRenderer blocks={blocks} />
         <SiteFooter locale={locale} variant={navigation} />
       </AnimatedButtonProvider>

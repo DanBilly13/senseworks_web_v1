@@ -41,7 +41,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
 
   return (
     <>
-      <SiteHeader locale={locale} />
+      <SiteHeader locale={locale} path={`/${locale}/blog/${slug}`} />
       <LikeProvider articleSlug={`blog-${slug}`}>
         <SectionShell py="section-edge" pad="both" maxWidth="page" className="article-grid">
           {/* The way back (just the arrow), then the tag. The date is in
