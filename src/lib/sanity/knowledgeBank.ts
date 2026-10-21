@@ -52,10 +52,6 @@ export const articleBySlugAndLocaleQuery = groq`
   }
 `
 
-export async function getArticles(locale: string): Promise<ArticleSummary[]> {
-  return localize(await sanityClient.fetch(articlesByLocaleQuery, { locale }), locale)
-}
-
 export async function getArticle(slug: string, locale: string): Promise<ArticleDoc | null> {
   return localize(await sanityClient.fetch(articleBySlugAndLocaleQuery, { slug, locale }), locale)
 }

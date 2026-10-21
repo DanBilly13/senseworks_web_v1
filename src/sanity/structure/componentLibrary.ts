@@ -114,6 +114,21 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
       'The newest shipped releases (from "Release" in Studio) as project-management-style cards: a colored category chip (Audit purple, Analytics green, Support yellow), title, text, optional image, a three-step stage bar and the date. 2 to 4 columns. No intro of its own; add a Section Headline above it.',
   },
   {
+    type: 'blogPostsBlock',
+    title: 'Blog Posts',
+    description: 'Every blog post (from "Blog post" in Studio): All / News / Insights chips, then the posts under their years, newest first. Filled in automatically. For the Blog page.',
+  },
+  {
+    type: 'knowledgeBankBlock',
+    title: 'Knowledge Bank Articles',
+    description: 'Every Knowledge Bank article in the page\'s language (from "Article" in Studio), with tag filters and Newest / Oldest sorting. Filled in automatically. For the Knowledge Bank page.',
+  },
+  {
+    type: 'customerStoriesListBlock',
+    title: 'Customer Stories List',
+    description: 'Every customer story (from "Customer story" in Studio) as a grid of cards, with product filters and Newest / Oldest sorting. Filled in automatically. For the Customer stories page; Case Study Carousel is the carousel version.',
+  },
+  {
     type: 'releaseTimelineBlock',
     title: 'Releases Timeline',
     description:

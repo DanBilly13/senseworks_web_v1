@@ -16,6 +16,8 @@ type HeroTextBlockProps = {
   boundary?: boolean
   // 'display' draws the headline one step above the standard h1.
   headlineSize?: 'h1' | 'display'
+  // Overrides the space below (empty: the hero's own page-top space).
+  spaceBelow?: 'medium' | 'tight'
 }
 
 export function HeroTextBlock({
@@ -26,9 +28,10 @@ export function HeroTextBlock({
   ctaHref,
   boundary = true,
   headlineSize,
+  spaceBelow,
 }: HeroTextBlockProps) {
   return (
-    <SectionShell py={boundary ? 'section-edge' : 'loose'} pad={boundary ? 'both' : 'bottom'}>
+    <SectionShell py={boundary ? 'section-edge' : 'loose'} pad={boundary ? 'both' : 'bottom'} pb={spaceBelow}>
       <SectionIntro
         as="h1"
         display={headlineSize === 'display'}

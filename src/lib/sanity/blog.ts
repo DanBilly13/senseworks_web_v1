@@ -56,10 +56,6 @@ export const blogPostQuery = groq`
   }
 `
 
-export async function getBlogPosts(locale: string): Promise<BlogPostSummary[]> {
-  return localize(await sanityClient.fetch(blogPostsQuery, { locale }), locale)
-}
-
 // `null` for a post that doesn't exist; `{ inLocale: false }` for one
 // that exists only in the other language (its page sends the visitor to
 // this language's blog index rather than a 404).

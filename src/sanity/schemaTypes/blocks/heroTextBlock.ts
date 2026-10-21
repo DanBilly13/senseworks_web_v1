@@ -34,6 +34,22 @@ export const heroTextBlock = defineType({
       type: 'boolean',
       initialValue: true,
     }),
+    // Optional, and empty by default, so every existing hero keeps its
+    // page-boundary space. Tight when a list sits right underneath
+    // (the Blog, Knowledge Bank and Customer stories pages).
+    defineField({
+      name: 'spaceBelow',
+      title: 'Space below',
+      description: 'Leave empty for the usual page-top space. Tight (60px) when the next block belongs with this intro, e.g. a list of posts.',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Medium (120px)', value: 'medium' },
+          { title: 'Tight (60px)', value: 'tight' },
+        ],
+        layout: 'radio',
+      },
+    }),
   ],
   preview: {
     select: { title: 'headline' },

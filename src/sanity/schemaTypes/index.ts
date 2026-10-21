@@ -41,6 +41,9 @@ import { horizontalScrollStackBlock } from './blocks/horizontalScrollStackBlock'
 import { mediaCarouselBlock } from './blocks/mediaCarouselBlock'
 import { releaseCardsBlock } from './blocks/releaseCardsBlock'
 import { releaseTimelineBlock } from './blocks/releaseTimelineBlock'
+import { blogPostsBlock } from './blocks/blogPostsBlock'
+import { knowledgeBankBlock } from './blocks/knowledgeBankBlock'
+import { customerStoriesListBlock } from './blocks/customerStoriesListBlock'
 import { release } from './documents/release'
 import { blogPost } from './documents/blogPost'
 import { horizontalScrollStackMediumBlock } from './blocks/horizontalScrollStackMediumBlock'
@@ -91,6 +94,9 @@ const allTypes = [
   mediaCarouselBlock,
   releaseCardsBlock,
   releaseTimelineBlock,
+  blogPostsBlock,
+  knowledgeBankBlock,
+  customerStoriesListBlock,
   horizontalScrollStackMediumBlock,
   teamGridBlock,
   paragraphsBlock,

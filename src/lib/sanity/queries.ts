@@ -1,4 +1,6 @@
 import { groq } from 'next-sanity'
+import { blogPostsQuery } from './blog'
+import { articlesByLocaleQuery } from './knowledgeBank'
 
 // Reused wherever a `media` object field needs resolving: `image`
 // passes through as-is (urlFor() parses the raw asset ref client-side,
@@ -56,6 +58,35 @@ export const STORY_IN_LOCALE = `(
   language == $locale || (language == "en" && !(slug.current in *[_type == "customerStory" && language == $locale].slug.current))
 )`
 
+// A customer story as its card and page show it (customerStories.ts);
+// here so the Customer Stories List block's page query can use it too.
+export const customerStorySummaryProjection = groq`
+  companyName,
+  "slug": slug.current,
+  facts,
+  products,
+  summary,
+  quote,
+  personName,
+  personRole,
+  publishedAt,
+  title,
+  subtitle,
+  location,
+  companySize,
+  customerSince,
+  "author": author->{ name, role, photo },
+  coverImage,
+  ${mediaProjection('logo')},
+`
+
+// See STORY_IN_LOCALE: the page's language, English as the fallback.
+export const customerStoriesQuery = groq`
+  *[_type == "customerStory" && ${STORY_IN_LOCALE}] | order(publishedAt desc) {
+    ${customerStorySummaryProjection}
+  }
+`
+
 // One document per page, holding every language side by side (each
 // text field is { en, sv }) — getPage() picks the language with
 // localize(). The order is a safety net while older per-language page
@@ -93,6 +124,12 @@ export const pageBySlugAndLocaleQuery = groq`
         "releases": *[_type == "release" && stage == "shipped"] | order(date desc)[0...8]{ ${releaseProjection} },
         cards[]{ ..., ${mediaProjection()}, "team": team[]->{ name, photo } }
       },
+      // The Resources start pages' lists: every blog post, Knowledge Bank
+      // article or customer story in the page's language (the same queries
+      // as their own lists elsewhere).
+      _type == "blogPostsBlock" => { "posts": ${blogPostsQuery} },
+      _type == "knowledgeBankBlock" => { "articles": ${articlesByLocaleQuery} },
+      _type == "customerStoriesListBlock" => { "stories": ${customerStoriesQuery} },
       // Every release; the block sorts them into its sections.
       _type == "releaseTimelineBlock" => {
         "releases": *[_type == "release"] | order(date desc){ ${releaseProjection} }

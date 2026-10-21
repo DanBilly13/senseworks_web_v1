@@ -21,6 +21,9 @@ import { MediaBlock } from './MediaBlock'
 import { MediaCarouselBlock } from './MediaCarouselBlock'
 import { ReleaseCardsBlock } from './ReleaseCardsBlock'
 import { ReleaseTimelineBlock } from './ReleaseTimelineBlock'
+import { BlogPostsBlock } from './BlogPostsBlock'
+import { KnowledgeBankBlock } from './KnowledgeBankBlock'
+import { CustomerStoriesListBlock } from './CustomerStoriesListBlock'
 import { HorizontalScrollStackMediumBlock } from './HorizontalScrollStackMediumBlock'
 import { FaqAccordionBlock } from './FaqAccordionBlock'
 import { FooterBlock } from './FooterBlock'
@@ -58,6 +61,9 @@ const BLOCK_COMPONENTS = {
   mediaCarouselBlock: MediaCarouselBlock,
   releaseCardsBlock: ReleaseCardsBlock,
   releaseTimelineBlock: ReleaseTimelineBlock,
+  blogPostsBlock: BlogPostsBlock,
+  knowledgeBankBlock: KnowledgeBankBlock,
+  customerStoriesListBlock: CustomerStoriesListBlock,
   horizontalScrollStackMediumBlock: HorizontalScrollStackMediumBlock,
   faqAccordionBlock: FaqAccordionBlock,
   comparisonTableBlock: ComparisonTableBlock,
