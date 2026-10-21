@@ -27,6 +27,8 @@ export async function generateMetadata({
   return {
     ...(page?.seoTitle ? { title: page.seoTitle } : {}),
     ...(page?.seoDescription ? { description: page.seoDescription } : {}),
+    // A version is a team experiment, never a search result.
+    ...(page?.isVersion ? { robots: { index: false, follow: false } } : {}),
   }
 }
 

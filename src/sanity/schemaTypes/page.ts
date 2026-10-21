@@ -50,6 +50,29 @@ export const page = defineType({
       },
       initialValue: 'full',
     }),
+    // Versions: a copy of a page to try something out on, without
+    // touching the page itself. The team (team mode: open any page with
+    // ?team=1) finds them in a small menu on the logo (Home's versions) or
+    // on the page's menu item (Audit's, …). Promoting one to the live page
+    // is done together with Claude, not from here.
+    defineField({
+      name: 'versionOf',
+      title: 'Version of',
+      description:
+        'To try a new take on a page: duplicate the page (⋯ → Duplicate), give the copy its own address under it (e.g. home/bold-hero), then pick the page it\'s a version of here. It then shows in that page\'s versions menu for the team. Leave empty for normal pages.',
+      type: 'reference',
+      to: [{ type: 'page' }],
+      options: { disableNew: true },
+    }),
+    defineField({
+      name: 'versionNotes',
+      title: 'Version notes',
+      description: 'What this version is trying out. Only for the team; not shown on the site.',
+      type: 'text',
+      rows: 2,
+      options: { localize: false } as object,
+      hidden: ({ document }) => !document?.versionOf,
+    }),
     defineField({
       name: 'seoTitle',
       title: 'SEO title',
@@ -111,7 +134,10 @@ export const page = defineType({
     }),
   ],
   preview: {
-    select: { title: 'title', slug: 'slug.current' },
-    prepare: ({ title, slug }) => ({ title, subtitle: slug ? `/${slug}` : undefined }),
+    select: { title: 'title', slug: 'slug.current', versionOf: 'versionOf.title.en' },
+    prepare: ({ title, slug, versionOf }) => ({
+      title,
+      subtitle: [versionOf ? `Version of ${versionOf}` : null, slug ? `/${slug}` : null].filter(Boolean).join(' · '),
+    }),
   },
 })

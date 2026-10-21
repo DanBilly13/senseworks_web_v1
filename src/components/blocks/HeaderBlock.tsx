@@ -1,11 +1,13 @@
 'use client'
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { CloseOutlined, DownOutlined, MenuOutlined } from '@ant-design/icons'
+import { CheckOutlined, CloseOutlined, DownOutlined, MenuOutlined } from '@ant-design/icons'
 import { Button } from '@/components/ui/Button'
 import { Menu, MenuItem } from '@/components/ui/Menu'
 import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher'
+import { useTeamMode } from '@/lib/teamMode'
+import type { PageVersion } from '@/lib/sanity/siteNavigation'
 import styles from './HeaderBlock.module.css'
 
 type NavSubLink = { label: string; href?: string }
@@ -20,6 +22,65 @@ type HeaderBlockProps = {
   // pathname didn't match the menu's links, so no item was marked as the
   // current page until the page had loaded — the underline popped in late.
   currentPath?: string
+  // Every page version (page.ts's "Version of"), for the team's versions
+  // menus. Ignored unless team mode is on (lib/teamMode).
+  versions?: PageVersion[]
+}
+
+// Team mode only: a menu of a page's versions, opened by clicking the
+// logo (Home's) or a menu item (that page's) — no chevron, so the bar
+// looks just as it does to everyone else. "Live" is the page itself.
+function VersionsMenu({
+  trigger,
+  triggerClassName,
+  ariaLabel,
+  liveHref,
+  versions,
+  locale,
+  pathname,
+}: {
+  trigger: ReactNode
+  triggerClassName?: string
+  ariaLabel: string
+  liveHref: string
+  versions: PageVersion[]
+  locale: string
+  pathname: string
+}) {
+  const [open, setOpen] = useState(false)
+  const rootRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!open) return
+    const onPointerDown = (e: MouseEvent) => {
+      if (rootRef.current && !rootRef.current.contains(e.target as Node)) setOpen(false)
+    }
+    document.addEventListener('mousedown', onPointerDown)
+    return () => document.removeEventListener('mousedown', onPointerDown)
+  }, [open])
+
+  const items = [{ label: 'Live', href: liveHref }, ...versions.map((v) => ({ label: v.title, href: `/${locale}/${v.slug}` }))]
+  return (
+    <div ref={rootRef} className="relative flex">
+      <button type="button" aria-label={ariaLabel} aria-expanded={open} aria-haspopup="menu" className={triggerClassName} onClick={() => setOpen((v) => !v)}>
+        {trigger}
+      </button>
+      {open && (
+        <Menu className="absolute top-full left-0 z-50 mt-small w-max border border-border shadow-lg">
+          {items.map((item) => (
+            <MenuItem
+              key={item.href}
+              href={item.href}
+              onClick={() => setOpen(false)}
+              trailingIcon={stripLocale(item.href) === stripLocale(pathname) ? <CheckOutlined className="text-body" /> : undefined}
+            >
+              {item.label}
+            </MenuItem>
+          ))}
+        </Menu>
+      )}
+    </div>
+  )
 }
 
 // Desktop-only dropdown trigger — a plain nav link renders as a bare
@@ -78,13 +139,16 @@ const DIRECTION_THRESHOLD = 8
 // Whether a nav link points at the page being viewed. Ignores the
 // locale segment (a link to /en/produkter/revision is still "this
 // page" on /sv/produkter/revision) and in-page #anchors.
-function isCurrentPage(href: string | undefined, pathname: string) {
-  if (!href || href.startsWith('#')) return false
-  const strip = (path: string) => path.split(/[?#]/)[0].replace(/^\/(en|sv)(?=\/|$)/, '').replace(/\/$/, '')
-  return strip(href) === strip(pathname)
+function stripLocale(path: string) {
+  return path.split(/[?#]/)[0].replace(/^\/(en|sv)(?=\/|$)/, '').replace(/\/$/, '')
 }
 
-export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref, currentPath }: HeaderBlockProps) {
+function isCurrentPage(href: string | undefined, pathname: string) {
+  if (!href || href.startsWith('#')) return false
+  return stripLocale(href) === stripLocale(pathname)
+}
+
+export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref, currentPath, versions = [] }: HeaderBlockProps) {
   const [open, setOpen] = useState(false)
   // Every route lives under a locale segment (D12), so the first path
   // segment is always "en"/"sv" — the logo goes to that locale's home
@@ -93,6 +157,15 @@ export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref, curren
   const pathname = currentPath ?? browserPathname
   const locale = pathname.split('/')[1] || 'en'
   const homeHref = `/${locale}/home`
+
+  // Team mode: versions of the page a link points at ("produkter/revision"
+  // → its versions). On a version, its own page's menu item counts as
+  // the current one.
+  const team = useTeamMode()
+  const versionsOf = (href?: string) => (team && href ? versions.filter((v) => `/${v.of}` === stripLocale(href)) : [])
+  const onVersion = versions.find((v) => `/${v.slug}` === stripLocale(pathname))
+  const isCurrent = (href?: string) => isCurrentPage(href, pathname) || (!!onVersion && !!href && stripLocale(href) === `/${onVersion.of}`)
+  const homeVersions = versionsOf(homeHref)
 
   // The header is fixed (floats over the page instead of sitting in
   // flow), so this bar's own height is measured and re-applied in two
@@ -216,25 +289,52 @@ export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref, curren
           ref={barRef}
           className="mx-auto flex w-full max-w-page items-center justify-between px-medium-large py-small-medium"
         >
-          <a href={homeHref} aria-label="Go to homepage" className="shrink-0">
-            <Image src="/senseworks-logo.svg" alt={logoText} width={240} height={31} className="h-medium-large w-auto" priority />
-          </a>
+          {homeVersions.length ? (
+            <VersionsMenu
+              trigger={<Image src="/senseworks-logo.svg" alt={logoText} width={240} height={31} className="h-medium-large w-auto" priority />}
+              triggerClassName="shrink-0"
+              ariaLabel="Home versions"
+              liveHref={homeHref}
+              versions={homeVersions}
+              locale={locale}
+              pathname={pathname}
+            />
+          ) : (
+            <a href={homeHref} aria-label="Go to homepage" className="shrink-0">
+              <Image src="/senseworks-logo.svg" alt={logoText} width={240} height={31} className="h-medium-large w-auto" priority />
+            </a>
+          )}
           <div className="flex items-center gap-medium-large">
             <nav className="hidden items-center gap-medium-large md:flex">
               {navLinks.map((link) =>
                 link.links?.length ? (
                   <NavDropdown key={link.label} label={link.label} links={link.links} />
+                ) : versionsOf(link.href).length ? (
+                  <VersionsMenu
+                    key={link.label}
+                    trigger={link.label}
+                    triggerClassName={
+                      isCurrent(link.href)
+                        ? 'relative text-body-sm text-foreground after:absolute after:inset-x-0 after:-bottom-small after:h-0.5 after:rounded-full after:bg-foreground'
+                        : 'text-body-sm text-foreground hover:opacity-70'
+                    }
+                    ariaLabel={`${link.label} versions`}
+                    liveHref={link.href!}
+                    versions={versionsOf(link.href)}
+                    locale={locale}
+                    pathname={pathname}
+                  />
                 ) : (
                   <a
                     key={link.label}
                     href={link.href}
-                    aria-current={isCurrentPage(link.href, pathname) ? 'page' : undefined}
+                    aria-current={isCurrent(link.href) ? 'page' : undefined}
                     // All in the text colour; the current page gets a 2px bar
                     // under the word. A drawn bar, not a text underline: an
                     // offset text underline rendered unevenly (a sub-pixel
                     // position, thinner or blurrier on some pages).
                     className={
-                      isCurrentPage(link.href, pathname)
+                      isCurrent(link.href)
                         ? "relative text-body-sm text-foreground after:absolute after:inset-x-0 after:-bottom-small after:h-0.5 after:rounded-full after:bg-foreground"
                         : 'text-body-sm text-foreground hover:opacity-70'
                     }
@@ -311,7 +411,7 @@ export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref, curren
                 <a
                   key={link.label}
                   href={link.href}
-                  aria-current={isCurrentPage(link.href, pathname) ? 'page' : undefined}
+                  aria-current={isCurrent(link.href) ? 'page' : undefined}
                   className={`border-b border-border text-h5 font-semibold text-foreground ${styles.navRow}`}
                 >
                   {/* The current page: the same drawn 2px bar as the
@@ -319,7 +419,7 @@ export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref, curren
                       here (not 8), clear of the row's dividing line. */}
                   <span
                     className={
-                      isCurrentPage(link.href, pathname)
+                      isCurrent(link.href)
                         ? 'relative after:absolute after:inset-x-0 after:-bottom-xs after:h-0.5 after:rounded-full after:bg-foreground'
                         : undefined
                     }
