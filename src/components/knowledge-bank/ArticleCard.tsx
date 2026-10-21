@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
 import { Media } from '@/components/ui/Media'
-import { Tag } from '@/components/ui/Tag'
+import { CardTags } from '@/components/ui/CardTags'
 import { AuthorAvatar } from './AuthorAvatar'
 import type { ArticleSummary } from '@/lib/sanity/knowledgeBank'
 import type { MediaField } from '@/lib/sanity/media'
@@ -27,13 +27,7 @@ export function ArticleCard({ article, locale }: { article: ArticleSummary; loca
     >
       <Media media={cover} alt={article.title} className="aspect-article-cover w-full" />
       <div className="flex flex-1 flex-col gap-small-medium p-medium-large">
-        {!!article.tags?.length && (
-          <div className="flex flex-wrap gap-xs">
-            {article.tags.map((t) => (
-              <Tag key={t.slug}>{t.title}</Tag>
-            ))}
-          </div>
-        )}
+        <CardTags tags={(article.tags ?? []).map((t) => t.title)} />
         <h3 className="text-h5 font-semibold text-balance text-foreground group-hover:underline">
           {article.title}
         </h3>

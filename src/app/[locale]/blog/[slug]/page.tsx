@@ -3,17 +3,17 @@ import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
 import { getBlogPost } from '@/lib/sanity/blog'
 import { BLOG_TAGS, BLOG_TEXT, blogLocale } from '@/lib/blog'
-import { formatReleaseDate } from '@/lib/releases'
 import { SiteFooter, SiteHeader } from '@/components/layout/SiteNavigation'
 import { SectionShell } from '@/components/ui/SectionShell'
-import { Tag } from '@/components/ui/Tag'
+import { CardTags } from '@/components/ui/CardTags'
 import { Button } from '@/components/ui/Button'
 import { Media } from '@/components/ui/Media'
 import { ArticleBody } from '@/components/ui/ArticleBody'
 import { AuthorByline } from '@/components/knowledge-bank/AuthorByline'
 import { ArticleActions } from '@/components/knowledge-bank/ArticleActions'
 import { LikeProvider } from '@/components/knowledge-bank/LikeProvider'
-import { BlogCardLarge, BlogCover } from '@/components/blog/BlogCard'
+import { BlogCover, BlogRow } from '@/components/blog/BlogCard'
+import { BackLink } from '@/components/ui/BackLink'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }): Promise<Metadata> {
   const { locale, slug } = await params
@@ -25,8 +25,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 // A blog post, in the same family as a Knowledge Bank article and a
 // customer story: the 8-column text column (.article-grid), the same
 // body styles (plus the interview Question style and image captions).
-// Top: tag and date (always shown, however old), title, standfirst,
-// the author with photo and role, the cover. A post with a full
+// Top: the way back and the tag, title, standfirst, the author with
+// photo, role and date (always shown, however old), the cover. A post with a full
 // customer story links to it; the end has three more posts with the
 // same tag, the way back to the blog, and "Book a walkthrough".
 export default async function BlogPostPage({ params }: { params: Promise<{ locale: string; slug: string }> }) {
@@ -44,9 +44,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
       <SiteHeader locale={locale} />
       <LikeProvider articleSlug={`blog-${slug}`}>
         <SectionShell py="section-edge" pad="both" maxWidth="page" className="article-grid">
-          <div className="mb-large flex flex-wrap items-center gap-small text-body-sm text-muted-foreground">
-            <Tag>{BLOG_TAGS[post.tag]?.[locale] ?? post.tag}</Tag>
-            <time dateTime={post.publishedAt}>{formatReleaseDate(post.publishedAt, locale)}</time>
+          {/* The way back (just the arrow), then the tag. The date is in
+              the author byline below. */}
+          <div className="mb-large flex flex-wrap items-center gap-medium">
+            <BackLink to="blog" locale={locale} iconOnly />
+            <CardTags tags={[BLOG_TAGS[post.tag]?.[locale] ?? post.tag]} surface="page" />
           </div>
           <div className="mb-large flex flex-col gap-medium">
             <h1 className="text-h1 font-bold text-pretty text-foreground">{post.title}</h1>
@@ -56,8 +58,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
             <AuthorByline author={post.author} publishedAt={post.publishedAt} locale={locale} label={locale === 'sv' ? 'Av' : 'By'} showRole />
             <ArticleActions />
           </div>
-          <div className="article-grid-wide mb-large overflow-hidden rounded-lg">
-            <BlogCover post={post} className="aspect-blog-cover w-full" />
+          {/* The text column's width, in the covers' own portrait 5:6. */}
+          <div className="mb-large overflow-hidden rounded-lg">
+            <BlogCover post={post} className="aspect-blog-thumb w-full" />
           </div>
           {!!post.body?.length && (
             <ArticleBody
@@ -98,11 +101,18 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
         </SectionShell>
       </LikeProvider>
       {post.related.length > 0 && (
-        <SectionShell py="loose" className="flex flex-col gap-xl">
-          <h2 className="text-h3 font-bold text-foreground">{BLOG_TEXT.more[post.tag]?.[locale]}</h2>
-          <div className="grid grid-cols-1 gap-large md:grid-cols-3">
+        // Laid out like the blog's list: the heading where a year goes
+        // (the first 2 of 12 columns), the posts as the same rows in the
+        // next 8.
+        <SectionShell py="loose" className="grid grid-cols-1 gap-medium md:grid-cols-12 md:gap-large">
+          <div className="md:col-span-2">
+            <h2 className="text-h4 font-bold text-foreground md:border-t md:border-foreground/20 md:pt-medium-large">
+              {BLOG_TEXT.more[post.tag]?.[locale]}
+            </h2>
+          </div>
+          <div className="md:col-span-8">
             {post.related.map((related) => (
-              <BlogCardLarge key={related.slug} post={related} locale={locale} />
+              <BlogRow key={related.slug} post={related} locale={locale} />
             ))}
           </div>
         </SectionShell>

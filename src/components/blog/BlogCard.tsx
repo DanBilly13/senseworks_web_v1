@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { ArrowRightOutlined } from '@ant-design/icons'
 import Image from 'next/image'
 import { Media } from '@/components/ui/Media'
-import { Tag } from '@/components/ui/Tag'
+import { CardTags, type CardTagsSurface } from '@/components/ui/CardTags'
 import { formatReleaseDate } from '@/lib/releases'
 import { BLOG_TAGS, type BlogLocale } from '@/lib/blog'
 import type { BlogPostSummary } from '@/lib/sanity/blog'
@@ -24,33 +24,17 @@ export function BlogCover({ post, className }: { post: BlogPostSummary; classNam
   return <Media media={{ mediaType: 'image', image: post.coverImage }} alt="" className={className} />
 }
 
-function Meta({ post, locale }: { post: BlogPostSummary; locale: BlogLocale }) {
+function Meta({ post, locale, surface }: { post: BlogPostSummary; locale: BlogLocale; surface: CardTagsSurface }) {
   return (
     <div className="flex flex-wrap items-center gap-small text-caption text-muted-foreground">
-      <Tag>{BLOG_TAGS[post.tag]?.[locale] ?? post.tag}</Tag>
+      <CardTags tags={[BLOG_TAGS[post.tag]?.[locale] ?? post.tag]} surface={surface} />
       <time dateTime={post.publishedAt}>{formatReleaseDate(post.publishedAt, locale)}</time>
     </div>
   )
 }
 
-// Large: the newest posts — cover, tag, date, title, excerpt.
-export function BlogCardLarge({ post, locale }: { post: BlogPostSummary; locale: BlogLocale }) {
-  return (
-    <Link
-      href={`/${locale}/blog/${post.slug}`}
-      className="group flex flex-col overflow-hidden rounded-lg border border-border bg-background transition-shadow hover:shadow-lg"
-    >
-      <BlogCover post={post} className="aspect-blog-cover w-full" />
-      <div className="flex flex-1 flex-col gap-small-medium p-medium-large">
-        <Meta post={post} locale={locale} />
-        <h3 className="line-clamp-3 text-h5 font-semibold text-balance text-foreground group-hover:underline">{post.title}</h3>
-        {post.excerpt && <p className="line-clamp-3 text-body-sm text-muted-foreground">{post.excerpt}</p>}
-      </div>
-    </Link>
-  )
-}
-
-// Every post on the blog's list, the same way: a rule across the top,
+// Every post on the blog's list (and the "More news" at the end of a
+// post), the same way: a rule across the top,
 // the cover on the left, the title large on the right with an arrow,
 // and the tag and date at the foot of the text. On mobile the cover sits
 // above the text. Long old titles wrap rather than cut off.
@@ -67,7 +51,7 @@ export function BlogRow({ post, locale }: { post: BlogPostSummary; locale: BlogL
           <h3 className="text-h4 font-semibold text-pretty text-foreground group-hover:underline">{post.title}</h3>
           <ArrowRightOutlined aria-hidden="true" className="shrink-0 text-h4 text-foreground transition-transform group-hover:translate-x-xs" />
         </div>
-        <Meta post={post} locale={locale} />
+        <Meta post={post} locale={locale} surface="page" />
       </div>
     </Link>
   )

@@ -494,30 +494,32 @@ p {
   white-space: pre-line;
 }
 
-/* Article breakout grid: a narrow centered "text" track (matches
-   max-w-prose-lg) inside a wider container (SectionShell's max-w-page)
-   — a plain CSS grid rather than a Tailwind utility since the
-   min()-based middle track can't be expressed without arbitrary-value
-   syntax (same reasoning as .carousel-inset's calc() below). Every
-   direct child defaults to the text track; .article-grid-wide breaks
-   a child (cover image, inline body images) out to the full container
-   width instead. Row-gap is deliberately 0 — vertical rhythm inside
-   an article comes from each element's own margin (tighter between
-   paragraphs, larger before a heading), not a uniform grid gap. */
+/* Article grid: the page's 12 columns (inside SectionShell's
+   max-w-page, with the same 32px gap as the blog's list), shared by blog
+   posts, Knowledge Bank articles and customer stories. Every direct
+   child sits in columns 3–10 — the span of the blog's post rows, so a
+   post's text, its "More news" rows and the blog list all line up;
+   .article-grid-wide breaks a child (an inline image) out to all 12.
+   On mobile it's one column, full width. Row-gap is deliberately 0 —
+   vertical rhythm inside an article comes from each element's own
+   margin (tighter between paragraphs, larger before a heading), not a
+   uniform grid gap. A plain CSS grid rather than utilities, since every
+   child needs the placement without each one carrying a class. */
 .article-grid {
   display: grid;
-  grid-template-columns: 1fr min(var(--container-prose-lg), 100%) 1fr;
-  /* No column-gap: the two 1fr edge tracks already provide the
-     breathing room a gap would — on a narrow viewport the middle
-     track alone claims the full available width (100% inside the
-     min()), so a nonzero gap on top of that has nowhere to fit and
-     overflows the container by 2x the gap. */
+  grid-template-columns: minmax(0, 1fr);
 }
-.article-grid > * {
-  grid-column: 2;
-}
-.article-grid-wide {
-  grid-column: 1 / -1;
+@media (min-width: 768px) {
+  .article-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--spacing-large);
+  }
+  .article-grid > * {
+    grid-column: 3 / 11;
+  }
+  .article-grid > .article-grid-wide {
+    grid-column: 1 / -1;
+  }
 }
 
 /* A customer story's text column.

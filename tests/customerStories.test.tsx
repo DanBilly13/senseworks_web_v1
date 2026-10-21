@@ -12,6 +12,7 @@ const stories: CustomerStorySummary[] = [
 describe('productLabels', () => {
   it('names the ticked products', () => {
     expect(productLabels(['audit', 'analytics'])).toEqual(['Audit', 'Analytics'])
+    expect(productLabels(['audit', 'analytics'], 'sv')).toEqual(['Revision', 'Analys'])
     expect(productLabels(undefined)).toEqual([])
   })
 })
@@ -24,9 +25,9 @@ describe('CustomerStoriesGrid', () => {
     expect(screen.getByRole('link', { name: /Newer Both Firm/ })).toHaveAttribute('href', '/sv/customer-stories/newer')
   })
 
-  it('filters by product', () => {
+  it('filters by product, named as on Swedish pages', () => {
     render(<CustomerStoriesGrid stories={stories} locale="sv" />)
-    fireEvent.click(screen.getByRole('button', { name: 'Analytics' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Analys' }))
     expect(screen.getAllByRole('heading', { level: 3 }).map((h) => h.textContent)).toEqual(['Newer Both Firm'])
   })
 })

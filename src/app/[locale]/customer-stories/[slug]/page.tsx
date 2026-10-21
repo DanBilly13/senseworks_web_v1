@@ -11,6 +11,7 @@ import { ArticleBody } from '@/components/ui/ArticleBody'
 import { AuthorByline } from '@/components/knowledge-bank/AuthorByline'
 import { ArticleActions } from '@/components/knowledge-bank/ArticleActions'
 import { LikeProvider } from '@/components/knowledge-bank/LikeProvider'
+import { BackLink } from '@/components/ui/BackLink'
 
 // The customer story template, laid out like a magazine feature:
 // - a full-content-width hero: date, headline and standfirst on the
@@ -48,7 +49,7 @@ export default async function CustomerStoryPage({
 
   if (!story) notFound()
 
-  const products = productLabels(story.products)
+  const products = productLabels(story.products, locale)
   const headline = story.title || story.companyName
   // The body's opening paragraph, so the fact box can sit right after it.
   const body = story.body ?? []
@@ -60,7 +61,10 @@ export default async function CustomerStoryPage({
     <>
       <SiteHeader locale={locale} />
       <LikeProvider articleSlug={`customer-story-${slug}`}>
-        <SectionShell pt="section-edge" pb="medium">
+        <SectionShell pt="section-edge" pb="medium" className="flex flex-col gap-xl">
+          <div>
+            <BackLink to="customerStories" locale={locale} iconOnly />
+          </div>
           <div className="grid grid-cols-1 items-center gap-2xl md:grid-cols-2">
             {/* Kicker ("Customer story · Audit / Analytics"), headline,
                 standfirst (the h1 intro's subtitle style) — SectionIntro, so
@@ -130,9 +134,7 @@ export default async function CustomerStoryPage({
             <ArticleActions />
           </div>
           <div className="mt-large">
-            <a href={`/${locale}/customer-stories`} className="text-body-sm font-medium underline underline-offset-4">
-              ← All customer stories
-            </a>
+            <BackLink to="customerStories" locale={locale} />
           </div>
         </SectionShell>
       </LikeProvider>

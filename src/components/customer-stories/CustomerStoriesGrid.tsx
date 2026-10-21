@@ -18,8 +18,8 @@ export function CustomerStoriesGrid({ stories, locale }: { stories: CustomerStor
   // Only products some story actually names, so no chip filters to an
   // empty grid.
   const products = useMemo(
-    () => [...new Set(stories.flatMap((story) => productLabels(story.products)))].sort(),
-    [stories],
+    () => [...new Set(stories.flatMap((story) => productLabels(story.products, locale)))].sort(),
+    [stories, locale],
   )
 
   function toggle(product: string) {
@@ -34,13 +34,13 @@ export function CustomerStoriesGrid({ stories, locale }: { stories: CustomerStor
   const visible = useMemo(() => {
     // No chips selected shows everything.
     const filtered = selected.size
-      ? stories.filter((story) => productLabels(story.products).some((product) => selected.has(product)))
+      ? stories.filter((story) => productLabels(story.products, locale).some((product) => selected.has(product)))
       : stories
     return [...filtered].sort((a, b) => {
       const diff = new Date(a.publishedAt).getTime() - new Date(b.publishedAt).getTime()
       return sort === 'newest' ? -diff : diff
     })
-  }, [stories, selected, sort])
+  }, [stories, selected, sort, locale])
 
   return (
     <div className="flex flex-col gap-2xl">

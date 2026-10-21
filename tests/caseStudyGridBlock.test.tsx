@@ -15,7 +15,10 @@ describe('CaseStudyGridBlock', () => {
     render(<CaseStudyGridBlock stories={stories} />)
     expect(screen.getByRole('heading', { name: 'Retora' })).toBeInTheDocument()
     expect(screen.getByText('Replaced manual Excel analytics.')).toBeInTheDocument()
-    expect(screen.getByText('Audit / Analytics')).toBeInTheDocument()
+    // Products as tags, named as on Swedish pages.
+    // Both stories use Audit ("Revision"); only Retora uses Analytics.
+    expect(screen.getAllByText('Revision')).toHaveLength(2)
+    expect(screen.getAllByText('Analys')).toHaveLength(1)
     expect(screen.getByRole('link', { name: /Retora/ })).toHaveAttribute('href', '/sv/customer-stories/retora')
   })
 

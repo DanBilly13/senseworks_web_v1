@@ -2,12 +2,13 @@ import { notFound } from 'next/navigation'
 import { getArticle } from '@/lib/sanity/knowledgeBank'
 import { SiteFooter, SiteHeader } from '@/components/layout/SiteNavigation'
 import { SectionShell } from '@/components/ui/SectionShell'
-import { Tag } from '@/components/ui/Tag'
+import { CardTags } from '@/components/ui/CardTags'
 import { AuthorByline } from '@/components/knowledge-bank/AuthorByline'
 import { ArticleActions } from '@/components/knowledge-bank/ArticleActions'
 import { LikeProvider } from '@/components/knowledge-bank/LikeProvider'
 import { ArticleImage } from '@/components/knowledge-bank/ArticleImage'
 import { ArticleBody } from '@/components/ui/ArticleBody'
+import { BackLink } from '@/components/ui/BackLink'
 
 export default async function ArticlePage({
   params,
@@ -24,13 +25,11 @@ export default async function ArticlePage({
       <SiteHeader locale={locale} />
       <LikeProvider articleSlug={slug}>
         <SectionShell py="section-edge" pad="both" maxWidth="page" className="article-grid">
-          {!!article.tags?.length && (
-            <div className="mb-large flex flex-wrap gap-xs">
-              {article.tags.map((tag) => (
-                <Tag key={tag.slug}>{tag.title}</Tag>
-              ))}
-            </div>
-          )}
+          {/* The way back (just the arrow), then the article's tags. */}
+          <div className="mb-large flex flex-wrap items-center gap-medium">
+            <BackLink to="knowledgeBank" locale={locale} iconOnly />
+            <CardTags tags={(article.tags ?? []).map((tag) => tag.title)} surface="page" />
+          </div>
           <div className="mb-large flex flex-col gap-medium">
             <h1 className="text-h1 font-bold text-balance text-foreground">{article.title}</h1>
             {article.subtitle && (
