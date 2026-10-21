@@ -67,7 +67,7 @@ export function LanguageSwitcher() {
     <div ref={rootRef} className="relative">
       <button
         type="button"
-        className="flex items-center gap-xs text-body-sm text-muted-foreground hover:text-foreground"
+        className="flex items-center gap-xs text-body-sm text-foreground hover:opacity-70"
         aria-expanded={open}
         aria-haspopup="menu"
         aria-label={`Language: ${current.name}`}

@@ -38,7 +38,7 @@ function NavDropdown({ label, links }: { label: string; links: NavSubLink[] }) {
     <div ref={rootRef} className="relative">
       <button
         type="button"
-        className="flex items-center gap-xs text-body-sm text-muted-foreground"
+        className="flex items-center gap-xs text-body-sm text-foreground hover:opacity-70"
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
       >
@@ -223,11 +223,14 @@ export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref }: Head
                     key={link.label}
                     href={link.href}
                     aria-current={isCurrentPage(link.href, pathname) ? 'page' : undefined}
-                    // Current page: full-strength text, underlined.
+                    // All in the text colour; the current page gets a 2px bar
+                    // under the word. A drawn bar, not a text underline: an
+                    // offset text underline rendered unevenly (a sub-pixel
+                    // position, thinner or blurrier on some pages).
                     className={
                       isCurrentPage(link.href, pathname)
-                        ? 'text-body-sm text-foreground underline decoration-2 underline-offset-8'
-                        : 'text-body-sm text-muted-foreground hover:text-foreground'
+                        ? "relative text-body-sm text-foreground after:absolute after:inset-x-0 after:-bottom-small after:h-0.5 after:rounded-full after:bg-foreground"
+                        : 'text-body-sm text-foreground hover:opacity-70'
                     }
                   >
                     {link.label}
