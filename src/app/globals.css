@@ -770,19 +770,14 @@ p {
   padding: 96px 288px 96px 96px;
 }
 /* The rules above and below the headline: 48px from the top of the
-   capitals and from the baseline (the bottom of the "L"), not from the
-   line box — text-box trims the leading above the caps and below the
+   capitals, 64px from the baseline (the bottom of the "L") — measured
+   from the letters, not the line box — text-box trims the leading above the caps and below the
    baseline, so the padding measures from the letters themselves
    (Chrome/Safari; Firefox doesn't trim yet and shows a little more). */
 .hero-overlay-card-rules {
-  padding-block: var(--spacing-xl);
+  padding-top: var(--spacing-xl);
+  padding-bottom: var(--spacing-2xl);
   text-box: trim-both cap alphabetic;
-}
-/* Desktop: the ruled/marked card's bottom padding is 32px, not 96px. */
-@media (min-width: 768px) {
-  .hero-overlay-card-padding.hero-overlay-card-compact-bottom {
-    padding-bottom: var(--spacing-large);
-  }
 }
 /* The eyebrow above and the body text below are trimmed the same way,
    so the 48px gaps to the rules run from the eyebrow's baseline and to

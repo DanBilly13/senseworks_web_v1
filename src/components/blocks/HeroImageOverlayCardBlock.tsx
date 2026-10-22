@@ -133,10 +133,10 @@ function CardIntro({
       heading={headline}
       body={subhead}
       headingMaxWidth="none"
-      // Rules above and below the headline: the accent on the dark card,
-      // a soft dark line on the gradient/light ones.
+      // 2px rules above and below the headline: the accent on the dark
+      // card, a soft dark line on the gradient/light ones.
       headingClassName={
-        headlineRules ? `hero-overlay-card-rules border-y ${isDark ? 'border-accent' : 'border-foreground/20'}` : undefined
+        headlineRules ? `hero-overlay-card-rules border-y-2 ${isDark ? 'border-accent' : 'border-foreground/20'}` : undefined
       }
       // 48px from the eyebrow to the upper rule, and from the lower rule
       // to the body text (all measured to the letters, see globals.css).
@@ -155,15 +155,17 @@ function CardIntro({
           // The Senseworks mark on the button's row: exactly the button's
           // height (top and bottom aligned with it), its width from its
           // own shape, its right edge where the rules end.
-          // Absolutely placed against the row's top and bottom, so its
-          // height is the button's and its width follows from its shape
-          // (a stretched flex item doesn't get a width from aspect-ratio).
+          // Its top level with the button's, its right edge where the
+          // rules end. Sized from the button: 75% of (the button's height
+          // + 64px) — the full size would reach down to 32px off the card's
+          // bottom, with the card's own 96px bottom padding (the same as
+          // its sides) under the button. Its width follows from its shape.
           <div className="hero-overlay-card-wide relative flex">
             {button || <span className="h-xl" />}
             <span
               aria-hidden="true"
-              className={`absolute inset-y-0 right-0 ${isDark ? 'bg-background' : 'bg-foreground'}`}
-              style={BRANDMARK_MASK}
+              className={`absolute top-0 right-0 ${isDark ? 'bg-background' : 'bg-foreground'}`}
+              style={{ ...BRANDMARK_MASK, height: 'calc((100% + var(--spacing-2xl)) * 0.75)' }}
             />
           </div>
         ) : (
@@ -517,9 +519,6 @@ function DesktopImageOverlayCard({
           <div
             className={[
               'hero-overlay-card-padding relative rounded-lg',
-              // The ruled/marked card sits its button 32px off the
-              // bottom instead of the usual 96px.
-              headlineRules || showBrandmark ? 'hero-overlay-card-compact-bottom' : '',
               cardWidth === '50' ? 'w-1/2' : 'w-full',
               isDark ? 'bg-foreground' : 'bg-accent-gradient',
             ].join(' ')}

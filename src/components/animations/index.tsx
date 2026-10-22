@@ -7,6 +7,18 @@ import { SenseworksTableWalkthrough } from './SenseworksTableWalkthrough'
 import { RosterFill } from './RosterFill'
 import { CustomiseCanvas } from './CustomiseCanvas'
 import { IntegrationsScreenAnimation } from './IntegrationsScreenAnimation'
+import { AllyAnimation } from './AllyQuestion'
+
+// Ally's canvas is an 852×852 square with its content in the centre
+// band; shown in the site's 7:5 frame (852×608), shifted up 122px so that
+// band sits in the middle.
+function AllyQuestionAnimation({ paused }: { paused?: boolean }) {
+  return (
+    <div style={{ transform: 'translateY(-122px)' }}>
+      <AllyAnimation paused={paused} />
+    </div>
+  )
+}
 
 type AnimationEntry = {
   // Every animation accepts `paused` — Media freezes it (not unmounts
@@ -56,6 +68,10 @@ export const ANIMATION_COMPONENTS = {
   integrationsScreenAnimation: {
     component: IntegrationsScreenAnimation,
     canvas: { width: 700, height: 500 },
+  } as AnimationEntry,
+  allyQuestionAnimation: {
+    component: AllyQuestionAnimation,
+    canvas: { width: 852, height: 608 },
   } as AnimationEntry,
 } satisfies Record<string, AnimationEntry>
 

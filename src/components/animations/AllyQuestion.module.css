@@ -1,0 +1,135 @@
+.canvas {
+  --aa-ink: #101829;
+  --aa-field: #ffffff;
+  --aa-send: #101829;
+  --aa-on-send: #ffffff;
+  --aa-floor: rgba(16, 24, 41, 0.16);
+  --aa-field-shadow: 0 24px 48px rgba(16, 24, 41, 0.1), 0 2px 6px rgba(16, 24, 41, 0.04);
+  position: relative;
+  width: 852px;
+  height: 852px;
+  overflow: hidden;
+}
+
+/* Ally — 240×292, top 226, centred */
+.ally {
+  position: absolute;
+  left: 306px;
+  top: 226px;
+  width: 240px;
+  height: 292px;
+  transform-origin: 120px 175px;
+}
+.float {
+  width: 240px;
+  height: 292px;
+  transform-origin: 120px 175px;
+}
+.float svg {
+  display: block;
+}
+
+/* Floor shadow — 160×14, top 592 */
+.shadowPos {
+  position: absolute;
+  left: 346px;
+  top: 592px;
+  width: 160px;
+  height: 14px;
+}
+.shadow {
+  width: 160px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--aa-floor);
+  filter: blur(3px);
+}
+
+/* Ask field — 560×70, top 444, centred */
+.field {
+  position: absolute;
+  left: 146px;
+  top: 444px;
+  width: 560px;
+  height: 70px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 13px 0 28px;
+  background: var(--aa-field);
+  border-radius: 12px;
+  box-shadow: var(--aa-field-shadow);
+}
+.text {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  white-space: pre;
+  font-family: var(--font-sans);
+  font-size: 23px;
+  line-height: 30px;
+  letter-spacing: -0.01em;
+  color: var(--aa-ink);
+}
+.caret,
+.caretSolid {
+  display: inline-block;
+  width: 2px;
+  height: 28px;
+  margin-left: 2px;
+  background: var(--aa-ink);
+}
+.send {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--aa-send);
+  color: var(--aa-on-send);
+}
+.send svg {
+  display: block;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .float {
+    animation: aa-float 3.4s ease-in-out infinite;
+  }
+  .shadow {
+    animation: aa-shadow 3.4s ease-in-out infinite;
+  }
+  .caret {
+    animation: aa-blink 0.9s steps(1, end) infinite;
+  }
+}
+
+/* Site integration: freeze the CSS loops while the frame is off screen. */
+.paused *,
+.paused *::before,
+.paused *::after {
+  animation-play-state: paused !important;
+}
+
+/* bob ±7px with the sway leading by ~0.5s */
+@keyframes aa-float {
+  0%   { transform: translateY(0px) rotate(0.9deg); }
+  25%  { transform: translateY(7px) rotate(0.75deg); }
+  50%  { transform: translateY(0px) rotate(-0.9deg); }
+  75%  { transform: translateY(-7px) rotate(-0.75deg); }
+  100% { transform: translateY(0px) rotate(0.9deg); }
+}
+/* shadow widens as Ally drops, tightens as she lifts */
+@keyframes aa-shadow {
+  0%, 50%, 100% { transform: scale(0.93); opacity: 0.87; }
+  25%  { transform: scale(1); opacity: 1; }
+  75%  { transform: scale(0.86); opacity: 0.75; }
+}
+@keyframes aa-blink {
+  0%   { opacity: 1; }
+  50%  { opacity: 0; }
+}
