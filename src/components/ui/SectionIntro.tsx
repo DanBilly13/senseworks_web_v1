@@ -42,6 +42,9 @@ type SectionIntroProps = {
   // Extra classes on the heading itself — e.g. Hero Image Overlay
   // Card's rules above and below the headline.
   headingClassName?: string
+  // The same, on the body — e.g. Hero Image Overlay Card's 50% card,
+  // whose body runs out to the rules' edge.
+  bodyClassName?: string
   // Overrides the total gap between the heading and the body (a CSS
   // length) — e.g. a ruled headline that wants a set distance from its
   // rule rather than the usual half-line-height.
@@ -114,6 +117,7 @@ export function SectionIntro({
   eyebrowColor,
   display = false,
   headingClassName,
+  bodyClassName,
   bodyGap,
   headingGap,
   ctaGap,
@@ -194,6 +198,7 @@ export function SectionIntro({
             // desktop only — mobile has no spare width to give up),
             // not whatever maxWidth the caller passed for the eyebrow.
             isSubtitle ? 'md:max-w-subtitle' : MAX_WIDTH_CLASS[maxWidth],
+            bodyClassName,
           ]
             .filter(Boolean)
             .join(' ')}

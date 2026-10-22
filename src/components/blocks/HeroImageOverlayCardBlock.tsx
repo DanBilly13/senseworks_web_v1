@@ -109,6 +109,7 @@ function CardIntro({
   headlineSize,
   headlineRules = false,
   showBrandmark = false,
+  narrowCard = false,
 }: {
   eyebrow?: string
   headline: string
@@ -119,6 +120,9 @@ function CardIntro({
   headlineSize?: 'h1' | 'display'
   headlineRules?: boolean
   showBrandmark?: boolean
+  // The desktop 50% card: the body runs full width (to the rules' edge)
+  // and the mark is half the size.
+  narrowCard?: boolean
 }) {
   const button = ctaLabel && ctaHref && (
     <Button href={ctaHref} variant={isDark ? 'filled-accent' : 'filled-dark'}>
@@ -133,6 +137,7 @@ function CardIntro({
       heading={headline}
       body={subhead}
       headingMaxWidth="none"
+      bodyClassName={narrowCard ? 'hero-overlay-card-body-wide' : undefined}
       // 2px rules above and below the headline: the accent on the dark
       // card, a soft dark line on the gradient/light ones.
       headingClassName={
@@ -165,7 +170,8 @@ function CardIntro({
             <span
               aria-hidden="true"
               className={`absolute top-0 right-0 ${isDark ? 'bg-background' : 'bg-foreground'}`}
-              style={{ ...BRANDMARK_MASK, height: 'calc((100% + var(--spacing-2xl)) * 0.75)' }}
+              // Half that again on the 50% card.
+              style={{ ...BRANDMARK_MASK, height: `calc((100% + var(--spacing-2xl)) * ${narrowCard ? 0.375 : 0.75})` }}
             />
           </div>
         ) : (
@@ -533,6 +539,7 @@ function DesktopImageOverlayCard({
               headlineSize={headlineSize}
               headlineRules={headlineRules}
               showBrandmark={showBrandmark}
+              narrowCard={cardWidth === '50'}
             />
           </div>
         </motion.div>

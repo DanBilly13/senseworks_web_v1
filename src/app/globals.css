@@ -884,8 +884,14 @@ p:has(+ .hero-overlay-card-rules),
    the card's padding is even, so they just span the text. */
 @media (min-width: 768px) {
   .hero-overlay-card-rules,
-  .hero-overlay-card-wide {
+  .hero-overlay-card-wide,
+  .hero-overlay-card-body-wide {
     margin-right: -192px;
+  }
+  /* On the 50% card the body runs out to the rules' edge too, its full
+     width (no subtitle cap) — the narrow card left it a thin column. */
+  .hero-overlay-card-body-wide {
+    max-width: none;
   }
 }
 @media (max-width: 767px) {

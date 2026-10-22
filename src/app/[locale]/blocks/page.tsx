@@ -178,6 +178,22 @@ export default async function BlocksPage({
         ctaHref="#"
       />
       <BlockCaption
+        name="Hero — Image Overlay Card (dark 50%, rules around the headline + Senseworks mark)"
+        type="heroImageOverlayCardBlock"
+        variant='cardBackground: "dark", cardWidth: "50", headlineRules: true, showBrandmark: true'
+      />
+      <HeroImageOverlayCardBlock
+        cardBackground="dark"
+        cardWidth="50"
+        headlineRules
+        showBrandmark
+        eyebrow={EYEBROW}
+        headline={HEADING}
+        subhead={BODY}
+        ctaLabel="Lorem ipsum"
+        ctaHref="#"
+      />
+      <BlockCaption
         name="Hero — Image Overlay Card (experimental, gradient 100%)"
         type="heroImageOverlayCardBlock"
         variant='cardBackground: "gradient", cardWidth: "100"'
