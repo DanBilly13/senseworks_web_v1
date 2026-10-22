@@ -14,6 +14,20 @@ export const testimonialLargeBlock = defineType({
       to: [{ type: 'testimonial' }],
       validation: (Rule) => Rule.required(),
     }),
+    defineField({
+      name: 'tone',
+      title: 'Background',
+      description: 'Dark accent gradient: the accent color fading to black instead of the light grey, with white text.',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Accent gradient (default)', value: 'accent' },
+          { title: 'Dark accent gradient', value: 'accentDark' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'accent',
+    }),
     spacingField,
   ],
   preview: {

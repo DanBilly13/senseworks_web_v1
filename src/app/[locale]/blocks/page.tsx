@@ -545,6 +545,8 @@ export default async function BlocksPage({
       />
       <BlockCaption name="Testimonial — Large" type="testimonialLargeBlock" />
       <TestimonialLargeBlock quote={BODY_LONG} authorName="Lorem Ipsum" authorRole="Lorem, Ipsum" />
+      <BlockCaption name="Testimonial — Large, Dark accent gradient" type="testimonialLargeBlock" variant='tone: "accentDark"' />
+      <TestimonialLargeBlock quote={BODY_LONG} authorName="Lorem Ipsum" authorRole="Lorem, Ipsum" tone="accentDark" />
       <BlockCaption name="Release Cards" type="releaseCardsBlock" />
       <ReleaseCardsBlock cards={RELEASE_CARDS} />
 

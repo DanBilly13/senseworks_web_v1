@@ -699,6 +699,19 @@ p {
   background-blend-mode: soft-light, normal;
 }
 
+/* Dark Accent Gradient: the same accent color, fading to our black
+   (--color-foreground) instead of the light grey — text on it is white.
+   Yellow (or purple/green) mixed with a dark navy passes through a
+   muddy olive (purple/teal) on the way, so this one leaves the accent
+   quickly (ease-out cubic, in OKLab) and reaches the black by 75%,
+   keeping that middle band thin. Per page theme below, as with
+   --gradient-accent. */
+.bg-accent-gradient-dark {
+  background-color: var(--color-foreground);
+  background-image: var(--gradient-accent-dark);
+  background-blend-mode: soft-light, normal;
+}
+
 /* Page themes — a page's "Page theme" setting in Studio puts one of
    these on a wrapper around the whole page (see [...slug]/page.tsx),
    swapping the accent color and the accent gradient for everything
@@ -727,6 +740,26 @@ p {
    banding — .bg-accent-gradient blends it in. */
 :root {
   --gradient-dither: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0.04 0.04 0.04 0 0.44 0.04 0.04 0.04 0 0.44 0.04 0.04 0.04 0 0.44 0 0 0 0 1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --gradient-accent-dark:
+    var(--gradient-dither),
+    linear-gradient(
+      208deg in oklab,
+      #fbfeac 0.0%,
+      #c6cb92 5.36%,
+      #9aa17b 10.71%,
+      #777f68 16.07%,
+      #5b6359 21.43%,
+      #454e4c 26.79%,
+      #343d42 32.14%,
+      #27303a 37.5%,
+      #1e2733 42.86%,
+      #18212f 48.21%,
+      #141c2c 53.57%,
+      #121a2a 58.93%,
+      #111929 64.29%,
+      #101829 69.64%,
+      #101829 75.0%
+    );
 }
 
 [data-page-theme='revision'] {
@@ -752,6 +785,26 @@ p {
       #f2f2f3 83.57%,
       #f2f2f3 90%
     );
+  --gradient-accent-dark:
+    var(--gradient-dither),
+    linear-gradient(
+      208deg in oklab,
+      #b38aff 0.0%,
+      #8f71d0 5.36%,
+      #715da9 10.71%,
+      #594c89 16.07%,
+      #463e6f 21.43%,
+      #37345b 26.79%,
+      #2b2b4c 32.14%,
+      #222540 37.5%,
+      #1b2037 42.86%,
+      #161d31 48.21%,
+      #131a2d 53.57%,
+      #11192b 58.93%,
+      #10182a 64.29%,
+      #101829 69.64%,
+      #101829 75.0%
+    );
 }
 
 [data-page-theme='analysis'] {
@@ -776,6 +829,26 @@ p {
       #f2f2f3 77.14%,
       #f2f2f3 83.57%,
       #f2f2f3 90%
+    );
+  --gradient-accent-dark:
+    var(--gradient-dither),
+    linear-gradient(
+      208deg in oklab,
+      #5eec94 0.0%,
+      #4ebd7f 5.36%,
+      #40966d 10.71%,
+      #34775d 16.07%,
+      #2b5e51 21.43%,
+      #244a46 26.79%,
+      #1e3a3d 32.14%,
+      #192f37 37.5%,
+      #162632 42.86%,
+      #13202e 48.21%,
+      #121c2c 53.57%,
+      #111a2a 58.93%,
+      #101929 64.29%,
+      #101829 69.64%,
+      #101829 75.0%
     );
 }
 
