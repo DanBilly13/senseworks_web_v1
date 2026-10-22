@@ -1,0 +1,113 @@
+.canvas {
+  --aca-ink-soft: rgba(16, 24, 41, 0.68);
+  --aca-chip: rgba(255, 255, 255, 0.72);
+  --aca-chip-border: rgba(16, 24, 41, 0.18);
+  --aca-pick: #422d7f;
+  --aca-pick-ink: #ffffff;
+  --aca-pick-shadow: 0 14px 36px rgba(66, 45, 127, 0.22);
+  --aca-tether: rgba(16, 24, 41, 0.2);
+  --aca-tether-pick: rgba(102, 70, 172, 0.7);
+  --aca-floor: rgba(16, 24, 41, 0.13);
+  --aca-glow: radial-gradient(closest-side, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.5) 55%, rgba(255, 255, 255, 0) 100%);
+  position: relative;
+  width: 800px;
+  height: 800px;
+  overflow: hidden;
+  font-family: var(--font-sans);
+}
+.scene {
+  position: absolute;
+  inset: 0;
+}
+
+/* soft halo behind Ally — 300px, centred on (400, 400) */
+.glow {
+  position: absolute;
+  left: 250px;
+  top: 250px;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: var(--aca-glow);
+  opacity: 0;
+}
+
+.tethers {
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: visible;
+}
+.dash {
+  stroke: var(--aca-tether);
+  stroke-width: 1.5;
+  stroke-dasharray: 6 6;
+  opacity: 0;
+}
+.solid {
+  stroke: var(--aca-tether-pick);
+  stroke-width: 2;
+  opacity: 0;
+}
+
+/* Ally — 118×144 centred on (400, 400); floor shadow 72×8 at y 502 */
+.ally {
+  position: absolute;
+  left: 341px;
+  top: 328px;
+  display: block;
+  transform: translateY(520px);
+  transform-origin: 59px 86px;
+}
+.shadow {
+  position: absolute;
+  left: 364px;
+  top: 502px;
+  width: 72px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--aca-floor);
+  filter: blur(1.5px);
+  opacity: 0;
+}
+
+/* Source chips — 40px tall, centred on their x/y */
+.chip {
+  position: absolute;
+  height: 40px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  white-space: nowrap;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--aca-ink-soft);
+  background: var(--aca-chip);
+  border: 1.5px dashed var(--aca-chip-border);
+  opacity: 0;
+  transform: scale(0.9);
+}
+.chip[data-on] {
+  opacity: 1;
+  transform: scale(1);
+}
+.chip[data-pick] {
+  color: var(--aca-pick-ink);
+  background: var(--aca-pick);
+  border: 1.5px solid var(--aca-pick);
+  box-shadow: var(--aca-pick-shadow);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* riseIn after the tether has drawn: 450ms snap, 120ms behind it */
+  .chip {
+    transition: opacity 450ms cubic-bezier(.16, 1, .3, 1) 120ms, transform 450ms cubic-bezier(.16, 1, .3, 1) 120ms,
+      background-color 400ms cubic-bezier(.16, 1, .3, 1), color 400ms cubic-bezier(.16, 1, .3, 1), box-shadow 400ms cubic-bezier(.16, 1, .3, 1);
+  }
+  .canvas[data-still] .chip {
+    transition: none;
+  }
+}

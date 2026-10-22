@@ -10,6 +10,7 @@ import { IntegrationsScreenAnimation } from './IntegrationsScreenAnimation'
 import { AllyAnimation } from './AllyQuestion'
 import { AllyCitationAnimation } from './AllyCitation'
 import { AllyOpenAnimation } from './AllyOpen'
+import { AllyCallAnimation } from './AllyCall'
 
 // Ally's canvas is an 852×852 square with its content in the centre
 // band; shown in the site's 7:5 frame (852×608), shifted up 122px so that
@@ -29,6 +30,17 @@ function AllyCitationFramed({ paused }: { paused?: boolean }) {
   return (
     <div style={{ transform: 'translateY(-108px)' }}>
       <AllyCitationAnimation paused={paused} />
+    </div>
+  )
+}
+
+// "You make the call": an 800×800 square, its chips from y 218 to y 610
+// around Ally; shown in the 7:5 frame (800×572), shifted up 128px so they
+// sit in the middle.
+function AllyCallFramed({ paused }: { paused?: boolean }) {
+  return (
+    <div style={{ transform: 'translateY(-128px)' }}>
+      <AllyCallAnimation paused={paused} />
     </div>
   )
 }
@@ -101,6 +113,10 @@ export const ANIMATION_COMPONENTS = {
     component: AllyOpenAnimation,
     canvas: { width: 800, height: 800 },
     fit: 'contain',
+  } as AnimationEntry,
+  allyCallAnimation: {
+    component: AllyCallFramed,
+    canvas: { width: 800, height: 572 },
   } as AnimationEntry,
 } satisfies Record<string, AnimationEntry>
 
