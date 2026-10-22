@@ -58,6 +58,7 @@ export const media = defineType({
           { title: 'Integrations Screen', value: 'integrationsScreenAnimation' },
           { title: 'Ally Question', value: 'allyQuestionAnimation' },
           { title: 'Ally Citation', value: 'allyCitationAnimation' },
+          { title: 'Ally Open', value: 'allyOpenAnimation' },
         ],
       },
       hidden: ({ parent }) => parent?.mediaType !== 'reactAnimation',

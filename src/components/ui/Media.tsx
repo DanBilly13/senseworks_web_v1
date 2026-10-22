@@ -164,8 +164,22 @@ export function Media({
           rAF effect) so it resumes from where it stopped instead of
           restarting, rather than unmounting and losing that state. */}
       {animationEntry && (
-        <div ref={animRef} className={`absolute inset-0 flex ${alignClassName}`} aria-hidden="true">
-          <div style={{ width: `${scale}%` }}>
+        <div
+          ref={animRef}
+          className={`absolute inset-0 flex ${alignClassName}`}
+          // 'contain' canvases measure the frame's height (cqh) too, so
+          // they never come out taller than it.
+          style={animationEntry.fit === 'contain' ? { containerType: 'size' } : undefined}
+          aria-hidden="true"
+        >
+          <div
+            style={{
+              width:
+                animationEntry.fit === 'contain' && animationEntry.canvas
+                  ? `min(${scale}%, ${((animationEntry.canvas.width / animationEntry.canvas.height) * scale).toFixed(3)}cqh)`
+                  : `${scale}%`,
+            }}
+          >
             {animationEntry.canvas ? (
               <ScaledCanvas canvasWidth={animationEntry.canvas.width} canvasHeight={animationEntry.canvas.height}>
                 <animationEntry.component paused={!animInView} />

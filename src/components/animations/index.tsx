@@ -9,6 +9,7 @@ import { CustomiseCanvas } from './CustomiseCanvas'
 import { IntegrationsScreenAnimation } from './IntegrationsScreenAnimation'
 import { AllyAnimation } from './AllyQuestion'
 import { AllyCitationAnimation } from './AllyCitation'
+import { AllyOpenAnimation } from './AllyOpen'
 
 // Ally's canvas is an 852×852 square with its content in the centre
 // band; shown in the site's 7:5 frame (852×608), shifted up 122px so that
@@ -43,6 +44,13 @@ type AnimationEntry = {
   // of reflowing. Omit it for a component that's already responsive
   // on its own terms (e.g. UploadQueueLoop's flexible panel layout).
   canvas?: { width: number; height: number }
+  // 'contain': always show the whole canvas — scaled to fit the frame's
+  // height too, centred, when the canvas is taller than the frame (a
+  // square in a 7:5 frame). Without it a canvas fills the frame's width
+  // and anything taller is cropped. For compositions that can't lose an
+  // edge (Ally Open: a cropped platform corner with the launcher at its
+  // foot and the chat near its top).
+  fit?: 'contain'
 }
 
 // A curated exception to "media is always a file" (image/video/lottie)
@@ -88,6 +96,11 @@ export const ANIMATION_COMPONENTS = {
   allyCitationAnimation: {
     component: AllyCitationFramed,
     canvas: { width: 800, height: 572 },
+  } as AnimationEntry,
+  allyOpenAnimation: {
+    component: AllyOpenAnimation,
+    canvas: { width: 800, height: 800 },
+    fit: 'contain',
   } as AnimationEntry,
 } satisfies Record<string, AnimationEntry>
 

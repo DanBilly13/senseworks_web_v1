@@ -1,0 +1,274 @@
+.canvas {
+  --aoa-ink: #101829;
+  --aoa-paper: #ffffff;
+  --aoa-chat-bg: #fafafa;
+  --aoa-soft: rgba(16, 24, 41, 0.68);
+  --aoa-icon-soft: rgba(16, 24, 41, 0.7);
+  --aoa-rule: rgba(16, 24, 41, 0.08);
+  --aoa-row-rule: rgba(16, 24, 41, 0.06);
+  --aoa-layer: rgba(255, 255, 255, 0.6);
+  --aoa-layer-border: rgba(255, 255, 255, 0.9);
+  --aoa-floor: rgba(16, 24, 41, 0.14);
+  --aoa-ripple: #b38aff;
+  --aoa-modal-shadow: 0 24px 64px rgba(16, 24, 41, 0.14), 0 2px 8px rgba(16, 24, 41, 0.05);
+  position: relative;
+  width: 800px;
+  height: 800px;
+  overflow: hidden;
+  font-family: var(--font-sans);
+}
+.scene {
+  position: absolute;
+  inset: 0;
+}
+.allySvg {
+  display: block;
+}
+
+/* Platform main panel — runs off the left and bottom edges */
+.panel {
+  position: absolute;
+  left: -24px;
+  top: 70px;
+  width: 596px;
+  height: 800px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  background: var(--aoa-layer);
+  border: 1px solid var(--aoa-paper);
+}
+.row {
+  position: absolute;
+  left: 56px;
+  right: 32px;
+  height: 52px;
+  border-bottom: 1px solid var(--aoa-row-rule);
+}
+
+/* Right nav cards — 144×100, 122px pitch from y 70 */
+.railCard {
+  position: absolute;
+  left: 586px;
+  width: 144px;
+  height: 100px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  background: var(--aoa-layer);
+  border: 1px solid var(--aoa-layer-border);
+}
+
+/* Little Ally — 92×92 box centred on (706, 737) */
+.launcher {
+  position: absolute;
+  left: 660px;
+  top: 691px;
+  width: 92px;
+  height: 92px;
+}
+.ripple {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--aoa-ripple);
+  opacity: 0;
+  transform: scale(0.4);
+}
+.launcherBody {
+  position: absolute;
+  inset: 0;
+}
+.launcherFloat {
+  position: absolute;
+  left: 22px;
+  top: 10px;
+  width: 48px;
+  height: 58px;
+}
+.launcherShadow {
+  position: absolute;
+  left: 32px;
+  top: 74px;
+  width: 28px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--aoa-floor);
+}
+
+/* Chat panel — 531px wide at (133, 130), runs off the bottom */
+.modal {
+  position: absolute;
+  left: 133px;
+  top: 130px;
+  width: 531px;
+  height: 782px;
+  border-radius: 22px;
+  overflow: hidden;
+  background: var(--aoa-chat-bg);
+  box-shadow: var(--aoa-modal-shadow);
+  transform-origin: 100% 100%;
+}
+.header {
+  height: 108px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 0 28px 0 30px;
+  background: var(--aoa-paper);
+  border-bottom: 1px solid var(--aoa-rule);
+}
+.headLeft {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.headRight {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+.miniAlly {
+  position: relative;
+  width: 36px;
+  height: 52px;
+}
+.miniShadow {
+  position: absolute;
+  left: 6px;
+  bottom: 0;
+  width: 24px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--aoa-floor);
+}
+.headTitle {
+  font-size: 28px;
+  line-height: 36px;
+  letter-spacing: -0.01em;
+  color: var(--aoa-ink);
+}
+.caretDown {
+  display: block;
+  margin-left: -8px;
+  margin-top: 4px;
+  fill: var(--aoa-ink);
+  stroke: var(--aoa-ink);
+  stroke-width: 30;
+}
+.iconMore {
+  display: block;
+  fill: var(--aoa-icon-soft);
+}
+.iconClose {
+  display: block;
+  fill: var(--aoa-ink);
+  stroke: var(--aoa-ink);
+  stroke-width: 24;
+}
+.bigAlly {
+  position: absolute;
+  left: 210px;
+  top: 187px;
+  width: 111px;
+  height: 135px;
+}
+.bigShadowPos {
+  position: absolute;
+  left: 224px;
+  top: 344px;
+  width: 83px;
+  height: 9px;
+}
+.bigShadow {
+  width: 83px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(16, 24, 41, 0.12);
+  filter: blur(1.5px);
+  transform: scale(0.92);
+}
+.heading {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 398px;
+  text-align: center;
+  font-size: 28px;
+  line-height: 36px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--aoa-ink);
+}
+.body {
+  position: absolute;
+  left: 35px;
+  top: 467px;
+  width: 460px;
+  text-align: center;
+  font-size: 23px;
+  line-height: 38px;
+  color: var(--aoa-soft);
+}
+
+/* Pointer */
+.pointer {
+  position: absolute;
+  left: 710.5px;
+  top: 749px;
+  width: 36px;
+  height: 36px;
+  z-index: 5;
+  transform-origin: 7.5px 3px;
+}
+.pointer svg {
+  display: block;
+  filter: drop-shadow(0 1px 2px rgba(16, 24, 41, 0.35));
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .launcherFloat {
+    animation: aoa-bob-small 3s ease-in-out infinite;
+  }
+  .launcherShadow {
+    animation: aoa-shadow 3s ease-in-out infinite;
+  }
+  .bigFloat {
+    animation: aoa-bob-big 3s ease-in-out infinite;
+  }
+  .bigShadow {
+    animation: aoa-shadow 3s ease-in-out infinite;
+  }
+  /* click ripple — the k-ripple preset: 50% at 60% size in 45 ms, then spreads to 190% and fades */
+  .ripple[data-on] {
+    animation: aoa-ripple 330ms linear forwards;
+  }
+}
+
+/* Site integration: freeze the CSS floats while the frame is off screen. */
+.paused *,
+.paused *::before,
+.paused *::after {
+  animation-play-state: paused !important;
+}
+
+@keyframes aoa-bob-small {
+  0%, 100% { transform: translateY(0px); }
+  25% { transform: translateY(2.5px); }
+  75% { transform: translateY(-2.5px); }
+}
+@keyframes aoa-bob-big {
+  0%, 100% { transform: translateY(0px); }
+  25% { transform: translateY(4px); }
+  75% { transform: translateY(-4px); }
+}
+@keyframes aoa-shadow {
+  0%, 50%, 100% { transform: scale(0.92); }
+  25% { transform: scale(0.98); }
+  75% { transform: scale(0.86); }
+}
+@keyframes aoa-ripple {
+  0% { opacity: 0; transform: scale(0.4); }
+  13.6% { opacity: 0.5; transform: scale(0.6); }
+  100% { opacity: 0; transform: scale(1.9); }
+}
