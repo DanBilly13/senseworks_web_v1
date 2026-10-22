@@ -8,7 +8,7 @@ import styles from './AllyQuestion.module.css';
  * Content sits in the centre 852×426 band so the canvas can be cropped to 2:1
  * or shown as the full square. Every position is a literal px value.
  *
- *   0.00  Enter  Ally rises from below the frame (1.9 s float-in, slow tilt settle)
+ *   0.00  Enter  Ally shoots up from below the frame (1.4 s expo ease-out, tilt settles by 1.6 s)
  *   1.80  Field  the ask field lifts in, the send disc pops
  *   2.60  Type   the question types, 60 ms per character
  *   5.00  Hold   send disc pressed
@@ -31,7 +31,7 @@ interface AnimState {
 }
 
 const EASE = {
-  float: 'cubic-bezier(.33, 1, .68, 1)',
+  float: 'cubic-bezier(.16, 1, .3, 1)', // easeOutExpo — fast in, long soft settle
   enter: 'cubic-bezier(.25, 1, .5, 1)',
   pop: 'cubic-bezier(.34, 1.56, .64, 1)',
   out: 'cubic-bezier(.37, 0, .63, 1)',
@@ -92,14 +92,14 @@ function usePrefersReducedMotion(): boolean {
 /*
  * Site integration: `paused` (Media sets it while the frame is off screen)
  * freezes the timeline and the CSS loops where they are, instead of
- * unmounting, so the animation resumes from the same moment. The 852×852
- * canvas is registered as 852×608 (the site's 7:5 media frame) and shifted
- * up 122px, showing the centre band — see animations/index.tsx.
+ * unmounting, so the animation resumes from the same moment. Reduced
+ * motion shows the finished frame. The 852×852 canvas is registered as
+ * 852×608 (the site's 7:5 media frame) and shifted up 122px, showing the
+ * centre band — see animations/index.tsx.
  */
 export function AllyAnimation({ className, paused = false }: { className?: string; paused?: boolean }) {
   const reduced = usePrefersReducedMotion();
   const [state, setS] = useState<AnimState>(INITIAL);
-  // Reduced motion shows the finished frame, still.
   const s = reduced ? FINAL : state;
   const pausedRef = useRef(paused);
   const resumeRef = useRef<(() => void) | null>(null);
@@ -139,11 +139,11 @@ export function AllyAnimation({ className, paused = false }: { className?: strin
     transform: rest ? `translateY(${out ? -24 : 0}px) rotate(0deg)` : 'translateY(560px) rotate(-6deg)',
     transition: s.phase === 'reset' ? 'none'
       : out ? t(`opacity 500ms ${EASE.out}, transform 600ms cubic-bezier(.32, 0, .67, 0)`)
-      : t(`transform 1900ms ${EASE.float}`),
+      : t(`transform 1400ms ${EASE.float}`),
   };
   const shadow: CSSProperties = {
     opacity: rest && !out ? 1 : 0,
-    transition: s.phase === 'reset' ? 'none' : out ? t(`opacity 500ms ${EASE.out}`) : t(`opacity 1200ms ${EASE.enter} 600ms`),
+    transition: s.phase === 'reset' ? 'none' : out ? t(`opacity 500ms ${EASE.out}`) : t(`opacity 1000ms ${EASE.enter} 300ms`),
   };
   const field: CSSProperties = {
     opacity: s.field && !out ? 1 : 0,

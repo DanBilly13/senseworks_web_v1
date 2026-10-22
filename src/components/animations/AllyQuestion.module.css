@@ -11,11 +11,11 @@
   overflow: hidden;
 }
 
-/* Ally — 240×292, top 226, centred */
+/* Ally — 240×292, top 252, centred; her base shows under the field */
 .ally {
   position: absolute;
   left: 306px;
-  top: 226px;
+  top: 252px;
   width: 240px;
   height: 292px;
   transform-origin: 120px 175px;
@@ -29,11 +29,11 @@
   display: block;
 }
 
-/* Floor shadow — 160×14, top 592 */
+/* Floor shadow — 160×14, top 618 */
 .shadowPos {
   position: absolute;
   left: 346px;
-  top: 592px;
+  top: 618px;
   width: 160px;
   height: 14px;
 }
