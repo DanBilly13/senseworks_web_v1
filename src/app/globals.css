@@ -703,8 +703,9 @@ p {
    (--color-foreground) instead of the light grey — text on it is white.
    Yellow (or purple/green) mixed with a dark navy passes through a
    muddy olive (purple/teal) on the way, so this one leaves the accent
-   quickly (ease-out cubic, in OKLab) and reaches the black by 75%,
-   keeping that middle band thin. Per page theme below, as with
+   quickly (ease-out cubic, in OKLab) and reaches the black by 65%,
+   keeping that middle band thin. Kept subtle: it starts 30% of the way
+   to black rather than at the full accent. Per page theme below, as with
    --gradient-accent. */
 .bg-accent-gradient-dark {
   background-color: var(--color-foreground);
@@ -744,21 +745,21 @@ p {
     var(--gradient-dither),
     linear-gradient(
       208deg in oklab,
-      #fbfeac 0.0%,
-      #c6cb92 5.36%,
-      #9aa17b 10.71%,
-      #777f68 16.07%,
-      #5b6359 21.43%,
-      #454e4c 26.79%,
-      #343d42 32.14%,
-      #27303a 37.5%,
-      #1e2733 42.86%,
-      #18212f 48.21%,
-      #141c2c 53.57%,
-      #121a2a 58.93%,
-      #111929 64.29%,
-      #101829 69.64%,
-      #101829 75.0%
+      #acb285 0.0%,
+      #899072 4.64%,
+      #6c7463 9.29%,
+      #555e56 13.93%,
+      #424b4b 18.57%,
+      #343d42 23.21%,
+      #29323a 27.86%,
+      #202935 32.5%,
+      #1a2330 37.14%,
+      #161e2d 41.79%,
+      #131b2b 46.43%,
+      #11192a 51.07%,
+      #101829 55.71%,
+      #101829 60.36%,
+      #101829 65.0%
     );
 }
 
@@ -789,21 +790,21 @@ p {
     var(--gradient-dither),
     linear-gradient(
       208deg in oklab,
-      #b38aff 0.0%,
-      #8f71d0 5.36%,
-      #715da9 10.71%,
-      #594c89 16.07%,
-      #463e6f 21.43%,
-      #37345b 26.79%,
-      #2b2b4c 32.14%,
-      #222540 37.5%,
-      #1b2037 42.86%,
-      #161d31 48.21%,
-      #131a2d 53.57%,
-      #11192b 58.93%,
-      #10182a 64.29%,
-      #101829 69.64%,
-      #101829 75.0%
+      #7d65b9 0.0%,
+      #665599 4.64%,
+      #52477f 9.29%,
+      #423c6a 13.93%,
+      #353259 18.57%,
+      #2b2b4c 23.21%,
+      #232541 27.86%,
+      #1c2139 32.5%,
+      #181e33 37.14%,
+      #141b2f 41.79%,
+      #121a2c 46.43%,
+      #11192a 51.07%,
+      #101829 55.71%,
+      #101829 60.36%,
+      #101829 65.0%
     );
 }
 
@@ -834,21 +835,21 @@ p {
     var(--gradient-dither),
     linear-gradient(
       208deg in oklab,
-      #5eec94 0.0%,
-      #4ebd7f 5.36%,
-      #40966d 10.71%,
-      #34775d 16.07%,
-      #2b5e51 21.43%,
-      #244a46 26.79%,
-      #1e3a3d 32.14%,
-      #192f37 37.5%,
-      #162632 42.86%,
-      #13202e 48.21%,
-      #121c2c 53.57%,
-      #111a2a 58.93%,
-      #101929 64.29%,
-      #101829 69.64%,
-      #101829 75.0%
+      #45a674 0.0%,
+      #3a8765 4.64%,
+      #316e59 9.29%,
+      #29594e 13.93%,
+      #234845 18.57%,
+      #1e3a3d 23.21%,
+      #1a3037 27.86%,
+      #162833 32.5%,
+      #14222f 37.14%,
+      #121e2d 41.79%,
+      #111b2b 46.43%,
+      #10192a 51.07%,
+      #101829 55.71%,
+      #101829 60.36%,
+      #101829 65.0%
     );
 }
 
