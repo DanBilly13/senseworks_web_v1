@@ -1,6 +1,9 @@
 'use client'
 import type { ReactNode } from 'react'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
+import { stripLocale, usePageVersions, useTeamMode } from '@/lib/teamMode'
+import type { PageVersion } from '@/lib/sanity/siteNavigation'
 import {
   FacebookOutlined,
   GithubOutlined,
@@ -43,6 +46,15 @@ export function FooterBlock({
   legalLinks = [],
   copyrightText,
 }: FooterBlockProps) {
+  // Team mode (see lib/teamMode): a link to a page that has versions
+  // lists them underneath it, indented — e.g. the Admin column's LP V3
+  // with its LP001/LP002. Each in the link's own language.
+  const team = useTeamMode()
+  const locale = (usePathname() ?? '').split('/')[1] || 'en'
+  const versions = usePageVersions<PageVersion>(team, locale)
+  const versionsOf = (href: string) => versions.filter((v) => `/${v.of}` === stripLocale(href))
+  const localeOf = (href: string) => href.match(/^\/(en|sv)(?=\/|$)/)?.[1] ?? locale
+
   return (
     <footer className="bg-foreground text-background">
       <div className="mx-auto flex w-full max-w-page flex-col gap-3xl px-medium-large py-section-edge">
@@ -72,13 +84,20 @@ export function FooterBlock({
                     {column.title}
                   </p>
                   {column.links?.map((link) => (
-                    <a
-                      key={link.href}
-                      href={link.href}
-                      className="text-body-sm text-background/80 hover:text-background"
-                    >
-                      {link.label}
-                    </a>
+                    <div key={link.href} className="flex flex-col gap-small-medium">
+                      <a href={link.href} className="text-body-sm text-background/80 hover:text-background">
+                        {link.label}
+                      </a>
+                      {versionsOf(link.href).map((version) => (
+                        <a
+                          key={version.slug}
+                          href={`/${localeOf(link.href)}/${version.slug}`}
+                          className="pl-medium text-body-sm text-background/60 hover:text-background"
+                        >
+                          {version.title}
+                        </a>
+                      ))}
+                    </div>
                   ))}
                 </div>
               ))}

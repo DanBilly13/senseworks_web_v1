@@ -6,7 +6,7 @@ import { CheckOutlined, CloseOutlined, DownOutlined, MenuOutlined } from '@ant-d
 import { Button } from '@/components/ui/Button'
 import { Menu, MenuItem } from '@/components/ui/Menu'
 import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher'
-import { usePageVersions, useTeamMode } from '@/lib/teamMode'
+import { stripLocale, usePageVersions, useTeamMode } from '@/lib/teamMode'
 import type { PageVersion } from '@/lib/sanity/siteNavigation'
 import styles from './HeaderBlock.module.css'
 
@@ -136,10 +136,6 @@ const DIRECTION_THRESHOLD = 8
 // Whether a nav link points at the page being viewed. Ignores the
 // locale segment (a link to /en/produkter/revision is still "this
 // page" on /sv/produkter/revision) and in-page #anchors.
-function stripLocale(path: string) {
-  return path.split(/[?#]/)[0].replace(/^\/(en|sv)(?=\/|$)/, '').replace(/\/$/, '')
-}
-
 function isCurrentPage(href: string | undefined, pathname: string) {
   if (!href || href.startsWith('#')) return false
   return stripLocale(href) === stripLocale(pathname)

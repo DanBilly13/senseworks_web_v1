@@ -28,6 +28,12 @@ function applyTeamParam() {
   window.dispatchEvent(new Event(EVENT))
 }
 
+// A path without its locale segment, query or #anchor ("/sv/lp/v3#x" →
+// "/lp/v3"), for matching a link to a page's versions (`of`).
+export function stripLocale(path: string) {
+  return path.split(/[?#]/)[0].replace(/^\/(en|sv)(?=\/|$)/, '').replace(/\/$/, '')
+}
+
 // The page versions, fetched once team mode is on (never cached, see
 // api/versions); empty otherwise.
 export function usePageVersions<T>(team: boolean, locale: string): T[] {
