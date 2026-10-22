@@ -445,6 +445,33 @@ export default async function BlocksPage({
           { eyebrow: '03 — Dolor', heading: 'Adipiscing elit sed', body: BODY },
         ]}
       />
+      <BlockCaption
+        name="Section Headline + Card Grid — both Dark: one band"
+        type="sectionHeadlineBlock + cardGridBlock"
+        variant='tone: "inverse" / background: "inverse" (joined by BlockRenderer)'
+      />
+      <SectionHeadlineBlock tone="inverse" joinBelow spacing="tight" align="left" eyebrow="Eyebrow" headline="Lorem ipsum dolor sit amet" />
+      <CardGridBlock
+        columns="3"
+        background="inverse"
+        joinAbove
+        items={[
+          { eyebrow: '01 — Lorem', heading: 'Lorem ipsum dolor', body: BODY },
+          { eyebrow: '02 — Ipsum', heading: 'Sit amet consectetur', body: BODY },
+          { eyebrow: '03 — Dolor', heading: 'Adipiscing elit sed', body: BODY },
+        ]}
+      />
+      <BlockCaption name="Card Grid — Dark accent gradient background" type="cardGridBlock" variant='background: "accentDark", tone: "dark"' />
+      <CardGridBlock
+        columns="3"
+        background="accentDark"
+        tone="dark"
+        items={[
+          { eyebrow: '01 — Lorem', heading: 'Lorem ipsum dolor', body: BODY },
+          { eyebrow: '02 — Ipsum', heading: 'Sit amet consectetur', body: BODY },
+          { eyebrow: '03 — Dolor', heading: 'Adipiscing elit sed', body: BODY },
+        ]}
+      />
       <BlockCaption name="Card Grid — 4 Columns" type="cardGridBlock" variant='columns: "4"' />
       <CardGridBlock
         columns="4"

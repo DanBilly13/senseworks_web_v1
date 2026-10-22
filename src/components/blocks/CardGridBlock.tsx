@@ -1,6 +1,7 @@
 import type { SanityImageSource } from '@sanity/image-url'
 import Image from 'next/image'
 import { SectionShell } from '@/components/ui/SectionShell'
+import { BandFill, bandShellPadding, type BandProps, type BandTone } from '@/components/ui/BandFill'
 import { SectionIntro } from '@/components/ui/SectionIntro'
 import { renderNumberedEyebrow } from '@/components/ui/numberedEyebrow'
 import { urlFor } from '@/lib/sanity/image'
@@ -44,7 +45,11 @@ const IMAGE_FADE_MASK = `linear-gradient(
     transparent 100%
   )`
 type CardTone = 'default' | 'dark' | 'accent'
-type CardGridBlockProps = {
+// background/paddingTop/paddingBottom/spacing: the optional full screen
+// width background behind the cards, see ui/BandFill (`tone` here is the
+// cards' own style, so the band's is `background`).
+type CardGridBlockProps = Omit<BandProps, 'tone'> & {
+  background?: BandTone
   columns?: '1' | '2' | '3' | '4'
   items?: CardGridItem[]
   tone?: CardTone
@@ -66,7 +71,6 @@ type CardGridBlockProps = {
   // Block's full-bleed image) with each item's own padding widened to
   // match, so text still lands 32px from the true screen edge.
   layout?: 'cards' | 'merged'
-  spacing?: 'loose' | 'medium' | 'tight' | 'none'
 }
 
 const GRID_COLS_CLASS: Record<'1' | '2' | '3' | '4', string> = {
@@ -108,7 +112,8 @@ export function CardGridBlock({
   numberedEyebrow = false,
   showImage = false,
   layout = 'cards',
-  spacing = 'loose',
+  background = 'none',
+  ...band
 }: CardGridBlockProps) {
   // D7: a block with no content simply doesn't render.
   if (!items.length) return null
@@ -116,117 +121,119 @@ export function CardGridBlock({
   const merged = layout === 'merged'
 
   return (
-    <SectionShell px={merged ? 'full' : 'boxed'} py={spacing}>
-      {/* Grid's default align-items: stretch makes every card in a row
-          match the tallest one, on desktop's multi-column row — no
-          extra height/flex wiring needed for that. Single column on
-          mobile just stacks them at their own natural heights instead.
-          'cards': gap-small/md:gap-large pairs with SectionShell's
-          px="boxed" (8px) and each card's own horizontal
-          px-medium-large (24px): the card's TEXT lands 8+24=32px from
-          the edge either way, same as every non-boxed section's direct
-          32px padding — only the box itself hugs closer to the edge on
-          mobile. Desktop's horizontal padding (32px gap, 32px card
-          padding) is unchanged. 'merged': no gap at all (columns sit
-          flush — see TONE_SURFACE_CLASS above), and the surface/
-          rounding move here instead of onto each item — rounded-none
-          on mobile since the panel goes full screen width there (same
-          reasoning as Media Block's full-bleed image), rounded-lg
-          again once SectionShell's own px="full" restores a page
-          margin at md:. The card's own TOP padding is separate from
-          this rhythm and responds to whether it has an image — see
-          hasImage below. */}
-      <div
-        className={[
-          'grid grid-cols-1',
-          merged ? 'overflow-hidden rounded-none md:rounded-lg' : 'gap-small md:gap-large',
-          merged ? TONE_SURFACE_CLASS[tone] : '',
-          GRID_COLS_CLASS[columns],
-        ]
-          .filter(Boolean)
-          .join(' ')}
-      >
-        {items.map((item, index) => {
-          const hasImage = showImage && !!item.image
-          return (
-            <div
-              key={index}
-              className={`flex flex-col ${merged ? '' : `rounded-lg ${TONE_SURFACE_CLASS[tone]}`}`}
-            >
-              {/* Image (when present) sits below the text, inset within
-                  the card's own padding like Bento Grid's media — not
-                  flush against the card's edges. Top padding is always
-                  32px now (image or not, it's never up here anymore).
-                  With an image, bottom padding is a fixed 24px (the
-                  image-to-card-edge gap) and the image's own mt-large
-                  supplies the 32px gap up from the body text. With no
-                  image, bottom padding falls back to the heading-line-
-                  height-based gap it always used. Horizontal padding is
-                  wider on mobile in 'merged' layout (flat px-large,
-                  32px) than 'cards' (px-medium-large, 24px) — 'merged'
-                  has no outer section padding of its own on mobile to
-                  combine with, so this is the only thing standing
-                  between the text and the true screen edge there. */}
+    <BandFill tone={background} {...band}>
+      <SectionShell px={merged ? 'full' : 'boxed'} {...bandShellPadding({ tone: background, ...band })}>
+        {/* Grid's default align-items: stretch makes every card in a row
+            match the tallest one, on desktop's multi-column row — no
+            extra height/flex wiring needed for that. Single column on
+            mobile just stacks them at their own natural heights instead.
+            'cards': gap-small/md:gap-large pairs with SectionShell's
+            px="boxed" (8px) and each card's own horizontal
+            px-medium-large (24px): the card's TEXT lands 8+24=32px from
+            the edge either way, same as every non-boxed section's direct
+            32px padding — only the box itself hugs closer to the edge on
+            mobile. Desktop's horizontal padding (32px gap, 32px card
+            padding) is unchanged. 'merged': no gap at all (columns sit
+            flush — see TONE_SURFACE_CLASS above), and the surface/
+            rounding move here instead of onto each item — rounded-none
+            on mobile since the panel goes full screen width there (same
+            reasoning as Media Block's full-bleed image), rounded-lg
+            again once SectionShell's own px="full" restores a page
+            margin at md:. The card's own TOP padding is separate from
+            this rhythm and responds to whether it has an image — see
+            hasImage below. */}
+        <div
+          className={[
+            'grid grid-cols-1',
+            merged ? 'overflow-hidden rounded-none md:rounded-lg' : 'gap-small md:gap-large',
+            merged ? TONE_SURFACE_CLASS[tone] : '',
+            GRID_COLS_CLASS[columns],
+          ]
+            .filter(Boolean)
+            .join(' ')}
+        >
+          {items.map((item, index) => {
+            const hasImage = showImage && !!item.image
+            return (
               <div
-                className={`flex flex-1 flex-col pt-large ${merged ? 'px-large' : 'px-medium-large md:px-large'}`}
-                style={{ paddingBottom: hasImage ? undefined : CARD_PADDING_BOTTOM_VAR[headingLevel] }}
+                key={index}
+                className={`flex flex-col ${merged ? '' : `rounded-lg ${TONE_SURFACE_CLASS[tone]}`}`}
               >
-                <SectionIntro
-                  as={headingLevel}
-                  eyebrow={renderNumberedEyebrow(item.eyebrow, numberedEyebrow, tone === 'dark')}
-                  heading={item.heading}
-                  body={item.body}
-                  tone={tone === 'dark' ? 'inverse' : 'default'}
-                  // On the dark card specifically, the kicker reads as an
-                  // accent highlight rather than faded white — a look Dan
-                  // asked for after seeing the plain white/70% version.
-                  // Numbered eyebrows go full foreground instead of the
-                  // usual muted grey — next to a bold number badge, grey
-                  // text read washed out.
-                  eyebrowColor={
-                    tone === 'dark' ? 'text-accent' : numberedEyebrow ? 'text-foreground' : undefined
-                  }
-                  // Gaps follow the site-wide rule (half the heading's own
-                  // line-height, SectionIntro's default), which already
-                  // scales with h3 vs h4. Card Grid used to opt into the
-                  // full line-height, which read noticeably loose.
-                />
-                {hasImage && (
-                  // bg-accent-gradient backdrop — same treatment
-                  // Media.tsx gives every media slot by default (see
-                  // Bento Grid). Temporary: Dan wants a different
-                  // gradient behind dark-tone cards eventually, but is
-                  // using the same yellow one everywhere for now. Skipped
-                  // entirely when fading, so the image fades to true
-                  // transparency (the card's own background) instead of
-                  // fading into this yellow backdrop.
-                  <div
-                    className={`relative mt-large mb-medium-large aspect-media w-full overflow-hidden rounded-md ${item.imageFade ? '' : 'bg-accent-gradient'}`}
-                  >
-                    <Image
-                      src={urlFor(item.image!).url()}
-                      alt={item.imageAlt || ''}
-                      fill
-                      sizes="(min-width: 768px) 33vw, 100vw"
-                      className="size-full object-cover"
-                      style={
-                        item.imageFade
-                          ? {
-                              maskImage: IMAGE_FADE_MASK,
-                              WebkitMaskImage: IMAGE_FADE_MASK,
-                              maskComposite: 'intersect',
-                              WebkitMaskComposite: 'source-in',
-                            }
-                          : undefined
-                      }
-                    />
-                  </div>
-                )}
+                {/* Image (when present) sits below the text, inset within
+                    the card's own padding like Bento Grid's media — not
+                    flush against the card's edges. Top padding is always
+                    32px now (image or not, it's never up here anymore).
+                    With an image, bottom padding is a fixed 24px (the
+                    image-to-card-edge gap) and the image's own mt-large
+                    supplies the 32px gap up from the body text. With no
+                    image, bottom padding falls back to the heading-line-
+                    height-based gap it always used. Horizontal padding is
+                    wider on mobile in 'merged' layout (flat px-large,
+                    32px) than 'cards' (px-medium-large, 24px) — 'merged'
+                    has no outer section padding of its own on mobile to
+                    combine with, so this is the only thing standing
+                    between the text and the true screen edge there. */}
+                <div
+                  className={`flex flex-1 flex-col pt-large ${merged ? 'px-large' : 'px-medium-large md:px-large'}`}
+                  style={{ paddingBottom: hasImage ? undefined : CARD_PADDING_BOTTOM_VAR[headingLevel] }}
+                >
+                  <SectionIntro
+                    as={headingLevel}
+                    eyebrow={renderNumberedEyebrow(item.eyebrow, numberedEyebrow, tone === 'dark')}
+                    heading={item.heading}
+                    body={item.body}
+                    tone={tone === 'dark' ? 'inverse' : 'default'}
+                    // On the dark card specifically, the kicker reads as an
+                    // accent highlight rather than faded white — a look Dan
+                    // asked for after seeing the plain white/70% version.
+                    // Numbered eyebrows go full foreground instead of the
+                    // usual muted grey — next to a bold number badge, grey
+                    // text read washed out.
+                    eyebrowColor={
+                      tone === 'dark' ? 'text-accent' : numberedEyebrow ? 'text-foreground' : undefined
+                    }
+                    // Gaps follow the site-wide rule (half the heading's own
+                    // line-height, SectionIntro's default), which already
+                    // scales with h3 vs h4. Card Grid used to opt into the
+                    // full line-height, which read noticeably loose.
+                  />
+                  {hasImage && (
+                    // bg-accent-gradient backdrop — same treatment
+                    // Media.tsx gives every media slot by default (see
+                    // Bento Grid). Temporary: Dan wants a different
+                    // gradient behind dark-tone cards eventually, but is
+                    // using the same yellow one everywhere for now. Skipped
+                    // entirely when fading, so the image fades to true
+                    // transparency (the card's own background) instead of
+                    // fading into this yellow backdrop.
+                    <div
+                      className={`relative mt-large mb-medium-large aspect-media w-full overflow-hidden rounded-md ${item.imageFade ? '' : 'bg-accent-gradient'}`}
+                    >
+                      <Image
+                        src={urlFor(item.image!).url()}
+                        alt={item.imageAlt || ''}
+                        fill
+                        sizes="(min-width: 768px) 33vw, 100vw"
+                        className="size-full object-cover"
+                        style={
+                          item.imageFade
+                            ? {
+                                maskImage: IMAGE_FADE_MASK,
+                                WebkitMaskImage: IMAGE_FADE_MASK,
+                                maskComposite: 'intersect',
+                                WebkitMaskComposite: 'source-in',
+                              }
+                            : undefined
+                        }
+                      />
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          )
-        })}
-      </div>
-    </SectionShell>
+            )
+          })}
+        </div>
+      </SectionShell>
+    </BandFill>
   )
 }

@@ -1,6 +1,7 @@
 import { defineType, defineField, defineArrayMember } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
 import { spacingField } from '../fields/spacingField'
+import { bandFields } from '../fields/bandFields'
 
 // Deliberately no top-level eyebrow/heading/body — unlike most grid
 // blocks, this one is meant to be paired with a separate intro block
@@ -84,6 +85,7 @@ export const cardGridBlock = defineType({
       },
       initialValue: 'cards',
     }),
+    ...bandFields({ withDarkGradient: true, fieldName: 'background' }),
     spacingField,
     defineField({
       name: 'items',

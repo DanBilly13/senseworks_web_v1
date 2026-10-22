@@ -26,8 +26,13 @@ export type BandProps = {
   joinBelow?: boolean
 }
 
-// The block types that take part in joining (see BlockRenderer).
-export const BAND_BLOCK_TYPES = new Set(['sectionHeadlineBlock', 'bentoGridBlock'])
+// The block types that take part in joining (see BlockRenderer), and
+// the field each keeps its background in.
+export const BAND_TONE_FIELD: Record<string, string> = {
+  sectionHeadlineBlock: 'tone',
+  bentoGridBlock: 'tone',
+  cardGridBlock: 'background',
+}
 
 const BAND_BG: Record<Exclude<BandTone, 'none'>, string> = {
   inverse: 'bg-foreground',

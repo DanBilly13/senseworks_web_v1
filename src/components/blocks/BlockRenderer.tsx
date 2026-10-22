@@ -37,7 +37,7 @@ import { TeamGridBlock } from './TeamGridBlock'
 import { ParagraphsBlock } from './ParagraphsBlock'
 import type { PageBlock } from '@/lib/sanity/getPage'
 
-import { BAND_BLOCK_TYPES } from '@/components/ui/BandFill'
+import { BAND_TONE_FIELD } from '@/components/ui/BandFill'
 const BLOCK_COMPONENTS = {
   headerBlock: HeaderBlock,
   heroBlock: HeroBlock,
@@ -78,11 +78,12 @@ const BLOCK_COMPONENTS = {
   footerBlock: FooterBlock,
 } as const
 
-// A Section Headline or Bento Grid's background (ui/BandFill), when it
-// has one, else null.
+// A Section Headline, Bento Grid or Card Grid's background (ui/BandFill),
+// when it has one, else null.
 function bandTone(block: PageBlock | undefined): string | null {
-  if (!block || !BAND_BLOCK_TYPES.has(block._type)) return null
-  const tone = (block as { tone?: string }).tone
+  const field = block && BAND_TONE_FIELD[block._type]
+  if (!field) return null
+  const tone = block[field] as string | undefined
   return tone && tone !== 'none' && tone !== 'accentDark' ? tone : null
 }
 

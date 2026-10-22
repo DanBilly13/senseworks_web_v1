@@ -26,6 +26,14 @@ describe('Section Headline + Bento Grid backgrounds', () => {
     expect(container.querySelector(':scope > div.bg-accent section')?.className).toMatch(/pt-section-gap-medium/)
   })
 
+  it("joins a Card Grid by its own Background field (its tone is the cards' style)", () => {
+    const cards = { _type: 'cardGridBlock', _key: 'c', background: 'inverse', tone: 'accent', items: [{ eyebrow: 'E', heading: 'Card' }] } as unknown as PageBlock
+    const { container } = render(<BlockRenderer blocks={[headline('inverse'), cards]} />)
+    const fills = container.querySelectorAll(':scope > div.bg-foreground')
+    expect(fills).toHaveLength(2)
+    expect(fills[1].querySelector('section')?.className).toMatch(/pt-none/)
+  })
+
   it('has no fill without a background', () => {
     const { container } = render(<BlockRenderer blocks={[headline(), bento()]} />)
     expect(container.querySelector('.bg-foreground, .bg-accent')).toBeNull()
