@@ -294,6 +294,10 @@ export default async function BlocksPage({
       />
       <BlockCaption name="Hero — Text Only" type="heroTextBlock" />
       <HeroTextBlock eyebrow={EYEBROW} headline={HEADING} subhead={BODY} ctaLabel="Lorem ipsum" ctaHref="#" />
+      {/* The background options: Light, Dark (accent eyebrow and button), Accent. */}
+      <HeroTextBlock eyebrow={EYEBROW} headline={HEADING} subhead={BODY} ctaLabel="Lorem ipsum" ctaHref="#" boundary={false} tone="default" />
+      <HeroTextBlock eyebrow={EYEBROW} headline={HEADING} subhead={BODY} ctaLabel="Lorem ipsum" ctaHref="#" boundary={false} tone="inverse" />
+      <HeroTextBlock eyebrow={EYEBROW} headline={HEADING} subhead={BODY} ctaLabel="Lorem ipsum" ctaHref="#" boundary={false} tone="accent" />
 
       <GroupHeading>Section Dividers</GroupHeading>
       <BlockCaption name="Section Headline — Center" type="sectionHeadlineBlock" variant='align: "center"' />

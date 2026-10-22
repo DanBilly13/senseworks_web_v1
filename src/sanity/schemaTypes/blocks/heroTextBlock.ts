@@ -34,6 +34,24 @@ export const heroTextBlock = defineType({
       type: 'boolean',
       initialValue: true,
     }),
+    // The same colours as CTA Banner, as a full-width background. Page
+    // background (none) by default, so existing heroes are unchanged.
+    defineField({
+      name: 'tone',
+      title: 'Background',
+      description: 'On Dark, the eyebrow and button take the accent colour (the page theme\'s: yellow, Audit purple, Analytics green).',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'None (the page background)', value: 'none' },
+          { title: 'Light', value: 'default' },
+          { title: 'Dark', value: 'inverse' },
+          { title: 'Accent', value: 'accent' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'none',
+    }),
     // Optional, and empty by default, so every existing hero keeps its
     // page-boundary space. Tight when a list sits right underneath
     // (the Blog, Knowledge Bank and Customer stories pages).

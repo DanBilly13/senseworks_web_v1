@@ -18,6 +18,15 @@ type HeroTextBlockProps = {
   headlineSize?: 'h1' | 'display'
   // Overrides the space below (empty: the hero's own page-top space).
   spaceBelow?: 'medium' | 'tight'
+  // A full-width background in CTA Banner's colours; none by default.
+  tone?: 'none' | 'default' | 'inverse' | 'accent'
+}
+
+const SECTION_BG: Record<NonNullable<HeroTextBlockProps['tone']>, string> = {
+  none: '',
+  default: 'bg-muted',
+  inverse: 'bg-foreground',
+  accent: 'bg-accent',
 }
 
 export function HeroTextBlock({
@@ -29,12 +38,23 @@ export function HeroTextBlock({
   boundary = true,
   headlineSize,
   spaceBelow,
+  tone = 'none',
 }: HeroTextBlockProps) {
+  const dark = tone === 'inverse'
   return (
-    <SectionShell py={boundary ? 'section-edge' : 'loose'} pad={boundary ? 'both' : 'bottom'} pb={spaceBelow}>
+    <SectionShell
+      py={boundary ? 'section-edge' : 'loose'}
+      // With a background, the space below sits inside the coloured band.
+      pad={boundary || tone !== 'none' ? 'both' : 'bottom'}
+      pb={spaceBelow}
+      sectionClassName={SECTION_BG[tone]}
+    >
       <SectionIntro
         as="h1"
         display={headlineSize === 'display'}
+        // On dark: light text, with the eyebrow and button in the accent.
+        tone={dark ? 'inverse' : 'default'}
+        eyebrowColor={dark ? 'text-accent' : undefined}
         eyebrow={eyebrow}
         heading={headline}
         body={subhead}
@@ -42,7 +62,9 @@ export function HeroTextBlock({
         cta={
           ctaLabel &&
           ctaHref && (
-            <Button href={ctaHref}>{ctaLabel}</Button>
+            <Button href={ctaHref} variant={dark ? 'filled-accent' : 'filled-dark'}>
+              {ctaLabel}
+            </Button>
           )
         }
       />
