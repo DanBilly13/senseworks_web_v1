@@ -3,6 +3,7 @@ import { hiddenField } from '../fields/hiddenField'
 import { headingLayoutField } from '../fields/headingLayoutField'
 import { titleSizeField } from '../fields/titleSizeField'
 import { spacingField } from '../fields/spacingField'
+import { bandFields } from '../fields/bandFields'
 
 // Deliberately no top-level eyebrow/heading/body — same reasoning as
 // Card Grid: pair this with a separate intro block (e.g. Section
@@ -58,6 +59,7 @@ export const featureGridBlock = defineType({
       initialValue: 'below',
     }),
     titleSizeField(),
+    ...bandFields({ withDarkGradient: true }),
     spacingField,
     defineField({
       name: 'items',

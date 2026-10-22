@@ -34,6 +34,14 @@ describe('Section Headline + Bento Grid backgrounds', () => {
     expect(fills[1].querySelector('section')?.className).toMatch(/pt-none/)
   })
 
+  it('joins a Feature Grid with the same background', () => {
+    const features = { _type: 'featureGridBlock', _key: 'f', tone: 'accent', items: [{ title: 'Feature' }] } as unknown as PageBlock
+    const { container } = render(<BlockRenderer blocks={[headline('accent'), features]} />)
+    const fills = container.querySelectorAll(':scope > div.bg-accent')
+    expect(fills).toHaveLength(2)
+    expect(fills[1].querySelector('section')?.className).toMatch(/pt-none/)
+  })
+
   it('has no fill without a background', () => {
     const { container } = render(<BlockRenderer blocks={[headline(), bento()]} />)
     expect(container.querySelector('.bg-foreground, .bg-accent')).toBeNull()

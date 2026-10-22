@@ -392,6 +392,21 @@ export default async function BlocksPage({
           { title: 'Adipiscing elit sed', description: BODY },
         ]}
       />
+      <BlockCaption
+        name="Section Headline + Feature Grid — both Dark: one band"
+        type="sectionHeadlineBlock + featureGridBlock"
+        variant='tone: "inverse" on both (joined by BlockRenderer)'
+      />
+      <SectionHeadlineBlock tone="inverse" joinBelow spacing="tight" align="left" eyebrow="Eyebrow" headline="Lorem ipsum dolor sit amet" />
+      <FeatureGridBlock
+        tone="inverse"
+        joinAbove
+        items={[
+          { icon: 'lock', title: 'Lorem ipsum dolor', description: BODY, ctaLabel: 'Lorem ipsum', ctaHref: '#' },
+          { title: 'Sit amet consectetur', description: BODY },
+          { icon: 'bolt_boost', title: 'Adipiscing elit sed', description: BODY },
+        ]}
+      />
       <BlockCaption name="Feature Grid — inline links" type="featureGridBlock" variant='linkStyle: "inline"' />
       <FeatureGridBlock
         linkStyle="inline"

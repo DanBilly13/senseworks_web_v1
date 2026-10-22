@@ -6,6 +6,7 @@ import { CheckCircleOutlined } from '@ant-design/icons'
 import { SectionShell } from '@/components/ui/SectionShell'
 import { ItemHeading } from '@/components/ui/ItemHeading'
 import { UploadedIcon } from '@/components/ui/UploadedIcon'
+import { BandFill, bandShellPadding, type BandProps } from '@/components/ui/BandFill'
 
 type FeatureGridIcon =
   | 'home_work'
@@ -42,7 +43,9 @@ type FeatureGridItem = {
   ctaHref?: string
 }
 type IconSize = 'large' | 'small'
-type FeatureGridBlockProps = {
+// tone/paddingTop/paddingBottom/spacing: the optional full screen width
+// background, see ui/BandFill.
+type FeatureGridBlockProps = BandProps & {
   columns?: '2' | '3' | '4'
   iconSize?: IconSize
   headingLayout?: 'stacked' | 'inline'
@@ -50,7 +53,6 @@ type FeatureGridBlockProps = {
   // text link closing out the description itself.
   linkStyle?: 'below' | 'inline'
   titleSize?: 'h3' | 'h4' | 'h5'
-  spacing?: 'loose' | 'medium' | 'tight' | 'none'
   items?: FeatureGridItem[]
 }
 
@@ -82,99 +84,113 @@ export function FeatureGridBlock({
   headingLayout = 'stacked',
   linkStyle = 'below',
   titleSize = 'h4',
-  spacing = 'loose',
   items = [],
+  tone = 'none',
+  ...band
 }: FeatureGridBlockProps) {
   // D7: a block with no content simply doesn't render.
   if (!items.length) return null
 
+  // On Dark and the dark accent gradient: white text, light icons, and
+  // the links in the accent color (as on every dark background).
+  const dark = tone === 'inverse' || tone === 'accentDark'
+  const linkColor = dark ? 'text-accent' : 'text-foreground'
+
   return (
-    <SectionShell py={spacing}>
-      <div className={`grid grid-cols-1 gap-2xl sm:grid-cols-2 ${LG_COLS_CLASS[columns]}`}>
-        {items.map((item, index) => (
-          <div key={index} className="flex flex-col gap-small-medium">
-            {/* No chip background/radius — just the icon itself. Both
-                icon types fill the same box via size-full so a default
-                checkmark and a custom SVG line up identically
-                regardless of which an item uses. */}
-            <div
-              className={`flex items-center justify-center text-muted-foreground ${ICON_BOX_CLASS[iconSize]}`}
-              aria-hidden="true"
-            >
-              {item.iconImage ? (
-                // Uploaded icon: black and white follow the card, its
-                // accent follows the page theme (see UploadedIcon).
-                <UploadedIcon source={item.iconImage} className="size-full" />
-              ) : item.icon ? (
-                <Image
-                  src={ICON_SRC[item.icon]}
-                  alt=""
-                  width={64}
-                  height={64}
-                  className="size-full"
-                />
-              ) : (
-                // AntD icons pass className to the <span> wrapper, not
-                // the inner <svg> — which sizes via its own
-                // width/height="1em" attribute regardless of the
-                // span's size. The span itself also has no size of
-                // its own (it's flex-item content-sized, i.e. sized
-                // by that same 1em svg — circular), so both levels
-                // need size-full: the span against this definite box,
-                // then the svg against the now-definite span.
-                <CheckCircleOutlined className="size-full [&>svg]:size-full" />
+    <BandFill tone={tone} {...band}>
+      <SectionShell {...bandShellPadding({ tone, ...band })}>
+        <div className={`grid grid-cols-1 gap-2xl sm:grid-cols-2 ${LG_COLS_CLASS[columns]}`}>
+          {items.map((item, index) => (
+            <div key={index} className="flex flex-col gap-small-medium">
+              {/* No chip background/radius — just the icon itself. Both
+                  icon types fill the same box via size-full so a default
+                  checkmark and a custom SVG line up identically
+                  regardless of which an item uses. */}
+              <div
+                className={`flex items-center justify-center ${dark ? 'text-background/70' : 'text-muted-foreground'} ${ICON_BOX_CLASS[iconSize]}`}
+                aria-hidden="true"
+              >
+                {item.iconImage ? (
+                  // Uploaded icon: black and white follow the card, its
+                  // accent follows the page theme (see UploadedIcon).
+                  <UploadedIcon
+                    source={item.iconImage}
+                    surface={dark ? 'dark' : tone === 'accent' ? 'accent' : 'light'}
+                    className="size-full"
+                  />
+                ) : item.icon ? (
+                  <Image
+                    src={ICON_SRC[item.icon]}
+                    alt=""
+                    width={64}
+                    height={64}
+                    // The curated SVGs are drawn in our black: white on dark.
+                    className={`size-full ${dark ? 'brightness-0 invert' : ''}`}
+                  />
+                ) : (
+                  // AntD icons pass className to the <span> wrapper, not
+                  // the inner <svg> — which sizes via its own
+                  // width/height="1em" attribute regardless of the
+                  // span's size. The span itself also has no size of
+                  // its own (it's flex-item content-sized, i.e. sized
+                  // by that same 1em svg — circular), so both levels
+                  // need size-full: the span against this definite box,
+                  // then the svg against the now-definite span.
+                  <CheckCircleOutlined className="size-full [&>svg]:size-full" />
+                )}
+              </div>
+              {/* Doubles the icon-to-title gap (12px container gap +
+                  this) from 12px to 24px. Title-to-description below is
+                  its own separate value (16px, gap="medium") — not tied
+                  to this icon gap at all. */}
+              <ItemHeading
+                as={titleSize}
+                title={
+                  // Plain-text field, so a manual line break only
+                  // survives as a literal "\n" in the source — HTML
+                  // collapses those by default, same reasoning as
+                  // FeatureListBlock's body paragraph splitting.
+                  item.title.split('\n').map((line, i, lines) => (
+                    <Fragment key={i}>
+                      {line}
+                      {i < lines.length - 1 && <br />}
+                    </Fragment>
+                  ))
+                }
+                description={
+                  linkStyle === 'inline' && item.description && item.ctaLabel && item.ctaHref ? (
+                    <>
+                      {item.description}{' '}
+                      <a
+                        href={item.ctaHref}
+                        className={`whitespace-nowrap underline underline-offset-4 ${linkColor}`}
+                      >
+                        {item.ctaLabel} →
+                      </a>
+                    </>
+                  ) : (
+                    item.description
+                  )
+                }
+                layout={headingLayout}
+                tone={dark ? 'inverse' : 'default'}
+                gap="medium"
+                className="mt-small-medium"
+              />
+              {/* Inline links live in the description above; this one is
+                  the default, or the fallback for an item with no text. */}
+              {item.ctaLabel && item.ctaHref && !(linkStyle === 'inline' && item.description) && (
+                <a
+                  href={item.ctaHref}
+                  className={`mt-auto text-body-sm font-medium underline underline-offset-4 ${linkColor}`}
+                >
+                  {item.ctaLabel} →
+                </a>
               )}
             </div>
-            {/* Doubles the icon-to-title gap (12px container gap +
-                this) from 12px to 24px. Title-to-description below is
-                its own separate value (16px, gap="medium") — not tied
-                to this icon gap at all. */}
-            <ItemHeading
-              as={titleSize}
-              title={
-                // Plain-text field, so a manual line break only
-                // survives as a literal "\n" in the source — HTML
-                // collapses those by default, same reasoning as
-                // FeatureListBlock's body paragraph splitting.
-                item.title.split('\n').map((line, i, lines) => (
-                  <Fragment key={i}>
-                    {line}
-                    {i < lines.length - 1 && <br />}
-                  </Fragment>
-                ))
-              }
-              description={
-                linkStyle === 'inline' && item.description && item.ctaLabel && item.ctaHref ? (
-                  <>
-                    {item.description}{' '}
-                    <a
-                      href={item.ctaHref}
-                      className="whitespace-nowrap text-foreground underline underline-offset-4"
-                    >
-                      {item.ctaLabel} →
-                    </a>
-                  </>
-                ) : (
-                  item.description
-                )
-              }
-              layout={headingLayout}
-              gap="medium"
-              className="mt-small-medium"
-            />
-            {/* Inline links live in the description above; this one is
-                the default, or the fallback for an item with no text. */}
-            {item.ctaLabel && item.ctaHref && !(linkStyle === 'inline' && item.description) && (
-              <a
-                href={item.ctaHref}
-                className="mt-auto text-body-sm font-medium text-foreground underline underline-offset-4"
-              >
-                {item.ctaLabel} →
-              </a>
-            )}
-          </div>
-        ))}
-      </div>
-    </SectionShell>
+          ))}
+        </div>
+      </SectionShell>
+    </BandFill>
   )
 }
