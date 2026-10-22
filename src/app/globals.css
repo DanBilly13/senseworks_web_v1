@@ -778,6 +778,13 @@ p {
   padding-block: var(--spacing-xl);
   text-box: trim-both cap alphabetic;
 }
+/* The eyebrow above and the body text below are trimmed the same way,
+   so the 48px gaps to the rules run from the eyebrow's baseline and to
+   the top of the body's capitals — the letters, not their line boxes. */
+p:has(+ .hero-overlay-card-rules),
+.hero-overlay-card-rules + p {
+  text-box: trim-both cap alphabetic;
+}
 /* On desktop the rules (and the button row with the mark) run on past
    the text's 288px right padding, to the card's 96px edge; on mobile
    the card's padding is even, so they just span the text. */

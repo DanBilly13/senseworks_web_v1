@@ -138,7 +138,9 @@ function CardIntro({
       headingClassName={
         headlineRules ? `hero-overlay-card-rules border-y ${isDark ? 'border-accent' : 'border-foreground/20'}` : undefined
       }
-      // 48px from the lower rule to the body text.
+      // 48px from the eyebrow to the upper rule, and from the lower rule
+      // to the body text (all measured to the letters, see globals.css).
+      headingGap={headlineRules ? 'var(--spacing-xl)' : undefined}
       bodyGap={headlineRules ? 'var(--spacing-xl)' : undefined}
       tone={isDark ? 'inverse' : 'default'}
       // Yellow accent for the dark card only — the gradient card's

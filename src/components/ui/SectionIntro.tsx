@@ -46,6 +46,8 @@ type SectionIntroProps = {
   // length) — e.g. a ruled headline that wants a set distance from its
   // rule rather than the usual half-line-height.
   bodyGap?: string
+  // The same, for the gap between the eyebrow and the heading.
+  headingGap?: string
 }
 
 // The site-wide eyebrow/heading/body/cta gap: half the heading's own
@@ -111,6 +113,7 @@ export function SectionIntro({
   display = false,
   headingClassName,
   bodyGap,
+  headingGap,
 }: SectionIntroProps) {
   // A block with neither an eyebrow nor a heading has no intro to show
   // (e.g. Stats Band's intro is entirely optional).
@@ -160,7 +163,7 @@ export function SectionIntro({
             .filter(Boolean)
             .join(' ')}
           // Half the heading's own line-height (see above).
-          style={eyebrow ? { marginTop: halfLineHeightGap } : undefined}
+          style={eyebrow ? { marginTop: headingGap ? `calc(${headingGap} - var(--spacing-medium))` : halfLineHeightGap } : undefined}
         >
           {/* A line break typed in the field (Section Headline's is a
               multi-line text field) is a literal "\n", which HTML
