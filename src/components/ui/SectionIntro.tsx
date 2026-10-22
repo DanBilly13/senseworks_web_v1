@@ -42,6 +42,10 @@ type SectionIntroProps = {
   // Extra classes on the heading itself — e.g. Hero Image Overlay
   // Card's rules above and below the headline.
   headingClassName?: string
+  // Overrides the total gap between the heading and the body (a CSS
+  // length) — e.g. a ruled headline that wants a set distance from its
+  // rule rather than the usual half-line-height.
+  bodyGap?: string
 }
 
 // The site-wide eyebrow/heading/body/cta gap: half the heading's own
@@ -106,6 +110,7 @@ export function SectionIntro({
   eyebrowColor,
   display = false,
   headingClassName,
+  bodyGap,
 }: SectionIntroProps) {
   // A block with neither an eyebrow nor a heading has no intro to show
   // (e.g. Stats Band's intro is entirely optional).
@@ -188,7 +193,9 @@ export function SectionIntro({
             .join(' ')}
           // Same gap as the heading's own above, keyed off the
           // heading's presence instead of the eyebrow's.
-          style={heading ? { marginTop: halfLineHeightGap } : undefined}
+          // The container already adds gap-medium between children, so a
+          // bodyGap override supplies only the rest of it.
+          style={heading ? { marginTop: bodyGap ? `calc(${bodyGap} - var(--spacing-medium))` : halfLineHeightGap } : undefined}
         >
           {body}
         </p>

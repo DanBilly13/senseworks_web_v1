@@ -769,11 +769,21 @@ p {
 .hero-overlay-card-padding {
   padding: 96px 288px 96px 96px;
 }
-/* The rules above and below the headline run on past the text's 288px
-   right padding, to the card's 96px edge (desktop; on mobile the card's
-   padding is even, so they just span the text). */
+/* The rules above and below the headline: 48px from the top of the
+   capitals and from the baseline (the bottom of the "L"), not from the
+   line box — text-box trims the leading above the caps and below the
+   baseline, so the padding measures from the letters themselves
+   (Chrome/Safari; Firefox doesn't trim yet and shows a little more). */
+.hero-overlay-card-rules {
+  padding-block: var(--spacing-xl);
+  text-box: trim-both cap alphabetic;
+}
+/* On desktop the rules (and the button row with the mark) run on past
+   the text's 288px right padding, to the card's 96px edge; on mobile
+   the card's padding is even, so they just span the text. */
 @media (min-width: 768px) {
-  .hero-overlay-card-rules {
+  .hero-overlay-card-rules,
+  .hero-overlay-card-wide {
     margin-right: -192px;
   }
 }

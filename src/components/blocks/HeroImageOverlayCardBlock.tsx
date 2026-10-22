@@ -91,10 +91,12 @@ const BRANDMARK_MASK = {
   aspectRatio: '61 / 18',
   maskImage: 'url(/senseworks-brandmark-pos.svg)',
   maskSize: 'contain',
+  maskPosition: 'right center',
   maskRepeat: 'no-repeat',
   WebkitMaskImage: 'url(/senseworks-brandmark-pos.svg)',
   WebkitMaskSize: 'contain',
   WebkitMaskRepeat: 'no-repeat',
+  WebkitMaskPosition: 'right center',
 }
 
 function CardIntro({
@@ -106,6 +108,7 @@ function CardIntro({
   isDark,
   headlineSize,
   headlineRules = false,
+  showBrandmark = false,
 }: {
   eyebrow?: string
   headline: string
@@ -115,7 +118,13 @@ function CardIntro({
   isDark: boolean
   headlineSize?: 'h1' | 'display'
   headlineRules?: boolean
+  showBrandmark?: boolean
 }) {
+  const button = ctaLabel && ctaHref && (
+    <Button href={ctaHref} variant={isDark ? 'filled-accent' : 'filled-dark'}>
+      {ctaLabel}
+    </Button>
+  )
   return (
     <SectionIntro
       as="h1"
@@ -127,10 +136,10 @@ function CardIntro({
       // Rules above and below the headline: the accent on the dark card,
       // a soft dark line on the gradient/light ones.
       headingClassName={
-        headlineRules
-          ? `hero-overlay-card-rules border-y py-large ${isDark ? 'border-accent' : 'border-foreground/20'}`
-          : undefined
+        headlineRules ? `hero-overlay-card-rules border-y ${isDark ? 'border-accent' : 'border-foreground/20'}` : undefined
       }
+      // 48px from the lower rule to the body text.
+      bodyGap={headlineRules ? 'var(--spacing-xl)' : undefined}
       tone={isDark ? 'inverse' : 'default'}
       // Yellow accent for the dark card only — the gradient card's
       // own background is already close to this same accent yellow
@@ -138,11 +147,23 @@ function CardIntro({
       // have poor contrast; that variant keeps its default styling.
       eyebrowColor={isDark ? 'text-accent' : undefined}
       cta={
-        ctaLabel &&
-        ctaHref && (
-          <Button href={ctaHref} variant={isDark ? 'filled-accent' : 'filled-dark'}>
-            {ctaLabel}
-          </Button>
+        showBrandmark ? (
+          // The Senseworks mark on the button's row: exactly the button's
+          // height (top and bottom aligned with it), its width from its
+          // own shape, its right edge where the rules end.
+          // Absolutely placed against the row's top and bottom, so its
+          // height is the button's and its width follows from its shape
+          // (a stretched flex item doesn't get a width from aspect-ratio).
+          <div className="hero-overlay-card-wide relative flex">
+            {button || <span className="h-xl" />}
+            <span
+              aria-hidden="true"
+              className={`absolute inset-y-0 right-0 ${isDark ? 'bg-background' : 'bg-foreground'}`}
+              style={BRANDMARK_MASK}
+            />
+          </div>
+        ) : (
+          button
         )
       }
     />
@@ -505,17 +526,8 @@ function DesktopImageOverlayCard({
               isDark={isDark}
               headlineSize={headlineSize}
               headlineRules={headlineRules}
+              showBrandmark={showBrandmark}
             />
-            {/* The Senseworks mark, bottom right — on the card's 96px
-                padding line both ways, so its foot lines up with the
-                button's. White on the dark card, dark otherwise. */}
-            {showBrandmark && (
-              <span
-                aria-hidden="true"
-                className={`absolute right-3xl bottom-3xl w-48 ${isDark ? 'bg-background' : 'bg-foreground'}`}
-                style={BRANDMARK_MASK}
-              />
-            )}
           </div>
         </motion.div>
       </motion.div>
