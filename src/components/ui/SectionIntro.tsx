@@ -48,6 +48,8 @@ type SectionIntroProps = {
   bodyGap?: string
   // The same, for the gap between the eyebrow and the heading.
   headingGap?: string
+  // The same, for the gap between the body and the call to action.
+  ctaGap?: string
 }
 
 // The site-wide eyebrow/heading/body/cta gap: half the heading's own
@@ -114,6 +116,7 @@ export function SectionIntro({
   headingClassName,
   bodyGap,
   headingGap,
+  ctaGap,
 }: SectionIntroProps) {
   // A block with neither an eyebrow nor a heading has no intro to show
   // (e.g. Stats Band's intro is entirely optional).
@@ -207,7 +210,9 @@ export function SectionIntro({
         // Same half-the-heading's-line-height gap as above, only when
         // there's a body above it to apply it from — a heading-to-
         // button gap (no body) is untouched, same as before.
-        <div style={body ? { marginTop: halfLineHeightGap } : undefined}>{cta}</div>
+        <div style={body ? { marginTop: ctaGap ? `calc(${ctaGap} - var(--spacing-medium))` : halfLineHeightGap } : undefined}>
+          {cta}
+        </div>
       )}
     </div>
   )

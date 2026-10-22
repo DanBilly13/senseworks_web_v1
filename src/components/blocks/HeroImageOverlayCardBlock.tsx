@@ -142,6 +142,8 @@ function CardIntro({
       // to the body text (all measured to the letters, see globals.css).
       headingGap={headlineRules ? 'var(--spacing-xl)' : undefined}
       bodyGap={headlineRules ? 'var(--spacing-xl)' : undefined}
+      // And 48px from the body's baseline to the button.
+      ctaGap={headlineRules ? 'var(--spacing-xl)' : undefined}
       tone={isDark ? 'inverse' : 'default'}
       // Yellow accent for the dark card only — the gradient card's
       // own background is already close to this same accent yellow
@@ -515,6 +517,9 @@ function DesktopImageOverlayCard({
           <div
             className={[
               'hero-overlay-card-padding relative rounded-lg',
+              // The ruled/marked card sits its button 32px off the
+              // bottom instead of the usual 96px.
+              headlineRules || showBrandmark ? 'hero-overlay-card-compact-bottom' : '',
               cardWidth === '50' ? 'w-1/2' : 'w-full',
               isDark ? 'bg-foreground' : 'bg-accent-gradient',
             ].join(' ')}
