@@ -39,6 +39,9 @@ type SectionIntroProps = {
   // site, whatever its level (the "Headline size" field on Heroes and
   // Section Headline).
   display?: boolean
+  // Extra classes on the heading itself — e.g. Hero Image Overlay
+  // Card's rules above and below the headline.
+  headingClassName?: string
 }
 
 // The site-wide eyebrow/heading/body/cta gap: half the heading's own
@@ -102,6 +105,7 @@ export function SectionIntro({
   tone = 'default',
   eyebrowColor,
   display = false,
+  headingClassName,
 }: SectionIntroProps) {
   // A block with neither an eyebrow nor a heading has no intro to show
   // (e.g. Stats Band's intro is entirely optional).
@@ -146,6 +150,7 @@ export function SectionIntro({
             'text-balance',
             headingColor,
             MAX_WIDTH_CLASS[headingMaxWidth ?? maxWidth],
+            headingClassName,
           ]
             .filter(Boolean)
             .join(' ')}

@@ -769,6 +769,14 @@ p {
 .hero-overlay-card-padding {
   padding: 96px 288px 96px 96px;
 }
+/* The rules above and below the headline run on past the text's 288px
+   right padding, to the card's 96px edge (desktop; on mobile the card's
+   padding is even, so they just span the text). */
+@media (min-width: 768px) {
+  .hero-overlay-card-rules {
+    margin-right: -192px;
+  }
+}
 @media (max-width: 767px) {
   .hero-overlay-card-padding {
     /* Same mobile rhythm as every other full-bleed text-over-media

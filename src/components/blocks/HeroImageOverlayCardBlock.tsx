@@ -22,6 +22,10 @@ type HeroImageOverlayCardBlockProps = {
   // instance that hasn't set this explicitly renders unchanged).
   cardBackgroundMobile?: 'light' | 'dark' | 'gradient'
   cardWidth?: '50' | '100'
+  // A rule above and below the headline (accent on the dark card).
+  headlineRules?: boolean
+  // The Senseworks mark in the card's bottom-right corner (desktop).
+  showBrandmark?: boolean
   spacing?: 'loose' | 'medium' | 'tight'
   // Same tones as CTA Banner/Full Width Single, plus gradient (this
   // block's own cardBackground already has one, reused here as the
@@ -82,6 +86,17 @@ export function HeroImageOverlayCardBlock(props: HeroImageOverlayCardBlockProps)
   )
 }
 
+// The Senseworks mark as a mask, so it takes the card's text colour.
+const BRANDMARK_MASK = {
+  aspectRatio: '61 / 18',
+  maskImage: 'url(/senseworks-brandmark-pos.svg)',
+  maskSize: 'contain',
+  maskRepeat: 'no-repeat',
+  WebkitMaskImage: 'url(/senseworks-brandmark-pos.svg)',
+  WebkitMaskSize: 'contain',
+  WebkitMaskRepeat: 'no-repeat',
+}
+
 function CardIntro({
   eyebrow,
   headline,
@@ -90,6 +105,7 @@ function CardIntro({
   ctaHref,
   isDark,
   headlineSize,
+  headlineRules = false,
 }: {
   eyebrow?: string
   headline: string
@@ -98,6 +114,7 @@ function CardIntro({
   ctaHref?: string
   isDark: boolean
   headlineSize?: 'h1' | 'display'
+  headlineRules?: boolean
 }) {
   return (
     <SectionIntro
@@ -107,6 +124,13 @@ function CardIntro({
       heading={headline}
       body={subhead}
       headingMaxWidth="none"
+      // Rules above and below the headline: the accent on the dark card,
+      // a soft dark line on the gradient/light ones.
+      headingClassName={
+        headlineRules
+          ? `hero-overlay-card-rules border-y py-large ${isDark ? 'border-accent' : 'border-foreground/20'}`
+          : undefined
+      }
       tone={isDark ? 'inverse' : 'default'}
       // Yellow accent for the dark card only — the gradient card's
       // own background is already close to this same accent yellow
@@ -142,6 +166,7 @@ function MobileImageOverlayCard({
   tone = 'default',
   cardBackgroundMobile = 'light',
   headlineSize,
+  headlineRules,
 }: HeroImageOverlayCardBlockProps) {
   // Only 'dark' needs light text — 'gradient' and 'light' both pair
   // with dark text, same as the desktop card's own isDark logic.
@@ -188,6 +213,7 @@ function MobileImageOverlayCard({
             ctaHref={ctaHref}
             isDark={isDark}
             headlineSize={headlineSize}
+            headlineRules={headlineRules}
           />
         </div>
       </div>
@@ -236,6 +262,8 @@ function DesktopImageOverlayCard({
   spacing = 'loose',
   tone = 'default',
   headlineSize,
+  headlineRules,
+  showBrandmark,
 }: HeroImageOverlayCardBlockProps) {
   const isDark = cardBackground === 'dark'
   const wrapperRef = useRef<HTMLDivElement>(null)
@@ -463,7 +491,7 @@ function DesktopImageOverlayCard({
         >
           <div
             className={[
-              'hero-overlay-card-padding rounded-lg',
+              'hero-overlay-card-padding relative rounded-lg',
               cardWidth === '50' ? 'w-1/2' : 'w-full',
               isDark ? 'bg-foreground' : 'bg-accent-gradient',
             ].join(' ')}
@@ -476,7 +504,18 @@ function DesktopImageOverlayCard({
               ctaHref={ctaHref}
               isDark={isDark}
               headlineSize={headlineSize}
+              headlineRules={headlineRules}
             />
+            {/* The Senseworks mark, bottom right — on the card's 96px
+                padding line both ways, so its foot lines up with the
+                button's. White on the dark card, dark otherwise. */}
+            {showBrandmark && (
+              <span
+                aria-hidden="true"
+                className={`absolute right-3xl bottom-3xl w-48 ${isDark ? 'bg-background' : 'bg-foreground'}`}
+                style={BRANDMARK_MASK}
+              />
+            )}
           </div>
         </motion.div>
       </motion.div>

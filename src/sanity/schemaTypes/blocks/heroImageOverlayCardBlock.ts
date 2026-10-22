@@ -80,6 +80,20 @@ export const heroImageOverlayCardBlock = defineType({
       initialValue: '50',
     }),
     defineField({
+      name: 'headlineRules',
+      title: 'Rules around the headline',
+      description: 'A line above and below the headline, running to the card\'s right edge. Accent on the dark card.',
+      type: 'boolean',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'showBrandmark',
+      title: 'Senseworks mark',
+      description: 'The Senseworks mark in the card\'s bottom-right corner (desktop).',
+      type: 'boolean',
+      initialValue: false,
+    }),
+    defineField({
       name: 'tone',
       title: 'Backdrop color',
       description:
