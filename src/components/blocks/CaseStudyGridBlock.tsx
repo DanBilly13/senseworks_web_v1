@@ -19,7 +19,8 @@ type CaseStudyGridBlockProps = {
 // A carousel of customer story cards, same mechanics as Testimonial
 // Carousel (see ui/Carousel): a full-bleed snap-scrolling row, its
 // first card lined up with the page content, stepped with prev/next
-// buttons underneath.
+// buttons underneath. On mobile the card box (not its text) sits on the
+// 32px heading line, at both ends of the row (.carousel-inset-on-line).
 export function CaseStudyGridBlock({ tone = 'default', spacing = 'loose', stories = [] }: CaseStudyGridBlockProps) {
   const { scrollerRef, firstCardRef, atStart, atEnd, canScroll, updateEdges, scrollByCard } = useCarousel<HTMLAnchorElement>(stories.length)
   // Every route lives under a locale segment, so the first path segment
@@ -31,7 +32,7 @@ export function CaseStudyGridBlock({ tone = 'default', spacing = 'loose', storie
 
   return (
     <section className={SECTION_GAP_PB_CLASS[spacing]}>
-      <CarouselScroller scrollerRef={scrollerRef} onScroll={updateEdges}>
+      <CarouselScroller scrollerRef={scrollerRef} onScroll={updateEdges} className="carousel-inset-on-line">
         {stories.map((story, index) => (
           <StoryCard
             key={story.slug}

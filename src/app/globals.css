@@ -583,6 +583,16 @@ p {
   scroll-padding-inline-start: calc(
     max((100% - var(--container-page)) / 2, 0px) + var(--spacing-medium-large)
   );
+  /* The same space on the right, so scrolled all the way along, the last
+     card ends on the page content's right edge (under the arrows), not
+     at the screen edge. The scroll-padding keeps the last card's snap
+     point there too — without it, snapping hides this padding again. */
+  padding-inline-end: calc(
+    max((100% - var(--container-page)) / 2, 0px) + var(--spacing-medium-large)
+  );
+  scroll-padding-inline-end: calc(
+    max((100% - var(--container-page)) / 2, 0px) + var(--spacing-medium-large)
+  );
 }
 /* Media Carousel: a slide's image is the same size as the image in a
    Feature Split block. On desktop that image takes whatever's left of
@@ -667,6 +677,15 @@ p {
     scroll-padding-inline-start: calc(
       max((100% - var(--container-page)) / 2, 0px) + var(--spacing-small)
     );
+    padding-inline-end: calc(max((100% - var(--container-page)) / 2, 0px) + var(--spacing-small));
+    scroll-padding-inline-end: calc(max((100% - var(--container-page)) / 2, 0px) + var(--spacing-small));
+  }
+  /* Case Study Grid, by Dan's choice: the card box itself on the 32px
+     heading line (as on desktop, where the box lines up with the
+     heading), not the boxed 8px — and 32px at the end, under the arrows. */
+  .carousel-inset.carousel-inset-on-line {
+    padding-inline: var(--spacing-large);
+    scroll-padding-inline: var(--spacing-large);
   }
 }
 
