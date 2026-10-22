@@ -51,7 +51,8 @@ export function StoryCard({
         className="aspect-4/3 w-full"
       />
       <div className="flex flex-1 flex-col gap-small-medium p-medium-large md:p-large">
-        <CardTags tags={products} surface={tone === 'dark' ? 'dark' : 'card'} />
+        {/* 24px down to the title (the 12px gap + 12), as on every card with chips. */}
+        <CardTags tags={products} surface={tone === 'dark' ? 'dark' : 'card'} className="mb-small-medium" />
         <h3 className="text-h4 font-bold text-balance">{story.companyName}</h3>
         {story.summary && <p className="text-body">{story.summary}</p>}
         <span

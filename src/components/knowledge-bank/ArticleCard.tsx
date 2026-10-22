@@ -27,7 +27,8 @@ export function ArticleCard({ article, locale }: { article: ArticleSummary; loca
     >
       <Media media={cover} alt={article.title} className="aspect-article-cover w-full" />
       <div className="flex flex-1 flex-col gap-small-medium p-medium-large">
-        <CardTags tags={(article.tags ?? []).map((t) => t.title)} />
+        {/* 24px down to the title (the 12px gap + 12), as on every card with chips. */}
+        <CardTags tags={(article.tags ?? []).map((t) => t.title)} className="mb-small-medium" />
         <h3 className="text-h5 font-semibold text-balance text-foreground group-hover:underline">
           {article.title}
         </h3>

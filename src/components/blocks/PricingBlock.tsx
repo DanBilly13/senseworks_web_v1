@@ -60,7 +60,8 @@ export function PricingBlock({
             >
               <div className="flex flex-col gap-small">
                 {plan.tag && (
-                  <div className="mb-small">
+                  // 24px down to the plan name (the 8px gap + 16), as on every card with chips.
+                  <div className="mb-medium">
                     <Tag color={TAGS[plan.tag].color}>{TAGS[plan.tag].label[locale]}</Tag>
                   </div>
                 )}

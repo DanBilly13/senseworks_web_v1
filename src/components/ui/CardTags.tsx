@@ -12,10 +12,10 @@ const SURFACE_CLASS: Record<CardTagsSurface, string> = {
   dark: 'bg-background/15 text-background',
 }
 
-export function CardTags({ tags, surface = 'card' }: { tags: string[]; surface?: CardTagsSurface }) {
+export function CardTags({ tags, surface = 'card', className }: { tags: string[]; surface?: CardTagsSurface; className?: string }) {
   if (!tags.length) return null
   return (
-    <ul className="flex flex-wrap gap-xs">
+    <ul className={['flex flex-wrap gap-xs', className].filter(Boolean).join(' ')}>
       {tags.map((tag) => (
         <li key={tag} className={`rounded-full px-small-medium py-xs text-caption font-medium ${SURFACE_CLASS[surface]}`}>
           {tag}
