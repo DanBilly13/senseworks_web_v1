@@ -1,6 +1,7 @@
 import { defineType, defineField } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
 import { spacingField } from '../fields/spacingField'
+import { bandFields } from '../fields/bandFields'
 
 export const sectionHeadlineBlock = defineType({
   name: 'sectionHeadlineBlock',
@@ -63,6 +64,7 @@ export const sectionHeadlineBlock = defineType({
       validation: (Rule) =>
         Rule.regex(/^[a-z0-9-]+$/, { name: 'lowercase letters, numbers and dashes' }),
     }),
+    ...bandFields,
     spacingField,
   ],
   preview: {

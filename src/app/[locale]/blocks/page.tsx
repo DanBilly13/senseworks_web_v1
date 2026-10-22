@@ -952,6 +952,45 @@ export default async function BlocksPage({
           { heading: 'Adipiscing elit', body: BODY, size: 'normal' },
         ]}
       />
+      <BlockCaption
+        name="Section Headline + Bento Grid — both Dark: one band"
+        type="sectionHeadlineBlock + bentoGridBlock"
+        variant='tone: "inverse" on both (joined by BlockRenderer)'
+      />
+      <SectionHeadlineBlock
+        tone="inverse"
+        joinBelow
+        spacing="tight"
+        align="left"
+        eyebrow="Eyebrow"
+        headline="Lorem ipsum dolor sit amet"
+        body={BODY}
+        ctaLabel="Book a walkthrough"
+        ctaHref="#"
+      />
+      <BentoGridBlock
+        columns="3"
+        tone="inverse"
+        joinAbove
+        expandable
+        items={[
+          { heading: 'Lorem ipsum', body: BODY, size: 'large' },
+          { heading: 'Dolor sit', body: BODY, size: 'normal' },
+          { heading: 'Amet consectetur', body: BODY, size: 'tall' },
+          { heading: 'Adipiscing elit', body: BODY, size: 'normal' },
+        ]}
+      />
+      <BlockCaption name="Bento Grid — Accent background" type="bentoGridBlock" variant='tone: "accent"' />
+      <BentoGridBlock
+        columns="3"
+        tone="accent"
+        items={[
+          { heading: 'Lorem ipsum', body: BODY, size: 'large' },
+          { heading: 'Dolor sit', body: BODY, size: 'normal' },
+          { heading: 'Amet consectetur', body: BODY, size: 'tall' },
+          { heading: 'Adipiscing elit', body: BODY, size: 'normal' },
+        ]}
+      />
       <BlockCaption name="Media" type="mediaBlock" />
       <MediaBlock />
       <BlockCaption name="Media — full screen width" type="mediaBlock" variant='width: "full"' />

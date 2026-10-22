@@ -3,6 +3,7 @@ import { hiddenField } from '../fields/hiddenField'
 import { headingLayoutField } from '../fields/headingLayoutField'
 import { titleSizeField } from '../fields/titleSizeField'
 import { spacingField } from '../fields/spacingField'
+import { bandFields } from '../fields/bandFields'
 
 export const bentoGridBlock = defineType({
   name: 'bentoGridBlock',
@@ -32,6 +33,7 @@ export const bentoGridBlock = defineType({
     }),
     headingLayoutField,
     titleSizeField('h5'),
+    ...bandFields,
     spacingField,
     defineField({
       name: 'items',
