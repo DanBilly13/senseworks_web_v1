@@ -1,0 +1,160 @@
+.canvas {
+  --acl-ink: #101829;
+  --acl-ink-hover: #2a3346;
+  --acl-paper: #ffffff;
+  --acl-text: rgba(16, 24, 41, 0.72);
+  --acl-text-dim: rgba(16, 24, 41, 0.4);
+  --acl-meta: rgba(16, 24, 41, 0.6);
+  --acl-shadow: 0 16px 40px rgba(16, 24, 41, 0.12), 0 2px 6px rgba(16, 24, 41, 0.05);
+  position: relative;
+  width: 800px;
+  height: 800px;
+  overflow: hidden;
+}
+
+.scene {
+  position: absolute;
+  inset: 0;
+}
+
+/* Answer text — 30/56, 610px column at x 96 */
+.p1,
+.p2 {
+  position: absolute;
+  left: 96px;
+  width: 610px;
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 30px;
+  line-height: 56px;
+  letter-spacing: -0.01em;
+  color: var(--acl-text);
+}
+.canvas[data-open] .p1,
+.canvas[data-open] .p2 {
+  color: var(--acl-text-dim);
+}
+.p1 {
+  top: 144px;
+}
+.p2 {
+  top: 532px;
+}
+.line {
+  display: block;
+  white-space: nowrap;
+}
+.word {
+  display: inline-block;
+  margin-right: 0.26em;
+  opacity: 0;
+  transform: translateY(6px);
+}
+.word[data-on] {
+  opacity: 1;
+  transform: translateY(0px);
+}
+
+/* Citation chip — 196×38 at (96, 486) */
+.chipWrap {
+  position: absolute;
+  left: 96px;
+  top: 486px;
+  width: 196px;
+  height: 38px;
+}
+.chip {
+  width: 196px;
+  height: 38px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--acl-ink);
+  color: var(--acl-paper);
+  font-family: var(--font-sans);
+  font-size: 23px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  transform-origin: 50% 50%;
+}
+.chip[data-hover] {
+  background: var(--acl-ink-hover);
+}
+
+/* Source popover — 648px, bottom edge 19px above the chip */
+.popover {
+  position: absolute;
+  left: -16px;
+  bottom: 57px;
+  width: 648px;
+  box-sizing: border-box;
+  padding: 40px 42px;
+  background: var(--acl-paper);
+  border-radius: 16px;
+  box-shadow: var(--acl-shadow);
+  font-family: var(--font-sans);
+  transform-origin: 114px 100%;
+}
+.title {
+  font-size: 34px;
+  line-height: 50px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--acl-ink);
+}
+.meta,
+.page {
+  font-size: 27px;
+  line-height: 36px;
+  color: var(--acl-meta);
+}
+.meta {
+  margin-top: 14px;
+}
+.page {
+  margin-top: 22px;
+}
+.caret {
+  position: absolute;
+  left: 102px;
+  bottom: -10px;
+  width: 24px;
+  height: 24px;
+  background: var(--acl-paper);
+  border-radius: 3px;
+  transform: rotate(45deg);
+}
+
+/* Pointer — tip lands at (104, 23) inside the chip */
+.pointer {
+  position: absolute;
+  left: 96.5px;
+  top: 20px;
+  width: 36px;
+  height: 36px;
+  z-index: 5;
+  transform-origin: 7.5px 3px;
+}
+.pointer svg {
+  display: block;
+  filter: drop-shadow(0 1px 2px rgba(16, 24, 41, 0.35));
+}
+
+/* CSS-driven transitions — off under reduced motion, and off during the loop reset (data-still) */
+@media (prefers-reduced-motion: no-preference) {
+  .p1,
+  .p2 {
+    transition: color 400ms cubic-bezier(.33, 1, .68, 1);
+  }
+  .word {
+    transition: opacity 250ms cubic-bezier(.25, 1, .5, 1), transform 250ms cubic-bezier(.25, 1, .5, 1);
+  }
+  .canvas[data-still] .p1,
+  .canvas[data-still] .p2,
+  .canvas[data-still] .word {
+    transition: none;
+  }
+}

@@ -8,6 +8,7 @@ import { RosterFill } from './RosterFill'
 import { CustomiseCanvas } from './CustomiseCanvas'
 import { IntegrationsScreenAnimation } from './IntegrationsScreenAnimation'
 import { AllyAnimation } from './AllyQuestion'
+import { AllyCitationAnimation } from './AllyCitation'
 
 // Ally's canvas is an 852×852 square with its content in the centre
 // band; shown in the site's 7:5 frame (852×608), shifted up 122px so that
@@ -16,6 +17,17 @@ function AllyQuestionAnimation({ paused }: { paused?: boolean }) {
   return (
     <div style={{ transform: 'translateY(-122px)' }}>
       <AllyAnimation paused={paused} />
+    </div>
+  )
+}
+
+// The citation animation's canvas is an 800×800 square, its content from
+// y 144 to about y 644; shown in the 7:5 frame (800×572), shifted up 108px
+// so that content sits in the middle.
+function AllyCitationFramed({ paused }: { paused?: boolean }) {
+  return (
+    <div style={{ transform: 'translateY(-108px)' }}>
+      <AllyCitationAnimation paused={paused} />
     </div>
   )
 }
@@ -72,6 +84,10 @@ export const ANIMATION_COMPONENTS = {
   allyQuestionAnimation: {
     component: AllyQuestionAnimation,
     canvas: { width: 852, height: 608 },
+  } as AnimationEntry,
+  allyCitationAnimation: {
+    component: AllyCitationFramed,
+    canvas: { width: 800, height: 572 },
   } as AnimationEntry,
 } satisfies Record<string, AnimationEntry>
 

@@ -1021,6 +1021,12 @@ export default async function BlocksPage({
         variant='mediaType: "reactAnimation", animation: "allyQuestionAnimation"'
       />
       <MediaBlock media={{ mediaType: 'reactAnimation', animation: 'allyQuestionAnimation' }} />
+      <BlockCaption
+        name="Media — React Animation (Ally Citation)"
+        type="mediaBlock"
+        variant='mediaType: "reactAnimation", animation: "allyCitationAnimation"'
+      />
+      <MediaBlock media={{ mediaType: 'reactAnimation', animation: 'allyCitationAnimation' }} />
 
       <GroupHeading>Support</GroupHeading>
       <BlockCaption name="FAQ Accordion" type="faqAccordionBlock" />
