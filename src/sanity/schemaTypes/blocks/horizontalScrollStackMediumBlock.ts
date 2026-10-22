@@ -46,6 +46,7 @@ export const horizontalScrollStackMediumBlock = defineType({
         list: [
           { title: 'Default (light)', value: 'default' },
           { title: 'Dark (black band, white text)', value: 'dark' },
+          { title: 'Dark accent gradient (the accent fading to black, white text)', value: 'accentDark' },
         ],
         layout: 'radio',
       },

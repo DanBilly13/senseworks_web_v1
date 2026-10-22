@@ -35,6 +35,7 @@ const CARD_BORDER_CLASS: Record<BandTone, string> = {
   none: 'border-border',
   inverse: 'border-background/20',
   accent: 'border-foreground/15',
+  accentDark: 'border-background/20',
 }
 
 const GRID_COLS_CLASS: Record<'2' | '3', string> = {
@@ -56,6 +57,8 @@ export function BentoGridBlock({
   // D7: a block with no content simply doesn't render.
   if (!items.length) return null
 
+  // Dark and the dark accent gradient both take white text.
+  const dark = tone === 'inverse' || tone === 'accentDark'
   const grid = (
     <SectionShell px="boxed" {...bandShellPadding({ tone, ...band })}>
       {/* gap-small/md:gap-large + each card's p-medium-large/md:p-large:
@@ -80,7 +83,7 @@ export function BentoGridBlock({
                   type="button"
                   onClick={() => setOpenIndex(index)}
                   aria-label={`Expand ${item.heading}`}
-                  className={`absolute top-medium-large right-medium-large flex size-large items-center justify-center rounded-full border ${CARD_BORDER_CLASS[tone]} ${tone === 'inverse' ? 'text-background hover:bg-background/10' : 'text-foreground hover:bg-background'}`}
+                  className={`absolute top-medium-large right-medium-large flex size-large items-center justify-center rounded-full border ${CARD_BORDER_CLASS[tone]} ${dark ? 'text-background hover:bg-background/10' : 'text-foreground hover:bg-background'}`}
                 >
                   <ExpandAltOutlined />
                 </button>
@@ -89,7 +92,7 @@ export function BentoGridBlock({
               <div className={`flex flex-1 flex-col ${expandable ? 'pr-2xl' : ''}`}>
                 <ItemHeading
                   as={titleSize}
-                  tone={tone === 'inverse' ? 'inverse' : 'default'}
+                  tone={dark ? 'inverse' : 'default'}
                   title={item.heading}
                   description={item.body}
                   layout={headingLayout}

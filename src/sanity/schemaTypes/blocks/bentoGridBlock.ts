@@ -33,7 +33,7 @@ export const bentoGridBlock = defineType({
     }),
     headingLayoutField,
     titleSizeField('h5'),
-    ...bandFields,
+    ...bandFields({ withDarkGradient: true }),
     spacingField,
     defineField({
       name: 'items',

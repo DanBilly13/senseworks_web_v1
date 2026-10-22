@@ -83,7 +83,7 @@ const BLOCK_COMPONENTS = {
 function bandTone(block: PageBlock | undefined): string | null {
   if (!block || !BAND_BLOCK_TYPES.has(block._type)) return null
   const tone = (block as { tone?: string }).tone
-  return tone && tone !== 'none' ? tone : null
+  return tone && tone !== 'none' && tone !== 'accentDark' ? tone : null
 }
 
 export function BlockRenderer({ blocks }: { blocks: PageBlock[] }) {

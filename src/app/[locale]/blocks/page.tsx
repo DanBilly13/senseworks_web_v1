@@ -25,6 +25,7 @@ import { DarkBannerBlock } from '@/components/blocks/DarkBannerBlock'
 import { FullWidthSingleBlock } from '@/components/blocks/FullWidthSingleBlock'
 import { HorizontalScrollStackBlock } from '@/components/blocks/HorizontalScrollStackBlock'
 import { BentoGridBlock } from '@/components/blocks/BentoGridBlock'
+import { HorizontalScrollStackMediumBlock } from '@/components/blocks/HorizontalScrollStackMediumBlock'
 import { MediaBlock } from '@/components/blocks/MediaBlock'
 import { MediaCarouselBlock } from '@/components/blocks/MediaCarouselBlock'
 import { ReleaseCardsBlock } from '@/components/blocks/ReleaseCardsBlock'
@@ -991,6 +992,32 @@ export default async function BlocksPage({
           { heading: 'Dolor sit', body: BODY, size: 'normal' },
           { heading: 'Amet consectetur', body: BODY, size: 'tall' },
           { heading: 'Adipiscing elit', body: BODY, size: 'normal' },
+        ]}
+      />
+      <BlockCaption name="Bento Grid — Dark accent gradient" type="bentoGridBlock" variant='tone: "accentDark"' />
+      <BentoGridBlock
+        columns="3"
+        tone="accentDark"
+        items={[
+          { heading: 'Lorem ipsum', body: BODY, size: 'large' },
+          { heading: 'Dolor sit', body: BODY, size: 'normal' },
+          { heading: 'Amet consectetur', body: BODY, size: 'tall' },
+          { heading: 'Adipiscing elit', body: BODY, size: 'normal' },
+        ]}
+      />
+      <BlockCaption
+        name="Horizontal Scroll Stack Medium — Dark accent gradient"
+        type="horizontalScrollStackMediumBlock"
+        variant='tone: "accentDark"'
+      />
+      <HorizontalScrollStackMediumBlock
+        tone="accentDark"
+        eyebrow="Eyebrow"
+        heading="Lorem ipsum dolor sit amet"
+        slides={[
+          { title: 'Lorem ipsum', body: BODY },
+          { title: 'Dolor sit', body: BODY },
+          { title: 'Amet consectetur', body: BODY },
         ]}
       />
       <BlockCaption name="Media" type="mediaBlock" />

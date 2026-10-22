@@ -18,7 +18,7 @@ type HorizontalScrollStackMediumBlockProps = {
   heading?: string
   headingLevel?: 'h2' | 'h3'
   body?: string
-  tone?: 'default' | 'dark'
+  tone?: 'default' | 'dark' | 'accentDark'
   headingLayout?: 'stacked' | 'inline'
   titleSize?: 'h3' | 'h4' | 'h5'
   spacing?: SpacingValue
@@ -93,7 +93,11 @@ export function HorizontalScrollStackMediumBlock({
   // above, never before — hooks can't be called conditionally.
   if (!slides.length) return null
 
-  const dark = tone === 'dark'
+  // The dark accent gradient takes the same white text as Dark. On desktop
+  // the gradient sits on the pinned stage, so its corner glow stays put
+  // while the slides scroll past; the tall wrapper behind is plain black.
+  const dark = tone === 'dark' || tone === 'accentDark'
+  const gradient = tone === 'accentDark'
 
   const title = (eyebrow || heading) && (
     <div className="mx-auto w-full max-w-page px-large md:px-medium-large">
@@ -142,7 +146,7 @@ export function HorizontalScrollStackMediumBlock({
     <div className={SECTION_GAP_MB_CLASS[spacing]}>
       {/* Mobile: title, then the slides one under the other. */}
       <div
-        className={`flex flex-col gap-2xl py-section-edge md:hidden ${dark ? 'bg-foreground text-background' : ''}`}
+        className={`flex flex-col gap-2xl py-section-edge md:hidden ${gradient ? 'bg-accent-gradient-dark text-background' : dark ? 'bg-foreground text-background' : ''}`}
       >
         {title}
         <div className="mx-auto flex w-full max-w-page flex-col gap-2xl px-large">
@@ -160,7 +164,10 @@ export function HorizontalScrollStackMediumBlock({
         className={`relative hidden md:block ${dark ? 'bg-foreground text-background' : ''}`}
         style={{ height: `calc(100vh + ${travel}px)` }}
       >
-        <div ref={stageRef} className="sticky top-0 flex h-screen flex-col justify-center gap-2xl overflow-hidden">
+        <div
+          ref={stageRef}
+          className={`sticky top-0 flex h-screen flex-col justify-center gap-2xl overflow-hidden ${gradient ? 'bg-accent-gradient-dark' : ''}`}
+        >
           {title}
           <motion.div
             ref={trackRef}

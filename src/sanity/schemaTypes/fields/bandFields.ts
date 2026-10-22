@@ -6,7 +6,8 @@ import { paddingField } from './spacingField'
 // Top/Bottom padding inside the color, shown only once there is one.
 const hiddenWithoutBackground = ({ parent }: { parent?: { tone?: string } }) => !parent?.tone || parent.tone === 'none'
 
-export const bandFields = [
+// withDarkGradient adds the Dark accent gradient (Bento Grid).
+export const bandFields = ({ withDarkGradient = false } = {}) => [
   defineField({
     name: 'tone',
     title: 'Background',
@@ -18,6 +19,7 @@ export const bandFields = [
         { title: 'None (the page background)', value: 'none' },
         { title: 'Dark', value: 'inverse' },
         { title: 'Accent', value: 'accent' },
+        ...(withDarkGradient ? [{ title: 'Dark accent gradient (the accent fading to black)', value: 'accentDark' }] : []),
       ],
       layout: 'radio',
     },

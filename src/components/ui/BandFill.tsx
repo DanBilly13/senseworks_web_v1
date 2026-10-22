@@ -12,7 +12,9 @@ import { SECTION_GAP_MB_CLASS } from '@/components/ui/SectionShell'
 // Section spacing becomes the space inside the color between them, and
 // neither pads the edge they share — so a Section Headline followed by
 // a Bento Grid, both on Dark, reads as one dark section.
-export type BandTone = 'none' | 'inverse' | 'accent'
+// accentDark (Bento Grid only): the dark accent gradient, white text
+// like Dark. Never joins: each block would start its own gradient.
+export type BandTone = 'none' | 'inverse' | 'accent' | 'accentDark'
 export type BandSpacing = 'loose' | 'medium' | 'tight' | 'none'
 
 export type BandProps = {
@@ -30,6 +32,7 @@ export const BAND_BLOCK_TYPES = new Set(['sectionHeadlineBlock', 'bentoGridBlock
 const BAND_BG: Record<Exclude<BandTone, 'none'>, string> = {
   inverse: 'bg-foreground',
   accent: 'bg-accent',
+  accentDark: 'bg-accent-gradient-dark',
 }
 
 // SectionShell's pt/pb for the block's content, given its band settings.
