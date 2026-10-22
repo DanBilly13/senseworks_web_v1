@@ -34,12 +34,12 @@ function AllyCitationFramed({ paused }: { paused?: boolean }) {
   )
 }
 
-// "You make the call": an 800×800 square, its chips from y 218 to y 610
-// around Ally; shown in the 7:5 frame (800×572), shifted up 128px so they
-// sit in the middle.
+// "You make the call": an 800×800 square, its chips from y 242 to y 558
+// around Ally (centre 400); shown in the 7:5 frame (800×572), shifted up
+// 114px so they sit in the middle.
 function AllyCallFramed({ paused }: { paused?: boolean }) {
   return (
-    <div style={{ transform: 'translateY(-128px)' }}>
+    <div style={{ transform: 'translateY(-114px)' }}>
       <AllyCallAnimation paused={paused} />
     </div>
   )

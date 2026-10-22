@@ -17,8 +17,13 @@ describe('BentoGridBlock', () => {
     expect(largeCard).not.toBeNull()
   })
 
-  it('opens a modal with the card title when its expand button is clicked, and closes on request', () => {
+  it('has no expand buttons unless "Cards open a pop-up" is on', () => {
     render(<BentoGridBlock items={items} />)
+    expect(screen.queryByRole('button', { name: /^Expand/ })).not.toBeInTheDocument()
+  })
+
+  it('opens a modal with the card title when its expand button is clicked, and closes on request', () => {
+    render(<BentoGridBlock items={items} expandable />)
 
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
 

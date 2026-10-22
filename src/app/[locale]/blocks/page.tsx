@@ -941,6 +941,17 @@ export default async function BlocksPage({
           { heading: 'Adipiscing elit', body: BODY, size: 'normal' },
         ]}
       />
+      <BlockCaption name="Bento Grid — cards open a pop-up" type="bentoGridBlock" variant="expandable: true" />
+      <BentoGridBlock
+        columns="3"
+        expandable
+        items={[
+          { heading: 'Lorem ipsum', body: BODY, size: 'large' },
+          { heading: 'Dolor sit', body: BODY, size: 'normal' },
+          { heading: 'Amet consectetur', body: BODY, size: 'tall' },
+          { heading: 'Adipiscing elit', body: BODY, size: 'normal' },
+        ]}
+      />
       <BlockCaption name="Media" type="mediaBlock" />
       <MediaBlock />
       <BlockCaption name="Media — full screen width" type="mediaBlock" variant='width: "full"' />

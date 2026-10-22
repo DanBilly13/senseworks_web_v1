@@ -24,14 +24,14 @@ import styles from './AllyCall.module.css';
 interface Chip { label: string; x: number; y: number; w: number; pick?: boolean }
 /* clockwise from 1 o'clock — centre x/y and width; all chips are 40 px tall */
 const CHIPS: Chip[] = [
-  { label: 'LAGAR & REGLER', x: 535, y: 238, w: 200, pick: true },
-  { label: 'REVISIONSBERÄTTELSE', x: 636, y: 345, w: 262 },
-  { label: 'VERIFIKAT', x: 650, y: 496, w: 148 },
-  { label: 'RISKBEDÖMNING', x: 512, y: 590, w: 196 },
-  { label: 'ANALYS', x: 295, y: 590, w: 116 },
-  { label: 'PROTOKOLL', x: 152, y: 496, w: 150 },
-  { label: 'FAKTUROR', x: 136, y: 352, w: 140 },
-  { label: 'UNDERLAG', x: 268, y: 238, w: 140 },
+  { label: 'LAGAR & REGLER', x: 550, y: 262, w: 200, pick: true },
+  { label: 'REVISIONSBERÄTTELSE', x: 636, y: 348, w: 262 },
+  { label: 'VERIFIKAT', x: 650, y: 458, w: 148 },
+  { label: 'RISKBEDÖMNING', x: 530, y: 538, w: 196 },
+  { label: 'ANALYS', x: 272, y: 538, w: 116 },
+  { label: 'PROTOKOLL', x: 152, y: 458, w: 150 },
+  { label: 'FAKTUROR', x: 136, y: 348, w: 140 },
+  { label: 'UNDERLAG', x: 250, y: 262, w: 140 },
 ];
 const CHIP_H = 40;
 const CENTRE = { x: 400, y: 400 };

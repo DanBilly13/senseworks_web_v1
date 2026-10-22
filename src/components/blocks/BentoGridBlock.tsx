@@ -20,6 +20,9 @@ type BentoGridBlockProps = {
   headingLayout?: 'stacked' | 'inline'
   titleSize?: 'h3' | 'h4' | 'h5'
   spacing?: 'loose' | 'medium' | 'tight' | 'none'
+  // Off by default: each card gets an expand button that opens it in a
+  // pop-up only when this is on.
+  expandable?: boolean
   items?: BentoItem[]
 }
 
@@ -33,6 +36,7 @@ export function BentoGridBlock({
   headingLayout = 'stacked',
   titleSize = 'h5',
   spacing = 'loose',
+  expandable = false,
   items = [],
 }: BentoGridBlockProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
@@ -60,15 +64,18 @@ export function BentoGridBlock({
                 key={index}
                 className={`relative flex flex-col rounded-lg border border-border p-medium-large md:p-large ${cardSpanClass} ${spansTwoRows ? 'md:row-span-2' : ''}`}
               >
-                <button
-                  type="button"
-                  onClick={() => setOpenIndex(index)}
-                  aria-label={`Expand ${item.heading}`}
-                  className="absolute top-medium-large right-medium-large flex size-large items-center justify-center rounded-full border border-border text-foreground hover:bg-background"
-                >
-                  <ExpandAltOutlined />
-                </button>
-                <div className="flex flex-1 flex-col pr-2xl">
+                {expandable && (
+                  <button
+                    type="button"
+                    onClick={() => setOpenIndex(index)}
+                    aria-label={`Expand ${item.heading}`}
+                    className="absolute top-medium-large right-medium-large flex size-large items-center justify-center rounded-full border border-border text-foreground hover:bg-background"
+                  >
+                    <ExpandAltOutlined />
+                  </button>
+                )}
+                {/* The right padding keeps the heading clear of the button. */}
+                <div className={`flex flex-1 flex-col ${expandable ? 'pr-2xl' : ''}`}>
                   <ItemHeading
                     as={titleSize}
                     title={item.heading}
@@ -95,7 +102,7 @@ export function BentoGridBlock({
         </div>
       </SectionShell>
       <Modal
-        open={openIndex !== null}
+        open={expandable && openIndex !== null}
         onClose={() => setOpenIndex(null)}
         title={openIndex !== null ? items[openIndex].heading : undefined}
       >

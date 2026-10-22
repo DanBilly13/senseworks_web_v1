@@ -23,6 +23,13 @@ export const bentoGridBlock = defineType({
       },
       initialValue: '3',
     }),
+    defineField({
+      name: 'expandable',
+      title: 'Cards open a pop-up',
+      description: 'Shows an expand button on each card that opens it in a pop-up.',
+      type: 'boolean',
+      initialValue: false,
+    }),
     headingLayoutField,
     titleSizeField('h5'),
     spacingField,
