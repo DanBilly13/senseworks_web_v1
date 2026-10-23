@@ -1071,7 +1071,8 @@ export default async function BlocksPage({
       <HorizontalScrollStackMediumBlock
         tone="accentDark"
         eyebrow="Eyebrow"
-        heading="Lorem ipsum dolor sit amet"
+        heading="Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod"
+        body={BODY_LONG}
         slides={[
           { title: 'Lorem ipsum', body: BODY },
           { title: 'Dolor sit', body: BODY },

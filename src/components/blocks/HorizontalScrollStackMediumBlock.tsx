@@ -108,6 +108,9 @@ export function HorizontalScrollStackMediumBlock({
         body={body}
         align="left"
         maxWidth="md"
+        // Desktop: the headline and body both 80% of the row.
+        headingMaxWidth="fourFifths"
+        bodyMaxWidth="fourFifths"
         tone={dark ? 'inverse' : 'default'}
       />
     </div>

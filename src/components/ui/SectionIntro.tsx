@@ -2,7 +2,7 @@ import { Fragment, type ReactNode } from 'react'
 
 type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4'
 
-type WidthKey = 'sm' | 'md' | 'lg' | 'wide' | 'subtitle' | 'none'
+type WidthKey = 'sm' | 'md' | 'lg' | 'wide' | 'subtitle' | 'fourFifths' | 'none'
 
 type SectionIntroProps = {
   as: HeadingLevel
@@ -27,6 +27,9 @@ type SectionIntroProps = {
   // Defaults to whatever maxWidth already resolves to, so every
   // existing caller (which doesn't pass this) is unaffected.
   headingMaxWidth?: WidthKey
+  // The same for the body — overrides both maxWidth and the h1/h2
+  // subtitle's own 85% rule. Unset keeps those.
+  bodyMaxWidth?: WidthKey
   // 'inverse' for light text on a dark/foreground-colored surface
   // (e.g. an image-overlay hero) — mirrors Button's inverse variant.
   tone?: 'default' | 'inverse'
@@ -100,6 +103,8 @@ const MAX_WIDTH_CLASS: Record<WidthKey, string> = {
   // Same 85%-of-row token the h1/h2 subtitle body already uses below,
   // desktop-only so mobile keeps its full width.
   subtitle: 'md:max-w-subtitle',
+  // 80% of the row, desktop only, likewise.
+  fourFifths: 'md:max-w-four-fifths',
   none: '',
 }
 
@@ -113,6 +118,7 @@ export function SectionIntro({
   align = 'left',
   maxWidth = 'none',
   headingMaxWidth,
+  bodyMaxWidth,
   tone = 'default',
   eyebrowColor,
   display = false,
@@ -197,7 +203,7 @@ export function SectionIntro({
             // Subtitle width is its own fixed rule (85% of the row,
             // desktop only — mobile has no spare width to give up),
             // not whatever maxWidth the caller passed for the eyebrow.
-            isSubtitle ? 'md:max-w-subtitle' : MAX_WIDTH_CLASS[maxWidth],
+            bodyMaxWidth ? MAX_WIDTH_CLASS[bodyMaxWidth] : isSubtitle ? 'md:max-w-subtitle' : MAX_WIDTH_CLASS[maxWidth],
             bodyClassName,
           ]
             .filter(Boolean)
