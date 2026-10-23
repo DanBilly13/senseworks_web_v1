@@ -1,4 +1,5 @@
 import { Fragment, type ReactNode } from 'react'
+import { TypingText } from '@/components/ui/TypingText'
 
 type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4'
 
@@ -56,6 +57,11 @@ type SectionIntroProps = {
   headingGap?: string
   // The same, for the gap between the body and the call to action.
   ctaGap?: string
+  // A hero's "Typing effect": the heading types itself out once on load
+  // (ui/TypingText), with a cursor in typingCursorClassName's color
+  // (the text's own color when unset).
+  typing?: boolean
+  typingCursorClassName?: string
 }
 
 // The site-wide eyebrow/heading/body/cta gap: half the heading's own
@@ -127,6 +133,8 @@ export function SectionIntro({
   bodyGap,
   headingGap,
   ctaGap,
+  typing = false,
+  typingCursorClassName,
 }: SectionIntroProps) {
   // A block with neither an eyebrow nor a heading has no intro to show
   // (e.g. Stats Band's intro is entirely optional).
@@ -179,15 +187,19 @@ export function SectionIntro({
           // Half the heading's own line-height (see above).
           style={eyebrow ? { marginTop: headingGap ? `calc(${headingGap} - var(--spacing-medium))` : halfLineHeightGap } : undefined}
         >
-          {/* A line break typed in the field (Section Headline's is a
-              multi-line text field) is a literal "\n", which HTML
-              would collapse, so it becomes a real <br>. */}
-          {heading.split('\n').map((line, i, lines) => (
-            <Fragment key={i}>
-              {line}
-              {i < lines.length - 1 && <br />}
-            </Fragment>
-          ))}
+          {typing ? (
+            <TypingText text={heading} cursorClassName={typingCursorClassName} />
+          ) : (
+            // A line break typed in the field (Section Headline's is a
+            // multi-line text field) is a literal "\n", which HTML would
+            // collapse, so it becomes a real <br>.
+            heading.split('\n').map((line, i, lines) => (
+              <Fragment key={i}>
+                {line}
+                {i < lines.length - 1 && <br />}
+              </Fragment>
+            ))
+          )}
         </Heading>
       )}
       {body && (

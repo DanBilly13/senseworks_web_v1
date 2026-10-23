@@ -2,6 +2,7 @@ import { defineType, defineField } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
 import { spacingField } from '../fields/spacingField'
 import { headlineSizeField } from '../fields/headlineSizeField'
+import { typingHeadlineField } from '../fields/typingHeadlineField'
 
 // Experimental Hero variant: a flexible full-bleed backdrop (image,
 // solid color, or the shared accent gradient) behind text plus a
@@ -74,6 +75,7 @@ export const heroBackdropBlock = defineType({
       validation: (Rule) => Rule.required().max(80),
     }),
     headlineSizeField(),
+    typingHeadlineField(),
     defineField({
       name: 'subhead',
       type: 'text',

@@ -315,6 +315,18 @@ export default async function BlocksPage({
       <HeroTextBlock eyebrow={EYEBROW} headline={HEADING} subhead={BODY} ctaLabel="Lorem ipsum" ctaHref="#" boundary={false} tone="default" />
       <HeroTextBlock eyebrow={EYEBROW} headline={HEADING} subhead={BODY} ctaLabel="Lorem ipsum" ctaHref="#" boundary={false} tone="inverse" />
       <HeroTextBlock eyebrow={EYEBROW} headline={HEADING} subhead={BODY} ctaLabel="Lorem ipsum" ctaHref="#" boundary={false} tone="accent" />
+      <BlockCaption name="Hero — Text, Typing effect (display, dark)" type="heroTextBlock" variant='typingHeadline: true, headlineSize: "display", tone: "inverse"' />
+      <HeroTextBlock
+        eyebrow={EYEBROW}
+        headline="More genius. Less grunt."
+        subhead={BODY}
+        ctaLabel="Lorem ipsum"
+        ctaHref="#"
+        boundary={false}
+        tone="inverse"
+        headlineSize="display"
+        typingHeadline
+      />
 
       <GroupHeading>Section Dividers</GroupHeading>
       <BlockCaption name="Section Headline — Center" type="sectionHeadlineBlock" variant='align: "center"' />

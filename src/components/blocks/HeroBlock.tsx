@@ -19,6 +19,8 @@ type HeroBlockProps = {
   mediaWidth?: 'full' | 'content'
   // 'display' draws the headline one step above the standard h1.
   headlineSize?: 'h1' | 'display'
+  // The headline types itself out on load (ui/TypingText).
+  typingHeadline?: boolean
 }
 
 export function HeroBlock({ layout = 'split', ...props }: HeroBlockProps) {
@@ -30,12 +32,12 @@ export function HeroBlock({ layout = 'split', ...props }: HeroBlockProps) {
 
 type HeroVariantProps = Omit<HeroBlockProps, 'layout'>
 
-function HeroSplit({ eyebrow, headline, subhead, ctaLabel, ctaHref, media, headlineSize }: HeroVariantProps) {
+function HeroSplit({ eyebrow, headline, subhead, ctaLabel, ctaHref, media, headlineSize, typingHeadline }: HeroVariantProps) {
   return (
     <SectionShell py="section-edge" pad="both" className="flex flex-col gap-2xl">
       <div className="flex flex-col gap-large md:flex-row md:items-start md:justify-between md:gap-2xl">
         <div className="md:max-w-prose-md md:flex-1">
-          <SectionIntro as="h1" display={headlineSize === 'display'} eyebrow={eyebrow} heading={headline} />
+          <SectionIntro as="h1" display={headlineSize === 'display'} typing={typingHeadline} eyebrow={eyebrow} heading={headline} />
         </div>
         {(subhead || (ctaLabel && ctaHref)) && (
           <div className="flex flex-col gap-medium md:max-w-prose-xs md:shrink-0">
@@ -76,13 +78,13 @@ function HeroSplit({ eyebrow, headline, subhead, ctaLabel, ctaHref, media, headl
   )
 }
 
-function HeroSplitEven({ eyebrow, headline, subhead, ctaLabel, ctaHref, media, headlineSize }: HeroVariantProps) {
+function HeroSplitEven({ eyebrow, headline, subhead, ctaLabel, ctaHref, media, headlineSize, typingHeadline }: HeroVariantProps) {
   return (
     <SectionShell py="section-edge" pad="both">
       <div className="grid grid-cols-1 gap-2xl md:grid-cols-2 md:items-center">
         <SectionIntro
           as="h1"
-          display={headlineSize === 'display'}
+          display={headlineSize === 'display'} typing={typingHeadline}
           eyebrow={eyebrow}
           heading={headline}
           body={subhead}
@@ -111,6 +113,7 @@ function HeroImageOverlay({
   ctaHref,
   media,
   headlineSize,
+  typingHeadline,
 }: HeroVariantProps) {
   return (
     <section
@@ -143,13 +146,14 @@ function HeroImageOverlay({
       <div className="relative mx-auto flex min-h-screen w-full max-w-page flex-col justify-center px-medium-large py-section-edge">
         <SectionIntro
           as="h1"
-          display={headlineSize === 'display'}
+          display={headlineSize === 'display'} typing={typingHeadline}
           eyebrow={eyebrow}
           heading={headline}
           body={subhead}
           maxWidth="md"
           headingMaxWidth="subtitle"
           tone="inverse"
+          typingCursorClassName="text-accent"
           cta={
             ctaLabel &&
             ctaHref && (
@@ -173,6 +177,7 @@ function HeroScrollReveal({
   media,
   mediaWidth = 'full',
   headlineSize,
+  typingHeadline,
 }: HeroVariantProps) {
   return (
     // Header pull-up, same as the other full-bleed layouts. No
@@ -192,7 +197,7 @@ function HeroScrollReveal({
         <div className="mx-auto w-full max-w-page">
           <SectionIntro
             as="h1"
-            display={headlineSize === 'display'}
+            display={headlineSize === 'display'} typing={typingHeadline}
             eyebrow={eyebrow}
             heading={headline}
             body={subhead}

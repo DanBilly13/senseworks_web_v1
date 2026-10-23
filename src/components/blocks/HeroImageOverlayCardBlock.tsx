@@ -38,6 +38,8 @@ type HeroImageOverlayCardBlockProps = {
   tone?: 'default' | 'inverse' | 'accent' | 'gradient'
   // 'display' draws the headline one step above the standard h1.
   headlineSize?: 'h1' | 'display'
+  // The headline types itself out on load (ui/TypingText).
+  typingHeadline?: boolean
 }
 
 // How blurred the desktop video starts, in px — sharpens to nothing as
@@ -110,6 +112,7 @@ function CardIntro({
   headlineRules = false,
   showBrandmark = false,
   narrowCard = false,
+  typing = false,
 }: {
   eyebrow?: string
   headline: string
@@ -123,6 +126,7 @@ function CardIntro({
   // The desktop 50% card: the body runs full width (to the rules' edge)
   // and the mark is half the size.
   narrowCard?: boolean
+  typing?: boolean
 }) {
   const button = ctaLabel && ctaHref && (
     <Button href={ctaHref} variant={isDark ? 'filled-accent' : 'filled-dark'}>
@@ -133,6 +137,8 @@ function CardIntro({
     <SectionIntro
       as="h1"
       display={headlineSize === 'display'}
+      typing={typing}
+      typingCursorClassName={isDark ? 'text-accent' : undefined}
       eyebrow={eyebrow}
       heading={headline}
       body={subhead}
@@ -200,6 +206,7 @@ function MobileImageOverlayCard({
   cardBackgroundMobile = 'light',
   headlineSize,
   headlineRules,
+  typingHeadline,
 }: HeroImageOverlayCardBlockProps) {
   // Only 'dark' needs light text — 'gradient' and 'light' both pair
   // with dark text, same as the desktop card's own isDark logic.
@@ -247,6 +254,7 @@ function MobileImageOverlayCard({
             isDark={isDark}
             headlineSize={headlineSize}
             headlineRules={headlineRules}
+            typing={typingHeadline}
           />
         </div>
       </div>
@@ -297,6 +305,7 @@ function DesktopImageOverlayCard({
   headlineSize,
   headlineRules,
   showBrandmark,
+  typingHeadline,
 }: HeroImageOverlayCardBlockProps) {
   const isDark = cardBackground === 'dark'
   const wrapperRef = useRef<HTMLDivElement>(null)
@@ -538,6 +547,7 @@ function DesktopImageOverlayCard({
               isDark={isDark}
               headlineSize={headlineSize}
               headlineRules={headlineRules}
+              typing={typingHeadline}
               showBrandmark={showBrandmark}
               narrowCard={cardWidth === '50'}
             />

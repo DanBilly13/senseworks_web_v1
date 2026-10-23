@@ -16,6 +16,8 @@ type HeroTextBlockProps = {
   boundary?: boolean
   // 'display' draws the headline one step above the standard h1.
   headlineSize?: 'h1' | 'display'
+  // The headline types itself out on load (ui/TypingText).
+  typingHeadline?: boolean
   // Overrides the space below (empty: the hero's own page-top space).
   spaceBelow?: 'medium' | 'tight'
   // A full-width background in CTA Banner's colours; none by default.
@@ -37,6 +39,7 @@ export function HeroTextBlock({
   ctaHref,
   boundary = true,
   headlineSize,
+  typingHeadline = false,
   spaceBelow,
   tone = 'none',
 }: HeroTextBlockProps) {
@@ -52,6 +55,8 @@ export function HeroTextBlock({
       <SectionIntro
         as="h1"
         display={headlineSize === 'display'}
+        typing={typingHeadline}
+        typingCursorClassName={dark ? 'text-accent' : undefined}
         // On dark: light text, with the eyebrow and button in the accent.
         tone={dark ? 'inverse' : 'default'}
         eyebrowColor={dark ? 'text-accent' : undefined}

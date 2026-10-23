@@ -856,6 +856,38 @@ p {
     );
 }
 
+/* A hero headline's typing effect (ui/TypingText). The letters still to
+   come are drawn transparent, so the heading keeps its final size and
+   line breaks while it types. The cursor is a chunky underscore at the
+   baseline, solid while typing, then it blinks three times and fades.
+   With reduced motion: the whole text at once, no cursor. */
+.typing-rest {
+  color: transparent;
+}
+.typing-cursor {
+  position: absolute;
+  left: 0.03em;
+  bottom: 0.12em;
+  width: 0.45em;
+  height: 0.08em;
+  background: currentColor;
+}
+.typing-cursor-done {
+  animation: typing-cursor-out 2.4s steps(1, end) forwards;
+}
+@keyframes typing-cursor-out {
+  0%, 33.3%, 66.6% { opacity: 1; }
+  16.6%, 50%, 83.3%, 100% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .typing-rest {
+    color: inherit;
+  }
+  .typing-cursor {
+    display: none;
+  }
+}
+
 /* Hero Image Overlay Card's (experimental) padding — not a Tailwind
    utility since the desktop right side (288px) isn't on the named
    spacing scale, and it needs a real per-breakpoint value rather than

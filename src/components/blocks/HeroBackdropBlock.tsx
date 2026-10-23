@@ -26,6 +26,8 @@ type HeroBackdropBlockProps = {
   spacing?: 'loose' | 'medium' | 'tight' | 'none'
   // 'display' draws the headline one step above the standard h1.
   headlineSize?: 'h1' | 'display'
+  // The headline types itself out on load (ui/TypingText).
+  typingHeadline?: boolean
 }
 
 // Margin-bottom after the hero (outside its backdrop, before the next
@@ -62,6 +64,7 @@ export function HeroBackdropBlock({
   showcaseMedia,
   spacing = 'medium',
   headlineSize,
+  typingHeadline = false,
 }: HeroBackdropBlockProps) {
   // Only a plain image gets to set its own height from its real aspect
   // ratio (via the asset ref's encoded dimensions) — video/lottie/
@@ -121,6 +124,8 @@ export function HeroBackdropBlock({
           <SectionIntro
             as="h1"
             display={headlineSize === 'display'}
+            typing={typingHeadline}
+            typingCursorClassName={textTone === 'light' ? 'text-accent' : undefined}
             eyebrow={eyebrow}
             heading={headline}
             body={subhead}
