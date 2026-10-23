@@ -2,7 +2,7 @@
 import { Fragment, useEffect, useRef, useState } from 'react'
 
 // A headline that types itself out once on load, with an underscore
-// cursor that blinks a few times when it's done and fades away (a hero's
+// cursor that then rests after the last letter, blinking (a hero's
 // "Typing effect"). Purely visual:
 //
 // - Screen readers and search engines get the whole text at once (the
@@ -17,13 +17,15 @@ import { Fragment, useEffect, useRef, useState } from 'react'
 // It starts once the headline is on screen (straight away for a hero at
 // the top of the page).
 //
-// The cursor is an empty inline span (not an inline-block), so it adds no
-// line-break opportunity between the letters it sits between.
+// The cursor hangs off the last typed letter (absolutely placed at its
+// right edge, inside a span wrapping just that letter), so it can never
+// wrap onto a line of its own — as an empty element after the text, Chrome
+// could drop it onto a new line once the headline was complete.
 
 const START_DELAY_MS = 300
-const LETTER_MS = 50
+const LETTER_MS = 80
 // A little unevenness, so it reads as typed rather than metered.
-const JITTER_MS = 25
+const JITTER_MS = 35
 
 function withLineBreaks(text: string) {
   return text.split('\n').map((line, i, lines) => (
@@ -37,6 +39,8 @@ function withLineBreaks(text: string) {
 export function TypingText({ text, cursorClassName }: { text: string; cursorClassName?: string }) {
   const [typed, setTyped] = useState(0)
   const done = typed >= text.length
+  // The letter the cursor sits after (none before the first is typed).
+  const lastLetter = typed > 0 ? text[typed - 1] : ''
   const ref = useRef<HTMLSpanElement>(null)
 
   useEffect(() => {
@@ -65,8 +69,9 @@ export function TypingText({ text, cursorClassName }: { text: string; cursorClas
     <>
       <span className="sr-only">{text}</span>
       <span ref={ref} aria-hidden="true">
-        {withLineBreaks(text.slice(0, typed))}
+        {withLineBreaks(text.slice(0, Math.max(0, typed - 1)))}
         <span className="relative">
+          {lastLetter === '\n' ? <br /> : lastLetter}
           <span className={`typing-cursor ${done ? 'typing-cursor-done' : ''} ${cursorClassName ?? ''}`} />
         </span>
         <span className="typing-rest">{withLineBreaks(text.slice(typed))}</span>
