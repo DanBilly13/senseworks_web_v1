@@ -49,6 +49,12 @@ export function SectionHeadlineBlock({
           body={body}
           align={align}
           maxWidth="lg"
+          // Left-aligned: the headline and body both 80% of the row on
+          // desktop (as on Horizontal Scroll Stack Medium), so the body
+          // doesn't run far wider than the headline above it. Centered
+          // keeps the narrower prose width.
+          headingMaxWidth={align === 'left' ? 'fourFifths' : undefined}
+          bodyMaxWidth={align === 'left' ? 'fourFifths' : undefined}
           tone={dark ? 'inverse' : 'default'}
           eyebrowColor={dark ? 'text-accent' : undefined}
           cta={ctaLabel && ctaHref && <Button href={ctaHref} variant={dark ? 'filled-accent' : 'filled-dark'}>{ctaLabel}</Button>}
