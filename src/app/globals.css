@@ -240,13 +240,21 @@
      the browser default of ~1.5 (body-copy proportions) reads loose
      at display size. Body sizes keep the browser default; 1.3 would
      cramp multi-line paragraph text. */
-  --text-display: 9rem;
+  /* Fluid above 1440 (the Awwwards way, with the wider page): display
+     and h1–h3 keep exactly their old desktop size up to a 1440 screen,
+     then grow in a straight line with the screen width to a cap at
+     1920 — about 25% bigger for display/h1/h2 (h3 a little less) — so
+     on a big monitor they stay in proportion to the 1816px row instead
+     of looking small in it. Each clamp(min, a + b·vw, max): the line
+     passes through min at 1440 and max at 1920. h4–h6 (card and item
+     titles) and body text stay fixed; mobile has its own sizes below. */
+  --text-display: clamp(9rem, 36px + 7.5vw, 11.25rem);
   --text-display--line-height: 1;
-  --text-h1: 4rem;
+  --text-h1: clamp(4rem, 16px + 3.3333vw, 5rem);
   --text-h1--line-height: 1.2;
-  --text-h2: 3rem;
+  --text-h2: clamp(3rem, 12px + 2.5vw, 3.75rem);
   --text-h2--line-height: 1.2;
-  --text-h3: 2.25rem;
+  --text-h3: clamp(2.25rem, 24px + 0.8333vw, 2.5rem);
   --text-h3--line-height: 1.2;
   --text-h4: 1.75rem;
   --text-h4--line-height: 1.3;
