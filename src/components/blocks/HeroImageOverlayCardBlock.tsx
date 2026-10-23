@@ -144,11 +144,10 @@ function CardIntro({
       body={subhead}
       headingMaxWidth="none"
       bodyClassName={narrowCard ? 'hero-overlay-card-body-wide' : undefined}
-      // 2px rules above and below the headline: the accent on the dark
-      // card, a soft dark line on the gradient/light ones.
-      headingClassName={
-        headlineRules ? `hero-overlay-card-rules border-y-2 ${isDark ? 'border-accent' : 'border-foreground/20'}` : undefined
-      }
+      // Dotted rules above and below the headline (the shared
+      // .rule-dotted-y look, globals.css), in the heading's own colour:
+      // white on the dark card, dark on the gradient/light ones.
+      headingClassName={headlineRules ? 'hero-overlay-card-rules rule-dotted-y' : undefined}
       // 48px from the eyebrow to the upper rule, and from the lower rule
       // to the body text (all measured to the letters, see globals.css).
       headingGap={headlineRules ? 'var(--spacing-xl)' : undefined}

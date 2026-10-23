@@ -957,14 +957,61 @@ p {
 .hero-overlay-card-padding {
   padding: 96px 288px 96px 96px;
 }
+/* The dotted rule — one shared look, for anywhere a line wants to be
+   dots (the overlay card hero's headline rules first). Round dots of
+   --rule-dot every --rule-dot + --rule-gap, in the current text colour
+   (white on a dark card, dark on a light one) — change the look here
+   and every dotted rule follows. Drawn as a repeating background, not
+   a `border-style: dotted` (whose spacing the browser picks).
+   .rule-dotted is a standalone line (an <hr> or empty div);
+   .rule-dotted-y / -top / -bottom draw it along an element's top and/or
+   bottom edge, without taking space (pad the element by --rule-dot). */
+:root {
+  --rule-dot: 2px;
+  --rule-gap: 8px;
+}
+.rule-dotted,
+.rule-dotted-y,
+.rule-dotted-top,
+.rule-dotted-bottom {
+  --rule-dots: radial-gradient(
+    circle,
+    currentColor calc(var(--rule-dot) / 2 - 0.25px),
+    transparent calc(var(--rule-dot) / 2 + 0.25px)
+  );
+  background-repeat: repeat-x;
+  background-size: calc(var(--rule-dot) + var(--rule-gap)) var(--rule-dot);
+}
+.rule-dotted {
+  height: var(--rule-dot);
+  border: 0;
+  background-image: var(--rule-dots);
+  background-position: left center;
+}
+.rule-dotted-y {
+  background-image: var(--rule-dots), var(--rule-dots);
+  background-position:
+    left top,
+    left bottom;
+}
+.rule-dotted-top {
+  background-image: var(--rule-dots);
+  background-position: left top;
+}
+.rule-dotted-bottom {
+  background-image: var(--rule-dots);
+  background-position: left bottom;
+}
+
 /* The rules above and below the headline: 48px from the top of the
    capitals, 64px from the baseline (the bottom of the "L") — measured
    from the letters, not the line box — text-box trims the leading above the caps and below the
    baseline, so the padding measures from the letters themselves
    (Chrome/Safari; Firefox doesn't trim yet and shows a little more). */
 .hero-overlay-card-rules {
-  padding-top: var(--spacing-xl);
-  padding-bottom: var(--spacing-2xl);
+  /* + the dotted rule's own height, drawn inside the padding. */
+  padding-top: calc(var(--spacing-xl) + var(--rule-dot));
+  padding-bottom: calc(var(--spacing-2xl) + var(--rule-dot));
   text-box: trim-both cap alphabetic;
 }
 /* The eyebrow above and the body text below are trimmed the same way,
