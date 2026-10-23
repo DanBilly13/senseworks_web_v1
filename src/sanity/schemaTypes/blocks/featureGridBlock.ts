@@ -8,6 +8,15 @@ import { bandFields } from '../fields/bandFields'
 // Deliberately no top-level eyebrow/heading/body — same reasoning as
 // Card Grid: pair this with a separate intro block (e.g. Section
 // Headline) above it when one's needed, rather than baking one in.
+// A feature's icon fields are hidden while its Feature Grid has "Show
+// icons" off. The item's own block isn't handed to `hidden`, so it's
+// found in the document by the item's key.
+const iconsOff = ({ document, parent }: { document?: Record<string, unknown>; parent?: { _key?: string } }) => {
+  const blocks = (document?.blocks ?? []) as { showIcons?: boolean; items?: { _key?: string }[] }[]
+  const block = blocks.find((b) => b.items?.some((item) => item._key === parent?._key))
+  return block?.showIcons === false
+}
+
 export const featureGridBlock = defineType({
   name: 'featureGridBlock',
   title: 'Feature Grid',
@@ -30,8 +39,17 @@ export const featureGridBlock = defineType({
       initialValue: '3',
     }),
     defineField({
+      name: 'showIcons',
+      title: 'Show icons',
+      description:
+        'On: each feature shows its icon (the checkmark unless you choose another below). Off: no icons at all.',
+      type: 'boolean',
+      initialValue: true,
+    }),
+    defineField({
       name: 'iconSize',
       title: 'Icon size',
+      hidden: ({ parent }) => parent?.showIcons === false,
       description: 'Large: 64px desktop / 56px mobile. Small: 32px desktop / 24px mobile.',
       type: 'string',
       options: {
@@ -76,10 +94,12 @@ export const featureGridBlock = defineType({
                 'Optional — upload an SVG (or a PNG with a transparent background). Any black in the file follows the site\'s text colour; other colours (an accent, say) are kept as they are. A PNG is drawn in a single colour. Material Symbols (fonts.google.com/icons) downloads as SVG. Leave empty to use the checkmark, or pick one from the list below.',
               type: 'image',
               options: { accept: 'image/svg+xml,image/png' },
+              hidden: iconsOff,
             }),
             defineField({
               name: 'icon',
               title: 'Icon (from the list)',
+              hidden: iconsOff,
               description:
                 'Optional — a short list of ready-made icons. Ignored if an icon is uploaded above. Leave both empty to keep the default checkmark.',
               type: 'string',

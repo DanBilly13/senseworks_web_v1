@@ -47,6 +47,8 @@ type IconSize = 'large' | 'small'
 // background, see ui/BandFill.
 type FeatureGridBlockProps = BandProps & {
   columns?: '2' | '3' | '4'
+  // Off: no icons at all (on: each item's own icon, or the checkmark).
+  showIcons?: boolean
   iconSize?: IconSize
   headingLayout?: 'stacked' | 'inline'
   // Where an item's link sits: its own line under the text, or as a
@@ -80,6 +82,7 @@ const LG_COLS_CLASS: Record<'2' | '3' | '4', string> = {
 // block (e.g. Section Headline) above it when one's needed.
 export function FeatureGridBlock({
   columns = '3',
+  showIcons = true,
   iconSize = 'large',
   headingLayout = 'stacked',
   linkStyle = 'below',
@@ -106,39 +109,41 @@ export function FeatureGridBlock({
                   icon types fill the same box via size-full so a default
                   checkmark and a custom SVG line up identically
                   regardless of which an item uses. */}
-              <div
-                className={`flex items-center justify-center ${dark ? 'text-background/70' : 'text-muted-foreground'} ${ICON_BOX_CLASS[iconSize]}`}
-                aria-hidden="true"
-              >
-                {item.iconImage ? (
-                  // Uploaded icon: black and white follow the card, its
-                  // accent follows the page theme (see UploadedIcon).
-                  <UploadedIcon
-                    source={item.iconImage}
-                    surface={dark ? 'dark' : tone === 'accent' ? 'accent' : 'light'}
-                    className="size-full"
-                  />
-                ) : item.icon ? (
-                  <Image
-                    src={ICON_SRC[item.icon]}
-                    alt=""
-                    width={64}
-                    height={64}
-                    // The curated SVGs are drawn in our black: white on dark.
-                    className={`size-full ${dark ? 'brightness-0 invert' : ''}`}
-                  />
-                ) : (
-                  // AntD icons pass className to the <span> wrapper, not
-                  // the inner <svg> — which sizes via its own
-                  // width/height="1em" attribute regardless of the
-                  // span's size. The span itself also has no size of
-                  // its own (it's flex-item content-sized, i.e. sized
-                  // by that same 1em svg — circular), so both levels
-                  // need size-full: the span against this definite box,
-                  // then the svg against the now-definite span.
-                  <CheckCircleOutlined className="size-full [&>svg]:size-full" />
-                )}
-              </div>
+              {showIcons && (
+                <div
+                  className={`flex items-center justify-center ${dark ? 'text-background/70' : 'text-muted-foreground'} ${ICON_BOX_CLASS[iconSize]}`}
+                  aria-hidden="true"
+                >
+                  {item.iconImage ? (
+                    // Uploaded icon: black and white follow the card, its
+                    // accent follows the page theme (see UploadedIcon).
+                    <UploadedIcon
+                      source={item.iconImage}
+                      surface={dark ? 'dark' : tone === 'accent' ? 'accent' : 'light'}
+                      className="size-full"
+                    />
+                  ) : item.icon ? (
+                    <Image
+                      src={ICON_SRC[item.icon]}
+                      alt=""
+                      width={64}
+                      height={64}
+                      // The curated SVGs are drawn in our black: white on dark.
+                      className={`size-full ${dark ? 'brightness-0 invert' : ''}`}
+                    />
+                  ) : (
+                    // AntD icons pass className to the <span> wrapper, not
+                    // the inner <svg> — which sizes via its own
+                    // width/height="1em" attribute regardless of the
+                    // span's size. The span itself also has no size of
+                    // its own (it's flex-item content-sized, i.e. sized
+                    // by that same 1em svg — circular), so both levels
+                    // need size-full: the span against this definite box,
+                    // then the svg against the now-definite span.
+                    <CheckCircleOutlined className="size-full [&>svg]:size-full" />
+                  )}
+                </div>
+              )}
               {/* Doubles the icon-to-title gap (12px container gap +
                   this) from 12px to 24px. Title-to-description below is
                   its own separate value (16px, gap="medium") — not tied
@@ -175,7 +180,7 @@ export function FeatureGridBlock({
                 layout={headingLayout}
                 tone={dark ? 'inverse' : 'default'}
                 gap="medium"
-                className="mt-small-medium"
+                className={showIcons ? 'mt-small-medium' : undefined}
               />
               {/* Inline links live in the description above; this one is
                   the default, or the fallback for an item with no text. */}
