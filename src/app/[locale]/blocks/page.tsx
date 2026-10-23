@@ -425,7 +425,7 @@ export default async function BlocksPage({
         type="sectionHeadlineBlock + featureGridBlock"
         variant='tone: "inverse" on both (joined by BlockRenderer)'
       />
-      <SectionHeadlineBlock tone="inverse" joinBelow spacing="tight" align="left" eyebrow="Eyebrow" headline="Lorem ipsum dolor sit amet" />
+      <SectionHeadlineBlock tone="inverse" joinBelow paddingBottom="tight" align="left" eyebrow="Eyebrow" headline="Lorem ipsum dolor sit amet" />
       <FeatureGridBlock
         tone="inverse"
         joinAbove
@@ -493,7 +493,7 @@ export default async function BlocksPage({
         type="sectionHeadlineBlock + cardGridBlock"
         variant='tone: "inverse" / background: "inverse" (joined by BlockRenderer)'
       />
-      <SectionHeadlineBlock tone="inverse" joinBelow spacing="tight" align="left" eyebrow="Eyebrow" headline="Lorem ipsum dolor sit amet" />
+      <SectionHeadlineBlock tone="inverse" joinBelow paddingBottom="tight" align="left" eyebrow="Eyebrow" headline="Lorem ipsum dolor sit amet" />
       <CardGridBlock
         columns="3"
         background="inverse"
@@ -1033,7 +1033,7 @@ export default async function BlocksPage({
       <SectionHeadlineBlock
         tone="inverse"
         joinBelow
-        spacing="tight"
+        paddingBottom="tight"
         align="left"
         eyebrow="Eyebrow"
         headline="Lorem ipsum dolor sit amet"

@@ -9,9 +9,10 @@ import { SECTION_GAP_MB_CLASS } from '@/components/ui/SectionShell'
 //
 // Two of these blocks in a row with the same background join into one
 // band (BlockRenderer passes joinAbove/joinBelow): the first block's
-// Section spacing becomes the space inside the color between them, and
-// neither pads the edge they share — so a Section Headline followed by
-// a Bento Grid, both on Dark, reads as one dark section.
+// Bottom padding is the space inside the color between them, the second
+// drops its Top padding, and there's no gap outside the color between
+// them — so a Section Headline followed by a Bento Grid, both on Dark,
+// reads as one dark section.
 // accentDark (not on Section Headline): the dark accent gradient, white text
 // like Dark. Never joins: each block would start its own gradient.
 export type BandTone = 'none' | 'inverse' | 'accent' | 'accentDark'
@@ -48,12 +49,11 @@ export function bandShellPadding({
   paddingBottom = 'medium',
   spacing = 'loose',
   joinAbove = false,
-  joinBelow = false,
 }: BandProps): { pt?: BandSpacing; pb: BandSpacing } {
   if (tone === 'none') return { pb: spacing }
   return {
     pt: joinAbove ? 'none' : paddingTop,
-    pb: joinBelow ? spacing : paddingBottom,
+    pb: paddingBottom,
   }
 }
 

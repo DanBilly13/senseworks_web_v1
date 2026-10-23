@@ -16,7 +16,7 @@ export const bandFields = ({ withDarkGradient = false, fieldName = 'tone' } = {}
       name: fieldName,
       title: 'Background',
       description:
-        'None sits straight on the page. Dark or Accent fills the full screen width, with its own top and bottom padding below. Next to a Section Headline, Bento Grid or Card Grid with the same background, the two join into one band.',
+        'None sits straight on the page. Dark or Accent fills the full screen width, with its own top and bottom padding below. Next to a Section Headline, Bento Grid, Card Grid or Feature Grid with the same background, the two join into one band: the Bottom padding of the first is the space between them.',
       type: 'string',
       options: {
         list: [
