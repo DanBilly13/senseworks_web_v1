@@ -42,11 +42,12 @@ export const featureSplitBlock = defineType({
     }),
     defineField({
       name: 'headingLevel',
-      title: 'Heading level',
+      title: 'Heading size',
+      description: 'H2 draws the heading larger; the text under it stays the same.',
       type: 'string',
       options: {
         list: [
-          { title: 'H2', value: 'h2' },
+          { title: 'H2 (larger)', value: 'h2' },
           { title: 'H3 (default)', value: 'h3' },
         ],
         layout: 'radio',

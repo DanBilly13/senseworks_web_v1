@@ -5,10 +5,10 @@ import { SECTION_GAP_PB_CLASS } from '@/components/ui/SectionShell'
 import { Media } from '@/components/ui/Media'
 import type { MediaField } from '@/lib/sanity/media'
 
-// The heading's full line-height, for the size it actually renders at
-// (always h3-sized, whatever headingLevel is) — spaces the closing
-// brandmark off from the text above.
+// The heading's full line-height, for the size it renders at — spaces the
+// closing brandmark off from the text above.
 const BRANDMARK_GAP = {
+  h2: 'var(--text-h2--full-line-height)',
   h3: 'var(--text-h3--full-line-height)',
 }
 
@@ -61,11 +61,11 @@ export function FeatureSplitBlock({
         <div className="w-full md:max-w-prose-xs md:shrink-0">
           <SectionIntro
             as={headingLevel}
-            // Heading level here is only about the page outline — every
-            // Feature Split looks like an h3 (size, weight, body style)
-            // either way. Without this, picking h2 also switched the
-            // body to SectionIntro's big "subtitle" treatment.
-            styleAs="h3"
+            // "Heading size": the heading is drawn at the size picked
+            // (and is that level in the page outline), but the body
+            // keeps its regular style at H2 too, not SectionIntro's big
+            // "subtitle" treatment, which is too much in this column.
+            subtitleBody={false}
             eyebrow={eyebrow}
             heading={heading}
             body={body}
@@ -89,7 +89,7 @@ export function FeatureSplitBlock({
             width={61}
             height={18}
             className="h-medium w-auto"
-            style={{ marginTop: BRANDMARK_GAP.h3 }}
+            style={{ marginTop: BRANDMARK_GAP[headingLevel] }}
           />
         </div>
       </div>

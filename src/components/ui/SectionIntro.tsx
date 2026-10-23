@@ -62,6 +62,9 @@ type SectionIntroProps = {
   // (the text's own color when unset).
   typing?: boolean
   typingCursorClassName?: string
+  // false keeps the regular body style under an h1/h2-sized heading,
+  // instead of the bigger subtitle treatment (Feature Split at H2).
+  subtitleBody?: boolean
 }
 
 // The site-wide eyebrow/heading/body/cta gap: half the heading's own
@@ -135,6 +138,7 @@ export function SectionIntro({
   ctaGap,
   typing = false,
   typingCursorClassName,
+  subtitleBody = true,
 }: SectionIntroProps) {
   // A block with neither an eyebrow nor a heading has no intro to show
   // (e.g. Stats Band's intro is entirely optional).
@@ -147,7 +151,7 @@ export function SectionIntro({
   // strength (same color as the heading itself), not the faded
   // bodyColor every h3/h4 body still uses.
   const styleLevel = styleAs ?? Heading
-  const isSubtitle = styleLevel === 'h1' || styleLevel === 'h2'
+  const isSubtitle = subtitleBody && (styleLevel === 'h1' || styleLevel === 'h2')
   const halfLineHeightGap = display ? HALF_DISPLAY_LINE_HEIGHT_GAP : HALF_HEADING_LINE_HEIGHT_GAP[styleLevel]
 
   // Width lives on each child, not this wrapping div, so the heading
