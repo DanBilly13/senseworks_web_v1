@@ -15,11 +15,19 @@ type ModalProps = {
   // 'lg' is the wide, two-column form-style modal (Book a meeting) —
   // page-width-ish card with responsive padding. 'sm' is the original
   // narrow card (team member, Bento Grid).
-  size?: 'sm' | 'lg'
+  // 'xl' is wider still (1200px), for two full columns side by side —
+  // Book a webinar's text and its form card.
+  size?: 'sm' | 'lg' | 'xl'
   // The dialog's own accessible name still comes from `title`; this
   // only controls whether it's also drawn as a heading. A caller that
   // renders its own, bigger heading inside (Book a meeting) turns it off.
   showTitle?: boolean
+  // 'muted': the page's light grey instead of white. Ignored with tone
+  // inverse.
+  surface?: 'default' | 'muted'
+  // false: no inner padding, for content that runs edge to edge and
+  // pads itself (Book a webinar's grey and white halves).
+  padded?: boolean
 }
 
 export function Modal({
@@ -30,6 +38,8 @@ export function Modal({
   tone = 'default',
   size = 'sm',
   showTitle = true,
+  surface = 'default',
+  padded = true,
 }: ModalProps) {
   useEffect(() => {
     if (!open) return
@@ -65,9 +75,13 @@ export function Modal({
         aria-label={title}
         onClick={(event) => event.stopPropagation()}
         className={[
-          'relative flex max-h-full w-full flex-col rounded-lg',
-          size === 'lg' ? 'max-w-prose-xl' : 'max-w-prose-sm',
-          tone === 'inverse' ? 'bg-foreground text-background' : 'bg-background text-foreground',
+          'relative flex max-h-full w-full flex-col overflow-hidden rounded-lg',
+          size === 'xl' ? 'max-w-modal-xl' : size === 'lg' ? 'max-w-prose-xl' : 'max-w-prose-sm',
+          tone === 'inverse'
+            ? 'bg-foreground text-background'
+            : surface === 'muted'
+              ? 'bg-muted text-foreground'
+              : 'bg-background text-foreground',
         ].join(' ')}
       >
         {/* Absolutely positioned against this outer, unpadded box
@@ -90,7 +104,7 @@ export function Modal({
         <div
           className={[
             'flex flex-col gap-medium overflow-y-auto overscroll-contain',
-            size === 'lg' ? 'p-large md:p-2xl' : 'p-xl',
+            !padded ? '' : size === 'lg' || size === 'xl' ? 'p-large md:p-2xl' : 'p-xl',
           ].join(' ')}
         >
           {/* inverse callers (team member card) render their own name

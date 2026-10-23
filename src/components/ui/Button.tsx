@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { ArrowRightOutlined } from '@ant-design/icons'
 import type { ReactNode } from 'react'
 import { BOOK_MEETING_HREF, useBookMeeting } from '@/components/ui/bookMeetingContext'
+import { BOOK_WEBINAR_HREF, useBookWebinar } from '@/components/ui/bookWebinarContext'
 
 // Lets a page turn on the animated hover treatment for every Button
 // underneath it (v1/v2) without threading an `animated` prop through
@@ -90,6 +91,7 @@ export function Button({ href, variant, size, children, animated }: ButtonProps)
   const isAnimated = animated ?? contextAnimated
   const resolvedSize = size ?? 'md'
   const { open: openBookMeeting } = useBookMeeting()
+  const { open: openBookWebinar } = useBookWebinar()
 
   const className = [
     buttonVariants({ variant, size }),
@@ -125,11 +127,12 @@ export function Button({ href, variant, size, children, animated }: ButtonProps)
     </>
   )
 
-  // "#book-meeting" opens the modal instead of navigating — a real
-  // <button>, not a Link, since there's no destination to go to.
-  if (href === BOOK_MEETING_HREF) {
+  // "#book-meeting" / "#book-webinar" open their modal instead of
+  // navigating — a real <button>, not a Link, since there's no
+  // destination to go to.
+  if (href === BOOK_MEETING_HREF || href === BOOK_WEBINAR_HREF) {
     return (
-      <button type="button" onClick={openBookMeeting} className={className}>
+      <button type="button" onClick={href === BOOK_WEBINAR_HREF ? openBookWebinar : openBookMeeting} className={className}>
         {content}
       </button>
     )

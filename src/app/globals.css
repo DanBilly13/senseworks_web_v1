@@ -69,6 +69,8 @@
      wider "10 columns" (960px) so the +/− toggle can sit right-
      aligned in the extra space instead of hugging the question text. */
   --container-prose-xl: 60rem;
+  /* The widest modal (Modal size="xl", Book a webinar): two full columns. */
+  --container-modal-xl: 75rem;
 
   /* Button's animated-hover arrow-reveal slot, xl size only — its own
      max-w-* tokens rather than reaching for max-w-xl/max-w-2xl:
@@ -942,6 +944,33 @@ p {
 .hero-overlay-card-padding {
   padding: 96px 288px 96px 96px;
 }
+/* A round tick 1.5× the cap height of the text it sits in (Book a
+   webinar's points), centred on the capitals: with the list item's
+   items-baseline its bottom sits on the baseline (the tick inside is
+   absolutely placed, so the circle has no text baseline of its own and
+   aligns by its bottom edge), then it's nudged down a quarter cap so it
+   reaches the same distance above the capitals as below the baseline.
+   The tick is 60% of the circle. */
+.check-cap {
+  width: 1.5cap;
+  height: 1.5cap;
+  top: 0.25cap;
+}
+.check-cap > * {
+  font-size: 0.9cap;
+}
+
+/* Book a webinar's seats bar and dot: the page theme's accent on a
+   themed page (Audit purple, Analytics green), our dark on the default
+   yellow theme, where a yellow bar would barely show on the white card. */
+.webinar-accent-bg {
+  background-color: var(--color-foreground);
+}
+[data-page-theme='revision'] .webinar-accent-bg,
+[data-page-theme='analysis'] .webinar-accent-bg {
+  background-color: var(--color-accent);
+}
+
 /* The dotted rule — one shared look, for anywhere a line wants to be
    dots (the overlay card hero's headline rules first). Round dots of
    --rule-dot every --rule-dot + --rule-gap, in the current text colour

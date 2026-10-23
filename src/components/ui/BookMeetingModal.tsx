@@ -69,11 +69,12 @@ const COPY: Record<'sv' | 'en', Copy> = {
 
 // Underline-only fields (the reference layout's look) rather than the
 // boxed inputs on the old purple form — a bottom border in the
-// foreground color at 30%, firming up to full on focus.
-const FIELD_CLASS =
+// foreground color at 30%, firming up to full on focus. Shared with
+// Book a webinar's form, so the two stay alike.
+export const FIELD_CLASS =
   'w-full rounded-none border-b border-foreground/30 bg-transparent py-small-medium text-body text-foreground placeholder:text-muted-foreground focus:border-foreground focus:outline-none'
 
-function Field({ label, htmlFor, children }: { label: string; htmlFor: string; children: ReactNode }) {
+export function Field({ label, htmlFor, children }: { label: string; htmlFor: string; children: ReactNode }) {
   return (
     <div className="flex flex-col gap-xs">
       <label htmlFor={htmlFor} className="text-caption font-semibold text-foreground">

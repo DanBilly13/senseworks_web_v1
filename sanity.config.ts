@@ -15,7 +15,7 @@ const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'rm507cjs'
 // test copy.
 const dataset = process.env.SANITY_STUDIO_DATASET || process.env.NEXT_PUBLIC_SANITY_DATASET || 'production'
 
-const SINGLETONS = ['siteNavigation', 'bookMeetingSettings']
+const SINGLETONS = ['siteNavigation', 'bookMeetingSettings', 'webinarSettings']
 
 export default defineConfig({
   name: 'default',

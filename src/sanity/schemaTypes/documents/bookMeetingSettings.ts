@@ -10,7 +10,7 @@ import { defineType, defineField } from 'sanity'
 const hiddenWhenContactOff = ({ document }: { document?: Record<string, unknown> }) =>
   document?.showContact === false
 
-function localized(
+export function localized(
   name: string,
   title: string,
   options: { multiline?: boolean; description?: string; hiddenWhenContactOff?: boolean } = {},

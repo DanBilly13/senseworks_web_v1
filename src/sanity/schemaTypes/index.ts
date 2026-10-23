@@ -9,6 +9,7 @@ import { article } from './documents/article'
 import { testimonial } from './documents/testimonial'
 import { client } from './documents/client'
 import { bookMeetingSettings } from './documents/bookMeetingSettings'
+import { webinarSettings } from './documents/webinarSettings'
 import { siteNavigation } from './documents/siteNavigation'
 import { headerBlock } from './blocks/headerBlock'
 import { heroBlock } from './blocks/heroBlock'
@@ -61,6 +62,7 @@ const allTypes = [
   testimonial,
   client,
   bookMeetingSettings,
+  webinarSettings,
   siteNavigation,
   release,
   blogPost,
