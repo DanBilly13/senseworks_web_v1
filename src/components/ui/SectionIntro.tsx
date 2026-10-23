@@ -166,8 +166,9 @@ export function SectionIntro({
           className={[
             display ? 'text-display' : HEADING_TEXT_CLASS[styleLevel],
             // Bold on dark backgrounds too (a Medium trial for light-on-
-            // dark text was reverted at Dan's request).
-            HEADING_WEIGHT_CLASS[styleLevel],
+            // dark text was reverted at Dan's request). Display is Aeonik
+            // Medium (loaded as weight 600, see layout.tsx), at Dan's request.
+            display ? 'font-semibold' : HEADING_WEIGHT_CLASS[styleLevel],
             'text-balance',
             headingColor,
             MAX_WIDTH_CLASS[headingMaxWidth ?? maxWidth],
