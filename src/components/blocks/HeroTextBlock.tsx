@@ -64,6 +64,10 @@ export function HeroTextBlock({
         heading={headline}
         body={subhead}
         maxWidth="none"
+        // Desktop: the headline 80% of the row, the subhead 60% (as on
+        // Section Headline and Horizontal Scroll Stack Medium).
+        headingMaxWidth="fourFifths"
+        bodyMaxWidth="threeFifths"
         cta={
           ctaLabel &&
           ctaHref && (

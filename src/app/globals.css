@@ -94,9 +94,11 @@
      site); mobile stays unrestricted since there's no spare width to
      give up there. */
   --container-subtitle: 85%;
-  /* 80% of the row (desktop): Horizontal Scroll Stack Medium's title
-     headline and body. */
+  /* 80% and 60% of the row (desktop): the headline and body of a
+     left-aligned intro above wide content (Horizontal Scroll Stack
+     Medium, Section Headline, Hero Text). */
   --container-four-fifths: 80%;
+  --container-three-fifths: 60%;
 
   /* D15: page-content width cap — full sections/backgrounds may go
      edge-to-edge, but structural content rows (nav, hero row, future

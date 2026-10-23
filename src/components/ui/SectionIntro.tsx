@@ -3,7 +3,7 @@ import { TypingText } from '@/components/ui/TypingText'
 
 type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4'
 
-type WidthKey = 'sm' | 'md' | 'lg' | 'wide' | 'subtitle' | 'fourFifths' | 'none'
+type WidthKey = 'sm' | 'md' | 'lg' | 'wide' | 'subtitle' | 'fourFifths' | 'threeFifths' | 'none'
 
 type SectionIntroProps = {
   as: HeadingLevel
@@ -114,6 +114,7 @@ const MAX_WIDTH_CLASS: Record<WidthKey, string> = {
   subtitle: 'md:max-w-subtitle',
   // 80% of the row, desktop only, likewise.
   fourFifths: 'md:max-w-four-fifths',
+  threeFifths: 'md:max-w-three-fifths',
   none: '',
 }
 
