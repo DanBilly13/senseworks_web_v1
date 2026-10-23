@@ -2,19 +2,18 @@ import type { ReactNode } from 'react'
 import { SECTION_GAP_MB_CLASS } from '@/components/ui/SectionShell'
 
 // A block's optional full screen width background (Section Headline,
-// Bento Grid): None sits on the page; Dark or Accent fills the width,
-// with the block's own top/bottom padding inside the color and its
-// Section spacing as the gap after it, outside (as on Full Width
-// Single).
+// Bento Grid, Card Grid, Feature Grid), and its padding. No automatic
+// rules (Dan's call): Top and Bottom padding are the space inside the
+// block — inside its color, when it has one — exactly as set, and
+// Section spacing is always the gap after it, outside the color. To make
+// two blocks read as one band, give them the same background and set
+// the padding/spacing between them by hand.
 //
-// Two of these blocks in a row with the same background join into one
-// band (BlockRenderer passes joinAbove/joinBelow): the first block's
-// Bottom padding is the space inside the color between them, the second
-// drops its Top padding, and there's no gap outside the color between
-// them — so a Section Headline followed by a Bento Grid, both on Dark,
-// reads as one dark section.
-// accentDark (not on Section Headline): the dark accent gradient, white text
-// like Dark. Never joins: each block would start its own gradient.
+// Left unset, the padding is None without a background (as every block
+// was before these fields) and Medium with one.
+//
+// accentDark (not on Section Headline): the dark accent gradient, white
+// text like Dark.
 export type BandTone = 'none' | 'inverse' | 'accent' | 'accentDark'
 export type BandSpacing = 'loose' | 'medium' | 'tight' | 'none'
 
@@ -23,17 +22,6 @@ export type BandProps = {
   paddingTop?: BandSpacing
   paddingBottom?: BandSpacing
   spacing?: BandSpacing
-  joinAbove?: boolean
-  joinBelow?: boolean
-}
-
-// The block types that take part in joining (see BlockRenderer), and
-// the field each keeps its background in.
-export const BAND_TONE_FIELD: Record<string, string> = {
-  sectionHeadlineBlock: 'tone',
-  bentoGridBlock: 'tone',
-  cardGridBlock: 'background',
-  featureGridBlock: 'tone',
 }
 
 const BAND_BG: Record<Exclude<BandTone, 'none'>, string> = {
@@ -42,22 +30,12 @@ const BAND_BG: Record<Exclude<BandTone, 'none'>, string> = {
   accentDark: 'bg-accent-gradient-dark',
 }
 
-// SectionShell's pt/pb for the block's content, given its band settings.
-export function bandShellPadding({
-  tone = 'none',
-  paddingTop = 'medium',
-  paddingBottom = 'medium',
-  spacing = 'loose',
-  joinAbove = false,
-}: BandProps): { pt?: BandSpacing; pb: BandSpacing } {
-  if (tone === 'none') return { pb: spacing }
-  return {
-    pt: joinAbove ? 'none' : paddingTop,
-    pb: paddingBottom,
-  }
+// SectionShell's pt/pb for the block's content.
+export function bandShellPadding({ tone = 'none', paddingTop, paddingBottom }: BandProps): { pt: BandSpacing; pb: BandSpacing } {
+  const unset: BandSpacing = tone === 'none' ? 'none' : 'medium'
+  return { pt: paddingTop ?? unset, pb: paddingBottom ?? unset }
 }
 
-export function BandFill({ tone = 'none', spacing = 'loose', joinBelow = false, children }: BandProps & { children: ReactNode }) {
-  if (tone === 'none') return <>{children}</>
-  return <div className={`${BAND_BG[tone]} ${joinBelow ? '' : SECTION_GAP_MB_CLASS[spacing]}`}>{children}</div>
+export function BandFill({ tone = 'none', spacing = 'loose', children }: BandProps & { children: ReactNode }) {
+  return <div className={`${tone === 'none' ? '' : BAND_BG[tone]} ${SECTION_GAP_MB_CLASS[spacing]}`}>{children}</div>
 }

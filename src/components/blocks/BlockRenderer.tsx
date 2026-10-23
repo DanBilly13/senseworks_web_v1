@@ -37,7 +37,6 @@ import { TeamGridBlock } from './TeamGridBlock'
 import { ParagraphsBlock } from './ParagraphsBlock'
 import type { PageBlock } from '@/lib/sanity/getPage'
 
-import { BAND_TONE_FIELD } from '@/components/ui/BandFill'
 const BLOCK_COMPONENTS = {
   headerBlock: HeaderBlock,
   heroBlock: HeroBlock,
@@ -78,15 +77,6 @@ const BLOCK_COMPONENTS = {
   footerBlock: FooterBlock,
 } as const
 
-// A Section Headline, Bento Grid or Card Grid's background (ui/BandFill),
-// when it has one, else null.
-function bandTone(block: PageBlock | undefined): string | null {
-  const field = block && BAND_TONE_FIELD[block._type]
-  if (!field) return null
-  const tone = block[field] as string | undefined
-  return tone && tone !== 'none' && tone !== 'accentDark' ? tone : null
-}
-
 export function BlockRenderer({ blocks }: { blocks: PageBlock[] }) {
   // D7: an unrecognized or incomplete block type simply doesn't render.
   // Editor-facing "Hidden" toggle (most block schemas) — lets a
@@ -97,13 +87,10 @@ export function BlockRenderer({ blocks }: { blocks: PageBlock[] }) {
   const shown = blocks.filter((block) => block._type in BLOCK_COMPONENTS && block.hidden !== true)
   return (
     <>
-      {shown.map((block, index) => {
+      {shown.map((block) => {
         const Component = BLOCK_COMPONENTS[block._type as keyof typeof BLOCK_COMPONENTS]
-        // Neighbours with the same background join into one band.
-        const tone = bandTone(block)
-        const join = tone ? { joinAbove: bandTone(shown[index - 1]) === tone, joinBelow: bandTone(shown[index + 1]) === tone } : {}
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- block shape is validated by the Sanity schema, not statically knowable here
-        return <Component key={block._key} {...(block as any)} {...join} />
+        return <Component key={block._key} {...(block as any)} />
       })}
     </>
   )

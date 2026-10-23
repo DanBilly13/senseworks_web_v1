@@ -421,14 +421,14 @@ export default async function BlocksPage({
         ]}
       />
       <BlockCaption
-        name="Section Headline + Feature Grid — both Dark: one band"
+        name="Section Headline + Feature Grid — both Dark, set as one band"
         type="sectionHeadlineBlock + featureGridBlock"
-        variant='tone: "inverse" on both (joined by BlockRenderer)'
+        variant='tone: "inverse" on both (headline: Bottom padding Tight, Section spacing None; below: Top padding None)'
       />
-      <SectionHeadlineBlock tone="inverse" joinBelow paddingBottom="tight" align="left" eyebrow="Eyebrow" headline="Lorem ipsum dolor sit amet" />
+      <SectionHeadlineBlock tone="inverse" paddingBottom="tight" spacing="none" align="left" eyebrow="Eyebrow" headline="Lorem ipsum dolor sit amet" />
       <FeatureGridBlock
         tone="inverse"
-        joinAbove
+        paddingTop="none"
         items={[
           { icon: 'lock', title: 'Lorem ipsum dolor', description: BODY, ctaLabel: 'Lorem ipsum', ctaHref: '#' },
           { title: 'Sit amet consectetur', description: BODY },
@@ -489,15 +489,15 @@ export default async function BlocksPage({
         ]}
       />
       <BlockCaption
-        name="Section Headline + Card Grid — both Dark: one band"
+        name="Section Headline + Card Grid — both Dark, set as one band"
         type="sectionHeadlineBlock + cardGridBlock"
-        variant='tone: "inverse" / background: "inverse" (joined by BlockRenderer)'
+        variant='tone: "inverse" / background: "inverse" (headline: Bottom padding Tight, Section spacing None; below: Top padding None)'
       />
-      <SectionHeadlineBlock tone="inverse" joinBelow paddingBottom="tight" align="left" eyebrow="Eyebrow" headline="Lorem ipsum dolor sit amet" />
+      <SectionHeadlineBlock tone="inverse" paddingBottom="tight" spacing="none" align="left" eyebrow="Eyebrow" headline="Lorem ipsum dolor sit amet" />
       <CardGridBlock
         columns="3"
         background="inverse"
-        joinAbove
+        paddingTop="none"
         items={[
           { eyebrow: '01 — Lorem', heading: 'Lorem ipsum dolor', body: BODY },
           { eyebrow: '02 — Ipsum', heading: 'Sit amet consectetur', body: BODY },
@@ -1026,14 +1026,14 @@ export default async function BlocksPage({
         ]}
       />
       <BlockCaption
-        name="Section Headline + Bento Grid — both Dark: one band"
+        name="Section Headline + Bento Grid — both Dark, set as one band"
         type="sectionHeadlineBlock + bentoGridBlock"
-        variant='tone: "inverse" on both (joined by BlockRenderer)'
+        variant='tone: "inverse" on both (headline: Bottom padding Tight, Section spacing None; below: Top padding None)'
       />
       <SectionHeadlineBlock
         tone="inverse"
-        joinBelow
         paddingBottom="tight"
+        spacing="none"
         align="left"
         eyebrow="Eyebrow"
         headline="Lorem ipsum dolor sit amet"
@@ -1044,7 +1044,7 @@ export default async function BlocksPage({
       <BentoGridBlock
         columns="3"
         tone="inverse"
-        joinAbove
+        paddingTop="none"
         expandable
         items={[
           { heading: 'Lorem ipsum', body: BODY, size: 'large' },
