@@ -29,8 +29,10 @@
   --isc-on-ink: #ffffff;
   --isc-shadow: 0 4px 12px rgba(16, 24, 41, 0.08), 0 1px 3px rgba(16, 24, 41, 0.05);
   --isc-rad-sm: var(--radius-sm);
-  --isc-rad-md: var(--radius-md);
-  --isc-rad-lg: var(--radius-lg);
+  /* 8px, pinned: the site's own --radius-md/lg went to 4px; these are the
+     product UI's. */
+  --isc-rad-md: 8px;
+  --isc-rad-lg: 8px;
   --isc-snap: cubic-bezier(0.16, 1, 0.3, 1);
   --isc-drift: cubic-bezier(0.05, 0.7, 0.1, 1);
 

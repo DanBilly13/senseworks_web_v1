@@ -143,7 +143,7 @@ function HeroImageOverlay({
           where the text sits — it's vertically centered here, not
           pinned to one edge. */}
       <div className="absolute inset-0 bg-foreground/55" aria-hidden="true" />
-      <div className="relative mx-auto flex min-h-screen w-full max-w-page flex-col justify-center px-medium-large py-section-edge">
+      <div className="relative mx-auto flex min-h-screen w-full max-w-page flex-col justify-center px-medium-large md:px-gutter py-section-edge">
         <SectionIntro
           as="h1"
           display={headlineSize === 'display'} typing={typingHeadline}
@@ -194,7 +194,7 @@ function HeroScrollReveal({
     // Server Components.
     <div className="relative" style={{ marginTop: 'calc(var(--header-height, 0px) * -1)' }}>
       <ScrollRevealStage media={media} alt={headline} mediaWidth={mediaWidth}>
-        <div className="mx-auto w-full max-w-page">
+        <div className="mx-auto w-full max-w-page md:px-gutter">
           <SectionIntro
             as="h1"
             display={headlineSize === 'display'} typing={typingHeadline}

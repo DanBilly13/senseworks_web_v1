@@ -225,7 +225,7 @@ function MobileImageOverlayCard({
     // cardBackgroundMobile fill regardless of tone (see that div's own
     // comment).
     <section className={`relative ${MB_CLASS[spacing]} ${SECTION_BG[tone]}`}>
-      <div className="relative z-10 mx-auto flex w-full max-w-page flex-col px-medium-large">
+      <div className="relative z-10 mx-auto flex w-full max-w-page flex-col px-medium-large md:px-gutter">
         {/* -mx-medium-large breaks out to full-bleed (cancels this
             wrapper's own px-medium-large) — negative margin-right
             alone wouldn't stretch the box, but this is a flex child,
@@ -313,14 +313,28 @@ function DesktopImageOverlayCard({
   // useLayoutEffect, not useEffect — same reasoning as headerHeight
   // below: avoids a one-frame window where this reads its default
   // (0, 0) on a real, on-screen paint.
-  const [viewportSize, setViewportSize] = useState({ width: 0, height: 0 })
+  // Also reads the page width cap and the desktop gutter from the CSS
+  // (--container-page, --page-gutter in globals.css), so the video
+  // settles at exactly the page content's width, whatever those are.
+  const [viewportSize, setViewportSize] = useState({ width: 0, height: 0, page: 1920, gutter: 24 })
   useLayoutEffect(() => {
-    const update = () => setViewportSize({ width: window.innerWidth, height: window.innerHeight })
+    const update = () => {
+      const root = getComputedStyle(document.documentElement)
+      const rem = parseFloat(root.fontSize) || 16
+      const page = parseFloat(root.getPropertyValue('--container-page')) * rem
+      const gutter = parseFloat(root.getPropertyValue('--page-gutter'))
+      setViewportSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+        page: Number.isFinite(page) ? page : 1920,
+        gutter: Number.isFinite(gutter) ? gutter : 24,
+      })
+    }
     update()
     window.addEventListener('resize', update)
     return () => window.removeEventListener('resize', update)
   }, [])
-  const contentWidth = Math.min(1440, viewportSize.width - 48)
+  const contentWidth = Math.min(viewportSize.page, viewportSize.width) - 2 * viewportSize.gutter
   const contentHeight = (contentWidth * 5) / 7
 
   // Reads --header-height as a number (HeaderBlock sets it via JS, not
@@ -529,7 +543,7 @@ function DesktopImageOverlayCard({
             the card back into view as that happens. */}
         <motion.div
           style={{ opacity: cardOpacity }}
-          className="absolute inset-0 z-10 mx-auto flex w-full max-w-page flex-col justify-center px-medium-large"
+          className="absolute inset-0 z-10 mx-auto flex w-full max-w-page flex-col justify-center px-medium-large md:px-gutter"
         >
           <div
             className={[

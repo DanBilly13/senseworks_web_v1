@@ -283,7 +283,7 @@ export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref, curren
       >
         <div
           ref={barRef}
-          className="mx-auto flex w-full max-w-page items-center justify-between px-medium-large py-small-medium"
+          className="mx-auto flex w-full max-w-page items-center justify-between px-medium-large md:px-gutter py-small-medium"
         >
           {homeVersions.length ? (
             <VersionsMenu

@@ -161,6 +161,7 @@ export function StatsBandBlock({
           </>
         )}
         <SectionShell
+          px="panel"
           pt={paddingTop}
           pb={paddingBottom}
           sectionClassName="relative"

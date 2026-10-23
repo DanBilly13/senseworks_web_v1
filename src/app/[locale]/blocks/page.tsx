@@ -49,7 +49,7 @@ const BODY_LONG =
 // going through Sanity content.
 function GroupHeading({ children }: { children: string }) {
   return (
-    <div className="mx-auto w-full max-w-page px-medium-large pt-3xl pb-medium-large">
+    <div className="mx-auto w-full max-w-page px-medium-large md:px-gutter pt-3xl pb-medium-large">
       <h2 className="text-h3 font-semibold text-foreground">{children}</h2>
     </div>
   )
@@ -62,7 +62,7 @@ function GroupHeading({ children }: { children: string }) {
 // this specific instance, when more than one instance shares a type.
 function BlockCaption({ name, type, variant }: { name: string; type: string; variant?: string }) {
   return (
-    <div className="mx-auto flex w-full max-w-page items-center gap-medium-large px-medium-large py-medium">
+    <div className="mx-auto flex w-full max-w-page items-center gap-medium-large px-medium-large md:px-gutter py-medium">
       <span className="shrink-0 text-caption font-semibold text-muted-foreground uppercase">
         {name}
       </span>
@@ -125,7 +125,7 @@ export default async function BlocksPage({
     <>
       <SiteHeader locale={locale} path={`/${locale}/blocks`} />
 
-      <div className="mx-auto w-full max-w-page px-medium-large py-2xl">
+      <div className="mx-auto w-full max-w-page px-medium-large md:px-gutter py-2xl">
         <p className="text-caption font-semibold text-muted-foreground uppercase">
           Internal — Component Library
         </p>
@@ -1202,7 +1202,7 @@ export default async function BlocksPage({
       />
 
       <GroupHeading>Primitives</GroupHeading>
-      <div className="mx-auto w-full max-w-page px-medium-large pb-medium-large">
+      <div className="mx-auto w-full max-w-page px-medium-large md:px-gutter pb-medium-large">
         <p className="max-w-prose-md text-body text-muted-foreground">
           The shared pieces every block above is built from — check here before asking for a new
           one-off eyebrow/heading/body/CTA layout or button style.
@@ -1280,7 +1280,7 @@ export default async function BlocksPage({
         type="@/components/ui/Button"
         variant='variant: "filled-dark" | "filled-accent" | "filled-light" | "ghost"'
       />
-      <div className="mx-auto flex w-full max-w-page flex-wrap items-center gap-medium-large px-medium-large py-2xl">
+      <div className="mx-auto flex w-full max-w-page flex-wrap items-center gap-medium-large px-medium-large md:px-gutter py-2xl">
         <Button href="#" variant="filled-dark">
           Lorem ipsum
         </Button>
@@ -1296,7 +1296,7 @@ export default async function BlocksPage({
       </div>
 
       <BlockCaption name="Button — Sizes" type="@/components/ui/Button" variant='size: "sm" | "md"' />
-      <div className="mx-auto flex w-full max-w-page flex-wrap items-center gap-medium-large px-medium-large py-2xl">
+      <div className="mx-auto flex w-full max-w-page flex-wrap items-center gap-medium-large px-medium-large md:px-gutter py-2xl">
         <Button href="#" size="sm">
           Lorem ipsum
         </Button>
@@ -1310,7 +1310,7 @@ export default async function BlocksPage({
         type="@/components/ui/Button"
         variant="animated: true — hover to see"
       />
-      <div className="mx-auto flex w-full max-w-page flex-wrap items-center gap-medium-large px-medium-large py-2xl">
+      <div className="mx-auto flex w-full max-w-page flex-wrap items-center gap-medium-large px-medium-large md:px-gutter py-2xl">
         <Button href="#" animated>
           Lorem ipsum
         </Button>
@@ -1321,7 +1321,7 @@ export default async function BlocksPage({
         type="@/components/ui/BookMeetingModal"
         variant='any Button / CTA with href: "#book-meeting" opens it'
       />
-      <div className="mx-auto flex w-full max-w-page flex-wrap items-center gap-medium-large px-medium-large py-2xl">
+      <div className="mx-auto flex w-full max-w-page flex-wrap items-center gap-medium-large px-medium-large md:px-gutter py-2xl">
         <Button href="#book-meeting">Book a meeting</Button>
       </div>
 
@@ -1330,7 +1330,7 @@ export default async function BlocksPage({
         type="@/components/ui/Menu"
         variant="leadingIcon / trailingIcon are optional"
       />
-      <div className="mx-auto flex w-full max-w-page items-start px-medium-large py-2xl">
+      <div className="mx-auto flex w-full max-w-page items-start px-medium-large md:px-gutter py-2xl">
         <MenuShowcase />
       </div>
 

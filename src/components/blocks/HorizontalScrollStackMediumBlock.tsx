@@ -100,7 +100,7 @@ export function HorizontalScrollStackMediumBlock({
   const gradient = tone === 'accentDark'
 
   const title = (eyebrow || heading) && (
-    <div className="mx-auto w-full max-w-page px-large md:px-medium-large">
+    <div className="mx-auto w-full max-w-page px-large md:px-gutter">
       <SectionIntro
         as={headingLevel}
         eyebrow={eyebrow}

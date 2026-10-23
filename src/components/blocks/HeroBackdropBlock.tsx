@@ -112,7 +112,7 @@ export function HeroBackdropBlock({
           against the very edge of its own colored/gradient/image
           background, with only page background (not this hero's own
           backdrop) providing any breathing room below it. */}
-      <div className="relative mx-auto flex w-full max-w-page flex-col px-medium-large pb-section-edge">
+      <div className="relative mx-auto flex w-full max-w-page flex-col px-medium-large md:px-gutter pb-section-edge">
         <div
           style={{
             paddingTop: 'calc(var(--spacing-section-edge) * 2)',

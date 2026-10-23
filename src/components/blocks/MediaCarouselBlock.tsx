@@ -94,7 +94,7 @@ export function MediaCarouselBlock({
       }
     >
       {(eyebrow || heading) && (
-        <div className="mx-auto mb-2xl w-full max-w-page px-large md:px-medium-large">
+        <div className="mx-auto mb-2xl w-full max-w-page px-large md:px-gutter">
           <SectionIntro
             as="h2"
             eyebrow={eyebrow}
@@ -139,7 +139,7 @@ export function MediaCarouselBlock({
           </div>
         ))}
       </div>
-      <div className="mx-auto mt-2xl flex w-full max-w-page justify-end gap-small px-large md:px-medium-large">
+      <div className="mx-auto mt-2xl flex w-full max-w-page justify-end gap-small px-large md:px-gutter">
         <button
           type="button"
           onClick={() => scrollBySlide(-1)}

@@ -34,14 +34,20 @@ repo): `solution-spec.md`, `decision-log.md`, `risk-register.md`,
 - **Width tiers (D15)**: three levels, don't mix them up. Section
   backgrounds may go full-bleed (no cap). Structural content rows
   (nav bar contents, a hero's text+image column, future feature
-  grids) cap at `max-w-page` (1440px) — this matters because the
-  actual audience often works on wide/ultrawide monitors, and
-  uncapped content sprawls absurdly thin/far apart otherwise. Body
-  text specifically caps narrower still, at `max-w-prose-sm/md/lg`
-  (576–768px), for readability. Every new block needs its structural
-  wrapper capped at `max-w-page`, with any prose text inside further
-  capped at `max-w-prose-*` — don't leave a block's content width
-  fully uncapped.
+  grids) cap at `max-w-page` (1920px, so 1816px of content inside the
+  desktop gutter — the Awwwards approach, widened from 1440 in Oct
+  2026) — this matters because the actual audience often works on
+  wide/ultrawide monitors, and uncapped content sprawls absurdly
+  thin/far apart otherwise. A page-width row's desktop side padding is
+  `md:px-gutter` (the `--page-gutter` variable: 24px tablet, 40px from
+  1024, 52px from 1280), never a fixed `md:px-medium-large`; mobile
+  keeps each block's own edge padding. Body text specifically caps
+  narrower still, at `max-w-prose-sm/md/lg` (576–768px), for
+  readability — and any percentage text width (80%/60%/85%) also needs
+  a rem cap, or it runs on to unreadable line lengths in the 1816 row.
+  Every new block needs its structural wrapper capped at `max-w-page`,
+  with any prose text inside further capped — don't leave a block's
+  content width fully uncapped.
 - **Intro-text-to-content gap = `gap-2xl`/`mt-2xl` (64px)**: every
   block that stacks an intro text cluster (eyebrow/heading/body/CTA)
   above a content area (image, grid, cards, a carousel) uses exactly

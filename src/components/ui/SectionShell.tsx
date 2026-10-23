@@ -36,7 +36,10 @@ type SectionShellProps = {
   // that itself goes full screen width there, not a grid of several
   // separately-boxed cards (that's 'boxed') — same md:px-medium-large
   // as 'boxed' at desktop.
-  px?: 'default' | 'boxed' | 'full'
+  // 'panel' is for a SectionShell nested INSIDE a boxed panel (Stats
+  // Band's): the panel's own inner padding, 32px mobile / 24px desktop,
+  // not the page gutter — that's the outer SectionShell's job.
+  px?: 'default' | 'boxed' | 'full' | 'panel'
   sectionClassName?: string
   className?: string
   ariaLabel?: string
@@ -52,9 +55,10 @@ const MAX_WIDTH_CLASS = {
 }
 
 const PX_CLASS = {
-  default: 'px-large md:px-medium-large',
-  boxed: 'px-small md:px-medium-large',
-  full: 'md:px-medium-large',
+  default: 'px-large md:px-gutter',
+  boxed: 'px-small md:px-gutter',
+  full: 'md:px-gutter',
+  panel: 'px-large md:px-medium-large',
 }
 
 // Exported so the couple of blocks that can't route through

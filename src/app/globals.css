@@ -9,8 +9,10 @@
   --radius-none: 0px;
   --radius-xs: 2px;
   --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 8px;
+  /* md/lg were 8px; 4px since Dan's call (2026-10-23) — every card,
+     panel, image and media frame. */
+  --radius-md: 4px;
+  --radius-lg: 4px;
   --radius-xl: 16px;
   --radius-2xl: 24px;
   --radius-full: 9999px;
@@ -85,7 +87,11 @@
      safe on a heading whose containing block already has a definite
      width (e.g. inside SectionShell's own max-w-page row); an
      `auto`-width containing block would make this resolve to nothing. */
-  --container-wide: 80%;
+  /* Capped in rem as well (each one at its value in a 1392px row, i.e.
+     the 1440 page before it widened), so on a big monitor's 1816px row
+     text doesn't run on into unreadably long lines — only images and
+     grids take the extra width. */
+  --container-wide: min(80%, 70rem);
   /* Same reasoning as --container-wide above — a percentage cap for
      Feature List's body column (90% of its grid track). */
   --container-body: 90%;
@@ -93,18 +99,29 @@
      caps at 85% of its row, desktop only (md: prefix at the call
      site); mobile stays unrestricted since there's no spare width to
      give up there. */
-  --container-subtitle: 85%;
+  --container-subtitle: min(85%, 74rem);
   /* 80% and 60% of the row (desktop): the headline and body of a
      left-aligned intro above wide content (Horizontal Scroll Stack
      Medium, Section Headline, Hero Text). */
-  --container-four-fifths: 80%;
-  --container-three-fifths: 60%;
+  --container-four-fifths: min(80%, 70rem);
+  /* Testimonial Large's quote: its width in a 1440 page (1280px), so on
+     a big monitor it doesn't run the full 1800px row. */
+  --container-quote: 80rem;
+  --container-three-fifths: min(60%, 52rem);
 
   /* D15: page-content width cap — full sections/backgrounds may go
      edge-to-edge, but structural content rows (nav, hero row, future
      feature grids) cap here so they don't spread absurdly thin on
-     ultrawide monitors. Narrower than that is prose width, above. */
-  --container-page: 90rem;
+     ultrawide monitors. Narrower than that is prose width, above.
+     1920px (was 1440), the Awwwards way: minus the desktop gutter
+     (--page-gutter, 52px a side on big screens) the content runs to
+     1816px, so a 1920 monitor is filled rather than left with ~260px
+     of empty margin each side; wider screens centre it. */
+  --container-page: 120rem;
+  /* The desktop gutter either side of a page-width row (md:px-gutter),
+     stepping up with the screen — see --page-gutter below. Mobile keeps
+     each block's own edge padding. */
+  --spacing-gutter: var(--page-gutter);
 
   /* Horizontal Scroll Stack (experimental) — each slide's width,
      used as a plain `width` (Tailwind's --width-* namespace, same
@@ -115,7 +132,7 @@
      md:px-medium-large edge padding on each side) rather than a
      one-off vw number — this component only renders this branch at
      md: and up, so only the desktop edge padding value is needed. */
-  --width-scroll-panel: min(var(--container-page), calc(100vw - 2 * var(--spacing-medium-large)));
+  --width-scroll-panel: calc(min(100vw, var(--container-page)) - 2 * var(--page-gutter));
 
   /* Image/media placeholder ratio (Tailwind's own --aspect-* namespace
      — same mechanism that generates its built-in aspect-video). Used
@@ -577,7 +594,7 @@ p {
    the calc() can't be expressed without arbitrary-value syntax). */
 .carousel-inset {
   padding-inline-start: calc(
-    max((100% - var(--container-page)) / 2, 0px) + var(--spacing-medium-large)
+    max((100% - var(--container-page)) / 2, 0px) + var(--page-gutter)
   );
   /* Without this, scroll-snap measures "start" against the scrollport
      edge and ignores the padding above, so the resting snapped
@@ -586,17 +603,17 @@ p {
      control. Matching scroll-padding to the padding fixes the rest
      position back to 0. */
   scroll-padding-inline-start: calc(
-    max((100% - var(--container-page)) / 2, 0px) + var(--spacing-medium-large)
+    max((100% - var(--container-page)) / 2, 0px) + var(--page-gutter)
   );
   /* The same space on the right, so scrolled all the way along, the last
      card ends on the page content's right edge (under the arrows), not
      at the screen edge. The scroll-padding keeps the last card's snap
      point there too — without it, snapping hides this padding again. */
   padding-inline-end: calc(
-    max((100% - var(--container-page)) / 2, 0px) + var(--spacing-medium-large)
+    max((100% - var(--container-page)) / 2, 0px) + var(--page-gutter)
   );
   scroll-padding-inline-end: calc(
-    max((100% - var(--container-page)) / 2, 0px) + var(--spacing-medium-large)
+    max((100% - var(--container-page)) / 2, 0px) + var(--page-gutter)
   );
 }
 /* Media Carousel: a slide's image is the same size as the image in a
@@ -632,7 +649,7 @@ p {
       max(
         22rem,
         calc(
-          min(100vw, var(--container-page)) - 2 * var(--spacing-medium-large) - var(--spacing-2xl) -
+          min(100vw, var(--container-page)) - 2 * var(--page-gutter) - var(--spacing-2xl) -
             var(--container-prose-xs)
         )
       ),
@@ -649,13 +666,13 @@ p {
 @media (min-width: 768px) {
   .media-carousel-inset {
     padding-inline-start: calc(
-      max((100% - var(--container-page)) / 2, 0px) + var(--spacing-medium-large)
+      max((100% - var(--container-page)) / 2, 0px) + var(--page-gutter)
     );
     scroll-padding-inline-start: calc(
-      max((100% - var(--container-page)) / 2, 0px) + var(--spacing-medium-large)
+      max((100% - var(--container-page)) / 2, 0px) + var(--page-gutter)
     );
     padding-inline-end: calc(
-      max((100% - var(--container-page)) / 2, 0px) + var(--spacing-medium-large)
+      max((100% - var(--container-page)) / 2, 0px) + var(--page-gutter)
     );
   }
   .media-carousel-slide {
@@ -664,7 +681,7 @@ p {
     width: max(
       22rem,
       calc(
-        min(100vw, var(--container-page)) - 2 * var(--spacing-medium-large) - var(--spacing-2xl) -
+        min(100vw, var(--container-page)) - 2 * var(--page-gutter) - var(--spacing-2xl) -
           var(--container-prose-xs)
       )
     );
@@ -744,6 +761,21 @@ p {
    layer sits on top (soft-light over mid-grey noise changes nothing on
    average, so the grey still matches the page) to break up 8-bit
    banding — .bg-accent-gradient blends it in. */
+:root {
+  /* The desktop gutter (see --spacing-gutter): 24px on tablets, 40px from
+     1024px, 52px from 1280px — Awwwards' steps. */
+  --page-gutter: 24px;
+}
+@media (min-width: 1024px) {
+  :root {
+    --page-gutter: 40px;
+  }
+}
+@media (min-width: 1280px) {
+  :root {
+    --page-gutter: 52px;
+  }
+}
 :root {
   --gradient-dither: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0.04 0.04 0.04 0 0.44 0.04 0.04 0.04 0 0.44 0.04 0.04 0.04 0 0.44 0 0 0 0 1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   --gradient-accent-dark:

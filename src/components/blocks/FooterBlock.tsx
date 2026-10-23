@@ -57,7 +57,7 @@ export function FooterBlock({
 
   return (
     <footer className="bg-foreground text-background">
-      <div className="mx-auto flex w-full max-w-page flex-col gap-3xl px-medium-large py-section-edge">
+      <div className="mx-auto flex w-full max-w-page flex-col gap-3xl px-medium-large md:px-gutter py-section-edge">
         <div className="flex flex-col gap-3xl md:flex-row md:justify-between">
           <div className="flex w-full flex-col gap-medium md:max-w-prose-xs">
             <Image

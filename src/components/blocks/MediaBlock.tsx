@@ -50,7 +50,7 @@ export function MediaBlock({
             // Text lines up with the page content, not the screen edge.
             <div
               className={[
-                'relative mx-auto flex size-full max-w-page flex-col justify-center px-large md:px-medium-large',
+                'relative mx-auto flex size-full max-w-page flex-col justify-center px-large md:px-gutter',
                 align === 'center' ? 'items-center' : 'items-start',
               ].join(' ')}
             >

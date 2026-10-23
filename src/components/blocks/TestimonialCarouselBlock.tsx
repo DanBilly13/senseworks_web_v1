@@ -60,7 +60,7 @@ export function TestimonialCarouselBlock({
           only when there's something to scroll. Same as Case Study
           Carousel. */}
       {canScroll && (
-        <div className="mx-auto mt-medium-large flex w-full max-w-page justify-end px-large md:px-medium-large">
+        <div className="mx-auto mt-medium-large flex w-full max-w-page justify-end px-large md:px-gutter">
           <CarouselNav label="testimonials" atStart={atStart} atEnd={atEnd} onStep={scrollByCard} />
         </div>
       )}

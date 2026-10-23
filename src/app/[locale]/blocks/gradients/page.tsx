@@ -115,7 +115,7 @@ const VARIANTS: { name: string; note: string; background: string; blend?: string
 
 export default function GradientLab() {
   return (
-    <main className="mx-auto w-full max-w-page px-medium-large py-2xl">
+    <main className="mx-auto w-full max-w-page px-medium-large md:px-gutter py-2xl">
       <h1 className="text-h3 font-bold text-foreground">Gradient lab</h1>
       <p className="mt-small text-body text-muted-foreground">
         Accent-gradient variants on the page grey. Dev-only.

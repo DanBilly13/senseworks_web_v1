@@ -39,7 +39,7 @@ export function ScrollRevealStage({ media, alt, mediaWidth, children }: ScrollRe
           on. mediaWidth only changes what's INSIDE it. */}
       <div className="sticky top-0 h-screen w-full">
         {mediaWidth === 'content' ? (
-          <div className="mx-auto flex size-full max-w-page items-center px-medium-large">
+          <div className="mx-auto flex size-full max-w-page items-center px-medium-large md:px-gutter">
             {/* aspect-media (7:5) — this video is being re-exported at
                 1600x1142 to match, replacing the earlier 1600x1200
                 (4:3) cut. Same token every other Media placement on
@@ -77,7 +77,7 @@ export function ScrollRevealStage({ media, alt, mediaWidth, children }: ScrollRe
           and its own visibility is what drives `revealed` above. */}
       <section
         ref={yellowRef}
-        className="relative flex h-screen w-full flex-col items-center justify-center bg-accent px-medium-large py-section-edge"
+        className="relative flex h-screen w-full flex-col items-center justify-center bg-accent px-medium-large py-section-edge md:px-0"
         style={{ marginTop: '-100vh' }}
       >
         {children}

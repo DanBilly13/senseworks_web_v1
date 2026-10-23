@@ -40,7 +40,7 @@ export function TestimonialLargeBlock({
           dark ? 'bg-accent-gradient-dark' : 'bg-accent-gradient border border-border'
         }`}
       >
-        <p className={`text-h4 text-balance ${dark ? 'text-background' : 'text-foreground'}`}>&ldquo;{quote}&rdquo;</p>
+        <p className={`max-w-quote text-h4 text-balance ${dark ? 'text-background' : 'text-foreground'}`}>&ldquo;{quote}&rdquo;</p>
         <div className="flex items-center gap-medium">
           <Media
             media={media}
