@@ -641,8 +641,16 @@ p {
   );
 }
 /* Horizontal Scroll Stack Medium (desktop only — mobile stacks): same
-   slide width as .media-carousel-slide, but also capped by the screen
-   height, so the pinned title + image + caption fit in one screen. */
+   slide width as .media-carousel-slide (so it matches a Feature Split's
+   image), but also capped by the screen height: the pinned title, the
+   image and its caption fit in one screen with our Loose section spacing
+   (200px) above and below them on a tall screen (1440px and up),
+   easing down to 48px on a 900px laptop screen — a short screen can't
+   spare 400px of air without shrinking the slides to nothing — plus
+   the header.
+   --stack-chrome is the title + caption + gaps, measured by the
+   component (a fallback until then); the image's height is what's left,
+   its width that times 7/5, never under 22rem. */
 @media (min-width: 768px) {
   .scroll-stack-medium-slide {
     width: min(
@@ -653,7 +661,16 @@ p {
             var(--container-prose-xs)
         )
       ),
-      calc((100vh - 24rem) * 1.4)
+      max(
+        22rem,
+        calc(
+          (
+              100vh - var(--header-height, 0px) -
+                2 * clamp(var(--spacing-xl), (100vh - 900px) * 0.6, var(--spacing-section-gap-loose)) -
+                var(--stack-chrome, 24rem)
+            ) * 1.4
+        )
+      )
     );
   }
 }

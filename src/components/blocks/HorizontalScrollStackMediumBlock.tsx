@@ -70,14 +70,45 @@ export function HorizontalScrollStackMediumBlock({
       if (!stage || !track) return
       setTravel(Math.max(0, track.scrollWidth - stage.clientWidth))
     }
-    measure()
+    // Everything on the stage but the images: the title (when there is
+    // one), the gap under it, and the tallest caption with its gap — the
+    // CSS gives the images the height that's left (globals.css,
+    // .scroll-stack-medium-slide). Only on load and when the screen
+    // changes, not when the slides resize: a narrower slide wraps its
+    // caption onto more lines, which would narrow it again, and again.
+    const measureChrome = () => {
+      const stage = stageRef.current
+      const track = trackRef.current
+      if (!stage || !track) return
+      const gap = parseFloat(getComputedStyle(stage).rowGap) || 0
+      const title = stage.firstElementChild !== track ? (stage.firstElementChild as HTMLElement).offsetHeight + gap : 0
+      const caption = Math.max(
+        0,
+        ...Array.from(track.children, (slide) => {
+          const text = slide.lastElementChild as HTMLElement | null
+          return text ? text.offsetHeight + (parseFloat(getComputedStyle(slide).rowGap) || 0) : 0
+        }),
+      )
+      stage.style.setProperty('--stack-chrome', `${title + caption}px`)
+      measure()
+    }
+    // A second pass once the first has resized the slides, so the
+    // captions are measured at (close to) their final width.
+    let frame = 0
+    const measureTwice = () => {
+      measureChrome()
+      cancelAnimationFrame(frame)
+      frame = requestAnimationFrame(measureChrome)
+    }
+    measureTwice()
     const observer = new ResizeObserver(measure)
     if (stageRef.current) observer.observe(stageRef.current)
     if (trackRef.current) observer.observe(trackRef.current)
-    window.addEventListener('resize', measure)
+    window.addEventListener('resize', measureTwice)
     return () => {
       observer.disconnect()
-      window.removeEventListener('resize', measure)
+      cancelAnimationFrame(frame)
+      window.removeEventListener('resize', measureTwice)
     }
   }, [slides.length])
 
