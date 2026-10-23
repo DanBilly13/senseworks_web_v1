@@ -960,6 +960,7 @@ p {
 /* The dotted rule — one shared look, for anywhere a line wants to be
    dots (the overlay card hero's headline rules first). Round dots of
    --rule-dot every --rule-dot + --rule-gap, in the current text colour
+   at --rule-strength
    (white on a dark card, dark on a light one) — change the look here
    and every dotted rule follows. Drawn as a repeating background, not
    a `border-style: dotted` (whose spacing the browser picks).
@@ -969,6 +970,8 @@ p {
 :root {
   --rule-dot: 2px;
   --rule-gap: 8px;
+  /* How strong the dots are, as a share of the text colour. */
+  --rule-strength: 50%;
 }
 .rule-dotted,
 .rule-dotted-y,
@@ -976,7 +979,7 @@ p {
 .rule-dotted-bottom {
   --rule-dots: radial-gradient(
     circle,
-    currentColor calc(var(--rule-dot) / 2 - 0.25px),
+    color-mix(in srgb, currentColor var(--rule-strength), transparent) calc(var(--rule-dot) / 2 - 0.25px),
     transparent calc(var(--rule-dot) / 2 + 0.25px)
   );
   background-repeat: repeat-x;
