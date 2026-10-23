@@ -145,7 +145,9 @@ export function SectionIntro({
   // (e.g. Stats Band's intro is entirely optional).
   if (!eyebrow && !heading) return null
 
-  const resolvedEyebrowColor = eyebrowColor ?? (tone === 'inverse' ? 'text-background/70' : 'text-muted-foreground')
+  // On a dark background the eyebrow is the accent color (Dan: every
+  // dark block, not case by case).
+  const resolvedEyebrowColor = eyebrowColor ?? (tone === 'inverse' ? 'text-accent' : 'text-muted-foreground')
   const headingColor = tone === 'inverse' ? 'text-background' : 'text-foreground'
   const bodyColor = tone === 'inverse' ? 'text-background/80' : 'text-muted-foreground'
   // h1/h2's body reads as a subtitle, not muted body copy — full

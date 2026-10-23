@@ -115,7 +115,6 @@ function PanelContent({ panel, mobileImageStyle }: { panel: ScrollStackPanelData
       <SectionIntro
         as="h2"
         eyebrow={panel.eyebrow && renderNumberedEyebrow(panel.eyebrow, true, true)}
-        eyebrowColor="text-background"
         heading={panel.heading}
         align="left"
         maxWidth="lg"

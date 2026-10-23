@@ -79,6 +79,10 @@ export function StatsBandBlock({
         body={body}
         align="center"
         maxWidth="md"
+        // Desktop: the headline 80% of the row, the body 60% (as on Hero
+        // Text and Section Headline).
+        headingMaxWidth="fourFifths"
+        bodyMaxWidth="threeFifths"
         tone={light ? 'inverse' : 'default'}
       />
       {/* No column gap once the dividers show (lg): a divider sits on
