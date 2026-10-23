@@ -648,35 +648,20 @@ p {
     max((100% - var(--container-page)) / 2, 0px) + var(--spacing-large)
   );
 }
-/* Horizontal Scroll Stack Medium (desktop only — mobile stacks): same
-   slide width as .media-carousel-slide (so it matches a Feature Split's
-   image), but also capped by the screen height: the pinned title, the
-   image and its caption fit in one screen with our Loose section spacing
-   (200px) above and below them on a tall screen (1440px and up),
-   easing down to 48px on a 900px laptop screen — a short screen can't
-   spare 400px of air without shrinking the slides to nothing — plus
-   the header.
-   --stack-chrome is the title + caption + gaps, measured by the
-   component (a fallback until then); the image's height is what's left,
-   its width that times 7/5, never under 22rem. */
+/* Horizontal Scroll Stack Medium (desktop only — mobile stacks): the
+   slide width is worked out by the component and set as --slide-w (a
+   Feature Split image's width when it fits the screen with Loose-ish
+   spacing, narrower when it doesn't — see the block). Until then (and
+   without JavaScript): the Feature Split image width. */
 @media (min-width: 768px) {
   .scroll-stack-medium-slide {
-    width: min(
+    width: var(
+      --slide-w,
       max(
         22rem,
         calc(
           min(100vw, var(--container-page)) - 2 * var(--page-gutter) - var(--spacing-2xl) -
             var(--container-prose-xs)
-        )
-      ),
-      max(
-        22rem,
-        calc(
-          (
-              100vh - var(--header-height, 0px) -
-                2 * clamp(var(--spacing-xl), (100vh - 900px) * 0.6, var(--spacing-section-gap-loose)) -
-                var(--stack-chrome, 24rem)
-            ) * 1.4
         )
       )
     );

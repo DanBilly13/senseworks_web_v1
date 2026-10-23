@@ -70,35 +70,73 @@ export function HorizontalScrollStackMediumBlock({
       if (!stage || !track) return
       setTravel(Math.max(0, track.scrollWidth - stage.clientWidth))
     }
-    // Everything on the stage but the images: the title (when there is
-    // one), the gap under it, and the tallest caption with its gap — the
-    // CSS gives the images the height that's left (globals.css,
-    // .scroll-stack-medium-slide). Only on load and when the screen
-    // changes, not when the slides resize: a narrower slide wraps its
-    // caption onto more lines, which would narrow it again, and again.
-    const measureChrome = () => {
+    // The slide width (desktop), set as --slide-w on the stage
+    // (globals.css, .scroll-stack-medium-slide). In order of priority:
+    // 1. a Feature Split image's width (the row less the 460px text
+    //    column and the 64px gap), when it fits the screen with our Loose
+    //    spacing above and below (200px on a tall screen, easing to 48px
+    //    at 900px) plus the header;
+    // 2. otherwise narrower, keeping that spacing — down to half the
+    //    Feature Split width, so it always reads as a scroll stack, never
+    //    a row of small cards that all fit on screen;
+    // 3. and below that, the spacing gives instead (the stage centres it).
+    // Each caption is measured at the width it would have (a hidden copy),
+    // so a narrower slide's taller caption is counted, with no feedback
+    // loop. Only on load and when the screen changes.
+    const sizeSlides = () => {
       const stage = stageRef.current
       const track = trackRef.current
-      if (!stage || !track) return
+      if (!stage || !track || !window.matchMedia?.('(min-width: 768px)').matches) return
+      const root = getComputedStyle(document.documentElement)
+      const px = (name: string) => parseFloat(root.getPropertyValue(name)) || 0
+      const rem = parseFloat(root.fontSize) || 16
+      const page = px('--container-page') * rem
+      const featureSplit = Math.min(window.innerWidth, page) - 2 * px('--page-gutter') - 64 - 28.75 * rem
+      const header = px('--header-height')
+      const vh = window.innerHeight
+      const space = Math.min(px('--spacing-section-gap-loose') || 200, Math.max(48, (vh - 900) * 0.6))
       const gap = parseFloat(getComputedStyle(stage).rowGap) || 0
       const title = stage.firstElementChild !== track ? (stage.firstElementChild as HTMLElement).offsetHeight + gap : 0
-      const caption = Math.max(
-        0,
-        ...Array.from(track.children, (slide) => {
-          const text = slide.lastElementChild as HTMLElement | null
-          return text ? text.offsetHeight + (parseFloat(getComputedStyle(slide).rowGap) || 0) : 0
-        }),
+      const captions = Array.from(track.children, (slide) => slide.lastElementChild as HTMLElement | null).filter(
+        (el): el is HTMLElement => !!el,
       )
-      stage.style.setProperty('--stack-chrome', `${title + caption}px`)
+      const slideGap = track.firstElementChild ? parseFloat(getComputedStyle(track.firstElementChild).rowGap) || 0 : 0
+      const captionAt = (width: number) =>
+        Math.max(
+          0,
+          ...captions.map((caption) => {
+            const copy = caption.cloneNode(true) as HTMLElement
+            copy.style.cssText = `position:absolute;visibility:hidden;left:-9999px;top:0;width:${width * 0.95}px`
+            stage.appendChild(copy)
+            const height = copy.offsetHeight
+            copy.remove()
+            return height + slideGap
+          }),
+        )
+      const fits = (width: number) => width / 1.4 + title + captionAt(width) + 2 * space + header <= vh
+      const max = Math.max(352, featureSplit)
+      const min = Math.max(352, featureSplit / 2)
+      let width = max
+      if (!fits(max)) {
+        let lo = min
+        let hi = max
+        for (let i = 0; i < 14; i++) {
+          const mid = (lo + hi) / 2
+          if (fits(mid)) lo = mid
+          else hi = mid
+        }
+        width = lo
+      }
+      stage.style.setProperty('--slide-w', `${Math.floor(width)}px`)
       measure()
     }
-    // A second pass once the first has resized the slides, so the
-    // captions are measured at (close to) their final width.
+    // Again on the next frame: the header's height (--header-height) and
+    // the fonts may only settle just after the first paint.
     let frame = 0
     const measureTwice = () => {
-      measureChrome()
+      sizeSlides()
       cancelAnimationFrame(frame)
-      frame = requestAnimationFrame(measureChrome)
+      frame = requestAnimationFrame(sizeSlides)
     }
     measureTwice()
     const observer = new ResizeObserver(measure)
