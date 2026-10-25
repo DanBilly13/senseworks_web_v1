@@ -127,6 +127,7 @@ export const page = defineType({
         defineArrayMember({ type: 'releaseTimelineBlock' }),
         defineArrayMember({ type: 'sectionHeadlineBlock' }),
         defineArrayMember({ type: 'statsBandBlock' }),
+        defineArrayMember({ type: 'stackAnimationBlock' }),
         defineArrayMember({ type: 'stepsBlock' }),
         defineArrayMember({ type: 'teamGridBlock' }),
         defineArrayMember({ type: 'testimonialCarouselBlock' }),

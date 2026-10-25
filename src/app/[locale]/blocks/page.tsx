@@ -14,6 +14,7 @@ import { ParagraphsBlock } from '@/components/blocks/ParagraphsBlock'
 import { FeatureListBlock } from '@/components/blocks/FeatureListBlock'
 import { CardGridBlock } from '@/components/blocks/CardGridBlock'
 import { ImageGridBlock } from '@/components/blocks/ImageGridBlock'
+import { StackAnimationBlock } from '@/components/blocks/StackAnimationBlock'
 import { LogoCloudBlock } from '@/components/blocks/LogoCloudBlock'
 import { TestimonialCarouselBlock } from '@/components/blocks/TestimonialCarouselBlock'
 import { TestimonialLargeBlock } from '@/components/blocks/TestimonialLargeBlock'
@@ -516,6 +517,8 @@ export default async function BlocksPage({
           { eyebrow: '03 — Dolor', heading: 'Adipiscing elit sed', body: BODY },
         ]}
       />
+      <BlockCaption name="Stack Animation" type="stackAnimationBlock" variant="interactive — click a circle or dot, or use ← →" />
+      <StackAnimationBlock />
       <BlockCaption name="Image Grid" type="imageGridBlock" variant='columns: "3" — a rounded 7:5 image above each item, the text not in a card' />
       <ImageGridBlock
         columns="3"

@@ -162,6 +162,12 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
     description: 'Pricing plan cards for comparing tiers. No intro of its own; add a Section Headline above it.',
   },
   {
+    type: 'stackAnimationBlock',
+    title: 'Stack Animation',
+    description:
+      'The interactive Senseworks Stack: one circle that opens into the six platform layers, a caption per layer, clickable circles and dots. Its own navy panel; English/Swedish text built in, following the page language.',
+  },
+  {
     type: 'imageGridBlock',
     title: 'Image Grid',
     description:
