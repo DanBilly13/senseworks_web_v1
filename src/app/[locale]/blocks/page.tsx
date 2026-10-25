@@ -13,6 +13,7 @@ import { FeatureGridBlock } from '@/components/blocks/FeatureGridBlock'
 import { ParagraphsBlock } from '@/components/blocks/ParagraphsBlock'
 import { FeatureListBlock } from '@/components/blocks/FeatureListBlock'
 import { CardGridBlock } from '@/components/blocks/CardGridBlock'
+import { ImageGridBlock } from '@/components/blocks/ImageGridBlock'
 import { LogoCloudBlock } from '@/components/blocks/LogoCloudBlock'
 import { TestimonialCarouselBlock } from '@/components/blocks/TestimonialCarouselBlock'
 import { TestimonialLargeBlock } from '@/components/blocks/TestimonialLargeBlock'
@@ -513,6 +514,25 @@ export default async function BlocksPage({
           { eyebrow: '01 — Lorem', heading: 'Lorem ipsum dolor', body: BODY },
           { eyebrow: '02 — Ipsum', heading: 'Sit amet consectetur', body: BODY },
           { eyebrow: '03 — Dolor', heading: 'Adipiscing elit sed', body: BODY },
+        ]}
+      />
+      <BlockCaption name="Image Grid" type="imageGridBlock" variant='columns: "3" — a rounded 7:5 image above each item, the text not in a card' />
+      <ImageGridBlock
+        columns="3"
+        items={[
+          { eyebrow: '01 — Lorem', title: 'Lorem ipsum dolor', description: BODY, ctaLabel: 'Lorem ipsum', ctaHref: '#' },
+          { eyebrow: '02 — Ipsum', title: 'Sit amet consectetur', description: BODY },
+          { eyebrow: '03 — Dolor', title: 'Adipiscing elit sed', description: BODY },
+        ]}
+      />
+      <BlockCaption name="Image Grid — Dark background" type="imageGridBlock" variant='tone: "inverse"' />
+      <ImageGridBlock
+        columns="3"
+        tone="inverse"
+        items={[
+          { eyebrow: '01 — Lorem', title: 'Lorem ipsum dolor', description: BODY, ctaLabel: 'Lorem ipsum', ctaHref: '#' },
+          { eyebrow: '02 — Ipsum', title: 'Sit amet consectetur', description: BODY },
+          { eyebrow: '03 — Dolor', title: 'Adipiscing elit sed', description: BODY },
         ]}
       />
       <BlockCaption name="Card Grid — 4 Columns" type="cardGridBlock" variant='columns: "4"' />

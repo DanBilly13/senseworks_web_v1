@@ -162,6 +162,12 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
     description: 'Pricing plan cards for comparing tiers. No intro of its own; add a Section Headline above it.',
   },
   {
+    type: 'imageGridBlock',
+    title: 'Image Grid',
+    description:
+      'Grid of items, each a rounded 7:5 image with its text underneath (optional eyebrow, title, description, link) — like Card Grid, but the text sits on the page, not in a card. 2, 3 or 4 across on desktop, optional background. No intro of its own; add a Section Headline above it.',
+  },
+  {
     type: 'bentoGridBlock',
     title: 'Bento Grid',
     description: 'Asymmetric grid of cards with mixed sizes, each with its own media. No intro of its own; add a Section Headline above it (left-aligned).',
