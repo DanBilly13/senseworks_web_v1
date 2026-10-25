@@ -107,10 +107,13 @@ repo): `solution-spec.md`, `decision-log.md`, `risk-register.md`,
     confused people and let LP v3 end up with three `h1`s.
 - Block components live in `src/components/blocks/`, one file per
   Sanity block schema in `src/sanity/schemaTypes/blocks/`. Register
-  new blocks in **both** `src/sanity/schemaTypes/index.ts` and
+  new blocks in `src/sanity/schemaTypes/index.ts`, in the page's
+  `blocks` list in `src/sanity/schemaTypes/page.ts` (or Studio offers it
+  but rejects it: "Item of type … not valid for this list"), and in
   `src/components/blocks/BlockRenderer.tsx` — a block missing from
-  either place silently won't render (this is intentional, see D7:
-  unknown/incomplete blocks don't render). Also add an entry to
+  any of them won't work; missing from BlockRenderer, it silently
+  won't render (intentional, see D7: unknown/incomplete blocks don't
+  render). Also add an entry to
   `src/sanity/structure/componentLibrary.ts` — a hand-maintained list
   (title + one-line description) that powers the "Component Library"
   reference pane in Studio's nav (`src/sanity/structure/`). It's not

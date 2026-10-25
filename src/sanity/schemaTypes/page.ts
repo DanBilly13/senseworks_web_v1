@@ -116,6 +116,7 @@ export const page = defineType({
         defineArrayMember({ type: 'heroTextBlock' }),
         defineArrayMember({ type: 'horizontalScrollStackBlock' }),
         defineArrayMember({ type: 'horizontalScrollStackMediumBlock' }),
+        defineArrayMember({ type: 'imageGridBlock' }),
         defineArrayMember({ type: 'knowledgeBankBlock' }),
         defineArrayMember({ type: 'logoCloudBlock' }),
         defineArrayMember({ type: 'mediaBlock' }),
