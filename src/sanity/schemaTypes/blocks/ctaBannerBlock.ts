@@ -1,5 +1,6 @@
 import { defineType, defineField } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
+import { paddingField, spacingField } from '../fields/spacingField'
 
 export const ctaBannerBlock = defineType({
   name: 'ctaBannerBlock',
@@ -70,6 +71,11 @@ export const ctaBannerBlock = defineType({
       initialValue: 'inverse',
       validation: (Rule) => Rule.required(),
     }),
+    // Inside the banner above/below its content, then the gap after it —
+    // defaults are the banner's original look (Tight inside, no gap).
+    { ...paddingField('top', 'tight'), description: 'Space above the content, inside the banner.' },
+    { ...paddingField('bottom', 'tight'), description: 'Space below the content, inside the banner.' },
+    { ...spacingField, initialValue: 'none' },
   ],
   preview: {
     select: { title: 'heading' },

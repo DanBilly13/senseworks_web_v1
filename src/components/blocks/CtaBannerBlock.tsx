@@ -1,11 +1,13 @@
 import type { SanityImageSource } from '@sanity/image-url'
 import Image from 'next/image'
 import { Button } from '@/components/ui/Button'
-import { SectionShell } from '@/components/ui/SectionShell'
+import { SECTION_GAP_MB_CLASS, SectionShell } from '@/components/ui/SectionShell'
 import { SectionIntro } from '@/components/ui/SectionIntro'
 import { urlFor } from '@/lib/sanity/image'
 
 type ButtonVariant = 'filled-dark' | 'filled-accent' | 'filled-light' | 'ghost'
+type Spacing = 'loose' | 'medium' | 'tight' | 'none'
+
 type CtaBannerBlockProps = {
   eyebrow?: string
   heading?: string
@@ -17,6 +19,12 @@ type CtaBannerBlockProps = {
   // Small line of microcopy under the buttons.
   ctaNote?: string
   tone?: 'default' | 'inverse' | 'accent'
+  // The space inside the banner above and below its content, and the gap
+  // after it (outside the colour) — the same fields as the other blocks.
+  // Unset keeps the banner's original look: Tight inside, no gap after.
+  paddingTop?: Spacing
+  paddingBottom?: Spacing
+  spacing?: Spacing
   // Optional — sits behind the centered text, filling the whole
   // section edge-to-edge. A transparent PNG is the intended use, so
   // the tone's own background color still shows through it.
@@ -43,6 +51,9 @@ export function CtaBannerBlock({
   secondaryCtaHref,
   ctaNote,
   tone = 'inverse',
+  paddingTop = 'tight',
+  paddingBottom = 'tight',
+  spacing = 'none',
   backgroundImage,
   buttonVariant,
 }: CtaBannerBlockProps) {
@@ -89,7 +100,7 @@ export function CtaBannerBlock({
     // centered — a min, not a fixed height, so longer content can
     // still grow it taller without clipping.
     <div
-      className={`relative flex items-center overflow-hidden ${backgroundImage ? 'min-h-cta-banner-image' : 'min-h-cta-banner'} ${SECTION_BG[tone]}`}
+      className={`relative flex items-center overflow-hidden ${backgroundImage ? 'min-h-cta-banner-image' : 'min-h-cta-banner'} ${SECTION_BG[tone]} ${SECTION_GAP_MB_CLASS[spacing]}`}
     >
       {backgroundImage && (
         <Image
@@ -107,8 +118,8 @@ export function CtaBannerBlock({
           unless told otherwise — same "flex child needs an explicit
           width" gotcha as mx-auto + max-w-* elsewhere in this repo. */}
       <SectionShell
-        pad="both"
-        py="tight"
+        pt={paddingTop}
+        pb={paddingBottom}
         sectionClassName="w-full"
         className="relative z-10 flex justify-center"
       >
