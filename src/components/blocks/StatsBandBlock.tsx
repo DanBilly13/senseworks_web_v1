@@ -50,6 +50,16 @@ const PANEL_BG: Record<Exclude<StatsBandTone, 'none'>, string> = {
 // Light text on the dark and image panels, dark text everywhere else.
 const isLight = (tone: StatsBandTone) => tone === 'dark' || tone === 'image'
 
+// Desktop: as many equal columns as there are stats (up to 4), so three
+// share the full width, centred, instead of filling three of four
+// columns and leaving the fourth empty.
+const LG_COLS_CLASS: Record<number, string> = {
+  1: 'lg:grid-cols-1',
+  2: 'lg:grid-cols-2',
+  3: 'lg:grid-cols-3',
+  4: 'lg:grid-cols-4',
+}
+
 export function StatsBandBlock({
   eyebrow,
   heading,
@@ -90,7 +100,7 @@ export function StatsBandBlock({
           section but the last 32px wider than its neighbour. The
           columns' own px-medium-large keeps text off the dividers. */}
       <div
-        className={`grid grid-cols-2 gap-large lg:grid-cols-4 lg:gap-x-0 lg:divide-x ${hasIntro ? CONTENT_GAP_CLASS[contentGap] : ''} ${
+        className={`grid grid-cols-2 gap-large ${LG_COLS_CLASS[Math.min(items.length, 4)]} lg:gap-x-0 lg:divide-x ${hasIntro ? CONTENT_GAP_CLASS[contentGap] : ''} ${
           light ? 'lg:divide-background/20' : tone === 'accent' ? 'lg:divide-foreground/15' : 'lg:divide-border'
         }`}
       >
