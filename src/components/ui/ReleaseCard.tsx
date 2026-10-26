@@ -18,8 +18,12 @@ export function ReleaseCard({ release, locale }: { release: Release; locale: Rel
   const shipped = stage.id === 'shipped'
 
   return (
-    <div className="flex flex-col rounded-lg border border-border bg-background">
-      <div className="flex flex-1 flex-col gap-medium-large p-medium-large md:p-large">
+    // Three rows — the text, the image, the stage footer — laid on the
+    // grid the cards sit in (grid-rows-subgrid), so cards side by side
+    // share row heights: the text row is as tall as the longest text in
+    // that line, and every image and stage bar lines up across it.
+    <div className="row-span-3 grid grid-rows-subgrid gap-y-0 rounded-lg border border-border bg-background">
+      <div className="flex flex-col gap-medium-large p-medium-large pb-0 md:p-large md:pb-0">
         {(tag || release.ai || release.team?.length) && (
           <div className="flex items-center justify-between gap-medium">
             <div className="flex flex-wrap items-center gap-xs">
@@ -50,6 +54,10 @@ export function ReleaseCard({ release, locale }: { release: Release; locale: Rel
           <h3 className="text-h5 font-bold text-balance text-foreground">{release.title}</h3>
           {release.description && <p className="text-body text-muted-foreground">{release.description}</p>}
         </div>
+      </div>
+      {/* The image row (empty without one, still holding the card's
+          bottom padding so the footer lines up with its neighbours'). */}
+      <div className="px-medium-large pt-medium-large pb-medium-large md:px-large md:pb-large">
         {release.media && (
           <Media media={release.media} alt={release.title} className="aspect-media w-full rounded-md border border-border" />
         )}
