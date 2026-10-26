@@ -60,7 +60,8 @@ export function CtaBannerBlock({
   const resolvedButtonVariant = buttonVariant ?? (tone === 'inverse' ? 'filled-accent' : 'filled-dark')
   const ctaButtons = (
     <div className="flex flex-col items-center gap-medium">
-      <div className="flex flex-wrap items-center justify-center gap-medium-large">
+      {/* The secondary link sits under the button, not beside it. */}
+      <div className="flex flex-col items-center gap-medium-large">
         <Button href={ctaHref} variant={resolvedButtonVariant} size="xl">
           {ctaLabel}
         </Button>
