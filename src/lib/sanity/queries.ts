@@ -123,7 +123,15 @@ export const pageBySlugAndLocaleQuery = groq`
       // "cards" are hand-typed cards from before releases were documents,
       // shown only until scripts/move-releases-to-documents.ts has run.
       _type == "releaseCardsBlock" => {
-        "releases": *[_type == "release" && stage == "shipped"] | order(date desc)[0...8]{ ${releaseProjection} },
+        // "Which releases": the ones chosen, in that order; or the newest
+        // in the chosen stages (shipped only by default) — rolling out
+        // first, then shipped newest first, then in development.
+        "releases": select(
+          source == "pick" => picked[]->{ ${releaseProjection} },
+          *[_type == "release" && stage in coalesce(^.stages, ["shipped"])]
+            | order(select(stage == "rollingOut" => 0, stage == "shipped" => 1, 2) asc, date desc, _createdAt desc)[0...8]
+            { ${releaseProjection} }
+        ),
         cards[]{ ..., ${mediaProjection()}, "team": team[]->{ name, photo } }
       },
       // The Resources start pages' lists: every blog post, Knowledge Bank

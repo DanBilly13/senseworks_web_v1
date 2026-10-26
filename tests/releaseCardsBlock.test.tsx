@@ -67,4 +67,27 @@ describe('ReleaseCardsBlock', () => {
     const { container } = render(<ReleaseCardsBlock cards={[]} />)
     expect(container).toBeEmptyDOMElement()
   })
+
+  it('shows every chosen release, in order, past "How many", skipping a deleted one', () => {
+    render(
+      <ReleaseCardsBlock
+        source="pick"
+        count={2}
+        releases={[
+          { title: 'Third', stage: 'development' },
+          null as unknown as { title: string },
+          { title: 'First', stage: 'rollingOut' },
+          { title: 'Second' },
+        ]}
+      />,
+    )
+    expect(screen.getAllByRole('heading').map((h) => h.textContent)).toEqual(['Third', 'First', 'Second'])
+    expect(screen.getByText('In development')).toBeInTheDocument()
+    expect(screen.getByText('Rolling out')).toBeInTheDocument()
+  })
+
+  it('caps the newest releases at "How many"', () => {
+    render(<ReleaseCardsBlock count={2} releases={[{ title: 'A' }, { title: 'B' }, { title: 'C' }]} />)
+    expect(screen.getAllByRole('heading')).toHaveLength(2)
+  })
 })

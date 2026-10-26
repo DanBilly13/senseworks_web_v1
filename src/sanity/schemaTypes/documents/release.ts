@@ -45,7 +45,8 @@ export const release = defineType({
     // precise measure and a hidden date ("so, December?").
     defineField({
       name: 'stage',
-      description: 'Where it is. Decides its section on the Releases page; only shipped releases appear on Home.',
+      description:
+        'Where it is. Decides its section on the Releases page, and which Release Cards blocks show it (each chooses its stages).',
       type: 'string',
       options: {
         list: [
