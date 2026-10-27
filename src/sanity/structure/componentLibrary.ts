@@ -204,7 +204,7 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
   {
     type: 'faqAccordionBlock',
     title: 'FAQ Accordion',
-    description: 'Expandable question and answer list.',
+    description: 'Expandable question and answer list across the content (or full screen) width, with background options. No heading of its own: put a Section Headline above it.',
   },
   {
     type: 'comparisonTableBlock',

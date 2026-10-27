@@ -1344,13 +1344,21 @@ export default async function BlocksPage({
       <MediaBlock media={{ mediaType: 'reactAnimation', animation: 'allyCallAnimation' }} />
 
       <GroupHeading>Support</GroupHeading>
-      <BlockCaption name="FAQ Accordion" type="faqAccordionBlock" />
+      <BlockCaption name="FAQ Accordion" type="faqAccordionBlock" variant="with a Section Headline above" />
+      <SectionHeadlineBlock headline={HEADING} align="left" spacing="tight" />
       <FaqAccordionBlock
-        heading={HEADING}
         items={[
           { question: 'Lorem ipsum dolor sit amet?', answer: BODY },
           { question: 'Consectetur adipiscing elit?', answer: BODY },
           { question: 'Sed do eiusmod tempor incididunt?', answer: BODY },
+        ]}
+      />
+      <BlockCaption name="FAQ Accordion — Dark background" type="faqAccordionBlock" variant='tone: "inverse"' />
+      <FaqAccordionBlock
+        tone="inverse"
+        items={[
+          { question: 'Lorem ipsum dolor sit amet?', answer: BODY },
+          { question: 'Consectetur adipiscing elit?', answer: BODY },
         ]}
       />
 

@@ -1,7 +1,9 @@
 import type { ReactNode } from 'react'
 
 type SectionShellProps = {
-  maxWidth?: 'page' | 'prose-lg' | 'prose-xl'
+  // 'full': no cap — the content runs the full screen width, still inside
+  // the side padding (a block's "Full screen width" option).
+  maxWidth?: 'page' | 'full' | 'prose-lg' | 'prose-xl'
   // 'loose'/'medium'/'tight' are the three section-to-section rhythm
   // tiers (200/120/60px desktop — see globals.css); every block stays
   // on 'loose' for now, this just makes the other two selectable.
@@ -50,6 +52,7 @@ type SectionShellProps = {
 
 const MAX_WIDTH_CLASS = {
   page: 'max-w-page',
+  full: 'max-w-none',
   'prose-lg': 'max-w-prose-lg',
   'prose-xl': 'max-w-prose-xl',
 }

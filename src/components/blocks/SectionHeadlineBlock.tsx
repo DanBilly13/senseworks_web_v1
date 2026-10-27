@@ -12,6 +12,8 @@ type SectionHeadlineBlockProps = BandProps & {
   ctaLabel?: string
   ctaHref?: string
   align?: 'left' | 'center'
+  // Content width (the page column) or the full screen width.
+  width?: 'content' | 'full'
   // How big the headline is drawn, named after the type styles. Purely
   // visual: it's always an h2 on the page, since every page starts
   // with a Hero and the Hero is the page's one h1.
@@ -28,6 +30,7 @@ export function SectionHeadlineBlock({
   ctaLabel,
   ctaHref,
   align = 'center',
+  width = 'content',
   size = 'h2',
   anchor,
   tone = 'none',
@@ -37,7 +40,7 @@ export function SectionHeadlineBlock({
   const dark = tone === 'inverse'
   return (
     <BandFill tone={tone} {...band}>
-      <SectionShell {...bandShellPadding({ tone, ...band })} id={anchor}>
+      <SectionShell maxWidth={width === 'full' ? 'full' : 'page'} {...bandShellPadding({ tone, ...band })} id={anchor}>
         <SectionIntro
           as="h2"
           // Display draws at the display size; styleAs h1 gives it the

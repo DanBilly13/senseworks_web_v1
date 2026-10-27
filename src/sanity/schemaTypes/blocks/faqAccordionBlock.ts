@@ -1,6 +1,11 @@
 import { defineType, defineField, defineArrayMember } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
 import { spacingField } from '../fields/spacingField'
+import { bandFields } from '../fields/bandFields'
+import { contentWidthField } from '../fields/contentWidthField'
+
+// The questions only — no heading of its own: put a Section Headline
+// above it.
 
 export const faqAccordionBlock = defineType({
   name: 'faqAccordionBlock',
@@ -8,11 +13,8 @@ export const faqAccordionBlock = defineType({
   type: 'object',
   fields: [
     hiddenField,
-    defineField({
-      name: 'heading',
-      type: 'string',
-      initialValue: 'Frequently asked questions',
-    }),
+    contentWidthField,
+    ...bandFields({ withDarkGradient: true }),
     spacingField,
     defineField({
       name: 'items',

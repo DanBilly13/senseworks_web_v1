@@ -9,9 +9,10 @@ const isPair = (def: Def) => def.type === 'object' && def.fields?.map((f: Def) =
 
 describe('localizeSchema', () => {
   it('turns text fields into English/Swedish pairs, keeping English validation and wrapping initial values', () => {
+    const timeline = byName.get('releaseTimelineBlock')!
+    expect(isPair(field(timeline, 'shippedHeading'))).toBe(true)
+    expect(field(timeline, 'shippedHeading').initialValue).toEqual({ en: 'Shipped' })
     const faq = byName.get('faqAccordionBlock')!
-    expect(isPair(field(faq, 'heading'))).toBe(true)
-    expect(field(faq, 'heading').initialValue).toEqual({ en: 'Frequently asked questions' })
     const item = field(faq, 'items').of[0]
     const question = field(item, 'question')
     expect(isPair(question)).toBe(true)
@@ -73,7 +74,7 @@ describe('migrateDocument', () => {
       theme: 'default',
       slug: { _type: 'slug', current: 'home' },
       blocks: [
-        { _type: 'faqAccordionBlock', _key: 'a', heading: 'FAQ', items: [{ _key: 'i', question: 'Q?', answer: 'A.' }] },
+        { _type: 'faqAccordionBlock', _key: 'a', items: [{ _key: 'i', question: 'Q?', answer: 'A.' }] },
         { _type: 'pricingBlock', _key: 'b', plans: [{ _key: 'p', name: 'Firm', ctaHref: '#book', features: ['One', 'Two'] }] },
         { _type: 'mediaBlock', _key: 'c', media: { mediaType: 'image', alt: 'A photo' } },
       ],
@@ -88,7 +89,7 @@ describe('migrateDocument', () => {
     expect(migrateDocument(migrated, schemaTypes as Def[])).toEqual(migrated)
     // Read back in English, it's the original page.
     expect(localize(migrated, 'en')).toEqual(doc)
-    expect(localize(migrated, 'sv').blocks[0].heading).toBe('FAQ')
+    expect(localize(migrated, 'sv').blocks[0].items[0].question).toBe('Q?')
   })
 })
 
