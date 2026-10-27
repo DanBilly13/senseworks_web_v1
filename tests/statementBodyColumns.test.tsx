@@ -45,4 +45,19 @@ describe('BodyColumnsBlock', () => {
     const { container } = render(<BodyColumnsBlock items={[{ text: ' ' }]} />)
     expect(container).toBeEmptyDOMElement()
   })
+
+  it('shows an optional title stacked above the text as a heading', () => {
+    render(<BodyColumnsBlock items={[{ title: 'Title', text: 'Body' }, { text: 'No title' }]} />)
+    expect(screen.getByRole('heading', { name: 'Title' })).toBeInTheDocument()
+    expect(screen.getAllByRole('heading')).toHaveLength(1)
+  })
+
+  it('runs an inline title into the start of the first paragraph, in bold', () => {
+    const { container } = render(<BodyColumnsBlock headingLayout="inline" items={[{ title: 'Title.', text: 'First\nSecond' }]} />)
+    const paragraphs = container.querySelectorAll('p')
+    expect(paragraphs[0].textContent).toBe('Title. First')
+    expect(paragraphs[0].querySelector('strong')?.textContent).toBe('Title.')
+    expect(paragraphs[1].querySelector('strong')).toBeNull()
+    expect(screen.queryByRole('heading')).toBeNull()
+  })
 })

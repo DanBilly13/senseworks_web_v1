@@ -545,6 +545,21 @@ export default async function BlocksPage({
       />
       <StatementBlock text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, ut enim ad minim veniam quis nostrud." tone="inverse" paddingBottom="medium" spacing="none" />
       <BodyColumnsBlock tone="inverse" paddingTop="none" items={[{ text: BODY_LONG }, { text: BODY_LONG }]} />
+      <BlockCaption name="Body Columns — stacked titles" type="bodyColumnsBlock" variant='titles; headingLayout: "stacked", titleSize: "h4"' />
+      <BodyColumnsBlock
+        items={[
+          { title: 'Lorem ipsum dolor', text: BODY_LONG },
+          { title: 'Sit amet consectetur', text: BODY_LONG },
+        ]}
+      />
+      <BlockCaption name="Body Columns — inline titles" type="bodyColumnsBlock" variant='titles; headingLayout: "inline"' />
+      <BodyColumnsBlock
+        headingLayout="inline"
+        items={[
+          { title: 'Lorem ipsum dolor.', text: BODY_LONG },
+          { title: 'Sit amet consectetur.', text: BODY_LONG },
+        ]}
+      />
       <BlockCaption name="Body Columns — 3 columns" type="bodyColumnsBlock" variant='columns: "3"' />
       <BodyColumnsBlock columns="3" items={[{ text: BODY_LONG }, { text: BODY_LONG }, { text: BODY_LONG }]} />
       <BlockCaption name="Stack Animation" type="stackAnimationBlock" variant="interactive — click a circle or dot, or use ← →" />

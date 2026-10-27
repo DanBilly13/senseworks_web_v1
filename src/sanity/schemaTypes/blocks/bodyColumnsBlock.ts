@@ -2,6 +2,8 @@ import { defineType, defineField, defineArrayMember } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
 import { spacingField } from '../fields/spacingField'
 import { bandFields } from '../fields/bandFields'
+import { headingLayoutField } from '../fields/headingLayoutField'
+import { titleSizeField } from '../fields/titleSizeField'
 
 // Large body text in 1–3 columns with a wide gutter, no titles — after
 // the Awwwards course page Dan referenced. Pairs with a Statement above.
@@ -27,6 +29,14 @@ export const bodyColumnsBlock = defineType({
       },
       initialValue: '2',
     }),
+    // Optional titles (per column, below): stacked above the text, or
+    // inline — run into the start of the first paragraph, in bold.
+    {
+      ...headingLayoutField,
+      description:
+        'For columns with a title. Stacked: the title above the text. Inline: the title runs into the start of the text, in bold, at the text size.',
+    },
+    { ...titleSizeField('h4'), hidden: ({ parent }: { parent?: { headingLayout?: string } }) => parent?.headingLayout === 'inline' },
     defineField({
       name: 'items',
       title: 'Text',
@@ -36,10 +46,16 @@ export const bodyColumnsBlock = defineType({
       of: [
         defineArrayMember({
           type: 'object',
-          fields: [defineField({ name: 'text', type: 'text', rows: 5 })],
+          fields: [
+            defineField({ name: 'title', type: 'string', description: 'Optional.' }),
+            defineField({ name: 'text', type: 'text', rows: 5 }),
+          ],
           preview: {
-            select: { text: 'text' },
-            prepare: ({ text }) => ({ title: (typeof text === 'object' ? text?.en || text?.sv : text) || 'Empty' }),
+            select: { title: 'title', text: 'text' },
+            prepare: ({ title, text }) => {
+              const pick = (value: unknown) => (typeof value === 'object' && value ? (value as { en?: string; sv?: string }).en || (value as { sv?: string }).sv : (value as string | undefined))
+              return { title: pick(title) || pick(text) || 'Empty', subtitle: pick(title) ? pick(text) : undefined }
+            },
           },
         }),
       ],
