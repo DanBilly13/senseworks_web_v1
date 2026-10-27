@@ -28,6 +28,22 @@ export const mediaBlock = defineType({
       },
       initialValue: 'content',
     }),
+    defineField({
+      name: 'ratio',
+      title: 'Ratio',
+      description: 'The frame’s shape on desktop (the image is cropped to fill). On mobile it stays a tall full-width frame.',
+      type: 'string',
+      options: {
+        list: [
+          { title: '7:5 (default)', value: '7:5' },
+          { title: '3:1 (wide strip)', value: '3:1' },
+        ],
+        layout: 'radio',
+        direction: 'horizontal',
+      },
+      initialValue: '7:5',
+      hidden: ({ parent }) => parent?.width === 'full',
+    }),
     // All optional, and all off by default (empty) — an editor using
     // this block for plain media, no text, sees no change. Filling any
     // of these in switches the component into the overlay layout: a

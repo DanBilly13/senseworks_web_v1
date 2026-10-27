@@ -16,8 +16,16 @@ type MediaBlockProps = {
   // same height as a CTA Banner with a background image (75vh, image
   // cropped to fill) so the two match when used near each other.
   width?: 'content' | 'full'
+  // The content-width frame's shape on desktop: 7:5 (the original) or a
+  // wide 3:1 strip. Mobile keeps its tall full-bleed frame either way.
+  ratio?: '7:5' | '3:1'
   // The gap below the block, before the next one.
   spacing?: 'loose' | 'medium' | 'tight' | 'none'
+}
+
+const RATIO_CLASS: Record<'7:5' | '3:1', string> = {
+  '7:5': 'md:aspect-media',
+  '3:1': 'md:aspect-banner',
 }
 
 export function MediaBlock({
@@ -29,6 +37,7 @@ export function MediaBlock({
   ctaHref,
   align = 'left',
   width = 'content',
+  ratio = '7:5',
   spacing = 'loose',
 }: MediaBlockProps) {
   const hasOverlay = Boolean(eyebrow || headline || body || (ctaLabel && ctaHref))
@@ -97,7 +106,7 @@ export function MediaBlock({
         <Media
           media={media}
           alt={media?.alt ?? ''}
-          className="-mx-large h-media-mobile rounded-none md:mx-0 md:aspect-media md:h-auto md:w-full md:rounded-lg"
+          className={`-mx-large h-media-mobile rounded-none md:mx-0 ${RATIO_CLASS[ratio]} md:h-auto md:w-full md:rounded-lg`}
         />
       </SectionShell>
     )
@@ -125,7 +134,7 @@ export function MediaBlock({
           overflow) its container — adding w-full here would fight the
           negative margin (both non-auto, over-constrained) instead of
           cooperating with it. */}
-      <div className="relative -mx-large h-media-mobile overflow-hidden rounded-none md:mx-0 md:aspect-media md:h-auto md:rounded-lg">
+      <div className={`relative -mx-large h-media-mobile overflow-hidden rounded-none md:mx-0 ${RATIO_CLASS[ratio]} md:h-auto md:rounded-lg`}>
         <div className="absolute inset-0">
           <Media media={media} alt={headline || media?.alt || ''} className="size-full" />
         </div>

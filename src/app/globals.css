@@ -144,6 +144,8 @@
      instead of a fixed height so placeholders scale correctly at
      every width rather than needing separate per-breakpoint heights. */
   --aspect-media: 7 / 5;
+  /* Media block's "3:1" ratio — a wide strip (content width, desktop). */
+  --aspect-banner: 3 / 1;
 
   /* Full Width Single's image — 7:5 on mobile (--aspect-media, same as
      everywhere else) but wider/shorter on desktop, cropping more off
