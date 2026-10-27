@@ -14,6 +14,8 @@ import { ParagraphsBlock } from '@/components/blocks/ParagraphsBlock'
 import { FeatureListBlock } from '@/components/blocks/FeatureListBlock'
 import { CardGridBlock } from '@/components/blocks/CardGridBlock'
 import { ImageGridBlock } from '@/components/blocks/ImageGridBlock'
+import { StatementBlock } from '@/components/blocks/StatementBlock'
+import { BodyColumnsBlock } from '@/components/blocks/BodyColumnsBlock'
 import { StackAnimationBlock } from '@/components/blocks/StackAnimationBlock'
 import { LogoCloudBlock } from '@/components/blocks/LogoCloudBlock'
 import { TestimonialCarouselBlock } from '@/components/blocks/TestimonialCarouselBlock'
@@ -533,6 +535,18 @@ export default async function BlocksPage({
           { eyebrow: '03 — Dolor', heading: 'Adipiscing elit sed', body: BODY },
         ]}
       />
+      <BlockCaption name="Statement + Body Columns" type="statementBlock + bodyColumnsBlock" variant='no background; Statement spacing "medium"' />
+      <StatementBlock text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, ut enim ad minim veniam quis nostrud." spacing="medium" />
+      <BodyColumnsBlock items={[{ text: BODY_LONG }, { text: BODY_LONG }]} />
+      <BlockCaption
+        name="Statement + Body Columns — Dark, as one band"
+        type="statementBlock + bodyColumnsBlock"
+        variant='tone: "inverse" on both; Statement paddingBottom "medium", spacing "none"; Body Columns paddingTop "none"'
+      />
+      <StatementBlock text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, ut enim ad minim veniam quis nostrud." tone="inverse" paddingBottom="medium" spacing="none" />
+      <BodyColumnsBlock tone="inverse" paddingTop="none" items={[{ text: BODY_LONG }, { text: BODY_LONG }]} />
+      <BlockCaption name="Body Columns — 3 columns" type="bodyColumnsBlock" variant='columns: "3"' />
+      <BodyColumnsBlock columns="3" items={[{ text: BODY_LONG }, { text: BODY_LONG }, { text: BODY_LONG }]} />
       <BlockCaption name="Stack Animation" type="stackAnimationBlock" variant="interactive — click a circle or dot, or use ← →" />
       <StackAnimationBlock />
       <BlockCaption name="Image Grid" type="imageGridBlock" variant='columns: "3" — a rounded 7:5 image above each item, the text not in a card' />

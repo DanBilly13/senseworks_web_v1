@@ -27,6 +27,8 @@ import { featureListBlock } from './blocks/featureListBlock'
 import { cardGridBlock } from './blocks/cardGridBlock'
 import { imageGridBlock } from './blocks/imageGridBlock'
 import { stackAnimationBlock } from './blocks/stackAnimationBlock'
+import { statementBlock } from './blocks/statementBlock'
+import { bodyColumnsBlock } from './blocks/bodyColumnsBlock'
 import { logoCloudBlock } from './blocks/logoCloudBlock'
 import { testimonialCarouselBlock } from './blocks/testimonialCarouselBlock'
 import { testimonialLargeBlock } from './blocks/testimonialLargeBlock'
@@ -84,6 +86,8 @@ const allTypes = [
   cardGridBlock,
   imageGridBlock,
   stackAnimationBlock,
+  statementBlock,
+  bodyColumnsBlock,
   logoCloudBlock,
   testimonialCarouselBlock,
   testimonialLargeBlock,

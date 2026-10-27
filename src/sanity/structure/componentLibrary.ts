@@ -162,6 +162,18 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
     description: 'Pricing plan cards for comparing tiers. No intro of its own; add a Section Headline above it.',
   },
   {
+    type: 'statementBlock',
+    title: 'Statement',
+    description:
+      'A big lead statement in regular weight across the full content width (26–50px, growing with the screen). Optional background. Pairs with Body Columns below.',
+  },
+  {
+    type: 'bodyColumnsBlock',
+    title: 'Body Columns',
+    description:
+      'Large body text (18–22px) in 1–3 equal columns with a wide gutter (60–120px), no titles. Optional background. Pairs with a Statement above.',
+  },
+  {
     type: 'stackAnimationBlock',
     title: 'Stack Animation',
     description:

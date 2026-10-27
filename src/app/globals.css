@@ -34,6 +34,9 @@
   --spacing-xl: 48px;
   --spacing-2xl: 64px;
   --spacing-3xl: 96px;
+  /* Body Columns' wide gutter between columns (the reference's): 60px,
+     growing with the screen to 120px. */
+  --spacing-editorial: clamp(60px, 6vw, 120px);
   --spacing-4xl: 128px;
   /* Page-boundary padding only — Hero and Footer's top+bottom. */
   --spacing-section-edge: 120px;
@@ -266,6 +269,16 @@
      titles. Same size on mobile (no override below). */
   --text-h6: 1.125rem;
   --text-h6--line-height: 1.3;
+
+  /* The Statement block's lead paragraph and Body Columns' text — after
+     the Awwwards course page (Dan's reference): a big, regular-weight
+     statement and large body copy, both scaling with the screen. The
+     statement is 26px on a phone up to 50px from 1920; the body 18px up
+     to 22px. */
+  --text-statement: clamp(26px, 17.55px + 1.69vw, 50px);
+  --text-statement--line-height: 1.2;
+  --text-body-xl: clamp(18px, 16.59px + 0.282vw, 22px);
+  --text-body-xl--line-height: 1.4;
 
   /* Each heading's own rendered line-height in px, derived from its
      size × ratio above rather than hand-copied — stays correct

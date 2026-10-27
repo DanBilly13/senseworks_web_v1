@@ -97,6 +97,7 @@ export const page = defineType({
         // alphabetically. Keep new blocks in that order.
         defineArrayMember({ type: 'fiftyFiftyBannerBlock' }),
         defineArrayMember({ type: 'bentoGridBlock' }),
+        defineArrayMember({ type: 'bodyColumnsBlock' }),
         defineArrayMember({ type: 'blogPostsBlock' }),
         defineArrayMember({ type: 'cardGridBlock' }),
         defineArrayMember({ type: 'caseStudyGridBlock' }),
@@ -128,6 +129,7 @@ export const page = defineType({
         defineArrayMember({ type: 'sectionHeadlineBlock' }),
         defineArrayMember({ type: 'statsBandBlock' }),
         defineArrayMember({ type: 'stackAnimationBlock' }),
+        defineArrayMember({ type: 'statementBlock' }),
         defineArrayMember({ type: 'stepsBlock' }),
         defineArrayMember({ type: 'teamGridBlock' }),
         defineArrayMember({ type: 'testimonialCarouselBlock' }),

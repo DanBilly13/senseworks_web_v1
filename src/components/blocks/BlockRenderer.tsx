@@ -13,6 +13,8 @@ import { FeatureListBlock } from './FeatureListBlock'
 import { CardGridBlock } from './CardGridBlock'
 import { ImageGridBlock } from './ImageGridBlock'
 import { StackAnimationBlock } from './StackAnimationBlock'
+import { StatementBlock } from './StatementBlock'
+import { BodyColumnsBlock } from './BodyColumnsBlock'
 import { LogoCloudBlock } from './LogoCloudBlock'
 import { TestimonialCarouselBlock } from './TestimonialCarouselBlock'
 import { TestimonialLargeBlock } from './TestimonialLargeBlock'
@@ -55,6 +57,8 @@ const BLOCK_COMPONENTS = {
   cardGridBlock: CardGridBlock,
   imageGridBlock: ImageGridBlock,
   stackAnimationBlock: StackAnimationBlock,
+  statementBlock: StatementBlock,
+  bodyColumnsBlock: BodyColumnsBlock,
   logoCloudBlock: LogoCloudBlock,
   testimonialCarouselBlock: TestimonialCarouselBlock,
   testimonialLargeBlock: TestimonialLargeBlock,
