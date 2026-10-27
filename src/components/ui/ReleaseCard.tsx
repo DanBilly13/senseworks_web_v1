@@ -22,7 +22,7 @@ export function ReleaseCard({ release, locale }: { release: Release; locale: Rel
     // grid the cards sit in (grid-rows-subgrid), so cards side by side
     // share row heights: the text row is as tall as the longest text in
     // that line, and every image and stage bar lines up across it.
-    <div className="row-span-3 grid grid-rows-subgrid gap-y-0 rounded-lg border border-border bg-background">
+    <div className="row-span-3 grid grid-rows-subgrid gap-y-0 rounded-lg border border-border">
       <div className="flex flex-col gap-medium-large p-medium-large pb-0 md:p-large md:pb-0">
         {(tag || release.ai || release.team?.length) && (
           <div className="flex items-center justify-between gap-medium">
@@ -79,7 +79,7 @@ export function ReleaseCard({ release, locale }: { release: Release; locale: Rel
             className="grid w-full grid-cols-3 gap-xs"
           >
             {STAGES.map((step, i) => (
-              <div key={step.id} className={`h-small rounded-full ${i <= stageIndex ? 'bg-foreground' : 'bg-muted'}`} />
+              <div key={step.id} className={`h-small rounded-full ${i <= stageIndex ? 'bg-foreground' : 'bg-foreground/10'}`} />
             ))}
           </div>
         </div>

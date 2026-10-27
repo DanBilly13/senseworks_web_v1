@@ -500,6 +500,22 @@ export default async function BlocksPage({
           { label: 'Consectetur adipiscing elit', body: BODY },
         ]}
       />
+      <BlockCaption name="Feature List — Dark background" type="featureListBlock" variant='tone: "inverse"' />
+      <FeatureListBlock
+        tone="inverse"
+        items={[
+          { label: 'Lorem ipsum dolor sit amet', body: BODY },
+          { label: 'Consectetur adipiscing elit', body: BODY },
+        ]}
+      />
+      <BlockCaption name="Feature List — Accent background" type="featureListBlock" variant='tone: "accent"' />
+      <FeatureListBlock
+        tone="accent"
+        items={[
+          { label: 'Lorem ipsum dolor sit amet', body: BODY },
+          { label: 'Consectetur adipiscing elit', body: BODY },
+        ]}
+      />
       <BlockCaption name="Card Grid — 3 Columns" type="cardGridBlock" variant='columns: "3"' />
       <CardGridBlock
         columns="3"
