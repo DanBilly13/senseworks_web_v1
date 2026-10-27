@@ -1,5 +1,6 @@
 'use client'
 import Image from 'next/image'
+import type { CSSProperties } from 'react'
 import { CheckOutlined, CloseOutlined, MinusOutlined } from '@ant-design/icons'
 import { SectionShell } from '@/components/ui/SectionShell'
 
@@ -21,9 +22,12 @@ type ComparisonTableBlockProps = {
   // Open style: the Senseworks wordmark in place of the highlighted
   // column's label.
   showLogo?: boolean
+  // Open style: the row labels' size.
+  labelSize?: LabelSize
 }
 
 type HighlightColor = 'accent' | 'dark' | 'muted'
+type LabelSize = 'body' | 'h5' | 'h4'
 
 
 function Cell({ cell, highlighted }: { cell?: ComparisonCell; highlighted: boolean }) {
@@ -115,12 +119,27 @@ function OpenCell({ cell, highlighted, color }: { cell?: ComparisonCell; highlig
   )
 }
 
+// Open style row-label sizes.
+const LABEL_SIZE_CLASS: Record<LabelSize, string> = {
+  body: 'text-body',
+  h5: 'text-h5',
+  h4: 'text-h4',
+}
+
 // The Open style (Dan's reference): no box, a line under the header and
 // each row, the first column left-aligned and the rest centred, and each
 // highlighted column a rounded coloured panel running from just above
 // its header to just below the last row (a spacer row holds its rounded
-// bottom). Capped at 960px and centred. Below that it scrolls sideways
-// with the first column pinned, like the Table style.
+// bottom). Laid out as a grid (.compare-grid in globals.css), not a
+// <table>, so the columns can share space the way Dan wanted:
+// - from 1024px, full page width: text column, the comparison columns
+//   (192px each), then an empty column, the two outer ones splitting
+//   what's left equally — so the comparison columns sit in the middle of
+//   the page — and the lines running right across;
+// - 768–1023px, no empty column; phones, narrow comparison columns
+//   (88px) beside the text, the wordmark scaled to fit, no sideways
+//   scrolling.
+// ARIA table roles keep it a table for screen readers.
 function OpenTable({
   rowHeader,
   columns,
@@ -128,6 +147,7 @@ function OpenTable({
   spacing,
   highlightColor,
   showLogo,
+  labelSize,
 }: {
   rowHeader?: string
   columns: ComparisonColumn[]
@@ -135,69 +155,75 @@ function OpenTable({
   spacing: 'loose' | 'medium' | 'tight' | 'none'
   highlightColor: HighlightColor
   showLogo: boolean
+  labelSize: LabelSize
 }) {
   const panel = PANEL_CLASS[highlightColor]
   const onDark = highlightColor === 'dark'
   const line = 'border-b border-foreground/20'
+  // The empty last column, from 1024px only (see .compare-grid).
+  const trailing = <div aria-hidden="true" className={`compare-trailing ${line}`} />
   return (
-    <SectionShell py={spacing} maxWidth="prose-xl">
-      <div className="overflow-x-auto">
-        <table className="w-full border-separate border-spacing-0 text-left">
-          <thead>
-            <tr>
-              <th className={`sticky left-0 z-10 min-w-48 bg-muted pr-large pb-medium-large align-bottom text-body-lg font-semibold text-foreground ${line}`}>
-                {rowHeader}
-              </th>
-              {columns.map((column, columnIndex) => (
-                <th
-                  key={columnIndex}
-                  className={[
-                    'w-48 min-w-48 px-medium pt-large pb-medium-large text-center align-bottom text-body font-medium',
-                    line,
-                    column.highlighted ? `${panel} rounded-t-lg ${onDark ? 'text-background' : 'text-foreground'}` : 'text-foreground',
-                  ].join(' ')}
-                >
-                  {column.highlighted && showLogo ? (
-                    <Image
-                      src={onDark ? '/senseworks-logo-neg.svg' : '/senseworks-logo.svg'}
-                      alt={column.label || 'Senseworks'}
-                      width={240}
-                      height={31}
-                      className="mx-auto h-medium-large w-auto"
-                    />
-                  ) : (
-                    column.label
-                  )}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((row, rowIndex) => (
-              <tr key={rowIndex}>
-                <td className={`sticky left-0 z-10 bg-muted py-medium-large pr-large text-body text-foreground ${line}`}>
-                  <Lead text={row.labelLead} className="text-foreground" />
-                  {row.label}
-                </td>
-                {columns.map((column, columnIndex) => (
-                  <td
-                    key={columnIndex}
-                    className={['px-medium py-medium-large text-center align-middle text-body', line, column.highlighted ? panel : ''].join(' ')}
-                  >
-                    <OpenCell cell={row.cells?.[columnIndex]} highlighted={!!column.highlighted} color={highlightColor} />
-                  </td>
-                ))}
-              </tr>
+    <SectionShell py={spacing}>
+      <div role="table" style={{ '--compare-cols': columns.length } as CSSProperties}>
+        <div role="row" className="compare-grid">
+          <div role="columnheader" className={`flex items-end pr-medium pb-medium-large text-body-lg font-semibold text-foreground md:pr-large ${line}`}>
+            {rowHeader}
+          </div>
+          {columns.map((column, columnIndex) => (
+            <div
+              key={columnIndex}
+              role="columnheader"
+              className={[
+                'flex items-end justify-center px-xs pt-large pb-medium-large text-center text-caption font-medium md:px-medium md:text-body',
+                line,
+                column.highlighted ? `${panel} rounded-t-lg ${onDark ? 'text-background' : 'text-foreground'}` : 'text-foreground',
+              ].join(' ')}
+            >
+              {column.highlighted && showLogo ? (
+                <Image
+                  src={onDark ? '/senseworks-logo-neg.svg' : '/senseworks-logo.svg'}
+                  alt={column.label || 'Senseworks'}
+                  width={240}
+                  height={31}
+                  // The column's width, capped at 176px, height following (the
+                  // wordmark is wider than a narrow column's 24px-tall size).
+                  className="h-auto w-full max-w-44"
+                />
+              ) : (
+                column.label
+              )}
+            </div>
+          ))}
+          {trailing}
+        </div>
+        {rows.map((row, rowIndex) => (
+          <div key={rowIndex} role="row" className="compare-grid">
+            <div role="rowheader" className={`flex items-center py-medium-large pr-medium text-foreground md:pr-large ${LABEL_SIZE_CLASS[labelSize]} ${line}`}>
+              <span>
+                <Lead text={row.labelLead} className="text-foreground" />
+                {row.label}
+              </span>
+            </div>
+            {columns.map((column, columnIndex) => (
+              <div
+                key={columnIndex}
+                role="cell"
+                className={['flex items-center justify-center px-small py-medium-large text-center text-body md:px-medium', line, column.highlighted ? panel : ''].join(' ')}
+              >
+                <OpenCell cell={row.cells?.[columnIndex]} highlighted={!!column.highlighted} color={highlightColor} />
+              </div>
             ))}
-            {/* The panel's rounded bottom, a little below the last line. */}
-            <tr aria-hidden="true">
-              <td className="sticky left-0 bg-muted" />
-              {columns.map((column, columnIndex) => (
-                <td key={columnIndex} className={`h-large ${column.highlighted ? `${panel} rounded-b-lg` : ''}`} />
-              ))}
-            </tr>
-          </tbody>
-        </table>
+            {trailing}
+          </div>
+        ))}
+        {/* The panel's rounded bottom, a little below the last line. */}
+        <div aria-hidden="true" className="compare-grid">
+          <div />
+          {columns.map((column, columnIndex) => (
+            <div key={columnIndex} className={`h-large ${column.highlighted ? `${panel} rounded-b-lg` : ''}`} />
+          ))}
+          <div className="compare-trailing" />
+        </div>
       </div>
     </SectionShell>
   )
@@ -211,6 +237,7 @@ export function ComparisonTableBlock({
   style = 'table',
   highlightColor = 'accent',
   showLogo = true,
+  labelSize = 'body',
 }: ComparisonTableBlockProps) {
   // D7: a block with no content simply doesn't render.
   if (!columns.length || !rows.length) return null
@@ -224,6 +251,7 @@ export function ComparisonTableBlock({
         spacing={spacing}
         highlightColor={highlightColor}
         showLogo={showLogo}
+        labelSize={labelSize}
       />
     )
   }

@@ -975,6 +975,33 @@ p {
   font-size: 0.9cap;
 }
 
+/* Comparison Table, Open style: each row is this grid — the text
+   column, the comparison columns (--compare-cols of them), and from
+   1024px an empty last column; the text and empty columns split what's
+   left equally, so the comparison columns sit in the middle of the page
+   and the row lines run right across. Narrower: no empty column, and the
+   comparison columns narrow (160px on tablets, 88px on phones). */
+.compare-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) repeat(var(--compare-cols, 2), 5.5rem);
+}
+.compare-trailing {
+  display: none;
+}
+@media (min-width: 768px) {
+  .compare-grid {
+    grid-template-columns: minmax(0, 1fr) repeat(var(--compare-cols, 2), 10rem);
+  }
+}
+@media (min-width: 1024px) {
+  .compare-grid {
+    grid-template-columns: minmax(0, 1fr) repeat(var(--compare-cols, 2), 12rem) minmax(0, 1fr);
+  }
+  .compare-trailing {
+    display: block;
+  }
+}
+
 /* Book a webinar's seats bar and dot: the page theme's accent on a
    themed page (Audit purple, Analytics green), our dark on the default
    yellow theme, where a yellow bar would barely show on the white card. */

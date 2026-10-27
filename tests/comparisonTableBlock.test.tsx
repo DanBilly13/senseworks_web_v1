@@ -57,8 +57,10 @@ describe('ComparisonTableBlock', () => {
     expect(yes).toMatch(/bg-foreground(\s|$)/)
     expect(no).toMatch(/rounded-full/)
     expect(no).toMatch(/bg-foreground\/20/)
-    expect(container.querySelector('th.bg-accent')).not.toBeNull()
-    expect(container.querySelector('tbody td.text-center')).not.toBeNull()
+    expect(container.querySelector('[role="columnheader"].bg-accent')).not.toBeNull()
+    expect(container.querySelector('[role="cell"].text-center')).not.toBeNull()
+    expect(screen.getByRole('table')).toBeInTheDocument()
+    expect(screen.getByRole('rowheader', { name: 'Row' })).toBeInTheDocument()
   })
 
   it('Open style on Dark: the white logo and accent ticks', () => {

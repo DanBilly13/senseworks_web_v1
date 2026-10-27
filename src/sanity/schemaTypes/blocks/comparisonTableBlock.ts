@@ -42,6 +42,22 @@ export const comparisonTableBlock = defineType({
       hidden: ({ parent }) => parent?.style !== 'open',
     }),
     defineField({
+      name: 'labelSize',
+      title: 'Row text size',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Body (default)', value: 'body' },
+          { title: 'H5', value: 'h5' },
+          { title: 'H4', value: 'h4' },
+        ],
+        layout: 'radio',
+        direction: 'horizontal',
+      },
+      initialValue: 'body',
+      hidden: ({ parent }) => parent?.style !== 'open',
+    }),
+    defineField({
       name: 'showLogo',
       title: 'Senseworks logo on the highlighted column',
       description: 'Shows the Senseworks wordmark in place of the highlighted column’s label.',
