@@ -433,7 +433,10 @@
    elements. */
 @media (max-width: 767px) {
   :root {
-    --text-display: 5.875rem;
+    /* 94px, but never more than 15% of the screen width (56px on a
+       375px phone) — so a display headline's longer words stay whole
+       instead of breaking across lines. */
+    --text-display: min(5.875rem, 15vw);
     --text-h1: 2.375rem;
     --text-h2: 2.5rem;
     --text-h3: 2rem;
@@ -975,12 +978,22 @@ p {
   font-size: 0.9cap;
 }
 
-/* Comparison Table, Open style: each row is this grid — the text
-   column, the comparison columns (--compare-cols of them), and from
-   1024px an empty last column; the text and empty columns split what's
-   left equally, so the comparison columns sit in the middle of the page
-   and the row lines run right across. Narrower: no empty column, and the
-   comparison columns narrow (160px on tablets, 88px on phones). */
+/* Display-size headlines are big enough (94px on a phone) that a
+   single long word can be wider than the screen ("revision." on LP003),
+   which stretched the whole page sideways. Hyphenate instead, in the
+   page's language (set on a wrapper in [locale]/layout.tsx). */
+.text-display {
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* Comparison Table, Open style: each row is this grid. Desktop: the
+   text column takes the left half, so the first comparison column starts
+   at the halfway mark; the right half is shared equally by the
+   comparison columns (--compare-cols of them) and, from 1024px, an empty
+   last column the row lines run across. Tablets: the text column half,
+   the comparison columns the other half, no empty column. Phones: narrow
+   88px comparison columns beside the text. */
 .compare-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) repeat(var(--compare-cols, 2), 5.5rem);
@@ -990,12 +1003,12 @@ p {
 }
 @media (min-width: 768px) {
   .compare-grid {
-    grid-template-columns: minmax(0, 1fr) repeat(var(--compare-cols, 2), 10rem);
+    grid-template-columns: 50% repeat(var(--compare-cols, 2), minmax(0, 1fr));
   }
 }
 @media (min-width: 1024px) {
   .compare-grid {
-    grid-template-columns: minmax(0, 1fr) repeat(var(--compare-cols, 2), 12rem) minmax(0, 1fr);
+    grid-template-columns: 50% repeat(var(--compare-cols, 2), minmax(0, 1fr)) minmax(0, 1fr);
   }
   .compare-trailing {
     display: block;

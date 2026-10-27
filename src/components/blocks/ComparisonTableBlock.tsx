@@ -132,13 +132,13 @@ const LABEL_SIZE_CLASS: Record<LabelSize, string> = {
 // its header to just below the last row (a spacer row holds its rounded
 // bottom). Laid out as a grid (.compare-grid in globals.css), not a
 // <table>, so the columns can share space the way Dan wanted:
-// - from 1024px, full page width: text column, the comparison columns
-//   (192px each), then an empty column, the two outer ones splitting
-//   what's left equally — so the comparison columns sit in the middle of
-//   the page — and the lines running right across;
-// - 768–1023px, no empty column; phones, narrow comparison columns
-//   (88px) beside the text, the wordmark scaled to fit, no sideways
-//   scrolling.
+// - from 1024px, full page width: the text column takes the left half
+//   (the first comparison column starts at the halfway mark), and the
+//   comparison columns plus an empty last column share the right half
+//   equally, the lines running right across;
+// - 768–1023px, the same without the empty column; phones, narrow
+//   comparison columns (88px) beside the text, the wordmark scaled to
+//   fit, no sideways scrolling.
 // ARIA table roles keep it a table for screen readers.
 function OpenTable({
   rowHeader,

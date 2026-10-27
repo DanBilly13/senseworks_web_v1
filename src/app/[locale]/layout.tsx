@@ -28,7 +28,13 @@ export default async function LocaleLayout({
           "#book-webinar" open this one; its copy and seats come from
           "Book a webinar" in Studio. */}
       <BookWebinarProvider locale={locale} settings={webinar}>
-        {children}
+        {/* The page's language for the browser (the root <html> is
+            shared by both locales, so it's set here): screen readers
+            read Swedish as Swedish, and hyphenation splits Swedish words
+            correctly (see .text-display in globals.css). */}
+        <div lang={locale} className="contents">
+          {children}
+        </div>
       </BookWebinarProvider>
     </BookMeetingProvider>
   )
