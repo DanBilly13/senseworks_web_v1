@@ -40,7 +40,7 @@ describe('Background blocks: padding exactly as set, no automatic rules', () => 
       />,
     )
     const [content, full, unset] = sections(container)
-    expect(content.parentElement?.className).toBe('band-panel bg-foreground')
+    expect(content.parentElement?.className).toMatch(/band-panel .*md:rounded-lg .*bg-foreground/)
     expect(content.parentElement?.parentElement?.className).toMatch(/max-w-page/)
     expect(full.parentElement?.className).toMatch(/bg-foreground .*mb-/)
     expect(unset.parentElement?.className).toMatch(/bg-foreground .*mb-/)
@@ -65,5 +65,43 @@ describe('Background blocks: padding exactly as set, no automatic rules', () => 
       <BlockRenderer blocks={[block('cardGridBlock', { background: 'inverse', tone: 'accent', items: [{ eyebrow: 'E', heading: 'Card' }] })]} />,
     )
     expect(container.querySelector('div.bg-foreground')).not.toBeNull()
+  })
+})
+
+describe('Content width panels that touch', () => {
+  const panel = (fields: Record<string, unknown> = {}) =>
+    block('sectionHeadlineBlock', { headline: 'Heading', tone: 'inverse', width: 'content', spacing: 'none', ...fields })
+
+  it('round only the outer corners of a run of joined panels', () => {
+    const { container } = render(
+      <BlockRenderer
+        blocks={[
+          { ...panel(), _key: 'a' },
+          { ...panel(), _key: 'b' },
+          { ...panel({ hidden: true }), _key: 'hidden' },
+          { ...panel({ spacing: 'loose' }), _key: 'c' },
+          { ...panel(), _key: 'd' },
+        ]}
+      />,
+    )
+    const panels = Array.from(container.querySelectorAll('.band-panel')).map((p) => p.className)
+    expect(panels).toHaveLength(4)
+    // a: top of the run; b, c: middle and bottom (the hidden block is skipped).
+    expect(panels[0]).toMatch(/md:rounded-b-none/)
+    expect(panels[0]).not.toMatch(/rounded-t-none/)
+    expect(panels[1]).toMatch(/md:rounded-t-none/)
+    expect(panels[1]).toMatch(/md:rounded-b-none/)
+    expect(panels[2]).toMatch(/md:rounded-t-none/)
+    expect(panels[2]).not.toMatch(/rounded-b-none/)
+    // d: after spacing, its own fully rounded panel.
+    expect(panels[3]).not.toMatch(/none/)
+  })
+
+  it("doesn't join different backgrounds", () => {
+    const { container } = render(
+      <BlockRenderer blocks={[{ ...panel(), _key: 'a' }, { ...panel({ tone: 'accent' }), _key: 'b' }]} />,
+    )
+    const panels = Array.from(container.querySelectorAll('.band-panel')).map((p) => p.className)
+    expect(panels.some((c) => /rounded-[tb]-none/.test(c))).toBe(false)
   })
 })

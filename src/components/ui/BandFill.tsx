@@ -22,6 +22,11 @@ export type BandProps = {
   paddingTop?: BandSpacing
   paddingBottom?: BandSpacing
   spacing?: BandSpacing
+  // Set by BlockRenderer (see bandPanelJoins): this block's Content width
+  // panel runs straight on from the one above / into the one below, so
+  // those corners stay square.
+  joinTop?: boolean
+  joinBottom?: boolean
 }
 
 const BAND_BG: Record<Exclude<BandTone, 'none'>, string> = {
@@ -36,11 +41,27 @@ export function bandShellPadding({ tone = 'none', paddingTop, paddingBottom }: B
   return { pt: paddingTop ?? unset, pb: paddingBottom ?? unset }
 }
 
+// A Content width panel: a block with a background and Width set to
+// Content (only the blocks with the option set it).
+type PanelBlock = { width?: string; tone?: string; spacing?: string }
+const isPanel = (block: PanelBlock) => block.width === 'content' && !!block.tone && block.tone !== 'none'
+
+// Which shown blocks run straight on into the next one: both Content
+// width panels with the same background, and Section spacing None on the
+// upper one. Any number in a row read as one panel — the first keeps its
+// top corners, the last its bottom ones, any in between have none.
+export function bandPanelJoins(blocks: PanelBlock[]): boolean[] {
+  return blocks.map((block, i) => {
+    const next = blocks[i + 1]
+    return !!next && isPanel(block) && isPanel(next) && block.tone === next.tone && block.spacing === 'none'
+  })
+}
+
 // width (the blocks with a Width option — Section Headline, Feature List,
 // FAQ): the shape of the background. 'full' (and every block without the
 // option, or with it unset) fills the full screen width; 'content' makes it a panel the
-// width of the page column — edge to edge on phones, inside the page
-// gutter from tablet up. Square corners, so two Content width blocks
+// width of the page column — edge to edge (and square) on phones, inside the page
+// gutter with rounded corners from tablet up. Square corners, so two Content width blocks
 // with the same background and no spacing between them join into one
 // panel. Inside it, the content sits further in from the sides than the
 // page gutter (.band-panel in globals.css), the same for every block, so
@@ -49,12 +70,17 @@ export function BandFill({
   tone = 'none',
   spacing = 'loose',
   width = 'full',
+  joinTop,
+  joinBottom,
   children,
 }: BandProps & { width?: 'content' | 'full'; children: ReactNode }) {
   if (tone !== 'none' && width === 'content') {
+    const corners = ['md:rounded-lg', joinTop ? 'md:rounded-t-none' : '', joinBottom ? 'md:rounded-b-none' : '']
+      .filter(Boolean)
+      .join(' ')
     return (
       <div className={`mx-auto w-full max-w-page md:px-gutter ${SECTION_GAP_MB_CLASS[spacing]}`}>
-        <div className={`band-panel ${BAND_BG[tone]}`}>{children}</div>
+        <div className={`band-panel overflow-hidden ${corners} ${BAND_BG[tone]}`}>{children}</div>
       </div>
     )
   }

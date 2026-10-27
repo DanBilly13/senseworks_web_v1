@@ -1,3 +1,4 @@
+import { bandPanelJoins } from '@/components/ui/BandFill'
 import { HeaderBlock } from './HeaderBlock'
 import { HeroBlock } from './HeroBlock'
 import { HeroBackdropBlock } from './HeroBackdropBlock'
@@ -95,12 +96,18 @@ export function BlockRenderer({ blocks }: { blocks: PageBlock[] }) {
   // and later re-authoring it. Not on Header/Footer (D19: those
   // are structural chrome, not optional content).
   const shown = blocks.filter((block) => block._type in BLOCK_COMPONENTS && block.hidden !== true)
+  // Content width background panels that touch read as one: square
+  // corners where they meet (see ui/BandFill).
+  const joins = bandPanelJoins(shown as Parameters<typeof bandPanelJoins>[0])
   return (
     <>
-      {shown.map((block) => {
+      {shown.map((block, i) => {
         const Component = BLOCK_COMPONENTS[block._type as keyof typeof BLOCK_COMPONENTS]
+        // Only passed to a block that joins, so no other block sees them.
+        const joinTop = i > 0 && joins[i - 1]
+        const joinProps = joinTop || joins[i] ? { joinTop, joinBottom: joins[i] } : {}
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- block shape is validated by the Sanity schema, not statically knowable here
-        return <Component key={block._key} {...(block as any)} />
+        return <Component key={block._key} {...(block as any)} {...joinProps} />
       })}
     </>
   )
