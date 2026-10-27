@@ -157,6 +157,11 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
     description: 'Row of large numeric stats with labels.',
   },
   {
+    type: 'statBarsBlock',
+    title: 'Stat Bars',
+    description: 'Stats as rows that show their size: bars filled to the share, or ten dots with the share filled.',
+  },
+  {
     type: 'pricingBlock',
     title: 'Pricing Cards',
     description: 'Pricing plan cards for comparing tiers. No intro of its own; add a Section Headline above it.',

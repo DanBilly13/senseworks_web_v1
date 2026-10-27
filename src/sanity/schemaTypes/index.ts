@@ -26,6 +26,7 @@ import { featureGridBlock } from './blocks/featureGridBlock'
 import { featureListBlock } from './blocks/featureListBlock'
 import { cardGridBlock } from './blocks/cardGridBlock'
 import { imageGridBlock } from './blocks/imageGridBlock'
+import { statBarsBlock } from './blocks/statBarsBlock'
 import { stackAnimationBlock } from './blocks/stackAnimationBlock'
 import { statementBlock } from './blocks/statementBlock'
 import { bodyColumnsBlock } from './blocks/bodyColumnsBlock'
@@ -85,6 +86,7 @@ const allTypes = [
   featureListBlock,
   cardGridBlock,
   imageGridBlock,
+  statBarsBlock,
   stackAnimationBlock,
   statementBlock,
   bodyColumnsBlock,

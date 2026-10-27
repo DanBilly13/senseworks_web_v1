@@ -21,6 +21,7 @@ import { LogoCloudBlock } from '@/components/blocks/LogoCloudBlock'
 import { TestimonialCarouselBlock } from '@/components/blocks/TestimonialCarouselBlock'
 import { TestimonialLargeBlock } from '@/components/blocks/TestimonialLargeBlock'
 import { CaseStudyGridBlock } from '@/components/blocks/CaseStudyGridBlock'
+import { StatBarsBlock } from '@/components/blocks/StatBarsBlock'
 import { StatsBandBlock } from '@/components/blocks/StatsBandBlock'
 import { PricingBlock } from '@/components/blocks/PricingBlock'
 import { ComparisonTableBlock } from '@/components/blocks/ComparisonTableBlock'
@@ -699,6 +700,36 @@ export default async function BlocksPage({
       <CaseStudyGridBlock stories={STORY_CARDS} />
       <BlockCaption name="Case Study Carousel — Dark" type="caseStudyGridBlock" variant='tone: "dark"' />
       <CaseStudyGridBlock tone="dark" stories={STORY_CARDS} />
+      <BlockCaption name="Stat Bars" type="statBarsBlock" variant='style: "bars"' />
+      <StatBarsBlock paddingTop="medium" paddingBottom="medium" items={[
+          { value: '4 av 5', label: 'Lorem ipsum dolor sit amet consectetur' },
+          { value: '62 %', label: 'Adipiscing elit sed do eiusmod' },
+          { value: '20 %', label: 'Tempor incididunt ut labore' },
+        ]} source="Källa: Lorem ipsum 2025" />
+      <BlockCaption name="Stat Bars — Dark background" type="statBarsBlock" variant='style: "bars", tone: "inverse"' />
+      <StatBarsBlock tone="inverse" items={[
+          { value: '4 av 5', label: 'Lorem ipsum dolor sit amet consectetur' },
+          { value: '62 %', label: 'Adipiscing elit sed do eiusmod' },
+          { value: '20 %', label: 'Tempor incididunt ut labore' },
+        ]} />
+      <BlockCaption name="Stat Bars — Accent background" type="statBarsBlock" variant='style: "bars", tone: "accent"' />
+      <StatBarsBlock tone="accent" items={[
+          { value: '4 av 5', label: 'Lorem ipsum dolor sit amet consectetur' },
+          { value: '62 %', label: 'Adipiscing elit sed do eiusmod' },
+          { value: '20 %', label: 'Tempor incididunt ut labore' },
+        ]} />
+      <BlockCaption name="Stat Bars — Dots" type="statBarsBlock" variant='style: "dots"' />
+      <StatBarsBlock style="dots" paddingTop="medium" paddingBottom="medium" items={[
+          { value: '4 av 5', label: 'Lorem ipsum dolor sit amet consectetur' },
+          { value: '62 %', label: 'Adipiscing elit sed do eiusmod' },
+          { value: '20 %', label: 'Tempor incididunt ut labore' },
+        ]} source="Källa: Lorem ipsum 2025" />
+      <BlockCaption name="Stat Bars — Dots, dark background" type="statBarsBlock" variant='style: "dots", tone: "inverse"' />
+      <StatBarsBlock style="dots" tone="inverse" items={[
+          { value: '4 av 5', label: 'Lorem ipsum dolor sit amet consectetur' },
+          { value: '62 %', label: 'Adipiscing elit sed do eiusmod' },
+          { value: '20 %', label: 'Tempor incididunt ut labore' },
+        ]} />
       <BlockCaption name="Stats Band" type="statsBandBlock" />
       <StatsBandBlock
         eyebrow={EYEBROW}
