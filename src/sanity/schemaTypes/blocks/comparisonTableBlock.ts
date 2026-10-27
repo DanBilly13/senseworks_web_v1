@@ -9,6 +9,47 @@ export const comparisonTableBlock = defineType({
   fields: [
     hiddenField,
     defineField({
+      name: 'style',
+      title: 'Style',
+      description:
+        'Table: the boxed table. Open: no box, lines between rows, the highlighted column as a coloured panel, ticks and crosses in circles, centred columns.',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Table (default)', value: 'table' },
+          { title: 'Open', value: 'open' },
+        ],
+        layout: 'radio',
+        direction: 'horizontal',
+      },
+      initialValue: 'table',
+    }),
+    defineField({
+      name: 'highlightColor',
+      title: 'Highlighted column colour',
+      description: 'Accent follows the page theme (yellow, Audit purple, Analytics green).',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Accent (default)', value: 'accent' },
+          { title: 'Dark', value: 'dark' },
+          { title: 'Light grey', value: 'muted' },
+        ],
+        layout: 'radio',
+        direction: 'horizontal',
+      },
+      initialValue: 'accent',
+      hidden: ({ parent }) => parent?.style !== 'open',
+    }),
+    defineField({
+      name: 'showLogo',
+      title: 'Senseworks logo on the highlighted column',
+      description: 'Shows the Senseworks wordmark in place of the highlighted column’s label.',
+      type: 'boolean',
+      initialValue: true,
+      hidden: ({ parent }) => parent?.style !== 'open',
+    }),
+    defineField({
       name: 'rowHeader',
       title: 'Left column heading',
       description:

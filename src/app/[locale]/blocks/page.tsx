@@ -799,6 +799,42 @@ export default async function BlocksPage({
           },
         ]}
       />
+      <BlockCaption name="Comparison Table — Open, Accent" type="comparisonTableBlock" variant='style: "open", highlightColor: "accent", showLogo' />
+      <ComparisonTableBlock
+        style="open"
+        columns={[{ label: 'Senseworks', highlighted: true }, { label: 'Generic AI & spreadsheets' }]}
+        rows={[
+          { label: 'Built on 10+ years of audit experience', cells: [{ type: 'check' }, { type: 'cross' }] },
+          { label: 'ISA and ISA for LCE built in', cells: [{ type: 'check' }, { type: 'cross' }] },
+          { label: 'Connected to Fortnox, Spiris and the banks', cells: [{ type: 'check' }, { type: 'partial' }] },
+          { label: 'Every finding linked to its source', cells: [{ type: 'check' }, { type: 'cross' }] },
+        ]}
+      />
+      <BlockCaption name="Comparison Table — Open, Dark" type="comparisonTableBlock" variant='style: "open", highlightColor: "dark"' />
+      <ComparisonTableBlock
+        style="open"
+        highlightColor="dark"
+        columns={[{ label: 'Senseworks', highlighted: true }, { label: 'Generic AI & spreadsheets' }]}
+        rows={[
+          { label: 'Built on 10+ years of audit experience', cells: [{ type: 'check' }, { type: 'cross' }] },
+          { label: 'ISA and ISA for LCE built in', cells: [{ type: 'check' }, { type: 'cross' }] },
+          { label: 'Connected to Fortnox, Spiris and the banks', cells: [{ type: 'check' }, { type: 'partial' }] },
+          { label: 'Every finding linked to its source', cells: [{ type: 'check' }, { type: 'cross' }] },
+        ]}
+      />
+      <BlockCaption name="Comparison Table — Open, Light grey, no logo" type="comparisonTableBlock" variant='style: "open", highlightColor: "muted", showLogo: false' />
+      <ComparisonTableBlock
+        style="open"
+        highlightColor="muted"
+        showLogo={false}
+        columns={[{ label: 'Senseworks', highlighted: true }, { label: 'Generic AI & spreadsheets' }]}
+        rows={[
+          { label: 'Built on 10+ years of audit experience', cells: [{ type: 'check' }, { type: 'cross' }] },
+          { label: 'ISA and ISA for LCE built in', cells: [{ type: 'check' }, { type: 'cross' }] },
+          { label: 'Connected to Fortnox, Spiris and the banks', cells: [{ type: 'check' }, { type: 'partial' }] },
+          { label: 'Every finding linked to its source', cells: [{ type: 'check' }, { type: 'cross' }] },
+        ]}
+      />
       <BlockCaption name="CTA Banner — Inverse" type="ctaBannerBlock" variant='tone: "inverse"' />
       <CtaBannerBlock
         eyebrow={EYEBROW}

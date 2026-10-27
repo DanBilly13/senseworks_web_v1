@@ -41,4 +41,36 @@ describe('ComparisonTableBlock', () => {
     )
     expect(noRows).toBeEmptyDOMElement()
   })
+
+  it('Open style: the highlighted column as a coloured panel with the logo, circle icons, centred columns', () => {
+    const { container } = render(
+      <ComparisonTableBlock
+        style="open"
+        columns={[{ label: 'Senseworks', highlighted: true }, { label: 'Others' }]}
+        rows={[{ label: 'Row', cells: [{ type: 'check' }, { type: 'cross' }] }]}
+      />,
+    )
+    expect(screen.getByRole('img', { name: 'Senseworks' })).toHaveAttribute('src', expect.stringContaining('senseworks-logo'))
+    const yes = screen.getByRole('img', { name: 'Yes' }).className
+    const no = screen.getByRole('img', { name: 'No' }).className
+    expect(yes).toMatch(/rounded-full/)
+    expect(yes).toMatch(/bg-foreground(\s|$)/)
+    expect(no).toMatch(/rounded-full/)
+    expect(no).toMatch(/bg-foreground\/20/)
+    expect(container.querySelector('th.bg-accent')).not.toBeNull()
+    expect(container.querySelector('tbody td.text-center')).not.toBeNull()
+  })
+
+  it('Open style on Dark: the white logo and accent ticks', () => {
+    render(
+      <ComparisonTableBlock
+        style="open"
+        highlightColor="dark"
+        columns={[{ label: 'Senseworks', highlighted: true }]}
+        rows={[{ label: 'Row', cells: [{ type: 'check' }] }]}
+      />,
+    )
+    expect(screen.getByRole('img', { name: 'Senseworks' })).toHaveAttribute('src', expect.stringContaining('logo-neg'))
+    expect(screen.getByRole('img', { name: 'Yes' }).className).toMatch(/bg-accent/)
+  })
 })
