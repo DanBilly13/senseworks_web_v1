@@ -1240,3 +1240,14 @@ p:has(+ .hero-overlay-card-rules),
     scale: 1;
   }
 }
+
+/* A Content width background panel (ui/BandFill): from tablet up, the
+   content inside sits the editorial spacing in from the panel's sides
+   (60–120px with the screen) instead of the page gutter — the gutter
+   alone read as cramped inside a coloured panel. Phones keep the usual
+   edge padding (the panel is edge to edge there). */
+@media (width >= 48rem) {
+  .band-panel {
+    --spacing-gutter: var(--spacing-editorial);
+  }
+}

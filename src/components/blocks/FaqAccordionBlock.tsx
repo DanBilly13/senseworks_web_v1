@@ -9,7 +9,9 @@ type FaqItem = { question: string; answer: string }
 // background, see ui/BandFill.
 type FaqAccordionBlockProps = BandProps & {
   items?: FaqItem[]
-  // Content width (the page column) or the full screen width.
+  // The container's shape: the page column, or the full screen width
+  // (see BandFill). Unset (blocks from before the option): content in
+  // the page column, any background full screen width, as they were.
   width?: 'content' | 'full'
 }
 
@@ -26,7 +28,7 @@ const TONE_CLASS: Record<BandTone, { question: string; answer: string; divide: s
 // Headline above. The rows and their dividers span the full content
 // width, the +/− at the far right; the question text is capped at 80%
 // and the answer at 60% (each with a rem cap) so lines stay readable.
-export function FaqAccordionBlock({ items = [], width = 'content', tone = 'none', ...band }: FaqAccordionBlockProps) {
+export function FaqAccordionBlock({ items = [], width, tone = 'none', ...band }: FaqAccordionBlockProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
   // Unique per block, so two FAQs on one page don't share ids.
   const id = useId()
@@ -36,7 +38,7 @@ export function FaqAccordionBlock({ items = [], width = 'content', tone = 'none'
   const t = TONE_CLASS[tone]
 
   return (
-    <BandFill tone={tone} {...band}>
+    <BandFill tone={tone} width={width} {...band}>
       <SectionShell maxWidth={width === 'full' ? 'full' : 'page'} {...bandShellPadding({ tone, ...band })}>
         <dl className={`divide-y ${t.divide}`}>
           {items.map((item, index) => {

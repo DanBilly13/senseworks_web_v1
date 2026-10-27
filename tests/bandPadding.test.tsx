@@ -29,6 +29,23 @@ describe('Background blocks: padding exactly as set, no automatic rules', () => 
     expect(b.parentElement?.className).toMatch(/mb-section-gap-loose/)
   })
 
+  it('Width: Content makes the background a page-column panel, Full (or unset) fills the screen', () => {
+    const { container } = render(
+      <BlockRenderer
+        blocks={[
+          headline({ tone: 'inverse', width: 'content' }),
+          headline({ tone: 'inverse', width: 'full' }),
+          headline({ tone: 'inverse' }),
+        ]}
+      />,
+    )
+    const [content, full, unset] = sections(container)
+    expect(content.parentElement?.className).toBe('band-panel bg-foreground')
+    expect(content.parentElement?.parentElement?.className).toMatch(/max-w-page/)
+    expect(full.parentElement?.className).toMatch(/bg-foreground .*mb-/)
+    expect(unset.parentElement?.className).toMatch(/bg-foreground .*mb-/)
+  })
+
   it('honors padding without a background too', () => {
     const { container } = render(<BlockRenderer blocks={[headline({ paddingBottom: 'medium' })]} />)
     expect(sections(container)[0].className).toMatch(/pb-section-gap-medium/)
