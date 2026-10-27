@@ -481,6 +481,22 @@ export default async function BlocksPage({
           { label: 'Consectetur adipiscing elit', body: BODY },
         ]}
       />
+      <BlockCaption name="Feature List — H5 body" type="featureListBlock" variant='bodySize: "h5"' />
+      <FeatureListBlock
+        bodySize="h5"
+        items={[
+          { label: 'Lorem ipsum dolor sit amet', body: BODY },
+          { label: 'Consectetur adipiscing elit', body: BODY },
+        ]}
+      />
+      <BlockCaption name="Feature List — H4 body" type="featureListBlock" variant='bodySize: "h4"' />
+      <FeatureListBlock
+        bodySize="h4"
+        items={[
+          { label: 'Lorem ipsum dolor sit amet', body: BODY },
+          { label: 'Consectetur adipiscing elit', body: BODY },
+        ]}
+      />
       <BlockCaption name="Card Grid — 3 Columns" type="cardGridBlock" variant='columns: "3"' />
       <CardGridBlock
         columns="3"

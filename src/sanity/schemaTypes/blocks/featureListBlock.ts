@@ -8,6 +8,22 @@ export const featureListBlock = defineType({
   type: 'object',
   fields: [
     hiddenField,
+    defineField({
+      name: 'bodySize',
+      title: 'Body size',
+      description: 'The size of the text on the right of each row.',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Body (default)', value: 'body' },
+          { title: 'H5', value: 'h5' },
+          { title: 'H4', value: 'h4' },
+        ],
+        layout: 'radio',
+        direction: 'horizontal',
+      },
+      initialValue: 'body',
+    }),
     spacingField,
     defineField({
       name: 'items',
