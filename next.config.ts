@@ -16,6 +16,9 @@ const nextConfig: NextConfig = {
     // has its own slug now (scripts/import-blog-posts.ts).
     const adsum = 'adsum-revision-valjer-senseworks-revision'
     return [
+      // A bare locale goes to that language's home page, as the root does.
+      { source: '/en', destination: '/en/home', permanent: false },
+      { source: '/sv', destination: '/sv/home', permanent: false },
       { source: '/nyheter/hoglandets-revisionsbyra-valjer-senseworks-revision-2', destination: `/sv/blog/${adsum}`, permanent: true },
       { source: '/en/nyheter/hoglandets-revisionsbyra-valjer-senseworks-revision-2', destination: `/en/blog/${adsum}`, permanent: true },
       { source: '/nyheter', destination: '/sv/blog', permanent: true },

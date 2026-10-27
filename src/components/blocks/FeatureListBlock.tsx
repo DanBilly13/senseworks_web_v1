@@ -11,6 +11,8 @@ type BodySize = 'body' | 'h5' | 'h4'
 // tone/paddingTop/paddingBottom/spacing: the optional full screen width
 // background, see ui/BandFill.
 type FeatureListBlockProps = BandProps & {
+  // Content width (the page column) or the full screen width.
+  width?: 'content' | 'full'
   // The right-hand text's size: body copy, or the h5/h4 type size (same
   // weight and grey, just bigger).
   bodySize?: BodySize
@@ -35,6 +37,7 @@ const BODY_SIZE_CLASS: Record<BodySize, string> = {
 export function FeatureListBlock({
   bodySize = 'body',
   items = [],
+  width = 'content',
   tone = 'none',
   ...band
 }: FeatureListBlockProps) {
@@ -44,7 +47,7 @@ export function FeatureListBlock({
 
   return (
     <BandFill tone={tone} {...band}>
-      <SectionShell {...bandShellPadding({ tone, ...band })}>
+      <SectionShell maxWidth={width === 'full' ? 'full' : 'page'} {...bandShellPadding({ tone, ...band })}>
         <div className={`flex flex-col divide-y ${t.divide}`}>
           {items.map((item, index) => {
             // Plain-text field, so paragraph breaks only survive as literal

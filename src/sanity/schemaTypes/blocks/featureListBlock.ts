@@ -2,6 +2,7 @@ import { defineType, defineField, defineArrayMember } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
 import { spacingField } from '../fields/spacingField'
 import { bandFields } from '../fields/bandFields'
+import { contentWidthField } from '../fields/contentWidthField'
 
 export const featureListBlock = defineType({
   name: 'featureListBlock',
@@ -25,6 +26,7 @@ export const featureListBlock = defineType({
       },
       initialValue: 'body',
     }),
+    contentWidthField,
     ...bandFields({ withDarkGradient: true }),
     spacingField,
     defineField({
