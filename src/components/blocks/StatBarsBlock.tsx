@@ -86,9 +86,9 @@ export function StatBarsBlock({ style = 'bars', items = [], source, tone = 'none
             const content = (color: string, clip?: boolean) => (
               <div
                 aria-hidden={clip || undefined}
-                className={`stat-row relative col-start-1 row-start-1 flex flex-wrap items-center gap-x-large gap-y-xs p-medium-large md:px-large ${clip ? 'stat-clip' : ''}`}
+                className={`stat-row relative col-start-1 row-start-1 flex flex-wrap items-center gap-x-large gap-y-xs px-medium-large py-medium ${clip ? 'stat-clip' : ''}`}
               >
-                <span className={`font-heading text-h2 font-bold whitespace-nowrap md:text-h1 ${color}`}>{item.value}</span>
+                <span className={`font-heading text-h2 font-medium whitespace-nowrap ${color}`}>{item.value}</span>
                 {item.label && <span className={`max-w-prose-xs text-body-lg ${color}`}>{item.label}</span>}
               </div>
             )
@@ -98,10 +98,10 @@ export function StatBarsBlock({ style = 'bars', items = [], source, tone = 'none
                 <div
                   key={index}
                   style={delay}
-                  className={`stat-row grid grid-cols-1 items-center gap-medium border-b py-large ${tone === 'none' || tone === 'accent' ? 'border-foreground/15' : 'border-background/15'}`}
+                  className={`stat-row grid grid-cols-1 items-center gap-medium border-b py-medium-large ${tone === 'none' || tone === 'accent' ? 'border-foreground/15' : 'border-background/15'}`}
                 >
                   <div className="flex flex-wrap items-center gap-x-large gap-y-xs md:contents">
-                    <span className={`font-heading text-h2 font-bold whitespace-nowrap md:text-h1 ${c.onTrack}`}>{item.value}</span>
+                    <span className={`font-heading text-h2 font-medium whitespace-nowrap ${c.onTrack}`}>{item.value}</span>
                     {item.label && <span className={`max-w-prose-xs text-body-lg ${c.onTrack}`}>{item.label}</span>}
                   </div>
                   <div className="flex gap-small md:gap-medium" role="img" aria-label={`${filled} av 10`}>
@@ -118,7 +118,7 @@ export function StatBarsBlock({ style = 'bars', items = [], source, tone = 'none
               )
             }
             return (
-              <div key={index} style={delay} className={`stat-row relative grid overflow-hidden rounded-lg ${c.track}`}>
+              <div key={index} style={delay} className={`stat-row relative grid overflow-hidden ${c.track}`}>
                 <div aria-hidden="true" className={`stat-fill absolute inset-y-0 left-0 ${c.fill}`} />
                 {content(c.onTrack)}
                 {content(c.onFill, true)}
