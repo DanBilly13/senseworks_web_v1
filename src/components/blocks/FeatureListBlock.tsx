@@ -11,9 +11,9 @@ type BodySize = 'body' | 'h5' | 'h4'
 // tone/paddingTop/paddingBottom/spacing: the optional full screen width
 // background, see ui/BandFill.
 type FeatureListBlockProps = BandProps & {
-  // The container's shape: the page column, or the full screen width
-  // (see BandFill). Unset (blocks from before the option): content in
-  // the page column, any background full screen width, as they were.
+  // The background's shape: a page-column panel, or the full screen
+  // width (see BandFill). The content always sits in the page column.
+  // Unset (blocks from before the option): full screen width, as they were.
   width?: 'content' | 'full'
   // The right-hand text's size: body copy, or the h5/h4 type size (same
   // weight and grey, just bigger).
@@ -49,7 +49,7 @@ export function FeatureListBlock({
 
   return (
     <BandFill tone={tone} width={width} {...band}>
-      <SectionShell maxWidth={width === 'full' ? 'full' : 'page'} {...bandShellPadding({ tone, ...band })}>
+      <SectionShell {...bandShellPadding({ tone, ...band })}>
         <div className={`flex flex-col divide-y ${t.divide}`}>
           {items.map((item, index) => {
             // Plain-text field, so paragraph breaks only survive as literal

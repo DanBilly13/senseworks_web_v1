@@ -9,9 +9,9 @@ type FaqItem = { question: string; answer: string }
 // background, see ui/BandFill.
 type FaqAccordionBlockProps = BandProps & {
   items?: FaqItem[]
-  // The container's shape: the page column, or the full screen width
-  // (see BandFill). Unset (blocks from before the option): content in
-  // the page column, any background full screen width, as they were.
+  // The background's shape: a page-column panel, or the full screen
+  // width (see BandFill). The content always sits in the page column.
+  // Unset (blocks from before the option): full screen width, as they were.
   width?: 'content' | 'full'
 }
 
@@ -39,7 +39,7 @@ export function FaqAccordionBlock({ items = [], width, tone = 'none', ...band }:
 
   return (
     <BandFill tone={tone} width={width} {...band}>
-      <SectionShell maxWidth={width === 'full' ? 'full' : 'page'} {...bandShellPadding({ tone, ...band })}>
+      <SectionShell {...bandShellPadding({ tone, ...band })}>
         <dl className={`divide-y ${t.divide}`}>
           {items.map((item, index) => {
             const isOpen = openIndex === index

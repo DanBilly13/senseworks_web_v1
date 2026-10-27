@@ -12,9 +12,9 @@ type SectionHeadlineBlockProps = BandProps & {
   ctaLabel?: string
   ctaHref?: string
   align?: 'left' | 'center'
-  // The container's shape: the page column, or the full screen width
-  // (see BandFill). Unset (blocks from before the option): content in
-  // the page column, any background full screen width, as they were.
+  // The background's shape: a page-column panel, or the full screen
+  // width (see BandFill). The content always sits in the page column.
+  // Unset (blocks from before the option): full screen width, as they were.
   width?: 'content' | 'full'
   // How big the headline is drawn, named after the type styles. Purely
   // visual: it's always an h2 on the page, since every page starts
@@ -42,7 +42,7 @@ export function SectionHeadlineBlock({
   const dark = tone === 'inverse'
   return (
     <BandFill tone={tone} width={width} {...band}>
-      <SectionShell maxWidth={width === 'full' ? 'full' : 'page'} {...bandShellPadding({ tone, ...band })} id={anchor}>
+      <SectionShell {...bandShellPadding({ tone, ...band })} id={anchor}>
         <SectionIntro
           as="h2"
           // Display draws at the display size; styleAs h1 gives it the
