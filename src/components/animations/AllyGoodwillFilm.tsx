@@ -7,7 +7,7 @@ import styles from './AllyGoodwillFilm.module.css';
  * Ally answers the goodwill question, with her source. 700×500 native canvas, 10.89 s loop.
  * Every position is a literal px value in canvas space.
  *
- *   0.00  1 Fråga  conceptual: Ally rises in and floats over the violet wash (3.4 s bob), her floor shadow fades in;
+ *   0.00  1 Fråga  conceptual: Ally rises in and floats over the frame's gradient (3.4 s bob), her floor shadow fades in;
  *                  1.20 the ask field lifts in, its send disc pops; 1.90 the question types (55 ms a character);
  *                  4.125 send is pressed; 4.245 the sent words, the field, then Ally exit down (60 ms apart)
  *   4.59  2 Svar   hard cut to the Ally page at 200%: it builds in from 9 o'clock — the panel (140 ms), then the
@@ -235,10 +235,7 @@ export function AllyGoodwillFilm({ className, paused = false }: { className?: st
 
       {/* 2 · the Ally page at 200% */}
       <div className={styles.page} data-on={s.shot === 2 || undefined}>
-        <div className={styles.wash} />
         <div className={styles.panel} data-on={s.build || undefined}>
-          <div className={styles.panelBox} />
-
           <div className={styles.rise} data-on={s.question || undefined}>
             <div className={styles.question}>{QUESTION}</div>
           </div>

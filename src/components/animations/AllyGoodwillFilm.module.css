@@ -1,17 +1,13 @@
 /*
  * Ally answers the goodwill question — 700×500 canvas, literal px in canvas space.
  * 1 is the 852×852 Ally Animation scaled 1.34× into the frame (0.586 canvas px per design px).
- * 2 is the Ally page at 200%: 0.875 canvas px per page px. The page's wash and panel run past the frame on purpose.
+ * 2 is the Ally page at 200%: 0.875 canvas px per page px.
+ * Neither scene paints a background: the site's Media frame gradient shows through both.
  */
 .canvas {
   --agw-ink: #101829;
   --agw-white: #ffffff;
-  --agw-violet: #ceb2f4;
-  --agw-violet-35: rgba(206, 178, 244, 0.35);
-  --agw-grey: #f2f2f3;
-  --agw-lemon: #fbfeac;
   --agw-floor: rgba(16, 24, 41, 0.16);
-  --agw-panel: rgba(255, 255, 255, 0.6);
   --agw-bubble: #eeeff0;
   --agw-ink-80: rgba(16, 24, 41, 0.8);
   --agw-ink-60: rgba(16, 24, 41, 0.6);
@@ -32,7 +28,6 @@
   position: absolute;
   inset: 0;
   visibility: hidden;
-  background: radial-gradient(70% 55% at 100% 22%, var(--agw-violet) 0%, var(--agw-violet-35) 35%, var(--agw-grey) 70%);
 }
 .concept[data-on] {
   visibility: visible;
@@ -185,14 +180,6 @@
 .page[data-on] {
   visibility: visible;
 }
-.wash {
-  position: absolute;
-  left: -486.5px;
-  top: -485.63px;
-  width: 1386px;
-  height: 985.25px;
-  background: radial-gradient(300% 200% at 130% 90%, var(--agw-lemon) 0%, var(--agw-grey) 50%);
-}
 /* cut build from 9 o'clock: the panel travels 56 px, the field a further 28 px */
 .panel,
 .composer {
@@ -210,17 +197,6 @@
 .composer[data-on] {
   opacity: 1;
   transform: translateX(0px);
-}
-.panelBox {
-  position: absolute;
-  left: -192.5px;
-  top: -385.89px;
-  width: 1085px;
-  height: 878.51px;
-  box-sizing: border-box;
-  border: 0.875px solid var(--agw-white);
-  border-radius: 3.5px;
-  background: var(--agw-panel);
 }
 .rise {
   position: absolute;
@@ -294,7 +270,6 @@
   display: inline-block;
   vertical-align: top;
   margin-left: 3.5px;
-  width: 55.77px;
   height: 12.25px;
   opacity: 0;
 }
@@ -302,15 +277,19 @@
   opacity: 1;
 }
 .chip {
-  display: block;
-  width: 100%;
+  /* the label centred on its cap height, not its line box (where the
+     empty descender space sat it visibly off-centre) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 100%;
+  padding: 0 3.5px;
   border-radius: 2.63px;
   background: var(--agw-bubble);
-  text-align: center;
   white-space: pre;
   font-size: 7.88px;
-  line-height: 12.25px;
+  line-height: 1;
+  text-box: trim-both cap alphabetic;
   letter-spacing: 0.16px;
   color: var(--agw-ink-80);
 }
