@@ -279,6 +279,18 @@
   --text-h6: 1.125rem;
   --text-h6--line-height: 1.3;
 
+  /* Stat numbers — their own styles, so resizing a heading never
+     moves them. Always Aeonik Medium with tabular figures: use as
+     `font-heading text-stat tabular-nums` (weight comes with the size).
+     Stat is Stats Band's numbers, Stat small Stat Bars'. They start at
+     H1's and H2's sizes; mobile sizes below. */
+  --text-stat: clamp(4rem, 16px + 3.3333vw, 5rem);
+  --text-stat--line-height: 1.2;
+  --text-stat--font-weight: 500;
+  --text-stat-sm: clamp(3rem, 12px + 2.5vw, 3.75rem);
+  --text-stat-sm--line-height: 1.2;
+  --text-stat-sm--font-weight: 500;
+
   /* The Statement block's lead paragraph and Body Columns' text — after
      the Awwwards course page (Dan's reference): a big, regular-weight
      statement and large body copy, both scaling with the screen. The
@@ -449,6 +461,8 @@
     --text-h3: 2rem;
     --text-h4: 1.75rem;
     --text-h5: 1.375rem;
+    --text-stat: 2.375rem;
+    --text-stat-sm: 2.5rem;
 
     /* Same ~50% compression as before across all three tiers, snapped
        to existing named tokens rather than new one-off px values. */
@@ -472,7 +486,8 @@
      dynamic var lookup involved; letter-spacing has no such trick, so
      a --text-h1--letter-spacing custom property here would silently do
      nothing). Overriding the generated .text-h1 utility directly. */
-  .text-h1 {
+  .text-h1,
+  .text-stat {
     letter-spacing: -0.0625rem;
   }
 }
