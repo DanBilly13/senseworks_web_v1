@@ -98,7 +98,10 @@ export function StatsBandBlock({
       {/* No column gap once the dividers show (lg): a divider sits on
           its column's left edge, so a gap on top made every divided
           section but the last 32px wider than its neighbour. The
-          columns' own px-medium-large keeps text off the dividers. */}
+          columns' own lg:px-medium-large keeps text off the dividers —
+          below lg there are no dividers, and the 32px gap and the
+          page's edge padding already separate the columns, so it only
+          squeezed the numbers ("100 %" broke over two lines). */}
       <div
         className={`grid grid-cols-2 gap-large ${LG_COLS_CLASS[Math.min(items.length, 4)]} lg:gap-x-0 lg:divide-x ${hasIntro ? CONTENT_GAP_CLASS[contentGap] : ''} ${
           light ? 'lg:divide-background/20' : tone === 'accent' ? 'lg:divide-foreground/15' : 'lg:divide-border'
@@ -107,7 +110,7 @@ export function StatsBandBlock({
         {items.map((item, index) => (
           <div
             key={index}
-            className="flex flex-col items-center gap-small px-medium-large text-center"
+            className="flex flex-col items-center gap-small text-center lg:px-medium-large"
           >
             <span className={`font-heading text-h1 font-medium ${light ? 'text-background' : 'text-foreground'}`}>
               {item.value}
