@@ -234,9 +234,9 @@
 }
 .question {
   position: absolute;
-  left: 443.86px;
+  /* right-aligned to the composer's edge, as wide as its text */
+  right: 35px;
   top: 93.63px;
-  width: 221.14px;
   height: 36.75px;
   box-sizing: border-box;
   padding: 8.75px 14px;
@@ -250,15 +250,16 @@
   position: absolute;
   left: 35px;
   top: 143.94px;
+  display: flex;
+  align-items: center;
+  gap: 2.63px;
   white-space: pre;
   font-size: 12.25px;
   line-height: 19.25px;
   color: var(--agw-ink-80);
 }
 .thinkCaret {
-  position: absolute;
-  left: 163.97px;
-  top: 147.88px;
+  flex: none;
   width: 12.25px;
   height: 12.25px;
   color: var(--agw-ink-80);
@@ -269,6 +270,9 @@
   white-space: pre;
   font-size: 12.25px;
   line-height: 19.25px;
+  /* Inter on the site runs ~3% wider than the font the design was set
+     in — this keeps the first line inside the 630 px column */
+  letter-spacing: -0.02em;
   color: var(--agw-ink);
 }
 .answerLine[data-dim] {
@@ -283,11 +287,13 @@
   opacity: 1;
   transform: translateY(0px);
 }
-/* the citation, 55.77×12.25 at (346.16, 199.5) */
+/* the citation, 55.77×12.25, right after the answer's last word */
 .chipPop {
-  position: absolute;
-  left: 346.16px;
-  top: 199.5px;
+  position: relative;
+  top: 3.06px;
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 3.5px;
   width: 55.77px;
   height: 12.25px;
   opacity: 0;
@@ -296,6 +302,7 @@
   opacity: 1;
 }
 .chip {
+  display: block;
   width: 100%;
   height: 100%;
   border-radius: 2.63px;
@@ -420,7 +427,7 @@
 .sourceTip {
   position: absolute;
   z-index: 4;
-  left: 366.16px;
+  left: calc(var(--agw-chip-x, 346.16px) + 20px);
   top: 177.63px;
   width: 12.25px;
   height: 12.25px;
@@ -441,7 +448,7 @@
 .pointer {
   position: absolute;
   z-index: 5;
-  left: 368.79px;
+  left: calc(var(--agw-chip-x, 346.16px) + 22.63px);
   top: 202.13px;
   width: 19.25px;
   height: 19.25px;

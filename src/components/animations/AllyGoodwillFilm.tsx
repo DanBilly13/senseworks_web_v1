@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import styles from './AllyGoodwillFilm.module.css';
 
 /*
@@ -134,7 +134,8 @@ function AllyGlyph({ className }: { className: string }) {
 }
 
 /* A paragraph, one row per line (the design's own breaks); each word rises in on its own, WORD_MS apart. */
-function Words({ lines, top, on, dim }: { lines: string[]; top: number; on: boolean; dim: boolean }) {
+// `after` follows the last word on the last line (the citation chip).
+function Words({ lines, top, on, dim, after }: { lines: string[]; top: number; on: boolean; dim: boolean; after?: ReactNode }) {
   let k = 0;
   return (
     <>
@@ -149,6 +150,7 @@ function Words({ lines, top, on, dim }: { lines: string[]; top: number; on: bool
               </span>
             );
           })}
+          {li === lines.length - 1 && after}
         </div>
       ))}
     </>
@@ -174,13 +176,34 @@ export function AllyGoodwillFilm({ className, paused = false }: { className?: st
     return () => clearTimeout(timer);
   }, [reduced, paused]);
 
+  /* The chip follows the answer's text, wherever the site's font ends
+     it; the source card's tip and the pointer are placed off the
+     chip's measured x (layout px, so unaffected by the canvas's scale);
+     the card itself stays put, clear of the question. */
+  const chipRef = useRef<HTMLSpanElement>(null);
+  const [chipX, setChipX] = useState<number | null>(null);
+  useLayoutEffect(() => {
+    const measure = () => {
+      const chip = chipRef.current;
+      const line = chip?.offsetParent as HTMLElement | null;
+      if (chip && line) setChipX(line.offsetLeft + chip.offsetLeft);
+    };
+    measure();
+    document.fonts?.ready.then(measure);
+  }, []);
+
   const s = reduced ? FINAL : state;
   const still = reduced || state.reset;
   const text = QUESTION.slice(0, s.typed);
   const typing = s.typed > 0 && s.typed < QUESTION.length;
 
   return (
-    <div className={[styles.canvas, className].filter(Boolean).join(' ')} data-still={still || undefined} aria-hidden="true">
+    <div
+      className={[styles.canvas, className].filter(Boolean).join(' ')}
+      data-still={still || undefined}
+      aria-hidden="true"
+      style={chipX === null ? undefined : ({ '--agw-chip-x': `${chipX}px` } as CSSProperties)}
+    >
       {/* 1 · the question, conceptual */}
       <div className={styles.concept} data-on={s.shot === 1 || undefined}>
         <div className={styles.shadowOut} data-out={s.out || undefined}>
@@ -220,14 +243,23 @@ export function AllyGoodwillFilm({ className, paused = false }: { className?: st
             <div className={styles.question}>{QUESTION}</div>
           </div>
           <div className={styles.rise} data-on={s.think || undefined}>
-            <div className={styles.think}>Tänkte några sekunder</div>
-            <Icon d={CARET_RIGHT} className={styles.thinkCaret} />
+            <div className={styles.think}>
+              Tänkte några sekunder
+              <Icon d={CARET_RIGHT} className={styles.thinkCaret} />
+            </div>
           </div>
 
-          <Words lines={ANSWER_1} top={177.19} on={s.answer} dim={s.open} />
-          <div className={styles.chipPop} data-on={s.chip || undefined}>
-            <div className={styles.chip} data-down={s.tap || undefined}>BFNAR 2012:1</div>
-          </div>
+          <Words
+            lines={ANSWER_1}
+            top={177.19}
+            on={s.answer}
+            dim={s.open}
+            after={
+              <span ref={chipRef} className={styles.chipPop} data-on={s.chip || undefined}>
+                <span className={styles.chip} data-down={s.tap || undefined}>BFNAR 2012:1</span>
+              </span>
+            }
+          />
           <Words lines={ANSWER_2} top={229.69} on={s.answer2} dim={s.open} />
 
           <div className={styles.rise} data-on={s.actions || undefined}>
