@@ -11,9 +11,9 @@ import Lenis from 'lenis'
 // just react to whatever the current real scroll position is, however
 // it got there.
 //
-// Framer Motion's useScroll (HeroImageOverlayCard's morph) and our
-// own PlayOnScrollMedia are a different story: both listen for the
-// native `scroll` event specifically, and confirmed by hand — Lenis
+// Framer Motion's useScroll (HeroImageOverlayCard's morph) is a
+// different story: it listens for the native `scroll` event
+// specifically, and confirmed by hand — Lenis
 // updates window.scrollY correctly but never fires that event on its
 // own (0 fired across a 0→500px scroll in testing). Re-dispatching a
 // real scroll event from Lenis's own `scroll` callback is the

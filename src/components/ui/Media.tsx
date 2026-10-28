@@ -48,8 +48,8 @@ type MediaProps = {
   // 'none' opts out of the placeholder fill — e.g. a logo mark that
   // should sit directly on the page, not look like a card.
   background?: 'gradient' | 'none'
-  // Video only (reactAnimation already gets its own in-view pause
-  // below). When true, holds playback rather than autoplaying — the
+  // Video and reactAnimation (on top of the animation's own in-view
+  // pause below). When true, holds playback rather than autoplaying — the
   // caller decides why/when (e.g. HeroScrollReveal's video not
   // starting until the yellow cover has scrolled away). Doesn't
   // unmount or reset the video, just pauses it in place, same
@@ -182,10 +182,10 @@ export function Media({
           >
             {animationEntry.canvas ? (
               <ScaledCanvas canvasWidth={animationEntry.canvas.width} canvasHeight={animationEntry.canvas.height}>
-                <animationEntry.component paused={!animInView} />
+                <animationEntry.component paused={paused || !animInView} />
               </ScaledCanvas>
             ) : (
-              <animationEntry.component paused={!animInView} />
+              <animationEntry.component paused={paused || !animInView} />
             )}
           </div>
         </div>
