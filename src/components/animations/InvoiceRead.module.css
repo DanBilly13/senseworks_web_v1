@@ -1,0 +1,269 @@
+/*
+ * Invoice read — 700×500 canvas. Positions are literal px in canvas space.
+ * The world below is the app page at 0.875 px per page px (the design's 200% framing on a 1600-wide page,
+ * output at 700): page 1386×985, invoice paper 612.5×866, Fakturauppgifter panel 402.5 wide.
+ */
+.canvas {
+  --ira-ink: #101829;
+  --ira-ink-soft: rgba(16, 24, 41, 0.8);
+  --ira-rule: rgba(16, 24, 41, 0.08);
+  --ira-link: #1677ff;
+  --ira-sep: rgba(16, 24, 41, 0.45);
+  --ira-wash-from: #ceb2f4;
+  --ira-wash-to: #f2f2f3;
+  --ira-well: #f2f2f3;
+  --ira-glass: rgba(255, 255, 255, 0.6);
+  --ira-glass-edge: #ffffff;
+  --ira-paper: #ffffff;
+  --ira-pdf-ink: #000000;
+  --ira-pdf-rule: #b5b5b5;
+  --ira-highlight: #fbfeac;
+  --ira-tag-edge: rgba(0, 0, 0, 0.1);
+  position: relative;
+  width: 700px;
+  height: 500px;
+  overflow: hidden;
+}
+
+/* The page, laid out once; the shots move it (hard cuts — never transitioned) */
+.world {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1400px;
+  height: 999px;
+  transform-origin: 0 0;
+}
+.page {
+  position: absolute;
+  left: 7px;
+  top: 7px;
+  width: 1386px;
+  height: 985.25px;
+  border-radius: 10.5px;
+  overflow: hidden;
+  background: radial-gradient(300% 200% at 130% 90%, var(--ira-wash-from) 0%, var(--ira-wash-to) 50%);
+}
+.header {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1386px;
+  height: 43.75px;
+  box-sizing: border-box;
+  border-bottom: 1px solid var(--ira-rule);
+}
+
+/* Breadcrumb bar — 1372×42 at (14, 57.75) */
+.crumbs {
+  position: absolute;
+  left: 14px;
+  top: 57.75px;
+  width: 1372px;
+  height: 42px;
+  box-sizing: border-box;
+  padding: 0 0 0 10.375px;
+  display: flex;
+  align-items: center;
+  border-radius: 3.5px;
+  border: 1px solid var(--ira-glass-edge);
+  background: var(--ira-glass);
+  font-family: var(--font-sans);
+  font-size: 12.25px;
+  line-height: 19.25px;
+  white-space: nowrap;
+}
+.crumb {
+  display: inline-flex;
+  align-items: center;
+  color: var(--ira-link);
+}
+.crumb[data-last] {
+  color: var(--ira-ink);
+}
+.sep {
+  display: inline-flex;
+  margin: 0 3.5px;
+  color: var(--ira-sep);
+}
+
+/* Document well — 962.5×878.5 at (14, 106.75); paper 612.5×866.25 at (308, 21) inside it */
+.docwell {
+  position: absolute;
+  left: 14px;
+  top: 106.75px;
+  width: 962.5px;
+  height: 878.5px;
+  border-radius: 3.5px;
+  overflow: hidden;
+  background: var(--ira-well);
+}
+.paper {
+  position: absolute;
+  left: 308px;
+  top: 21px;
+  width: 612.5px;
+  height: 866.25px;
+  background: var(--ira-paper);
+  box-shadow: 0 1px 3px rgba(16, 24, 41, 0.08), 0 1px 2px rgba(16, 24, 41, 0.04);
+  color: var(--ira-pdf-ink);
+  font-family: Helvetica, Arial, sans-serif;
+}
+.run {
+  position: absolute;
+  white-space: nowrap;
+  line-height: 1;
+  font-weight: 400;
+  isolation: isolate;
+}
+.run[data-bold] {
+  font-weight: 700;
+}
+.rule {
+  position: absolute;
+  height: 1px;
+  background: var(--ira-pdf-rule);
+}
+
+/* Ally's highlight — sweeps in behind the run, left to right */
+.hl {
+  position: absolute;
+  left: -2.5px;
+  right: -2.5px;
+  top: -2px;
+  bottom: -2px;
+  z-index: -1;
+  border-radius: 2px;
+  background: var(--ira-highlight);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+.hl[data-on] {
+  transform: scaleX(1);
+}
+
+/* Fakturauppgifter — 402.5×878.5 at (983.5, 106.75); content inset 21.875 */
+.panel {
+  position: absolute;
+  left: 983.5px;
+  top: 106.75px;
+  width: 402.5px;
+  height: 878.5px;
+  box-sizing: border-box;
+  border-radius: 3.5px;
+  border: 1px solid var(--ira-glass-edge);
+  background: var(--ira-glass);
+  font-family: var(--font-sans);
+  color: var(--ira-ink);
+}
+.ptitle {
+  position: absolute;
+  left: 20.875px;
+  top: 22.19px;
+  font-size: 15.75px;
+  line-height: 18.375px;
+  font-weight: 500;
+}
+.lede {
+  position: absolute;
+  left: 20.875px;
+  top: 45.375px;
+  font-size: 12.25px;
+  line-height: 14.875px;
+  color: var(--ira-ink-soft);
+}
+.tag {
+  position: absolute;
+  right: 20.875px;
+  top: 20.875px;
+  height: 21px;
+  box-sizing: border-box;
+  padding: 0 7px;
+  display: flex;
+  align-items: center;
+  gap: 3.5px;
+  border-radius: 3.5px;
+  border: 1px solid var(--ira-tag-edge);
+  background: var(--ira-paper);
+  font-size: 10.5px;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  transform: scale(0.9);
+}
+.tag[data-on] {
+  opacity: 1;
+  transform: scale(1);
+}
+.field {
+  position: absolute;
+  left: 20.875px;
+  width: 358.75px;
+  height: 40.25px;
+  box-sizing: border-box;
+  padding-top: 12.25px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--ira-rule);
+  font-size: 12.25px;
+  line-height: 14.875px;
+  opacity: 0;
+  transform: translateY(14px);
+}
+.canvas[data-rows] .field {
+  opacity: 1;
+  transform: translateY(0px);
+}
+.fieldL {
+  color: var(--ira-ink-soft);
+}
+.fieldV {
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* The build on the cut: panels travel 56 px, figures 28 px, from below (6 o'clock) */
+.buildPanel {
+  opacity: 0;
+  transform: translateY(56px);
+}
+.buildMetric {
+  opacity: 0;
+  transform: translateY(28px);
+}
+.canvas[data-built] .buildPanel,
+.canvas[data-built] .buildMetric {
+  opacity: 1;
+  transform: translateY(0px);
+}
+
+/* Motion — CSS transitions only when motion is welcome, and off across the loop reset (data-still) */
+@media (prefers-reduced-motion: no-preference) {
+  .buildPanel,
+  .buildMetric {
+    transition:
+      transform 480ms cubic-bezier(0.16, 1, 0.3, 1) var(--ira-d, 0ms),
+      opacity 300ms cubic-bezier(0.16, 1, 0.3, 1) var(--ira-d, 0ms);
+  }
+  .field {
+    transition:
+      transform 480ms cubic-bezier(0.16, 1, 0.3, 1) var(--ira-d, 0ms),
+      opacity 300ms cubic-bezier(0.16, 1, 0.3, 1) var(--ira-d, 0ms);
+  }
+  .hl {
+    transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .tag {
+    transition:
+      opacity 200ms cubic-bezier(0.25, 1, 0.5, 1),
+      transform 350ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .canvas[data-still] .buildPanel,
+  .canvas[data-still] .buildMetric,
+  .canvas[data-still] .field,
+  .canvas[data-still] .hl,
+  .canvas[data-still] .tag {
+    transition: none;
+  }
+}
