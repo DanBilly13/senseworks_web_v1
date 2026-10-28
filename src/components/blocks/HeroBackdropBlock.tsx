@@ -170,30 +170,26 @@ export function HeroBackdropBlock({
         {showcaseIsImage ? (
           <ArticleImage image={showcaseMedia.image!} alt={headline} className="rounded-lg" />
         ) : (
-          <PlayOnScrollMedia
-            media={showcaseMedia}
-            alt={headline}
-            // Mobile: full-bleed (break out of this wrapper's own
-            // px-medium-large via a matching negative margin), no
-            // rounded corners, no shadow, border top/bottom only —
-            // reads as a strip of content, not a floating card, which
-            // doesn't work at that size. No w-full here on purpose:
-            // with the negative margin, w-full (100% of the PADDED
-            // parent) leaves a gap the width of one side's padding —
-            // negative margin-right doesn't stretch an element's own
-            // width, only margin-left repositions it, so width:auto
-            // (the block default) is what actually lets the box
-            // expand to fill both reclaimed sides correctly. md: the
-            // desktop card treatment — light grey border-border (not
-            // the near-black border-foreground this had before) all
-            // the way round, rounded-lg, w-full (back to 100% of the
-            // normal, non-negative-margined parent), and a shadow a
-            // step up from the scrollReveal video card's shadow-lg —
-            // shadow-xl for more spread/blur, shadow-foreground/15
-            // (the site's ink token at 15% instead of Tailwind's
-            // default ~10% black) for more opacity.
-            className="-mx-medium-large aspect-hero border-y border-border md:mx-0 md:w-full md:rounded-lg md:border md:shadow-xl md:shadow-foreground/15"
-          />
+          // Mobile: full-bleed (the wrapper breaks out of this
+          // container's px-medium-large via a matching negative margin),
+          // no rounded corners, no shadow, border top/bottom only —
+          // reads as a strip of content, not a floating card, which
+          // doesn't work at that size. The negative margin sits on a
+          // plain wrapper and the frame fills it (w-full), so the
+          // frame's width is settled before aspect-hero sizes its
+          // height: on the frame itself, iOS Safari took the height
+          // from the width before the margins widened it, a 2:1 box
+          // that cropped the video's top and bottom. md: the desktop
+          // card treatment — light grey border-border all the way
+          // round, rounded-lg, and shadow-xl at the site's ink token
+          // 15% (a step up from the scrollReveal video card's).
+          <div className="-mx-medium-large md:mx-0">
+            <PlayOnScrollMedia
+              media={showcaseMedia}
+              alt={headline}
+              className="aspect-hero w-full border-y border-border md:rounded-lg md:border md:shadow-xl md:shadow-foreground/15"
+            />
+          </div>
         )}
       </div>
     </section>

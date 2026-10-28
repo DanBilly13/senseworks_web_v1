@@ -1,0 +1,351 @@
+/*
+ * Every AI request goes through one gateway — 700×500 canvas, literal px in canvas space
+ * (the Gateway board at 0.875×, centred in the 7:5 frame).
+ */
+.canvas {
+  --gw-ink: #101829;
+  --gw-white: #ffffff;
+  --gw-lemon: #fbfeac;
+  --gw-grey: #f2f2f3;
+  --gw-green: #12683a;
+  --gw-green-bg: #d7f7e3;
+  --gw-violet: #4b2a99;
+  --gw-violet-bg: #ece2ff;
+  --gw-label: #575757;
+  --gw-muted: #6b6b6e;
+  --gw-rule: #f0f0f2;
+  --gw-rule-head: #e8e8ea;
+  --gw-well: #f4f4f5;
+  --gw-bar: #e3e3e6;
+  position: relative;
+  width: 700px;
+  height: 500px;
+  overflow: hidden;
+  font-family: var(--font-sans);
+  color: var(--gw-ink);
+}
+.wash {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(300% 200% at 130% 90%, var(--gw-lemon) 0%, var(--gw-grey) 50%);
+}
+
+/* ---- the lines ---------------------------------------------------------------- */
+.lines {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 700px;
+  height: 500px;
+  overflow: visible;
+}
+.line,
+.lineOut {
+  stroke: var(--gw-ink);
+  stroke-width: 1.31px;
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 1;
+}
+.line[data-on],
+.lineOut[data-on] {
+  stroke-dashoffset: 0;
+}
+
+/* ---- the sources, from (56, 153.56) ---------------------------------------------- */
+.sources {
+  position: absolute;
+  left: 56px;
+  top: 153.56px;
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+  font-size: 11.38px;
+  font-weight: 500;
+  line-height: 21px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.source {
+  display: flex;
+  align-items: center;
+  gap: 8.75px;
+  opacity: 0;
+  transform: translateY(7px);
+}
+.bullet {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gw-ink);
+}
+
+/* ---- the outputs, from (572.25, 195.56) -------------------------------------------- */
+.outputs {
+  position: absolute;
+  left: 572.25px;
+  top: 195.56px;
+  display: flex;
+  flex-direction: column;
+  gap: 12.25px;
+}
+.output {
+  width: 71.75px;
+  height: 28px;
+  box-sizing: border-box;
+  padding: 0 10.5px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  border-radius: 5.25px;
+  background: var(--gw-white);
+  box-shadow: 0 0.88px 2.63px rgba(16, 24, 41, 0.08);
+  opacity: 0;
+  transform: translateY(7px);
+}
+.outputDot {
+  flex: none;
+  width: 6.13px;
+  height: 6.13px;
+  border-radius: 50%;
+  background: var(--gw-green);
+}
+.outputBar {
+  flex: 1;
+  height: 5.25px;
+  border-radius: 2.63px;
+  background: var(--gw-bar);
+}
+.source[data-on],
+.output[data-on] {
+  opacity: 1;
+  transform: translateY(0px);
+}
+
+/* ---- a request: a 13 px dot riding its line ----------------------------------------- */
+.packetIn,
+.packetOut {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 13.13px;
+  height: 13.13px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  border: 2.63px solid var(--gw-white);
+  background: var(--gw-ink);
+  box-shadow: 0 0.88px 2.63px rgba(16, 24, 41, 0.18);
+  offset-anchor: 50% 50%;
+  offset-rotate: 0deg;
+  offset-distance: 0%;
+  opacity: 0;
+}
+.packetIn[data-go],
+.packetOut[data-go] {
+  offset-distance: 100%;
+  opacity: 1;
+}
+.packetIn[data-gone],
+.packetOut[data-gone] {
+  offset-distance: 100%;
+  opacity: 0;
+}
+
+/* ---- the gateway, 253.75 wide at (280, 143.06) ------------------------------------- */
+.card {
+  position: absolute;
+  left: 280px;
+  top: 143.06px;
+  width: 253.75px;
+  box-sizing: border-box;
+  padding: 15.75px 17.5px 14px;
+  border-radius: 7px;
+  background: var(--gw-white);
+  box-shadow: 0 15.75px 43.75px rgba(16, 24, 41, 0.12);
+  opacity: 0;
+  transform: translateY(28px);
+}
+.head,
+.row,
+.trace {
+  opacity: 0;
+  transform: translateY(14px);
+}
+.card[data-on],
+.head[data-on],
+.row[data-on],
+.trace[data-on] {
+  opacity: 1;
+  transform: translateY(0px);
+}
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12.25px;
+  border-bottom: 0.88px solid var(--gw-rule-head);
+}
+.title {
+  font-size: 19.25px;
+  line-height: 24.5px;
+  letter-spacing: -0.01em;
+}
+.status {
+  display: flex;
+  align-items: center;
+  gap: 5.25px;
+  font-size: 10.5px;
+  color: var(--gw-muted);
+}
+.statusDot {
+  width: 6.13px;
+  height: 6.13px;
+  border-radius: 50%;
+  background: var(--gw-green);
+}
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 40.25px;
+  border-bottom: 0.88px solid var(--gw-rule);
+}
+.label {
+  font-size: 12.25px;
+  line-height: 17.5px;
+  color: var(--gw-label);
+}
+.chip {
+  display: inline-block;
+  padding: 3.5px 10.5px;
+  border-radius: 3.5px;
+  font-size: 12.25px;
+  font-weight: 500;
+  line-height: 17.5px;
+}
+.chipGreen {
+  background: var(--gw-green-bg);
+  color: var(--gw-green);
+}
+.chipViolet {
+  background: var(--gw-violet-bg);
+  color: var(--gw-violet);
+}
+.trace {
+  padding-top: 10.5px;
+}
+.trace .label {
+  margin-bottom: 7px;
+}
+/* the log: one entry at a time; the last drops out as the next rises in */
+.well {
+  position: relative;
+  isolation: isolate;
+  height: 24.5px;
+  overflow: hidden;
+  border-radius: 3.5px;
+  background: var(--gw-well);
+  font-size: 10.5px;
+  line-height: 14px;
+  font-variant-numeric: tabular-nums;
+}
+.hl {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 3.5px;
+  background: var(--gw-lemon);
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+}
+.hl[data-on] {
+  transform: scaleX(1);
+}
+.hl[data-gone] {
+  opacity: 0;
+}
+.entry {
+  position: absolute;
+  left: 8.75px;
+  top: 5.25px;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(7px);
+}
+.entry[data-state='in'] {
+  opacity: 1;
+  transform: translateY(0px);
+}
+.entry[data-state='out'] {
+  opacity: 0;
+  transform: translateY(5.25px);
+}
+.muted {
+  color: var(--gw-muted);
+}
+
+/* ---- motion: CSS only when motion is welcome, off across the loop reset (data-still) ---- */
+@media (prefers-reduced-motion: no-preference) {
+  /* the build: cut build from 6 o'clock — card 28 px, its rows 14 px, the sources 7 px; 480 ms each */
+  .card,
+  .head,
+  .row,
+  .trace,
+  .source {
+    transition: transform 480ms cubic-bezier(0.16, 1, 0.3, 1) var(--gw-d, 0ms), opacity 300ms cubic-bezier(0.16, 1, 0.3, 1) var(--gw-d, 0ms);
+  }
+  .output {
+    transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1) var(--gw-d, 0ms), opacity 320ms cubic-bezier(0.16, 1, 0.3, 1) var(--gw-d, 0ms);
+  }
+  /* lineDraw: 112 ms a segment — three in, two out */
+  .line {
+    transition: stroke-dashoffset 336ms linear var(--gw-d, 0ms);
+  }
+  .lineOut {
+    transition: stroke-dashoffset 224ms linear var(--gw-d, 0ms);
+  }
+  /* a request travels 700 ms, eased in and out; it fades in as it leaves its source */
+  .packetIn[data-go] {
+    transition: offset-distance 700ms cubic-bezier(0.33, 0, 0.67, 1), opacity 120ms linear;
+  }
+  .packetOut[data-go] {
+    transition: offset-distance 700ms cubic-bezier(0.33, 0, 0.67, 1);
+  }
+  .packetOut[data-gone] {
+    transition: opacity 120ms linear;
+  }
+  /* the first request's checks: statusPop */
+  .chip[data-pop] {
+    animation: gw-pop 580ms linear;
+  }
+  .entry[data-state='in'] {
+    transition: opacity 320ms cubic-bezier(0.16, 1, 0.3, 1), transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .entry[data-state='out'] {
+    transition: opacity 200ms cubic-bezier(0.4, 0, 1, 1), transform 200ms cubic-bezier(0.4, 0, 1, 1);
+  }
+  /* sweep: 500 ms, left to right, then it fades */
+  .hl[data-on] {
+    transition: transform 500ms cubic-bezier(0.33, 0, 0.67, 1);
+  }
+  .hl[data-on][data-gone] {
+    transition: opacity 300ms linear;
+  }
+  .canvas[data-still] * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* statusPop: up to ~112% on the press spring, held 80 ms, then back past 100% and settled */
+@keyframes gw-pop {
+  0% { transform: scale(1); }
+  10% { transform: scale(1.1); }
+  16% { transform: scale(1.12); }
+  28% { transform: scale(1.05); }
+  40% { transform: scale(0.98); }
+  55% { transform: scale(0.985); }
+  72% { transform: scale(1.005); }
+  100% { transform: scale(1); }
+}
