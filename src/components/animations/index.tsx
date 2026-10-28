@@ -12,6 +12,7 @@ import { AllyCitationAnimation } from './AllyCitation'
 import { AllyOpenAnimation } from './AllyOpen'
 import { AllyCallAnimation } from './AllyCall'
 import { InvoiceReadAnimation } from './InvoiceRead'
+import { AllyOpenFilm } from './AllyOpenFilm'
 
 // Ally's canvas is an 852×852 square with its content in the centre
 // band; shown in the site's 7:5 frame (852×608), shifted up 122px so that
@@ -121,6 +122,10 @@ export const ANIMATION_COMPONENTS = {
   } as AnimationEntry,
   invoiceReadAnimation: {
     component: InvoiceReadAnimation,
+    canvas: { width: 700, height: 500 },
+  } as AnimationEntry,
+  allyOpenTwoAnimation: {
+    component: AllyOpenFilm,
     canvas: { width: 700, height: 500 },
   } as AnimationEntry,
 } satisfies Record<string, AnimationEntry>

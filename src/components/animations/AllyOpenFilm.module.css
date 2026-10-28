@@ -1,0 +1,419 @@
+/*
+ * Ally opens the chat — 700×500 canvas, literal px in canvas space.
+ * World: the Uppdrag page at 0.4375 px per page px. Close-up: the same corner at 2.625 px per page px (6×), drawn big.
+ * The page's boxes, text and icons are placed inline from the layout data in the .tsx; the moving parts are placed here.
+ */
+.canvas {
+  --aof-ink: #101829;
+  --aof-white: #ffffff;
+  --aof-floor: rgba(16, 24, 41, 0.14);
+  --aof-ripple: #b38aff;
+  --aof-field-edge: rgba(16, 24, 41, 0.14);
+  --aof-placeholder: rgba(16, 24, 41, 0.5);
+  --aof-meta: rgba(16, 24, 41, 0.6);
+  position: relative;
+  width: 700px;
+  height: 500px;
+  overflow: hidden;
+  font-family: var(--font-sans);
+}
+.box,
+.text,
+.icon {
+  position: absolute;
+  box-sizing: border-box;
+}
+.text {
+  white-space: pre;
+}
+.icon {
+  display: block;
+  overflow: visible;
+}
+.allySvg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ---- 1 · the close-up ---------------------------------------------------- */
+.macro {
+  position: absolute;
+  inset: 0;
+  visibility: hidden;
+}
+.macro[data-on] {
+  visibility: visible;
+}
+/* the table scrolls inside its panel: clipped, and its foot fades out (126 px) */
+.macroTable {
+  position: absolute;
+  left: -3149.12px;
+  top: -2112.3px;
+  width: 3638.25px;
+  height: 2588.3px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(#000 calc(100% - 126px), transparent 100%);
+  mask-image: linear-gradient(#000 calc(100% - 126px), transparent 100%);
+}
+.macroTableIn {
+  position: absolute;
+  left: 3149.12px;
+  top: 2112.3px;
+}
+/* little Ally, 73.5×89.25 at (355.25, 294.88) */
+.macroAlly {
+  position: absolute;
+  left: 355.25px;
+  top: 294.88px;
+  width: 73.5px;
+  height: 89.25px;
+}
+.macroBob,
+.macroPress {
+  position: absolute;
+  inset: 0;
+}
+.macroPress {
+  transform-origin: 36.75px 44.6px;
+}
+.macroAlly[data-tap] .macroPress {
+  transform: scale(0.92);
+}
+.macroShadow {
+  position: absolute;
+  left: 15.75px;
+  top: 81.38px;
+  width: 42px;
+  height: 7.88px;
+  border-radius: 50%;
+  background: var(--aof-floor);
+}
+.macroRipple {
+  position: absolute;
+  left: -26.25px;
+  top: -18.38px;
+  width: 126px;
+  height: 126px;
+  border-radius: 50%;
+  background: var(--aof-ripple);
+  opacity: 0;
+  transform: scale(0.4);
+}
+
+/* ---- pointers -------------------------------------------------------------- */
+.macroPointer,
+.worldPointer,
+.citePointer {
+  position: absolute;
+  z-index: 5;
+  opacity: 0;
+}
+.macroPointer svg,
+.worldPointer svg,
+.citePointer svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 1px 2px rgba(16, 24, 41, 0.35));
+}
+.macroPointer {
+  left: 413px;
+  top: 363.13px;
+  width: 68.25px;
+  height: 68.25px;
+  transform-origin: 14.2px 5.7px;
+  transform: translate(26.25px, 42px);
+}
+.citePointer {
+  left: 493.54px;
+  top: 392px;
+  width: 9.63px;
+  height: 9.63px;
+  transform-origin: 2px 0.8px;
+  transform: translate(4.38px, 6.13px);
+}
+.macroPointer[data-on],
+.citePointer[data-on] {
+  opacity: 1;
+  transform: translate(0px, 0px) scale(1);
+}
+.macroPointer[data-down],
+.citePointer[data-down] {
+  transform: translate(0px, 0px) scale(0.94);
+}
+/* the pointer from the close-up, seen small after the cut, leaving */
+.worldPointer {
+  left: 608.13px;
+  top: 473.38px;
+  width: 11.38px;
+  height: 11.38px;
+  opacity: 0;
+  transform: translate(4.38px, 7px);
+}
+.worldPointer[data-on] {
+  opacity: 1;
+  transform: translate(0px, 0px);
+}
+
+/* ---- 2 · 3 · the world ---------------------------------------------------------- */
+.world {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 700px;
+  height: 499.63px;
+  transform-origin: 0 0;
+  visibility: hidden;
+}
+.world[data-on] {
+  visibility: visible;
+}
+.table {
+  position: absolute;
+  left: 14.44px;
+  top: 60.8px;
+  width: 606.38px;
+  height: 431.38px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(#000 calc(100% - 21px), transparent 100%);
+  mask-image: linear-gradient(#000 calc(100% - 21px), transparent 100%);
+}
+.tableIn {
+  position: absolute;
+  left: -14.44px;
+  top: -60.8px;
+}
+/* little Ally at the page's size, 12.25×14.88 at (598.5, 462) — exits as the panel comes up */
+.launcher {
+  position: absolute;
+  left: 598.5px;
+  top: 462px;
+  width: 12.25px;
+  height: 14.88px;
+}
+.launcher[data-gone] {
+  opacity: 0;
+  transform: translateY(5.25px);
+}
+.launcherShadow {
+  position: absolute;
+  left: 2.63px;
+  top: 13.56px;
+  width: 7px;
+  height: 1.31px;
+  border-radius: 50%;
+  background: var(--aof-floor);
+}
+
+/* the chat panel — 183.75×245 at (437.5, 240.63) */
+.panel {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  opacity: 0;
+  transform: translateY(7px);
+}
+.panel[data-on] {
+  opacity: 1;
+  transform: translateY(0px);
+}
+.panelAlly {
+  position: absolute;
+  left: 444.94px;
+  top: 248.72px;
+  width: 12.25px;
+  height: 12.25px;
+}
+.rise {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: translateY(7px);
+}
+.rise[data-on] {
+  opacity: 1;
+  transform: translateY(0px);
+}
+.dim {
+  position: absolute;
+  inset: 0;
+}
+.dim[data-on] {
+  opacity: 0.4;
+}
+.chip {
+  position: absolute;
+  inset: 0;
+  transform-origin: 506.71px 393.75px;
+}
+.chip[data-down] {
+  transform: scale(0.92);
+}
+
+/* the ask field — 168.88×37.63 at (444.94, 430.06) */
+.field {
+  position: absolute;
+  left: 444.94px;
+  top: 430.06px;
+  width: 168.88px;
+  height: 37.63px;
+  box-sizing: border-box;
+  border: 0.438px solid var(--aof-field-edge);
+  border-radius: 1.75px;
+  background: var(--aof-white);
+}
+.field[data-focus] {
+  border-color: var(--aof-ink);
+}
+.input {
+  position: absolute;
+  left: 3.5px;
+  top: 3.5px;
+  width: 161px;
+  height: 8.75px;
+  white-space: pre;
+  font-size: 6.125px;
+  line-height: 8.75px;
+  color: var(--aof-ink);
+}
+.input[data-empty] {
+  color: var(--aof-placeholder);
+}
+.send {
+  position: absolute;
+  left: 592.38px;
+  top: 446.25px;
+  width: 17.5px;
+  height: 17.5px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--aof-ink);
+  color: var(--aof-white);
+  opacity: 0.25;
+}
+.send[data-ready] {
+  opacity: 1;
+}
+.send[data-down] {
+  transform: scale(0.92);
+}
+.send svg {
+  display: block;
+}
+
+/* the source — 131.25 wide at (469.91, 332.5), its tip on the citation */
+.source {
+  position: absolute;
+  z-index: 4;
+  left: 469.91px;
+  top: 332.5px;
+  width: 131.25px;
+  box-sizing: border-box;
+  padding: 8.75px 9.63px;
+  display: flex;
+  flex-direction: column;
+  gap: 2.63px;
+  border-radius: 5.25px;
+  background: var(--aof-white);
+  box-shadow: 0 7px 17.5px rgba(16, 24, 41, 0.12), 0 0.875px 2.625px rgba(16, 24, 41, 0.05);
+  color: var(--aof-ink);
+  opacity: 0;
+  transform: translateY(3.5px);
+}
+.sourceTitle {
+  font-size: 7.44px;
+  line-height: 10.5px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+.sourceLine {
+  font-size: 6.13px;
+  line-height: 8.75px;
+  color: var(--aof-meta);
+}
+.sourceTip {
+  position: absolute;
+  z-index: 4;
+  left: 490.04px;
+  top: 379.75px;
+  width: 6.13px;
+  height: 6.13px;
+  border-radius: 0.875px;
+  background: var(--aof-white);
+  opacity: 0;
+  transform: translateY(3.5px) rotate(45deg);
+}
+.source[data-on] {
+  opacity: 1;
+  transform: translateY(0px);
+}
+.sourceTip[data-on] {
+  opacity: 1;
+  transform: translateY(0px) rotate(45deg);
+}
+
+/* ---- motion: CSS only when motion is welcome, off across the loop reset (data-still) ---- */
+@media (prefers-reduced-motion: no-preference) {
+  .canvas:not([data-still]) .macroBob {
+    animation: aof-bob 3s ease-in-out -2.47s infinite;
+  }
+  .macroRipple[data-on] {
+    animation: aof-ripple 330ms linear forwards;
+  }
+  .macroPress {
+    transition: transform 80ms ease-out;
+  }
+  .macroPointer,
+  .citePointer {
+    transition: opacity 220ms cubic-bezier(0.16, 1, 0.3, 1), transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .macroPointer[data-down],
+  .citePointer[data-down] {
+    transition: transform 80ms ease-out;
+  }
+  .worldPointer {
+    transition: opacity 180ms cubic-bezier(0.4, 0, 1, 1), transform 180ms cubic-bezier(0.4, 0, 1, 1);
+  }
+  .launcher {
+    transition: opacity 200ms cubic-bezier(0.4, 0, 1, 1), transform 200ms cubic-bezier(0.4, 0, 1, 1);
+  }
+  .panel,
+  .rise,
+  .source,
+  .sourceTip {
+    transition: opacity 320ms cubic-bezier(0.16, 1, 0.3, 1) var(--aof-d, 0ms), transform 320ms cubic-bezier(0.16, 1, 0.3, 1) var(--aof-d, 0ms);
+  }
+  .dim {
+    transition: opacity 320ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .chip,
+  .send {
+    transition: transform 280ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 120ms ease;
+  }
+  .chip[data-down],
+  .send[data-down] {
+    transition: transform 80ms ease-out;
+  }
+  .canvas[data-still] *,
+  .canvas[data-still] .macroRipple {
+    transition: none;
+    animation: none;
+  }
+}
+
+/* bob ±3.94 px, 3 s (the page's 1.5 px at 6×) */
+@keyframes aof-bob {
+  0%, 50%, 100% { transform: translateY(0px); }
+  25% { transform: translateY(3.94px); }
+  75% { transform: translateY(-3.94px); }
+}
+/* click ripple: 50% at 60% size in 45 ms, then spreads to 190% and fades */
+@keyframes aof-ripple {
+  0% { opacity: 0; transform: scale(0.4); }
+  13.6% { opacity: 0.5; transform: scale(0.6); }
+  100% { opacity: 0; transform: scale(1.9); }
+}
