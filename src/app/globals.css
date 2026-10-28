@@ -14,6 +14,8 @@
   --radius-md: 4px;
   --radius-lg: 4px;
   --radius-xl: 16px;
+  /* Hero Backdrop's showcase image/video frame, at Dan's request. */
+  --radius-hero: 12px;
 
   /* Letter-spacing for small uppercase labels (Stats Band's stat
      labels), at Dan's request: 2px. */

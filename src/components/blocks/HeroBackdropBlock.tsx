@@ -168,7 +168,7 @@ export function HeroBackdropBlock({
           />
         </div>
         {showcaseIsImage ? (
-          <ArticleImage image={showcaseMedia.image!} alt={headline} className="rounded-lg" />
+          <ArticleImage image={showcaseMedia.image!} alt={headline} className="rounded-hero" />
         ) : (
           // Mobile: full-bleed (the wrapper breaks out of this
           // container's px-medium-large via a matching negative margin),
@@ -181,13 +181,13 @@ export function HeroBackdropBlock({
           // from the width before the margins widened it, a 2:1 box
           // that cropped the video's top and bottom. md: the desktop
           // card treatment — light grey border-border all the way
-          // round, rounded-lg, and shadow-xl at the site's ink token
+          // round, rounded-hero (12px), and shadow-xl at the site's ink token
           // 15% (a step up from the scrollReveal video card's).
           <div className="-mx-medium-large md:mx-0">
             <PlayOnScrollMedia
               media={showcaseMedia}
               alt={headline}
-              className="aspect-hero w-full border-y border-border md:rounded-lg md:border md:shadow-xl md:shadow-foreground/15"
+              className="aspect-hero w-full border-y border-border md:rounded-hero md:border md:shadow-xl md:shadow-foreground/15"
             />
           </div>
         )}
