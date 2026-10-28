@@ -47,6 +47,8 @@ const COLORS: Record<BandTone, { track: string; fill: string; onTrack: string; o
 //   short the fill is.
 // - Dots: the number and label, then ten dots with the share of them
 //   filled (rounded to the nearest dot).
+// On mobile the label always sits under the number; from tablet up
+// they share a row, every label starting at the same line.
 // Bars grow and dots fill in, one row after another, when the block
 // scrolls into view; with reduced motion they're simply filled.
 export function StatBarsBlock({ style = 'bars', items = [], source, tone = 'none', ...band }: StatBarsBlockProps) {
@@ -86,7 +88,7 @@ export function StatBarsBlock({ style = 'bars', items = [], source, tone = 'none
             const content = (color: string, clip?: boolean) => (
               <div
                 aria-hidden={clip || undefined}
-                className={`stat-row relative col-start-1 row-start-1 flex flex-wrap items-center gap-x-large gap-y-xs px-medium-large py-medium ${clip ? 'stat-clip' : ''}`}
+                className={`stat-row relative col-start-1 row-start-1 flex flex-col items-start gap-y-xs px-medium-large py-medium md:items-center md:gap-x-large ${clip ? 'stat-clip' : ''}`}
               >
                 <span className={`font-heading text-stat-sm whitespace-nowrap tabular-nums ${color}`}>{item.value}</span>
                 {item.label && <span className={`max-w-prose-xs text-body-lg ${color}`}>{item.label}</span>}
@@ -100,7 +102,7 @@ export function StatBarsBlock({ style = 'bars', items = [], source, tone = 'none
                   style={delay}
                   className={`stat-row grid grid-cols-1 items-center gap-medium border-b py-medium-large ${tone === 'none' || tone === 'accent' ? 'border-foreground/15' : 'border-background/15'}`}
                 >
-                  <div className="flex flex-wrap items-center gap-x-large gap-y-xs md:contents">
+                  <div className="flex flex-col items-start gap-y-xs md:contents">
                     <span className={`font-heading text-stat-sm whitespace-nowrap tabular-nums ${c.onTrack}`}>{item.value}</span>
                     {item.label && <span className={`max-w-prose-xs text-body-lg ${c.onTrack}`}>{item.label}</span>}
                   </div>
