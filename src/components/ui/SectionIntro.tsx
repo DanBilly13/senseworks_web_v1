@@ -224,6 +224,10 @@ export function SectionIntro({
             // desktop only — mobile has no spare width to give up),
             // not whatever maxWidth the caller passed for the eyebrow.
             bodyMaxWidth ? MAX_WIDTH_CLASS[bodyMaxWidth] : isSubtitle ? 'md:max-w-subtitle' : MAX_WIDTH_CLASS[maxWidth],
+            // Centred subtitles get evenly long lines, like the heading,
+            // instead of a full line and a short leftover one centred
+            // under it. Left-aligned ones keep filling their lines.
+            isSubtitle && align === 'center' ? 'text-balance' : '',
             bodyClassName,
           ]
             .filter(Boolean)
