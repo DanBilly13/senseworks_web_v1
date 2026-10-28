@@ -144,6 +144,9 @@
      instead of a fixed height so placeholders scale correctly at
      every width rather than needing separate per-breakpoint heights. */
   --aspect-media: 7 / 5;
+  /* The backdrop hero's showcase media (Home, LP003): a little wider
+     and shorter than 7:5, so more of the hero fits on screen. */
+  --aspect-hero: 7 / 4;
   /* Media block's "3:1" ratio — a wide strip (content width, desktop). */
   --aspect-banner: 3 / 1;
 

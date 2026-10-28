@@ -69,7 +69,7 @@ export function HeroBackdropBlock({
   // Only a plain image gets to set its own height from its real aspect
   // ratio (via the asset ref's encoded dimensions) — video/lottie/
   // reactAnimation don't carry that same kind of intrinsic ratio here,
-  // so they keep the fixed aspect-media box below.
+  // so they keep the fixed 7:4 aspect-hero box below.
   const showcaseIsImage = showcaseMedia?.mediaType === 'image' && !!showcaseMedia.image
 
   return (
@@ -192,7 +192,7 @@ export function HeroBackdropBlock({
             // shadow-xl for more spread/blur, shadow-foreground/15
             // (the site's ink token at 15% instead of Tailwind's
             // default ~10% black) for more opacity.
-            className="-mx-medium-large aspect-media border-y border-border md:mx-0 md:w-full md:rounded-lg md:border md:shadow-xl md:shadow-foreground/15"
+            className="-mx-medium-large aspect-hero border-y border-border md:mx-0 md:w-full md:rounded-lg md:border md:shadow-xl md:shadow-foreground/15"
           />
         )}
       </div>
