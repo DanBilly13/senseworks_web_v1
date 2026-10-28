@@ -49,6 +49,14 @@ const PANEL_BG: Record<Exclude<StatsBandTone, 'none'>, string> = {
 
 // Light text on the dark and image panels, dark text everywhere else.
 const isLight = (tone: StatsBandTone) => tone === 'dark' || tone === 'image'
+// The mobile dividers' colours, matching the desktop dividers' per
+// background — vertical (::before) and horizontal (::after) kept
+// apart: any before:/after: class creates its pseudo-element, and a
+// stray, non-absolute one is a flex item that pushes the stat down.
+const MOBILE_RULE_CLASS = {
+  vertical: { light: 'before:bg-background/20', accent: 'before:bg-foreground/15', default: 'before:bg-border' },
+  horizontal: { light: 'after:bg-background/20', accent: 'after:bg-foreground/15', default: 'after:bg-border' },
+}
 
 // Desktop: as many equal columns as there are stats (up to 4), so three
 // share the full width, centred, instead of filling three of four
@@ -79,6 +87,7 @@ export function StatsBandBlock({
   if (!items.length) return null
 
   const light = isLight(tone)
+  const ruleTone = light ? 'light' : tone === 'accent' ? 'accent' : ('default' as const)
   const hasIntro = Boolean(eyebrow || heading)
   const content = (
     <>
@@ -103,14 +112,27 @@ export function StatsBandBlock({
           page's edge padding already separate the columns, so it only
           squeezed the numbers ("100 %" broke over two lines). */}
       <div
-        className={`grid grid-cols-2 gap-large ${LG_COLS_CLASS[Math.min(items.length, 4)]} lg:gap-x-0 lg:divide-x ${hasIntro ? CONTENT_GAP_CLASS[contentGap] : ''} ${
+        className={`grid grid-cols-2 gap-x-large gap-y-xl ${LG_COLS_CLASS[Math.min(items.length, 4)]} lg:gap-x-0 lg:gap-y-large lg:divide-x ${hasIntro ? CONTENT_GAP_CLASS[contentGap] : ''} ${
           light ? 'lg:divide-background/20' : tone === 'accent' ? 'lg:divide-foreground/15' : 'lg:divide-border'
         }`}
       >
         {items.map((item, index) => (
           <div
             key={index}
-            className="flex flex-col items-center gap-small text-center lg:px-medium-large"
+            className={[
+              'relative flex flex-col items-center gap-small text-center lg:px-medium-large',
+              // Below lg, the 2-column grid gets its own dividers in
+              // the same colour: a vertical line in the column gap,
+              // one row tall, and a short line under a stat with
+              // another below it, mid-gap and inset from the column's
+              // sides — so the two never meet in a cross.
+              index % 2 === 0 && index + 1 < items.length
+                ? `before:absolute before:inset-y-0 before:-right-medium before:w-px lg:before:hidden ${MOBILE_RULE_CLASS.vertical[ruleTone]}`
+                : '',
+              index + 2 < items.length
+                ? `after:absolute after:inset-x-large after:-bottom-medium-large after:h-px lg:after:hidden ${MOBILE_RULE_CLASS.horizontal[ruleTone]}`
+                : '',
+            ].join(' ')}
           >
             <span className={`font-heading text-stat tabular-nums ${light ? 'text-background' : 'text-foreground'}`}>
               {item.value}
