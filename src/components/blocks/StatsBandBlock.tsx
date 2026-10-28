@@ -115,11 +115,10 @@ export function StatsBandBlock({
             <span className={`font-heading text-h1 font-medium tabular-nums ${light ? 'text-background' : 'text-foreground'}`}>
               {item.value}
             </span>
-            <span
-              className={`text-body ${
-                light ? 'text-background/70' : tone === 'accent' ? 'text-foreground/70' : 'text-muted-foreground'
-              }`}
-            >
+            {/* Bold uppercase label, 2px apart, full strength: dark on
+                the page and Accent, the accent on dark and photo
+                backgrounds (as eyebrows are). */}
+            <span className={`text-body font-bold tracking-label uppercase ${light ? 'text-accent' : 'text-foreground'}`}>
               {item.label}
             </span>
           </div>
