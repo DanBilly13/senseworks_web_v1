@@ -88,7 +88,7 @@ export function StatBarsBlock({ style = 'bars', items = [], source, tone = 'none
                 aria-hidden={clip || undefined}
                 className={`stat-row relative col-start-1 row-start-1 flex flex-wrap items-center gap-x-large gap-y-xs px-medium-large py-medium ${clip ? 'stat-clip' : ''}`}
               >
-                <span className={`font-heading text-h2 font-medium whitespace-nowrap ${color}`}>{item.value}</span>
+                <span className={`font-heading text-h2 font-medium whitespace-nowrap tabular-nums ${color}`}>{item.value}</span>
                 {item.label && <span className={`max-w-prose-xs text-body-lg ${color}`}>{item.label}</span>}
               </div>
             )
@@ -101,7 +101,7 @@ export function StatBarsBlock({ style = 'bars', items = [], source, tone = 'none
                   className={`stat-row grid grid-cols-1 items-center gap-medium border-b py-medium-large ${tone === 'none' || tone === 'accent' ? 'border-foreground/15' : 'border-background/15'}`}
                 >
                   <div className="flex flex-wrap items-center gap-x-large gap-y-xs md:contents">
-                    <span className={`font-heading text-h2 font-medium whitespace-nowrap ${c.onTrack}`}>{item.value}</span>
+                    <span className={`font-heading text-h2 font-medium whitespace-nowrap tabular-nums ${c.onTrack}`}>{item.value}</span>
                     {item.label && <span className={`max-w-prose-xs text-body-lg ${c.onTrack}`}>{item.label}</span>}
                   </div>
                   <div className="flex gap-small md:gap-medium" role="img" aria-label={`${filled} av 10`}>

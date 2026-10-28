@@ -112,7 +112,7 @@ export function StatsBandBlock({
             key={index}
             className="flex flex-col items-center gap-small text-center lg:px-medium-large"
           >
-            <span className={`font-heading text-h1 font-medium ${light ? 'text-background' : 'text-foreground'}`}>
+            <span className={`font-heading text-h1 font-medium tabular-nums ${light ? 'text-background' : 'text-foreground'}`}>
               {item.value}
             </span>
             <span
