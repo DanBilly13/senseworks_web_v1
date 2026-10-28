@@ -226,8 +226,9 @@ export function SectionIntro({
             bodyMaxWidth ? MAX_WIDTH_CLASS[bodyMaxWidth] : isSubtitle ? 'md:max-w-subtitle' : MAX_WIDTH_CLASS[maxWidth],
             // Centred subtitles get evenly long lines, like the heading,
             // instead of a full line and a short leftover one centred
-            // under it. Left-aligned ones keep filling their lines.
-            isSubtitle && align === 'center' ? 'text-balance' : '',
+            // under it. Left-aligned body text keeps filling its lines,
+            // but never leaves one word alone on the last.
+            align === 'center' ? (isSubtitle ? 'text-balance' : '') : 'text-pretty',
             bodyClassName,
           ]
             .filter(Boolean)
