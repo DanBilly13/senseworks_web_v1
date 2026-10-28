@@ -1254,3 +1254,24 @@ p:has(+ .hero-overlay-card-rules),
     --spacing-gutter: var(--spacing-editorial);
   }
 }
+
+/* Hover Preview (ui/HoverPreview): grows out of the thumbnail — starts at
+   the thumbnail's own size (--hover-preview-from, its width over the
+   preview's) and scales up to full size, fading in. Reduced motion: it
+   just appears. */
+.hover-preview {
+  opacity: 0;
+  scale: var(--hover-preview-from, 0.5);
+  transition:
+    opacity 0.18s ease-out,
+    scale 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.hover-preview[data-shown] {
+  opacity: 1;
+  scale: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hover-preview {
+    transition: none;
+  }
+}
