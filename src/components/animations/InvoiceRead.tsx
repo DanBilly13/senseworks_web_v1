@@ -4,17 +4,19 @@ import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import styles from './InvoiceRead.module.css';
 
 /*
- * Läser fakturor åt dig — Ally reads the invoice. 700×500 native canvas, 5.05 s loop.
+ * Läser fakturor åt dig — Ally reads the invoice. 700×500 native canvas, 6.45 s loop.
  * Every position is a literal px value in canvas space. The app page is laid out once
  * (the "world", 1400×999) and three hard-cut camera framings show parts of it.
  *
  *   0.00  1 Överst    top of the invoice; the page builds in from below
  *                     (panels 56 px, then the paper 28 px · 480 ms each · 160 ms per layer, 70 ms per item)
- *   0.75             highlight sweeps the supplier, 1.10 the invoice date (300 ms each)
- *   1.75  2 Summor    hard cut to the totals (no rebuild); 2.00 sweep on the VAT, 2.35 on the amount to pay
- *   2.75  3 Uppgifter hard cut to the top of Fakturauppgifter; the four rows rise in (14 px, 70 ms apart)
- *   3.44             "Läst av Ally" pops
- *   5.05             loop: hard cut back to 1, the page builds again
+ *   0.75             each read: the value pops (to 112%, 80 ms, springs back) and its highlight wipes in
+ *                     left to right as it springs back (from +120 ms, 500 ms at an even pace).
+ *                     The supplier at 0.75, the invoice date at 1.43
+ *   2.30  2 Summor    hard cut to the totals (no rebuild); the VAT at 2.55, the amount to pay at 3.23
+ *   4.15  3 Uppgifter hard cut to the top of Fakturauppgifter; the four rows rise in (14 px, 70 ms apart)
+ *   4.84             "Läst av Ally" pops
+ *   6.45             loop: hard cut back to 1, the page builds again
  */
 
 type Hl = 'seller' | 'date' | 'moms' | 'pay';
@@ -129,28 +131,33 @@ interface AnimState {
   shot: Shot;
   built: boolean; //  the page has built in
   hl: Record<Hl, boolean>;
+  pop: Hl | null; //  the value that is popped up right now
   rows: boolean;
   tag: boolean;
 }
 
 const NO_HL = { seller: false, date: false, moms: false, pay: false };
-const INITIAL: AnimState = { reset: true, shot: 1, built: false, hl: NO_HL, rows: false, tag: false };
-const FINAL: AnimState = { reset: true, shot: 3, built: true, hl: { seller: true, date: true, moms: true, pay: true }, rows: true, tag: true };
+const INITIAL: AnimState = { reset: true, shot: 1, built: false, hl: NO_HL, pop: null, rows: false, tag: false };
+const FINAL: AnimState = { reset: true, shot: 3, built: true, hl: { seller: true, date: true, moms: true, pay: true }, pop: null, rows: true, tag: true };
 
 /* The whole timeline: [delay after the previous step (ms), state transition]. */
 type Step = [number, (s: AnimState) => AnimState];
+const popUp = (k: Hl): Step[1] => (s) => ({ ...s, pop: k });
+const popDown: Step[1] = (s) => ({ ...s, pop: null });
 const hl = (k: Hl): Step[1] => (s) => ({ ...s, hl: { ...s.hl, [k]: true } });
+/* one read: pop up, spring back 80 ms later, and 40 ms after that the highlight starts its wipe */
+const read = (k: Hl, delay: number): Step[] => [[delay, popUp(k)], [80, popDown], [40, hl(k)]];
 const STEPS: Step[] = [
   [0, () => INITIAL], //                                  0.000 reset (transitions off)
   [40, (s) => ({ ...s, reset: false, built: true })], //   0.040 the page builds
-  [710, hl('seller')], //                                 0.750 sweep: supplier
-  [350, hl('date')], //                                   1.100 sweep: invoice date
-  [650, (s) => ({ ...s, shot: 2 })], //                   1.750 cut: totals
-  [250, hl('moms')], //                                   2.000 sweep: VAT
-  [350, hl('pay')], //                                    2.350 sweep: amount to pay
-  [400, (s) => ({ ...s, shot: 3, rows: true })], //       2.750 cut: fields; rows rise
-  [690, (s) => ({ ...s, tag: true })], //                 3.440 Läst av Ally pops
-  [1610, (s) => s], //                                    hold to 5.050
+  ...read('seller', 710), //                              0.750 supplier: pop · 0.870 wipe
+  ...read('date', 560), //                                1.430 invoice date: pop · 1.550 wipe
+  [750, (s) => ({ ...s, shot: 2 })], //                   2.300 cut: totals
+  ...read('moms', 250), //                                2.550 VAT: pop · 2.670 wipe
+  ...read('pay', 560), //                                 3.230 amount to pay: pop · 3.350 wipe
+  [800, (s) => ({ ...s, shot: 3, rows: true })], //       4.150 cut: fields; rows rise
+  [690, (s) => ({ ...s, tag: true })], //                 4.840 Läst av Ally pops
+  [1610, (s) => s], //                                    hold to 6.450
 ];
 
 function usePrefersReducedMotion(): boolean {
@@ -193,7 +200,7 @@ function Chevron() {
  */
 export function InvoiceReadAnimation({ className, paused = false }: { className?: string; paused?: boolean }) {
   const reduced = usePrefersReducedMotion();
-  const [s, setS] = useState<AnimState>(INITIAL);
+  const [state, setS] = useState<AnimState>(INITIAL);
   /* the next step to run — kept across pauses */
   const stepRef = useRef(0);
 
@@ -210,8 +217,9 @@ export function InvoiceReadAnimation({ className, paused = false }: { className?
     return () => clearTimeout(timer);
   }, [reduced, paused]);
 
-  const frame = reduced ? FINAL : s;
-  const still = reduced || s.reset;
+  const s = reduced ? FINAL : state;
+
+  const still = reduced || state.reset;
   /* build-in delay for one element (ms), as a custom property the CSS transition reads */
   const d = (ms: number) => ({ '--ira-d': `${ms}ms` }) as CSSProperties;
 
@@ -219,11 +227,11 @@ export function InvoiceReadAnimation({ className, paused = false }: { className?
     <div
       className={[styles.canvas, className].filter(Boolean).join(' ')}
       data-still={still || undefined}
-      data-built={frame.built || undefined}
-      data-rows={frame.rows || undefined}
+      data-built={s.built || undefined}
+      data-rows={s.rows || undefined}
       aria-hidden="true"
     >
-      <div className={styles.world} style={{ transform: SHOTS[frame.shot] }}>
+      <div className={styles.world} style={{ transform: SHOTS[s.shot] }}>
         <div className={styles.page}>
           <div className={styles.header} />
         </div>
@@ -247,9 +255,10 @@ export function InvoiceReadAnimation({ className, paused = false }: { className?
                 key={i}
                 className={styles.run}
                 data-bold={r.bold || undefined}
+                data-pop={(r.hl && s.pop === r.hl) || undefined}
                 style={{ ...(r.right != null ? { right: r.right } : { left: r.left }), top: r.top, fontSize: r.size }}
               >
-                {r.hl ? <span className={styles.hl} data-on={frame.hl[r.hl] || undefined} /> : null}
+                {r.hl ? <span className={styles.hl} data-on={s.hl[r.hl] || undefined} /> : null}
                 {r.t}
               </div>
             ))}
@@ -259,7 +268,7 @@ export function InvoiceReadAnimation({ className, paused = false }: { className?
         {/* Fakturauppgifter — structure layer, item 2 */}
         <div className={`${styles.panel} ${styles.buildPanel}`} style={d(140)}>
           <div className={`${styles.ptitle} ${styles.buildMetric}`} style={d(230)}>Fakturauppgifter</div>
-          <div className={styles.tag} data-on={frame.tag || undefined}>
+          <div className={styles.tag} data-on={s.tag || undefined}>
             <AllyGlyph />
             Läst av Ally
           </div>
