@@ -6,6 +6,7 @@ import { HeroAllyBlock } from '@/components/blocks/HeroAllyBlock'
 import { HeroImageOverlayCardBlock } from '@/components/blocks/HeroImageOverlayCardBlock'
 import { HeroTextBlock } from '@/components/blocks/HeroTextBlock'
 import { SectionHeadlineBlock } from '@/components/blocks/SectionHeadlineBlock'
+import { BlockRenderer } from '@/components/blocks/BlockRenderer'
 import { FeatureSplitBlock } from '@/components/blocks/FeatureSplitBlock'
 import { FeatureSplitDarkBlock } from '@/components/blocks/FeatureSplitDarkBlock'
 import { FiftyFiftyBannerBlock } from '@/components/blocks/FiftyFiftyBannerBlock'
@@ -442,6 +443,29 @@ export default async function BlocksPage({
           { icon: 'lock', title: 'Lorem ipsum dolor', description: BODY, ctaLabel: 'Lorem ipsum', ctaHref: '#' },
           { title: 'Sit amet consectetur', description: BODY },
           { icon: 'bolt_boost', title: 'Adipiscing elit sed', description: BODY },
+        ]}
+      />
+      <BlockCaption
+        name="Section Headline + Feature Grid — both Dark accent gradient, set as one band"
+        type="sectionHeadlineBlock + featureGridBlock"
+        variant='tone: "accentDark" on both (headline: Bottom padding Tight, Section spacing None; below: Top padding None)'
+      />
+      {/* Through BlockRenderer, which gives the pair one shared copy of
+          the gradient (see bandGradientRuns). */}
+      <BlockRenderer
+        blocks={[
+          { _type: 'sectionHeadlineBlock', _key: 'gradient-headline', tone: 'accentDark', paddingBottom: 'tight', spacing: 'none', align: 'left', eyebrow: 'Eyebrow', headline: 'Lorem ipsum dolor sit amet' },
+          {
+            _type: 'featureGridBlock',
+            _key: 'gradient-grid',
+            tone: 'accentDark',
+            paddingTop: 'none',
+            items: [
+              { icon: 'lock', title: 'Lorem ipsum dolor', description: BODY },
+              { title: 'Sit amet consectetur', description: BODY },
+              { icon: 'bolt_boost', title: 'Adipiscing elit sed', description: BODY },
+            ],
+          },
         ]}
       />
       <BlockCaption name="Feature Grid — inline links" type="featureGridBlock" variant='linkStyle: "inline"' />

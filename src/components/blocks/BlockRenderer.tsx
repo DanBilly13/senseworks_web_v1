@@ -1,4 +1,5 @@
-import { bandPanelJoins } from '@/components/ui/BandFill'
+import { bandGradientRuns, bandPanelJoins, type BandSpacing } from '@/components/ui/BandFill'
+import { SECTION_GAP_MB_CLASS } from '@/components/ui/SectionShell'
 import { HeaderBlock } from './HeaderBlock'
 import { HeroBlock } from './HeroBlock'
 import { HeroBackdropBlock } from './HeroBackdropBlock'
@@ -103,16 +104,33 @@ export function BlockRenderer({ blocks }: { blocks: PageBlock[] }) {
   // Content width background panels that touch read as one: square
   // corners where they meet (see ui/BandFill).
   const joins = bandPanelJoins(shown as Parameters<typeof bandPanelJoins>[0])
-  return (
-    <>
-      {shown.map((block, i) => {
-        const Component = BLOCK_COMPONENTS[block._type as keyof typeof BLOCK_COMPONENTS]
-        // Only passed to a block that joins, so no other block sees them.
-        const joinTop = i > 0 && joins[i - 1]
-        const joinProps = joinTop || joins[i] ? { joinTop, joinBottom: joins[i] } : {}
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- block shape is validated by the Sanity schema, not statically knowable here
-        return <Component key={block._key} {...(block as any)} {...joinProps} />
-      })}
-    </>
-  )
+  const render = (block: PageBlock, i: number) => {
+    const Component = BLOCK_COMPONENTS[block._type as keyof typeof BLOCK_COMPONENTS]
+    // Only passed to a block that joins, so no other block sees them.
+    const joinTop = i > 0 && joins[i - 1]
+    const joinProps = joinTop || joins[i] ? { joinTop, joinBottom: joins[i] } : {}
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- block shape is validated by the Sanity schema, not statically knowable here
+    return <Component key={block._key} {...(block as any)} {...joinProps} />
+  }
+  // Full width blocks on the dark accent gradient that run on into each
+  // other share one copy of it, so it doesn't restart between them.
+  const runs = bandGradientRuns(shown as Parameters<typeof bandGradientRuns>[0])
+  const out = []
+  for (let i = 0; i < shown.length; i++) {
+    const run = runs.find(([first]) => first === i)
+    if (run) {
+      // The last block's Section spacing (the gap after it) moves out to
+      // here, below the shared gradient instead of inside it.
+      const spacing = ((shown[run[1]] as { spacing?: BandSpacing }).spacing ?? 'loose') as BandSpacing
+      out.push(
+        <div key={`gradient-${shown[i]._key}`} className={`band-gradient-run bg-accent-gradient-dark ${SECTION_GAP_MB_CLASS[spacing]}`}>
+          {shown.slice(run[0], run[1] + 1).map((block, k) => render(block, run[0] + k))}
+        </div>,
+      )
+      i = run[1]
+    } else {
+      out.push(render(shown[i], i))
+    }
+  }
+  return <>{out}</>
 }

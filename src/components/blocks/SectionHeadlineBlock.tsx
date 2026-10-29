@@ -38,8 +38,9 @@ export function SectionHeadlineBlock({
   tone = 'none',
   ...band
 }: SectionHeadlineBlockProps) {
-  // On Dark, the eyebrow and button take the accent color, as on Hero Text.
-  const dark = tone === 'inverse'
+  // On Dark and the dark accent gradient, the eyebrow and button take the
+  // accent color, as on Hero Text.
+  const dark = tone === 'inverse' || tone === 'accentDark'
   return (
     <BandFill tone={tone} width={width} {...band}>
       <SectionShell {...bandShellPadding({ tone, ...band })} id={anchor}>

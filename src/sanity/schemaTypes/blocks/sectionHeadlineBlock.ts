@@ -66,7 +66,7 @@ export const sectionHeadlineBlock = defineType({
         Rule.regex(/^[a-z0-9-]+$/, { name: 'lowercase letters, numbers and dashes' }),
     }),
     contentWidthField,
-    ...bandFields(),
+    ...bandFields({ withDarkGradient: true }),
     spacingField,
   ],
   preview: {

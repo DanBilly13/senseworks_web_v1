@@ -793,6 +793,16 @@ p {
   background-image: var(--gradient-accent-dark);
   background-blend-mode: soft-light, normal;
 }
+/* Blocks on the gradient that run on into each other share their run's
+   one copy of it (see BlockRenderer / bandGradientRuns), so their own is
+   cleared. */
+.band-gradient-run .bg-accent-gradient-dark {
+  background: none;
+}
+/* The last block's gap after it is the run's own margin instead. */
+.band-gradient-run > :last-child {
+  margin-bottom: 0;
+}
 
 /* Page themes — a page's "Page theme" setting in Studio puts one of
    these on a wrapper around the whole page (see [...slug]/page.tsx),

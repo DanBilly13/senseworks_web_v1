@@ -12,7 +12,7 @@ import { SECTION_GAP_MB_CLASS } from '@/components/ui/SectionShell'
 // Left unset, the padding is None without a background (as every block
 // was before these fields) and Medium with one.
 //
-// accentDark (not on Section Headline): the dark accent gradient, white
+// accentDark: the dark accent gradient, white
 // text like Dark.
 export type BandTone = 'none' | 'inverse' | 'accent' | 'accentDark'
 export type BandSpacing = 'loose' | 'medium' | 'tight' | 'none'
@@ -55,6 +55,31 @@ export function bandPanelJoins(blocks: PanelBlock[]): boolean[] {
     const next = blocks[i + 1]
     return !!next && isPanel(block) && isPanel(next) && block.tone === next.tone && block.spacing === 'none'
   })
+}
+
+// Full screen width blocks on the dark accent gradient that run straight
+// on into each other (Section spacing None on the upper one): each would
+// draw its own copy of the gradient, restarting it with a visible line
+// where they meet, so BlockRenderer wraps each run in one shared copy
+// (.band-gradient-run in globals.css, which clears the blocks' own).
+// Card Grid's background setting is called `background`.
+type GradientBlock = PanelBlock & { background?: string }
+const isFullGradient = (block: GradientBlock) => (block.tone ?? block.background) === 'accentDark' && block.width !== 'content'
+
+// The runs, as [first, last] indexes into the shown blocks (only runs of
+// two or more).
+export function bandGradientRuns(blocks: GradientBlock[]): [number, number][] {
+  const runs: [number, number][] = []
+  let start = -1
+  blocks.forEach((block, i) => {
+    if (start < 0 && isFullGradient(block)) start = i
+    const continues = start >= 0 && block.spacing === 'none' && !!blocks[i + 1] && isFullGradient(blocks[i + 1])
+    if (start >= 0 && !continues) {
+      if (i > start) runs.push([start, i])
+      start = -1
+    }
+  })
+  return runs
 }
 
 // width (the blocks with a Width option — Section Headline, Feature List,
