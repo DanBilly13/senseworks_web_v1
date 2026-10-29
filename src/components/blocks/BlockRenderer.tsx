@@ -16,6 +16,7 @@ import { ImageGridBlock } from './ImageGridBlock'
 import { StatBarsBlock } from './StatBarsBlock'
 import { StackAnimationBlock } from './StackAnimationBlock'
 import { StatementBlock } from './StatementBlock'
+import { StatementSplitBlock } from './StatementSplitBlock'
 import { BodyColumnsBlock } from './BodyColumnsBlock'
 import { LogoCloudBlock } from './LogoCloudBlock'
 import { TestimonialCarouselBlock } from './TestimonialCarouselBlock'
@@ -61,6 +62,7 @@ const BLOCK_COMPONENTS = {
   statBarsBlock: StatBarsBlock,
   stackAnimationBlock: StackAnimationBlock,
   statementBlock: StatementBlock,
+  statementSplitBlock: StatementSplitBlock,
   bodyColumnsBlock: BodyColumnsBlock,
   logoCloudBlock: LogoCloudBlock,
   testimonialCarouselBlock: TestimonialCarouselBlock,

@@ -117,6 +117,7 @@ export const pageBySlugAndLocaleQuery = groq`
       _type == "bentoGridBlock" => { items[]{ ..., ${mediaProjection()} } },
       _type == "imageGridBlock" => { items[]{ ..., ${mediaProjection()} } },
       _type == "mediaBlock" => { ${mediaProjection()} },
+      _type == "statementSplitBlock" => { ${mediaProjection()} },
       _type == "fullWidthSingleBlock" => { ${mediaProjection()}, ${mediaProjection('media2', 'media2')} },
       _type == "horizontalScrollStackMediumBlock" => { slides[]{ ..., ${mediaProjection()} } },
       // The newest shipped releases (the block shows its "How many");

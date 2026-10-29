@@ -173,6 +173,12 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
       'A big lead statement in regular weight across the full content width (26–50px, growing with the screen). Optional background. Pairs with Body Columns below.',
   },
   {
+    type: 'statementSplitBlock',
+    title: 'Statement Split',
+    description:
+      'A Statement beside a square (1:1) image, 50/50 — the image left or right, stacked on mobile. Optional background.',
+  },
+  {
     type: 'bodyColumnsBlock',
     title: 'Body Columns',
     description:

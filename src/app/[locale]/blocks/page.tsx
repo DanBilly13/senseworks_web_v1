@@ -15,6 +15,7 @@ import { FeatureListBlock } from '@/components/blocks/FeatureListBlock'
 import { CardGridBlock } from '@/components/blocks/CardGridBlock'
 import { ImageGridBlock } from '@/components/blocks/ImageGridBlock'
 import { StatementBlock } from '@/components/blocks/StatementBlock'
+import { StatementSplitBlock } from '@/components/blocks/StatementSplitBlock'
 import { BodyColumnsBlock } from '@/components/blocks/BodyColumnsBlock'
 import { StackAnimationBlock } from '@/components/blocks/StackAnimationBlock'
 import { LogoCloudBlock } from '@/components/blocks/LogoCloudBlock'
@@ -566,6 +567,14 @@ export default async function BlocksPage({
           { eyebrow: '02 — Ipsum', heading: 'Sit amet consectetur', body: BODY },
           { eyebrow: '03 — Dolor', heading: 'Adipiscing elit sed', body: BODY },
         ]}
+      />
+      <BlockCaption name="Statement Split" type="statementSplitBlock" variant='imagePosition: "left"' />
+      <StatementSplitBlock text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
+      <BlockCaption name="Statement Split — image right, Dark" type="statementSplitBlock" variant='imagePosition: "right", tone: "inverse"' />
+      <StatementSplitBlock
+        imagePosition="right"
+        tone="inverse"
+        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
       />
       <BlockCaption name="Statement + Body Columns" type="statementBlock + bodyColumnsBlock" variant='no background; Statement spacing "medium"' />
       <StatementBlock text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, ut enim ad minim veniam quis nostrud." spacing="medium" />

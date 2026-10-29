@@ -29,6 +29,7 @@ import { imageGridBlock } from './blocks/imageGridBlock'
 import { statBarsBlock } from './blocks/statBarsBlock'
 import { stackAnimationBlock } from './blocks/stackAnimationBlock'
 import { statementBlock } from './blocks/statementBlock'
+import { statementSplitBlock } from './blocks/statementSplitBlock'
 import { bodyColumnsBlock } from './blocks/bodyColumnsBlock'
 import { logoCloudBlock } from './blocks/logoCloudBlock'
 import { testimonialCarouselBlock } from './blocks/testimonialCarouselBlock'
@@ -89,6 +90,7 @@ const allTypes = [
   statBarsBlock,
   stackAnimationBlock,
   statementBlock,
+  statementSplitBlock,
   bodyColumnsBlock,
   logoCloudBlock,
   testimonialCarouselBlock,
