@@ -111,6 +111,11 @@
      site); mobile stays unrestricted since there's no spare width to
      give up there. */
   --container-subtitle: min(85%, 74rem);
+  /* A hero headline: the same 85% of the row, but no rem cap — it's
+     display-size text a few words long, not a paragraph, so on a big
+     monitor it grows with the row instead of stopping at 1184px (Dan:
+     it felt short at 1920). */
+  --container-hero-headline: 85%;
   /* 80% and 60% of the row (desktop): the headline and body of a
      left-aligned intro above wide content (Horizontal Scroll Stack
      Medium, Section Headline, Hero Text). */

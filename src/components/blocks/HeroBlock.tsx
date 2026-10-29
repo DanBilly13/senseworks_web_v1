@@ -151,7 +151,7 @@ function HeroImageOverlay({
           heading={headline}
           body={subhead}
           maxWidth="md"
-          headingMaxWidth="subtitle"
+          headingMaxWidth="heroHeadline"
           tone="inverse"
           typingCursorClassName="text-accent"
           cta={

@@ -130,7 +130,7 @@ export function HeroBackdropBlock({
             heading={headline}
             body={subhead}
             maxWidth="md"
-            headingMaxWidth="subtitle"
+            headingMaxWidth="heroHeadline"
             tone={textTone === 'light' ? 'inverse' : 'default'}
             cta={
               ctaLabel &&

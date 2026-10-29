@@ -3,7 +3,7 @@ import { TypingText } from '@/components/ui/TypingText'
 
 type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4'
 
-type WidthKey = 'sm' | 'md' | 'lg' | 'wide' | 'subtitle' | 'fourFifths' | 'threeFifths' | 'none'
+type WidthKey = 'sm' | 'md' | 'lg' | 'wide' | 'subtitle' | 'heroHeadline' | 'fourFifths' | 'threeFifths' | 'none'
 
 type SectionIntroProps = {
   as: HeadingLevel
@@ -112,6 +112,8 @@ const MAX_WIDTH_CLASS: Record<WidthKey, string> = {
   // Same 85%-of-row token the h1/h2 subtitle body already uses below,
   // desktop-only so mobile keeps its full width.
   subtitle: 'md:max-w-subtitle',
+  // 85% of the row with no rem cap, desktop only — a hero's headline.
+  heroHeadline: 'md:max-w-hero-headline',
   // 80% of the row, desktop only, likewise.
   fourFifths: 'md:max-w-four-fifths',
   threeFifths: 'md:max-w-three-fifths',
