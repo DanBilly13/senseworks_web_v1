@@ -14,11 +14,12 @@ type HeroAllyBlockProps = {
   spacing?: 'loose' | 'medium' | 'tight' | 'none'
 }
 
-// The gaps between eyebrow, headline, subtext and button: half the
-// site's usual (which is half the headline's line height), so the text
-// sits tighter and leaves Ally more of the screen (Dan's call).
+// The gaps between eyebrow, headline, subtext and button: from tablet up,
+// half the site's usual (which is half the headline's line height), so
+// the text sits tighter and leaves Ally more of the screen; phones keep
+// the usual (Dan's calls). --hero-ally-gap-divisor is in globals.css.
 const textGap = (display: boolean) =>
-  `calc(var(--text-${display ? 'display' : 'h1'}--full-line-height) / 4)`
+  `calc(var(--text-${display ? 'display' : 'h1'}--full-line-height) / var(--hero-ally-gap-divisor))`
 
 const SECTION_GAP_MB_CLASS: Record<NonNullable<HeroAllyBlockProps['spacing']>, string> = {
   loose: 'mb-section-gap-loose',
@@ -52,10 +53,11 @@ export function HeroAllyBlock({
       // HeroBackdropBlock), so the gradient runs to the top of the screen.
       style={{ marginTop: 'calc(var(--header-height, 0px) * -1)' }}
     >
-      <div
-        className="relative mx-auto w-full max-w-page px-medium-large pb-2xl md:px-gutter"
-        style={{ paddingTop: 'calc(var(--spacing-section-edge) * 2)' }}
-      >
+      {/* Above the eyebrow: the header's height plus a gap that grows with
+          the screen's height but stops at 80px, so a big screen doesn't
+          open a big empty band (.hero-ally-text in globals.css). On top of
+          Ally, who rises up beside the button from tablet up. */}
+      <div className="hero-ally-text relative z-10 mx-auto w-full max-w-page px-medium-large pb-large md:px-gutter md:pb-none">
         <SectionIntro
           as="h1"
           display={headlineSize === 'display'}
@@ -84,7 +86,7 @@ export function HeroAllyBlock({
         />
       </div>
       <div className="hero-ally-stage relative flex-1">
-        <Ally3D className="hero-ally pointer-events-none absolute top-0 left-1/2 -translate-x-1/2" />
+        <Ally3D className="hero-ally pointer-events-none absolute left-1/2" />
       </div>
     </section>
   )

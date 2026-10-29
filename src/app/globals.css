@@ -1212,12 +1212,35 @@ p:has(+ .hero-overlay-card-rules),
    edge crops her hard — head and shoulders show. Phones: wider than the
    screen. */
 .hero-ally {
+  top: 0;
+  translate: -50% 0;
   width: 120vw;
   aspect-ratio: 0.82;
 }
+/* From tablet up she's anchored to the hero's bottom edge instead, which
+   cuts across her face just below the eyes — the mouth never shows, so
+   it's never sliced through — whatever the screen's shape. 65.9% of her
+   box lies below the edge (her eyes end 34% down it). Her head rises
+   beside the button; she's centred and it's at the left, so they don't
+   meet. */
 @media (width >= 48rem) {
   .hero-ally {
+    top: auto;
+    bottom: 0;
+    translate: -50% 65.9%;
     width: min(62vw, 120svh);
+  }
+}
+/* The space above the eyebrow: under the fixed header, then 32–80px,
+   growing with the screen's height. The text's gaps: the usual on
+   phones, half from tablet up (see HeroAllyBlock). */
+.hero-ally-text {
+  --hero-ally-gap-divisor: 2;
+  padding-top: calc(var(--header-height, 0px) + clamp(2rem, 7svh, 5rem));
+}
+@media (width >= 48rem) {
+  .hero-ally-text {
+    --hero-ally-gap-divisor: 4;
   }
 }
 
