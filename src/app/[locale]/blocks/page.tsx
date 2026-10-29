@@ -468,6 +468,27 @@ export default async function BlocksPage({
           },
         ]}
       />
+      <BlockCaption
+        name="Section Headline + Feature Grid — both Accent gradient, set as one band"
+        type="sectionHeadlineBlock + featureGridBlock"
+        variant='tone: "accentGradient" on both (headline: Bottom padding Tight, Section spacing None; below: Top padding None)'
+      />
+      <BlockRenderer
+        blocks={[
+          { _type: 'sectionHeadlineBlock', _key: 'light-gradient-headline', tone: 'accentGradient', paddingBottom: 'tight', spacing: 'none', align: 'left', eyebrow: 'Eyebrow', headline: 'Lorem ipsum dolor sit amet' },
+          {
+            _type: 'featureGridBlock',
+            _key: 'light-gradient-grid',
+            tone: 'accentGradient',
+            paddingTop: 'none',
+            items: [
+              { icon: 'lock', title: 'Lorem ipsum dolor', description: BODY },
+              { title: 'Sit amet consectetur', description: BODY },
+              { icon: 'bolt_boost', title: 'Adipiscing elit sed', description: BODY },
+            ],
+          },
+        ]}
+      />
       <BlockCaption name="Feature Grid — inline links" type="featureGridBlock" variant='linkStyle: "inline"' />
       <FeatureGridBlock
         linkStyle="inline"

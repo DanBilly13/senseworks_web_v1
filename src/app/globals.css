@@ -795,8 +795,10 @@ p {
 }
 /* Blocks on the gradient that run on into each other share their run's
    one copy of it (see BlockRenderer / bandGradientRuns), so their own is
-   cleared. */
-.band-gradient-run .bg-accent-gradient-dark {
+   cleared — only the blocks' own (direct children): images inside them
+   draw the light gradient too (Media) and keep it. */
+.band-gradient-run > .bg-accent-gradient-dark,
+.band-gradient-run > .bg-accent-gradient {
   background: none;
 }
 /* The last block's gap after it is the run's own margin instead. */

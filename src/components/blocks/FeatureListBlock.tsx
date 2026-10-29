@@ -34,6 +34,7 @@ type FeatureListBlockProps = BandProps & {
 const TONE_CLASS: Record<BandTone, { label: string; body: string; divide: string; highlight: string }> = {
   none: { label: 'text-foreground', body: 'text-muted-foreground', divide: 'divide-border', highlight: 'bg-accent text-foreground' },
   accent: { label: 'text-foreground', body: 'text-foreground/70', divide: 'divide-foreground/15', highlight: 'bg-foreground text-background' },
+  accentGradient: { label: 'text-foreground', body: 'text-foreground/70', divide: 'divide-foreground/15', highlight: 'bg-foreground text-background' },
   inverse: { label: 'text-background', body: 'text-background/70', divide: 'divide-background/20', highlight: 'bg-accent text-foreground' },
   accentDark: { label: 'text-background', body: 'text-background/70', divide: 'divide-background/20', highlight: 'bg-accent text-foreground' },
 }

@@ -12,9 +12,10 @@ import { SECTION_GAP_MB_CLASS } from '@/components/ui/SectionShell'
 // Left unset, the padding is None without a background (as every block
 // was before these fields) and Medium with one.
 //
-// accentDark: the dark accent gradient, white
-// text like Dark.
-export type BandTone = 'none' | 'inverse' | 'accent' | 'accentDark'
+// accentDark: the dark accent gradient, white text like Dark.
+// accentGradient: the light accent gradient (the heroes'), dark text like
+// Accent.
+export type BandTone = 'none' | 'inverse' | 'accent' | 'accentDark' | 'accentGradient'
 export type BandSpacing = 'loose' | 'medium' | 'tight' | 'none'
 
 export type BandProps = {
@@ -33,6 +34,7 @@ const BAND_BG: Record<Exclude<BandTone, 'none'>, string> = {
   inverse: 'bg-foreground',
   accent: 'bg-accent',
   accentDark: 'bg-accent-gradient-dark',
+  accentGradient: 'bg-accent-gradient',
 }
 
 // SectionShell's pt/pb for the block's content.
@@ -57,25 +59,31 @@ export function bandPanelJoins(blocks: PanelBlock[]): boolean[] {
   })
 }
 
-// Full screen width blocks on the dark accent gradient that run straight
-// on into each other (Section spacing None on the upper one): each would
+// Full screen width blocks on the same accent gradient (dark or light)
+// that run straight on into each other (Section spacing None on the upper
+// one): each would
 // draw its own copy of the gradient, restarting it with a visible line
 // where they meet, so BlockRenderer wraps each run in one shared copy
 // (.band-gradient-run in globals.css, which clears the blocks' own).
 // Card Grid's background setting is called `background`.
 type GradientBlock = PanelBlock & { background?: string }
-const isFullGradient = (block: GradientBlock) => (block.tone ?? block.background) === 'accentDark' && block.width !== 'content'
+const gradientOf = (block: GradientBlock) => {
+  const tone = block.tone ?? block.background
+  return (tone === 'accentDark' || tone === 'accentGradient') && block.width !== 'content' ? tone : undefined
+}
 
-// The runs, as [first, last] indexes into the shown blocks (only runs of
-// two or more).
-export function bandGradientRuns(blocks: GradientBlock[]): [number, number][] {
-  const runs: [number, number][] = []
+// The runs: [first, last] indexes into the shown blocks (only runs of two
+// or more), and the background class the run draws.
+export function bandGradientRuns(blocks: GradientBlock[]): { first: number; last: number; bg: string }[] {
+  const runs: { first: number; last: number; bg: string }[] = []
   let start = -1
   blocks.forEach((block, i) => {
-    if (start < 0 && isFullGradient(block)) start = i
-    const continues = start >= 0 && block.spacing === 'none' && !!blocks[i + 1] && isFullGradient(blocks[i + 1])
+    const tone = gradientOf(block)
+    if (start < 0 && tone) start = i
+    const next = blocks[i + 1]
+    const continues = start >= 0 && block.spacing === 'none' && !!next && gradientOf(next) === gradientOf(blocks[start])
     if (start >= 0 && !continues) {
-      if (i > start) runs.push([start, i])
+      if (i > start) runs.push({ first: start, last: i, bg: BAND_BG[gradientOf(blocks[start])!] })
       start = -1
     }
   })

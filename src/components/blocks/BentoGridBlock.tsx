@@ -35,6 +35,7 @@ const CARD_BORDER_CLASS: Record<BandTone, string> = {
   none: 'border-border',
   inverse: 'border-background/20',
   accent: 'border-foreground/15',
+  accentGradient: 'border-foreground/15',
   accentDark: 'border-background/20',
 }
 

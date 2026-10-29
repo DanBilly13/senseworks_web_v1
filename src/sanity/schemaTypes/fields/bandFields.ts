@@ -5,7 +5,8 @@ import { paddingField } from './spacingField'
 // Bento Grid, Card Grid and Feature Grid (components/ui/BandFill), plus
 // the block's Top/Bottom padding — always shown and always used exactly
 // as set, whatever the background (no automatic rules, see BandFill).
-// withDarkGradient adds the Dark accent gradient.
+// withDarkGradient adds the two accent gradients: Dark (white text) and
+// the light one the heroes use (dark text, like Accent).
 // fieldName: 'tone' unless the block already uses that for something
 // else (Card Grid's card style).
 const PADDING_DESCRIPTION: Record<'top' | 'bottom', string> = {
@@ -26,7 +27,12 @@ export const bandFields = ({ withDarkGradient = false, fieldName = 'tone' } = {}
         { title: 'None (the page background)', value: 'none' },
         { title: 'Dark', value: 'inverse' },
         { title: 'Accent', value: 'accent' },
-        ...(withDarkGradient ? [{ title: 'Dark accent gradient (the accent fading to black)', value: 'accentDark' }] : []),
+        ...(withDarkGradient
+          ? [
+              { title: 'Dark accent gradient (the accent fading to black)', value: 'accentDark' },
+              { title: 'Accent gradient (the accent fading to light grey, as on the heroes)', value: 'accentGradient' },
+            ]
+          : []),
       ],
       layout: 'radio',
     },

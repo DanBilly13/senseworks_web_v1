@@ -36,6 +36,7 @@ const COLORS: Record<BandTone, { track: string; fill: string; onTrack: string; o
   inverse: { track: 'bg-background/10', fill: 'bg-accent', onTrack: 'text-background', onFill: 'text-foreground', dot: 'bg-accent', muted: 'text-background/60' },
   accentDark: { track: 'bg-background/10', fill: 'bg-accent', onTrack: 'text-background', onFill: 'text-foreground', dot: 'bg-accent', muted: 'text-background/60' },
   accent: { track: 'bg-foreground/10', fill: 'bg-foreground', onTrack: 'text-foreground', onFill: 'text-background', dot: 'bg-foreground', muted: 'text-foreground/60' },
+  accentGradient: { track: 'bg-foreground/10', fill: 'bg-foreground', onTrack: 'text-foreground', onFill: 'text-background', dot: 'bg-foreground', muted: 'text-foreground/60' },
 }
 
 // Stats stacked as rows that show their size (an alternative to Stats
@@ -100,7 +101,7 @@ export function StatBarsBlock({ style = 'bars', items = [], source, tone = 'none
                 <div
                   key={index}
                   style={delay}
-                  className={`stat-row grid grid-cols-1 items-center gap-medium border-b py-medium-large ${tone === 'none' || tone === 'accent' ? 'border-foreground/15' : 'border-background/15'}`}
+                  className={`stat-row grid grid-cols-1 items-center gap-medium border-b py-medium-large ${tone === 'none' || tone === 'accent' || tone === 'accentGradient' ? 'border-foreground/15' : 'border-background/15'}`}
                 >
                   <div className="flex flex-col items-start gap-y-xs md:contents">
                     <span className={`font-heading text-stat-sm whitespace-nowrap tabular-nums ${c.onTrack}`}>{item.value}</span>

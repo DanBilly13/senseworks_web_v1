@@ -112,22 +112,22 @@ export function BlockRenderer({ blocks }: { blocks: PageBlock[] }) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- block shape is validated by the Sanity schema, not statically knowable here
     return <Component key={block._key} {...(block as any)} {...joinProps} />
   }
-  // Full width blocks on the dark accent gradient that run on into each
+  // Full width blocks on the same accent gradient that run on into each
   // other share one copy of it, so it doesn't restart between them.
   const runs = bandGradientRuns(shown as Parameters<typeof bandGradientRuns>[0])
   const out = []
   for (let i = 0; i < shown.length; i++) {
-    const run = runs.find(([first]) => first === i)
+    const run = runs.find((r) => r.first === i)
     if (run) {
       // The last block's Section spacing (the gap after it) moves out to
       // here, below the shared gradient instead of inside it.
-      const spacing = ((shown[run[1]] as { spacing?: BandSpacing }).spacing ?? 'loose') as BandSpacing
+      const spacing = ((shown[run.last] as { spacing?: BandSpacing }).spacing ?? 'loose') as BandSpacing
       out.push(
-        <div key={`gradient-${shown[i]._key}`} className={`band-gradient-run bg-accent-gradient-dark ${SECTION_GAP_MB_CLASS[spacing]}`}>
-          {shown.slice(run[0], run[1] + 1).map((block, k) => render(block, run[0] + k))}
+        <div key={`gradient-${shown[i]._key}`} className={`band-gradient-run ${run.bg} ${SECTION_GAP_MB_CLASS[spacing]}`}>
+          {shown.slice(run.first, run.last + 1).map((block, k) => render(block, run.first + k))}
         </div>,
       )
-      i = run[1]
+      i = run.last
     } else {
       out.push(render(shown[i], i))
     }

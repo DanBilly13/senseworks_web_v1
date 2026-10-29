@@ -119,7 +119,7 @@ export function FeatureGridBlock({
                     // accent follows the page theme (see UploadedIcon).
                     <UploadedIcon
                       source={item.iconImage}
-                      surface={dark ? 'dark' : tone === 'accent' ? 'accent' : 'light'}
+                      surface={dark ? 'dark' : tone === 'accent' || tone === 'accentGradient' ? 'accent' : 'light'}
                       className="size-full"
                     />
                   ) : item.icon ? (

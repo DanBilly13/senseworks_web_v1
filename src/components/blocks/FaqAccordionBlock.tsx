@@ -20,6 +20,7 @@ type FaqAccordionBlockProps = BandProps & {
 const TONE_CLASS: Record<BandTone, { question: string; answer: string; divide: string }> = {
   none: { question: 'text-foreground', answer: 'text-muted-foreground', divide: 'divide-border' },
   accent: { question: 'text-foreground', answer: 'text-foreground/70', divide: 'divide-foreground/15' },
+  accentGradient: { question: 'text-foreground', answer: 'text-foreground/70', divide: 'divide-foreground/15' },
   inverse: { question: 'text-background', answer: 'text-background/70', divide: 'divide-background/20' },
   accentDark: { question: 'text-background', answer: 'text-background/70', divide: 'divide-background/20' },
 }
