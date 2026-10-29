@@ -14,6 +14,12 @@ type HeroAllyBlockProps = {
   spacing?: 'loose' | 'medium' | 'tight' | 'none'
 }
 
+// The gaps between eyebrow, headline, subtext and button: half the
+// site's usual (which is half the headline's line height), so the text
+// sits tighter and leaves Ally more of the screen (Dan's call).
+const textGap = (display: boolean) =>
+  `calc(var(--text-${display ? 'display' : 'h1'}--full-line-height) / 4)`
+
 const SECTION_GAP_MB_CLASS: Record<NonNullable<HeroAllyBlockProps['spacing']>, string> = {
   loose: 'mb-section-gap-loose',
   medium: 'mb-section-gap-medium',
@@ -21,11 +27,13 @@ const SECTION_GAP_MB_CLASS: Record<NonNullable<HeroAllyBlockProps['spacing']>, s
   none: 'mb-none',
 }
 
-// Experimental: a hero exactly one screen tall on the accent gradient,
-// with the 3D Ally (components/ally3d) rising from the bottom edge
-// behind the text — big, and cropped hard by the bottom of the hero —
-// her head following the cursor. Her size and crop are .hero-ally in
-// globals.css.
+// Experimental: a hero at least one screen tall on the accent gradient,
+// with the 3D Ally (components/ally3d) rising from the bottom edge below
+// the text — big, and cropped hard by the bottom of the hero — her head
+// following the cursor. She fills whatever height the text leaves, and
+// always gets at least some of it (.hero-ally-stage), so a long headline
+// makes the hero taller rather than running into her. Her size and crop
+// are in globals.css.
 export function HeroAllyBlock({
   eyebrow,
   headline,
@@ -39,14 +47,13 @@ export function HeroAllyBlock({
 }: HeroAllyBlockProps) {
   return (
     <section
-      className={`hero-ally-section relative h-svh overflow-hidden bg-accent-gradient ${SECTION_GAP_MB_CLASS[spacing]}`}
+      className={`hero-ally-section relative flex min-h-svh flex-col overflow-hidden bg-accent-gradient ${SECTION_GAP_MB_CLASS[spacing]}`}
       // Pulled up under the fixed header, like the other heroes (see
       // HeroBackdropBlock), so the gradient runs to the top of the screen.
       style={{ marginTop: 'calc(var(--header-height, 0px) * -1)' }}
     >
-      <Ally3D className="hero-ally pointer-events-none absolute left-1/2 -translate-x-1/2" />
       <div
-        className="relative mx-auto w-full max-w-page px-medium-large md:px-gutter"
+        className="relative mx-auto w-full max-w-page px-medium-large pb-2xl md:px-gutter"
         style={{ paddingTop: 'calc(var(--spacing-section-edge) * 2)' }}
       >
         <SectionIntro
@@ -57,7 +64,12 @@ export function HeroAllyBlock({
           heading={headline}
           body={subhead}
           maxWidth="md"
-          headingMaxWidth="heroHeadline"
+          // The headline runs the full row (no 85% cap like the other
+          // heroes), so it takes fewer lines and leaves Ally more room.
+          headingMaxWidth="none"
+          headingGap={textGap(headlineSize === 'display')}
+          bodyGap={textGap(headlineSize === 'display')}
+          ctaGap={textGap(headlineSize === 'display')}
           cta={
             ctaLabel &&
             ctaHref && (
@@ -70,6 +82,9 @@ export function HeroAllyBlock({
             )
           }
         />
+      </div>
+      <div className="hero-ally-stage relative flex-1">
+        <Ally3D className="hero-ally pointer-events-none absolute top-0 left-1/2 -translate-x-1/2" />
       </div>
     </section>
   )
