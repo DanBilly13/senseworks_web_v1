@@ -14,6 +14,7 @@ import { siteNavigation } from './documents/siteNavigation'
 import { headerBlock } from './blocks/headerBlock'
 import { heroBlock } from './blocks/heroBlock'
 import { heroBackdropBlock } from './blocks/heroBackdropBlock'
+import { heroAllyBlock } from './blocks/heroAllyBlock'
 import { heroImageOverlayCardBlock } from './blocks/heroImageOverlayCardBlock'
 import { heroTextBlock } from './blocks/heroTextBlock'
 import { sectionHeadlineBlock } from './blocks/sectionHeadlineBlock'
@@ -75,6 +76,7 @@ const allTypes = [
   headerBlock,
   heroBlock,
   heroBackdropBlock,
+  heroAllyBlock,
   heroImageOverlayCardBlock,
   heroTextBlock,
   sectionHeadlineBlock,

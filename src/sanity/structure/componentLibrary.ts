@@ -28,6 +28,12 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
       'Flexible full-bleed backdrop (image, color, or gradient) behind text and a separate showcase image/video.',
   },
   {
+    type: 'heroAllyBlock',
+    title: 'Hero — Ally 3D (experimental)',
+    description:
+      'One screen tall on the accent gradient: eyebrow, headline, subtext and button, with the 3D Ally rising from the bottom edge behind them, her head following the cursor.',
+  },
+  {
     type: 'heroImageOverlayCardBlock',
     title: 'Hero — Image Overlay Card (experimental)',
     description:

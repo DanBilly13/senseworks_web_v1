@@ -2,6 +2,7 @@ import { bandPanelJoins } from '@/components/ui/BandFill'
 import { HeaderBlock } from './HeaderBlock'
 import { HeroBlock } from './HeroBlock'
 import { HeroBackdropBlock } from './HeroBackdropBlock'
+import { HeroAllyBlock } from './HeroAllyBlock'
 import { HeroImageOverlayCardBlock } from './HeroImageOverlayCardBlock'
 import { HeroTextBlock } from './HeroTextBlock'
 import { SectionHeadlineBlock } from './SectionHeadlineBlock'
@@ -48,6 +49,7 @@ const BLOCK_COMPONENTS = {
   headerBlock: HeaderBlock,
   heroBlock: HeroBlock,
   heroBackdropBlock: HeroBackdropBlock,
+  heroAllyBlock: HeroAllyBlock,
   heroImageOverlayCardBlock: HeroImageOverlayCardBlock,
   heroTextBlock: HeroTextBlock,
   sectionHeadlineBlock: SectionHeadlineBlock,

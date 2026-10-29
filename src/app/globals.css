@@ -1201,6 +1201,27 @@ p:has(+ .hero-overlay-card-rules),
   }
 }
 
+/* Hero — Ally 3D: never shorter than this, so on a short window the text
+   and Ally don't collide. */
+.hero-ally-section {
+  min-height: 44rem;
+}
+/* The 3D Ally's box (her whole figure, with a little room around it):
+   centred, its top a little past halfway down the hero, and big enough
+   that the hero's bottom edge crops her hard — head and shoulders show.
+   Phones: wider than the screen and a little lower, under the text. */
+.hero-ally {
+  top: 62%;
+  width: 120vw;
+  aspect-ratio: 0.82;
+}
+@media (width >= 48rem) {
+  .hero-ally {
+    top: 56%;
+    width: min(62vw, 120svh);
+  }
+}
+
 /* Stat Bars: each row carries its share (--stat-share) and its place in
    the stagger (--stat-delay). Until the block scrolls into view
    ([data-shown=false]) the bars are empty and the filled dots faint;

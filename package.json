@@ -34,7 +34,8 @@
     "sanity": "^6.18.0",
     "sanity-plugin-internationalized-array": "^5.2.3",
     "sanity-plugin-utils": "^2.0.17",
-    "styled-components": "^6.5.3"
+    "styled-components": "^6.5.3",
+    "three": "0.169.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.62.1",
@@ -45,6 +46,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/three": "0.169.0",
     "@vitejs/plugin-react": "^6.1.1",
     "eslint": "^9",
     "eslint-config-next": "16.3.4",

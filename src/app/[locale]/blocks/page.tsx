@@ -2,6 +2,7 @@ import { getClientLogos } from '@/lib/sanity/clients'
 import { SiteFooter, SiteHeader } from '@/components/layout/SiteNavigation'
 import { HeroBlock } from '@/components/blocks/HeroBlock'
 import { HeroBackdropBlock } from '@/components/blocks/HeroBackdropBlock'
+import { HeroAllyBlock } from '@/components/blocks/HeroAllyBlock'
 import { HeroImageOverlayCardBlock } from '@/components/blocks/HeroImageOverlayCardBlock'
 import { HeroTextBlock } from '@/components/blocks/HeroTextBlock'
 import { SectionHeadlineBlock } from '@/components/blocks/SectionHeadlineBlock'
@@ -315,6 +316,8 @@ export default async function BlocksPage({
         ctaLabel="Lorem ipsum"
         ctaHref="#"
       />
+      <BlockCaption name="Hero — Ally 3D (experimental)" type="heroAllyBlock" />
+      <HeroAllyBlock eyebrow={EYEBROW} headline={HEADING} subhead={BODY} ctaLabel="Lorem ipsum" ctaHref="#" spacing="none" />
       <BlockCaption name="Hero — Text Only" type="heroTextBlock" />
       <HeroTextBlock eyebrow={EYEBROW} headline={HEADING} subhead={BODY} ctaLabel="Lorem ipsum" ctaHref="#" />
       {/* The background options: Light, Dark (accent eyebrow and button), Accent. */}
