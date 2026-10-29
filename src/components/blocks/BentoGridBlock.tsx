@@ -64,7 +64,7 @@ export function BentoGridBlock({
       {/* gap-small/md:gap-large + each card's p-medium-large/md:p-large:
           same 8+24=32px-from-edge mobile rhythm as Card Grid — see its
           own comment for the full reasoning. Desktop unchanged. */}
-      <div className={`grid grid-cols-1 gap-small md:gap-large ${GRID_COLS_CLASS[columns]}`}>
+      <div className={`@container grid grid-cols-1 gap-small md:gap-large ${GRID_COLS_CLASS[columns]}`}>
         {items.map((item, index) => {
           // Large (2 wide, 2 tall) and Tall (1 wide, 2 tall) both span two
           // grid rows, so they sit side by side at full height while the
@@ -100,15 +100,18 @@ export function BentoGridBlock({
                   descriptionClassName="line-clamp-2"
                 />
               </div>
+              {/* 3 columns, from tablet up: every card's image is as tall as
+                  a one-column card's image is wide, so the one-column images
+                  are square and the wide cards' match them in height
+                  (.bento-media-square in globals.css). Phones keep the
+                  fixed heights. */}
               <Media
                 media={item.media}
                 alt={item.heading}
                 className={`mt-medium-large w-full shrink-0 rounded-md ${
                   columns === '2'
                     ? 'aspect-media'
-                    : spansTwoRows
-                      ? 'h-bento-media-lg'
-                      : 'h-bento-media'
+                    : `bento-media-square ${spansTwoRows ? 'h-bento-media-lg' : 'h-bento-media'}`
                 }`}
               />
             </div>

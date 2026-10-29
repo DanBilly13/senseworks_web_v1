@@ -1244,6 +1244,19 @@ p:has(+ .hero-overlay-card-rules),
   }
 }
 
+/* Bento Grid, 3 columns, from tablet up: each card's image is as tall as
+   a one-column card's image is wide — a third of the grid (less its two
+   gaps), less the card's padding and border on both sides — so the
+   one-column images are square and the wide cards' images line up with
+   them. The grid is the size container (@container). Never shorter than
+   the old normal-card height (200px), so on a tablet the images don't
+   shrink to slivers (they're a little wider than square there). */
+@media (width >= 48rem) {
+  .bento-media-square {
+    height: max(var(--height-bento-media), calc((100cqw - 2 * var(--spacing-large)) / 3 - 2 * var(--spacing-large) - 2px));
+  }
+}
+
 /* Stat Bars: each row carries its share (--stat-share) and its place in
    the stagger (--stat-delay). Until the block scrolls into view
    ([data-shown=false]) the bars are empty and the filled dots faint;
