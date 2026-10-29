@@ -29,7 +29,7 @@ export const featureListBlock = defineType({
     defineField({
       name: 'highlightLabels',
       title: 'Highlight titles',
-      description: 'Puts each row’s title on a highlight that wipes in, one row after another, as the list scrolls into view.',
+      description: 'Puts each row’s title on a highlight that wipes in with the scroll, one row after another.',
       type: 'boolean',
       initialValue: false,
     }),

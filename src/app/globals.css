@@ -1196,25 +1196,6 @@ p:has(+ .hero-overlay-card-rules),
   }
 }
 
-/* Feature List's "Highlight titles": each title's highlighted copy is
-   clipped away until the list scrolls into view ([data-shown=false]),
-   then wipes open left to right, one row after another
-   (--highlight-delay). */
-.feature-list .feature-highlight {
-  clip-path: inset(-0.5rem 0 -0.5rem 0);
-  transition: clip-path 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--highlight-delay, 0ms);
-}
-.feature-list[data-shown='false'] .feature-highlight {
-  clip-path: inset(-0.5rem 100% -0.5rem 0);
-}
-@media (prefers-reduced-motion: reduce) {
-  .feature-list .feature-highlight,
-  .feature-list[data-shown='false'] .feature-highlight {
-    clip-path: none;
-    transition: none;
-  }
-}
-
 /* Stat Bars: each row carries its share (--stat-share) and its place in
    the stagger (--stat-delay). Until the block scrolls into view
    ([data-shown=false]) the bars are empty and the filled dots faint;
