@@ -26,6 +26,13 @@ export const featureListBlock = defineType({
       },
       initialValue: 'body',
     }),
+    defineField({
+      name: 'highlightLabels',
+      title: 'Highlight titles',
+      description: 'Puts each row’s title on a highlight that wipes in, one row after another, as the list scrolls into view.',
+      type: 'boolean',
+      initialValue: false,
+    }),
     contentWidthField,
     ...bandFields({ withDarkGradient: true }),
     spacingField,
