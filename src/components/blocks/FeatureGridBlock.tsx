@@ -46,6 +46,10 @@ type IconSize = 'large' | 'small'
 // tone/paddingTop/paddingBottom/spacing: the optional full screen width
 // background, see ui/BandFill.
 type FeatureGridBlockProps = BandProps & {
+  // The background's shape: a page-column panel, or the full screen
+  // width (see BandFill). The content always sits in the page column.
+  // Unset (blocks from before the option): full screen width, as they were.
+  width?: 'content' | 'full'
   columns?: '2' | '3' | '4'
   // Off: no icons at all (on: each item's own icon, or the checkmark).
   showIcons?: boolean
@@ -88,6 +92,7 @@ export function FeatureGridBlock({
   linkStyle = 'below',
   titleSize = 'h4',
   items = [],
+  width,
   tone = 'none',
   ...band
 }: FeatureGridBlockProps) {
@@ -100,7 +105,7 @@ export function FeatureGridBlock({
   const linkColor = dark ? 'text-accent' : 'text-foreground'
 
   return (
-    <BandFill tone={tone} {...band}>
+    <BandFill tone={tone} width={width} {...band}>
       <SectionShell {...bandShellPadding({ tone, ...band })}>
         <div className={`grid grid-cols-1 gap-2xl sm:grid-cols-2 ${LG_COLS_CLASS[columns]}`}>
           {items.map((item, index) => (

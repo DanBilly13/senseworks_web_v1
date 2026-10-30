@@ -445,6 +445,16 @@ export default async function BlocksPage({
           { icon: 'bolt_boost', title: 'Adipiscing elit sed', description: BODY },
         ]}
       />
+      <BlockCaption name="Feature Grid — Accent, Content width" type="featureGridBlock" variant='tone: "accent", width: "content"' />
+      <FeatureGridBlock
+        tone="accent"
+        width="content"
+        items={[
+          { icon: 'lock', title: 'Lorem ipsum dolor', description: BODY },
+          { title: 'Sit amet consectetur', description: BODY },
+          { icon: 'bolt_boost', title: 'Adipiscing elit sed', description: BODY },
+        ]}
+      />
       <BlockCaption
         name="Section Headline + Feature Grid — both Dark accent gradient, set as one band"
         type="sectionHeadlineBlock + featureGridBlock"

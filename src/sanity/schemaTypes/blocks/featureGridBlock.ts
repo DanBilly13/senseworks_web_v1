@@ -4,6 +4,7 @@ import { headingLayoutField } from '../fields/headingLayoutField'
 import { titleSizeField } from '../fields/titleSizeField'
 import { spacingField } from '../fields/spacingField'
 import { bandFields } from '../fields/bandFields'
+import { contentWidthField } from '../fields/contentWidthField'
 import { IconPresetInput, type IconPreset } from '../../components/IconPresetInput'
 
 // Feature Grid's ready-made icons (keep in step with ICON_SRC in
@@ -90,6 +91,7 @@ export const featureGridBlock = defineType({
       initialValue: 'below',
     }),
     titleSizeField(),
+    contentWidthField,
     ...bandFields({ withDarkGradient: true }),
     spacingField,
     defineField({
