@@ -1255,6 +1255,12 @@ p:has(+ .hero-overlay-card-rules),
     --hero-ally-gap-divisor: 4;
   }
 }
+/* Large screens: the text sits a little lower. */
+@media (width >= 80rem) {
+  .hero-ally-text {
+    padding-top: calc(var(--header-height, 0px) + clamp(3rem, 11svh, 8rem));
+  }
+}
 
 /* Bento Grid, 3 columns, from tablet up: each card's image is as tall as
    a one-column card's image is wide — a third of the grid (less its two
