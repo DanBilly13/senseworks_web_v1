@@ -122,7 +122,9 @@ export function FeatureGridBlock({
                       surface={dark ? 'dark' : tone === 'accent' || tone === 'accentGradient' ? 'accent' : 'light'}
                       className="size-full"
                     />
-                  ) : item.icon ? (
+                  ) : item.icon && ICON_SRC[item.icon] ? (
+                    // A name not in ICON_SRC (Studio only warns about one)
+                    // falls through to the checkmark.
                     <Image
                       src={ICON_SRC[item.icon]}
                       alt=""

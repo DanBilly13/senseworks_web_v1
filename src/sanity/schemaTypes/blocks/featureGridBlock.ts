@@ -4,6 +4,19 @@ import { headingLayoutField } from '../fields/headingLayoutField'
 import { titleSizeField } from '../fields/titleSizeField'
 import { spacingField } from '../fields/spacingField'
 import { bandFields } from '../fields/bandFields'
+import { IconPresetInput, type IconPreset } from '../../components/IconPresetInput'
+
+// Feature Grid's ready-made icons (keep in step with ICON_SRC in
+// components/blocks/FeatureGridBlock.tsx).
+const ICON_PRESETS: IconPreset[] = [
+  { title: 'Home / work', value: 'home_work' },
+  { title: 'Event busy', value: 'event_busy' },
+  { title: 'Lock', value: 'lock' },
+  { title: 'Work', value: 'work' },
+  { title: 'Bolt / boost', value: 'bolt_boost' },
+  { title: 'Support agent', value: 'support_agent' },
+  { title: 'Toggle off', value: 'toggle_off' },
+]
 
 // Deliberately no top-level eyebrow/heading/body — same reasoning as
 // Card Grid: pair this with a separate intro block (e.g. Section
@@ -103,17 +116,17 @@ export const featureGridBlock = defineType({
               description:
                 'Optional — a short list of ready-made icons. Ignored if an icon is uploaded above. Leave both empty to keep the default checkmark.',
               type: 'string',
-              options: {
-                list: [
-                  { title: 'Home / work', value: 'home_work' },
-                  { title: 'Event busy', value: 'event_busy' },
-                  { title: 'Lock', value: 'lock' },
-                  { title: 'Work', value: 'work' },
-                  { title: 'Bolt / boost', value: 'bolt_boost' },
-                  { title: 'Support agent', value: 'support_agent' },
-                  { title: 'Toggle off', value: 'toggle_off' },
-                ],
-              },
+              components: { input: IconPresetInput },
+              // Not Sanity's `list` (a hard error for any value not on it):
+              // see IconPresetInput. Anything else just warns, and the site
+              // ignores it.
+              options: { localize: false, presets: ICON_PRESETS } as never,
+              validation: (Rule) =>
+                Rule.custom((value?: string) =>
+                  !value || ICON_PRESETS.some((p) => p.value === value)
+                    ? true
+                    : `"${value}" isn't one of the listed icons, so it's ignored — choose one or None`,
+                ).warning(),
             }),
             defineField({
               name: 'title',
