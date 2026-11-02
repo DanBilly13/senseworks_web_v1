@@ -84,6 +84,24 @@ export const heroBlock = defineType({
       hidden: ({ parent }) => parent?.layout !== 'splitEven',
     }),
     defineField({
+      name: 'tone',
+      title: 'Background',
+      description: 'Behind the text half (and the text on phones). Dark and the dark gradient turn the text white.',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'None (the page background)', value: 'none' },
+          { title: 'Dark', value: 'inverse' },
+          { title: 'Accent', value: 'accent' },
+          { title: 'Dark accent gradient (the accent fading to black)', value: 'accentDark' },
+          { title: 'Accent gradient (the accent fading to light grey, as on the heroes)', value: 'accentGradient' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'none',
+      hidden: ({ parent }) => parent?.layout !== 'splitEven' || parent?.splitImage !== 'half',
+    }),
+    defineField({
       name: 'imageRatio',
       title: 'Image ratio',
       type: 'string',

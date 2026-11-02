@@ -30,7 +30,7 @@ export type BandProps = {
   joinBottom?: boolean
 }
 
-const BAND_BG: Record<Exclude<BandTone, 'none'>, string> = {
+export const BAND_BG: Record<Exclude<BandTone, 'none'>, string> = {
   inverse: 'bg-foreground',
   accent: 'bg-accent',
   accentDark: 'bg-accent-gradient-dark',

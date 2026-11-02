@@ -4,6 +4,7 @@ import { SectionIntro } from '@/components/ui/SectionIntro'
 import { Media } from '@/components/ui/Media'
 import { ScrollRevealStage } from './ScrollRevealStage'
 import type { MediaField } from '@/lib/sanity/media'
+import { BAND_BG, type BandTone } from '@/components/ui/BandFill'
 
 type HeroBlockProps = {
   layout?: 'split' | 'splitEven' | 'imageOverlay' | 'scrollReveal'
@@ -25,6 +26,8 @@ type HeroBlockProps = {
   // 50/50 only: the image beside the text in the page column, or
   // filling the screen's right half (see HeroSplitHalf). Unset: column.
   splitImage?: 'column' | 'half'
+  // 50/50 on half the screen only: the background behind the text.
+  tone?: BandTone
   // 'display' draws the headline one step above the standard h1.
   headlineSize?: 'h1' | 'display'
   // The headline types itself out on load (ui/TypingText).
@@ -151,10 +154,25 @@ function HeroSplitEven({
 // and top to bottom, at least 80% of the screen tall (more if the text
 // needs it). The text keeps to the page column's left edge, however
 // wide the screen. Phones: the text, then the image full width at 7:5.
-function HeroSplitHalf({ eyebrow, headline, subhead, ctaLabel, ctaHref, media, headlineSize, typingHeadline }: HeroVariantProps) {
+function HeroSplitHalf({
+  eyebrow,
+  headline,
+  subhead,
+  ctaLabel,
+  ctaHref,
+  media,
+  headlineSize,
+  typingHeadline,
+  tone = 'none',
+}: HeroVariantProps) {
+  const dark = tone === 'inverse' || tone === 'accentDark'
   return (
     <section className="hero-split-half mb-section-edge grid w-full grid-cols-1 md:grid-cols-2">
-      <div className="hero-split-half-text flex flex-col justify-center px-large py-section-edge md:pr-2xl">
+      {/* The background sits behind the text half only, so a gradient
+          shows whole rather than half hidden under the image. */}
+      <div
+        className={`hero-split-half-text flex flex-col justify-center px-large py-section-edge md:pr-2xl ${tone !== 'none' ? BAND_BG[tone] : ''}`}
+      >
         <SectionIntro
           as="h1"
           display={headlineSize === 'display'}
@@ -163,7 +181,9 @@ function HeroSplitHalf({ eyebrow, headline, subhead, ctaLabel, ctaHref, media, h
           heading={headline}
           body={subhead}
           maxWidth="md"
-          cta={ctaLabel && ctaHref && <Button href={ctaHref}>{ctaLabel}</Button>}
+          tone={dark ? 'inverse' : 'default'}
+          typingCursorClassName={dark ? 'text-accent' : undefined}
+          cta={ctaLabel && ctaHref && <Button href={ctaHref} variant={dark ? 'filled-accent' : 'filled-dark'}>{ctaLabel}</Button>}
         />
       </div>
       {/* The wrapper owns the sizing (Media's own root is relative). */}
