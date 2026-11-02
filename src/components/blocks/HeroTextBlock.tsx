@@ -22,6 +22,8 @@ type HeroTextBlockProps = {
   spaceBelow?: 'medium' | 'tight'
   // A full-width background in CTA Banner's colours; none by default.
   tone?: 'none' | 'default' | 'inverse' | 'accent'
+  // On Dark: the headline in the accent instead of white.
+  headlineColor?: 'default' | 'accent'
 }
 
 const SECTION_BG: Record<NonNullable<HeroTextBlockProps['tone']>, string> = {
@@ -42,15 +44,19 @@ export function HeroTextBlock({
   typingHeadline = false,
   spaceBelow,
   tone = 'none',
+  headlineColor,
 }: HeroTextBlockProps) {
   const dark = tone === 'inverse'
+  const accentHeadline = dark && headlineColor === 'accent'
   return (
     <SectionShell
       py={boundary ? 'section-edge' : 'loose'}
       // With a background, the space below sits inside the coloured band.
       pad={boundary || tone !== 'none' ? 'both' : 'bottom'}
       pb={spaceBelow}
-      sectionClassName={SECTION_BG[tone]}
+      // ...and the gap to the next block sits outside it, or that block
+      // starts flush against the colour.
+      sectionClassName={tone !== 'none' ? `${SECTION_BG[tone]} mb-section-edge` : undefined}
     >
       <SectionIntro
         as="h1"
@@ -60,6 +66,8 @@ export function HeroTextBlock({
         // On dark: light text, with the eyebrow and button in the accent.
         tone={dark ? 'inverse' : 'default'}
         eyebrowColor={dark ? 'text-accent' : undefined}
+        headingColor={accentHeadline ? 'text-accent' : undefined}
+        subtitleColor={accentHeadline ? 'text-background' : undefined}
         eyebrow={eyebrow}
         heading={headline}
         body={subhead}

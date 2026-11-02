@@ -20,6 +20,7 @@ import { heroImageOverlayCardBlock } from './blocks/heroImageOverlayCardBlock'
 import { heroTextBlock } from './blocks/heroTextBlock'
 import { sectionHeadlineBlock } from './blocks/sectionHeadlineBlock'
 import { faqAccordionBlock } from './blocks/faqAccordionBlock'
+import { contactRowsBlock } from './blocks/contactRowsBlock'
 import { featureSplitBlock } from './blocks/featureSplitBlock'
 import { featureSplitDarkBlock } from './blocks/featureSplitDarkBlock'
 import { fiftyFiftyBannerBlock } from './blocks/fiftyFiftyBannerBlock'
@@ -83,6 +84,7 @@ const allTypes = [
   heroTextBlock,
   sectionHeadlineBlock,
   faqAccordionBlock,
+  contactRowsBlock,
   featureSplitBlock,
   featureSplitDarkBlock,
   fiftyFiftyBannerBlock,

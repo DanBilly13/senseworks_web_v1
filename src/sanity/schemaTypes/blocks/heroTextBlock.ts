@@ -54,6 +54,22 @@ export const heroTextBlock = defineType({
       },
       initialValue: 'none',
     }),
+    defineField({
+      name: 'headlineColor',
+      title: 'Headline color',
+      description: 'Dark background only.',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'White', value: 'default' },
+          { title: 'Accent', value: 'accent' },
+        ],
+        layout: 'radio',
+        direction: 'horizontal',
+      },
+      initialValue: 'default',
+      hidden: ({ parent }) => parent?.tone !== 'inverse',
+    }),
     // Optional, and empty by default, so every existing hero keeps its
     // page-boundary space. Tight when a list sits right underneath
     // (the Blog, Knowledge Bank and Customer stories pages).

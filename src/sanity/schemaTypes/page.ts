@@ -102,6 +102,7 @@ export const page = defineType({
         defineArrayMember({ type: 'cardGridBlock' }),
         defineArrayMember({ type: 'caseStudyGridBlock' }),
         defineArrayMember({ type: 'comparisonTableBlock' }),
+        defineArrayMember({ type: 'contactRowsBlock' }),
         defineArrayMember({ type: 'customerStoriesListBlock' }),
         defineArrayMember({ type: 'ctaBannerBlock' }),
         defineArrayMember({ type: 'darkBannerBlock' }),

@@ -36,6 +36,7 @@ import { KnowledgeBankBlock } from './KnowledgeBankBlock'
 import { CustomerStoriesListBlock } from './CustomerStoriesListBlock'
 import { HorizontalScrollStackMediumBlock } from './HorizontalScrollStackMediumBlock'
 import { FaqAccordionBlock } from './FaqAccordionBlock'
+import { ContactRowsBlock } from './ContactRowsBlock'
 import { FooterBlock } from './FooterBlock'
 import { ComparisonTableBlock } from './ComparisonTableBlock'
 import { CaseStudyGridBlock } from './CaseStudyGridBlock'
@@ -84,6 +85,7 @@ const BLOCK_COMPONENTS = {
   customerStoriesListBlock: CustomerStoriesListBlock,
   horizontalScrollStackMediumBlock: HorizontalScrollStackMediumBlock,
   faqAccordionBlock: FaqAccordionBlock,
+  contactRowsBlock: ContactRowsBlock,
   comparisonTableBlock: ComparisonTableBlock,
   caseStudyGridBlock: CaseStudyGridBlock,
   ctaBannerBlock: CtaBannerBlock,

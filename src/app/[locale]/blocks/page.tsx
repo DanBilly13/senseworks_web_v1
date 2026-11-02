@@ -8,6 +8,7 @@ import { HeroImageOverlayCardBlock } from '@/components/blocks/HeroImageOverlayC
 import { HeroTextBlock } from '@/components/blocks/HeroTextBlock'
 import { SectionHeadlineBlock } from '@/components/blocks/SectionHeadlineBlock'
 import { BlockRenderer } from '@/components/blocks/BlockRenderer'
+import { ContactRowsBlock } from '@/components/blocks/ContactRowsBlock'
 import { FeatureSplitBlock } from '@/components/blocks/FeatureSplitBlock'
 import { FeatureSplitDarkBlock } from '@/components/blocks/FeatureSplitDarkBlock'
 import { FiftyFiftyBannerBlock } from '@/components/blocks/FiftyFiftyBannerBlock'
@@ -396,6 +397,24 @@ export default async function BlocksPage({
       <HeroTextBlock eyebrow={EYEBROW} headline={HEADING} subhead={BODY} ctaLabel="Lorem ipsum" ctaHref="#" boundary={false} tone="default" />
       <HeroTextBlock eyebrow={EYEBROW} headline={HEADING} subhead={BODY} ctaLabel="Lorem ipsum" ctaHref="#" boundary={false} tone="inverse" />
       <HeroTextBlock eyebrow={EYEBROW} headline={HEADING} subhead={BODY} ctaLabel="Lorem ipsum" ctaHref="#" boundary={false} tone="accent" />
+      <BlockCaption name="Hero — Text Only, Dark, accent headline" type="heroTextBlock" variant='tone: "inverse", headlineColor: "accent"' />
+      <HeroTextBlock eyebrow={EYEBROW} headline="Lorem ipsum" headlineSize="display" subhead={BODY} ctaLabel="Lorem ipsum" ctaHref="#" boundary={false} tone="inverse" headlineColor="accent" />
+      <BlockCaption name="Contact Rows" type="contactRowsBlock" />
+      <ContactRowsBlock
+        eyebrow="Lorem ipsum"
+        rows={[
+          {
+            title: 'Lorem',
+            details: [
+              { label: 'Email', value: 'lorem@example.com', href: 'mailto:lorem@example.com' },
+              { label: 'Address', value: 'Lorem ipsum AB\nDolor 2\n123 45 Sit' },
+            ],
+            sideTitle: 'Lorem ipsum',
+            sideText: 'Dolor sit amet\nConsectetur',
+          },
+          { title: 'Ipsum dolor', details: [{ label: 'Phone', value: '+46 00 000 00 00', href: 'tel:+46000000000' }] },
+        ]}
+      />
       <BlockCaption name="Hero — Text, Typing effect (display, dark)" type="heroTextBlock" variant='typingHeadline: true, headlineSize: "display", tone: "inverse"' />
       <HeroTextBlock
         eyebrow={EYEBROW}

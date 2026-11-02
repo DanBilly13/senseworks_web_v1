@@ -225,6 +225,11 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
     description: 'Expandable question and answer list across the content (or full screen) width, with background options. No heading of its own: put a Section Headline above it.',
   },
   {
+    type: 'contactRowsBlock',
+    title: 'Contact Rows',
+    description: 'Ruled rows of contact details: a big title on the left (a city, or what you\'re getting in touch about), labelled details in large type in the middle (email, phone, address, as links), a person to ask on the right. For the Contact page.',
+  },
+  {
     type: 'comparisonTableBlock',
     title: 'Comparison Table',
     description: 'Feature comparison table across columns, e.g. plans or competitors. No intro of its own; add a Section Headline above it.',
