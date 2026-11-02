@@ -36,6 +36,9 @@ type HeroBlockProps = {
   headlineSize?: 'h1' | 'display'
   // The headline types itself out on load (ui/TypingText).
   typingHeadline?: boolean
+  // Full-bleed image overlay only: the headline in the accent (the
+  // eyebrow-to-button rest stays white).
+  headlineColor?: 'default' | 'accent'
 }
 
 export function HeroBlock({ layout = 'split', ...props }: HeroBlockProps) {
@@ -216,7 +219,9 @@ function HeroImageOverlay({
   media,
   headlineSize,
   typingHeadline,
+  headlineColor,
 }: HeroVariantProps) {
+  const overlayGap = `calc(var(--text-${headlineSize === 'display' ? 'display' : 'h1'}--full-line-height) / 4)`
   return (
     <section
       className="relative mb-section-edge min-h-screen"
@@ -244,7 +249,7 @@ function HeroImageOverlay({
           legible over whatever the eventual image is, regardless of
           where the text sits — it's vertically centered here, not
           pinned to one edge. */}
-      <div className="absolute inset-0 bg-foreground/55" aria-hidden="true" />
+      <div className="absolute inset-0 bg-foreground/85" aria-hidden="true" />
       <div className="relative mx-auto flex min-h-screen w-full max-w-page flex-col justify-center px-medium-large md:px-gutter py-section-edge">
         <SectionIntro
           as="h1"
@@ -255,7 +260,15 @@ function HeroImageOverlay({
           maxWidth="md"
           headingMaxWidth="heroHeadline"
           tone="inverse"
+          headingColor={headlineColor === 'accent' ? 'text-accent' : undefined}
+          subtitleColor={headlineColor === 'accent' ? 'text-background' : undefined}
           typingCursorClassName="text-accent"
+          // Half the usual eyebrow/headline/body/button gaps (a quarter
+          // of the headline's line-height instead of half), at Dan's
+          // request, so the text reads as one tight block over the image.
+          headingGap={overlayGap}
+          bodyGap={overlayGap}
+          ctaGap={overlayGap}
           cta={
             ctaLabel &&
             ctaHref && (

@@ -42,6 +42,9 @@ type SectionIntroProps = {
   // The same for the heading (and an h1/h2's subtitle, which matches
   // it) — e.g. Scroll Zoom's accent headline on dark.
   headingColor?: string
+  // Overrides the subtitle's color only (it otherwise follows the
+  // heading's), e.g. an accent headline over a white subtitle.
+  subtitleColor?: string
   // Opt-in: the heading drawn at the display size, the biggest on the
   // site, whatever its level (the "Headline size" field on Heroes and
   // Section Headline).
@@ -137,6 +140,7 @@ export function SectionIntro({
   tone = 'default',
   eyebrowColor,
   headingColor: headingColorOverride,
+  subtitleColor,
   display = false,
   headingClassName,
   bodyClassName,
@@ -225,7 +229,7 @@ export function SectionIntro({
             // reverts to normal at desktop. h1/h2's subtitle treatment
             // is already font-medium unconditionally, unaffected.
             isSubtitle ? 'text-h5 font-medium' : 'text-body-lg font-medium md:font-normal',
-            isSubtitle ? headingColor : bodyColor,
+            isSubtitle ? (subtitleColor ?? headingColor) : bodyColor,
             // Subtitle width is its own fixed rule (85% of the row,
             // desktop only — mobile has no spare width to give up),
             // not whatever maxWidth the caller passed for the eyebrow.

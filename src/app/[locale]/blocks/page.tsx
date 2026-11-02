@@ -205,6 +205,16 @@ export default async function BlocksPage({
         ctaLabel="Lorem ipsum"
         ctaHref="#"
       />
+      <BlockCaption name="Hero — Image Overlay, accent headline" type="heroBlock" variant='layout: "imageOverlay", headlineColor: "accent"' />
+      <HeroBlock
+        layout="imageOverlay"
+        headlineColor="accent"
+        eyebrow={EYEBROW}
+        headline={HEADING}
+        subhead={BODY}
+        ctaLabel="Lorem ipsum"
+        ctaHref="#"
+      />
       <BlockCaption
         name="Hero — Image Overlay Card (experimental, dark 50%)"
         type="heroImageOverlayCardBlock"

@@ -40,6 +40,20 @@ export const heroBlock = defineType({
     headlineSizeField(),
     typingHeadlineField(),
     defineField({
+      name: 'headlineColor',
+      title: 'Headline color',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'White', value: 'default' },
+          { title: 'Accent', value: 'accent' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'default',
+      hidden: ({ parent }) => parent?.layout !== 'imageOverlay',
+    }),
+    defineField({
       name: 'subhead',
       type: 'text',
       rows: 2,
