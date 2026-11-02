@@ -9,7 +9,7 @@ type ContactRowsBlockProps = {
   spacing?: 'loose' | 'medium' | 'tight' | 'none'
 }
 
-// Ruled rows of contact details: each row's title big on the left,
+// Ruled rows of contact details: each row's title (H4 style) on the left,
 // its labelled details in the middle (the value in large type, a link
 // when it has one), an optional person to ask on the right. Phones
 // stack it: title, details, side.
@@ -24,7 +24,7 @@ export function ContactRowsBlock({ eyebrow, rows, spacing }: ContactRowsBlockPro
             key={row._key ?? i}
             className="grid grid-cols-1 gap-large border-t border-foreground pt-large md:grid-cols-12 md:gap-xl"
           >
-            <h2 className="text-h2 font-bold md:col-span-4">{row.title}</h2>
+            <h2 className="text-h4 font-bold md:col-span-4">{row.title}</h2>
             <dl className="flex flex-col gap-large md:col-span-5">
               {row.details?.map((d, k) => (
                 <div key={d._key ?? k} className="flex flex-col gap-xs">
