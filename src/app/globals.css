@@ -1274,6 +1274,13 @@ p:has(+ .hero-overlay-card-rules),
   }
 }
 
+/* Hero — Scroll Zoom: two and a half screens of scroll, so the pinned
+   screen (one of them) has a screen and a half to fade the text and
+   grow the media before it lets go. */
+.hero-scroll-zoom {
+  height: 250svh;
+}
+
 /* Bento Grid, 3 columns, from tablet up: each card's image is as tall as
    a one-column card's image is wide — a third of the grid (less its two
    gaps), less the card's padding and border on both sides — so the

@@ -34,6 +34,12 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
       'One screen tall on the accent gradient: eyebrow, headline, subtext and button, with the 3D Ally rising from the bottom edge behind them, her head following the cursor.',
   },
   {
+    type: 'heroScrollZoomBlock',
+    title: 'Hero — Scroll Zoom (experimental)',
+    description:
+      'A dark screen, the headline in the accent over a small faded image/video. Scrolling fades the text out while the media grows to fill the screen, then the page scrolls on.',
+  },
+  {
     type: 'heroImageOverlayCardBlock',
     title: 'Hero — Image Overlay Card (experimental)',
     description:

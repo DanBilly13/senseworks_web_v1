@@ -39,6 +39,9 @@ type SectionIntroProps = {
   // kicker on top of an otherwise default/inverse tone, without
   // changing every other inverse-tone eyebrow sitewide.
   eyebrowColor?: string
+  // The same for the heading (and an h1/h2's subtitle, which matches
+  // it) — e.g. Scroll Zoom's accent headline on dark.
+  headingColor?: string
   // Opt-in: the heading drawn at the display size, the biggest on the
   // site, whatever its level (the "Headline size" field on Heroes and
   // Section Headline).
@@ -133,6 +136,7 @@ export function SectionIntro({
   bodyMaxWidth,
   tone = 'default',
   eyebrowColor,
+  headingColor: headingColorOverride,
   display = false,
   headingClassName,
   bodyClassName,
@@ -150,7 +154,7 @@ export function SectionIntro({
   // On a dark background the eyebrow is the accent color (Dan: every
   // dark block, not case by case).
   const resolvedEyebrowColor = eyebrowColor ?? (tone === 'inverse' ? 'text-accent' : 'text-muted-foreground')
-  const headingColor = tone === 'inverse' ? 'text-background' : 'text-foreground'
+  const headingColor = headingColorOverride ?? (tone === 'inverse' ? 'text-background' : 'text-foreground')
   const bodyColor = tone === 'inverse' ? 'text-background/80' : 'text-muted-foreground'
   // h1/h2's body reads as a subtitle, not muted body copy — full
   // strength (same color as the heading itself), not the faded

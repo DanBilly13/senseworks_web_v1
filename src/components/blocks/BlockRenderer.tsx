@@ -4,6 +4,7 @@ import { HeaderBlock } from './HeaderBlock'
 import { HeroBlock } from './HeroBlock'
 import { HeroBackdropBlock } from './HeroBackdropBlock'
 import { HeroAllyBlock } from './HeroAllyBlock'
+import { HeroScrollZoomBlock } from './HeroScrollZoomBlock'
 import { HeroImageOverlayCardBlock } from './HeroImageOverlayCardBlock'
 import { HeroTextBlock } from './HeroTextBlock'
 import { SectionHeadlineBlock } from './SectionHeadlineBlock'
@@ -51,6 +52,7 @@ const BLOCK_COMPONENTS = {
   heroBlock: HeroBlock,
   heroBackdropBlock: HeroBackdropBlock,
   heroAllyBlock: HeroAllyBlock,
+  heroScrollZoomBlock: HeroScrollZoomBlock,
   heroImageOverlayCardBlock: HeroImageOverlayCardBlock,
   heroTextBlock: HeroTextBlock,
   sectionHeadlineBlock: SectionHeadlineBlock,

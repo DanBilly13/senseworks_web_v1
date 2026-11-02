@@ -15,6 +15,7 @@ import { headerBlock } from './blocks/headerBlock'
 import { heroBlock } from './blocks/heroBlock'
 import { heroBackdropBlock } from './blocks/heroBackdropBlock'
 import { heroAllyBlock } from './blocks/heroAllyBlock'
+import { heroScrollZoomBlock } from './blocks/heroScrollZoomBlock'
 import { heroImageOverlayCardBlock } from './blocks/heroImageOverlayCardBlock'
 import { heroTextBlock } from './blocks/heroTextBlock'
 import { sectionHeadlineBlock } from './blocks/sectionHeadlineBlock'
@@ -77,6 +78,7 @@ const allTypes = [
   heroBlock,
   heroBackdropBlock,
   heroAllyBlock,
+  heroScrollZoomBlock,
   heroImageOverlayCardBlock,
   heroTextBlock,
   sectionHeadlineBlock,
