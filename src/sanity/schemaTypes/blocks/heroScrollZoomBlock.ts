@@ -2,9 +2,10 @@ import { defineType, defineField } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
 import { headlineSizeField } from '../fields/headlineSizeField'
 
-// Experimental Hero: a dark screen, the headline in the accent over a
-// small faded image/video. Scrolling fades the text away while the
-// media grows to fill the screen; then the page scrolls on as normal.
+// Experimental Hero: a dark or accent screen — the headline top left,
+// the body and button bottom right, the Senseworks mark bottom left —
+// under a small image/video. Scrolling grows the media over the text to
+// the content width; then the page scrolls on as normal.
 export const heroScrollZoomBlock = defineType({
   name: 'heroScrollZoomBlock',
   title: 'Hero — Scroll Zoom (experimental)',
@@ -31,8 +32,21 @@ export const heroScrollZoomBlock = defineType({
     defineField({
       name: 'media',
       title: 'Media',
-      description: 'The image or video that starts small and faded behind the text and grows to fill the screen.',
+      description: 'The image or video that starts small over the text and grows to cover it, at the content width.',
       type: 'media',
+    }),
+    defineField({
+      name: 'tone',
+      title: 'Background',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Dark (accent headline, white text)', value: 'inverse' },
+          { title: 'Accent (dark text)', value: 'accent' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'inverse',
     }),
   ],
   preview: {

@@ -18,6 +18,7 @@ export const heroBlock = defineType({
           { title: 'Side-by-side (headline left, subtext right)', value: 'split' },
           { title: '50/50 split (text left, image right)', value: 'splitEven' },
           { title: 'Full-bleed image, text overlay bottom-left', value: 'imageOverlay' },
+          { title: 'Overlap — big headline over an image running off the right edge', value: 'overlap' },
           {
             title: 'Scroll reveal — yellow block over fixed image/video (experimental)',
             value: 'scrollReveal',
@@ -126,7 +127,7 @@ export const heroBlock = defineType({
     defineField({
       name: 'tone',
       title: 'Background',
-      description: 'Behind the text half (and the text on phones). Dark and the dark gradient turn the text white.',
+      description: 'Behind the text half (and the text on phones) — on Overlap, behind the whole hero. Dark and the dark gradient turn the text white.',
       type: 'string',
       options: {
         list: [
@@ -139,7 +140,7 @@ export const heroBlock = defineType({
         layout: 'radio',
       },
       initialValue: 'none',
-      hidden: ({ parent }) => parent?.layout !== 'splitEven' || parent?.splitImage !== 'half',
+      hidden: ({ parent }) => parent?.layout !== 'overlap' && (parent?.layout !== 'splitEven' || parent?.splitImage !== 'half'),
     }),
     defineField({
       name: 'imageRatio',
@@ -181,6 +182,8 @@ export const heroBlock = defineType({
       subtitle:
         layout === 'imageOverlay'
           ? 'Full-bleed image overlay'
+          : layout === 'overlap'
+            ? 'Overlap'
           : layout === 'scrollReveal'
             ? 'Scroll reveal, yellow over fixed media'
             : layout === 'splitEven'

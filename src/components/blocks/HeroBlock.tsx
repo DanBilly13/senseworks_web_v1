@@ -7,7 +7,7 @@ import type { MediaField } from '@/lib/sanity/media'
 import { BAND_BG, type BandTone } from '@/components/ui/BandFill'
 
 type HeroBlockProps = {
-  layout?: 'split' | 'splitEven' | 'imageOverlay' | 'scrollReveal'
+  layout?: 'split' | 'splitEven' | 'imageOverlay' | 'overlap' | 'scrollReveal'
   eyebrow?: string
   headline: string
   subhead?: string
@@ -44,6 +44,7 @@ type HeroBlockProps = {
 export function HeroBlock({ layout = 'split', ...props }: HeroBlockProps) {
   if (layout === 'scrollReveal') return <HeroScrollReveal {...props} />
   if (layout === 'imageOverlay') return <HeroImageOverlay {...props} />
+  if (layout === 'overlap') return <HeroOverlap {...props} />
   if (layout === 'splitEven') return props.splitImage === 'half' ? <HeroSplitHalf {...props} /> : <HeroSplitEven {...props} />
   return <HeroSplit {...props} />
 }
@@ -204,6 +205,76 @@ function HeroSplitHalf({
           {stack === 'stacked' && (
             <Media media={secondMedia ?? media} alt={headline} ariaHidden className="hidden min-h-0 w-full flex-1 md:block" />
           )}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// The Senseworks mark as a mask, so it takes the text colour.
+const BRANDMARK_MASK = {
+  aspectRatio: '61 / 18',
+  maskImage: 'url(/senseworks-brandmark-pos.svg)',
+  maskSize: 'contain',
+  maskRepeat: 'no-repeat',
+  WebkitMaskImage: 'url(/senseworks-brandmark-pos.svg)',
+  WebkitMaskSize: 'contain',
+  WebkitMaskRepeat: 'no-repeat',
+}
+
+// A big headline across the top, its last line running over the top
+// of an image that fills the right of the page column and runs off
+// the screen's right edge (.hero-overlap-media, globals.css); the body
+// and button down the left under the headline, the Senseworks mark at
+// the bottom left. Phones stack it: headline, body, button, image.
+function HeroOverlap({
+  eyebrow,
+  headline,
+  subhead,
+  ctaLabel,
+  ctaHref,
+  media,
+  headlineSize,
+  typingHeadline,
+  tone = 'none',
+}: HeroVariantProps) {
+  const dark = tone === 'inverse' || tone === 'accentDark'
+  // How far the image reaches up under the headline: half its line.
+  const overlap = `calc(var(--text-${headlineSize === 'display' ? 'display' : 'h1'}--full-line-height) * 0.5)`
+  return (
+    <section
+      className={`hero-overlap mb-section-edge w-full overflow-hidden py-section-edge ${tone !== 'none' ? BAND_BG[tone] : ''}`}
+      style={{ '--hero-overlap': overlap } as React.CSSProperties}
+    >
+      <div className="relative z-10 mx-auto w-full max-w-page px-large md:px-gutter">
+        <SectionIntro
+          as="h1"
+          display={headlineSize === 'display'}
+          typing={typingHeadline}
+          eyebrow={eyebrow}
+          heading={headline}
+          maxWidth="none"
+          headingMaxWidth="none"
+          tone={dark ? 'inverse' : 'default'}
+          typingCursorClassName={dark ? 'text-accent' : undefined}
+        />
+      </div>
+      <div className="hero-overlap-row mx-auto mt-2xl grid w-full max-w-page grid-cols-1 gap-2xl px-large md:grid-cols-2 md:gap-xl md:px-gutter xl:grid-cols-3">
+        <div className="hero-overlap-text flex flex-col items-start justify-between gap-2xl">
+          <div className="flex flex-col items-start gap-medium-large">
+            {subhead && (
+              <p className={`text-h3 font-bold text-pretty whitespace-pre-line ${dark ? 'text-background' : 'text-foreground'}`}>{subhead}</p>
+            )}
+            {ctaLabel && ctaHref && (
+              <Button href={ctaHref} variant={dark ? 'filled-accent' : 'filled-dark'}>
+                {ctaLabel}
+              </Button>
+            )}
+          </div>
+          <div aria-hidden="true" className={`hidden h-xl md:block ${dark ? 'bg-background' : 'bg-foreground'}`} style={BRANDMARK_MASK} />
+        </div>
+        <div className="hero-overlap-media relative aspect-media xl:col-span-2">
+          <Media media={media} alt={headline} className="size-full" />
         </div>
       </div>
     </section>

@@ -196,6 +196,18 @@ export default async function BlocksPage({
         ctaLabel="Lorem ipsum"
         ctaHref="#"
       />
+      <BlockCaption name="Hero — Overlap, Accent" type="heroBlock" variant='layout: "overlap", tone: "accent"' />
+      <HeroBlock
+        layout="overlap"
+        tone="accent"
+        headlineSize="display"
+        headline={'Lorem ipsum\nDolor sit amet'}
+        subhead={BODY}
+        ctaLabel="Lorem ipsum"
+        ctaHref="#"
+      />
+      <BlockCaption name="Hero — Overlap, Dark" type="heroBlock" variant='layout: "overlap", tone: "inverse"' />
+      <HeroBlock layout="overlap" tone="inverse" headlineSize="display" headline={'Lorem ipsum\nDolor sit amet'} subhead={BODY} ctaLabel="Lorem ipsum" ctaHref="#" />
       <BlockCaption name="Hero — Image Overlay" type="heroBlock" variant='layout: "imageOverlay"' />
       <HeroBlock
         layout="imageOverlay"
@@ -362,7 +374,9 @@ export default async function BlocksPage({
         ctaHref="#"
       />
       <BlockCaption name="Hero — Scroll Zoom (experimental)" type="heroScrollZoomBlock" />
-      <HeroScrollZoomBlock headline={HEADING} subhead={BODY} ctaLabel="Lorem ipsum" ctaHref="#" />
+      {/* Real-length copy: the text has to fit inside the media's 7:4 frame. */}
+      <HeroScrollZoomBlock headline={'Lorem ipsum\nDolor sit'} subhead={'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed.\nUt enim ad minim veniam, quis nostrud exercitation ullamco.'} ctaLabel="Lorem ipsum" ctaHref="#" />
+      <HeroScrollZoomBlock headline={'Lorem ipsum\nDolor sit'} subhead={'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed.\nUt enim ad minim veniam, quis nostrud exercitation ullamco.'} ctaLabel="Lorem ipsum" ctaHref="#" tone="accent" />
       <BlockCaption name="Hero — Ally 3D (experimental)" type="heroAllyBlock" />
       <HeroAllyBlock eyebrow={EYEBROW} headline={HEADING} subhead={BODY} ctaLabel="Lorem ipsum" ctaHref="#" spacing="none" />
       <BlockCaption name="Hero — Text Only" type="heroTextBlock" />

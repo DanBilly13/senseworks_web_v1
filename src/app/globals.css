@@ -1274,16 +1274,46 @@ p:has(+ .hero-overlay-card-rules),
   }
 }
 
+/* Hero — Overlap: from tablet up, the image row pulls up under the
+   headline's last line (--hero-overlap, set by HeroOverlap) while the
+   text beside it stays below the headline, and the image runs past the
+   page column's gutter to the screen's right edge. */
+@media (width >= 48rem) {
+  .hero-overlap {
+    min-height: 80svh;
+  }
+  .hero-overlap-row {
+    margin-top: calc(var(--hero-overlap) * -1);
+  }
+  .hero-overlap-text {
+    padding-top: calc(var(--hero-overlap) + var(--spacing-2xl));
+  }
+  .hero-overlap-media {
+    margin-right: calc((max((100vw - var(--container-page)) / 2, 0px) + var(--page-gutter)) * -1);
+  }
+}
+
 /* Hero — Scroll Zoom: two and a half screens of scroll, so the pinned
    screen (one of them) has a screen and a half to fade the text and
    grow the media before it lets go. */
 .hero-scroll-zoom {
   height: 250svh;
 }
-/* Its media at full size: the content width, unless the screen is too
-   short for 7:4 at that width — then as wide as the screen's height allows. */
-.hero-scroll-zoom-media {
-  width: min(100%, calc(100svh * 7 / 4));
+/* Its media's full size, and the box its text sits in: the content
+   width at 7:4, unless the screen is too short for that between the
+   header and the bottom edge — then as wide as that height allows.
+   Below 1280px wide: the whole content column, top to bottom — 7:4
+   there is too short to hold the headline, body and button. */
+.hero-scroll-zoom-frame {
+  width: 100%;
+  height: 100%;
+}
+@media (width >= 80rem) {
+  .hero-scroll-zoom-frame {
+    height: auto;
+    aspect-ratio: 7 / 4;
+    width: min(100%, calc((100svh - 2 * var(--header-height, 0px)) * 7 / 4));
+  }
 }
 
 /* Bento Grid, 3 columns, from tablet up: each card's image is as tall as
