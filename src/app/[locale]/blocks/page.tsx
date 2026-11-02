@@ -153,6 +153,17 @@ export default async function BlocksPage({
         ctaLabel="Lorem ipsum"
         ctaHref="#"
       />
+      <BlockCaption name="Hero — Side-by-side, full screen width image, 7:4" type="heroBlock" variant='layout: "split", imageWidth: "full", imageRatio: "7:4"' />
+      <HeroBlock
+        layout="split"
+        imageWidth="full"
+        imageRatio="7:4"
+        eyebrow={EYEBROW}
+        headline={HEADING}
+        subhead={BODY}
+        ctaLabel="Lorem ipsum"
+        ctaHref="#"
+      />
       <BlockCaption name="Hero — 50/50 Split" type="heroBlock" variant='layout: "splitEven"' />
       <HeroBlock
         layout="splitEven"

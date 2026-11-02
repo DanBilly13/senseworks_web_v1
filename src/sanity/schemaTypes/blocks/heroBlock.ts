@@ -48,6 +48,39 @@ export const heroBlock = defineType({
     defineField({ name: 'ctaLabel', type: 'string' }),
     defineField({ name: 'ctaHref', type: 'string' }),
     defineField({ name: 'media', title: 'Media', type: 'media' }),
+    // Side-by-side's image (its own fields, not mediaWidth below: that
+    // one's hidden default already stored "full" on existing heroes).
+    defineField({
+      name: 'imageWidth',
+      title: 'Image width',
+      description: 'Content width: inside the page column, rounded corners. Full screen width: edge to edge.',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Content width', value: 'content' },
+          { title: 'Full screen width', value: 'full' },
+        ],
+        layout: 'radio',
+        direction: 'horizontal',
+      },
+      initialValue: 'content',
+      hidden: ({ parent }) => (parent?.layout ?? 'split') !== 'split',
+    }),
+    defineField({
+      name: 'imageRatio',
+      title: 'Image ratio',
+      type: 'string',
+      options: {
+        list: [
+          { title: '7:5', value: '7:5' },
+          { title: '7:4 (wider)', value: '7:4' },
+        ],
+        layout: 'radio',
+        direction: 'horizontal',
+      },
+      initialValue: '7:5',
+      hidden: ({ parent }) => !['split', 'splitEven', undefined].includes(parent?.layout),
+    }),
     defineField({
       name: 'mediaWidth',
       title: 'Media width',

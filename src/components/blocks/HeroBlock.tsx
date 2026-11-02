@@ -17,6 +17,11 @@ type HeroBlockProps = {
   // full browser width or is capped/centered at max-w-page like
   // everything else on the site.
   mediaWidth?: 'full' | 'content'
+  // Side-by-side only: its image inside the page column (rounded) or
+  // edge to edge. Unset: content width, as before the option.
+  imageWidth?: 'content' | 'full'
+  // Side-by-side and 50/50: the image's shape. Unset: 7:5.
+  imageRatio?: '7:5' | '7:4'
   // 'display' draws the headline one step above the standard h1.
   headlineSize?: 'h1' | 'display'
   // The headline types itself out on load (ui/TypingText).
@@ -32,9 +37,26 @@ export function HeroBlock({ layout = 'split', ...props }: HeroBlockProps) {
 
 type HeroVariantProps = Omit<HeroBlockProps, 'layout'>
 
-function HeroSplit({ eyebrow, headline, subhead, ctaLabel, ctaHref, media, headlineSize, typingHeadline }: HeroVariantProps) {
-  return (
-    <SectionShell py="section-edge" pad="both" className="flex flex-col gap-2xl">
+const RATIO_CLASS = { '7:5': 'aspect-media', '7:4': 'aspect-hero' }
+
+function HeroSplit({
+  eyebrow,
+  headline,
+  subhead,
+  ctaLabel,
+  ctaHref,
+  media,
+  headlineSize,
+  typingHeadline,
+  imageWidth = 'content',
+  imageRatio = '7:5',
+}: HeroVariantProps) {
+  const ratio = RATIO_CLASS[imageRatio] ?? RATIO_CLASS['7:5']
+  // Full screen width: the image leaves the page column (square
+  // corners, edge to edge), the usual 64px below the text.
+  const full = imageWidth === 'full'
+  const section = (
+    <SectionShell py="section-edge" pad="both" pb={full ? 'none' : undefined} className="flex flex-col gap-2xl">
       <div className="flex flex-col gap-large md:flex-row md:items-start md:justify-between md:gap-2xl">
         <div className="md:max-w-prose-md md:flex-1">
           <SectionIntro as="h1" display={headlineSize === 'display'} typing={typingHeadline} eyebrow={eyebrow} heading={headline} />
@@ -73,12 +95,29 @@ function HeroSplit({ eyebrow, headline, subhead, ctaLabel, ctaHref, media, headl
           aspect-media (7:5) instead of a fixed height so it scales
           correctly with the column's actual rendered width. Media
           itself falls back to a grey box when no asset is set. */}
-      <Media media={media} alt={headline} className="aspect-media w-full rounded-lg" />
+      {!full && <Media media={media} alt={headline} className={`${ratio} w-full rounded-lg`} />}
     </SectionShell>
+  )
+  if (!full) return section
+  return (
+    <div className="mb-section-edge w-full">
+      {section}
+      <Media media={media} alt={headline} className={`${ratio} mt-2xl w-full`} />
+    </div>
   )
 }
 
-function HeroSplitEven({ eyebrow, headline, subhead, ctaLabel, ctaHref, media, headlineSize, typingHeadline }: HeroVariantProps) {
+function HeroSplitEven({
+  eyebrow,
+  headline,
+  subhead,
+  ctaLabel,
+  ctaHref,
+  media,
+  headlineSize,
+  typingHeadline,
+  imageRatio = '7:5',
+}: HeroVariantProps) {
   return (
     <SectionShell py="section-edge" pad="both">
       <div className="grid grid-cols-1 gap-2xl md:grid-cols-2 md:items-center">
@@ -99,7 +138,7 @@ function HeroSplitEven({ eyebrow, headline, subhead, ctaLabel, ctaHref, media, h
         {/* D15: contained within the page-width cap, not full-bleed.
             aspect-media (7:5) instead of a fixed height so it scales
             correctly with the column's actual rendered width. */}
-        <Media media={media} alt={headline} className="aspect-media w-full rounded-lg" />
+        <Media media={media} alt={headline} className={`${RATIO_CLASS[imageRatio] ?? RATIO_CLASS['7:5']} w-full rounded-lg`} />
       </div>
     </SectionShell>
   )
