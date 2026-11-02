@@ -104,7 +104,7 @@ export const pageBySlugAndLocaleQuery = groq`
     seoDescription,
     blocks[]{
       ...,
-      _type == "heroBlock" => { ${mediaProjection()} },
+      _type == "heroBlock" => { ${mediaProjection()}, ${mediaProjection('secondMedia', 'secondMedia')} },
       _type == "heroScrollZoomBlock" => { ${mediaProjection()} },
       _type == "heroImageOverlayCardBlock" => { ${mediaProjection()} },
       _type == "heroBackdropBlock" => {

@@ -184,11 +184,12 @@ export default async function BlocksPage({
         ctaLabel="Lorem ipsum"
         ctaHref="#"
       />
-      <BlockCaption name="Hero — 50/50 Split, half the screen, Dark accent gradient" type="heroBlock" variant='layout: "splitEven", splitImage: "half", tone: "accentDark"' />
+      <BlockCaption name="Hero — 50/50 Split, half the screen, Dark accent gradient" type="heroBlock" variant='layout: "splitEven", splitImage: "half", tone: "accentDark", stack: "stacked"' />
       <HeroBlock
         layout="splitEven"
         splitImage="half"
         tone="accentDark"
+        stack="stacked"
         eyebrow={EYEBROW}
         headline={HEADING}
         subhead={BODY}

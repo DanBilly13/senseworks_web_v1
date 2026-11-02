@@ -28,6 +28,10 @@ type HeroBlockProps = {
   splitImage?: 'column' | 'half'
   // 50/50 on half the screen only: the background behind the text.
   tone?: BandTone
+  // 50/50 on half the screen only: two media stacked in the half, no
+  // gap — media on top, secondMedia (or media again) below.
+  stack?: 'single' | 'stacked'
+  secondMedia?: MediaField
   // 'display' draws the headline one step above the standard h1.
   headlineSize?: 'h1' | 'display'
   // The headline types itself out on load (ui/TypingText).
@@ -164,6 +168,8 @@ function HeroSplitHalf({
   headlineSize,
   typingHeadline,
   tone = 'none',
+  stack = 'single',
+  secondMedia,
 }: HeroVariantProps) {
   const dark = tone === 'inverse' || tone === 'accentDark'
   return (
@@ -186,10 +192,15 @@ function HeroSplitHalf({
           cta={ctaLabel && ctaHref && <Button href={ctaHref} variant={dark ? 'filled-accent' : 'filled-dark'}>{ctaLabel}</Button>}
         />
       </div>
-      {/* The wrapper owns the sizing (Media's own root is relative). */}
+      {/* The wrapper owns the sizing (Media's own root is relative).
+          Stacked: two halves, no gap, from tablet up — phones show
+          the top one only. */}
       <div className="relative aspect-media md:aspect-auto">
-        <div className="absolute inset-0">
-          <Media media={media} alt={headline} className="size-full" />
+        <div className="absolute inset-0 flex flex-col">
+          <Media media={media} alt={headline} className="min-h-0 w-full flex-1" />
+          {stack === 'stacked' && (
+            <Media media={secondMedia ?? media} alt={headline} ariaHidden className="hidden min-h-0 w-full flex-1 md:block" />
+          )}
         </div>
       </div>
     </section>

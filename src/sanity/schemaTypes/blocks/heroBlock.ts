@@ -84,6 +84,32 @@ export const heroBlock = defineType({
       hidden: ({ parent }) => parent?.layout !== 'splitEven',
     }),
     defineField({
+      name: 'stack',
+      title: 'Stacked',
+      description:
+        'Two stacked: the half is split into a top and a bottom, no gap — the Media above on top and the Second media below it (the same one again if that\'s empty). Phones show only the top one.',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'One', value: 'single' },
+          { title: 'Two stacked', value: 'stacked' },
+        ],
+        layout: 'radio',
+        direction: 'horizontal',
+      },
+      initialValue: 'single',
+      hidden: ({ parent }) => parent?.layout !== 'splitEven' || parent?.splitImage !== 'half',
+    }),
+    defineField({
+      name: 'secondMedia',
+      title: 'Second media (bottom)',
+      description:
+        'Optional. Empty repeats the Media above. Browsers can\'t play a video backwards smoothly, so for the same video in reverse, upload a reversed copy of the file here.',
+      type: 'media',
+      hidden: ({ parent }) =>
+        parent?.layout !== 'splitEven' || parent?.splitImage !== 'half' || parent?.stack !== 'stacked',
+    }),
+    defineField({
       name: 'tone',
       title: 'Background',
       description: 'Behind the text half (and the text on phones). Dark and the dark gradient turn the text white.',
