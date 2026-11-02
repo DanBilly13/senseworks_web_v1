@@ -206,8 +206,8 @@ export default async function BlocksPage({
         ctaLabel="Lorem ipsum"
         ctaHref="#"
       />
-      <BlockCaption name="Hero — Overlap, Dark" type="heroBlock" variant='layout: "overlap", tone: "inverse"' />
-      <HeroBlock layout="overlap" tone="inverse" headlineSize="display" headline={'Lorem ipsum\nDolor sit amet'} subhead={BODY} ctaLabel="Lorem ipsum" ctaHref="#" />
+      <BlockCaption name="Hero — Overlap, Dark, 7:3" type="heroBlock" variant='layout: "overlap", tone: "inverse", imageRatio: "7:3"' />
+      <HeroBlock layout="overlap" tone="inverse" imageRatio="7:3" headlineSize="display" headline={'Lorem ipsum\nDolor sit amet'} subhead={BODY} ctaLabel="Lorem ipsum" ctaHref="#" />
       <BlockCaption name="Hero — Image Overlay" type="heroBlock" variant='layout: "imageOverlay"' />
       <HeroBlock
         layout="imageOverlay"

@@ -158,6 +158,8 @@
   /* The backdrop hero's showcase media (Home, LP003): a little wider
      and shorter than 7:5, so more of the hero fits on screen. */
   --aspect-hero: 7 / 4;
+  /* Hero's widest "Image ratio" option. */
+  --aspect-hero-wide: 7 / 3;
   /* Media block's "3:1" ratio — a wide strip (content width, desktop). */
   --aspect-banner: 3 / 1;
 

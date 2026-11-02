@@ -150,13 +150,14 @@ export const heroBlock = defineType({
         list: [
           { title: '7:5', value: '7:5' },
           { title: '7:4 (wider)', value: '7:4' },
+          { title: '7:3 (widest)', value: '7:3' },
         ],
         layout: 'radio',
         direction: 'horizontal',
       },
       initialValue: '7:5',
       hidden: ({ parent }) =>
-        !['split', 'splitEven', undefined].includes(parent?.layout) ||
+        !['split', 'splitEven', 'overlap', undefined].includes(parent?.layout) ||
         (parent?.layout === 'splitEven' && parent?.splitImage === 'half'),
     }),
     defineField({

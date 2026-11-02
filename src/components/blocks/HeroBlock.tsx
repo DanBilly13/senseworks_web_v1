@@ -21,8 +21,8 @@ type HeroBlockProps = {
   // Side-by-side only: its image inside the page column (rounded) or
   // edge to edge. Unset: content width, as before the option.
   imageWidth?: 'content' | 'full'
-  // Side-by-side and 50/50: the image's shape. Unset: 7:5.
-  imageRatio?: '7:5' | '7:4'
+  // Side-by-side, 50/50 and Overlap: the image's shape. Unset: 7:5.
+  imageRatio?: '7:5' | '7:4' | '7:3'
   // 50/50 only: the image beside the text in the page column, or
   // filling the screen's right half (see HeroSplitHalf). Unset: column.
   splitImage?: 'column' | 'half'
@@ -51,7 +51,7 @@ export function HeroBlock({ layout = 'split', ...props }: HeroBlockProps) {
 
 type HeroVariantProps = Omit<HeroBlockProps, 'layout'>
 
-const RATIO_CLASS = { '7:5': 'aspect-media', '7:4': 'aspect-hero' }
+const RATIO_CLASS = { '7:5': 'aspect-media', '7:4': 'aspect-hero', '7:3': 'aspect-hero-wide' }
 
 function HeroSplit({
   eyebrow,
@@ -237,6 +237,7 @@ function HeroOverlap({
   headlineSize,
   typingHeadline,
   tone = 'none',
+  imageRatio = '7:5',
 }: HeroVariantProps) {
   const dark = tone === 'inverse' || tone === 'accentDark'
   // How far the image reaches up under the headline: half its line.
@@ -273,7 +274,7 @@ function HeroOverlap({
           </div>
           <div aria-hidden="true" className={`hidden h-xl md:block ${dark ? 'bg-background' : 'bg-foreground'}`} style={BRANDMARK_MASK} />
         </div>
-        <div className="hero-overlap-media relative aspect-media xl:col-span-2">
+        <div className={`hero-overlap-media relative xl:col-span-2 ${RATIO_CLASS[imageRatio] ?? RATIO_CLASS['7:5']}`}>
           <Media media={media} alt={headline} className="size-full" />
         </div>
       </div>
