@@ -182,6 +182,9 @@ export function CardGridBlock({
                     eyebrow={renderNumberedEyebrow(item.eyebrow, numberedEyebrow, tone === 'dark')}
                     heading={item.heading}
                     body={item.body}
+                    // Keeps the line breaks typed into the body (e.g. an
+                    // address, one line per row).
+                    bodyClassName="whitespace-pre-line"
                     tone={tone === 'dark' ? 'inverse' : 'default'}
                     // On the dark card specifically, the kicker reads as an
                     // accent highlight rather than faded white — a look Dan
