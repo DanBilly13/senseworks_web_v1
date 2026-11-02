@@ -24,7 +24,7 @@ const clamp = (v: number) => Math.min(1, Math.max(0, v))
 // Experimental: a dark screen with the headline in the accent over the
 // image/video, small and faded behind it. The hero pins while you
 // scroll (.hero-scroll-zoom, globals.css): the text fades out over the
-// first third and the media grows to the content width and comes up to
+// first third and the media grows to the content width (7:4) and comes up to
 // full strength, reaching it exactly as the pin lets go — from there the
 // page scrolls on as normal. With reduced motion: one still screen, the
 // text over the faded media.
@@ -48,10 +48,13 @@ export function HeroScrollZoomBlock({ headline, headlineSize = 'display', subhea
     >
       <div className="sticky top-0 h-svh overflow-hidden">
         {/* The media grows to the page's content width (the same
-            column and gutters as the text), not the full screen width. */}
-        <div className="absolute inset-0 mx-auto w-full max-w-page px-large md:px-gutter">
+            column and gutters as the text), not the full screen width,
+            at 7:4 with rounded corners, centred on the screen — and
+            narrower when the screen is too short for 7:4 at that width
+            (.hero-scroll-zoom-media, globals.css). */}
+        <div className="absolute inset-0 mx-auto flex w-full max-w-page items-center justify-center px-large md:px-gutter">
           <motion.div
-            className="size-full"
+            className="hero-scroll-zoom-media aspect-hero overflow-hidden rounded-lg"
             style={reduced ? { scale: START_SCALE * 2, opacity: START_OPACITY } : { scale: mediaScale, opacity: mediaOpacity }}
           >
             <Media media={media} alt="" ariaHidden className="size-full" />

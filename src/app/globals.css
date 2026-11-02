@@ -1280,6 +1280,11 @@ p:has(+ .hero-overlay-card-rules),
 .hero-scroll-zoom {
   height: 250svh;
 }
+/* Its media at full size: the content width, unless the screen is too
+   short for 7:4 at that width — then as wide as the screen's height allows. */
+.hero-scroll-zoom-media {
+  width: min(100%, calc(100svh * 7 / 4));
+}
 
 /* Bento Grid, 3 columns, from tablet up: each card's image is as tall as
    a one-column card's image is wide — a third of the grid (less its two
