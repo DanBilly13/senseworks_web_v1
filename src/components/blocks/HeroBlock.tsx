@@ -22,6 +22,9 @@ type HeroBlockProps = {
   imageWidth?: 'content' | 'full'
   // Side-by-side and 50/50: the image's shape. Unset: 7:5.
   imageRatio?: '7:5' | '7:4'
+  // 50/50 only: the image beside the text in the page column, or
+  // filling the screen's right half (see HeroSplitHalf). Unset: column.
+  splitImage?: 'column' | 'half'
   // 'display' draws the headline one step above the standard h1.
   headlineSize?: 'h1' | 'display'
   // The headline types itself out on load (ui/TypingText).
@@ -31,7 +34,7 @@ type HeroBlockProps = {
 export function HeroBlock({ layout = 'split', ...props }: HeroBlockProps) {
   if (layout === 'scrollReveal') return <HeroScrollReveal {...props} />
   if (layout === 'imageOverlay') return <HeroImageOverlay {...props} />
-  if (layout === 'splitEven') return <HeroSplitEven {...props} />
+  if (layout === 'splitEven') return props.splitImage === 'half' ? <HeroSplitHalf {...props} /> : <HeroSplitEven {...props} />
   return <HeroSplit {...props} />
 }
 
@@ -141,6 +144,35 @@ function HeroSplitEven({
         <Media media={media} alt={headline} className={`${RATIO_CLASS[imageRatio] ?? RATIO_CLASS['7:5']} w-full rounded-lg`} />
       </div>
     </SectionShell>
+  )
+}
+
+// 50/50 with the image filling the screen's right half, edge to edge
+// and top to bottom, at least 80% of the screen tall (more if the text
+// needs it). The text keeps to the page column's left edge, however
+// wide the screen. Phones: the text, then the image full width at 7:5.
+function HeroSplitHalf({ eyebrow, headline, subhead, ctaLabel, ctaHref, media, headlineSize, typingHeadline }: HeroVariantProps) {
+  return (
+    <section className="hero-split-half mb-section-edge grid w-full grid-cols-1 md:grid-cols-2">
+      <div className="hero-split-half-text flex flex-col justify-center px-large py-section-edge md:pr-2xl">
+        <SectionIntro
+          as="h1"
+          display={headlineSize === 'display'}
+          typing={typingHeadline}
+          eyebrow={eyebrow}
+          heading={headline}
+          body={subhead}
+          maxWidth="md"
+          cta={ctaLabel && ctaHref && <Button href={ctaHref}>{ctaLabel}</Button>}
+        />
+      </div>
+      {/* The wrapper owns the sizing (Media's own root is relative). */}
+      <div className="relative aspect-media md:aspect-auto">
+        <div className="absolute inset-0">
+          <Media media={media} alt={headline} className="size-full" />
+        </div>
+      </div>
+    </section>
   )
 }
 

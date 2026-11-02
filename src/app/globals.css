@@ -1262,6 +1262,18 @@ p:has(+ .hero-overlay-card-rules),
   }
 }
 
+/* Hero, 50/50 with the image on half the screen (HeroBlock's
+   HeroSplitHalf): at least 80% of the screen tall from tablet up, the
+   text's left edge on the page column's, however wide the screen. */
+@media (width >= 48rem) {
+  .hero-split-half {
+    min-height: 80svh;
+  }
+  .hero-split-half-text {
+    padding-left: calc(max((100vw - var(--container-page)) / 2, 0px) + var(--page-gutter));
+  }
+}
+
 /* Bento Grid, 3 columns, from tablet up: each card's image is as tall as
    a one-column card's image is wide — a third of the grid (less its two
    gaps), less the card's padding and border on both sides — so the

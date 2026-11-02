@@ -67,6 +67,23 @@ export const heroBlock = defineType({
       hidden: ({ parent }) => (parent?.layout ?? 'split') !== 'split',
     }),
     defineField({
+      name: 'splitImage',
+      title: 'Image',
+      description:
+        'In the column: beside the text, rounded, in the ratio below. Half the screen: fills the right half of the screen from tablet up, edge to edge, top to bottom; the hero is at least 80% of the screen tall.',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'In the column', value: 'column' },
+          { title: 'Half the screen', value: 'half' },
+        ],
+        layout: 'radio',
+        direction: 'horizontal',
+      },
+      initialValue: 'column',
+      hidden: ({ parent }) => parent?.layout !== 'splitEven',
+    }),
+    defineField({
       name: 'imageRatio',
       title: 'Image ratio',
       type: 'string',
@@ -79,7 +96,9 @@ export const heroBlock = defineType({
         direction: 'horizontal',
       },
       initialValue: '7:5',
-      hidden: ({ parent }) => !['split', 'splitEven', undefined].includes(parent?.layout),
+      hidden: ({ parent }) =>
+        !['split', 'splitEven', undefined].includes(parent?.layout) ||
+        (parent?.layout === 'splitEven' && parent?.splitImage === 'half'),
     }),
     defineField({
       name: 'mediaWidth',
