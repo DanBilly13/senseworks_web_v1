@@ -165,6 +165,8 @@ export default async function BlocksPage({
         ctaLabel="Lorem ipsum"
         ctaHref="#"
       />
+      <BlockCaption name="Hero — Side-by-side, Dark accent gradient" type="heroBlock" variant='layout: "split", tone: "accentDark"' />
+      <HeroBlock layout="split" tone="accentDark" eyebrow={EYEBROW} headline={HEADING} subhead={BODY} ctaLabel="Lorem ipsum" ctaHref="#" />
       <BlockCaption name="Hero — 50/50 Split" type="heroBlock" variant='layout: "splitEven"' />
       <HeroBlock
         layout="splitEven"
@@ -195,6 +197,15 @@ export default async function BlocksPage({
         subhead={BODY}
         ctaLabel="Lorem ipsum"
         ctaHref="#"
+      />
+      <BlockCaption name="Hero — Image Overlay, content scrolls over it" type="heroBlock" variant='layout: "imageOverlay", pinned: true' />
+      {/* Through BlockRenderer, which wraps what follows in the panel
+          that scrolls up over the pinned hero. */}
+      <BlockRenderer
+        blocks={[
+          { _type: 'heroBlock', _key: 'pinned-hero', layout: 'imageOverlay', pinned: true, eyebrow: EYEBROW, headline: HEADING, subhead: BODY, ctaLabel: 'Lorem ipsum', ctaHref: '#' },
+          { _type: 'sectionHeadlineBlock', _key: 'pinned-next', align: 'left', eyebrow: 'Eyebrow', headline: 'Lorem ipsum dolor sit amet', body: BODY },
+        ]}
       />
       <BlockCaption name="Hero — Overlap, Accent" type="heroBlock" variant='layout: "overlap", tone: "accent"' />
       <HeroBlock

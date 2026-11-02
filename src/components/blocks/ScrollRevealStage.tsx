@@ -1,8 +1,7 @@
 'use client'
-import type { ReactNode } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { Media } from '@/components/ui/Media'
 import type { MediaField } from '@/lib/sanity/media'
-import { useInView } from '@/lib/useInView'
 
 type ScrollRevealStageProps = {
   media?: MediaField
@@ -15,21 +14,35 @@ type ScrollRevealStageProps = {
 // into its own 'use client' component so the rest of HeroBlock.tsx
 // (every other Hero layout) can stay a plain Server Component.
 //
-// Watches the yellow cover block itself (threshold 0 — "in view"
-// means even a sliver of it is still on screen) rather than the
-// media: the sticky media box is geometrically in the viewport for
+// Watches the yellow cover block itself rather than the media, and
+// starts the video once a tenth of the media is uncovered (the yellow
+// block under 90% on screen — Dan's call, rather than waiting for it
+// to clear completely): the sticky media box is geometrically in the viewport for
 // its entire stuck range, including while the yellow block is still
 // covering it, so observing the media directly would report "visible"
 // immediately and never reflect whether it's actually revealed.
 // Watching the thing that has to fully leave first is what actually
 // tracks "revealed."
+// The yellow block's share still on screen below which the video plays.
+const REVEAL_AT = 0.9
+
 export function ScrollRevealStage({ media, alt, mediaWidth, children }: ScrollRevealStageProps) {
-  // initialInView: true — before the observer's first callback,
-  // assume the yellow block IS covering the media (it visually is,
-  // at scroll position 0), so `revealed` starts false and the video
-  // doesn't get a moment of `autoPlay` before this corrects.
-  const [yellowRef, yellowInView] = useInView<HTMLElement>(0, true)
-  const revealed = !yellowInView
+  // Starts false: before the observer's first callback, assume the
+  // yellow block IS covering the media (it visually is, at scroll
+  // position 0), so the video doesn't get a moment of `autoPlay`
+  // before this corrects. Reads the ratio itself, since
+  // isIntersecting stays true for any sliver on screen.
+  const yellowRef = useRef<HTMLElement>(null)
+  const [revealed, setRevealed] = useState(false)
+  useEffect(() => {
+    const el = yellowRef.current
+    if (!el) return
+    const observer = new IntersectionObserver(([entry]) => setRevealed(entry.intersectionRatio < REVEAL_AT), {
+      threshold: REVEAL_AT,
+    })
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
 
   return (
     <>

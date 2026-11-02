@@ -117,22 +117,45 @@ export function BlockRenderer({ blocks }: { blocks: PageBlock[] }) {
   // Full width blocks on the same accent gradient that run on into each
   // other share one copy of it, so it doesn't restart between them.
   const runs = bandGradientRuns(shown as Parameters<typeof bandGradientRuns>[0])
-  const out = []
+  // Each rendered piece, keyed by the index of the first block in it.
+  const out: { start: number; el: React.ReactNode }[] = []
   for (let i = 0; i < shown.length; i++) {
     const run = runs.find((r) => r.first === i)
     if (run) {
       // The last block's Section spacing (the gap after it) moves out to
       // here, below the shared gradient instead of inside it.
       const spacing = ((shown[run.last] as { spacing?: BandSpacing }).spacing ?? 'loose') as BandSpacing
-      out.push(
-        <div key={`gradient-${shown[i]._key}`} className={`band-gradient-run ${run.bg} ${SECTION_GAP_MB_CLASS[spacing]}`}>
-          {shown.slice(run.first, run.last + 1).map((block, k) => render(block, run.first + k))}
-        </div>,
-      )
+      out.push({
+        start: i,
+        el: (
+          <div key={`gradient-${shown[i]._key}`} className={`band-gradient-run ${run.bg} ${SECTION_GAP_MB_CLASS[spacing]}`}>
+            {shown.slice(run.first, run.last + 1).map((block, k) => render(block, run.first + k))}
+          </div>
+        ),
+      })
       i = run.last
     } else {
-      out.push(render(shown[i], i))
+      out.push({ start: i, el: render(shown[i], i) })
     }
   }
-  return <>{out}</>
+  // A Full-bleed image hero set to "Content scrolls over it" stays
+  // put (sticky, see HeroImageOverlay) while everything after it
+  // scrolls up over it on the page's own background. Both share one
+  // wrapper, so the hero lets go where the blocks end — before the
+  // footer. flow-root keeps the last block's bottom margin inside the
+  // panel, or it's a see-through strip at its foot.
+  const pin = out.findIndex(({ start }) => {
+    const b = shown[start] as { _type: string; layout?: string; pinned?: boolean }
+    return b._type === 'heroBlock' && b.layout === 'imageOverlay' && b.pinned === true
+  })
+  if (pin === -1 || pin === out.length - 1) return <>{out.map((o) => o.el)}</>
+  return (
+    <>
+      {out.slice(0, pin).map((o) => o.el)}
+      <div className="w-full">
+        {out[pin].el}
+        <div className="relative z-10 flow-root w-full bg-surface pt-section-edge">{out.slice(pin + 1).map((o) => o.el)}</div>
+      </div>
+    </>
+  )
 }

@@ -39,6 +39,9 @@ type HeroBlockProps = {
   // Full-bleed image overlay only: the headline in the accent (the
   // eyebrow-to-button rest stays white).
   headlineColor?: 'default' | 'accent'
+  // Full-bleed image overlay only: the hero stays put and the rest of
+  // the page scrolls up over it (the wrapper is BlockRenderer's).
+  pinned?: boolean
 }
 
 export function HeroBlock({ layout = 'split', ...props }: HeroBlockProps) {
@@ -64,42 +67,48 @@ function HeroSplit({
   typingHeadline,
   imageWidth = 'content',
   imageRatio = '7:5',
+  tone = 'none',
 }: HeroVariantProps) {
   const ratio = RATIO_CLASS[imageRatio] ?? RATIO_CLASS['7:5']
+  const dark = tone === 'inverse' || tone === 'accentDark'
   // Full screen width: the image leaves the page column (square
-  // corners, edge to edge), the usual 64px below the text.
+  // corners, edge to edge). Either way the image sits as far below
+  // the text as the text sits below the top of the hero (Dan's call,
+  // rather than the usual 64px intro-to-content gap).
   const full = imageWidth === 'full'
   const section = (
-    <SectionShell py="section-edge" pad="both" pb={full ? 'none' : undefined} className="flex flex-col gap-2xl">
-      <div className="flex flex-col gap-large md:flex-row md:items-start md:justify-between md:gap-2xl">
-        <div className="md:max-w-prose-md md:flex-1">
-          <SectionIntro as="h1" display={headlineSize === 'display'} typing={typingHeadline} eyebrow={eyebrow} heading={headline} />
+    <SectionShell py="section-edge" pad="both" pb={full ? 'none' : undefined} className="flex flex-col gap-section-edge">
+      {/* Headline two thirds of the row, subtext one third (from 1280
+          wide — on narrower screens a third is too thin for the H4
+          body, so half each), a generous gutter between them, the
+          subtext sitting on the headline's bottom. */}
+      <div className="grid grid-cols-1 items-end gap-large md:grid-cols-2 md:gap-2xl lg:gap-3xl xl:grid-cols-3">
+        <div className="xl:col-span-2">
+          <SectionIntro
+            as="h1"
+            display={headlineSize === 'display'}
+            typing={typingHeadline}
+            eyebrow={eyebrow}
+            heading={headline}
+            headingMaxWidth="none"
+            tone={dark ? 'inverse' : 'default'}
+            typingCursorClassName={dark ? 'text-accent' : undefined}
+          />
         </div>
         {(subhead || (ctaLabel && ctaHref)) && (
-          <div className="flex flex-col gap-medium md:max-w-prose-xs md:shrink-0">
-            {/* Reserves the same height as the eyebrow in the left
-                column (same text/gap, just unpainted) so the body text
-                below it lines up with the h1's top, not the eyebrow's —
-                the two columns don't share a heading level to align
-                against otherwise. Only needed once the columns actually
-                sit side by side (md:) — on the stacked mobile layout
-                it would just add a blank gap above the subtext. */}
-            {eyebrow && (
-              <p
-                className="hidden text-caption font-bold tracking-wider uppercase md:invisible md:block"
-                aria-hidden="true"
-              >
-                {eyebrow}
-              </p>
+          <div className="flex flex-col gap-medium">
+            {subhead && (
+              <p className={`max-w-prose-md text-h4 font-bold text-pretty ${dark ? 'text-background' : 'text-foreground'}`}>{subhead}</p>
             )}
-            {subhead && <p className="text-body-lg text-muted-foreground">{subhead}</p>}
             {ctaLabel && ctaHref && (
               // Doubles the subhead-to-button gap (16px container gap +
               // this) from 16px to 32px, matching SectionIntro's own
               // body-to-cta doubling — this column doesn't go through
               // SectionIntro, so it needs the same bump applied by hand.
               <div className={subhead ? 'mt-medium' : ''}>
-                <Button href={ctaHref}>{ctaLabel}</Button>
+                <Button href={ctaHref} variant={dark ? 'filled-accent' : undefined}>
+                  {ctaLabel}
+                </Button>
               </div>
             )}
           </div>
@@ -112,11 +121,14 @@ function HeroSplit({
       {!full && <Media media={media} alt={headline} className={`${ratio} w-full rounded-lg`} />}
     </SectionShell>
   )
-  if (!full) return section
+  // A background fills behind the whole hero (the full-width image
+  // too), with the gap to the next block outside it.
+  const bg = tone !== 'none' ? BAND_BG[tone] : ''
+  if (!full) return bg ? <div className={`mb-section-edge w-full ${bg}`}>{section}</div> : section
   return (
-    <div className="mb-section-edge w-full">
+    <div className={`mb-section-edge w-full ${bg}`}>
       {section}
-      <Media media={media} alt={headline} className={`${ratio} mt-2xl w-full`} />
+      <Media media={media} alt={headline} className={`${ratio} mt-section-edge w-full`} />
     </div>
   )
 }
@@ -292,11 +304,15 @@ function HeroImageOverlay({
   headlineSize,
   typingHeadline,
   headlineColor,
+  pinned,
 }: HeroVariantProps) {
   const overlayGap = `calc(var(--text-${headlineSize === 'display' ? 'display' : 'h1'}--full-line-height) / 4)`
   return (
     <section
-      className="relative mb-section-edge min-h-screen"
+      // Pinned: sticky instead, with the gap to the next block moved
+      // into the covering panel (BlockRenderer) so it isn't a strip of
+      // page showing between the hero and the content scrolling over.
+      className={`min-h-screen ${pinned ? 'sticky top-0' : 'relative mb-section-edge'}`}
       style={{ marginTop: 'calc(var(--header-height, 0px) * -1)' }}
     >
       {/* mb- (not pb-) on purpose: the background image is an absolutely
@@ -390,6 +406,9 @@ function HeroScrollReveal({
             body={subhead}
             headingMaxWidth="none"
             align="center"
+            // Half the usual body-to-button gap (a quarter of the
+            // headline's line-height instead of half), at Dan's request.
+            ctaGap={`calc(var(--text-${headlineSize === 'display' ? 'display' : 'h1'}--full-line-height) / 4)`}
             cta={
               ctaLabel &&
               ctaHref && (

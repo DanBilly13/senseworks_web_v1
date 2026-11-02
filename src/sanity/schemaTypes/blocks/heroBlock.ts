@@ -55,6 +55,14 @@ export const heroBlock = defineType({
       hidden: ({ parent }) => parent?.layout !== 'imageOverlay',
     }),
     defineField({
+      name: 'pinned',
+      title: 'Content scrolls over it',
+      description: 'The hero stays put and the rest of the page scrolls up over it.',
+      type: 'boolean',
+      initialValue: false,
+      hidden: ({ parent }) => parent?.layout !== 'imageOverlay',
+    }),
+    defineField({
       name: 'subhead',
       type: 'text',
       rows: 2,
@@ -127,7 +135,7 @@ export const heroBlock = defineType({
     defineField({
       name: 'tone',
       title: 'Background',
-      description: 'Behind the text half (and the text on phones) — on Overlap, behind the whole hero. Dark and the dark gradient turn the text white.',
+      description: 'On 50/50 (half the screen), behind the text half (and the text on phones); on Side-by-side and Overlap, behind the whole hero. Dark and the dark gradient turn the text white.',
       type: 'string',
       options: {
         list: [
@@ -140,7 +148,8 @@ export const heroBlock = defineType({
         layout: 'radio',
       },
       initialValue: 'none',
-      hidden: ({ parent }) => parent?.layout !== 'overlap' && (parent?.layout !== 'splitEven' || parent?.splitImage !== 'half'),
+      hidden: ({ parent }) =>
+        !['split', 'overlap', undefined].includes(parent?.layout) && (parent?.layout !== 'splitEven' || parent?.splitImage !== 'half'),
     }),
     defineField({
       name: 'imageRatio',
