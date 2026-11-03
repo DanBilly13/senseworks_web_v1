@@ -11,7 +11,7 @@ const RATIO = 7 / 5
 // so sweeping the mouse across a row of cards doesn't flash them all.
 const OPEN_DELAY = 250
 
-type Box = { left: number; top: number; width: number; height: number; originX: number; originY: number; from: number }
+type Box = { left: number; top: number; width: number; height: number; originX: number; originY: number; from: number; theme?: string }
 
 // A larger look at a small image on hover (Release Cards): the preview
 // grows out of the thumbnail, centred on it and kept inside the window.
@@ -41,8 +41,12 @@ export function HoverPreview({ children, preview }: { children: ReactNode; previ
     const clamp = (v: number, min: number, max: number) => Math.min(Math.max(v, min), max)
     const left = clamp(r.left + r.width / 2 - width / 2, MARGIN, window.innerWidth - MARGIN - width)
     const top = clamp(r.top + r.height / 2 - height / 2, MARGIN, window.innerHeight - MARGIN - height)
+    // The preview is portalled to <body>, outside the page's theme
+    // wrapper, so it carries the theme over (or a themed page's image
+    // would show the default yellow gradient behind it).
+    const theme = el.closest<HTMLElement>('[data-page-theme]')?.dataset.pageTheme
     // Grow from the thumbnail's centre, wherever that sits in the preview.
-    setBox({ left, top, width, height, originX: r.left + r.width / 2 - left, originY: r.top + r.height / 2 - top, from: r.width / width })
+    setBox({ left, top, width, height, originX: r.left + r.width / 2 - left, originY: r.top + r.height / 2 - top, from: r.width / width, theme })
     requestAnimationFrame(() => requestAnimationFrame(() => setShown(true)))
   }
 
@@ -74,6 +78,7 @@ export function HoverPreview({ children, preview }: { children: ReactNode; previ
           <div
             aria-hidden="true"
             data-shown={shown || undefined}
+            data-page-theme={box.theme}
             className="hover-preview pointer-events-none fixed z-50 overflow-hidden rounded-lg border border-border bg-background shadow-2xl shadow-foreground/20"
             style={{
               left: box.left,
