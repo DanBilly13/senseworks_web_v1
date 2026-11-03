@@ -19,5 +19,8 @@ jobs:
           node-version: 22
           cache: yarn
       - run: yarn install --frozen-lockfile
+      # Next generates LayoutProps/RouteContext etc. into .next on build;
+      # a fresh checkout has none, so generate them first.
+      - run: npx next typegen
       - run: npx tsc --noEmit -p .
       - run: yarn test
