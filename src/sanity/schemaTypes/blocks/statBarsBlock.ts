@@ -16,6 +16,7 @@ export const statBarsBlock = defineType({
     defineField({
       name: 'style',
       title: 'Style',
+      description: 'Bars draw each share as a bar; Dots as ten dots with the share filled in.',
       type: 'string',
       options: {
         list: [

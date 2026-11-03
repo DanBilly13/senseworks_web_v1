@@ -105,6 +105,10 @@ repo): `solution-spec.md`, `decision-log.md`, `risk-register.md`,
     after the type styles. Don't reintroduce a heading-level choice on
     it — an editor-facing "Heading level" field was removed because it
     confused people and let LP v3 end up with three `h1`s.
+- **Studio house rules: `STUDIO-CONVENTIONS.md`.** Tabs, field order,
+  text box sizes and standard labels are applied to every block by
+  `src/sanity/schemaTypes/blockConventions.ts` (checked by
+  `tests/blockConventions.test.ts`); read the doc before writing a block.
 - Block components live in `src/components/blocks/`, one file per
   Sanity block schema in `src/sanity/schemaTypes/blocks/`. Register
   new blocks in `src/sanity/schemaTypes/index.ts`, in the page's

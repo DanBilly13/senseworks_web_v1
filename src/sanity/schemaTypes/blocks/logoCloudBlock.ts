@@ -20,9 +20,9 @@ export const logoCloudBlock = defineType({
       type: 'string',
       options: {
         list: [
-          { title: 'Default (muted background)', value: 'default' },
-          { title: 'Inverse (dark background)', value: 'inverse' },
-          { title: 'Accent (accent background)', value: 'accent' },
+          { title: 'Light grey', value: 'default' },
+          { title: 'Dark', value: 'inverse' },
+          { title: 'Accent', value: 'accent' },
         ],
         layout: 'radio',
       },

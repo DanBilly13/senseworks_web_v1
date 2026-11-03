@@ -28,6 +28,7 @@ export const releaseCardsBlock = defineType({
     defineField({
       name: 'source',
       title: 'Which releases',
+      description: 'The newest in the stages you tick, or releases you pick one by one.',
       type: 'string',
       options: {
         list: [
@@ -59,6 +60,7 @@ export const releaseCardsBlock = defineType({
     defineField({
       name: 'count',
       title: 'How many',
+      description: 'How many of the newest releases to show.',
       type: 'number',
       options: { list: [2, 3, 4, 6, 8], layout: 'radio', direction: 'horizontal' },
       initialValue: 4,

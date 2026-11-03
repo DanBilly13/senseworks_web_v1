@@ -12,6 +12,7 @@ export const heroBlock = defineType({
     defineField({
       name: 'layout',
       title: 'Layout',
+      description: 'The overall arrangement of the hero. Some settings below only apply to some layouts.',
       type: 'string',
       options: {
         list: [
@@ -43,6 +44,7 @@ export const heroBlock = defineType({
     defineField({
       name: 'headlineColor',
       title: 'Headline color',
+      description: 'Accent draws the headline in the page theme’s colour.',
       type: 'string',
       options: {
         list: [
@@ -139,11 +141,11 @@ export const heroBlock = defineType({
       type: 'string',
       options: {
         list: [
-          { title: 'None (the page background)', value: 'none' },
+          { title: 'None', value: 'none' },
           { title: 'Dark', value: 'inverse' },
           { title: 'Accent', value: 'accent' },
-          { title: 'Dark accent gradient (the accent fading to black)', value: 'accentDark' },
-          { title: 'Accent gradient (the accent fading to light grey, as on the heroes)', value: 'accentGradient' },
+          { title: 'Accent gradient', value: 'accentGradient' },
+          { title: 'Dark accent gradient', value: 'accentDark' },
         ],
         layout: 'radio',
       },
@@ -154,6 +156,7 @@ export const heroBlock = defineType({
     defineField({
       name: 'imageRatio',
       title: 'Image ratio',
+      description: 'The shape of the image: width to height.',
       type: 'string',
       options: {
         list: [

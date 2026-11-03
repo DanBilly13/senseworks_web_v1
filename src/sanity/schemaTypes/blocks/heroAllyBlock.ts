@@ -9,7 +9,7 @@ import { typingHeadlineField } from '../fields/typingHeadlineField'
 // Its own block so it can be tried out (Home v3) or dropped freely.
 export const heroAllyBlock = defineType({
   name: 'heroAllyBlock',
-  title: 'Hero — Ally 3D (experimental)',
+  title: 'Hero — Ally 3D',
   type: 'object',
   fields: [
     hiddenField,

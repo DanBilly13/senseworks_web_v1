@@ -45,8 +45,8 @@ export const heroTextBlock = defineType({
       type: 'string',
       options: {
         list: [
-          { title: 'None (the page background)', value: 'none' },
-          { title: 'Light', value: 'default' },
+          { title: 'None', value: 'none' },
+          { title: 'Light grey', value: 'default' },
           { title: 'Dark', value: 'inverse' },
           { title: 'Accent', value: 'accent' },
         ],

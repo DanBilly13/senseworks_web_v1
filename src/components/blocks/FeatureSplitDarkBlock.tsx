@@ -60,7 +60,7 @@ export function FeatureSplitDarkBlock({
             )}
             {subhead && (
               <p
-                className="text-body-lg font-medium text-background"
+                className="text-body-lg font-medium whitespace-pre-line text-background"
                 style={heading ? { marginTop: HEADING_LINE_HEIGHT_GAP } : undefined}
               >
                 {subhead}

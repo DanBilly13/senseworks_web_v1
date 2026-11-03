@@ -58,12 +58,12 @@ export const ctaBannerBlock = defineType({
     }),
     defineField({
       name: 'tone',
-      title: 'Tone',
+      title: 'Background',
       type: 'string',
       options: {
         list: [
-          { title: 'Inverse (dark)', value: 'inverse' },
-          { title: 'Default (light)', value: 'default' },
+          { title: 'Light grey', value: 'default' },
+          { title: 'Dark', value: 'inverse' },
           { title: 'Accent', value: 'accent' },
         ],
         layout: 'radio',

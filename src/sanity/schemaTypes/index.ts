@@ -1,4 +1,5 @@
 import { localizeSchemaTypes } from '../i18n/localizeSchema'
+import { applyBlockConventions } from './blockConventions'
 import { page } from './page'
 import { media } from './objects/media'
 import { blockContent } from './objects/blockContent'
@@ -127,4 +128,12 @@ const allTypes = [
 // get English/Swedish pairs for every text field (see localizeSchema.ts).
 const LOCALIZED_TYPES = new Set(['page', 'media', 'customerStory', 'article', 'release', 'blogPost', ...allTypes.map((type) => type.name).filter((name) => name.endsWith('Block'))])
 
-export const schemaTypes = localizeSchemaTypes(allTypes, LOCALIZED_TYPES)
+// Every page block gets the Studio house rules (tabs, field order, text
+// box sizes, labels — see blockConventions.ts). Not Header/Footer: they're
+// edited inside Site navigation, not added to pages.
+const NOT_PAGE_BLOCKS = new Set(['headerBlock', 'footerBlock'])
+const conventionTypes = allTypes.map((type) =>
+  type.name.endsWith('Block') && !NOT_PAGE_BLOCKS.has(type.name) ? applyBlockConventions(type) : type,
+)
+
+export const schemaTypes = localizeSchemaTypes(conventionTypes, LOCALIZED_TYPES)

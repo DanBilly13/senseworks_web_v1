@@ -18,7 +18,7 @@ describe('localizeSchema', () => {
     expect(isPair(question)).toBe(true)
     expect(question.fields[0].validation).toBeTypeOf('function')
     expect(question.fields[1].validation).toBeUndefined()
-    expect(field(item, 'answer').fields[0].rows).toBe(3)
+    expect(field(item, 'answer').fields[0].rows).toBe(4)
   })
 
   it('leaves pick-lists, links and identifiers alone', () => {

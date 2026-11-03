@@ -6,7 +6,7 @@ import { titleSizeField } from '../fields/titleSizeField'
 
 export const horizontalScrollStackMediumBlock = defineType({
   name: 'horizontalScrollStackMediumBlock',
-  title: 'Horizontal Scroll Stack Medium',
+  title: 'Horizontal Scroll Stack — Medium',
   type: 'object',
   fields: [
     hiddenField,
@@ -19,7 +19,7 @@ export const horizontalScrollStackMediumBlock = defineType({
     }),
     defineField({
       name: 'headingLevel',
-      title: 'Heading level',
+      title: 'Headline size',
       description: 'H2 for a main section title, H3 for a smaller one under another heading.',
       type: 'string',
       options: {
@@ -40,13 +40,13 @@ export const horizontalScrollStackMediumBlock = defineType({
     }),
     defineField({
       name: 'tone',
-      title: 'Style',
+      title: 'Background',
       type: 'string',
       options: {
         list: [
-          { title: 'Default (light)', value: 'default' },
-          { title: 'Dark (black band, white text)', value: 'dark' },
-          { title: 'Dark accent gradient (the accent fading to black, white text)', value: 'accentDark' },
+          { title: 'None', value: 'default' },
+          { title: 'Dark', value: 'dark' },
+          { title: 'Dark accent gradient', value: 'accentDark' },
         ],
         layout: 'radio',
       },

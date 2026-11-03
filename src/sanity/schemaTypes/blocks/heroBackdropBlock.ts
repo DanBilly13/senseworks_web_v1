@@ -11,7 +11,7 @@ import { typingHeadlineField } from '../fields/typingHeadlineField'
 // or dropped without touching the stable Hero block.
 export const heroBackdropBlock = defineType({
   name: 'heroBackdropBlock',
-  title: 'Hero — Backdrop (experimental)',
+  title: 'Hero — Backdrop',
   type: 'object',
   fields: [
     hiddenField,
@@ -34,19 +34,19 @@ export const heroBackdropBlock = defineType({
     }),
     defineField({
       name: 'backgroundImage',
-      title: 'Background Image',
+      title: 'Background image',
       type: 'media',
       hidden: ({ parent }) => parent?.backgroundType !== 'image',
     }),
     defineField({
       name: 'backgroundColor',
-      title: 'Background Color',
+      title: 'Background color',
       type: 'string',
       options: {
         list: [
-          { title: 'Dark (foreground)', value: 'foreground' },
+          { title: 'Dark', value: 'foreground' },
           { title: 'Accent', value: 'accent' },
-          { title: 'Surface', value: 'surface' },
+          { title: 'Light grey', value: 'surface' },
         ],
         layout: 'radio',
       },
@@ -55,7 +55,8 @@ export const heroBackdropBlock = defineType({
     }),
     defineField({
       name: 'textTone',
-      title: 'Text Tone',
+      title: 'Text color',
+      description: 'Light text for a dark image or colour, dark text for a light one.',
       type: 'string',
       options: {
         list: [

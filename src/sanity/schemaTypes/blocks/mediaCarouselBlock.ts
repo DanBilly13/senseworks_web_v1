@@ -26,12 +26,12 @@ export const mediaCarouselBlock = defineType({
     }),
     defineField({
       name: 'tone',
-      title: 'Style',
+      title: 'Background',
       type: 'string',
       options: {
         list: [
-          { title: 'Default (light)', value: 'default' },
-          { title: 'Dark (black band, white text)', value: 'dark' },
+          { title: 'None', value: 'default' },
+          { title: 'Dark', value: 'dark' },
         ],
         layout: 'radio',
       },

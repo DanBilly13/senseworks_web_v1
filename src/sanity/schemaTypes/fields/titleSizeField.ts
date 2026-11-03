@@ -23,7 +23,7 @@ export const titleSizeField = (
 ) =>
   defineField({
     name: 'titleSize',
-    title: 'Title size',
+    title: 'Item title size',
     type: 'string',
     options: {
       list: sizes.map((value) => ({

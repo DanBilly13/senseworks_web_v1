@@ -92,6 +92,64 @@ export const page = defineType({
       name: 'blocks',
       type: 'array',
       components: { item: BlockListItem },
+      // The "Add item" menu, in groups (every block is also under All).
+      options: {
+        insertMenu: {
+          filter: true,
+          groups: [
+            { name: 'heroes', title: 'Heroes', of: ['heroBlock', 'heroTextBlock'] },
+            { name: 'intros', title: 'Section intros', of: ['sectionHeadlineBlock', 'statementBlock', 'statementSplitBlock'] },
+            {
+              name: 'text',
+              title: 'Text',
+              of: ['paragraphsBlock', 'bodyColumnsBlock', 'featureListBlock', 'faqAccordionBlock', 'contactRowsBlock'],
+            },
+            {
+              name: 'features',
+              title: 'Features',
+              of: [
+                'featureSplitBlock',
+                'featureSplitDarkBlock',
+                'fiftyFiftyBannerBlock',
+                'featureGridBlock',
+                'cardGridBlock',
+                'bentoGridBlock',
+                'stepsBlock',
+                'fullWidthSingleBlock',
+                'darkBannerBlock',
+                'horizontalScrollStackBlock',
+                'horizontalScrollStackMediumBlock',
+              ],
+            },
+            { name: 'media', title: 'Media', of: ['mediaBlock', 'mediaCarouselBlock', 'imageGridBlock', 'stackAnimationBlock'] },
+            {
+              name: 'proof',
+              title: 'Social proof',
+              of: ['logoCloudBlock', 'testimonialLargeBlock', 'testimonialCarouselBlock', 'caseStudyGridBlock', 'statsBandBlock', 'statBarsBlock'],
+            },
+            {
+              name: 'lists',
+              title: 'Lists & data',
+              of: [
+                'comparisonTableBlock',
+                'pricingBlock',
+                'releaseCardsBlock',
+                'releaseTimelineBlock',
+                'blogPostsBlock',
+                'knowledgeBankBlock',
+                'customerStoriesListBlock',
+                'teamGridBlock',
+              ],
+            },
+            { name: 'cta', title: 'Calls to action', of: ['ctaBannerBlock'] },
+            {
+              name: 'experimental',
+              title: 'Experimental',
+              of: ['heroAllyBlock', 'heroBackdropBlock', 'heroImageOverlayCardBlock', 'heroScrollZoomBlock'],
+            },
+          ],
+        },
+      },
       of: [
         // A–Z by each block's Studio title, so the "Add item" menu reads
         // alphabetically. Keep new blocks in that order.

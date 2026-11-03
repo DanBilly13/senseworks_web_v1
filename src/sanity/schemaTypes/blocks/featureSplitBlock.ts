@@ -42,8 +42,8 @@ export const featureSplitBlock = defineType({
     }),
     defineField({
       name: 'headingLevel',
-      title: 'Heading size',
-      description: 'H2 draws the heading larger; the text under it stays the same.',
+      title: 'Headline size',
+      description: 'H2 draws the headline larger; the text under it stays the same.',
       type: 'string',
       options: {
         list: [

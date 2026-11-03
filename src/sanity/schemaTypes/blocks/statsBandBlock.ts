@@ -24,7 +24,7 @@ export const statsBandBlock = defineType({
       type: 'string',
       options: {
         list: [
-          { title: 'Standard (64px, default)', value: 'standard' },
+          { title: 'Standard (64px)', value: 'standard' },
           { title: 'Loose (200px)', value: 'loose' },
           { title: 'Medium (120px)', value: 'medium' },
           { title: 'Tight (60px)', value: 'tight' },
@@ -51,11 +51,11 @@ export const statsBandBlock = defineType({
       type: 'string',
       options: {
         list: [
-          { title: 'None (default)', value: 'none' },
-          { title: 'Muted (light grey background, dark text)', value: 'muted' },
-          { title: 'Dark (dark background, light text)', value: 'dark' },
-          { title: 'Accent (accent background, dark text)', value: 'accent' },
-          { title: 'Image (photo under a dark tint, light text)', value: 'image' },
+          { title: 'None', value: 'none' },
+          { title: 'Light grey', value: 'muted' },
+          { title: 'Dark', value: 'dark' },
+          { title: 'Accent', value: 'accent' },
+          { title: 'Image', value: 'image' },
         ],
         layout: 'radio',
       },

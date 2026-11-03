@@ -3,7 +3,7 @@ import { SectionIntro } from '@/components/ui/SectionIntro'
 import { Media } from '@/components/ui/Media'
 import { PlayOnScrollMedia } from '@/components/ui/PlayOnScrollMedia'
 import { ArticleImage } from '@/components/knowledge-bank/ArticleImage'
-import type { MediaField } from '@/lib/sanity/media'
+import { hasMedia, type MediaField } from '@/lib/sanity/media'
 
 type BackgroundType = 'none' | 'image' | 'color' | 'gradient'
 type BackgroundColor = 'foreground' | 'accent' | 'surface'
@@ -70,16 +70,10 @@ export function HeroBackdropBlock({
   // ratio (via the asset ref's encoded dimensions) — video/lottie/
   // reactAnimation don't carry that same kind of intrinsic ratio here,
   // so they keep the fixed 7:4 aspect-hero box below.
-  const showcaseIsImage = showcaseMedia?.mediaType === 'image' && !!showcaseMedia.image
+  const showcaseIsImage = showcaseMedia?.mediaType === 'image' && hasMedia(showcaseMedia)
   // An image background with nothing in it (picked, then cleared) draws
   // nothing — not the placeholder gradient under the dark tint.
-  const bg = backgroundImage
-  const hasBackgroundImage =
-    backgroundType === 'image' &&
-    ((bg?.mediaType === 'image' && !!bg.image) ||
-      (bg?.mediaType === 'video' && !!bg.videoUrl) ||
-      (bg?.mediaType === 'lottie' && !!bg.lottieUrl) ||
-      (bg?.mediaType === 'reactAnimation' && !!bg.animation))
+  const hasBackgroundImage = backgroundType === 'image' && hasMedia(backgroundImage)
 
   return (
     // Experimental composition, not settled tokens yet. The text zone

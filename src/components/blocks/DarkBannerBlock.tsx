@@ -6,6 +6,7 @@ import { SectionShell } from '@/components/ui/SectionShell'
 import { SectionIntro } from '@/components/ui/SectionIntro'
 import { ItemHeading } from '@/components/ui/ItemHeading'
 import { urlFor } from '@/lib/sanity/image'
+import { hasImage } from '@/lib/sanity/media'
 import { UploadedIcon, type IconSurface } from '@/components/ui/UploadedIcon'
 
 type DarkBannerItem = {
@@ -109,7 +110,7 @@ export function DarkBannerBlock({
         {/* Right padding wider than left on mobile — the intro text
             otherwise runs too close to the card's edge. */}
         <div className="relative pt-large pl-medium-large pr-xl md:p-2xl md:pr-0">
-          {leftImage && (
+          {hasImage(leftImage) && (
             <Image
               src={urlFor(leftImage).url()}
               alt=""

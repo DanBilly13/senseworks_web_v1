@@ -32,13 +32,13 @@ export const fullWidthSingleBlock = defineType({
     defineField({ name: 'ctaHref', title: 'Button link', type: 'string' }),
     defineField({
       name: 'tone',
-      title: 'Panel style',
+      title: 'Background',
       type: 'string',
       options: {
         list: [
-          { title: 'Default (muted background, dark text)', value: 'default' },
-          { title: 'Inverse (dark background, light text)', value: 'inverse' },
-          { title: 'Accent (accent background, dark text)', value: 'accent' },
+          { title: 'Light grey', value: 'default' },
+          { title: 'Dark', value: 'inverse' },
+          { title: 'Accent', value: 'accent' },
         ],
         layout: 'radio',
       },

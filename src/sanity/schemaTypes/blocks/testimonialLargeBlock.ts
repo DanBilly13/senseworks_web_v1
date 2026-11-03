@@ -21,7 +21,7 @@ export const testimonialLargeBlock = defineType({
       type: 'string',
       options: {
         list: [
-          { title: 'Accent gradient (default)', value: 'accent' },
+          { title: 'Accent gradient', value: 'accent' },
           { title: 'Dark accent gradient', value: 'accentDark' },
         ],
         layout: 'radio',

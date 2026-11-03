@@ -23,13 +23,13 @@ export const darkBannerBlock = defineType({
     }),
     defineField({
       name: 'tone',
-      title: 'Panel style',
+      title: 'Background',
       type: 'string',
       options: {
         list: [
-          { title: 'Dark (black background, light text)', value: 'dark' },
-          { title: 'Accent (accent background, dark text)', value: 'accent' },
-          { title: 'White (white background, dark text)', value: 'white' },
+          { title: 'White', value: 'white' },
+          { title: 'Dark', value: 'dark' },
+          { title: 'Accent', value: 'accent' },
         ],
         layout: 'radio',
       },

@@ -11,7 +11,7 @@ import { typingHeadlineField } from '../fields/typingHeadlineField'
 // stable Hero block or its simpler layout switch.
 export const heroImageOverlayCardBlock = defineType({
   name: 'heroImageOverlayCardBlock',
-  title: 'Hero — Image Overlay Card (experimental)',
+  title: 'Hero — Image Overlay Card',
   type: 'object',
   fields: [
     hiddenField,
@@ -39,7 +39,7 @@ export const heroImageOverlayCardBlock = defineType({
       name: 'cardBackground',
       title: 'Text card background — desktop',
       description:
-        'The fill behind the eyebrow/headline/body/button card itself, desktop only — not the backdrop around it or the video (see Backdrop color, below), and not mobile (see Text card background — mobile, below) — desktop and mobile can each have their own fill.',
+        'The fill behind the eyebrow/headline/body/button card itself, desktop only — not the backdrop around it or the video (see Background, below), and not mobile (see Text card background — mobile, below) — desktop and mobile can each have their own fill.',
       type: 'string',
       options: {
         list: [
@@ -58,7 +58,7 @@ export const heroImageOverlayCardBlock = defineType({
       type: 'string',
       options: {
         list: [
-          { title: 'Light (dark text) — the original mobile default', value: 'light' },
+          { title: 'Light (dark text)', value: 'light' },
           { title: 'Dark (light text)', value: 'dark' },
           { title: 'Gradient (dark text)', value: 'gradient' },
         ],
@@ -97,16 +97,16 @@ export const heroImageOverlayCardBlock = defineType({
     }),
     defineField({
       name: 'tone',
-      title: 'Backdrop color',
+      title: 'Background',
       description:
         'The page background showing around the video and (at Card width 50%) beside the text card — NOT the text card’s own fill (see Text card background, above). Only visible where the card doesn’t fully cover the row, e.g. has little effect at Card width 100%.',
       type: 'string',
       options: {
         list: [
-          { title: 'Default (muted background)', value: 'default' },
-          { title: 'Inverse (dark background)', value: 'inverse' },
-          { title: 'Accent (accent background)', value: 'accent' },
-          { title: 'Gradient (same accent gradient as the card option)', value: 'gradient' },
+          { title: 'Light grey', value: 'default' },
+          { title: 'Dark', value: 'inverse' },
+          { title: 'Accent', value: 'accent' },
+          { title: 'Accent gradient', value: 'gradient' },
         ],
         layout: 'radio',
       },

@@ -44,6 +44,7 @@ export const comparisonTableBlock = defineType({
     defineField({
       name: 'labelSize',
       title: 'Row text size',
+      description: 'How big the text in the left-hand column is.',
       type: 'string',
       options: {
         list: [

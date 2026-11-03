@@ -3,7 +3,7 @@ import { SectionShell } from '@/components/ui/SectionShell'
 import { SectionIntro } from '@/components/ui/SectionIntro'
 import { Media } from '@/components/ui/Media'
 import { ScrollRevealStage } from './ScrollRevealStage'
-import type { MediaField } from '@/lib/sanity/media'
+import { hasMedia, type MediaField } from '@/lib/sanity/media'
 import { BAND_BG, type BandTone } from '@/components/ui/BandFill'
 
 type HeroBlockProps = {
@@ -215,7 +215,7 @@ function HeroSplitHalf({
         <div className="absolute inset-0 flex flex-col">
           <Media media={media} alt={headline} className="min-h-0 w-full flex-1" />
           {stack === 'stacked' && (
-            <Media media={secondMedia ?? media} alt={headline} ariaHidden className="hidden min-h-0 w-full flex-1 md:block" />
+            <Media media={hasMedia(secondMedia) ? secondMedia : media} alt={headline} ariaHidden className="hidden min-h-0 w-full flex-1 md:block" />
           )}
         </div>
       </div>

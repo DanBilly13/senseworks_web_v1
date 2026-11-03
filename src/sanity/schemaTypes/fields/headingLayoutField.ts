@@ -8,7 +8,7 @@ import { defineField } from 'sanity'
 // bold" option, for use sparingly where it fits.
 export const headingLayoutField = defineField({
   name: 'headingLayout',
-  title: 'Title style',
+  title: 'Item title style',
   description:
     'Stacked: title above description, as usual. Inline: title and description flow together as one line — title bold and dark, description regular and grey — instead of stacking on separate lines.',
   type: 'string',

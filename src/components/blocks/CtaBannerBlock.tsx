@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/Button'
 import { SECTION_GAP_MB_CLASS, SectionShell } from '@/components/ui/SectionShell'
 import { SectionIntro } from '@/components/ui/SectionIntro'
 import { urlFor } from '@/lib/sanity/image'
+import { hasImage } from '@/lib/sanity/media'
 
 type ButtonVariant = 'filled-dark' | 'filled-accent' | 'filled-light' | 'ghost'
 type Spacing = 'loose' | 'medium' | 'tight' | 'none'
@@ -101,9 +102,9 @@ export function CtaBannerBlock({
     // centered — a min, not a fixed height, so longer content can
     // still grow it taller without clipping.
     <div
-      className={`relative flex items-center overflow-hidden ${backgroundImage ? 'min-h-cta-banner-image' : 'min-h-cta-banner'} ${SECTION_BG[tone]} ${SECTION_GAP_MB_CLASS[spacing]}`}
+      className={`relative flex items-center overflow-hidden ${hasImage(backgroundImage) ? 'min-h-cta-banner-image' : 'min-h-cta-banner'} ${SECTION_BG[tone]} ${SECTION_GAP_MB_CLASS[spacing]}`}
     >
-      {backgroundImage && (
+      {hasImage(backgroundImage) && (
         <Image
           src={urlFor(backgroundImage).url()}
           alt=""

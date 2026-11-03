@@ -8,7 +8,7 @@ import { headlineSizeField } from '../fields/headlineSizeField'
 // the content width; then the page scrolls on as normal.
 export const heroScrollZoomBlock = defineType({
   name: 'heroScrollZoomBlock',
-  title: 'Hero — Scroll Zoom (experimental)',
+  title: 'Hero — Scroll Zoom',
   type: 'object',
   fields: [
     hiddenField,
@@ -41,8 +41,8 @@ export const heroScrollZoomBlock = defineType({
       type: 'string',
       options: {
         list: [
-          { title: 'Dark (accent headline, white text)', value: 'inverse' },
-          { title: 'Accent (dark text)', value: 'accent' },
+          { title: 'Dark', value: 'inverse' },
+          { title: 'Accent', value: 'accent' },
         ],
         layout: 'radio',
       },

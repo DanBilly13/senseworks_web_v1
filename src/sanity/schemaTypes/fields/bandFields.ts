@@ -20,17 +20,17 @@ export const bandFields = ({ withDarkGradient = false, fieldName = 'tone' } = {}
     name: fieldName,
     title: 'Background',
     description:
-      'None sits straight on the page. Dark or Accent fills the full screen width. For two blocks to read as one band, give both the same background and set the padding and spacing between them.',
+      'None sits straight on the page. The others fill the full screen width: Accent gradient fades the accent to light grey (as on the heroes), Dark accent gradient fades it to black. For two blocks to read as one band, give both the same background and set the padding and spacing between them.',
     type: 'string',
     options: {
       list: [
-        { title: 'None (the page background)', value: 'none' },
+        { title: 'None', value: 'none' },
         { title: 'Dark', value: 'inverse' },
         { title: 'Accent', value: 'accent' },
         ...(withDarkGradient
           ? [
-              { title: 'Dark accent gradient (the accent fading to black)', value: 'accentDark' },
-              { title: 'Accent gradient (the accent fading to light grey, as on the heroes)', value: 'accentGradient' },
+              { title: 'Accent gradient', value: 'accentGradient' },
+              { title: 'Dark accent gradient', value: 'accentDark' },
             ]
           : []),
       ],

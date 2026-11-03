@@ -23,27 +23,27 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
   },
   {
     type: 'heroBackdropBlock',
-    title: 'Hero — Backdrop (experimental)',
+    title: 'Hero — Backdrop',
     description:
-      'Flexible full-bleed backdrop (image, color, or gradient) behind text and a separate showcase image/video.',
+      'Experimental. Flexible full-bleed backdrop (image, color, or gradient) behind text and a separate showcase image/video.',
   },
   {
     type: 'heroAllyBlock',
-    title: 'Hero — Ally 3D (experimental)',
+    title: 'Hero — Ally 3D',
     description:
-      'One screen tall on the accent gradient: eyebrow, headline, subtext and button, with the 3D Ally rising from the bottom edge behind them, her head following the cursor.',
+      'Experimental. One screen tall on the accent gradient: eyebrow, headline, subtext and button, with the 3D Ally rising from the bottom edge behind them, her head following the cursor.',
   },
   {
     type: 'heroScrollZoomBlock',
-    title: 'Hero — Scroll Zoom (experimental)',
+    title: 'Hero — Scroll Zoom',
     description:
-      'A dark screen, the headline in the accent over a small faded image/video. Scrolling fades the text out while the media grows to fill the screen, then the page scrolls on.',
+      'Experimental. A dark (or accent) screen: headline top left, body and button bottom right. Scrolling grows the image/video from small to the content width, covering the text, then the page scrolls on.',
   },
   {
     type: 'heroImageOverlayCardBlock',
-    title: 'Hero — Image Overlay Card (experimental)',
+    title: 'Hero — Image Overlay Card',
     description:
-      'Full-bleed pinned video with text in a card overlay. On desktop, scrolling carries the card away then morphs the video down to content width before releasing.',
+      'Experimental. Full-bleed pinned video with text in a card overlay. On desktop, scrolling carries the card away then morphs the video down to content width before releasing.',
   },
   {
     type: 'heroTextBlock',
@@ -115,7 +115,7 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
   },
   {
     type: 'horizontalScrollStackMediumBlock',
-    title: 'Horizontal Scroll Stack Medium',
+    title: 'Horizontal Scroll Stack — Medium',
     description:
       'Desktop: pins in place and slides a row of Feature-Split-sized images with captions sideways as the page scrolls down, under a left-aligned H2/H3 title and optional text that stay put. Stacks vertically on mobile. Light or dark.',
   },

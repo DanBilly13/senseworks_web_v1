@@ -34,8 +34,8 @@ export const caseStudyGridBlock = defineType({
       type: 'string',
       options: {
         list: [
-          { title: 'Default (light)', value: 'default' },
-          { title: 'Dark (black background, white text)', value: 'dark' },
+          { title: 'Light', value: 'default' },
+          { title: 'Dark', value: 'dark' },
         ],
         layout: 'radio',
       },

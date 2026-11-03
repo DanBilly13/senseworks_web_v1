@@ -30,7 +30,8 @@ export const sectionHeadlineBlock = defineType({
     defineField({ name: 'ctaHref', type: 'string' }),
     defineField({
       name: 'size',
-      title: 'Size',
+      title: 'Headline size',
+      description: 'How big the headline is drawn. It stays a section heading in the page outline whatever its size.',
       type: 'string',
       options: {
         list: [
@@ -46,6 +47,7 @@ export const sectionHeadlineBlock = defineType({
     }),
     defineField({
       name: 'align',
+      title: 'Text alignment',
       type: 'string',
       options: {
         list: [
