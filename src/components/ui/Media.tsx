@@ -48,6 +48,9 @@ type MediaProps = {
   // 'none' opts out of the placeholder fill — e.g. a logo mark that
   // should sit directly on the page, not look like a card.
   background?: 'gradient' | 'none'
+  // Draws the gradient in this page theme instead of the page's own
+  // (see data-page-theme in globals.css).
+  theme?: 'default' | 'revision' | 'analysis'
   // Video and reactAnimation (on top of the animation's own in-view
   // pause below). When true, holds playback rather than autoplaying — the
   // caller decides why/when (e.g. HeroScrollReveal's video not
@@ -66,6 +69,7 @@ export function Media({
   fallback,
   ariaHidden,
   background = 'gradient',
+  theme,
   paused = false,
 }: MediaProps) {
   const [animRef, animInView] = useInView<HTMLDivElement>()
@@ -101,6 +105,7 @@ export function Media({
       role={hasAsset ? undefined : 'img'}
       aria-label={hasAsset ? undefined : resolvedAlt}
       aria-hidden={ariaHidden || undefined}
+      data-page-theme={theme}
     >
       {!hasAsset && fallback && (
         <div className="absolute inset-0 flex items-center justify-center" aria-hidden="true">

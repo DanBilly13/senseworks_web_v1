@@ -55,6 +55,23 @@ export const featureSplitBlock = defineType({
       initialValue: 'h3',
     }),
     defineField({ name: 'media', title: 'Media', type: 'media' }),
+    defineField({
+      name: 'imageBackground',
+      title: 'Image background',
+      description: "The gradient behind the image. Page theme follows the page's own color; pick one to override it for this block.",
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Page theme', value: 'page' },
+          { title: 'Yellow', value: 'default' },
+          { title: 'Purple', value: 'revision' },
+          { title: 'Green', value: 'analysis' },
+        ],
+        layout: 'radio',
+        direction: 'horizontal',
+      },
+      initialValue: 'page',
+    }),
     spacingField,
   ],
   preview: {

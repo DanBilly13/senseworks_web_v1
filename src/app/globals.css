@@ -873,6 +873,15 @@ p {
     );
 }
 
+/* Yellow again, for a block that overrides a purple/green page back to
+   the default (Feature Split's "Image background"). Same values as
+   :root above. */
+[data-page-theme='default'] {
+  --color-accent: #fbfeac;
+  --color-icon-accent: #f7faa8;
+  --gradient-accent: linear-gradient(208deg, #fbfeac 38.9423%, #f2f2f3 62.0192%);
+}
+
 [data-page-theme='revision'] {
   --color-accent: #b38aff;
   --color-icon-accent: #b38aff;

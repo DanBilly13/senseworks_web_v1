@@ -21,6 +21,8 @@ type FeatureSplitBlockProps = {
   imagePosition?: 'left' | 'right'
   headingLevel?: 'h2' | 'h3'
   media?: MediaField
+  // The gradient behind the image: the page theme's, or one picked here.
+  imageBackground?: 'page' | 'default' | 'revision' | 'analysis'
   spacing?: 'loose' | 'medium' | 'tight' | 'none'
 }
 
@@ -33,6 +35,7 @@ export function FeatureSplitBlock({
   imagePosition = 'left',
   headingLevel = 'h3',
   media,
+  imageBackground = 'page',
   spacing = 'loose',
 }: FeatureSplitBlockProps) {
   // px-large/md:px-medium-large (32/24) — this is plain, non-boxed
@@ -56,6 +59,7 @@ export function FeatureSplitBlock({
         <Media
           media={media}
           alt={heading}
+          theme={imageBackground === 'page' ? undefined : imageBackground}
           className="aspect-media w-full rounded-lg border border-border md:flex-1"
         />
         <div className="w-full md:max-w-prose-xs md:shrink-0">

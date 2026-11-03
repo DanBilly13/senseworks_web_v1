@@ -462,6 +462,15 @@ export default async function BlocksPage({
         ctaHref="#"
         imagePosition="right"
       />
+      <BlockCaption name="Feature Split — Purple image background" type="featureSplitBlock" variant='imageBackground: "revision"' />
+      <FeatureSplitBlock
+        eyebrow={EYEBROW}
+        heading={HEADING}
+        body={BODY}
+        ctaLabel="Lorem ipsum"
+        ctaHref="#"
+        imageBackground="revision"
+      />
       <BlockCaption name="Feature Split — Dark" type="featureSplitDarkBlock" />
       <FeatureSplitDarkBlock heading={HEADING} subhead="Lorem ipsum dolor sit amet" body={BODY} ctaLabel="Lorem ipsum" ctaHref="#" />
       <BlockCaption name="50/50 Banner — Image Right" type="fiftyFiftyBannerBlock" variant='imagePosition: "right"' />
