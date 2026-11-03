@@ -6,12 +6,12 @@ import { SectionIntro } from '@/components/ui/SectionIntro'
 import { renderNumberedEyebrow } from '@/components/ui/numberedEyebrow'
 import { Media } from '@/components/ui/Media'
 import { urlFor } from '@/lib/sanity/image'
-import type { MediaField } from '@/lib/sanity/media'
+import { hasImage, hasMedia, type MediaField } from '@/lib/sanity/media'
 
 function isRealImage(
   media?: MediaField
 ): media is NonNullable<MediaField> & { mediaType: 'image'; image: NonNullable<NonNullable<MediaField>['image']> } {
-  return !!media && media.mediaType === 'image' && !!media.image
+  return !!media && media.mediaType === 'image' && hasImage(media.image)
 }
 
 // Bypasses Media for a real image — same reasoning as Full Width
@@ -120,7 +120,7 @@ function PanelContent({ panel, mobileImageStyle }: { panel: ScrollStackPanelData
         maxWidth="lg"
         tone="inverse"
       />
-      {panel.media && (
+      {hasMedia(panel.media) && (
         // marginTop on this wrapper, not PanelImage's own imageStyle
         // (that targets the <Image> itself, which is absolutely
         // positioned via `fill` — shifting IT doesn't move the box in

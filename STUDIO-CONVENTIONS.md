@@ -49,3 +49,37 @@ by `src/sanity/schemaTypes/blockConventions.ts` and checked by
 - **Stored values never change casually.** Renaming a field or an
   option's value needs a content migration (drafts and page versions
   included). Changing a title, a description or the order is free.
+
+## Adding a block: checklist
+
+1. Schema in `src/sanity/schemaTypes/blocks/`, starting with
+   `hiddenField`; use the shared fields (`spacingField`, `bandFields()`,
+   `headlineSizeField()`, `titleSizeField()`, `headingLayoutField`,
+   `contentWidthField`) rather than writing your own.
+2. Register it in `src/sanity/schemaTypes/index.ts`, in the page's
+   `blocks` list **and** one `insertMenu` group (`page.ts`), in
+   `BlockRenderer.tsx`, and in `structure/componentLibrary.ts`.
+3. Component in `src/components/blocks/`, using `SectionShell` /
+   `SectionIntro`, with optional images checked by `hasMedia()` /
+   `hasImage()`.
+4. An example on the blocks gallery page (`src/app/[locale]/blocks`).
+5. `yarn test`, then `npx sanity deploy` so editors get it.
+
+## What's checked automatically
+
+`yarn test` (and the *Checks* run GitHub does on every push and pull
+request, `.github/workflows/checks.yml`) fails when a block:
+
+- isn't registered in all four places, or is in no menu group or two;
+- is missing the Content/Design tabs, doesn't start with *Hide block*,
+  or doesn't end with *Section spacing*;
+- has a Design setting without help text;
+- offers a background outside the standard set or order, or stores an
+  old value (`inverse`, `default`, `muted`);
+- uses an old field name (`heading`, `size`, `headingLevel`);
+- starts a shared setting (spacing, title size and style, image
+  position, alignment) differently from other blocks without being on
+  the deliberate list in `tests/blockRules.test.ts`;
+- checks an image with `if (media)` instead of `hasMedia()` /
+  `hasImage()`;
+- has "(default)" in an option label, or a one-line headline box.

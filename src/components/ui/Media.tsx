@@ -3,7 +3,7 @@ import Image from 'next/image'
 import dynamic from 'next/dynamic'
 import { useEffect, useRef } from 'react'
 import { urlFor } from '@/lib/sanity/image'
-import type { MediaAlign, MediaField } from '@/lib/sanity/media'
+import { hasImage, type MediaAlign, type MediaField } from '@/lib/sanity/media'
 import type { ReactNode } from 'react'
 import { ANIMATION_COMPONENTS, type AnimationName } from '@/components/animations'
 import { ScaledCanvas } from '@/components/animations/ScaledCanvas'
@@ -87,7 +87,7 @@ export function Media({
       ? ANIMATION_COMPONENTS[media.animation as AnimationName]
       : undefined
   const hasAsset =
-    (media?.mediaType === 'image' && !!media.image) ||
+    (media?.mediaType === 'image' && hasImage(media.image)) ||
     (media?.mediaType === 'video' && !!media.videoUrl) ||
     (media?.mediaType === 'lottie' && !!media.lottieUrl) ||
     !!animationEntry
@@ -112,7 +112,7 @@ export function Media({
           {fallback}
         </div>
       )}
-      {media?.mediaType === 'image' && media.image && (
+      {media?.mediaType === 'image' && hasImage(media.image) && (
         scale === 100 ? (
           <Image
             src={urlFor(media.image).url()}

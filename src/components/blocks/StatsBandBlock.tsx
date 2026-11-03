@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/Button'
 import { SectionShell } from '@/components/ui/SectionShell'
 import { HALF_HEADING_LINE_HEIGHT_GAP, SectionIntro } from '@/components/ui/SectionIntro'
 import { Media } from '@/components/ui/Media'
-import type { MediaField } from '@/lib/sanity/media'
+import { hasMedia, type MediaField } from '@/lib/sanity/media'
 
 type SpacingValue = 'loose' | 'medium' | 'tight' | 'none'
 type StatsBandTone = 'none' | 'light' | 'dark' | 'accent' | 'image'
@@ -186,7 +186,7 @@ export function StatsBandBlock({
   return (
     <SectionShell px="full" py={spacing}>
       <div className={`relative overflow-hidden md:rounded-lg ${PANEL_BG[tone]}`}>
-        {tone === 'image' && (
+        {tone === 'image' && hasMedia(backgroundImage) && (
           <>
             <div className="absolute inset-0">
               <Media media={backgroundImage} alt="" className="size-full" />

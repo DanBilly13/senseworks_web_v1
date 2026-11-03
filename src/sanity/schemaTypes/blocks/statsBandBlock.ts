@@ -64,6 +64,7 @@ export const statsBandBlock = defineType({
     defineField({
       name: 'backgroundImage',
       title: 'Background image',
+      description: 'Fills the band behind the stats, under a dark tint so the white text stays readable. With no picture the band stays dark.',
       type: 'media',
       hidden: ({ parent }) => parent?.tone !== 'image',
     }),

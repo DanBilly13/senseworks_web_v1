@@ -5,7 +5,7 @@ import { SectionIntro, HALF_HEADING_LINE_HEIGHT_GAP } from '@/components/ui/Sect
 import { Media } from '@/components/ui/Media'
 import { renderNumberedEyebrow } from '@/components/ui/numberedEyebrow'
 import { urlFor } from '@/lib/sanity/image'
-import type { MediaField } from '@/lib/sanity/media'
+import { hasImage, hasMedia, type MediaField } from '@/lib/sanity/media'
 
 type ButtonVariant = 'filled-dark' | 'filled-accent' | 'filled-light' | 'ghost'
 type FullWidthSingleBlockTone = 'light' | 'dark' | 'accent'
@@ -15,7 +15,7 @@ type MediaPosition = 'afterBody' | 'afterHeading'
 function isRealImage(
   media?: MediaField
 ): media is NonNullable<MediaField> & { mediaType: 'image'; image: NonNullable<NonNullable<MediaField>['image']> } {
-  return !!media && media.mediaType === 'image' && !!media.image
+  return !!media && media.mediaType === 'image' && hasImage(media.image)
 }
 
 // The cropped/faded treatment both the one- and two-image layouts
@@ -143,14 +143,9 @@ export function FullWidthSingleBlock({
   const isSplit = hasImage1 && hasImage2
   const singleImageMedia = hasImage1 ? media : hasImage2 ? media2 : undefined
   // Media is optional — no placeholder/gradient box when nothing's
-  // uploaded, unlike most other blocks' media slots. Mirrors Media's
-  // own internal hasAsset check rather than just `!!media`, since a
-  // media object can exist with its type set but no asset attached yet.
-  const hasAsset =
-    !!singleImageMedia ||
-    (media?.mediaType === 'video' && !!media.videoUrl) ||
-    (media?.mediaType === 'lottie' && !!media.lottieUrl) ||
-    (media?.mediaType === 'reactAnimation' && !!media.animation)
+  // uploaded, unlike most other blocks' media slots (hasMedia, not
+  // `!!media`: a cleared picture leaves an empty media object behind).
+  const hasAsset = !!singleImageMedia || (media?.mediaType !== 'image' && hasMedia(media))
 
   const alignClass = align === 'center' ? 'items-center text-center' : ''
 

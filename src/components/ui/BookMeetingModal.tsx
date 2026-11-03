@@ -6,6 +6,7 @@ import { Media } from '@/components/ui/Media'
 import { buttonVariants } from '@/components/ui/Button'
 import { BookMeetingContext } from '@/components/ui/bookMeetingContext'
 import type { BookMeetingSettings } from '@/lib/sanity/bookMeeting'
+import { hasImage } from '@/lib/sanity/media'
 
 type Copy = {
   heading: string
@@ -115,7 +116,7 @@ function BookMeetingContent({
         </div>
         {showContact && (
           <div className="flex flex-col gap-medium">
-            {contact?.photo && (
+            {hasImage(contact?.photo) && (
               <Media
                 media={{ mediaType: 'image', image: contact.photo }}
                 alt={contact.name ?? ''}

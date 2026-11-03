@@ -1,0 +1,23 @@
+# Runs the tests (including the Studio house rules, see
+# STUDIO-CONVENTIONS.md) and the type check on every push and pull
+# request, so a block that skips a rule shows a red cross on the commit.
+# Vercel deploys separately and isn't held up by this.
+name: Checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: yarn
+      - run: yarn install --frozen-lockfile
+      - run: npx tsc --noEmit -p .
+      - run: yarn test

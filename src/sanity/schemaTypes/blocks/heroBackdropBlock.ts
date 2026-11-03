@@ -17,8 +17,8 @@ export const heroBackdropBlock = defineType({
     hiddenField,
     defineField({
       name: 'backgroundType',
-      title: 'Background',
-      description: 'None leaves the page background showing. An image with no picture chosen shows nothing either.',
+      title: 'Background type',
+      description: 'What fills the hero behind the text. None leaves the page background showing; an image with no picture chosen shows nothing either. Color and Gradient are picked below.',
       type: 'string',
       options: {
         list: [
@@ -35,12 +35,14 @@ export const heroBackdropBlock = defineType({
     defineField({
       name: 'backgroundImage',
       title: 'Background image',
+      description: 'Fills the whole hero behind the text, under a dark tint. Remove the picture and the hero shows the page background.',
       type: 'media',
       hidden: ({ parent }) => parent?.backgroundType !== 'image',
     }),
     defineField({
       name: 'backgroundColor',
       title: 'Background color',
+      description: 'The colour behind the whole hero. Pick a matching Text color below.',
       type: 'string',
       options: {
         list: [

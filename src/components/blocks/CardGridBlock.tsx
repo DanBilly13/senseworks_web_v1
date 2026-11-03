@@ -5,6 +5,7 @@ import { BandFill, bandShellPadding, type BandProps, type BandTone } from '@/com
 import { SectionIntro } from '@/components/ui/SectionIntro'
 import { renderNumberedEyebrow } from '@/components/ui/numberedEyebrow'
 import { urlFor } from '@/lib/sanity/image'
+import { hasImage } from '@/lib/sanity/media'
 
 type CardGridItem = {
   image?: SanityImageSource
@@ -141,7 +142,7 @@ export function CardGridBlock({
             again once SectionShell's own px="full" restores a page
             margin at md:. The card's own TOP padding is separate from
             this rhythm and responds to whether it has an image — see
-            hasImage below. */}
+            withImage below. */}
         <div
           className={[
             'grid grid-cols-1',
@@ -153,7 +154,7 @@ export function CardGridBlock({
             .join(' ')}
         >
           {items.map((item, index) => {
-            const hasImage = showImage && !!item.image
+            const withImage = showImage && hasImage(item.image)
             return (
               <div
                 key={index}
@@ -175,7 +176,7 @@ export function CardGridBlock({
                     between the text and the true screen edge there. */}
                 <div
                   className={`flex flex-1 flex-col pt-large ${merged ? 'px-large' : 'px-medium-large md:px-large'}`}
-                  style={{ paddingBottom: hasImage ? undefined : CARD_PADDING_BOTTOM_VAR[titleSize] }}
+                  style={{ paddingBottom: withImage ? undefined : CARD_PADDING_BOTTOM_VAR[titleSize] }}
                 >
                   <SectionIntro
                     as={titleSize}
@@ -200,7 +201,7 @@ export function CardGridBlock({
                     // scales with h3 vs h4. Card Grid used to opt into the
                     // full line-height, which read noticeably loose.
                   />
-                  {hasImage && (
+                  {withImage && (
                     // bg-accent-gradient backdrop — same treatment
                     // Media.tsx gives every media slot by default (see
                     // Bento Grid). Temporary: Dan wants a different

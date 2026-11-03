@@ -1,6 +1,7 @@
 'use client'
 import { CalendarOutlined, CheckCircleFilled, UserOutlined } from '@ant-design/icons'
 import { Media } from '@/components/ui/Media'
+import { hasMedia } from '@/lib/sanity/media'
 import { HoverPreview } from '@/components/ui/HoverPreview'
 import { Tag } from '@/components/ui/Tag'
 import { formatReleaseDate, STAGES, TAGS, type Release, type ReleaseLocale } from '@/lib/releases'
@@ -59,7 +60,7 @@ export function ReleaseCard({ release, locale }: { release: Release; locale: Rel
       {/* The image row (empty without one, still holding the card's
           bottom padding so the footer lines up with its neighbours'). */}
       <div className="px-medium-large pt-medium-large pb-medium-large md:px-large md:pb-large">
-        {release.media && (
+        {hasMedia(release.media) && (
           // Resting the mouse on the image shows it larger (ui/HoverPreview).
           <HoverPreview preview={<Media media={release.media} alt="" className="size-full" sizes="56rem" />}>
             <Media media={release.media} alt={release.title} className="aspect-media w-full rounded-md border border-border" />
