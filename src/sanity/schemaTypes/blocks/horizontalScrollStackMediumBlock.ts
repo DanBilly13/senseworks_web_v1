@@ -12,13 +12,13 @@ export const horizontalScrollStackMediumBlock = defineType({
     hiddenField,
     defineField({ name: 'eyebrow', type: 'string' }),
     defineField({
-      name: 'heading',
+      name: 'headline',
       description: 'Sits above the slides, left-aligned, and stays put while they move.',
       type: 'string',
       validation: (Rule) => Rule.max(100),
     }),
     defineField({
-      name: 'headingLevel',
+      name: 'headlineSize',
       title: 'Headline size',
       description: 'H2 for a main section title, H3 for a smaller one under another heading.',
       type: 'string',
@@ -44,13 +44,13 @@ export const horizontalScrollStackMediumBlock = defineType({
       type: 'string',
       options: {
         list: [
-          { title: 'None', value: 'default' },
+          { title: 'None', value: 'none' },
           { title: 'Dark', value: 'dark' },
           { title: 'Dark accent gradient', value: 'accentDark' },
         ],
         layout: 'radio',
       },
-      initialValue: 'default',
+      initialValue: 'none',
     }),
     { ...headingLayoutField, initialValue: 'inline' },
     titleSizeField('h5'),
@@ -97,7 +97,7 @@ export const horizontalScrollStackMediumBlock = defineType({
     spacingField,
   ],
   preview: {
-    select: { heading: 'heading', slides: 'slides' },
+    select: { heading: 'headline', slides: 'slides' },
     prepare: ({ heading, slides }) => ({
       title: heading ? `Horizontal Scroll Stack Medium — ${heading}` : 'Horizontal Scroll Stack Medium',
       subtitle: `${slides?.length ?? 0} slides`,

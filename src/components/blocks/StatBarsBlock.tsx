@@ -33,7 +33,7 @@ export function shareOf(item: StatBarsItem): number {
 // dots disappear on the light page.
 const COLORS: Record<BandTone, { track: string; fill: string; onTrack: string; onFill: string; dot: string; muted: string }> = {
   none: { track: 'bg-foreground/5', fill: 'bg-accent', onTrack: 'text-foreground', onFill: 'text-foreground', dot: 'bg-foreground', muted: 'text-muted-foreground' },
-  inverse: { track: 'bg-background/10', fill: 'bg-accent', onTrack: 'text-background', onFill: 'text-foreground', dot: 'bg-accent', muted: 'text-background/60' },
+  dark: { track: 'bg-background/10', fill: 'bg-accent', onTrack: 'text-background', onFill: 'text-foreground', dot: 'bg-accent', muted: 'text-background/60' },
   accentDark: { track: 'bg-background/10', fill: 'bg-accent', onTrack: 'text-background', onFill: 'text-foreground', dot: 'bg-accent', muted: 'text-background/60' },
   accent: { track: 'bg-foreground/10', fill: 'bg-foreground', onTrack: 'text-foreground', onFill: 'text-background', dot: 'bg-foreground', muted: 'text-foreground/60' },
   accentGradient: { track: 'bg-foreground/10', fill: 'bg-foreground', onTrack: 'text-foreground', onFill: 'text-background', dot: 'bg-foreground', muted: 'text-foreground/60' },

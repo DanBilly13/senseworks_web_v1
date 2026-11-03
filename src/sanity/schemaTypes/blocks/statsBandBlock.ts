@@ -9,7 +9,7 @@ export const statsBandBlock = defineType({
   fields: [
     hiddenField,
     defineField({ name: 'eyebrow', type: 'string' }),
-    defineField({ name: 'heading', type: 'string', validation: (Rule) => Rule.max(100) }),
+    defineField({ name: 'headline', type: 'string', validation: (Rule) => Rule.max(100) }),
     defineField({
       name: 'body',
       type: 'text',
@@ -52,7 +52,7 @@ export const statsBandBlock = defineType({
       options: {
         list: [
           { title: 'None', value: 'none' },
-          { title: 'Light grey', value: 'muted' },
+          { title: 'Light grey', value: 'light' },
           { title: 'Dark', value: 'dark' },
           { title: 'Accent', value: 'accent' },
           { title: 'Image', value: 'image' },
@@ -102,7 +102,7 @@ export const statsBandBlock = defineType({
     }),
   ],
   preview: {
-    select: { title: 'heading', items: 'items' },
+    select: { title: 'headline', items: 'items' },
     prepare: ({ title, items }) => ({
       title: `Stats Band — ${title || 'Untitled'}`,
       subtitle: `${items?.length ?? 0} stats`,

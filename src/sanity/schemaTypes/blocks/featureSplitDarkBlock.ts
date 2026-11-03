@@ -9,7 +9,7 @@ export const featureSplitDarkBlock = defineType({
   fields: [
     hiddenField,
     defineField({
-      name: 'heading',
+      name: 'headline',
       title: 'Header',
       // Text, not string, so Enter adds a line break (shown as one on
       // the site). Stored the same either way.
@@ -56,7 +56,7 @@ export const featureSplitDarkBlock = defineType({
     spacingField,
   ],
   preview: {
-    select: { title: 'heading', position: 'imagePosition' },
+    select: { title: 'headline', position: 'imagePosition' },
     prepare: ({ title, position }) => ({
       title: `Feature Split — Dark — ${title || 'Untitled'}`,
       subtitle: `Image ${position || 'right'}`,

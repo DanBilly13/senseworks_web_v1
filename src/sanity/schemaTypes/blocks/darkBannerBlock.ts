@@ -12,7 +12,7 @@ export const darkBannerBlock = defineType({
     hiddenField,
     defineField({ name: 'eyebrow', type: 'string' }),
     defineField({
-      name: 'heading',
+      name: 'headline',
       type: 'string',
       validation: (Rule) => Rule.required().max(100),
     }),
@@ -102,7 +102,7 @@ export const darkBannerBlock = defineType({
     }),
   ],
   preview: {
-    select: { title: 'heading', items: 'items' },
+    select: { title: 'headline', items: 'items' },
     prepare: ({ title, items }) => ({
       title: `Dark Banner — ${title || 'Untitled'}`,
       subtitle: `${items?.length ?? 0} items`,

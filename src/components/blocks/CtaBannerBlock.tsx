@@ -11,7 +11,7 @@ type Spacing = 'loose' | 'medium' | 'tight' | 'none'
 
 type CtaBannerBlockProps = {
   eyebrow?: string
-  heading?: string
+  headline?: string
   body?: string
   ctaLabel: string
   ctaHref: string
@@ -19,7 +19,7 @@ type CtaBannerBlockProps = {
   secondaryCtaHref?: string
   // Small line of microcopy under the buttons.
   ctaNote?: string
-  tone?: 'default' | 'inverse' | 'accent'
+  tone?: 'light' | 'dark' | 'accent'
   // The space inside the banner above and below its content, and the gap
   // after it (outside the colour) — the same fields as the other blocks.
   // Unset keeps the banner's original look: Tight inside, no gap after.
@@ -37,28 +37,28 @@ type CtaBannerBlockProps = {
 }
 
 const SECTION_BG: Record<NonNullable<CtaBannerBlockProps['tone']>, string> = {
-  default: 'bg-muted',
-  inverse: 'bg-foreground',
+  light: 'bg-muted',
+  dark: 'bg-foreground',
   accent: 'bg-accent',
 }
 
 export function CtaBannerBlock({
   eyebrow,
-  heading,
+  headline,
   body,
   ctaLabel,
   ctaHref,
   secondaryCtaLabel,
   secondaryCtaHref,
   ctaNote,
-  tone = 'inverse',
+  tone = 'dark',
   paddingTop = 'tight',
   paddingBottom = 'tight',
   spacing = 'none',
   backgroundImage,
   buttonVariant,
 }: CtaBannerBlockProps) {
-  const resolvedButtonVariant = buttonVariant ?? (tone === 'inverse' ? 'filled-accent' : 'filled-dark')
+  const resolvedButtonVariant = buttonVariant ?? (tone === 'dark' ? 'filled-accent' : 'filled-dark')
   const ctaButtons = (
     <div className="flex flex-col items-center gap-medium">
       {/* The secondary link sits under the button, not beside it. */}
@@ -70,7 +70,7 @@ export function CtaBannerBlock({
           <a
             href={secondaryCtaHref}
             className={
-              tone === 'inverse'
+              tone === 'dark'
                 ? 'text-body-sm font-medium text-background underline underline-offset-4'
                 : 'text-body-sm font-medium text-foreground underline underline-offset-4'
             }
@@ -81,7 +81,7 @@ export function CtaBannerBlock({
       </div>
       {ctaNote && (
         <p
-          className={`text-body-sm ${tone === 'inverse' ? 'text-background/70' : 'text-muted-foreground'}`}
+          className={`text-body-sm ${tone === 'dark' ? 'text-background/70' : 'text-muted-foreground'}`}
         >
           {ctaNote}
         </p>
@@ -125,18 +125,18 @@ export function CtaBannerBlock({
         sectionClassName="w-full"
         className="relative z-10 flex justify-center"
       >
-        {eyebrow || heading ? (
+        {eyebrow || headline ? (
           <SectionIntro
             as="h2"
             eyebrow={eyebrow}
-            heading={heading}
+            heading={headline}
             body={body}
             align="center"
             maxWidth="sm"
             // Accent isn't dark enough to need inverse (light) text — the
             // regular dark text colors already read fine on it, same as
             // on the default muted background.
-            tone={tone === 'inverse' ? 'inverse' : 'default'}
+            tone={tone === 'dark' ? 'inverse' : 'default'}
             cta={ctaButtons}
           />
         ) : (
@@ -147,7 +147,7 @@ export function CtaBannerBlock({
           // instead of the whole banner silently losing its CTA.
           <div className="flex flex-col items-center gap-medium-large text-center">
             {body && (
-              <p className={`text-h5 font-medium ${tone === 'inverse' ? 'text-background' : 'text-foreground'}`}>
+              <p className={`text-h5 font-medium ${tone === 'dark' ? 'text-background' : 'text-foreground'}`}>
                 {body}
               </p>
             )}

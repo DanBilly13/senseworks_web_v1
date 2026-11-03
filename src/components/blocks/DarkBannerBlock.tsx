@@ -18,7 +18,7 @@ type DarkBannerTone = 'dark' | 'accent' | 'white'
 type IconSize = 'large' | 'small'
 type DarkBannerBlockProps = {
   eyebrow?: string
-  heading: string
+  headline: string
   body?: string
   tone?: DarkBannerTone
   // Optional — sits behind the left column's text (a transparent PNG
@@ -69,7 +69,7 @@ const ICON_SURFACE: Record<DarkBannerTone, IconSurface> = {
 
 export function DarkBannerBlock({
   eyebrow,
-  heading,
+  headline,
   body,
   tone = 'dark',
   leftImage,
@@ -124,7 +124,7 @@ export function DarkBannerBlock({
             <SectionIntro
               as="h2"
               eyebrow={eyebrow}
-              heading={heading}
+              heading={headline}
               body={body}
               tone={isDark ? 'inverse' : 'default'}
             />

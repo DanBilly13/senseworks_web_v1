@@ -151,7 +151,7 @@ export default async function BlocksPage({
         layout="split"
         eyebrow={EYEBROW}
         headline={HEADING}
-        subhead={BODY}
+        body={BODY}
         ctaLabel="Lorem ipsum"
         ctaHref="#"
       />
@@ -162,18 +162,18 @@ export default async function BlocksPage({
         imageRatio="7:4"
         eyebrow={EYEBROW}
         headline={HEADING}
-        subhead={BODY}
+        body={BODY}
         ctaLabel="Lorem ipsum"
         ctaHref="#"
       />
       <BlockCaption name="Hero — Side-by-side, Dark accent gradient" type="heroBlock" variant='layout: "split", tone: "accentDark"' />
-      <HeroBlock layout="split" tone="accentDark" eyebrow={EYEBROW} headline={HEADING} subhead={BODY} ctaLabel="Lorem ipsum" ctaHref="#" />
+      <HeroBlock layout="split" tone="accentDark" eyebrow={EYEBROW} headline={HEADING} body={BODY} ctaLabel="Lorem ipsum" ctaHref="#" />
       <BlockCaption name="Hero — 50/50 Split" type="heroBlock" variant='layout: "splitEven"' />
       <HeroBlock
         layout="splitEven"
         eyebrow={EYEBROW}
         headline={HEADING}
-        subhead={BODY}
+        body={BODY}
         ctaLabel="Lorem ipsum"
         ctaHref="#"
       />
@@ -183,7 +183,7 @@ export default async function BlocksPage({
         splitImage="half"
         eyebrow={EYEBROW}
         headline={HEADING}
-        subhead={BODY}
+        body={BODY}
         ctaLabel="Lorem ipsum"
         ctaHref="#"
       />
@@ -195,7 +195,7 @@ export default async function BlocksPage({
         stack="stacked"
         eyebrow={EYEBROW}
         headline={HEADING}
-        subhead={BODY}
+        body={BODY}
         ctaLabel="Lorem ipsum"
         ctaHref="#"
       />
@@ -204,7 +204,7 @@ export default async function BlocksPage({
           that scrolls up over the pinned hero. */}
       <BlockRenderer
         blocks={[
-          { _type: 'heroBlock', _key: 'pinned-hero', layout: 'imageOverlay', pinned: true, eyebrow: EYEBROW, headline: HEADING, subhead: BODY, ctaLabel: 'Lorem ipsum', ctaHref: '#' },
+          { _type: 'heroBlock', _key: 'pinned-hero', layout: 'imageOverlay', pinned: true, eyebrow: EYEBROW, headline: HEADING, body: BODY, ctaLabel: 'Lorem ipsum', ctaHref: '#' },
           { _type: 'sectionHeadlineBlock', _key: 'pinned-next', align: 'left', eyebrow: 'Eyebrow', headline: 'Lorem ipsum dolor sit amet', body: BODY },
         ]}
       />
@@ -214,18 +214,18 @@ export default async function BlocksPage({
         tone="accent"
         headlineSize="display"
         headline={'Lorem ipsum\nDolor sit amet'}
-        subhead={BODY}
+        body={BODY}
         ctaLabel="Lorem ipsum"
         ctaHref="#"
       />
-      <BlockCaption name="Hero — Overlap, Dark, 7:3" type="heroBlock" variant='layout: "overlap", tone: "inverse", imageRatio: "7:3"' />
-      <HeroBlock layout="overlap" tone="inverse" imageRatio="7:3" headlineSize="display" headline={'Lorem ipsum\nDolor sit amet'} subhead={BODY} ctaLabel="Lorem ipsum" ctaHref="#" />
+      <BlockCaption name="Hero — Overlap, Dark, 7:3" type="heroBlock" variant='layout: "overlap", tone: "dark", imageRatio: "7:3"' />
+      <HeroBlock layout="overlap" tone="dark" imageRatio="7:3" headlineSize="display" headline={'Lorem ipsum\nDolor sit amet'} body={BODY} ctaLabel="Lorem ipsum" ctaHref="#" />
       <BlockCaption name="Hero — Image Overlay" type="heroBlock" variant='layout: "imageOverlay"' />
       <HeroBlock
         layout="imageOverlay"
         eyebrow={EYEBROW}
         headline={HEADING}
-        subhead={BODY}
+        body={BODY}
         ctaLabel="Lorem ipsum"
         ctaHref="#"
       />
@@ -235,7 +235,7 @@ export default async function BlocksPage({
         headlineColor="accent"
         eyebrow={EYEBROW}
         headline={HEADING}
-        subhead={BODY}
+        body={BODY}
         ctaLabel="Lorem ipsum"
         ctaHref="#"
       />
@@ -249,7 +249,7 @@ export default async function BlocksPage({
         cardWidth="50"
         eyebrow={EYEBROW}
         headline={HEADING}
-        subhead={BODY}
+        body={BODY}
         ctaLabel="Lorem ipsum"
         ctaHref="#"
       />
@@ -265,7 +265,7 @@ export default async function BlocksPage({
         showBrandmark
         eyebrow={EYEBROW}
         headline={HEADING}
-        subhead={BODY}
+        body={BODY}
         ctaLabel="Lorem ipsum"
         ctaHref="#"
       />
@@ -279,7 +279,7 @@ export default async function BlocksPage({
         cardWidth="100"
         eyebrow={EYEBROW}
         headline={HEADING}
-        subhead={BODY}
+        body={BODY}
         ctaLabel="Lorem ipsum"
         ctaHref="#"
       />
@@ -294,7 +294,7 @@ export default async function BlocksPage({
         cardWidth="100"
         eyebrow={EYEBROW}
         headline={HEADING}
-        subhead={BODY}
+        body={BODY}
         ctaLabel="Lorem ipsum"
         ctaHref="#"
       />
@@ -309,22 +309,22 @@ export default async function BlocksPage({
         tone="accent"
         eyebrow={EYEBROW}
         headline={HEADING}
-        subhead={BODY}
+        body={BODY}
         ctaLabel="Lorem ipsum"
         ctaHref="#"
       />
       <BlockCaption
         name="Hero — Image Overlay Card (experimental, gradient tone around video)"
         type="heroImageOverlayCardBlock"
-        variant='cardBackground: "dark", cardWidth: "50", tone: "gradient"'
+        variant='cardBackground: "dark", cardWidth: "50", tone: "accentGradient"'
       />
       <HeroImageOverlayCardBlock
         cardBackground="dark"
         cardWidth="50"
-        tone="gradient"
+        tone="accentGradient"
         eyebrow={EYEBROW}
         headline={HEADING}
-        subhead={BODY}
+        body={BODY}
         ctaLabel="Lorem ipsum"
         ctaHref="#"
       />
@@ -338,7 +338,7 @@ export default async function BlocksPage({
         mediaWidth="full"
         eyebrow={EYEBROW}
         headline={HEADING}
-        subhead={BODY}
+        body={BODY}
         ctaLabel="Lorem ipsum"
         ctaHref="#"
       />
@@ -352,7 +352,7 @@ export default async function BlocksPage({
         mediaWidth="content"
         eyebrow={EYEBROW}
         headline={HEADING}
-        subhead={BODY}
+        body={BODY}
         ctaLabel="Lorem ipsum"
         ctaHref="#"
       />
@@ -366,7 +366,7 @@ export default async function BlocksPage({
         textTone="dark"
         eyebrow={EYEBROW}
         headline={HEADING}
-        subhead={BODY}
+        body={BODY}
         ctaLabel="Lorem ipsum"
         ctaHref="#"
       />
@@ -377,28 +377,28 @@ export default async function BlocksPage({
       />
       <HeroBackdropBlock
         backgroundType="color"
-        backgroundColor="foreground"
+        backgroundColor="dark"
         textTone="light"
         eyebrow={EYEBROW}
         headline={HEADING}
-        subhead={BODY}
+        body={BODY}
         ctaLabel="Lorem ipsum"
         ctaHref="#"
       />
       <BlockCaption name="Hero — Scroll Zoom (experimental)" type="heroScrollZoomBlock" />
       {/* Real-length copy: the text has to fit inside the media's 7:4 frame. */}
-      <HeroScrollZoomBlock headline={'Lorem ipsum\nDolor sit'} subhead={'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed.\nUt enim ad minim veniam, quis nostrud exercitation ullamco.'} ctaLabel="Lorem ipsum" ctaHref="#" />
-      <HeroScrollZoomBlock headline={'Lorem ipsum\nDolor sit'} subhead={'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed.\nUt enim ad minim veniam, quis nostrud exercitation ullamco.'} ctaLabel="Lorem ipsum" ctaHref="#" tone="accent" />
+      <HeroScrollZoomBlock headline={'Lorem ipsum\nDolor sit'} body={'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed.\nUt enim ad minim veniam, quis nostrud exercitation ullamco.'} ctaLabel="Lorem ipsum" ctaHref="#" />
+      <HeroScrollZoomBlock headline={'Lorem ipsum\nDolor sit'} body={'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed.\nUt enim ad minim veniam, quis nostrud exercitation ullamco.'} ctaLabel="Lorem ipsum" ctaHref="#" tone="accent" />
       <BlockCaption name="Hero — Ally 3D (experimental)" type="heroAllyBlock" />
-      <HeroAllyBlock eyebrow={EYEBROW} headline={HEADING} subhead={BODY} ctaLabel="Lorem ipsum" ctaHref="#" spacing="none" />
+      <HeroAllyBlock eyebrow={EYEBROW} headline={HEADING} body={BODY} ctaLabel="Lorem ipsum" ctaHref="#" spacing="none" />
       <BlockCaption name="Hero — Text Only" type="heroTextBlock" />
-      <HeroTextBlock eyebrow={EYEBROW} headline={HEADING} subhead={BODY} ctaLabel="Lorem ipsum" ctaHref="#" />
+      <HeroTextBlock eyebrow={EYEBROW} headline={HEADING} body={BODY} ctaLabel="Lorem ipsum" ctaHref="#" />
       {/* The background options: Light, Dark (accent eyebrow and button), Accent. */}
-      <HeroTextBlock eyebrow={EYEBROW} headline={HEADING} subhead={BODY} ctaLabel="Lorem ipsum" ctaHref="#" boundary={false} tone="default" />
-      <HeroTextBlock eyebrow={EYEBROW} headline={HEADING} subhead={BODY} ctaLabel="Lorem ipsum" ctaHref="#" boundary={false} tone="inverse" />
-      <HeroTextBlock eyebrow={EYEBROW} headline={HEADING} subhead={BODY} ctaLabel="Lorem ipsum" ctaHref="#" boundary={false} tone="accent" />
-      <BlockCaption name="Hero — Text Only, Dark, accent headline" type="heroTextBlock" variant='tone: "inverse", headlineColor: "accent"' />
-      <HeroTextBlock eyebrow={EYEBROW} headline="Lorem ipsum" headlineSize="display" subhead={BODY} ctaLabel="Lorem ipsum" ctaHref="#" boundary={false} tone="inverse" headlineColor="accent" />
+      <HeroTextBlock eyebrow={EYEBROW} headline={HEADING} body={BODY} ctaLabel="Lorem ipsum" ctaHref="#" boundary={false} tone="light" />
+      <HeroTextBlock eyebrow={EYEBROW} headline={HEADING} body={BODY} ctaLabel="Lorem ipsum" ctaHref="#" boundary={false} tone="dark" />
+      <HeroTextBlock eyebrow={EYEBROW} headline={HEADING} body={BODY} ctaLabel="Lorem ipsum" ctaHref="#" boundary={false} tone="accent" />
+      <BlockCaption name="Hero — Text Only, Dark, accent headline" type="heroTextBlock" variant='tone: "dark", headlineColor: "accent"' />
+      <HeroTextBlock eyebrow={EYEBROW} headline="Lorem ipsum" headlineSize="display" body={BODY} ctaLabel="Lorem ipsum" ctaHref="#" boundary={false} tone="dark" headlineColor="accent" />
       <BlockCaption name="Contact Rows" type="contactRowsBlock" />
       <ContactRowsBlock
         eyebrow="Lorem ipsum"
@@ -415,15 +415,15 @@ export default async function BlocksPage({
           { title: 'Ipsum dolor', details: [{ label: 'Phone', value: '+46 00 000 00 00', href: 'tel:+46000000000' }] },
         ]}
       />
-      <BlockCaption name="Hero — Text, Typing effect (display, dark)" type="heroTextBlock" variant='typingHeadline: true, headlineSize: "display", tone: "inverse"' />
+      <BlockCaption name="Hero — Text, Typing effect (display, dark)" type="heroTextBlock" variant='typingHeadline: true, headlineSize: "display", tone: "dark"' />
       <HeroTextBlock
         eyebrow={EYEBROW}
         headline="More genius. Less grunt."
-        subhead={BODY}
+        body={BODY}
         ctaLabel="Lorem ipsum"
         ctaHref="#"
         boundary={false}
-        tone="inverse"
+        tone="dark"
         headlineSize="display"
         typingHeadline
       />
@@ -440,14 +440,14 @@ export default async function BlocksPage({
       />
       <BlockCaption name="Section Headline — Left" type="sectionHeadlineBlock" variant='align: "left"' />
       <SectionHeadlineBlock eyebrow={EYEBROW} headline={HEADING} body={BODY} align="left" />
-      <BlockCaption name="Section Headline — H1 size" type="sectionHeadlineBlock" variant='size: "h1"' />
-      <SectionHeadlineBlock eyebrow={EYEBROW} headline={HEADING} body={BODY} size="h1" />
+      <BlockCaption name="Section Headline — H1 size" type="sectionHeadlineBlock" variant='headlineSize: "h1"' />
+      <SectionHeadlineBlock eyebrow={EYEBROW} headline={HEADING} body={BODY} headlineSize="h1" />
 
       <GroupHeading>Feature Sections</GroupHeading>
       <BlockCaption name="Feature Split — Image Left" type="featureSplitBlock" variant='imagePosition: "left"' />
       <FeatureSplitBlock
         eyebrow={EYEBROW}
-        heading={HEADING}
+        headline={HEADING}
         body={BODY}
         ctaLabel="Lorem ipsum"
         ctaHref="#"
@@ -456,7 +456,7 @@ export default async function BlocksPage({
       <BlockCaption name="Feature Split — Image Right" type="featureSplitBlock" variant='imagePosition: "right"' />
       <FeatureSplitBlock
         eyebrow={EYEBROW}
-        heading={HEADING}
+        headline={HEADING}
         body={BODY}
         ctaLabel="Lorem ipsum"
         ctaHref="#"
@@ -465,18 +465,18 @@ export default async function BlocksPage({
       <BlockCaption name="Feature Split — Purple image background" type="featureSplitBlock" variant='imageBackground: "revision"' />
       <FeatureSplitBlock
         eyebrow={EYEBROW}
-        heading={HEADING}
+        headline={HEADING}
         body={BODY}
         ctaLabel="Lorem ipsum"
         ctaHref="#"
         imageBackground="revision"
       />
       <BlockCaption name="Feature Split — Dark" type="featureSplitDarkBlock" />
-      <FeatureSplitDarkBlock heading={HEADING} subhead="Lorem ipsum dolor sit amet" body={BODY} ctaLabel="Lorem ipsum" ctaHref="#" />
+      <FeatureSplitDarkBlock headline={HEADING} subhead="Lorem ipsum dolor sit amet" body={BODY} ctaLabel="Lorem ipsum" ctaHref="#" />
       <BlockCaption name="50/50 Banner — Image Right" type="fiftyFiftyBannerBlock" variant='imagePosition: "right"' />
       <FiftyFiftyBannerBlock
         eyebrow={EYEBROW}
-        heading={HEADING}
+        headline={HEADING}
         body={BODY}
         ctaLabel="Get started"
         ctaHref="#"
@@ -485,7 +485,7 @@ export default async function BlocksPage({
       <BlockCaption name="50/50 Banner — Image Left" type="fiftyFiftyBannerBlock" variant='imagePosition: "left"' />
       <FiftyFiftyBannerBlock
         eyebrow={EYEBROW}
-        heading={HEADING}
+        headline={HEADING}
         body={BODY}
         ctaLabel="Get started"
         ctaHref="#"
@@ -532,11 +532,11 @@ export default async function BlocksPage({
       <BlockCaption
         name="Section Headline + Feature Grid — both Dark, set as one band"
         type="sectionHeadlineBlock + featureGridBlock"
-        variant='tone: "inverse" on both (headline: Bottom padding Tight, Section spacing None; below: Top padding None)'
+        variant='tone: "dark" on both (headline: Bottom padding Tight, Section spacing None; below: Top padding None)'
       />
-      <SectionHeadlineBlock tone="inverse" paddingBottom="tight" spacing="none" align="left" eyebrow="Eyebrow" headline="Lorem ipsum dolor sit amet" />
+      <SectionHeadlineBlock tone="dark" paddingBottom="tight" spacing="none" align="left" eyebrow="Eyebrow" headline="Lorem ipsum dolor sit amet" />
       <FeatureGridBlock
-        tone="inverse"
+        tone="dark"
         paddingTop="none"
         items={[
           { icon: 'lock', title: 'Lorem ipsum dolor', description: BODY, ctaLabel: 'Lorem ipsum', ctaHref: '#' },
@@ -658,9 +658,9 @@ export default async function BlocksPage({
           { label: 'Consectetur adipiscing elit', body: BODY },
         ]}
       />
-      <BlockCaption name="Feature List — Dark background" type="featureListBlock" variant='tone: "inverse"' />
+      <BlockCaption name="Feature List — Dark background" type="featureListBlock" variant='tone: "dark"' />
       <FeatureListBlock
-        tone="inverse"
+        tone="dark"
         items={[
           { label: 'Lorem ipsum dolor sit amet', body: BODY },
           { label: 'Consectetur adipiscing elit', body: BODY },
@@ -677,10 +677,10 @@ export default async function BlocksPage({
       <BlockCaption
         name="Feature List — Highlight titles, dark background"
         type="featureListBlock"
-        variant='highlightLabels: true, tone: "inverse"'
+        variant='highlightLabels: true, tone: "dark"'
       />
       <FeatureListBlock
-        tone="inverse"
+        tone="dark"
         highlightLabels
         bodySize="h5"
         items={[
@@ -701,12 +701,12 @@ export default async function BlocksPage({
       <BlockCaption
         name="Section Headline + Card Grid — both Dark, set as one band"
         type="sectionHeadlineBlock + cardGridBlock"
-        variant='tone: "inverse" / background: "inverse" (headline: Bottom padding Tight, Section spacing None; below: Top padding None)'
+        variant='tone: "dark" / background: "dark" (headline: Bottom padding Tight, Section spacing None; below: Top padding None)'
       />
-      <SectionHeadlineBlock tone="inverse" paddingBottom="tight" spacing="none" align="left" eyebrow="Eyebrow" headline="Lorem ipsum dolor sit amet" />
+      <SectionHeadlineBlock tone="dark" paddingBottom="tight" spacing="none" align="left" eyebrow="Eyebrow" headline="Lorem ipsum dolor sit amet" />
       <CardGridBlock
         columns="3"
-        background="inverse"
+        background="dark"
         paddingTop="none"
         items={[
           { eyebrow: '01 — Lorem', heading: 'Lorem ipsum dolor', body: BODY },
@@ -727,10 +727,10 @@ export default async function BlocksPage({
       />
       <BlockCaption name="Statement Split" type="statementSplitBlock" variant='imagePosition: "left"' />
       <StatementSplitBlock text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
-      <BlockCaption name="Statement Split — image right, Dark" type="statementSplitBlock" variant='imagePosition: "right", tone: "inverse"' />
+      <BlockCaption name="Statement Split — image right, Dark" type="statementSplitBlock" variant='imagePosition: "right", tone: "dark"' />
       <StatementSplitBlock
         imagePosition="right"
-        tone="inverse"
+        tone="dark"
         text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
       />
       <BlockCaption name="Statement + Body Columns" type="statementBlock + bodyColumnsBlock" variant='no background; Statement spacing "medium"' />
@@ -739,10 +739,10 @@ export default async function BlocksPage({
       <BlockCaption
         name="Statement + Body Columns — Dark, as one band"
         type="statementBlock + bodyColumnsBlock"
-        variant='tone: "inverse" on both; Statement paddingBottom "medium", spacing "none"; Body Columns paddingTop "none"'
+        variant='tone: "dark" on both; Statement paddingBottom "medium", spacing "none"; Body Columns paddingTop "none"'
       />
-      <StatementBlock text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, ut enim ad minim veniam quis nostrud." tone="inverse" paddingBottom="medium" spacing="none" />
-      <BodyColumnsBlock tone="inverse" paddingTop="none" items={[{ text: BODY_LONG }, { text: BODY_LONG }]} />
+      <StatementBlock text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, ut enim ad minim veniam quis nostrud." tone="dark" paddingBottom="medium" spacing="none" />
+      <BodyColumnsBlock tone="dark" paddingTop="none" items={[{ text: BODY_LONG }, { text: BODY_LONG }]} />
       <BlockCaption name="Body Columns — stacked titles" type="bodyColumnsBlock" variant='titles; headingLayout: "stacked", titleSize: "h4"' />
       <BodyColumnsBlock
         items={[
@@ -771,10 +771,10 @@ export default async function BlocksPage({
           { eyebrow: '03 — Dolor', title: 'Adipiscing elit sed', description: BODY },
         ]}
       />
-      <BlockCaption name="Image Grid — Dark background" type="imageGridBlock" variant='tone: "inverse"' />
+      <BlockCaption name="Image Grid — Dark background" type="imageGridBlock" variant='tone: "dark"' />
       <ImageGridBlock
         columns="3"
-        tone="inverse"
+        tone="dark"
         items={[
           { eyebrow: '01 — Lorem', title: 'Lorem ipsum dolor', description: BODY, ctaLabel: 'Lorem ipsum', ctaHref: '#' },
           { eyebrow: '02 — Ipsum', title: 'Sit amet consectetur', description: BODY },
@@ -811,10 +811,10 @@ export default async function BlocksPage({
           { eyebrow: '03 — Dolor', heading: 'Adipiscing elit sed', body: BODY },
         ]}
       />
-      <BlockCaption name="Card Grid — H3 Heading" type="cardGridBlock" variant='headingLevel: "h3"' />
+      <BlockCaption name="Card Grid — H3 card titles" type="cardGridBlock" variant='titleSize: "h3"' />
       <CardGridBlock
         columns="3"
-        headingLevel="h3"
+        titleSize="h3"
         items={[
           { eyebrow: '01 — Lorem', heading: 'Lorem ipsum dolor', body: BODY },
           { eyebrow: '02 — Ipsum', heading: 'Sit amet consectetur', body: BODY },
@@ -890,9 +890,9 @@ export default async function BlocksPage({
       <BlockCaption name="Releases Timeline" type="releaseTimelineBlock" />
       <ReleaseTimelineBlock releases={TIMELINE_RELEASES} rollingOutBody="Lorem ipsum dolor sit amet." developmentBody="Consectetur adipiscing elit." />
       <BlockCaption name="Media Carousel" type="mediaCarouselBlock" />
-      <MediaCarouselBlock eyebrow={EYEBROW} heading={HEADING} body={BODY} slides={CAROUSEL_SLIDES} />
+      <MediaCarouselBlock eyebrow={EYEBROW} headline={HEADING} body={BODY} slides={CAROUSEL_SLIDES} />
       <BlockCaption name="Media Carousel — Dark" type="mediaCarouselBlock" variant='tone: "dark"' />
-      <MediaCarouselBlock tone="dark" eyebrow={EYEBROW} heading={HEADING} body={BODY} slides={CAROUSEL_SLIDES} />
+      <MediaCarouselBlock tone="dark" eyebrow={EYEBROW} headline={HEADING} body={BODY} slides={CAROUSEL_SLIDES} />
       <BlockCaption name="Case Study Carousel" type="caseStudyGridBlock" variant="stories come from Customer story documents" />
       <CaseStudyGridBlock stories={STORY_CARDS} />
       <BlockCaption name="Case Study Carousel — Dark" type="caseStudyGridBlock" variant='tone: "dark"' />
@@ -903,8 +903,8 @@ export default async function BlocksPage({
           { value: '62 %', label: 'Adipiscing elit sed do eiusmod' },
           { value: '20 %', label: 'Tempor incididunt ut labore' },
         ]} source="Källa: Lorem ipsum 2025" />
-      <BlockCaption name="Stat Bars — Dark background" type="statBarsBlock" variant='style: "bars", tone: "inverse"' />
-      <StatBarsBlock tone="inverse" items={[
+      <BlockCaption name="Stat Bars — Dark background" type="statBarsBlock" variant='style: "bars", tone: "dark"' />
+      <StatBarsBlock tone="dark" items={[
           { value: '4 av 5', label: 'Lorem ipsum dolor sit amet consectetur' },
           { value: '62 %', label: 'Adipiscing elit sed do eiusmod' },
           { value: '20 %', label: 'Tempor incididunt ut labore' },
@@ -921,8 +921,8 @@ export default async function BlocksPage({
           { value: '62 %', label: 'Adipiscing elit sed do eiusmod' },
           { value: '20 %', label: 'Tempor incididunt ut labore' },
         ]} source="Källa: Lorem ipsum 2025" />
-      <BlockCaption name="Stat Bars — Dots, dark background" type="statBarsBlock" variant='style: "dots", tone: "inverse"' />
-      <StatBarsBlock style="dots" tone="inverse" items={[
+      <BlockCaption name="Stat Bars — Dots, dark background" type="statBarsBlock" variant='style: "dots", tone: "dark"' />
+      <StatBarsBlock style="dots" tone="dark" items={[
           { value: '4 av 5', label: 'Lorem ipsum dolor sit amet consectetur' },
           { value: '62 %', label: 'Adipiscing elit sed do eiusmod' },
           { value: '20 %', label: 'Tempor incididunt ut labore' },
@@ -930,7 +930,7 @@ export default async function BlocksPage({
       <BlockCaption name="Stats Band" type="statsBandBlock" />
       <StatsBandBlock
         eyebrow={EYEBROW}
-        heading={HEADING}
+        headline={HEADING}
         body={BODY}
         items={[
           { value: '00%', label: 'Lorem ipsum dolor' },
@@ -946,7 +946,7 @@ export default async function BlocksPage({
         closingText={BODY}
         ctaLabel="Lorem ipsum"
         ctaHref="#"
-        heading={HEADING}
+        headline={HEADING}
         items={[
           { value: '00%', label: 'Lorem ipsum dolor' },
           { value: '000+', label: 'Sit amet consectetur' },
@@ -957,7 +957,7 @@ export default async function BlocksPage({
       <BlockCaption name="Stats Band — Accent background" type="statsBandBlock" variant='tone: "accent"' />
       <StatsBandBlock
         tone="accent"
-        heading={HEADING}
+        headline={HEADING}
         items={[
           { value: '00%', label: 'Lorem ipsum dolor' },
           { value: '000+', label: 'Sit amet consectetur' },
@@ -968,7 +968,7 @@ export default async function BlocksPage({
       <BlockCaption name="Stats Band — Image background" type="statsBandBlock" variant='tone: "image" (placeholder, no photo set)' />
       <StatsBandBlock
         tone="image"
-        heading={HEADING}
+        headline={HEADING}
         items={[
           { value: '00%', label: 'Lorem ipsum dolor' },
           { value: '000+', label: 'Sit amet consectetur' },
@@ -976,10 +976,10 @@ export default async function BlocksPage({
           { value: '00M', label: 'Do eiusmod tempor' },
         ]}
       />
-      <BlockCaption name="Stats Band — Muted background" type="statsBandBlock" variant='tone: "muted"' />
+      <BlockCaption name="Stats Band — Light grey background" type="statsBandBlock" variant='tone: "light"' />
       <StatsBandBlock
-        tone="muted"
-        heading={HEADING}
+        tone="light"
+        headline={HEADING}
         items={[
           { value: '00%', label: 'Lorem ipsum dolor' },
           { value: '000+', label: 'Sit amet consectetur' },
@@ -1063,21 +1063,21 @@ export default async function BlocksPage({
           { label: 'Every finding linked to its source', cells: [{ type: 'check' }, { type: 'cross' }] },
         ]}
       />
-      <BlockCaption name="CTA Banner — Inverse" type="ctaBannerBlock" variant='tone: "inverse"' />
+      <BlockCaption name="CTA Banner — Dark" type="ctaBannerBlock" variant='tone: "dark"' />
       <CtaBannerBlock
         eyebrow={EYEBROW}
-        heading={HEADING}
+        headline={HEADING}
         body={BODY}
         ctaLabel="Lorem ipsum"
         ctaHref="#"
         secondaryCtaLabel="Lorem ipsum"
         secondaryCtaHref="#"
-        tone="inverse"
+        tone="dark"
       />
       <BlockCaption name="CTA Banner — Accent" type="ctaBannerBlock" variant='tone: "accent"' />
       <CtaBannerBlock
         eyebrow={EYEBROW}
-        heading={HEADING}
+        headline={HEADING}
         body={BODY}
         ctaLabel="Lorem ipsum"
         ctaHref="#"
@@ -1086,7 +1086,7 @@ export default async function BlocksPage({
       <BlockCaption name="Full Width Single" type="fullWidthSingleBlock" />
       <FullWidthSingleBlock
         eyebrow={EYEBROW}
-        heading={HEADING}
+        headline={HEADING}
         body={BODY}
         ctaLabel="Lorem ipsum"
         ctaHref="#"
@@ -1098,7 +1098,7 @@ export default async function BlocksPage({
       />
       <FullWidthSingleBlock
         eyebrow={EYEBROW}
-        heading={HEADING}
+        headline={HEADING}
         body={BODY}
         ctaLabel="Lorem ipsum"
         ctaHref="#"
@@ -1117,7 +1117,7 @@ export default async function BlocksPage({
       />
       <FullWidthSingleBlock
         eyebrow={EYEBROW}
-        heading={HEADING}
+        headline={HEADING}
         body={BODY}
         ctaLabel="Lorem ipsum"
         ctaHref="#"
@@ -1143,7 +1143,7 @@ export default async function BlocksPage({
       />
       <FullWidthSingleBlock
         eyebrow={EYEBROW}
-        heading={HEADING}
+        headline={HEADING}
         body={BODY}
         ctaLabel="Lorem ipsum"
         ctaHref="#"
@@ -1160,16 +1160,16 @@ export default async function BlocksPage({
       <BlockCaption
         name="Full Width Single — Left, inverse"
         type="fullWidthSingleBlock"
-        variant='align: "left", tone: "inverse"'
+        variant='align: "left", tone: "dark"'
       />
       <FullWidthSingleBlock
         eyebrow={EYEBROW}
-        heading={HEADING}
+        headline={HEADING}
         body={BODY}
         ctaLabel="Lorem ipsum"
         ctaHref="#"
         align="left"
-        tone="inverse"
+        tone="dark"
       />
       <BlockCaption
         name="Full Width Single — Padding top/bottom: none"
@@ -1178,7 +1178,7 @@ export default async function BlocksPage({
       />
       <FullWidthSingleBlock
         eyebrow={EYEBROW}
-        heading={HEADING}
+        headline={HEADING}
         body={BODY}
         ctaLabel="Lorem ipsum"
         ctaHref="#"
@@ -1194,7 +1194,7 @@ export default async function BlocksPage({
       <FullWidthSingleBlock
         eyebrow="01 Lorem ipsum"
         numberedEyebrow
-        heading={HEADING}
+        headline={HEADING}
         body={BODY}
         ctaLabel="Lorem ipsum"
         ctaHref="#"
@@ -1204,7 +1204,7 @@ export default async function BlocksPage({
       <BlockCaption name="Dark Banner" type="darkBannerBlock" />
       <DarkBannerBlock
         eyebrow={EYEBROW}
-        heading={HEADING}
+        headline={HEADING}
         body={BODY}
         items={[
           { title: 'Lorem ipsum dolor', description: BODY },
@@ -1215,7 +1215,7 @@ export default async function BlocksPage({
       <BlockCaption name="Dark Banner — Large icons" type="darkBannerBlock" variant="iconSize: large" />
       <DarkBannerBlock
         eyebrow={EYEBROW}
-        heading={HEADING}
+        headline={HEADING}
         body={BODY}
         iconSize="large"
         items={[
@@ -1227,7 +1227,7 @@ export default async function BlocksPage({
       <BlockCaption name="Dark Banner — No icons" type="darkBannerBlock" variant="showIcons: false" />
       <DarkBannerBlock
         eyebrow={EYEBROW}
-        heading={HEADING}
+        headline={HEADING}
         body={BODY}
         showIcons={false}
         items={[
@@ -1239,7 +1239,7 @@ export default async function BlocksPage({
       <BlockCaption name="Dark Banner — Accent" type="darkBannerBlock" variant='tone: "accent"' />
       <DarkBannerBlock
         eyebrow={EYEBROW}
-        heading={HEADING}
+        headline={HEADING}
         body={BODY}
         tone="accent"
         items={[
@@ -1251,7 +1251,7 @@ export default async function BlocksPage({
       <BlockCaption name="Dark Banner — White" type="darkBannerBlock" variant='tone: "white"' />
       <DarkBannerBlock
         eyebrow={EYEBROW}
-        heading={HEADING}
+        headline={HEADING}
         body={BODY}
         tone="white"
         items={[
@@ -1267,7 +1267,7 @@ export default async function BlocksPage({
       />
       <DarkBannerBlock
         eyebrow={EYEBROW}
-        heading={HEADING}
+        headline={HEADING}
         body={BODY}
         tone="white"
         headingLayout="inline"
@@ -1360,10 +1360,10 @@ export default async function BlocksPage({
       <BlockCaption
         name="Section Headline + Bento Grid — both Dark, set as one band"
         type="sectionHeadlineBlock + bentoGridBlock"
-        variant='tone: "inverse" on both (headline: Bottom padding Tight, Section spacing None; below: Top padding None)'
+        variant='tone: "dark" on both (headline: Bottom padding Tight, Section spacing None; below: Top padding None)'
       />
       <SectionHeadlineBlock
-        tone="inverse"
+        tone="dark"
         paddingBottom="tight"
         spacing="none"
         align="left"
@@ -1375,7 +1375,7 @@ export default async function BlocksPage({
       />
       <BentoGridBlock
         columns="3"
-        tone="inverse"
+        tone="dark"
         paddingTop="none"
         expandable
         items={[
@@ -1415,7 +1415,7 @@ export default async function BlocksPage({
       <HorizontalScrollStackMediumBlock
         tone="accentDark"
         eyebrow="Eyebrow"
-        heading="Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod"
+        headline="Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod"
         body={BODY_LONG}
         slides={[
           { title: 'Lorem ipsum', body: BODY },
@@ -1558,9 +1558,9 @@ export default async function BlocksPage({
           { question: 'Sed do eiusmod tempor incididunt?', answer: BODY },
         ]}
       />
-      <BlockCaption name="FAQ Accordion — Dark background" type="faqAccordionBlock" variant='tone: "inverse"' />
+      <BlockCaption name="FAQ Accordion — Dark background" type="faqAccordionBlock" variant='tone: "dark"' />
       <FaqAccordionBlock
-        tone="inverse"
+        tone="dark"
         items={[
           { question: 'Lorem ipsum dolor sit amet?', answer: BODY },
           { question: 'Consectetur adipiscing elit?', answer: BODY },

@@ -17,6 +17,24 @@ describe('block conventions', () => {
     expect(block.fields.slice(firstDesign).every((f: any) => f.group === 'design')).toBe(true)
   })
 
+  it('uses one name for the same field: headline, body, headlineSize', () => {
+    const old = blocks.flatMap((b) =>
+      b.fields.filter((f: any) => ['heading', 'size', 'headingLevel'].includes(f.name)).map((f: any) => `${b.name}.${f.name}`),
+    )
+    expect(old).toEqual([])
+    // Only Feature Split — Dark keeps a subhead, a line between its headline and body.
+    expect(blocks.filter((b) => b.fields.some((f: any) => f.name === 'subhead')).map((b) => b.name)).toEqual(['featureSplitDarkBlock'])
+  })
+
+  it('never stores "inverse" or "default" as a background', () => {
+    const bad = blocks.flatMap((b) =>
+      b.fields
+        .filter((f: any) => ['tone', 'background', 'backgroundColor'].includes(f.name))
+        .flatMap((f: any) => (f.options?.list ?? []).filter((o: any) => ['inverse', 'default', 'muted'].includes(o.value)).map((o: any) => `${b.name}.${f.name}=${o.value}`)),
+    )
+    expect(bad).toEqual([])
+  })
+
   it('writes no "(default)" into option labels', () => {
     const labels = blocks.flatMap((b) => b.fields.flatMap((f: any) => (f.options?.list ?? []).map((o: any) => o.title)))
     expect(labels.filter((t: string) => /\(default/i.test(t ?? ''))).toEqual([])
@@ -24,7 +42,7 @@ describe('block conventions', () => {
 
   it('gives every headline two lines', () => {
     for (const b of blocks) {
-      const headline = b.fields.find((f: any) => f.name === 'headline' || f.name === 'heading')
+      const headline = b.fields.find((f: any) => f.name === 'headline')
       if (headline) expect(headline.fields[0]).toMatchObject({ type: 'text', rows: 2 })
     }
   })

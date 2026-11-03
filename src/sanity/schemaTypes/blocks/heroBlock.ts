@@ -65,7 +65,7 @@ export const heroBlock = defineType({
       hidden: ({ parent }) => parent?.layout !== 'imageOverlay',
     }),
     defineField({
-      name: 'subhead',
+      name: 'body',
       type: 'text',
       rows: 2,
       validation: (Rule) => Rule.max(350),
@@ -142,7 +142,7 @@ export const heroBlock = defineType({
       options: {
         list: [
           { title: 'None', value: 'none' },
-          { title: 'Dark', value: 'inverse' },
+          { title: 'Dark', value: 'dark' },
           { title: 'Accent', value: 'accent' },
           { title: 'Accent gradient', value: 'accentGradient' },
           { title: 'Dark accent gradient', value: 'accentDark' },

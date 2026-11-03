@@ -21,7 +21,7 @@ export const heroTextBlock = defineType({
     headlineSizeField(),
     typingHeadlineField(),
     defineField({
-      name: 'subhead',
+      name: 'body',
       type: 'text',
       rows: 2,
       validation: (Rule) => Rule.max(350),
@@ -46,8 +46,8 @@ export const heroTextBlock = defineType({
       options: {
         list: [
           { title: 'None', value: 'none' },
-          { title: 'Light grey', value: 'default' },
-          { title: 'Dark', value: 'inverse' },
+          { title: 'Light grey', value: 'light' },
+          { title: 'Dark', value: 'dark' },
           { title: 'Accent', value: 'accent' },
         ],
         layout: 'radio',
@@ -68,7 +68,7 @@ export const heroTextBlock = defineType({
         direction: 'horizontal',
       },
       initialValue: 'default',
-      hidden: ({ parent }) => parent?.tone !== 'inverse',
+      hidden: ({ parent }) => parent?.tone !== 'dark',
     }),
     // Optional, and empty by default, so every existing hero keeps its
     // page-boundary space. Tight when a list sits right underneath

@@ -44,7 +44,7 @@ const IMAGE_FADE_MASK = `linear-gradient(
     rgba(0, 0, 0, 0.4) 80%,
     transparent 100%
   )`
-type CardTone = 'default' | 'dark' | 'accent'
+type CardTone = 'white' | 'dark' | 'accent'
 // background/paddingTop/paddingBottom/spacing: the optional full screen
 // width background behind the cards, see ui/BandFill (`tone` here is the
 // cards' own style, so the band's is `background`).
@@ -53,7 +53,7 @@ type CardGridBlockProps = Omit<BandProps, 'tone'> & {
   columns?: '1' | '2' | '3' | '4'
   items?: CardGridItem[]
   tone?: CardTone
-  headingLevel?: 'h3' | 'h4'
+  titleSize?: 'h3' | 'h4'
   // Highlights each item's eyebrow leading word (e.g. "01") as a small
   // colored badge instead of plain text — off by default since not
   // every Card Grid is numbered.
@@ -88,7 +88,7 @@ const GRID_COLS_CLASS: Record<'1' | '2' | '3' | '4', string> = {
 // sites below) since 'merged' layout needs it on the grid itself
 // instead of each item, and drops it on mobile entirely.
 const TONE_SURFACE_CLASS: Record<CardTone, string> = {
-  default: 'border border-border bg-background',
+  white: 'border border-border bg-background',
   dark: 'bg-foreground',
   accent: 'bg-accent',
 }
@@ -107,8 +107,8 @@ const CARD_PADDING_BOTTOM_VAR: Record<'h3' | 'h4', string> = {
 export function CardGridBlock({
   columns = '3',
   items = [],
-  tone = 'default',
-  headingLevel = 'h4',
+  tone = 'white',
+  titleSize = 'h4',
   numberedEyebrow = false,
   showImage = false,
   layout = 'cards',
@@ -175,10 +175,10 @@ export function CardGridBlock({
                     between the text and the true screen edge there. */}
                 <div
                   className={`flex flex-1 flex-col pt-large ${merged ? 'px-large' : 'px-medium-large md:px-large'}`}
-                  style={{ paddingBottom: hasImage ? undefined : CARD_PADDING_BOTTOM_VAR[headingLevel] }}
+                  style={{ paddingBottom: hasImage ? undefined : CARD_PADDING_BOTTOM_VAR[titleSize] }}
                 >
                   <SectionIntro
-                    as={headingLevel}
+                    as={titleSize}
                     eyebrow={renderNumberedEyebrow(item.eyebrow, numberedEyebrow, tone === 'dark')}
                     heading={item.heading}
                     body={item.body}

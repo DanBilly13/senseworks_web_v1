@@ -9,7 +9,7 @@ import type { MediaField } from '@/lib/sanity/media'
 type HeroImageOverlayCardBlockProps = {
   eyebrow?: string
   headline: string
-  subhead?: string
+  body?: string
   ctaLabel?: string
   ctaHref?: string
   media?: MediaField
@@ -35,7 +35,7 @@ type HeroImageOverlayCardBlockProps = {
   // itself (that's cardBackground, above) or any text — there's no
   // text in that area, so unlike other tone props this one doesn't
   // need its own eyebrow/heading/body color-switching logic.
-  tone?: 'default' | 'inverse' | 'accent' | 'gradient'
+  tone?: 'light' | 'dark' | 'accent' | 'accentGradient'
   // 'display' draws the headline one step above the standard h1.
   headlineSize?: 'h1' | 'display'
   // The headline types itself out on load (ui/TypingText).
@@ -47,10 +47,10 @@ type HeroImageOverlayCardBlockProps = {
 const VIDEO_BLUR_START_PX = 30
 
 const SECTION_BG: Record<NonNullable<HeroImageOverlayCardBlockProps['tone']>, string> = {
-  default: 'bg-muted',
-  inverse: 'bg-foreground',
+  light: 'bg-muted',
+  dark: 'bg-foreground',
   accent: 'bg-accent',
-  gradient: 'bg-accent-gradient',
+  accentGradient: 'bg-accent-gradient',
 }
 
 // Matches SectionShell's own loose/medium/tight tiers (see globals.css)
@@ -104,7 +104,7 @@ const BRANDMARK_MASK = {
 function CardIntro({
   eyebrow,
   headline,
-  subhead,
+  body,
   ctaLabel,
   ctaHref,
   isDark,
@@ -116,7 +116,7 @@ function CardIntro({
 }: {
   eyebrow?: string
   headline: string
-  subhead?: string
+  body?: string
   ctaLabel?: string
   ctaHref?: string
   isDark: boolean
@@ -141,7 +141,7 @@ function CardIntro({
       typingCursorClassName={isDark ? 'text-accent' : undefined}
       eyebrow={eyebrow}
       heading={headline}
-      body={subhead}
+      body={body}
       headingMaxWidth="none"
       bodyClassName={narrowCard ? 'hero-overlay-card-body-wide' : undefined}
       // Dotted rules above and below the headline (the shared
@@ -196,12 +196,12 @@ function CardIntro({
 function MobileImageOverlayCard({
   eyebrow,
   headline,
-  subhead,
+  body,
   ctaLabel,
   ctaHref,
   media,
   spacing = 'loose',
-  tone = 'default',
+  tone = 'light',
   cardBackgroundMobile = 'light',
   headlineSize,
   headlineRules,
@@ -247,7 +247,7 @@ function MobileImageOverlayCard({
           <CardIntro
             eyebrow={eyebrow}
             headline={headline}
-            subhead={subhead}
+            body={body}
             ctaLabel={ctaLabel}
             ctaHref={ctaHref}
             isDark={isDark}
@@ -293,14 +293,14 @@ function MobileImageOverlayCard({
 function DesktopImageOverlayCard({
   eyebrow,
   headline,
-  subhead,
+  body,
   ctaLabel,
   ctaHref,
   media,
   cardBackground = 'dark',
   cardWidth = '50',
   spacing = 'loose',
-  tone = 'default',
+  tone = 'light',
   headlineSize,
   headlineRules,
   showBrandmark,
@@ -554,7 +554,7 @@ function DesktopImageOverlayCard({
             <CardIntro
               eyebrow={eyebrow}
               headline={headline}
-              subhead={subhead}
+              body={body}
               ctaLabel={ctaLabel}
               ctaHref={ctaHref}
               isDark={isDark}

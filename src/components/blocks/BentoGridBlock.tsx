@@ -33,7 +33,7 @@ type BentoGridBlockProps = BandProps & {
 // on the accent colors).
 const CARD_BORDER_CLASS: Record<BandTone, string> = {
   none: 'border-border',
-  inverse: 'border-background/20',
+  dark: 'border-background/20',
   accent: 'border-foreground/15',
   accentGradient: 'border-foreground/15',
   accentDark: 'border-background/20',
@@ -59,7 +59,7 @@ export function BentoGridBlock({
   if (!items.length) return null
 
   // Dark and the dark accent gradient both take white text.
-  const dark = tone === 'inverse' || tone === 'accentDark'
+  const dark = tone === 'dark' || tone === 'accentDark'
   const grid = (
     <SectionShell px="boxed" {...bandShellPadding({ tone, ...band })}>
       {/* gap-small/md:gap-large + each card's p-medium-large/md:p-large:

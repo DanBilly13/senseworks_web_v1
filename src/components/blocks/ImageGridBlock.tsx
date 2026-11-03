@@ -47,7 +47,7 @@ export function ImageGridBlock({
 
   // On Dark and the dark accent gradient: white text, accent eyebrows and
   // links (as on every dark background).
-  const dark = tone === 'inverse' || tone === 'accentDark'
+  const dark = tone === 'dark' || tone === 'accentDark'
 
   return (
     <BandFill tone={tone} {...band}>

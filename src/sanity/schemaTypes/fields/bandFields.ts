@@ -25,7 +25,7 @@ export const bandFields = ({ withDarkGradient = false, fieldName = 'tone' } = {}
     options: {
       list: [
         { title: 'None', value: 'none' },
-        { title: 'Dark', value: 'inverse' },
+        { title: 'Dark', value: 'dark' },
         { title: 'Accent', value: 'accent' },
         ...(withDarkGradient
           ? [

@@ -8,7 +8,7 @@ import { urlFor } from '@/lib/sanity/image'
 import type { MediaField } from '@/lib/sanity/media'
 
 type ButtonVariant = 'filled-dark' | 'filled-accent' | 'filled-light' | 'ghost'
-type FullWidthSingleBlockTone = 'default' | 'inverse' | 'accent'
+type FullWidthSingleBlockTone = 'light' | 'dark' | 'accent'
 type SpacingValue = 'loose' | 'medium' | 'tight' | 'none'
 type MediaPosition = 'afterBody' | 'afterHeading'
 
@@ -60,7 +60,7 @@ type FullWidthSingleBlockProps = {
   // colored badge instead of plain text — same treatment as Card
   // Grid's numbered eyebrow.
   numberedEyebrow?: boolean
-  heading?: string
+  headline?: string
   body?: string
   ctaLabel?: string
   ctaHref?: string
@@ -102,8 +102,8 @@ type FullWidthSingleBlockProps = {
 
 // Same three tones as CTA Banner, same reasoning.
 const SECTION_BG: Record<FullWidthSingleBlockTone, string> = {
-  default: 'bg-muted',
-  inverse: 'bg-foreground',
+  light: 'bg-muted',
+  dark: 'bg-foreground',
   accent: 'bg-accent',
 }
 
@@ -114,11 +114,11 @@ const SECTION_BG: Record<FullWidthSingleBlockTone, string> = {
 export function FullWidthSingleBlock({
   eyebrow,
   numberedEyebrow = false,
-  heading,
+  headline,
   body,
   ctaLabel,
   ctaHref,
-  tone = 'default',
+  tone = 'light',
   align = 'center',
   buttonVariant,
   media,
@@ -128,12 +128,12 @@ export function FullWidthSingleBlock({
   paddingBottom = 'loose',
   spacing = 'loose',
 }: FullWidthSingleBlockProps) {
-  const resolvedButtonVariant = buttonVariant ?? (tone === 'inverse' ? 'filled-accent' : 'filled-dark')
+  const resolvedButtonVariant = buttonVariant ?? (tone === 'dark' ? 'filled-accent' : 'filled-dark')
   // Body renders outside SectionIntro (see below) rather than through
   // its own body prop — neither of SectionIntro's two built-in body
   // treatments (the h1/h2 "subtitle" size, or h3/h4's body-lg) lands
   // on the plain 16px Body size this block wants.
-  const bodyColor = tone === 'inverse' ? 'text-background/80' : 'text-muted-foreground'
+  const bodyColor = tone === 'dark' ? 'text-background/80' : 'text-muted-foreground'
   const hasImage1 = isRealImage(media)
   const hasImage2 = isRealImage(media2)
   // Both real images: the side-by-side split. Otherwise fall back to
@@ -183,14 +183,14 @@ export function FullWidthSingleBlock({
     <div className="flex aspect-media w-full gap-medium md:aspect-media-wide">
       <CropFadeImage
         media={media}
-        alt={heading || ''}
+        alt={headline || ''}
         sizes="50vw"
         className="h-full flex-1 rounded-t-lg rounded-bl-lg md:rounded-bl-none"
         objectPosition="object-left-top"
       />
       <CropFadeImage
         media={media2}
-        alt={heading || ''}
+        alt={headline || ''}
         sizes="50vw"
         className="h-full flex-1 rounded-t-lg rounded-br-lg md:rounded-br-none"
         objectPosition="object-right-top"
@@ -199,29 +199,29 @@ export function FullWidthSingleBlock({
   ) : singleImageMedia ? (
     <CropFadeImage
       media={singleImageMedia}
-      alt={heading || ''}
+      alt={headline || ''}
       sizes="100vw"
       className="aspect-media w-full rounded-lg md:aspect-media-wide md:rounded-t-lg md:rounded-b-none"
     />
   ) : (
-    hasAsset && <Media media={media} alt={heading ?? ''} className="aspect-media w-full rounded-lg" />
+    hasAsset && <Media media={media} alt={headline ?? ''} className="aspect-media w-full rounded-lg" />
   )
 
   const headingCluster = (
     <SectionIntro
       as="h2"
-      eyebrow={eyebrow && renderNumberedEyebrow(eyebrow, numberedEyebrow, tone === 'inverse')}
+      eyebrow={eyebrow && renderNumberedEyebrow(eyebrow, numberedEyebrow, tone === 'dark')}
       // Numbered eyebrows go full-strength instead of the usual
       // muted/70% — next to a bold number badge, the faded
       // default read washed out (same call Card Grid made).
-      eyebrowColor={numberedEyebrow ? (tone === 'inverse' ? 'text-background' : 'text-foreground') : undefined}
-      heading={heading}
+      eyebrowColor={numberedEyebrow ? (tone === 'dark' ? 'text-background' : 'text-foreground') : undefined}
+      heading={headline}
       align={align}
       // "8 columns" — same prose-lg token the FAQ block's question/
       // answer column uses for the same "8 columns" mental model,
       // reused here rather than inventing a new one-off width.
       maxWidth="lg"
-      tone={tone === 'inverse' ? 'inverse' : 'default'}
+      tone={tone === 'dark' ? 'inverse' : 'default'}
     />
   )
 
@@ -272,15 +272,15 @@ export function FullWidthSingleBlock({
             {/* gap-medium is the container's own base gap SectionIntro's
                 formula is built on top of (see HALF_HEADING_LINE_HEIGHT_GAP's
                 own comment) — the body/button marginTop below adds the
-                remainder needed to reach exactly half the heading's line-
-                height, same as eyebrow-to-heading already gets inside
+                remainder needed to reach exactly half the headline's line-
+                height, same as eyebrow-to-headline already gets inside
                 SectionIntro itself. */}
             <div className={`flex flex-col gap-medium ${alignClass}`}>
               {headingCluster}
               {body && (
                 <p
                   className={`max-w-prose-lg text-body ${bodyColor}`}
-                  style={heading ? { marginTop: HALF_HEADING_LINE_HEIGHT_GAP.h2 } : undefined}
+                  style={headline ? { marginTop: HALF_HEADING_LINE_HEIGHT_GAP.h2 } : undefined}
                 >
                   {body}
                 </p>

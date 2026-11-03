@@ -6,7 +6,7 @@ import type { MediaField } from '@/lib/sanity/media'
 
 type FiftyFiftyBannerBlockProps = {
   eyebrow?: string
-  heading: string
+  headline: string
   body?: string
   ctaLabel?: string
   ctaHref?: string
@@ -17,7 +17,7 @@ type FiftyFiftyBannerBlockProps = {
 
 export function FiftyFiftyBannerBlock({
   eyebrow,
-  heading,
+  headline,
   body,
   ctaLabel,
   ctaHref,
@@ -54,7 +54,7 @@ export function FiftyFiftyBannerBlock({
             <SectionIntro
               as="h3"
               eyebrow={eyebrow}
-              heading={heading}
+              heading={headline}
               body={body}
               tone="inverse"
               eyebrowColor="text-accent"
@@ -71,7 +71,7 @@ export function FiftyFiftyBannerBlock({
           {/* aspect-media (7:5) on mobile once stacked; the fixed
               md:h-full on the parent takes over at desktop instead. */}
           <div className={['relative aspect-media md:aspect-auto', imageFirst ? 'md:order-1' : ''].join(' ')}>
-            <Media media={media} alt={heading} className="absolute inset-0 size-full" />
+            <Media media={media} alt={headline} className="absolute inset-0 size-full" />
           </div>
         </div>
       </div>

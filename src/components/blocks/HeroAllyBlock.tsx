@@ -5,7 +5,7 @@ import { Ally3D } from '@/components/ally3d/Ally3D'
 type HeroAllyBlockProps = {
   eyebrow?: string
   headline: string
-  subhead?: string
+  body?: string
   ctaLabel?: string
   ctaHref?: string
   ctaNote?: string
@@ -38,7 +38,7 @@ const SECTION_GAP_MB_CLASS: Record<NonNullable<HeroAllyBlockProps['spacing']>, s
 export function HeroAllyBlock({
   eyebrow,
   headline,
-  subhead,
+  body,
   ctaLabel,
   ctaHref,
   ctaNote,
@@ -64,7 +64,7 @@ export function HeroAllyBlock({
           typing={typingHeadline}
           eyebrow={eyebrow}
           heading={headline}
-          body={subhead}
+          body={body}
           maxWidth="md"
           // The headline runs the full row (no 85% cap like the other
           // heroes), so it takes fewer lines and leaves Ally more room.

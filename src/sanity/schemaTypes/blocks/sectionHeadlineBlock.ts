@@ -29,7 +29,7 @@ export const sectionHeadlineBlock = defineType({
     defineField({ name: 'ctaLabel', type: 'string' }),
     defineField({ name: 'ctaHref', type: 'string' }),
     defineField({
-      name: 'size',
+      name: 'headlineSize',
       title: 'Headline size',
       description: 'How big the headline is drawn. It stays a section heading in the page outline whatever its size.',
       type: 'string',

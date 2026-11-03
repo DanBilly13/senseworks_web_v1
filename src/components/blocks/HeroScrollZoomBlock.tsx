@@ -9,12 +9,12 @@ import type { MediaField } from '@/lib/sanity/media'
 type HeroScrollZoomBlockProps = {
   headline: string
   headlineSize?: 'h1' | 'display'
-  subhead?: string
+  body?: string
   ctaLabel?: string
   ctaHref?: string
   media?: MediaField
   // Dark (accent headline, white body) or Accent (dark text).
-  tone?: 'inverse' | 'accent'
+  tone?: 'dark' | 'accent'
 }
 
 // The media's size at the start, as a share of its full size.
@@ -42,11 +42,11 @@ const BRANDMARK_MASK = {
 export function HeroScrollZoomBlock({
   headline,
   headlineSize = 'display',
-  subhead,
+  body,
   ctaLabel,
   ctaHref,
   media,
-  tone = 'inverse',
+  tone = 'dark',
 }: HeroScrollZoomBlockProps) {
   const dark = tone !== 'accent'
   const markColor = dark ? 'bg-background' : 'bg-foreground'
@@ -91,8 +91,8 @@ export function HeroScrollZoomBlock({
               />
               <div className="grid grid-cols-1 items-end gap-large md:grid-cols-3 xl:grid-cols-2">
                 <div className="flex flex-col items-start gap-medium-large md:col-span-2 md:col-start-2 xl:col-span-1">
-                  {subhead && (
-                    <p className={`text-h3 font-bold text-pretty whitespace-pre-line ${dark ? 'text-background' : 'text-foreground'}`}>{subhead}</p>
+                  {body && (
+                    <p className={`text-h3 font-bold text-pretty whitespace-pre-line ${dark ? 'text-background' : 'text-foreground'}`}>{body}</p>
                   )}
                   {/* On phones the mark sits beside the button, to save
                       the height (the text has to fit the frame). */}

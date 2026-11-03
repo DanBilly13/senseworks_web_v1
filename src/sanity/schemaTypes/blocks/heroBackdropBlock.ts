@@ -44,13 +44,13 @@ export const heroBackdropBlock = defineType({
       type: 'string',
       options: {
         list: [
-          { title: 'Dark', value: 'foreground' },
+          { title: 'Dark', value: 'dark' },
           { title: 'Accent', value: 'accent' },
-          { title: 'Light grey', value: 'surface' },
+          { title: 'Light grey', value: 'light' },
         ],
         layout: 'radio',
       },
-      initialValue: 'foreground',
+      initialValue: 'dark',
       hidden: ({ parent }) => parent?.backgroundType !== 'color',
     }),
     defineField({
@@ -80,7 +80,7 @@ export const heroBackdropBlock = defineType({
     headlineSizeField(),
     typingHeadlineField(),
     defineField({
-      name: 'subhead',
+      name: 'body',
       type: 'text',
       rows: 2,
       validation: (Rule) => Rule.max(350),

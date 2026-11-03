@@ -26,7 +26,7 @@ describe('ImageGridBlock', () => {
   })
 
   it('puts the text in white with accent links on a dark background', () => {
-    render(<ImageGridBlock items={items} tone="inverse" />)
+    render(<ImageGridBlock items={items} tone="dark" />)
     expect(screen.getByRole('link', { name: 'Read more →' }).className).toMatch(/text-accent/)
     expect(screen.getByText('One').className).toMatch(/text-accent/)
   })

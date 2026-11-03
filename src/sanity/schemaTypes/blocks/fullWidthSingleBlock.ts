@@ -18,7 +18,7 @@ export const fullWidthSingleBlock = defineType({
       initialValue: false,
     }),
     defineField({
-      name: 'heading',
+      name: 'headline',
       type: 'string',
       validation: (Rule) => Rule.max(100),
     }),
@@ -36,13 +36,13 @@ export const fullWidthSingleBlock = defineType({
       type: 'string',
       options: {
         list: [
-          { title: 'Light grey', value: 'default' },
-          { title: 'Dark', value: 'inverse' },
+          { title: 'Light grey', value: 'light' },
+          { title: 'Dark', value: 'dark' },
           { title: 'Accent', value: 'accent' },
         ],
         layout: 'radio',
       },
-      initialValue: 'default',
+      initialValue: 'light',
     }),
     defineField({
       name: 'align',
@@ -84,7 +84,7 @@ export const fullWidthSingleBlock = defineType({
     paddingField('bottom'),
   ],
   preview: {
-    select: { title: 'heading', media: 'media.image' },
+    select: { title: 'headline', media: 'media.image' },
     prepare: ({ title, media }) => ({
       title: `Full Width Single — ${title || 'Untitled'}`,
       media,

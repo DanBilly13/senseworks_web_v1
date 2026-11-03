@@ -21,12 +21,12 @@ export const testimonialLargeBlock = defineType({
       type: 'string',
       options: {
         list: [
-          { title: 'Accent gradient', value: 'accent' },
+          { title: 'Accent gradient', value: 'accentGradient' },
           { title: 'Dark accent gradient', value: 'accentDark' },
         ],
         layout: 'radio',
       },
-      initialValue: 'accent',
+      initialValue: 'accentGradient',
     }),
     spacingField,
   ],

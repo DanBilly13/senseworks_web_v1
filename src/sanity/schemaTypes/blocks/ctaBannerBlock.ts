@@ -10,7 +10,7 @@ export const ctaBannerBlock = defineType({
     hiddenField,
     defineField({ name: 'eyebrow', type: 'string' }),
     defineField({
-      name: 'heading',
+      name: 'headline',
       type: 'string',
       validation: (Rule) => Rule.max(100),
     }),
@@ -62,13 +62,13 @@ export const ctaBannerBlock = defineType({
       type: 'string',
       options: {
         list: [
-          { title: 'Light grey', value: 'default' },
-          { title: 'Dark', value: 'inverse' },
+          { title: 'Light grey', value: 'light' },
+          { title: 'Dark', value: 'dark' },
           { title: 'Accent', value: 'accent' },
         ],
         layout: 'radio',
       },
-      initialValue: 'inverse',
+      initialValue: 'dark',
       validation: (Rule) => Rule.required(),
     }),
     // Inside the banner above/below its content, then the gap after it —
@@ -78,7 +78,7 @@ export const ctaBannerBlock = defineType({
     { ...spacingField, initialValue: 'none' },
   ],
   preview: {
-    select: { title: 'heading' },
+    select: { title: 'headline' },
     prepare: ({ title }) => ({ title: `CTA Banner — ${title || 'Untitled'}` }),
   },
 })

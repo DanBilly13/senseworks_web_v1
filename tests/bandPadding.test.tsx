@@ -15,8 +15,8 @@ describe('Background blocks: padding exactly as set, no automatic rules', () => 
     const { container } = render(
       <BlockRenderer
         blocks={[
-          headline({ tone: 'inverse', paddingTop: 'loose', paddingBottom: 'tight', spacing: 'none' }),
-          bento({ tone: 'inverse', paddingTop: 'none', paddingBottom: 'medium', spacing: 'loose' }),
+          headline({ tone: 'dark', paddingTop: 'loose', paddingBottom: 'tight', spacing: 'none' }),
+          bento({ tone: 'dark', paddingTop: 'none', paddingBottom: 'medium', spacing: 'loose' }),
         ]}
       />,
     )
@@ -33,9 +33,9 @@ describe('Background blocks: padding exactly as set, no automatic rules', () => 
     const { container } = render(
       <BlockRenderer
         blocks={[
-          headline({ tone: 'inverse', width: 'content' }),
-          headline({ tone: 'inverse', width: 'full' }),
-          headline({ tone: 'inverse' }),
+          headline({ tone: 'dark', width: 'content' }),
+          headline({ tone: 'dark', width: 'full' }),
+          headline({ tone: 'dark' }),
         ]}
       />,
     )
@@ -62,7 +62,7 @@ describe('Background blocks: padding exactly as set, no automatic rules', () => 
 
   it("reads Card Grid's background from its own field (its tone is the cards' style)", () => {
     const { container } = render(
-      <BlockRenderer blocks={[block('cardGridBlock', { background: 'inverse', tone: 'accent', items: [{ eyebrow: 'E', heading: 'Card' }] })]} />,
+      <BlockRenderer blocks={[block('cardGridBlock', { background: 'dark', tone: 'accent', items: [{ eyebrow: 'E', heading: 'Card' }] })]} />,
     )
     expect(container.querySelector('div.bg-foreground')).not.toBeNull()
   })
@@ -70,7 +70,7 @@ describe('Background blocks: padding exactly as set, no automatic rules', () => 
 
 describe('Content width panels that touch', () => {
   const panel = (fields: Record<string, unknown> = {}) =>
-    block('sectionHeadlineBlock', { headline: 'Heading', tone: 'inverse', width: 'content', spacing: 'none', ...fields })
+    block('sectionHeadlineBlock', { headline: 'Heading', tone: 'dark', width: 'content', spacing: 'none', ...fields })
 
   it('round only the outer corners of a run of joined panels', () => {
     const { container } = render(

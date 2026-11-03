@@ -5,7 +5,7 @@ import { SectionIntro } from '@/components/ui/SectionIntro'
 type HeroTextBlockProps = {
   eyebrow?: string
   headline: string
-  subhead?: string
+  body?: string
   ctaLabel?: string
   ctaHref?: string
   // False when this block is reused mid-page (e.g. a second "hero-style"
@@ -21,22 +21,22 @@ type HeroTextBlockProps = {
   // Overrides the space below (empty: the hero's own page-top space).
   spaceBelow?: 'medium' | 'tight'
   // A full-width background in CTA Banner's colours; none by default.
-  tone?: 'none' | 'default' | 'inverse' | 'accent'
+  tone?: 'none' | 'light' | 'dark' | 'accent'
   // On Dark: the headline in the accent instead of white.
   headlineColor?: 'default' | 'accent'
 }
 
 const SECTION_BG: Record<NonNullable<HeroTextBlockProps['tone']>, string> = {
   none: '',
-  default: 'bg-muted',
-  inverse: 'bg-foreground',
+  light: 'bg-muted',
+  dark: 'bg-foreground',
   accent: 'bg-accent',
 }
 
 export function HeroTextBlock({
   eyebrow,
   headline,
-  subhead,
+  body,
   ctaLabel,
   ctaHref,
   boundary = true,
@@ -46,7 +46,7 @@ export function HeroTextBlock({
   tone = 'none',
   headlineColor,
 }: HeroTextBlockProps) {
-  const dark = tone === 'inverse'
+  const dark = tone === 'dark'
   const accentHeadline = dark && headlineColor === 'accent'
   return (
     <SectionShell
@@ -70,7 +70,7 @@ export function HeroTextBlock({
         subtitleColor={accentHeadline ? 'text-background' : undefined}
         eyebrow={eyebrow}
         heading={headline}
-        body={subhead}
+        body={body}
         maxWidth="none"
         // Desktop: the headline 80% of the row, the subhead 60% (as on
         // Section Headline and Horizontal Scroll Stack Medium).

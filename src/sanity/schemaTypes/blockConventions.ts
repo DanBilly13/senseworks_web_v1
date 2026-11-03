@@ -7,8 +7,7 @@
 //   settings, in a fixed order). "Hide block" sits in both.
 // - Bigger text boxes: headlines 2 lines (and Enter makes a line
 //   break), body text 5, card/item text 4.
-// - "Headline" and "Body" for the heading and the text under it,
-//   whatever the field is called underneath.
+// - "Headline" and "Body" for the heading and the text under it.
 // - No "(default)" in option labels: Studio already shows the default
 //   picked when a block is added.
 // - Standard help text for the shared settings, where a block hasn't
@@ -40,7 +39,6 @@ export const isDesignField = (field: Def) =>
 const CONTENT_ORDER = [
   'eyebrow',
   'headline',
-  'heading',
   'subhead',
   'body',
   'text',
@@ -65,8 +63,6 @@ const DESIGN_ORDER = [
   'style',
   'columns',
   'headlineSize',
-  'size',
-  'headingLevel',
   'typingHeadline',
   'headlineColor',
   'titleSize',
@@ -96,7 +92,7 @@ const rank = (order: string[], name: string) => {
   return i === -1 ? (order.includes('*') ? order.indexOf('*') : order.length) : i
 }
 
-const HEADLINE_NAMES = new Set(['headline', 'heading'])
+const HEADLINE_NAMES = new Set(['headline'])
 
 // The same name for the same field on every block, where the block
 // hasn't given it one (Studio would otherwise show "Cta Label").
@@ -110,7 +106,7 @@ const TITLES: Record<string, string> = {
   secondaryCtaHref: 'Second button link',
   ctaNote: 'Button note',
 }
-const BODY_NAMES = new Set(['subhead', 'body', 'text', 'closingText'])
+const BODY_NAMES = new Set(['body', 'text', 'closingText'])
 
 // Shared settings' help text, used where a block hasn't written its own.
 const DESCRIPTIONS: Record<string, string> = {
@@ -163,7 +159,10 @@ function tidyField(field: Def): Def {
     f = { ...f, title: 'Headline', ...(f.type === 'string' ? { type: 'text' } : {}) }
     if (f.type === 'text') f = { ...f, rows: Math.max(f.rows ?? 0, 2) }
   } else if (BODY_NAMES.has(f.name) && (f.type === 'text' || f.type === 'string')) {
-    f = { ...f, ...(f.name === 'subhead' ? { title: 'Body' } : {}), type: 'text', rows: Math.max(f.rows ?? 0, 5) }
+    f = { ...f, type: 'text', rows: Math.max(f.rows ?? 0, 5) }
+  } else if (f.name === 'subhead' && (f.type === 'text' || f.type === 'string')) {
+    // A short line between the headline and the body (Feature Split — Dark).
+    f = { ...f, title: f.title ?? 'Subhead', type: 'text', rows: Math.max(f.rows ?? 0, 2) }
   }
   if (!f.description) {
     const description = f.title === 'Card style' ? 'The colour of each card. On Dark the card text turns white.' : DESCRIPTIONS[f.name]

@@ -24,7 +24,7 @@ describe('MediaCarouselBlock', () => {
     render(
       <MediaCarouselBlock
         eyebrow="Features"
-        heading="Everything in one place"
+        headline="Everything in one place"
         body="A short line of context."
         slides={[{ title: 'One.' }]}
       />,

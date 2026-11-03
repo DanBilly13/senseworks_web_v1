@@ -1,6 +1,7 @@
 import { sanityClient } from './client'
 import { pageBySlugAndLocaleQuery } from './queries'
 import { localize } from '@/lib/i18n/localize'
+import { upgradeBlock } from './upgradeBlock'
 
 export type PageBlock = { _type: string; _key: string; [key: string]: unknown }
 
@@ -23,5 +24,7 @@ export type PageDoc = {
 // links at it, so the page and every block receive plain strings.
 export async function getPage(slug: string, locale: string): Promise<PageDoc> {
   const page = await sanityClient.fetch(pageBySlugAndLocaleQuery, { slug, locale })
+  // Blocks still saved under an old field name or value (see upgradeBlock).
+  if (page?.blocks) page.blocks = page.blocks.map(upgradeBlock)
   return localize(page, locale)
 }

@@ -15,10 +15,10 @@ type Slide = {
 type SpacingValue = 'loose' | 'medium' | 'tight' | 'none'
 type HorizontalScrollStackMediumBlockProps = {
   eyebrow?: string
-  heading?: string
-  headingLevel?: 'h2' | 'h3'
+  headline?: string
+  headlineSize?: 'h2' | 'h3'
   body?: string
-  tone?: 'default' | 'dark' | 'accentDark'
+  tone?: 'none' | 'dark' | 'accentDark'
   headingLayout?: 'stacked' | 'inline'
   titleSize?: 'h3' | 'h4' | 'h5'
   spacing?: SpacingValue
@@ -46,10 +46,10 @@ const SECTION_GAP_MB_CLASS: Record<SpacingValue, string> = {
 // Horizontal Scroll Stack.
 export function HorizontalScrollStackMediumBlock({
   eyebrow,
-  heading,
-  headingLevel = 'h2',
+  headline,
+  headlineSize = 'h2',
   body,
-  tone = 'default',
+  tone = 'none',
   headingLayout = 'inline',
   titleSize = 'h5',
   spacing = 'loose',
@@ -168,12 +168,12 @@ export function HorizontalScrollStackMediumBlock({
   const dark = tone === 'dark' || tone === 'accentDark'
   const gradient = tone === 'accentDark'
 
-  const title = (eyebrow || heading) && (
+  const title = (eyebrow || headline) && (
     <div className="mx-auto w-full max-w-page px-large md:px-gutter">
       <SectionIntro
-        as={headingLevel}
+        as={headlineSize}
         eyebrow={eyebrow}
-        heading={heading}
+        heading={headline}
         body={body}
         align="left"
         maxWidth="md"

@@ -22,7 +22,7 @@ export const heroScrollZoomBlock = defineType({
     }),
     { ...headlineSizeField(), initialValue: 'display' },
     defineField({
-      name: 'subhead',
+      name: 'body',
       type: 'text',
       rows: 2,
       validation: (Rule) => Rule.max(350),
@@ -41,12 +41,12 @@ export const heroScrollZoomBlock = defineType({
       type: 'string',
       options: {
         list: [
-          { title: 'Dark', value: 'inverse' },
+          { title: 'Dark', value: 'dark' },
           { title: 'Accent', value: 'accent' },
         ],
         layout: 'radio',
       },
-      initialValue: 'inverse',
+      initialValue: 'dark',
     }),
   ],
   preview: {

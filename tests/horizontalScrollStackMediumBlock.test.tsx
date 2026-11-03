@@ -19,7 +19,7 @@ describe('HorizontalScrollStackMediumBlock', () => {
     render(
       <HorizontalScrollStackMediumBlock
         eyebrow="Features"
-        heading="Everything in one place"
+        headline="Everything in one place"
         body="A short line of context."
         slides={slides}
       />,
@@ -32,12 +32,12 @@ describe('HorizontalScrollStackMediumBlock', () => {
   })
 
   it('uses an h3 when asked', () => {
-    render(<HorizontalScrollStackMediumBlock heading="Smaller title" headingLevel="h3" slides={slides} />)
+    render(<HorizontalScrollStackMediumBlock headline="Smaller title" headlineSize="h3" slides={slides} />)
     expect(screen.getAllByRole('heading', { level: 3, name: 'Smaller title' }).length).toBeGreaterThan(0)
   })
 
   it('renders nothing when there are no slides', () => {
-    const { container } = render(<HorizontalScrollStackMediumBlock heading="Empty" slides={[]} />)
+    const { container } = render(<HorizontalScrollStackMediumBlock headline="Empty" slides={[]} />)
     expect(container).toBeEmptyDOMElement()
   })
 })

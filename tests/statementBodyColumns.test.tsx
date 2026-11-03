@@ -13,7 +13,7 @@ describe('StatementBlock', () => {
   })
 
   it('goes white on Dark, in a full-width fill', () => {
-    const { container } = render(<StatementBlock text="Hello" tone="inverse" />)
+    const { container } = render(<StatementBlock text="Hello" tone="dark" />)
     expect(container.querySelector('div.bg-foreground')).not.toBeNull()
     expect(container.querySelector('p')!.className).toMatch(/text-background/)
   })

@@ -33,16 +33,16 @@ export const cardGridBlock = defineType({
       type: 'string',
       options: {
         list: [
-          { title: 'White', value: 'default' },
+          { title: 'White', value: 'white' },
           { title: 'Dark', value: 'dark' },
           { title: 'Accent', value: 'accent' },
         ],
         layout: 'radio',
       },
-      initialValue: 'default',
+      initialValue: 'white',
     }),
     defineField({
-      name: 'headingLevel',
+      name: 'titleSize',
       title: 'Card title size',
       description: 'How big each card’s title is drawn.',
       type: 'string',

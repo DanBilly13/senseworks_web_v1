@@ -12,7 +12,7 @@ export const mediaCarouselBlock = defineType({
     hiddenField,
     defineField({ name: 'eyebrow', type: 'string' }),
     defineField({
-      name: 'heading',
+      name: 'headline',
       description: 'Optional. Sits above the slides, left-aligned, and stays put as they scroll.',
       type: 'string',
       validation: (Rule) => Rule.max(100),
@@ -30,12 +30,12 @@ export const mediaCarouselBlock = defineType({
       type: 'string',
       options: {
         list: [
-          { title: 'None', value: 'default' },
+          { title: 'None', value: 'none' },
           { title: 'Dark', value: 'dark' },
         ],
         layout: 'radio',
       },
-      initialValue: 'default',
+      initialValue: 'none',
     }),
     { ...headingLayoutField, initialValue: 'inline' },
     titleSizeField('h5'),
@@ -79,7 +79,7 @@ export const mediaCarouselBlock = defineType({
     spacingField,
   ],
   preview: {
-    select: { heading: 'heading', slides: 'slides' },
+    select: { heading: 'headline', slides: 'slides' },
     prepare: ({ heading, slides }) => ({
       title: heading ? `Media Carousel — ${heading}` : 'Media Carousel',
       subtitle: `${slides?.length ?? 0} slides`,

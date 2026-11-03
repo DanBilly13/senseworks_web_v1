@@ -11,7 +11,7 @@ type TestimonialLargeBlockProps = {
   media?: MediaField
   // The accent gradient (fading to the light grey, dark text) or the
   // dark accent gradient (fading to black, white text).
-  tone?: 'accent' | 'accentDark'
+  tone?: 'accentGradient' | 'accentDark'
   spacing?: 'loose' | 'medium' | 'tight' | 'none'
 }
 
@@ -20,7 +20,7 @@ export function TestimonialLargeBlock({
   authorName,
   authorRole,
   media,
-  tone = 'accent',
+  tone = 'accentGradient',
   spacing = 'loose',
 }: TestimonialLargeBlockProps) {
   const dark = tone === 'accentDark'

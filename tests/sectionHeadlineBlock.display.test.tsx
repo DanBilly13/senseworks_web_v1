@@ -14,7 +14,7 @@ describe('SectionHeadlineBlock size', () => {
       ['h1', 'text-h1'],
       ['h3', 'text-h3'],
     ] as const) {
-      const { unmount } = render(<SectionHeadlineBlock headline="Go ahead, audit us." size={size} />)
+      const { unmount } = render(<SectionHeadlineBlock headline="Go ahead, audit us." headlineSize={size} />)
       expect(screen.getByRole('heading', { level: 2 })).toHaveClass(cls)
       expect(screen.queryByRole('heading', { level: 1 })).toBeNull()
       unmount()
@@ -22,9 +22,9 @@ describe('SectionHeadlineBlock size', () => {
   })
 
   it('uses the subtitle body under Display/H1/H2 and plain body under H3', () => {
-    const { rerender } = render(<SectionHeadlineBlock headline="Title" body="Body text" size="display" />)
+    const { rerender } = render(<SectionHeadlineBlock headline="Title" body="Body text" headlineSize="display" />)
     expect(screen.getByText('Body text')).toHaveClass('text-h5')
-    rerender(<SectionHeadlineBlock headline="Title" body="Body text" size="h3" />)
+    rerender(<SectionHeadlineBlock headline="Title" body="Body text" headlineSize="h3" />)
     expect(screen.getByText('Body text')).not.toHaveClass('text-h5')
   })
 

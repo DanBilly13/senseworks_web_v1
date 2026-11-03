@@ -13,18 +13,18 @@ type LogoCloudBlockProps = {
   // Single/Hero Image Overlay Card — there's no text in this block
   // either, so no color-switching logic needed beyond the background
   // itself.
-  tone?: 'default' | 'inverse' | 'accent'
+  tone?: 'light' | 'dark' | 'accent'
 }
 
 const SECTION_BG: Record<NonNullable<LogoCloudBlockProps['tone']>, string> = {
-  default: 'bg-muted',
-  inverse: 'bg-foreground',
+  light: 'bg-muted',
+  dark: 'bg-foreground',
   accent: 'bg-accent',
 }
 
 const PIXELS_PER_SECOND = 42
 
-export function LogoCloudBlock({ logos = [], spacing = 'loose', tone = 'default' }: LogoCloudBlockProps) {
+export function LogoCloudBlock({ logos = [], spacing = 'loose', tone = 'light' }: LogoCloudBlockProps) {
   const wrapperRef = useRef<HTMLDivElement>(null)
   const setRef = useRef<HTMLDivElement>(null)
   const [copies, setCopies] = useState(2)

@@ -6,7 +6,7 @@ describe('CtaBannerBlock', () => {
   it('renders the heading, body, primary CTA, and optional secondary CTA', () => {
     render(
       <CtaBannerBlock
-        heading="Start assembling your next page"
+        headline="Start assembling your next page"
         body="Every block is ready to drop onto a page today."
         ctaLabel="Get started"
         ctaHref="#get-started"
@@ -31,7 +31,7 @@ describe('CtaBannerBlock', () => {
   })
 
   it('omits the secondary CTA when not provided', () => {
-    render(<CtaBannerBlock heading="Get started" ctaLabel="Go" ctaHref="#go" />)
+    render(<CtaBannerBlock headline="Get started" ctaLabel="Go" ctaHref="#go" />)
     expect(screen.getByRole('link', { name: 'Go' })).toBeInTheDocument()
     expect(screen.queryAllByRole('link')).toHaveLength(1)
   })

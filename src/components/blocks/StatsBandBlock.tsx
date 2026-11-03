@@ -5,11 +5,11 @@ import { Media } from '@/components/ui/Media'
 import type { MediaField } from '@/lib/sanity/media'
 
 type SpacingValue = 'loose' | 'medium' | 'tight' | 'none'
-type StatsBandTone = 'none' | 'muted' | 'dark' | 'accent' | 'image'
+type StatsBandTone = 'none' | 'light' | 'dark' | 'accent' | 'image'
 type StatItem = { value: string; label: string }
 type StatsBandBlockProps = {
   eyebrow?: string
-  heading?: string
+  headline?: string
   body?: string
   items?: StatItem[]
   // 'none' sits straight on the page, as it always did. The others put
@@ -41,7 +41,7 @@ const CONTENT_GAP_CLASS: Record<'standard' | SpacingValue, string> = {
 }
 
 const PANEL_BG: Record<Exclude<StatsBandTone, 'none'>, string> = {
-  muted: 'bg-muted',
+  light: 'bg-muted',
   dark: 'bg-foreground',
   accent: 'bg-accent',
   image: 'bg-foreground',
@@ -70,7 +70,7 @@ const LG_COLS_CLASS: Record<number, string> = {
 
 export function StatsBandBlock({
   eyebrow,
-  heading,
+  headline,
   body,
   items = [],
   tone = 'none',
@@ -88,13 +88,13 @@ export function StatsBandBlock({
 
   const light = isLight(tone)
   const ruleTone = light ? 'light' : tone === 'accent' ? 'accent' : ('default' as const)
-  const hasIntro = Boolean(eyebrow || heading)
+  const hasIntro = Boolean(eyebrow || headline)
   const content = (
     <>
       <SectionIntro
         as="h2"
         eyebrow={eyebrow}
-        heading={heading}
+        heading={headline}
         body={body}
         align="center"
         maxWidth="md"

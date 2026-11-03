@@ -13,7 +13,7 @@ type StatementBlockProps = BandProps & { text?: string }
 export function StatementBlock({ text, tone = 'none', ...band }: StatementBlockProps) {
   // D7: a block with no content simply doesn't render.
   if (!text) return null
-  const dark = tone === 'inverse' || tone === 'accentDark'
+  const dark = tone === 'dark' || tone === 'accentDark'
   return (
     <BandFill tone={tone} {...band}>
       <SectionShell {...bandShellPadding({ tone, ...band })}>

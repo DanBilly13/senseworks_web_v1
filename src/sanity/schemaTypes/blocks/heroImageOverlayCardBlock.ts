@@ -27,7 +27,7 @@ export const heroImageOverlayCardBlock = defineType({
     headlineSizeField(),
     typingHeadlineField(),
     defineField({
-      name: 'subhead',
+      name: 'body',
       type: 'text',
       rows: 2,
       validation: (Rule) => Rule.max(350),
@@ -103,14 +103,14 @@ export const heroImageOverlayCardBlock = defineType({
       type: 'string',
       options: {
         list: [
-          { title: 'Light grey', value: 'default' },
-          { title: 'Dark', value: 'inverse' },
+          { title: 'Light grey', value: 'light' },
+          { title: 'Dark', value: 'dark' },
           { title: 'Accent', value: 'accent' },
-          { title: 'Accent gradient', value: 'gradient' },
+          { title: 'Accent gradient', value: 'accentGradient' },
         ],
         layout: 'radio',
       },
-      initialValue: 'default',
+      initialValue: 'light',
     }),
     spacingField,
   ],

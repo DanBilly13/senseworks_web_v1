@@ -10,7 +10,7 @@ export const featureSplitBlock = defineType({
     hiddenField,
     defineField({ name: 'eyebrow', type: 'string' }),
     defineField({
-      name: 'heading',
+      name: 'headline',
       // Text, not string, so Enter adds a line break (shown as one on
       // the site, see SectionIntro). Stored the same either way.
       type: 'text',
@@ -41,7 +41,7 @@ export const featureSplitBlock = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'headingLevel',
+      name: 'headlineSize',
       title: 'Headline size',
       description: 'H2 draws the headline larger; the text under it stays the same.',
       type: 'string',
@@ -75,7 +75,7 @@ export const featureSplitBlock = defineType({
     spacingField,
   ],
   preview: {
-    select: { title: 'heading', position: 'imagePosition' },
+    select: { title: 'headline', position: 'imagePosition' },
     prepare: ({ title, position }) => ({
       title: `Feature Split — ${title || 'Untitled'}`,
       subtitle: `Image ${position || 'left'}`,

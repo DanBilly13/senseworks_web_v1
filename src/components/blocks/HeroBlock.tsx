@@ -10,7 +10,7 @@ type HeroBlockProps = {
   layout?: 'split' | 'splitEven' | 'imageOverlay' | 'overlap' | 'scrollReveal'
   eyebrow?: string
   headline: string
-  subhead?: string
+  body?: string
   ctaLabel?: string
   ctaHref?: string
   media?: MediaField
@@ -59,7 +59,7 @@ const RATIO_CLASS = { '7:5': 'aspect-media', '7:4': 'aspect-hero', '7:3': 'aspec
 function HeroSplit({
   eyebrow,
   headline,
-  subhead,
+  body,
   ctaLabel,
   ctaHref,
   media,
@@ -70,7 +70,7 @@ function HeroSplit({
   tone = 'none',
 }: HeroVariantProps) {
   const ratio = RATIO_CLASS[imageRatio] ?? RATIO_CLASS['7:5']
-  const dark = tone === 'inverse' || tone === 'accentDark'
+  const dark = tone === 'dark' || tone === 'accentDark'
   // Full screen width: the image leaves the page column (square
   // corners, edge to edge). Either way the image sits as far below
   // the text as the text sits below the top of the hero (Dan's call,
@@ -95,17 +95,17 @@ function HeroSplit({
             typingCursorClassName={dark ? 'text-accent' : undefined}
           />
         </div>
-        {(subhead || (ctaLabel && ctaHref)) && (
+        {(body || (ctaLabel && ctaHref)) && (
           <div className="flex flex-col gap-medium">
-            {subhead && (
-              <p className={`max-w-prose-md text-h4 font-bold text-pretty ${dark ? 'text-background' : 'text-foreground'}`}>{subhead}</p>
+            {body && (
+              <p className={`max-w-prose-md text-h4 font-bold text-pretty ${dark ? 'text-background' : 'text-foreground'}`}>{body}</p>
             )}
             {ctaLabel && ctaHref && (
               // Doubles the subhead-to-button gap (16px container gap +
               // this) from 16px to 32px, matching SectionIntro's own
               // body-to-cta doubling — this column doesn't go through
               // SectionIntro, so it needs the same bump applied by hand.
-              <div className={subhead ? 'mt-medium' : ''}>
+              <div className={body ? 'mt-medium' : ''}>
                 <Button href={ctaHref} variant={dark ? 'filled-accent' : undefined}>
                   {ctaLabel}
                 </Button>
@@ -136,7 +136,7 @@ function HeroSplit({
 function HeroSplitEven({
   eyebrow,
   headline,
-  subhead,
+  body,
   ctaLabel,
   ctaHref,
   media,
@@ -152,7 +152,7 @@ function HeroSplitEven({
           display={headlineSize === 'display'} typing={typingHeadline}
           eyebrow={eyebrow}
           heading={headline}
-          body={subhead}
+          body={body}
           maxWidth="md"
           cta={
             ctaLabel &&
@@ -177,7 +177,7 @@ function HeroSplitEven({
 function HeroSplitHalf({
   eyebrow,
   headline,
-  subhead,
+  body,
   ctaLabel,
   ctaHref,
   media,
@@ -187,7 +187,7 @@ function HeroSplitHalf({
   stack = 'single',
   secondMedia,
 }: HeroVariantProps) {
-  const dark = tone === 'inverse' || tone === 'accentDark'
+  const dark = tone === 'dark' || tone === 'accentDark'
   return (
     <section className="hero-split-half mb-section-edge grid w-full grid-cols-1 md:grid-cols-2">
       {/* The background sits behind the text half only, so a gradient
@@ -201,7 +201,7 @@ function HeroSplitHalf({
           typing={typingHeadline}
           eyebrow={eyebrow}
           heading={headline}
-          body={subhead}
+          body={body}
           maxWidth="md"
           tone={dark ? 'inverse' : 'default'}
           typingCursorClassName={dark ? 'text-accent' : undefined}
@@ -242,7 +242,7 @@ const BRANDMARK_MASK = {
 function HeroOverlap({
   eyebrow,
   headline,
-  subhead,
+  body,
   ctaLabel,
   ctaHref,
   media,
@@ -251,7 +251,7 @@ function HeroOverlap({
   tone = 'none',
   imageRatio = '7:5',
 }: HeroVariantProps) {
-  const dark = tone === 'inverse' || tone === 'accentDark'
+  const dark = tone === 'dark' || tone === 'accentDark'
   // How far the image reaches up under the headline: half its line.
   const overlap = `calc(var(--text-${headlineSize === 'display' ? 'display' : 'h1'}--full-line-height) * 0.5)`
   return (
@@ -275,8 +275,8 @@ function HeroOverlap({
       <div className="hero-overlap-row mx-auto mt-2xl grid w-full max-w-page grid-cols-1 gap-2xl px-large md:grid-cols-2 md:gap-xl md:px-gutter xl:grid-cols-3">
         <div className="hero-overlap-text flex flex-col items-start justify-between gap-2xl">
           <div className="flex flex-col items-start gap-medium-large">
-            {subhead && (
-              <p className={`text-h3 font-bold text-pretty whitespace-pre-line ${dark ? 'text-background' : 'text-foreground'}`}>{subhead}</p>
+            {body && (
+              <p className={`text-h3 font-bold text-pretty whitespace-pre-line ${dark ? 'text-background' : 'text-foreground'}`}>{body}</p>
             )}
             {ctaLabel && ctaHref && (
               <Button href={ctaHref} variant={dark ? 'filled-accent' : 'filled-dark'}>
@@ -297,7 +297,7 @@ function HeroOverlap({
 function HeroImageOverlay({
   eyebrow,
   headline,
-  subhead,
+  body,
   ctaLabel,
   ctaHref,
   media,
@@ -344,7 +344,7 @@ function HeroImageOverlay({
           display={headlineSize === 'display'} typing={typingHeadline}
           eyebrow={eyebrow}
           heading={headline}
-          body={subhead}
+          body={body}
           maxWidth="md"
           headingMaxWidth="heroHeadline"
           tone="inverse"
@@ -374,7 +374,7 @@ function HeroImageOverlay({
 function HeroScrollReveal({
   eyebrow,
   headline,
-  subhead,
+  body,
   ctaLabel,
   ctaHref,
   media,
@@ -403,7 +403,7 @@ function HeroScrollReveal({
             display={headlineSize === 'display'} typing={typingHeadline}
             eyebrow={eyebrow}
             heading={headline}
-            body={subhead}
+            body={body}
             headingMaxWidth="none"
             align="center"
             // Half the usual body-to-button gap (a quarter of the

@@ -10,7 +10,7 @@ export const fiftyFiftyBannerBlock = defineType({
     hiddenField,
     defineField({ name: 'eyebrow', type: 'string' }),
     defineField({
-      name: 'heading',
+      name: 'headline',
       type: 'string',
       validation: (Rule) => Rule.required().max(100),
     }),
@@ -45,7 +45,7 @@ export const fiftyFiftyBannerBlock = defineType({
     spacingField,
   ],
   preview: {
-    select: { title: 'heading', position: 'imagePosition' },
+    select: { title: 'headline', position: 'imagePosition' },
     prepare: ({ title, position }) => ({
       title: `50/50 Banner — ${title || 'Untitled'}`,
       subtitle: `Image ${position || 'right'}`,

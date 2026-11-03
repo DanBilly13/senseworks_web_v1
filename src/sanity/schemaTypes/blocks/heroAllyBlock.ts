@@ -25,7 +25,7 @@ export const heroAllyBlock = defineType({
     headlineSizeField(),
     typingHeadlineField(),
     defineField({
-      name: 'subhead',
+      name: 'body',
       type: 'text',
       rows: 2,
       validation: (Rule) => Rule.max(350),

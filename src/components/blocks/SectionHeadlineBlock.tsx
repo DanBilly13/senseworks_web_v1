@@ -19,7 +19,7 @@ type SectionHeadlineBlockProps = BandProps & {
   // How big the headline is drawn, named after the type styles. Purely
   // visual: it's always an h2 on the page, since every page starts
   // with a Hero and the Hero is the page's one h1.
-  size?: 'display' | 'h1' | 'h2' | 'h3'
+  headlineSize?: 'display' | 'h1' | 'h2' | 'h3'
   // Optional id, so a "#anchor" link (e.g. the menu's Pricing link)
   // lands on this headline.
   anchor?: string
@@ -33,14 +33,14 @@ export function SectionHeadlineBlock({
   ctaHref,
   align = 'center',
   width,
-  size = 'h2',
+  headlineSize = 'h2',
   anchor,
   tone = 'none',
   ...band
 }: SectionHeadlineBlockProps) {
   // On Dark and the dark accent gradient, the eyebrow and button take the
   // accent color, as on Hero Text.
-  const dark = tone === 'inverse' || tone === 'accentDark'
+  const dark = tone === 'dark' || tone === 'accentDark'
   return (
     <BandFill tone={tone} width={width} {...band}>
       <SectionShell {...bandShellPadding({ tone, ...band })} id={anchor}>
@@ -48,8 +48,8 @@ export function SectionHeadlineBlock({
           as="h2"
           // Display draws at the display size; styleAs h1 gives it the
           // h1-size body underneath (the h5 subtitle style).
-          styleAs={size === 'display' ? 'h1' : size}
-          display={size === 'display'}
+          styleAs={headlineSize === 'display' ? 'h1' : headlineSize}
+          display={headlineSize === 'display'}
           eyebrow={eyebrow}
           heading={headline}
           body={body}

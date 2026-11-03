@@ -14,12 +14,12 @@ const BRANDMARK_GAP = {
 
 type FeatureSplitBlockProps = {
   eyebrow?: string
-  heading: string
+  headline: string
   body?: string
   ctaLabel?: string
   ctaHref?: string
   imagePosition?: 'left' | 'right'
-  headingLevel?: 'h2' | 'h3'
+  headlineSize?: 'h2' | 'h3'
   media?: MediaField
   // The gradient behind the image: the page theme's, or one picked here.
   imageBackground?: 'page' | 'default' | 'revision' | 'analysis'
@@ -28,12 +28,12 @@ type FeatureSplitBlockProps = {
 
 export function FeatureSplitBlock({
   eyebrow,
-  heading,
+  headline,
   body,
   ctaLabel,
   ctaHref,
   imagePosition = 'left',
-  headingLevel = 'h3',
+  headlineSize = 'h3',
   media,
   imageBackground = 'page',
   spacing = 'loose',
@@ -58,20 +58,20 @@ export function FeatureSplitBlock({
             back to a grey box when no asset is set. */}
         <Media
           media={media}
-          alt={heading}
+          alt={headline}
           theme={imageBackground === 'page' ? undefined : imageBackground}
           className="aspect-media w-full rounded-lg border border-border md:flex-1"
         />
         <div className="w-full md:max-w-prose-xs md:shrink-0">
           <SectionIntro
-            as={headingLevel}
+            as={headlineSize}
             // "Heading size": the heading is drawn at the size picked
             // (and is that level in the page outline), but the body
             // keeps its regular style at H2 too, not SectionIntro's big
             // "subtitle" treatment, which is too much in this column.
             subtitleBody={false}
             eyebrow={eyebrow}
-            heading={heading}
+            heading={headline}
             body={body}
             cta={
               ctaLabel &&
@@ -83,9 +83,9 @@ export function FeatureSplitBlock({
             }
           />
           {/* A small brand signature closing out each block's text
-              column, like a footer — set off by the heading's full
+              column, like a footer — set off by the headline's full
               line-height, a clear step more than the half-line-height
-              gaps between eyebrow/heading/body/cta above. */}
+              gaps between eyebrow/headline/body/cta above. */}
           <Image
             src="/senseworks-brandmark-pos.svg"
             alt=""
@@ -93,7 +93,7 @@ export function FeatureSplitBlock({
             width={61}
             height={18}
             className="h-medium w-auto"
-            style={{ marginTop: BRANDMARK_GAP[headingLevel] }}
+            style={{ marginTop: BRANDMARK_GAP[headlineSize] }}
           />
         </div>
       </div>

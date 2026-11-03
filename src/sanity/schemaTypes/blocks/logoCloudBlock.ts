@@ -20,13 +20,13 @@ export const logoCloudBlock = defineType({
       type: 'string',
       options: {
         list: [
-          { title: 'Light grey', value: 'default' },
-          { title: 'Dark', value: 'inverse' },
+          { title: 'Light grey', value: 'light' },
+          { title: 'Dark', value: 'dark' },
           { title: 'Accent', value: 'accent' },
         ],
         layout: 'radio',
       },
-      initialValue: 'default',
+      initialValue: 'light',
     }),
     spacingField,
   ],

@@ -6,7 +6,7 @@ import { ArticleImage } from '@/components/knowledge-bank/ArticleImage'
 import { hasMedia, type MediaField } from '@/lib/sanity/media'
 
 type BackgroundType = 'none' | 'image' | 'color' | 'gradient'
-type BackgroundColor = 'foreground' | 'accent' | 'surface'
+type BackgroundColor = 'dark' | 'accent' | 'light'
 type TextTone = 'light' | 'dark'
 
 type HeroBackdropBlockProps = {
@@ -16,7 +16,7 @@ type HeroBackdropBlockProps = {
   textTone?: TextTone
   eyebrow?: string
   headline: string
-  subhead?: string
+  body?: string
   ctaLabel?: string
   ctaHref?: string
   ctaNote?: string
@@ -43,19 +43,19 @@ const SECTION_GAP_MB_CLASS: Record<NonNullable<HeroBackdropBlockProps['spacing']
 }
 
 const BACKGROUND_COLOR_CLASS: Record<BackgroundColor, string> = {
-  foreground: 'bg-foreground',
+  dark: 'bg-foreground',
   accent: 'bg-accent',
-  surface: 'bg-surface',
+  light: 'bg-surface',
 }
 
 export function HeroBackdropBlock({
   backgroundType = 'image',
   backgroundImage,
-  backgroundColor = 'foreground',
+  backgroundColor = 'dark',
   textTone = 'light',
   eyebrow,
   headline,
-  subhead,
+  body,
   ctaLabel,
   ctaHref,
   ctaNote,
@@ -131,7 +131,7 @@ export function HeroBackdropBlock({
             typingCursorClassName={textTone === 'light' ? 'text-accent' : undefined}
             eyebrow={eyebrow}
             heading={headline}
-            body={subhead}
+            body={body}
             maxWidth="md"
             headingMaxWidth="heroHeadline"
             tone={textTone === 'light' ? 'inverse' : 'default'}

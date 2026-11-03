@@ -101,7 +101,7 @@ export function FeatureGridBlock({
 
   // On Dark and the dark accent gradient: white text, light icons, and
   // the links in the accent color (as on every dark background).
-  const dark = tone === 'inverse' || tone === 'accentDark'
+  const dark = tone === 'dark' || tone === 'accentDark'
   const linkColor = dark ? 'text-accent' : 'text-foreground'
 
   return (

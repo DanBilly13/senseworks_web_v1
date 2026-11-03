@@ -39,7 +39,7 @@ export function BodyColumnsBlock({
   const filled = items.filter((item) => item?.text?.trim() || item?.title?.trim())
   // D7: a block with no content simply doesn't render.
   if (!filled.length) return null
-  const dark = tone === 'inverse' || tone === 'accentDark'
+  const dark = tone === 'dark' || tone === 'accentDark'
   return (
     <BandFill tone={tone} {...band}>
       <SectionShell {...bandShellPadding({ tone, ...band })}>

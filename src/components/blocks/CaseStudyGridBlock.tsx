@@ -7,7 +7,8 @@ import { StoryCard, type StoryCardData, type StoryCardTone } from '@/components/
 // No eyebrow/heading/body of its own — pair it with a Section Headline
 // block above it.
 type CaseStudyGridBlockProps = {
-  tone?: StoryCardTone
+  // Card style: Light or Dark story cards.
+  tone?: 'light' | 'dark'
   spacing?: 'loose' | 'medium' | 'tight' | 'none'
   // Resolved in the page query from the Customer story documents,
   // filtered by the block's "Which stories" setting (all, audit or
@@ -21,7 +22,7 @@ type CaseStudyGridBlockProps = {
 // first card lined up with the page content, stepped with prev/next
 // buttons underneath. On mobile the card box (not its text) sits on the
 // 32px heading line, at both ends of the row (.carousel-inset-on-line).
-export function CaseStudyGridBlock({ tone = 'default', spacing = 'loose', stories = [] }: CaseStudyGridBlockProps) {
+export function CaseStudyGridBlock({ tone = 'light', spacing = 'loose', stories = [] }: CaseStudyGridBlockProps) {
   const { scrollerRef, firstCardRef, atStart, atEnd, canScroll, updateEdges, scrollByCard } = useCarousel<HTMLAnchorElement>(stories.length)
   // Every route lives under a locale segment, so the first path segment
   // is "en"/"sv" — the story links stay in the page's language.
@@ -39,7 +40,7 @@ export function CaseStudyGridBlock({ tone = 'default', spacing = 'loose', storie
             ref={index === 0 ? firstCardRef : undefined}
             story={story}
             locale={locale}
-            tone={tone}
+            tone={(tone === 'dark' ? 'dark' : 'default') satisfies StoryCardTone}
             className="w-80 shrink-0 snap-start md:w-96"
           />
         ))}

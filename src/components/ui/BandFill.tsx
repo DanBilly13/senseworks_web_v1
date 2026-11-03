@@ -15,7 +15,7 @@ import { SECTION_GAP_MB_CLASS } from '@/components/ui/SectionShell'
 // accentDark: the dark accent gradient, white text like Dark.
 // accentGradient: the light accent gradient (the heroes'), dark text like
 // Accent.
-export type BandTone = 'none' | 'inverse' | 'accent' | 'accentDark' | 'accentGradient'
+export type BandTone = 'none' | 'dark' | 'accent' | 'accentDark' | 'accentGradient'
 export type BandSpacing = 'loose' | 'medium' | 'tight' | 'none'
 
 export type BandProps = {
@@ -31,7 +31,7 @@ export type BandProps = {
 }
 
 export const BAND_BG: Record<Exclude<BandTone, 'none'>, string> = {
-  inverse: 'bg-foreground',
+  dark: 'bg-foreground',
   accent: 'bg-accent',
   accentDark: 'bg-accent-gradient-dark',
   accentGradient: 'bg-accent-gradient',

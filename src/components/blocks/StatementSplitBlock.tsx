@@ -18,7 +18,7 @@ type StatementSplitBlockProps = BandProps & {
 export function StatementSplitBlock({ media, text, imagePosition = 'left', tone = 'none', ...band }: StatementSplitBlockProps) {
   // D7: a block with no content simply doesn't render.
   if (!text) return null
-  const dark = tone === 'inverse' || tone === 'accentDark'
+  const dark = tone === 'dark' || tone === 'accentDark'
   return (
     <BandFill tone={tone} {...band}>
       <SectionShell {...bandShellPadding({ tone, ...band })}>

@@ -15,9 +15,9 @@ type Slide = {
 }
 type MediaCarouselBlockProps = {
   eyebrow?: string
-  heading?: string
+  headline?: string
   body?: string
-  tone?: 'default' | 'dark'
+  tone?: 'none' | 'dark'
   // Same two type options as Bento Grid's cards. Inline (the default
   // here) runs the title and text on as one line, title bold.
   headingLayout?: 'stacked' | 'inline'
@@ -43,9 +43,9 @@ const SECTION_GAP_MB_CLASS: Record<NonNullable<MediaCarouselBlockProps['spacing'
 // slides move.
 export function MediaCarouselBlock({
   eyebrow,
-  heading,
+  headline,
   body,
-  tone = 'default',
+  tone = 'none',
   headingLayout = 'inline',
   titleSize = 'h5',
   spacing = 'loose',
@@ -93,12 +93,12 @@ export function MediaCarouselBlock({
           : SECTION_GAP_PB_CLASS[spacing]
       }
     >
-      {(eyebrow || heading) && (
+      {(eyebrow || headline) && (
         <div className="mx-auto mb-2xl w-full max-w-page px-large md:px-gutter">
           <SectionIntro
             as="h2"
             eyebrow={eyebrow}
-            heading={heading}
+            heading={headline}
             body={body}
             maxWidth="md"
             tone={dark ? 'inverse' : 'default'}

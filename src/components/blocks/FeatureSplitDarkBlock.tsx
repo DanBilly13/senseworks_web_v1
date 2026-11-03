@@ -12,7 +12,7 @@ import type { MediaField } from '@/lib/sanity/media'
 const HEADING_LINE_HEIGHT_GAP = HALF_HEADING_LINE_HEIGHT_GAP.h3
 
 type FeatureSplitDarkBlockProps = {
-  heading?: string
+  headline?: string
   subhead?: string
   body?: string
   ctaLabel?: string
@@ -23,7 +23,7 @@ type FeatureSplitDarkBlockProps = {
 }
 
 export function FeatureSplitDarkBlock({
-  heading,
+  headline,
   subhead,
   body,
   ctaLabel,
@@ -46,11 +46,11 @@ export function FeatureSplitDarkBlock({
       <div className={panelClassName}>
         <div className="w-full md:max-w-prose-xs md:shrink-0">
           <div className="flex flex-col gap-medium">
-            {heading && (
+            {headline && (
               <h3 className="text-h3 font-bold text-balance text-background">
                 {/* A line break typed in the field is a literal "\n", which
                     HTML would collapse, so it becomes a real <br>. */}
-                {heading.split('\n').map((line, i, lines) => (
+                {headline.split('\n').map((line, i, lines) => (
                   <Fragment key={i}>
                     {line}
                     {i < lines.length - 1 && <br />}
@@ -61,7 +61,7 @@ export function FeatureSplitDarkBlock({
             {subhead && (
               <p
                 className="text-body-lg font-medium whitespace-pre-line text-background"
-                style={heading ? { marginTop: HEADING_LINE_HEIGHT_GAP } : undefined}
+                style={headline ? { marginTop: HEADING_LINE_HEIGHT_GAP } : undefined}
               >
                 {subhead}
               </p>
@@ -69,7 +69,7 @@ export function FeatureSplitDarkBlock({
             {body && (
               <p
                 className="text-body text-background/70"
-                style={heading && !subhead ? { marginTop: HEADING_LINE_HEIGHT_GAP } : undefined}
+                style={headline && !subhead ? { marginTop: HEADING_LINE_HEIGHT_GAP } : undefined}
               >
                 {body}
               </p>
@@ -88,7 +88,7 @@ export function FeatureSplitDarkBlock({
         </div>
         <Media
           media={media}
-          alt={heading ?? ''}
+          alt={headline ?? ''}
           className="aspect-media w-full rounded-md md:flex-1"
           fit="contain"
         />
