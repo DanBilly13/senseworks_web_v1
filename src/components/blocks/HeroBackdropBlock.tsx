@@ -5,7 +5,7 @@ import { PlayOnScrollMedia } from '@/components/ui/PlayOnScrollMedia'
 import { ArticleImage } from '@/components/knowledge-bank/ArticleImage'
 import type { MediaField } from '@/lib/sanity/media'
 
-type BackgroundType = 'image' | 'color' | 'gradient'
+type BackgroundType = 'none' | 'image' | 'color' | 'gradient'
 type BackgroundColor = 'foreground' | 'accent' | 'surface'
 type TextTone = 'light' | 'dark'
 
@@ -71,6 +71,15 @@ export function HeroBackdropBlock({
   // reactAnimation don't carry that same kind of intrinsic ratio here,
   // so they keep the fixed 7:4 aspect-hero box below.
   const showcaseIsImage = showcaseMedia?.mediaType === 'image' && !!showcaseMedia.image
+  // An image background with nothing in it (picked, then cleared) draws
+  // nothing — not the placeholder gradient under the dark tint.
+  const bg = backgroundImage
+  const hasBackgroundImage =
+    backgroundType === 'image' &&
+    ((bg?.mediaType === 'image' && !!bg.image) ||
+      (bg?.mediaType === 'video' && !!bg.videoUrl) ||
+      (bg?.mediaType === 'lottie' && !!bg.lottieUrl) ||
+      (bg?.mediaType === 'reactAnimation' && !!bg.animation))
 
   return (
     // Experimental composition, not settled tokens yet. The text zone
@@ -98,12 +107,12 @@ export function HeroBackdropBlock({
       // media's natural height).
       style={{ marginTop: 'calc(var(--header-height, 0px) * -1)' }}
     >
-      {backgroundType === 'image' && (
+      {hasBackgroundImage && (
         <div className="absolute inset-0">
           <Media media={backgroundImage} alt={headline} className="size-full" />
         </div>
       )}
-      {backgroundType === 'image' && (
+      {hasBackgroundImage && (
         <div className="absolute inset-0 bg-foreground/55" aria-hidden="true" />
       )}
       {/* pb-section-edge here (inside the backdrop) is separate from

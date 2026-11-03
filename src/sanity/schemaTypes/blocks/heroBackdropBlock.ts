@@ -18,9 +18,11 @@ export const heroBackdropBlock = defineType({
     defineField({
       name: 'backgroundType',
       title: 'Background',
+      description: 'None leaves the page background showing. An image with no picture chosen shows nothing either.',
       type: 'string',
       options: {
         list: [
+          { title: 'None', value: 'none' },
           { title: 'Image', value: 'image' },
           { title: 'Color', value: 'color' },
           { title: 'Gradient', value: 'gradient' },
