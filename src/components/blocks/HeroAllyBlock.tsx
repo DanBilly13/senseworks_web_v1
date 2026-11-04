@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/Button'
 import { SectionIntro } from '@/components/ui/SectionIntro'
 import { Ally3D } from '@/components/ally3d/Ally3D'
 import { BAND_BG } from '@/components/ui/BandFill'
+import { StickToBottom } from '@/components/ui/StickToBottom'
 
 type HeroAllyBlockProps = {
   eyebrow?: string
@@ -15,6 +16,9 @@ type HeroAllyBlockProps = {
   spacing?: 'loose' | 'medium' | 'tight' | 'none'
   tone?: 'none' | 'light' | 'dark' | 'accent' | 'accentGradient' | 'accentDark'
   align?: 'left' | 'center'
+  // Stays put while the rest of the page scrolls up over it (the
+  // wrapper is BlockRenderer's, which also takes over the gap below).
+  pinned?: boolean
 }
 
 // The background, behind the whole hero. Unset is the accent gradient
@@ -58,13 +62,14 @@ export function HeroAllyBlock({
   spacing = 'medium',
   tone = 'accentGradient',
   align = 'left',
+  pinned = false,
 }: HeroAllyBlockProps) {
   // On Dark and the dark gradient: white text, the button in the accent.
   const dark = tone === 'dark' || tone === 'accentDark'
   const center = align === 'center'
   return (
     <section
-      className={`hero-ally-section relative flex min-h-svh flex-col overflow-hidden ${SECTION_BG[tone]} ${SECTION_GAP_MB_CLASS[spacing]}`}
+      className={`hero-ally-section flex min-h-svh flex-col overflow-hidden ${SECTION_BG[tone]} ${pinned ? 'sticky top-0' : `relative ${SECTION_GAP_MB_CLASS[spacing]}`}`}
       // Pulled up under the fixed header, like the other heroes (see
       // HeroBackdropBlock), so the gradient runs to the top of the screen.
       style={{ marginTop: 'calc(var(--header-height, 0px) * -1)' }}
@@ -104,6 +109,7 @@ export function HeroAllyBlock({
           }
         />
       </div>
+      {pinned && <StickToBottom />}
       <div className="hero-ally-stage relative flex-1">
         <Ally3D className="hero-ally pointer-events-none absolute left-1/2" />
       </div>

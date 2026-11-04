@@ -73,6 +73,14 @@ export const heroAllyBlock = defineType({
       },
       initialValue: 'left',
     }),
+    // Like Hero's full-bleed image layout (BlockRenderer pins it).
+    defineField({
+      name: 'pinned',
+      title: 'Content scrolls over it',
+      description: 'The hero, Ally included, stays put and the rest of the page scrolls up over it. Section spacing becomes the space at the top of what scrolls over.',
+      type: 'boolean',
+      initialValue: false,
+    }),
     {
       ...spacingField,
       initialValue: 'medium',

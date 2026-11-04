@@ -99,6 +99,14 @@ const BLOCK_COMPONENTS = {
   footerBlock: FooterBlock,
 } as const
 
+// The space at the top of the panel that scrolls over a pinned Ally hero.
+const PANEL_TOP: Record<BandSpacing, string> = {
+  loose: 'pt-section-gap-loose',
+  medium: 'pt-section-gap-medium',
+  tight: 'pt-section-gap-tight',
+  none: 'pt-none',
+}
+
 export function BlockRenderer({ blocks }: { blocks: PageBlock[] }) {
   // D7: an unrecognized or incomplete block type simply doesn't render.
   // Editor-facing "Hidden" toggle (most block schemas) — lets a
@@ -148,17 +156,21 @@ export function BlockRenderer({ blocks }: { blocks: PageBlock[] }) {
   // wrapper, so the hero lets go where the blocks end — before the
   // footer. flow-root keeps the last block's bottom margin inside the
   // panel, or it's a see-through strip at its foot.
+  // Hero — Ally 3D does the same; its Section spacing becomes the space
+  // at the top of the panel.
   const pin = out.findIndex(({ start }) => {
     const b = shown[start] as { _type: string; layout?: string; pinned?: boolean }
-    return b._type === 'heroBlock' && b.layout === 'imageOverlay' && b.pinned === true
+    return b.pinned === true && ((b._type === 'heroBlock' && b.layout === 'imageOverlay') || b._type === 'heroAllyBlock')
   })
   if (pin === -1 || pin === out.length - 1) return <>{out.map((o) => o.el)}</>
+  const pinned = shown[out[pin].start] as { _type: string; spacing?: BandSpacing }
+  const panelTop = pinned._type === 'heroAllyBlock' ? PANEL_TOP[pinned.spacing ?? 'medium'] : 'pt-section-edge'
   return (
     <>
       {out.slice(0, pin).map((o) => o.el)}
       <div className="w-full">
         {out[pin].el}
-        <div className="relative z-10 flow-root w-full bg-surface pt-section-edge">{out.slice(pin + 1).map((o) => o.el)}</div>
+        <div className={`relative z-10 flow-root w-full bg-surface ${panelTop}`}>{out.slice(pin + 1).map((o) => o.el)}</div>
       </div>
     </>
   )
