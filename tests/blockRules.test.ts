@@ -61,6 +61,7 @@ describe('design settings', () => {
     'paragraphsBlock.titleSize': 'h5: paragraph lead-ins in narrow columns',
     'featureSplitDarkBlock.imagePosition': 'right: designed with the image on the right',
     'fiftyFiftyBannerBlock.imagePosition': 'right: designed with the image on the right',
+    'heroAllyBlock.align': 'left: designed with the button beside Ally, not over her',
     'mediaBlock.align': 'left: a caption under an image reads from the left',
   }
   it('start the same way on every block, unless listed as deliberate', () => {

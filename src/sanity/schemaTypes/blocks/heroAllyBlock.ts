@@ -38,6 +38,41 @@ export const heroAllyBlock = defineType({
       description: 'Small line of microcopy under the button.',
       type: 'string',
     }),
+    // The accent gradient she was designed on stays the default, so
+    // existing heroes (none have a value) look as before.
+    defineField({
+      name: 'tone',
+      title: 'Background',
+      description: 'Behind the whole hero, Ally included. Dark and the dark accent gradient turn the text white and the button the accent colour.',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'None', value: 'none' },
+          { title: 'Light grey', value: 'light' },
+          { title: 'Dark', value: 'dark' },
+          { title: 'Accent', value: 'accent' },
+          { title: 'Accent gradient', value: 'accentGradient' },
+          { title: 'Dark accent gradient', value: 'accentDark' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'accentGradient',
+    }),
+    defineField({
+      name: 'align',
+      title: 'Text alignment',
+      description: 'Where the eyebrow, headline, body and button sit. Centred, the button sits over Ally on bigger screens.',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Left', value: 'left' },
+          { title: 'Center', value: 'center' },
+        ],
+        layout: 'radio',
+        direction: 'horizontal',
+      },
+      initialValue: 'left',
+    }),
     {
       ...spacingField,
       initialValue: 'medium',

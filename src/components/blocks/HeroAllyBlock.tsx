@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/Button'
 import { SectionIntro } from '@/components/ui/SectionIntro'
 import { Ally3D } from '@/components/ally3d/Ally3D'
+import { BAND_BG } from '@/components/ui/BandFill'
 
 type HeroAllyBlockProps = {
   eyebrow?: string
@@ -12,6 +13,16 @@ type HeroAllyBlockProps = {
   headlineSize?: 'h1' | 'display'
   typingHeadline?: boolean
   spacing?: 'loose' | 'medium' | 'tight' | 'none'
+  tone?: 'none' | 'light' | 'dark' | 'accent' | 'accentGradient' | 'accentDark'
+  align?: 'left' | 'center'
+}
+
+// The background, behind the whole hero. Unset is the accent gradient
+// she was designed on; None is the page background.
+const SECTION_BG: Record<NonNullable<HeroAllyBlockProps['tone']>, string> = {
+  none: '',
+  light: 'bg-muted',
+  ...BAND_BG,
 }
 
 // The gaps between eyebrow, headline, subtext and button: from tablet up,
@@ -45,10 +56,15 @@ export function HeroAllyBlock({
   headlineSize,
   typingHeadline = false,
   spacing = 'medium',
+  tone = 'accentGradient',
+  align = 'left',
 }: HeroAllyBlockProps) {
+  // On Dark and the dark gradient: white text, the button in the accent.
+  const dark = tone === 'dark' || tone === 'accentDark'
+  const center = align === 'center'
   return (
     <section
-      className={`hero-ally-section relative flex min-h-svh flex-col overflow-hidden bg-accent-gradient ${SECTION_GAP_MB_CLASS[spacing]}`}
+      className={`hero-ally-section relative flex min-h-svh flex-col overflow-hidden ${SECTION_BG[tone]} ${SECTION_GAP_MB_CLASS[spacing]}`}
       // Pulled up under the fixed header, like the other heroes (see
       // HeroBackdropBlock), so the gradient runs to the top of the screen.
       style={{ marginTop: 'calc(var(--header-height, 0px) * -1)' }}
@@ -62,6 +78,9 @@ export function HeroAllyBlock({
           as="h1"
           display={headlineSize === 'display'}
           typing={typingHeadline}
+          typingCursorClassName={dark ? 'text-accent' : undefined}
+          tone={dark ? 'inverse' : 'default'}
+          align={align}
           eyebrow={eyebrow}
           heading={headline}
           body={body}
@@ -75,11 +94,11 @@ export function HeroAllyBlock({
           cta={
             ctaLabel &&
             ctaHref && (
-              <div className="flex flex-col items-start gap-small-medium">
-                <Button href={ctaHref} variant="filled-dark">
+              <div className={`flex flex-col gap-small-medium ${center ? 'items-center' : 'items-start'}`}>
+                <Button href={ctaHref} variant={dark ? 'filled-accent' : 'filled-dark'}>
                   {ctaLabel}
                 </Button>
-                {ctaNote && <p className="text-body-sm text-muted-foreground">{ctaNote}</p>}
+                {ctaNote && <p className={`text-body-sm ${dark ? 'text-background/80' : 'text-muted-foreground'}`}>{ctaNote}</p>}
               </div>
             )
           }

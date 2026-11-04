@@ -392,6 +392,8 @@ export default async function BlocksPage({
       <HeroScrollZoomBlock headline={'Lorem ipsum\nDolor sit'} body={'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed.\nUt enim ad minim veniam, quis nostrud exercitation ullamco.'} ctaLabel="Lorem ipsum" ctaHref="#" tone="accent" />
       <BlockCaption name="Hero — Ally 3D (experimental)" type="heroAllyBlock" />
       <HeroAllyBlock eyebrow={EYEBROW} headline={HEADING} body={BODY} ctaLabel="Lorem ipsum" ctaHref="#" spacing="none" />
+      <BlockCaption name="Hero — Ally 3D, Dark, centred" type="heroAllyBlock" />
+      <HeroAllyBlock eyebrow={EYEBROW} headline={HEADING} body={BODY} ctaLabel="Lorem ipsum" ctaHref="#" ctaNote="Lorem ipsum dolor sit amet." spacing="none" tone="dark" align="center" />
       <BlockCaption name="Hero — Text Only" type="heroTextBlock" />
       <HeroTextBlock eyebrow={EYEBROW} headline={HEADING} body={BODY} ctaLabel="Lorem ipsum" ctaHref="#" />
       {/* The background options: Light, Dark (accent eyebrow and button), Accent. */}
