@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { buttonVariants } from '@/components/ui/Button'
+import { trackLead } from '@/lib/analytics'
 
 type NewsletterFormProps = {
   heading?: string
@@ -20,6 +21,8 @@ export function NewsletterForm({ heading, placeholder }: NewsletterFormProps) {
     // D10: v1 forms are UI-only — validate and show the success state,
     // no real backend yet. D9: replace the form inline, no navigation.
     setSubmitted(true)
+    // Counted as a sign-up in GA4, with consent.
+    trackLead('newsletter')
   }
 
   if (submitted) {

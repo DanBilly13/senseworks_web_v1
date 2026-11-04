@@ -7,6 +7,7 @@ import { buttonVariants } from '@/components/ui/Button'
 import { BookMeetingContext } from '@/components/ui/bookMeetingContext'
 import type { BookMeetingSettings } from '@/lib/sanity/bookMeeting'
 import { hasImage } from '@/lib/sanity/media'
+import { trackLead } from '@/lib/analytics'
 
 type Copy = {
   heading: string
@@ -102,6 +103,8 @@ function BookMeetingContent({
     // D10: UI-only for now — validate (native `required`/`type=email`)
     // and show the success state; nothing is sent anywhere yet.
     setSubmitted(true)
+    // Counted as a lead in GA4 (and LinkedIn), with consent.
+    trackLead('book_meeting')
   }
 
   return (

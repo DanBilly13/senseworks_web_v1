@@ -9,6 +9,7 @@ import { useBookMeeting } from '@/components/ui/bookMeetingContext'
 // The same fields as Book a meeting's form (underlined, small bold label).
 import { FIELD_CLASS, Field } from '@/components/ui/BookMeetingModal'
 import type { WebinarSettings } from '@/lib/sanity/webinar'
+import { trackLead } from '@/lib/analytics'
 
 type Copy = {
   dateLabel: string
@@ -103,6 +104,8 @@ function BookWebinarContent({
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setSubmitted(true)
+    // Counted as a lead in GA4 (and LinkedIn), with consent.
+    trackLead('book_webinar')
   }
   // The bar fills with the seats already taken.
   const taken = Math.min(100, Math.max(0, ((seatsTotal - seatsLeft) / seatsTotal) * 100))

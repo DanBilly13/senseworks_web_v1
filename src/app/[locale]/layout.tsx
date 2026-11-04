@@ -3,6 +3,8 @@ import { BookMeetingProvider } from '@/components/ui/BookMeetingModal'
 import { getBookMeetingSettings } from '@/lib/sanity/bookMeeting'
 import { BookWebinarProvider } from '@/components/ui/BookWebinarModal'
 import { getWebinarSettings } from '@/lib/sanity/webinar'
+import { ConsentManager } from '@/components/ConsentManager'
+import { INDEXABLE } from '@/lib/site'
 
 export function generateStaticParams() {
   return [{ locale: 'en' }, { locale: 'sv' }]
@@ -34,6 +36,9 @@ export default async function LocaleLayout({
             correctly (see .text-display in globals.css). */}
         <div lang={locale} className="contents">
           {children}
+          {/* The cookie banner; the tags only load on the production
+              deployment, and only after consent. */}
+          <ConsentManager locale={locale} tracking={INDEXABLE} />
         </div>
       </BookWebinarProvider>
     </BookMeetingProvider>
