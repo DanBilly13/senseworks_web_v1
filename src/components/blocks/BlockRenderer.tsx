@@ -167,22 +167,30 @@ export function BlockRenderer({ blocks }: { blocks: PageBlock[] }) {
   // panel, or it's a see-through strip at its foot.
   // Hero — Ally 3D and Media do the same; their Section spacing becomes
   // the space at the top of the panel.
-  const pin = out.findIndex(({ start }) => {
+  // Every pinned block gets its own panel, nested inside the one before
+  // it: a pinned Media further down would otherwise sit inside the
+  // hero's panel with nothing opaque to cover it, and show through
+  // every block after it that has no background of its own.
+  const isPinned = ({ start }: { start: number }) => {
     const b = shown[start] as { _type: string; layout?: string; pinned?: boolean }
     return b.pinned === true && ((b._type === 'heroBlock' && b.layout === 'imageOverlay') || PANEL_TOP_FROM_SPACING.has(b._type))
-  })
-  if (pin === -1 || pin === out.length - 1) return <>{out.map((o) => o.el)}</>
-  const pinned = shown[out[pin].start] as { _type: string; spacing?: BandSpacing }
-  const panelTop = PANEL_TOP_FROM_SPACING.has(pinned._type)
-    ? PANEL_TOP[pinned.spacing ?? PANEL_TOP_FROM_SPACING.get(pinned._type)!]
-    : 'pt-section-edge'
-  return (
-    <>
-      {out.slice(0, pin).map((o) => o.el)}
-      <div className="w-full">
-        {out[pin].el}
-        <div className={`relative z-10 flow-root w-full bg-surface ${panelTop}`}>{out.slice(pin + 1).map((o) => o.el)}</div>
-      </div>
-    </>
-  )
+  }
+  const curtain = (pieces: typeof out): React.ReactNode => {
+    const pin = pieces.findIndex(isPinned)
+    if (pin === -1 || pin === pieces.length - 1) return pieces.map((o) => o.el)
+    const pinned = shown[pieces[pin].start] as { _type: string; _key: string; spacing?: BandSpacing }
+    const panelTop = PANEL_TOP_FROM_SPACING.has(pinned._type)
+      ? PANEL_TOP[pinned.spacing ?? PANEL_TOP_FROM_SPACING.get(pinned._type)!]
+      : 'pt-section-edge'
+    return (
+      <>
+        {pieces.slice(0, pin).map((o) => o.el)}
+        <div key={`pin-${pinned._key}`} className="w-full">
+          {pieces[pin].el}
+          <div className={`relative z-10 flow-root w-full bg-surface ${panelTop}`}>{curtain(pieces.slice(pin + 1))}</div>
+        </div>
+      </>
+    )
+  }
+  return <>{curtain(out)}</>
 }
