@@ -9,6 +9,7 @@ import { HeroTextBlock } from '@/components/blocks/HeroTextBlock'
 import { SectionHeadlineBlock } from '@/components/blocks/SectionHeadlineBlock'
 import { BlockRenderer } from '@/components/blocks/BlockRenderer'
 import { ContactRowsBlock } from '@/components/blocks/ContactRowsBlock'
+import { RichTextBlock } from '@/components/blocks/RichTextBlock'
 import { FeatureSplitBlock } from '@/components/blocks/FeatureSplitBlock'
 import { FeatureSplitDarkBlock } from '@/components/blocks/FeatureSplitDarkBlock'
 import { FiftyFiftyBannerBlock } from '@/components/blocks/FiftyFiftyBannerBlock'
@@ -399,6 +400,17 @@ export default async function BlocksPage({
       <HeroTextBlock eyebrow={EYEBROW} headline={HEADING} body={BODY} ctaLabel="Lorem ipsum" ctaHref="#" boundary={false} tone="accent" />
       <BlockCaption name="Hero — Text Only, Dark, accent headline" type="heroTextBlock" variant='tone: "dark", headlineColor: "accent"' />
       <HeroTextBlock eyebrow={EYEBROW} headline="Lorem ipsum" headlineSize="display" body={BODY} ctaLabel="Lorem ipsum" ctaHref="#" boundary={false} tone="dark" headlineColor="accent" />
+      <BlockCaption name="Rich Text" type="richTextBlock" />
+      <RichTextBlock
+        body={[
+          { _type: 'block', _key: 'r1', style: 'normal', markDefs: [], children: [{ _type: 'span', _key: 's1', text: 'Senast uppdaterad: 9 november 2023', marks: ['em'] }] },
+          { _type: 'block', _key: 'r2', style: 'h2', markDefs: [], children: [{ _type: 'span', _key: 's2', text: '1. Lorem ipsum dolor', marks: [] }] },
+          { _type: 'block', _key: 'r3', style: 'normal', markDefs: [], children: [{ _type: 'span', _key: 's3', text: BODY, marks: [] }] },
+          { _type: 'block', _key: 'r4', style: 'h3', markDefs: [], children: [{ _type: 'span', _key: 's4', text: '1.1 Sit amet consectetur', marks: [] }] },
+          { _type: 'block', _key: 'r5', style: 'normal', listItem: 'bullet', level: 1, markDefs: [], children: [{ _type: 'span', _key: 's5', text: 'Lorem ipsum dolor sit amet', marks: [] }] },
+          { _type: 'block', _key: 'r6', style: 'normal', listItem: 'bullet', level: 1, markDefs: [{ _key: 'l1', _type: 'link', href: 'mailto:support@senseworks.io' }], children: [{ _type: 'span', _key: 's6', text: 'support@senseworks.io', marks: ['l1'] }] },
+        ]}
+      />
       <BlockCaption name="Contact Rows" type="contactRowsBlock" />
       <ContactRowsBlock
         eyebrow="Lorem ipsum"

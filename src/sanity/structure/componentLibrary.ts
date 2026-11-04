@@ -230,6 +230,11 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
     description: 'Ruled rows of contact details: a big title on the left (a city, or what you\'re getting in touch about), labelled details in large type in the middle (email, phone, address, as links), a person to ask on the right. For the Contact page.',
   },
   {
+    type: 'richTextBlock',
+    title: 'Rich Text',
+    description: 'Long-form text in the article column: headings, paragraphs, lists and links, styled like a Knowledge Bank article. For the legal pages, or any page of prose.',
+  },
+  {
     type: 'comparisonTableBlock',
     title: 'Comparison Table',
     description: 'Feature comparison table across columns, e.g. plans or competitors. No intro of its own; add a Section Headline above it.',

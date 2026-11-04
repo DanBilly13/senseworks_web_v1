@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getPage } from '@/lib/sanity/getPage'
+import { localeAlternates } from '@/lib/site'
 import { BlockRenderer } from '@/components/blocks/BlockRenderer'
 import { AnimatedButtonProvider } from '@/components/ui/Button'
 import { SiteFooter, SiteHeader } from '@/components/layout/SiteNavigation'
@@ -16,7 +17,7 @@ export function generateStaticParams() {
 
 // Per-page title/description from Studio's SEO fields; a page that
 // leaves them empty just inherits the site-wide defaults in the root
-// layout (and the site-wide noindex, which this doesn't touch).
+// layout.
 export async function generateMetadata({
   params,
 }: {
@@ -27,6 +28,8 @@ export async function generateMetadata({
   return {
     ...(page?.seoTitle ? { title: page.seoTitle } : {}),
     ...(page?.seoDescription ? { description: page.seoDescription } : {}),
+    // Every page exists in both languages (Swedish falls back to English).
+    alternates: localeAlternates(`/${slug.join('/')}`, locale),
     // A version is a team experiment, never a search result.
     ...(page?.isVersion ? { robots: { index: false, follow: false } } : {}),
   }

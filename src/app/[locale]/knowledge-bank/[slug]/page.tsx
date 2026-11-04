@@ -1,5 +1,7 @@
+import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getArticle } from '@/lib/sanity/knowledgeBank'
+import { localeAlternates } from '@/lib/site'
 import { SiteFooter, SiteHeader } from '@/components/layout/SiteNavigation'
 import { SectionShell } from '@/components/ui/SectionShell'
 import { CardTags } from '@/components/ui/CardTags'
@@ -9,6 +11,19 @@ import { LikeProvider } from '@/components/knowledge-bank/LikeProvider'
 import { ArticleImage } from '@/components/knowledge-bank/ArticleImage'
 import { ArticleBody } from '@/components/ui/ArticleBody'
 import { BackLink } from '@/components/ui/BackLink'
+
+// The browser tab and search result: the article's title, its subtitle
+// as the description.
+export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }): Promise<Metadata> {
+  const { locale, slug } = await params
+  const article = await getArticle(slug, locale)
+  if (!article) return {}
+  return {
+    title: `${article.title} | Senseworks`,
+    ...(article.subtitle ? { description: article.subtitle } : {}),
+    alternates: localeAlternates(`/knowledge-bank/${slug}`, locale, [locale]),
+  }
+}
 
 export default async function ArticlePage({
   params,

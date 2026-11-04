@@ -102,7 +102,7 @@ export const page = defineType({
             {
               name: 'text',
               title: 'Text',
-              of: ['paragraphsBlock', 'bodyColumnsBlock', 'featureListBlock', 'faqAccordionBlock', 'contactRowsBlock'],
+              of: ['paragraphsBlock', 'richTextBlock', 'bodyColumnsBlock', 'featureListBlock', 'faqAccordionBlock', 'contactRowsBlock'],
             },
             {
               name: 'features',
@@ -188,6 +188,7 @@ export const page = defineType({
         defineArrayMember({ type: 'pricingBlock' }),
         defineArrayMember({ type: 'releaseCardsBlock' }),
         defineArrayMember({ type: 'releaseTimelineBlock' }),
+        defineArrayMember({ type: 'richTextBlock' }),
         defineArrayMember({ type: 'sectionHeadlineBlock' }),
         defineArrayMember({ type: 'statsBandBlock' }),
         defineArrayMember({ type: 'stackAnimationBlock' }),

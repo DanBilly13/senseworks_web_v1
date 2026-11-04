@@ -3,6 +3,7 @@ import { Inter, Roboto_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import { SmoothScrollProvider } from "@/components/SmoothScrollProvider";
 import "./globals.css";
+import { INDEXABLE, SITE_URL } from "@/lib/site";
 
 // Body copy — Inter stands in for a body-specific typeface, which
 // hasn't been chosen yet.
@@ -34,11 +35,16 @@ const aeonik = localFont({
 });
 
 export const metadata: Metadata = {
+  // Relative canonical/alternate/share-image URLs resolve against the
+  // real domain (lib/site.ts).
+  metadataBase: new URL(SITE_URL),
   title: "Senseworks",
-  description: "Senseworks marketing site — block library calibration slice.",
-  // Dev-only Vercel deployment isn't meant to be publicly discoverable —
-  // keep it out of search indexes until it's ready to be real.
-  robots: { index: false, follow: false },
+  // Shown for any page without its own SEO description in Studio.
+  description: "Senseworks builds audit and analytics software for audit firms, with Ally, an AI fluent in audit.",
+  // Only the production deployment may be indexed; previews and local
+  // dev stay out (robots.txt keeps the vercel.app address out too).
+  robots: INDEXABLE ? { index: true, follow: true } : { index: false, follow: false },
+  openGraph: { siteName: "Senseworks", type: "website" },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

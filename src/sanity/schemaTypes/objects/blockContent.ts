@@ -33,7 +33,14 @@ export const blockContentMembers = [
             name: 'link',
             type: 'object',
             title: 'Link',
-            fields: [defineField({ name: 'href', type: 'url', validation: (Rule) => Rule.required() })],
+            fields: [
+              defineField({
+                name: 'href',
+                type: 'url',
+                description: 'A web address, mailto:, tel:, or a page on this site (/sv/pris).',
+                validation: (Rule) => Rule.required().uri({ scheme: ['http', 'https', 'mailto', 'tel'], allowRelative: true }),
+              }),
+            ],
           }),
         ],
       },

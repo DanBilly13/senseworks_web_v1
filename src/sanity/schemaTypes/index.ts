@@ -60,6 +60,7 @@ import { blogPost } from './documents/blogPost'
 import { horizontalScrollStackMediumBlock } from './blocks/horizontalScrollStackMediumBlock'
 import { teamGridBlock } from './blocks/teamGridBlock'
 import { paragraphsBlock } from './blocks/paragraphsBlock'
+import { richTextBlock } from './blocks/richTextBlock'
 
 const allTypes = [
   page,
@@ -121,6 +122,7 @@ const allTypes = [
   horizontalScrollStackMediumBlock,
   teamGridBlock,
   paragraphsBlock,
+  richTextBlock,
   footerBlock,
 ]
 

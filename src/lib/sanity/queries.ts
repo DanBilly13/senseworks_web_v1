@@ -48,7 +48,7 @@ const releaseProjection = groq`
 // shows in a language it's written in (any of its card text filled in),
 // or in English as the fallback — so Swedish pages list every story,
 // English ones only the stories with English.
-const storyWrittenIn = (language: string) =>
+export const storyWrittenIn = (language: string) =>
   `defined(coalesce(${['summary', 'title', 'facts', 'quote', 'personRole'].map((field) => `${field}[${language}]`).join(', ')}))`
 // The second line covers a story still in the old one-document-per-
 // language form (it has a `language`), until scripts/merge-language-

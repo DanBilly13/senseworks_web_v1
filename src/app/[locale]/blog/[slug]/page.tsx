@@ -14,12 +14,17 @@ import { ArticleActions } from '@/components/knowledge-bank/ArticleActions'
 import { LikeProvider } from '@/components/knowledge-bank/LikeProvider'
 import { BlogCover, BlogRow } from '@/components/blog/BlogCard'
 import { BackLink } from '@/components/ui/BackLink'
+import { localeAlternates } from '@/lib/site'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }): Promise<Metadata> {
   const { locale, slug } = await params
   const post = await getBlogPost(slug, locale)
   if (!post?.inLocale) return {}
-  return { title: `${post.title} | Senseworks`, ...(post.excerpt ? { description: post.excerpt } : {}) }
+  return {
+    title: `${post.title} | Senseworks`,
+    ...(post.excerpt ? { description: post.excerpt } : {}),
+    alternates: localeAlternates(`/blog/${slug}`, locale, [locale]),
+  }
 }
 
 // A blog post, in the same family as a Knowledge Bank article and a

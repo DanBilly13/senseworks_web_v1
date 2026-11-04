@@ -12,6 +12,7 @@ import { AuthorByline } from '@/components/knowledge-bank/AuthorByline'
 import { ArticleActions } from '@/components/knowledge-bank/ArticleActions'
 import { LikeProvider } from '@/components/knowledge-bank/LikeProvider'
 import { BackLink } from '@/components/ui/BackLink'
+import { localeAlternates } from '@/lib/site'
 
 // The customer story template, laid out like a magazine feature:
 // - a full-content-width hero: date, headline and standfirst on the
@@ -36,6 +37,7 @@ export async function generateMetadata({
   return {
     title: `${story.title || story.companyName} – Senseworks`,
     ...(story.summary ? { description: story.summary } : {}),
+    alternates: localeAlternates(`/customer-stories/${slug}`, locale, [locale]),
   }
 }
 
