@@ -83,6 +83,15 @@ export const mediaBlock = defineType({
       initialValue: 'left',
     }),
     ...bandFields({ withDarkGradient: true }).map((field) => ({ ...field, hidden: hiddenAtFullWidth })),
+    defineField({
+      name: 'growOnScroll',
+      title: 'Grow on scroll',
+      description:
+        'The media starts at half size as it comes up into the screen and grows to full size by the time it’s in the middle. Visitors who ask for less motion see it at full size.',
+      type: 'boolean',
+      initialValue: false,
+      hidden: hiddenAtFullWidth,
+    }),
     // Like the heroes' (BlockRenderer pins it).
     defineField({
       name: 'pinned',

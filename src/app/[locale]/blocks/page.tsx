@@ -1443,6 +1443,8 @@ export default async function BlocksPage({
       <MediaBlock ratio="7:4" />
       <BlockCaption name="Media — on Dark, with padding" type="mediaBlock" variant='tone: "dark", paddingTop/Bottom: "medium"' />
       <MediaBlock tone="dark" paddingTop="medium" paddingBottom="medium" />
+      <BlockCaption name="Media — grow on scroll" type="mediaBlock" variant="growOnScroll: true" />
+      <MediaBlock growOnScroll />
       <BlockCaption name="Media — 3:1" type="mediaBlock" variant='ratio: "3:1"' />
       <MediaBlock ratio="3:1" />
       <BlockCaption name="Media — full screen width" type="mediaBlock" variant='width: "full"' />

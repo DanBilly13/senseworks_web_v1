@@ -6,6 +6,7 @@ import { Media } from '@/components/ui/Media'
 import type { MediaField } from '@/lib/sanity/media'
 import { BandFill, bandShellPadding, type BandTone, type BandSpacing } from '@/components/ui/BandFill'
 import { StickToBottom } from '@/components/ui/StickToBottom'
+import { ScrollGrow } from '@/components/ui/ScrollGrow'
 
 type MediaBlockProps = {
   media?: MediaField
@@ -33,6 +34,9 @@ type MediaBlockProps = {
   // Stays put while the rest of the page scrolls up over it (the
   // wrapper is BlockRenderer's, which also takes over the gap below).
   pinned?: boolean
+  // Content width only: zooms up to full size as it scrolls into view
+  // (ui/ScrollGrow). Off, the frame isn't wrapped at all.
+  growOnScroll?: boolean
 }
 
 const RATIO_CLASS: Record<NonNullable<MediaBlockProps['ratio']>, string> = {
@@ -55,7 +59,9 @@ function MediaBlockContent({
   tone = 'none',
   paddingTop,
   paddingBottom,
+  growOnScroll = false,
 }: MediaBlockProps) {
+  const grow = (frame: ReactNode) => (growOnScroll ? <ScrollGrow>{frame}</ScrollGrow> : frame)
   // The background wraps the content-width layouts below; without one,
   // they're as they always were.
   const banded = (shell: (py: { pt?: BandSpacing; pb: BandSpacing }) => ReactNode) =>
@@ -127,11 +133,13 @@ function MediaBlockContent({
   if (!hasOverlay) {
     return banded((py) => (
       <SectionShell py={py.pb} pt={py.pt}>
-        <Media
-          media={media}
-          alt={media?.alt ?? ''}
-          className={`-mx-large h-media-mobile rounded-none md:mx-0 ${RATIO_CLASS[ratio]} md:h-auto md:w-full md:rounded-xl`}
-        />
+        {grow(
+          <Media
+            media={media}
+            alt={media?.alt ?? ''}
+            className={`-mx-large h-media-mobile rounded-none md:mx-0 ${RATIO_CLASS[ratio]} md:h-auto md:w-full md:rounded-xl`}
+          />,
+        )}
       </SectionShell>
     ))
   }
@@ -158,39 +166,41 @@ function MediaBlockContent({
           overflow) its container — adding w-full here would fight the
           negative margin (both non-auto, over-constrained) instead of
           cooperating with it. */}
-      <div className={`relative -mx-large h-media-mobile overflow-hidden rounded-none md:mx-0 ${RATIO_CLASS[ratio]} md:h-auto md:rounded-xl`}>
-        <div className="absolute inset-0">
-          <Media media={media} alt={headline || media?.alt || ''} className="size-full" />
-        </div>
-        <div
-          className={[
-            // 32px on mobile (this box is full-bleed, 0 section
-            // padding, so this IS the only thing landing the text on
-            // the site-wide 32px-from-edge line), tripled to 96px on
-            // desktop, as before.
-            'relative flex size-full flex-col justify-center p-large md:p-3xl',
-            align === 'center' ? 'items-center' : 'items-start',
-          ].join(' ')}
-        >
-          <SectionIntro
-            as="h2"
-            eyebrow={eyebrow}
-            heading={headline}
-            body={body}
-            align={align}
-            maxWidth="md"
-            tone="inverse"
-            cta={
-              ctaLabel &&
-              ctaHref && (
-                <Button href={ctaHref} variant="filled-accent">
-                  {ctaLabel}
-                </Button>
-              )
-            }
-          />
-        </div>
-      </div>
+      {grow(
+        <div className={`relative -mx-large h-media-mobile overflow-hidden rounded-none md:mx-0 ${RATIO_CLASS[ratio]} md:h-auto md:rounded-xl`}>
+          <div className="absolute inset-0">
+            <Media media={media} alt={headline || media?.alt || ''} className="size-full" />
+          </div>
+          <div
+            className={[
+              // 32px on mobile (this box is full-bleed, 0 section
+              // padding, so this IS the only thing landing the text on
+              // the site-wide 32px-from-edge line), tripled to 96px on
+              // desktop, as before.
+              'relative flex size-full flex-col justify-center p-large md:p-3xl',
+              align === 'center' ? 'items-center' : 'items-start',
+            ].join(' ')}
+          >
+            <SectionIntro
+              as="h2"
+              eyebrow={eyebrow}
+              heading={headline}
+              body={body}
+              align={align}
+              maxWidth="md"
+              tone="inverse"
+              cta={
+                ctaLabel &&
+                ctaHref && (
+                  <Button href={ctaHref} variant="filled-accent">
+                    {ctaLabel}
+                  </Button>
+                )
+              }
+            />
+          </div>
+        </div>,
+      )}
     </SectionShell>
   ))
 }

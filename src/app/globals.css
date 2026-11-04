@@ -1224,6 +1224,16 @@ p:has(+ .hero-overlay-card-rules),
   }
 }
 
+/* Media's Grow on scroll (ui/ScrollGrow): from tablet up, the zooming
+   frame keeps its 16px corners on screen at every size — the radius is
+   divided by the scale it's drawn at. */
+@media (width >= 48rem) {
+  .scroll-grow {
+    overflow: hidden;
+    border-radius: calc(var(--radius-xl) / var(--scroll-grow-scale, 1));
+  }
+}
+
 /* Hero — Ally 3D: the space under the text that Ally rises into is at
    least this tall, so she always shows her head, however long the
    headline (the hero grows past one screen instead). */
