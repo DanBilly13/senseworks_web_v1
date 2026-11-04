@@ -5,7 +5,7 @@ import { MediaBlock } from '@/components/blocks/MediaBlock'
 describe('MediaBlock width', () => {
   it('is content width with rounded corners by default', () => {
     const { container } = render(<MediaBlock />)
-    expect(container.querySelector('.md\\:rounded-lg')).not.toBeNull()
+    expect(container.querySelector('.md\\:rounded-xl')).not.toBeNull()
     expect(container.querySelector('.h-cta-banner-image')).toBeNull()
   })
 
