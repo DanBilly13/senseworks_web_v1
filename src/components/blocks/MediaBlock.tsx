@@ -16,15 +16,17 @@ type MediaBlockProps = {
   // same height as a CTA Banner with a background image (75vh, image
   // cropped to fill) so the two match when used near each other.
   width?: 'content' | 'full'
-  // The content-width frame's shape on desktop: 7:5 (the original) or a
-  // wide 3:1 strip. Mobile keeps its tall full-bleed frame either way.
-  ratio?: '7:5' | '3:1'
+  // The content-width frame's shape on desktop: 7:5 (the original), 7:4
+  // (the Hero image's) or a wide 3:1 strip. Mobile keeps its tall
+  // full-bleed frame whichever.
+  ratio?: '7:5' | '7:4' | '3:1'
   // The gap below the block, before the next one.
   spacing?: 'loose' | 'medium' | 'tight' | 'none'
 }
 
-const RATIO_CLASS: Record<'7:5' | '3:1', string> = {
+const RATIO_CLASS: Record<NonNullable<MediaBlockProps['ratio']>, string> = {
   '7:5': 'md:aspect-media',
+  '7:4': 'md:aspect-hero',
   '3:1': 'md:aspect-banner',
 }
 

@@ -1439,6 +1439,8 @@ export default async function BlocksPage({
       />
       <BlockCaption name="Media" type="mediaBlock" />
       <MediaBlock />
+      <BlockCaption name="Media — 7:4" type="mediaBlock" variant='ratio: "7:4"' />
+      <MediaBlock ratio="7:4" />
       <BlockCaption name="Media — 3:1" type="mediaBlock" variant='ratio: "3:1"' />
       <MediaBlock ratio="3:1" />
       <BlockCaption name="Media — full screen width" type="mediaBlock" variant='width: "full"' />

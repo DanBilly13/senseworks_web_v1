@@ -36,6 +36,7 @@ export const mediaBlock = defineType({
       options: {
         list: [
           { title: '7:5 (default)', value: '7:5' },
+          { title: '7:4 (wider)', value: '7:4' },
           { title: '3:1 (wide strip)', value: '3:1' },
         ],
         layout: 'radio',
