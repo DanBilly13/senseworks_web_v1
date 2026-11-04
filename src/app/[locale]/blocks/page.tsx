@@ -886,6 +886,8 @@ export default async function BlocksPage({
       <LogoCloudBlock logos={clientLogos} />
       <BlockCaption name="Logo Cloud — Accent" type="logoCloudBlock" variant='tone: "accent"' />
       <LogoCloudBlock logos={clientLogos} tone="accent" />
+      <BlockCaption name="Logo Cloud — Dark, loose padding" type="logoCloudBlock" variant='tone: "dark", paddingTop/Bottom: "loose"' />
+      <LogoCloudBlock logos={clientLogos} tone="dark" paddingTop="loose" paddingBottom="loose" />
       <BlockCaption name="Testimonial Carousel" type="testimonialCarouselBlock" />
       <TestimonialCarouselBlock
         items={[

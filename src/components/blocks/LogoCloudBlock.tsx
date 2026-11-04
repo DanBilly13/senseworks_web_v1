@@ -1,30 +1,35 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
 import type { CSSProperties } from 'react'
-import { SectionShell } from '@/components/ui/SectionShell'
+import { SECTION_GAP_MB_CLASS, SectionShell } from '@/components/ui/SectionShell'
+import { BAND_BG, type BandSpacing } from '@/components/ui/BandFill'
 import { Media } from '@/components/ui/Media'
 import type { MediaField } from '@/lib/sanity/media'
 
 type LogoCloudItem = { name: string; media?: MediaField }
 type LogoCloudBlockProps = {
   logos?: LogoCloudItem[]
-  spacing?: 'loose' | 'medium' | 'tight' | 'none'
-  // Same default/inverse/accent tones as CTA Banner/Full Width
-  // Single/Hero Image Overlay Card — there's no text in this block
-  // either, so no color-switching logic needed beyond the background
-  // itself.
-  tone?: 'light' | 'dark' | 'accent'
+  spacing?: BandSpacing
+  // A full screen width background, the logos in the page column on
+  // top. There's no text in this block, so no colour switching beyond
+  // the background itself. Light grey, as it has always been, unless set.
+  tone?: 'none' | 'light' | 'dark' | 'accent' | 'accentGradient' | 'accentDark'
+  // The space inside the background, above and below the logos (the
+  // same rule as ui/BandFill): left unset, none without a background
+  // and Medium with one. Section spacing is the gap after the block.
+  paddingTop?: BandSpacing
+  paddingBottom?: BandSpacing
 }
 
 const SECTION_BG: Record<NonNullable<LogoCloudBlockProps['tone']>, string> = {
+  none: '',
   light: 'bg-muted',
-  dark: 'bg-foreground',
-  accent: 'bg-accent',
+  ...BAND_BG,
 }
 
 const PIXELS_PER_SECOND = 42
 
-export function LogoCloudBlock({ logos = [], spacing = 'loose', tone = 'light' }: LogoCloudBlockProps) {
+export function LogoCloudBlock({ logos = [], spacing = 'loose', tone = 'light', paddingTop, paddingBottom }: LogoCloudBlockProps) {
   const wrapperRef = useRef<HTMLDivElement>(null)
   const setRef = useRef<HTMLDivElement>(null)
   const [copies, setCopies] = useState(2)
@@ -59,8 +64,13 @@ export function LogoCloudBlock({ logos = [], spacing = 'loose', tone = 'light' }
   // D7: a block with no content simply doesn't render.
   if (!logos.length) return null
 
+  const unset: BandSpacing = tone === 'none' ? 'none' : 'medium'
   return (
-    <SectionShell py={spacing} sectionClassName={SECTION_BG[tone]}>
+    <SectionShell
+      pt={paddingTop ?? unset}
+      py={paddingBottom ?? unset}
+      sectionClassName={`${SECTION_BG[tone]} ${SECTION_GAP_MB_CLASS[spacing]}`}
+    >
       <div ref={wrapperRef} className="overflow-hidden">
         <div
           // The animation class is only added once `setWidth` is measured
