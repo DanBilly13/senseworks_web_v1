@@ -108,7 +108,7 @@ export function MediaBlock({
         <Media
           media={media}
           alt={media?.alt ?? ''}
-          className={`-mx-large h-media-mobile rounded-none md:mx-0 ${RATIO_CLASS[ratio]} md:h-auto md:w-full md:rounded-lg`}
+          className={`-mx-large h-media-mobile rounded-none md:mx-0 ${RATIO_CLASS[ratio]} md:h-auto md:w-full md:rounded-xl`}
         />
       </SectionShell>
     )
@@ -136,7 +136,7 @@ export function MediaBlock({
           overflow) its container — adding w-full here would fight the
           negative margin (both non-auto, over-constrained) instead of
           cooperating with it. */}
-      <div className={`relative -mx-large h-media-mobile overflow-hidden rounded-none md:mx-0 ${RATIO_CLASS[ratio]} md:h-auto md:rounded-lg`}>
+      <div className={`relative -mx-large h-media-mobile overflow-hidden rounded-none md:mx-0 ${RATIO_CLASS[ratio]} md:h-auto md:rounded-xl`}>
         <div className="absolute inset-0">
           <Media media={media} alt={headline || media?.alt || ''} className="size-full" />
         </div>
