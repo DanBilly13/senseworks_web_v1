@@ -99,7 +99,13 @@ const BLOCK_COMPONENTS = {
   footerBlock: FooterBlock,
 } as const
 
-// The space at the top of the panel that scrolls over a pinned Ally hero.
+// The blocks whose Section spacing becomes the space at the top of the
+// panel that scrolls over them when pinned, with their default spacing.
+const PANEL_TOP_FROM_SPACING = new Map<string, BandSpacing>([
+  ['heroAllyBlock', 'medium'],
+  ['mediaBlock', 'loose'],
+])
+// That space.
 const PANEL_TOP: Record<BandSpacing, string> = {
   loose: 'pt-section-gap-loose',
   medium: 'pt-section-gap-medium',
@@ -117,7 +123,10 @@ export function BlockRenderer({ blocks }: { blocks: PageBlock[] }) {
   const shown = blocks.filter((block) => block._type in BLOCK_COMPONENTS && block.hidden !== true)
   // Content width background panels that touch read as one: square
   // corners where they meet (see ui/BandFill).
-  const joins = bandPanelJoins(shown as Parameters<typeof bandPanelJoins>[0])
+  // Media's Width is the media's own; its background always runs the
+  // full screen width, so that's how these read it.
+  const bands = shown.map((b) => (b._type === 'mediaBlock' ? { ...b, width: 'full' } : b))
+  const joins = bandPanelJoins(bands as Parameters<typeof bandPanelJoins>[0])
   const render = (block: PageBlock, i: number) => {
     const Component = BLOCK_COMPONENTS[block._type as keyof typeof BLOCK_COMPONENTS]
     // Only passed to a block that joins, so no other block sees them.
@@ -128,7 +137,7 @@ export function BlockRenderer({ blocks }: { blocks: PageBlock[] }) {
   }
   // Full width blocks on the same accent gradient that run on into each
   // other share one copy of it, so it doesn't restart between them.
-  const runs = bandGradientRuns(shown as Parameters<typeof bandGradientRuns>[0])
+  const runs = bandGradientRuns(bands as Parameters<typeof bandGradientRuns>[0])
   // Each rendered piece, keyed by the index of the first block in it.
   const out: { start: number; el: React.ReactNode }[] = []
   for (let i = 0; i < shown.length; i++) {
@@ -156,15 +165,17 @@ export function BlockRenderer({ blocks }: { blocks: PageBlock[] }) {
   // wrapper, so the hero lets go where the blocks end — before the
   // footer. flow-root keeps the last block's bottom margin inside the
   // panel, or it's a see-through strip at its foot.
-  // Hero — Ally 3D does the same; its Section spacing becomes the space
-  // at the top of the panel.
+  // Hero — Ally 3D and Media do the same; their Section spacing becomes
+  // the space at the top of the panel.
   const pin = out.findIndex(({ start }) => {
     const b = shown[start] as { _type: string; layout?: string; pinned?: boolean }
-    return b.pinned === true && ((b._type === 'heroBlock' && b.layout === 'imageOverlay') || b._type === 'heroAllyBlock')
+    return b.pinned === true && ((b._type === 'heroBlock' && b.layout === 'imageOverlay') || PANEL_TOP_FROM_SPACING.has(b._type))
   })
   if (pin === -1 || pin === out.length - 1) return <>{out.map((o) => o.el)}</>
   const pinned = shown[out[pin].start] as { _type: string; spacing?: BandSpacing }
-  const panelTop = pinned._type === 'heroAllyBlock' ? PANEL_TOP[pinned.spacing ?? 'medium'] : 'pt-section-edge'
+  const panelTop = PANEL_TOP_FROM_SPACING.has(pinned._type)
+    ? PANEL_TOP[pinned.spacing ?? PANEL_TOP_FROM_SPACING.get(pinned._type)!]
+    : 'pt-section-edge'
   return (
     <>
       {out.slice(0, pin).map((o) => o.el)}

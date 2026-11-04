@@ -1,6 +1,11 @@
 import { defineType, defineField } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
 import { spacingField } from '../fields/spacingField'
+import { bandFields } from '../fields/bandFields'
+
+// Background and its Top/Bottom padding: Content width only (at Full
+// screen width the media is the whole block, nothing shows round it).
+const hiddenAtFullWidth = ({ parent }: { parent?: { width?: string } }) => parent?.width === 'full'
 
 export const mediaBlock = defineType({
   name: 'mediaBlock',
@@ -76,6 +81,16 @@ export const mediaBlock = defineType({
         layout: 'radio',
       },
       initialValue: 'left',
+    }),
+    ...bandFields({ withDarkGradient: true }).map((field) => ({ ...field, hidden: hiddenAtFullWidth })),
+    // Like the heroes' (BlockRenderer pins it).
+    defineField({
+      name: 'pinned',
+      title: 'Content scrolls over it',
+      description:
+        'The media stays put once it’s fully on screen and the rest of the page scrolls up over it. Section spacing becomes the space at the top of what scrolls over.',
+      type: 'boolean',
+      initialValue: false,
     }),
     spacingField,
   ],
