@@ -87,7 +87,7 @@ export const mediaBlock = defineType({
       name: 'growOnScroll',
       title: 'Grow on scroll',
       description:
-        'The media starts at half size as it comes up into the screen and grows to full size by the time it’s in the middle. Visitors who ask for less motion see it at full size.',
+        'The media starts at half size as it comes up into the screen and grows to full size by the time it’s in the middle of the screen, quickly at first, then slowing. Visitors who ask for less motion see it at full size.',
       type: 'boolean',
       initialValue: false,
       hidden: hiddenAtFullWidth,
