@@ -10281,7 +10281,7 @@ valibot@^1.4.1, valibot@^1.4.2:
   resolved "https://registry.yarnpkg.com/valibot/-/valibot-1.4.2.tgz#da857781187f170aeaf4498d463d25028615b0d6"
   integrity sha512-gjdCvJ6d3RyHAneqxMYMW9QMCwYMb3jpOO0IyHZV1bnRHFBHrX3VkIILt5XYR0WhwHiH7Mty8ovuPZ/O3gamrg==
 
-vanilla-cookieconsent@^3:
+vanilla-cookieconsent@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/vanilla-cookieconsent/-/vanilla-cookieconsent-3.3.0.tgz#598f6f48ccdbc9805489f71a76d61d5ab4728413"
   integrity sha512-KkFJL9W9MAOC7ipSmk1CqTY1PHBViDU81jRBRWGw1Zhx5Y3nyAQ2COYwMpEG2z2SM75HNUIOwM7NnkSJe775Tw==
