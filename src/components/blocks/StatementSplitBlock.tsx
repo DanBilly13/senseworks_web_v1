@@ -9,13 +9,16 @@ import type { MediaField } from '@/lib/sanity/media'
 type StatementSplitBlockProps = BandProps & {
   media?: MediaField
   text?: string
+  closingText?: string
   imagePosition?: 'left' | 'right'
 }
 
 // A Statement beside a square image: a 50/50 split, the image 1:1 and
 // the text in Statement's style (regular weight, --text-statement),
-// centred on the image's height. Mobile stacks them, image first.
-export function StatementSplitBlock({ media, text, imagePosition = 'left', tone = 'none', ...band }: StatementSplitBlockProps) {
+// centred on the image's height, with optional small text under it
+// (e.g. who said a quote, in --text-body-xl). Mobile stacks them, image
+// first.
+export function StatementSplitBlock({ media, text, closingText, imagePosition = 'left', tone = 'none', ...band }: StatementSplitBlockProps) {
   // D7: a block with no content simply doesn't render.
   if (!text) return null
   const dark = tone === 'dark' || tone === 'accentDark'
@@ -28,16 +31,28 @@ export function StatementSplitBlock({ media, text, imagePosition = 'left', tone 
             alt={media?.alt ?? ''}
             className={`aspect-square w-full rounded-lg ${imagePosition === 'right' ? 'md:order-2' : ''}`}
           />
-          <p className={`text-statement font-normal text-pretty ${dark ? 'text-background' : 'text-foreground'}`}>
-            {text.split('\n').map((line, i, lines) => (
-              <Fragment key={i}>
-                {line}
-                {i < lines.length - 1 && <br />}
-              </Fragment>
-            ))}
-          </p>
+          <div className={dark ? 'text-background' : 'text-foreground'}>
+            <p className="text-statement font-normal text-pretty">
+              <Lines text={text} />
+            </p>
+            {closingText && (
+              <p className="mt-large text-body-xl">
+                <Lines text={closingText} />
+              </p>
+            )}
+          </div>
         </div>
       </SectionShell>
     </BandFill>
   )
+}
+
+// Enter in Studio is a line break on the page.
+function Lines({ text }: { text: string }) {
+  return text.split('\n').map((line, i, lines) => (
+    <Fragment key={i}>
+      {line}
+      {i < lines.length - 1 && <br />}
+    </Fragment>
+  ))
 }

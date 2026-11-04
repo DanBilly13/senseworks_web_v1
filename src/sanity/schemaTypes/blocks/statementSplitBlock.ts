@@ -19,6 +19,13 @@ export const statementSplitBlock = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'closingText',
+      title: 'Small text',
+      type: 'text',
+      rows: 2,
+      description: 'Optional. Under the text in a smaller size, e.g. the name and role of the person quoted. Press Enter for a line break.',
+    }),
+    defineField({
       name: 'media',
       title: 'Media',
       description: 'Shown square (1:1) — a square image fills it without cropping.',

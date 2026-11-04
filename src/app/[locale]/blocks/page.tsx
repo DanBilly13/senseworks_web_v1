@@ -747,6 +747,11 @@ export default async function BlocksPage({
         tone="dark"
         text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
       />
+      <BlockCaption name="Statement Split — a quote with small text" type="statementSplitBlock" variant='closingText: name and role' />
+      <StatementSplitBlock
+        text="“Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.”"
+        closingText={'Firstname Lastname\nCEO and founder'}
+      />
       <BlockCaption name="Statement + Body Columns" type="statementBlock + bodyColumnsBlock" variant='no background; Statement spacing "medium"' />
       <StatementBlock text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, ut enim ad minim veniam quis nostrud." spacing="medium" />
       <BodyColumnsBlock items={[{ text: BODY_LONG }, { text: BODY_LONG }]} />
