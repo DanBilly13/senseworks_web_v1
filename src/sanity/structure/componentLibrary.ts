@@ -197,6 +197,12 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
       'A square (1:1) image beside a column of text pieces in any order — Intro, Text, stacked Cards, Button. On desktop the image stays put while the text scrolls past. Optional background.',
   },
   {
+    type: 'factsTableBlock',
+    title: 'Facts Table',
+    description:
+      'A ruled table of 2–4 equal columns: an eyebrow in the top row, a title (H3/H4/H5) and optional body under it — e.g. Date, Country, Type. Stacks on mobile. Optional background.',
+  },
+  {
     type: 'bodyColumnsBlock',
     title: 'Body Columns',
     description:

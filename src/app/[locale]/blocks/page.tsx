@@ -22,6 +22,7 @@ import { ImageGridBlock } from '@/components/blocks/ImageGridBlock'
 import { StatementBlock } from '@/components/blocks/StatementBlock'
 import { StatementSplitBlock } from '@/components/blocks/StatementSplitBlock'
 import { StickySplitBlock } from '@/components/blocks/StickySplitBlock'
+import { FactsTableBlock } from '@/components/blocks/FactsTableBlock'
 import { BodyColumnsBlock } from '@/components/blocks/BodyColumnsBlock'
 import { StackAnimationBlock } from '@/components/blocks/StackAnimationBlock'
 import { LogoCloudBlock } from '@/components/blocks/LogoCloudBlock'
@@ -782,6 +783,25 @@ export default async function BlocksPage({
           { _type: 'cardsPiece', tone: 'dark', items: [{ eyebrow: EYEBROW, heading: 'Lorem ipsum dolor sit', body: BODY }, { eyebrow: EYEBROW, heading: 'Consectetur adipiscing', body: BODY }] },
           { _type: 'textPiece', heading: 'Lorem ipsum dolor', body: BODY_LONG },
           { _type: 'buttonPiece', ctaLabel: 'Lorem ipsum', ctaHref: '#' },
+        ]}
+      />
+      <BlockCaption name="Facts Table — 4 columns" type="factsTableBlock" variant='titleSize: "h4"' />
+      <FactsTableBlock
+        items={[
+          { eyebrow: 'Date', title: 'November 03 2026' },
+          { eyebrow: 'Categories', title: 'Programming' },
+          { eyebrow: 'Country', title: 'United Kingdom' },
+          { eyebrow: 'Type', title: 'Full-time' },
+        ]}
+      />
+      <BlockCaption name="Facts Table — 3 columns with body, Dark" type="factsTableBlock" variant='titleSize: "h3", tone: "dark"' />
+      <FactsTableBlock
+        titleSize="h3"
+        tone="dark"
+        items={[
+          { eyebrow: 'Experts', title: '11', body: 'All former auditors.' },
+          { eyebrow: 'Average answer', title: '4 minutes', body: 'From question to a sourced answer.' },
+          { eyebrow: 'Solved first time', title: '87%', body: 'No back and forth.' },
         ]}
       />
       <BlockCaption name="Statement + Body Columns" type="statementBlock + bodyColumnsBlock" variant='no background; Statement spacing "medium"' />

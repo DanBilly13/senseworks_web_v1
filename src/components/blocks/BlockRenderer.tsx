@@ -21,6 +21,7 @@ import { StackAnimationBlock } from './StackAnimationBlock'
 import { StatementBlock } from './StatementBlock'
 import { StatementSplitBlock } from './StatementSplitBlock'
 import { StickySplitBlock } from './StickySplitBlock'
+import { FactsTableBlock } from './FactsTableBlock'
 import { BodyColumnsBlock } from './BodyColumnsBlock'
 import { LogoCloudBlock } from './LogoCloudBlock'
 import { TestimonialCarouselBlock } from './TestimonialCarouselBlock'
@@ -72,6 +73,7 @@ const BLOCK_COMPONENTS = {
   statementBlock: StatementBlock,
   statementSplitBlock: StatementSplitBlock,
   stickySplitBlock: StickySplitBlock,
+  factsTableBlock: FactsTableBlock,
   bodyColumnsBlock: BodyColumnsBlock,
   logoCloudBlock: LogoCloudBlock,
   testimonialCarouselBlock: TestimonialCarouselBlock,
