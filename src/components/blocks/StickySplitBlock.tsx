@@ -31,13 +31,15 @@ type StickySplitBlockProps = {
   spacing?: BandSpacing
 }
 
-type BodySize = 'body' | 'large' | 'h5'
+type BodySize = 'body' | 'large' | 'h5' | 'statement'
 // "Body style": the Intro and Text pieces' body. Body is SectionIntro's
 // usual (text-body-lg, medium weight on mobile).
 const BODY_STYLE: Record<BodySize, string> = {
   body: 'text-body-lg font-medium md:font-normal',
   large: 'text-body-xl',
   h5: 'text-h5 font-medium',
+  // The Statement blocks' text (26–50px, regular weight).
+  statement: 'text-statement font-normal',
 }
 
 const SECTION_BG: Record<Tone, string> = { none: '', light: 'bg-muted', ...BAND_BG }

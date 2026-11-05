@@ -155,13 +155,14 @@ export const stickySplitBlock = defineType({
     defineField({
       name: 'bodySize',
       title: 'Body style',
-      description: 'The size of the body text in the Intro and Text pieces (not the cards).',
+      description: 'The size of the body text in the Intro and Text pieces (not the cards). Statement is the big regular-weight text of the Statement blocks (26–50px).',
       type: 'string',
       options: {
         list: [
           { title: 'Body (default)', value: 'body' },
           { title: 'Large body', value: 'large' },
           { title: 'H5', value: 'h5' },
+          { title: 'Statement', value: 'statement' },
         ],
         layout: 'radio',
         direction: 'horizontal',

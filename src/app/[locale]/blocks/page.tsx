@@ -771,10 +771,10 @@ export default async function BlocksPage({
           { _type: 'buttonPiece', ctaLabel: 'Lorem ipsum', ctaHref: '#' },
         ]}
       />
-      <BlockCaption name="Sticky Split — image right, Dark" type="stickySplitBlock" variant='imagePosition: "right", tone: "dark", bodySize: "large"' />
+      <BlockCaption name="Sticky Split — image right, Dark" type="stickySplitBlock" variant='imagePosition: "right", tone: "dark", bodySize: "statement"' />
       <StickySplitBlock
         imagePosition="right"
-        bodySize="large"
+        bodySize="statement"
         tone="dark"
         items={[
           { _type: 'introPiece', eyebrow: EYEBROW, headline: HEADING, body: BODY },
