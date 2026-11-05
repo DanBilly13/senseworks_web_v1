@@ -1242,10 +1242,14 @@ p:has(+ .hero-overlay-card-rules),
     top: calc((100svh - var(--sticky-split-size)) / 2);
     width: var(--sticky-split-size);
   }
-  /* The text side starts a third of the way down the image (padding's
-     % is of the column's width, so this is the same size / 3). */
+  /* The text side starts a third of the way down the image, and ends a
+     third of the way up from its bottom: the image lets go when the
+     text's end is there, not level with its bottom edge (padding's % is
+     of the column's width, so this is the same size / 3). */
   .sticky-split-text {
-    padding-top: calc(min(100%, calc(100svh - 2 * var(--header-height, 0px) - 2 * var(--spacing-large))) / 3);
+    --sticky-split-third: calc(min(100%, calc(100svh - 2 * var(--header-height, 0px) - 2 * var(--spacing-large))) / 3);
+    padding-top: var(--sticky-split-third);
+    padding-bottom: var(--sticky-split-third);
   }
 }
 

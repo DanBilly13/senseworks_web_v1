@@ -56,7 +56,8 @@ const CARD_SURFACE: Record<CardTone, string> = {
 // image is sticky (.sticky-split-media in globals.css: centred on the
 // screen, clear of the header) so it stays put while the
 // pieces scroll past, and lets go when the text column ends. The text
-// starts a third of the way down the image (.sticky-split-text). Mobile
+// starts a third of the way down the image and ends a third of the way
+// up from its bottom (.sticky-split-text). Mobile
 // stacks them, image first, nothing sticky. Pieces are 64px apart (the
 // intro-to-content gap); within one, the usual 16px text rhythm.
 export function StickySplitBlock({
