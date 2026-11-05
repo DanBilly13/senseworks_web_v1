@@ -769,7 +769,7 @@ export default async function BlocksPage({
               { eyebrow: '03 Dolor', heading: 'Sed do eiusmod tempor', body: BODY },
             ],
           },
-          { _type: 'listPiece', heading: 'Lorem ipsum', items: ['Branding', 'Print', 'Digital'] },
+          { _type: 'listPiece', heading: 'Lorem ipsum', items: ['Branding', 'Print', 'Digital'], textSize: 'h5' },
           { _type: 'textPiece', heading: 'Sit amet', body: BODY_LONG },
           { _type: 'buttonPiece', ctaLabel: 'Lorem ipsum', ctaHref: '#' },
         ]}

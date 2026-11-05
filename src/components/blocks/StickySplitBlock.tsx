@@ -18,7 +18,7 @@ type Piece =
   | { _type: 'introPiece'; _key?: string; eyebrow?: string; headline?: string; body?: string; ctaLabel?: string; ctaHref?: string }
   | { _type: 'statementPiece'; _key?: string; text?: string }
   | { _type: 'textPiece'; _key?: string; heading?: string; body?: string }
-  | { _type: 'listPiece'; _key?: string; heading?: string; items?: string[] }
+  | { _type: 'listPiece'; _key?: string; heading?: string; items?: string[]; textSize?: ListTextSize }
   | { _type: 'cardsPiece'; _key?: string; tone?: CardTone; titleSize?: CardTitleSize; numberedEyebrow?: boolean; items?: Card[] }
   | { _type: 'buttonPiece'; _key?: string; ctaLabel?: string; ctaHref?: string }
 
@@ -45,6 +45,15 @@ const BODY_STYLE: Record<BodySize, string> = {
 }
 
 const SECTION_BG: Record<Tone, string> = { none: '', light: 'bg-muted', ...BAND_BG }
+
+// The List piece's "Text size": the block's Body style, or one of these.
+type ListTextSize = 'inherit' | 'body' | 'large' | 'h5' | 'h4'
+const LIST_TEXT: Record<Exclude<ListTextSize, 'inherit'>, string> = {
+  body: 'text-body-lg font-medium md:font-normal',
+  large: 'text-body-xl',
+  h5: 'text-h5 font-medium',
+  h4: 'text-h4 font-medium',
+}
 
 // The Cards piece's "Card title size", and the gap that goes with each.
 type CardTitleSize = 'h4' | 'h5' | 'h6'
@@ -136,13 +145,14 @@ export function StickySplitBlock({
         const list = (p.items ?? []).filter(Boolean)
         if (!list.length) return null
         const rule = dark ? 'border-background/40' : 'border-foreground'
+        const size = p.textSize && p.textSize !== 'inherit' ? LIST_TEXT[p.textSize] : (BODY_STYLE[bodySize] ?? BODY_STYLE.body)
         return (
           <div key={p._key ?? index} className={`flex flex-col gap-medium ${dark ? 'text-background' : 'text-foreground'}`}>
             {p.heading && <h3 className="text-h5 font-medium whitespace-pre-line">{p.heading}</h3>}
             {/* A bullet per line, a thin rule above each and below the last. */}
             <ul className={`border-b ${rule}`}>
               {list.map((line, i) => (
-                <li key={i} className={`flex items-center gap-medium border-t py-medium ${rule} ${BODY_STYLE[bodySize] ?? BODY_STYLE.body}`}>
+                <li key={i} className={`flex items-center gap-medium border-t py-medium ${rule} ${size}`}>
                   <span aria-hidden className="size-1.5 shrink-0 rounded-full bg-current" />
                   {line}
                 </li>

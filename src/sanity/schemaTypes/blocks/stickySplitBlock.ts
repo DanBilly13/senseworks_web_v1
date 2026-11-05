@@ -125,6 +125,24 @@ export const stickySplitBlock = defineType({
               of: [{ type: 'string' }],
               validation: (Rule) => Rule.min(1),
             }),
+            defineField({
+              name: 'textSize',
+              title: 'Text size',
+              description: 'How big the list’s lines are. Unset, they follow the block’s Body style.',
+              type: 'string',
+              options: {
+                list: [
+                  { title: 'Body style (default)', value: 'inherit' },
+                  { title: 'Body', value: 'body' },
+                  { title: 'Large body', value: 'large' },
+                  { title: 'H5', value: 'h5' },
+                  { title: 'H4', value: 'h4' },
+                ],
+                layout: 'radio',
+                direction: 'horizontal',
+              },
+              initialValue: 'inherit',
+            }),
           ],
           preview: {
             select: { title: 'heading', items: 'items' },
