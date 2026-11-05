@@ -31,7 +31,7 @@ export function StatementSplitBlock({ media, text, closingText, imagePosition = 
             alt={media?.alt ?? ''}
             className={`aspect-square w-full rounded-lg ${imagePosition === 'right' ? 'md:order-2' : ''}`}
           />
-          <div className={dark ? 'text-background' : 'text-foreground'}>
+          <div className={`lg:w-19/20 ${dark ? 'text-background' : 'text-foreground'}`}>
             <p className="text-statement font-normal text-pretty">
               <Lines text={text} />
             </p>
