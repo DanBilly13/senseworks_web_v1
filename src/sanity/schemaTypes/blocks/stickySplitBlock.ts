@@ -53,7 +53,14 @@ export const stickySplitBlock = defineType({
           type: 'object',
           fields: [
             defineField({ name: 'eyebrow', title: 'Eyebrow', type: 'string' }),
-            defineField({ name: 'headline', title: 'Title', type: 'string', validation: (Rule) => Rule.max(100) }),
+            defineField({
+              name: 'headline',
+              title: 'Title',
+              type: 'text',
+              rows: 2,
+              description: 'Press Enter for a line break.',
+              validation: (Rule) => Rule.max(100),
+            }),
             defineField({ name: 'body', title: 'Body', type: 'text', rows: 4 }),
             defineField({ name: 'ctaLabel', title: 'Button label', type: 'string' }),
             defineField({ name: 'ctaHref', title: 'Button link', type: 'string' }),
@@ -68,7 +75,7 @@ export const stickySplitBlock = defineType({
           title: 'Text',
           type: 'object',
           fields: [
-            defineField({ name: 'heading', title: 'Title', type: 'string' }),
+            defineField({ name: 'heading', title: 'Title', type: 'text', rows: 2, description: 'Press Enter for a line break.' }),
             defineField({
               name: 'body',
               title: 'Body',
@@ -144,6 +151,22 @@ export const stickySplitBlock = defineType({
           },
         }),
       ],
+    }),
+    defineField({
+      name: 'bodySize',
+      title: 'Body style',
+      description: 'The size of the body text in the Intro and Text pieces (not the cards).',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Body (default)', value: 'body' },
+          { title: 'Large body', value: 'large' },
+          { title: 'H5', value: 'h5' },
+        ],
+        layout: 'radio',
+        direction: 'horizontal',
+      },
+      initialValue: 'body',
     }),
     defineField({
       name: 'imagePosition',

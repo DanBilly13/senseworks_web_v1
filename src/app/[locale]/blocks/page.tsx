@@ -757,7 +757,7 @@ export default async function BlocksPage({
       <StickySplitBlock
         items={[
           { _type: 'introPiece', eyebrow: EYEBROW, headline: HEADING, body: BODY, ctaLabel: 'Lorem ipsum', ctaHref: '#' },
-          { _type: 'textPiece', heading: 'Lorem ipsum dolor', body: BODY_LONG },
+          { _type: 'textPiece', heading: 'Lorem ipsum\ndolor sit amet', body: BODY_LONG },
           {
             _type: 'cardsPiece',
             numberedEyebrow: true,
@@ -771,9 +771,10 @@ export default async function BlocksPage({
           { _type: 'buttonPiece', ctaLabel: 'Lorem ipsum', ctaHref: '#' },
         ]}
       />
-      <BlockCaption name="Sticky Split — image right, Dark" type="stickySplitBlock" variant='imagePosition: "right", tone: "dark", paddingTop/Bottom "medium"' />
+      <BlockCaption name="Sticky Split — image right, Dark" type="stickySplitBlock" variant='imagePosition: "right", tone: "dark", bodySize: "large"' />
       <StickySplitBlock
         imagePosition="right"
+        bodySize="large"
         tone="dark"
         items={[
           { _type: 'introPiece', eyebrow: EYEBROW, headline: HEADING, body: BODY },

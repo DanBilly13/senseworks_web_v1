@@ -55,6 +55,9 @@ type SectionIntroProps = {
   // The same, on the body — e.g. Hero Image Overlay Card's 50% card,
   // whose body runs out to the rules' edge.
   bodyClassName?: string
+  // Replaces the body's own size and weight (h3/h4's text-body-lg) —
+  // e.g. Sticky Split's "Body style". Unset keeps the usual.
+  bodyStyleClassName?: string
   // Overrides the total gap between the heading and the body (a CSS
   // length) — e.g. a ruled headline that wants a set distance from its
   // rule rather than the usual half-line-height.
@@ -144,6 +147,7 @@ export function SectionIntro({
   display = false,
   headingClassName,
   bodyClassName,
+  bodyStyleClassName,
   bodyGap,
   headingGap,
   ctaGap,
@@ -228,7 +232,7 @@ export function SectionIntro({
             // Medium weight on mobile only (Dan's asking to try it) —
             // reverts to normal at desktop. h1/h2's subtitle treatment
             // is already font-medium unconditionally, unaffected.
-            isSubtitle ? 'text-h5 font-medium' : 'text-body-lg font-medium md:font-normal',
+            bodyStyleClassName ?? (isSubtitle ? 'text-h5 font-medium' : 'text-body-lg font-medium md:font-normal'),
             isSubtitle ? (subtitleColor ?? headingColor) : bodyColor,
             // Subtitle width is its own fixed rule (85% of the row,
             // desktop only — mobile has no spare width to give up),

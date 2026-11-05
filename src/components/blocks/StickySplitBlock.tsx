@@ -24,10 +24,20 @@ type StickySplitBlockProps = {
   media?: MediaField
   items?: Piece[]
   imagePosition?: 'left' | 'right'
+  bodySize?: BodySize
   tone?: Tone
   paddingTop?: BandSpacing
   paddingBottom?: BandSpacing
   spacing?: BandSpacing
+}
+
+type BodySize = 'body' | 'large' | 'h5'
+// "Body style": the Intro and Text pieces' body. Body is SectionIntro's
+// usual (text-body-lg, medium weight on mobile).
+const BODY_STYLE: Record<BodySize, string> = {
+  body: 'text-body-lg font-medium md:font-normal',
+  large: 'text-body-xl',
+  h5: 'text-h5 font-medium',
 }
 
 const SECTION_BG: Record<Tone, string> = { none: '', light: 'bg-muted', ...BAND_BG }
@@ -49,6 +59,7 @@ export function StickySplitBlock({
   media,
   items = [],
   imagePosition = 'left',
+  bodySize = 'body',
   tone = 'none',
   paddingTop,
   paddingBottom,
@@ -76,6 +87,7 @@ export function StickySplitBlock({
             heading={p.headline}
             body={p.body}
             bodyClassName="whitespace-pre-line"
+            bodyStyleClassName={BODY_STYLE[bodySize] ?? BODY_STYLE.body}
             maxWidth="none"
             tone={dark ? 'inverse' : 'default'}
             eyebrowColor={dark ? 'text-accent' : undefined}
@@ -92,9 +104,9 @@ export function StickySplitBlock({
         if (!p.heading && !p.body) return null
         return (
           <div key={p._key ?? index} className={`flex flex-col gap-medium ${dark ? 'text-background' : 'text-foreground'}`}>
-            {p.heading && <h3 className="text-h5 font-medium">{p.heading}</h3>}
+            {p.heading && <h3 className="text-h5 font-medium whitespace-pre-line">{p.heading}</h3>}
             {p.body && (
-              <p className={`text-body-lg whitespace-pre-line ${dark ? 'text-background/80' : 'text-muted-foreground'}`}>
+              <p className={`${BODY_STYLE[bodySize] ?? BODY_STYLE.body} whitespace-pre-line ${dark ? 'text-background/80' : 'text-muted-foreground'}`}>
                 {p.body}
               </p>
             )}
