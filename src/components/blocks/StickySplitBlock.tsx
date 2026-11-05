@@ -18,6 +18,7 @@ type Piece =
   | { _type: 'introPiece'; _key?: string; eyebrow?: string; headline?: string; body?: string; ctaLabel?: string; ctaHref?: string }
   | { _type: 'statementPiece'; _key?: string; text?: string }
   | { _type: 'textPiece'; _key?: string; heading?: string; body?: string }
+  | { _type: 'listPiece'; _key?: string; heading?: string; items?: string[] }
   | { _type: 'cardsPiece'; _key?: string; tone?: CardTone; numberedEyebrow?: boolean; items?: Card[] }
   | { _type: 'buttonPiece'; _key?: string; ctaLabel?: string; ctaHref?: string }
 
@@ -125,6 +126,25 @@ export function StickySplitBlock({
             )}
           </div>
         )
+      case 'listPiece': {
+        const list = (p.items ?? []).filter(Boolean)
+        if (!list.length) return null
+        const rule = dark ? 'border-background/40' : 'border-foreground'
+        return (
+          <div key={p._key ?? index} className={`flex flex-col gap-medium ${dark ? 'text-background' : 'text-foreground'}`}>
+            {p.heading && <h3 className="text-h5 font-medium whitespace-pre-line">{p.heading}</h3>}
+            {/* A bullet per line, a thin rule above each and below the last. */}
+            <ul className={`border-b ${rule}`}>
+              {list.map((line, i) => (
+                <li key={i} className={`flex items-center gap-medium border-t py-medium ${rule} ${BODY_STYLE[bodySize] ?? BODY_STYLE.body}`}>
+                  <span aria-hidden className="size-1.5 shrink-0 rounded-full bg-current" />
+                  {line}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )
+      }
       case 'cardsPiece': {
         const cardTone = p.tone ?? 'white'
         if (!p.items?.length) return null

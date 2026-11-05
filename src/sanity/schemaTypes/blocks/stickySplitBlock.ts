@@ -112,6 +112,29 @@ export const stickySplitBlock = defineType({
           },
         }),
         defineArrayMember({
+          name: 'listPiece',
+          title: 'List',
+          type: 'object',
+          fields: [
+            defineField({ name: 'heading', title: 'Title', type: 'text', rows: 2, description: 'Optional, above the list. Press Enter for a line break.' }),
+            defineField({
+              name: 'items',
+              title: 'Items',
+              description: 'One line each, with a bullet, between thin rules.',
+              type: 'array',
+              of: [{ type: 'string' }],
+              validation: (Rule) => Rule.min(1),
+            }),
+          ],
+          preview: {
+            select: { title: 'heading', items: 'items' },
+            prepare: ({ title, items }) => {
+              const heading = typeof title === 'object' ? title?.en || title?.sv : title
+              return { title: `List — ${heading || `${items?.length ?? 0} items`}` }
+            },
+          },
+        }),
+        defineArrayMember({
           name: 'cardsPiece',
           title: 'Cards',
           type: 'object',
