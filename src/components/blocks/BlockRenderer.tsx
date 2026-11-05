@@ -186,12 +186,20 @@ export function BlockRenderer({ blocks }: { blocks: PageBlock[] }) {
     const panelTop = PANEL_TOP_FROM_SPACING.has(pinned._type)
       ? PANEL_TOP[pinned.spacing ?? PANEL_TOP_FROM_SPACING.get(pinned._type)!]
       : 'pt-section-edge'
+    // The panel is see-through when the first thing on it is a pinned
+    // content-width Media with no background of its own: the block behind
+    // (e.g. the Ally hero) then shows on either side of the video. That
+    // Media gets its own opaque panel for everything after it, so nothing
+    // later shows through.
+    const next = pieces[pin + 1] && (shown[pieces[pin + 1].start] as { _type: string; pinned?: boolean; tone?: string; width?: string })
+    const clear =
+      !!next && next._type === 'mediaBlock' && next.pinned === true && (next.tone ?? 'none') === 'none' && next.width !== 'full' && pin + 1 < pieces.length - 1
     return (
       <>
         {pieces.slice(0, pin).map((o) => o.el)}
         <div key={`pin-${pinned._key}`} className="w-full">
           {pieces[pin].el}
-          <div className={`relative z-10 flow-root w-full bg-surface ${panelTop}`}>{curtain(pieces.slice(pin + 1))}</div>
+          <div className={`relative z-10 flow-root w-full ${clear ? '' : 'bg-surface'} ${panelTop}`}>{curtain(pieces.slice(pin + 1))}</div>
         </div>
       </>
     )
