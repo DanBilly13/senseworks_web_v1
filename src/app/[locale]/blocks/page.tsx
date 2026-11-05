@@ -756,10 +756,10 @@ export default async function BlocksPage({
       <BlockCaption name="Sticky Split" type="stickySplitBlock" variant='Intro, Text, Cards, Text, Button; image left' />
       <StickySplitBlock
         items={[
-          { _type: 'intro', eyebrow: EYEBROW, headline: HEADING, body: BODY, ctaLabel: 'Lorem ipsum', ctaHref: '#' },
-          { _type: 'text', heading: 'Lorem ipsum dolor', body: BODY_LONG },
+          { _type: 'introPiece', eyebrow: EYEBROW, headline: HEADING, body: BODY, ctaLabel: 'Lorem ipsum', ctaHref: '#' },
+          { _type: 'textPiece', heading: 'Lorem ipsum dolor', body: BODY_LONG },
           {
-            _type: 'cards',
+            _type: 'cardsPiece',
             numberedEyebrow: true,
             items: [
               { eyebrow: '01 Lorem', heading: 'Lorem ipsum dolor sit', body: BODY },
@@ -767,8 +767,8 @@ export default async function BlocksPage({
               { eyebrow: '03 Dolor', heading: 'Sed do eiusmod tempor', body: BODY },
             ],
           },
-          { _type: 'text', heading: 'Sit amet', body: BODY_LONG },
-          { _type: 'button', ctaLabel: 'Lorem ipsum', ctaHref: '#' },
+          { _type: 'textPiece', heading: 'Sit amet', body: BODY_LONG },
+          { _type: 'buttonPiece', ctaLabel: 'Lorem ipsum', ctaHref: '#' },
         ]}
       />
       <BlockCaption name="Sticky Split — image right, Dark" type="stickySplitBlock" variant='imagePosition: "right", tone: "dark", paddingTop/Bottom "medium"' />
@@ -776,10 +776,10 @@ export default async function BlocksPage({
         imagePosition="right"
         tone="dark"
         items={[
-          { _type: 'intro', eyebrow: EYEBROW, headline: HEADING, body: BODY },
-          { _type: 'cards', tone: 'dark', items: [{ eyebrow: EYEBROW, heading: 'Lorem ipsum dolor sit', body: BODY }, { eyebrow: EYEBROW, heading: 'Consectetur adipiscing', body: BODY }] },
-          { _type: 'text', heading: 'Lorem ipsum dolor', body: BODY_LONG },
-          { _type: 'button', ctaLabel: 'Lorem ipsum', ctaHref: '#' },
+          { _type: 'introPiece', eyebrow: EYEBROW, headline: HEADING, body: BODY },
+          { _type: 'cardsPiece', tone: 'dark', items: [{ eyebrow: EYEBROW, heading: 'Lorem ipsum dolor sit', body: BODY }, { eyebrow: EYEBROW, heading: 'Consectetur adipiscing', body: BODY }] },
+          { _type: 'textPiece', heading: 'Lorem ipsum dolor', body: BODY_LONG },
+          { _type: 'buttonPiece', ctaLabel: 'Lorem ipsum', ctaHref: '#' },
         ]}
       />
       <BlockCaption name="Statement + Body Columns" type="statementBlock + bodyColumnsBlock" variant='no background; Statement spacing "medium"' />

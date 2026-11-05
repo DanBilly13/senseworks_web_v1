@@ -15,10 +15,10 @@ type CardTone = 'white' | 'dark' | 'accent'
 type Card = { _key?: string; eyebrow?: string; heading: string; body?: string; image?: SanityImageSource; imageAlt?: string }
 
 type Piece =
-  | { _type: 'intro'; _key?: string; eyebrow?: string; headline?: string; body?: string; ctaLabel?: string; ctaHref?: string }
-  | { _type: 'text'; _key?: string; heading?: string; body?: string }
-  | { _type: 'cards'; _key?: string; tone?: CardTone; numberedEyebrow?: boolean; items?: Card[] }
-  | { _type: 'button'; _key?: string; ctaLabel?: string; ctaHref?: string }
+  | { _type: 'introPiece'; _key?: string; eyebrow?: string; headline?: string; body?: string; ctaLabel?: string; ctaHref?: string }
+  | { _type: 'textPiece'; _key?: string; heading?: string; body?: string }
+  | { _type: 'cardsPiece'; _key?: string; tone?: CardTone; numberedEyebrow?: boolean; items?: Card[] }
+  | { _type: 'buttonPiece'; _key?: string; ctaLabel?: string; ctaHref?: string }
 
 type StickySplitBlockProps = {
   media?: MediaField
@@ -59,11 +59,11 @@ export function StickySplitBlock({
   const buttonVariant = dark ? 'filled-accent' : 'filled-dark'
   const unset: BandSpacing = tone === 'none' ? 'none' : 'medium'
   const right = imagePosition === 'right'
-  const firstIntro = items.findIndex((p) => p._type === 'intro')
+  const firstIntro = items.findIndex((p) => p._type === 'introPiece')
 
   const piece = (p: Piece, index: number) => {
     switch (p._type) {
-      case 'intro':
+      case 'introPiece':
         return (
           <SectionIntro
             key={p._key ?? index}
@@ -87,7 +87,7 @@ export function StickySplitBlock({
             }
           />
         )
-      case 'text':
+      case 'textPiece':
         if (!p.heading && !p.body) return null
         return (
           <div key={p._key ?? index} className={`flex flex-col gap-medium ${dark ? 'text-background' : 'text-foreground'}`}>
@@ -99,7 +99,7 @@ export function StickySplitBlock({
             )}
           </div>
         )
-      case 'cards': {
+      case 'cardsPiece': {
         const cardTone = p.tone ?? 'white'
         if (!p.items?.length) return null
         return (
@@ -132,7 +132,7 @@ export function StickySplitBlock({
           </div>
         )
       }
-      case 'button':
+      case 'buttonPiece':
         if (!p.ctaLabel || !p.ctaHref) return null
         return (
           <div key={p._key ?? index}>

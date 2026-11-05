@@ -48,7 +48,7 @@ export const stickySplitBlock = defineType({
       validation: (Rule) => Rule.min(1),
       of: [
         defineArrayMember({
-          name: 'intro',
+          name: 'introPiece',
           title: 'Intro',
           type: 'object',
           fields: [
@@ -64,7 +64,7 @@ export const stickySplitBlock = defineType({
           },
         }),
         defineArrayMember({
-          name: 'text',
+          name: 'textPiece',
           title: 'Text',
           type: 'object',
           fields: [
@@ -86,7 +86,7 @@ export const stickySplitBlock = defineType({
           },
         }),
         defineArrayMember({
-          name: 'cards',
+          name: 'cardsPiece',
           title: 'Cards',
           type: 'object',
           fields: [
@@ -131,7 +131,7 @@ export const stickySplitBlock = defineType({
           },
         }),
         defineArrayMember({
-          name: 'button',
+          name: 'buttonPiece',
           title: 'Button',
           type: 'object',
           fields: [
@@ -183,7 +183,7 @@ export const stickySplitBlock = defineType({
   preview: {
     select: { items: 'items' },
     prepare: ({ items }) => {
-      const intro = items?.find((i: { _type: string }) => i._type === 'intro')?.headline
+      const intro = items?.find((i: { _type: string }) => i._type === 'introPiece')?.headline
       const title = typeof intro === 'object' ? intro?.en || intro?.sv : intro
       return { title: `Sticky Split — ${title || 'Untitled'}`, subtitle: `${items?.length ?? 0} pieces` }
     },
