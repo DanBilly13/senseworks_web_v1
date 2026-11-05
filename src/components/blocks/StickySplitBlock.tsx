@@ -16,6 +16,7 @@ type Card = { _key?: string; eyebrow?: string; heading: string; body?: string; i
 
 type Piece =
   | { _type: 'introPiece'; _key?: string; eyebrow?: string; headline?: string; body?: string; ctaLabel?: string; ctaHref?: string }
+  | { _type: 'statementPiece'; _key?: string; text?: string }
   | { _type: 'textPiece'; _key?: string; heading?: string; body?: string }
   | { _type: 'cardsPiece'; _key?: string; tone?: CardTone; numberedEyebrow?: boolean; items?: Card[] }
   | { _type: 'buttonPiece'; _key?: string; ctaLabel?: string; ctaHref?: string }
@@ -101,6 +102,16 @@ export function StickySplitBlock({
               ) : undefined
             }
           />
+        )
+      case 'statementPiece':
+        if (!p.text) return null
+        return (
+          <p
+            key={p._key ?? index}
+            className={`text-statement font-normal text-pretty whitespace-pre-line ${dark ? 'text-background' : 'text-foreground'}`}
+          >
+            {p.text}
+          </p>
         )
       case 'textPiece':
         if (!p.heading && !p.body) return null

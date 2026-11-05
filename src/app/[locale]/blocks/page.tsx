@@ -753,10 +753,11 @@ export default async function BlocksPage({
         text="“Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.”"
         closingText={'Firstname Lastname\nCEO and founder'}
       />
-      <BlockCaption name="Sticky Split" type="stickySplitBlock" variant='Intro, Text, Cards, Text, Button; image left' />
+      <BlockCaption name="Sticky Split" type="stickySplitBlock" variant='Intro, Statement, Text, Cards, Text, Button; image left' />
       <StickySplitBlock
         items={[
           { _type: 'introPiece', eyebrow: EYEBROW, headline: HEADING, body: BODY, ctaLabel: 'Lorem ipsum', ctaHref: '#' },
+          { _type: 'statementPiece', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.' },
           { _type: 'textPiece', heading: 'Lorem ipsum\ndolor sit amet', body: BODY_LONG },
           {
             _type: 'cardsPiece',

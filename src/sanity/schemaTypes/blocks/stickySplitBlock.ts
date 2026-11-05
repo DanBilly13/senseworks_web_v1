@@ -71,6 +71,25 @@ export const stickySplitBlock = defineType({
           },
         }),
         defineArrayMember({
+          name: 'statementPiece',
+          title: 'Statement',
+          type: 'object',
+          fields: [
+            defineField({
+              name: 'text',
+              title: 'Text',
+              type: 'text',
+              rows: 3,
+              description: 'The big regular-weight text of the Statement blocks (26–50px). Press Enter for a line break.',
+              validation: (Rule) => Rule.required(),
+            }),
+          ],
+          preview: {
+            select: { text: 'text' },
+            prepare: ({ text }) => ({ title: `Statement — ${(typeof text === 'object' ? text?.en || text?.sv : text) || 'Untitled'}` }),
+          },
+        }),
+        defineArrayMember({
           name: 'textPiece',
           title: 'Text',
           type: 'object',
