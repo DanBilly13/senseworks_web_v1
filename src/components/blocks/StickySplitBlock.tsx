@@ -52,8 +52,8 @@ const CARD_SURFACE: Record<CardTone, string> = {
 }
 
 // A square image beside a column of text pieces, 50/50. From md the
-// image is sticky (.sticky-split-media in globals.css: just under the
-// header, and never taller than the screen) so it stays put while the
+// image is sticky (.sticky-split-media in globals.css: centred on the
+// screen, clear of the header) so it stays put while the
 // pieces scroll past, and lets go when the text column ends. The text
 // starts a third of the way down the image (.sticky-split-text). Mobile
 // stacks them, image first, nothing sticky. Pieces are 64px apart (the
@@ -181,7 +181,7 @@ export function StickySplitBlock({
       {/* The grid's default stretch makes the image's column as tall as
           the text's, so the image has room to stick inside it. */}
       <div className="grid grid-cols-1 gap-large md:grid-cols-2 md:gap-2xl">
-        <div className={right ? 'md:order-2' : ''}>
+        <div className={`sticky-split-col ${right ? 'md:order-2' : ''}`}>
           <div className={`sticky-split-media ${right ? '' : 'md:ml-auto'}`}>
             <Media media={media} alt={media?.alt ?? ''} className="aspect-square w-full rounded-xl" sizes="(min-width: 768px) 50vw, 100vw" />
           </div>
