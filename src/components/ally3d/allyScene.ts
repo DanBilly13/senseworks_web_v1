@@ -464,15 +464,29 @@ function setScreenCurve(units) {
 const SCREEN_CURVE = 14; // how far the screen edges bend back, SVG units
 
 // ---------- view ----------
+// Only the part of her box that can be seen is drawn: the box is cut
+// off by the bottom of the section she's in (in the Ally hero, most of
+// it is below the hero's bottom edge), so the canvas covers just the top
+// of the box and the camera renders that slice of the full view. Drawing
+// the whole box, mostly hidden, every frame made the page stutter.
+const clip = container.closest('section')
 function resize() {
   const w = container.clientWidth || 1, h = container.clientHeight || 1
+  const box = container.getBoundingClientRect()
+  const shown = clip ? Math.round(clip.getBoundingClientRect().bottom - box.top) : h
+  const vh = Math.max(1, Math.min(h, shown))
   const a = w / h
-  camera.left = -HALF_H * a; camera.right = HALF_H * a; camera.updateProjectionMatrix()
-  renderer.setSize(w, h, false)
+  camera.left = -HALF_H * a; camera.right = HALF_H * a
+  if (vh < h) camera.setViewOffset(w, h, 0, 0, w, vh)
+  else camera.clearViewOffset()
+  camera.updateProjectionMatrix()
+  renderer.domElement.style.height = `${vh}px`
+  renderer.setSize(w, vh, false)
   renderer.render(scene, camera)
 }
 const resizeObserver = new ResizeObserver(resize)
 resizeObserver.observe(container)
+if (clip) resizeObserver.observe(clip)
 
 // The head follows the cursor anywhere in the window. Touch screens have
 // no cursor, so there she slowly looks around on her own.
