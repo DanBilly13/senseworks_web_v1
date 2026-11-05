@@ -191,6 +191,12 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
       'A Statement beside a square (1:1) image, 50/50 — the image left or right, stacked on mobile. Optional background.',
   },
   {
+    type: 'stickySplitBlock',
+    title: 'Sticky Split',
+    description:
+      'A square (1:1) image beside a column of text pieces in any order — Intro, Text, stacked Cards, Button. On desktop the image stays put while the text scrolls past. Optional background.',
+  },
+  {
     type: 'bodyColumnsBlock',
     title: 'Body Columns',
     description:

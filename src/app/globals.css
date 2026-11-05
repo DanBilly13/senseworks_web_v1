@@ -1227,6 +1227,17 @@ p:has(+ .hero-overlay-card-rules),
 /* Media's Grow on scroll (ui/ScrollGrow): from tablet up, the zooming
    frame keeps its 16px corners on screen at every size — the radius is
    divided by the scale it's drawn at. */
+/* Sticky Split's image: from md it stays just under the header while
+   the text beside it scrolls past, and is never taller than the screen
+   (a square half of a wide page would be), so all of it stays in view. */
+@media (width >= 48rem) {
+  .sticky-split-media {
+    position: sticky;
+    top: calc(var(--header-height, 0px) + var(--spacing-large));
+    width: min(100%, calc(100svh - var(--header-height, 0px) - 2 * var(--spacing-large)));
+  }
+}
+
 @media (width >= 48rem) {
   .scroll-grow {
     overflow: hidden;

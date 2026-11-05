@@ -98,7 +98,7 @@ export const page = defineType({
           filter: true,
           groups: [
             { name: 'heroes', title: 'Heroes', of: ['heroBlock', 'heroTextBlock'] },
-            { name: 'intros', title: 'Section intros', of: ['sectionHeadlineBlock', 'statementBlock', 'statementSplitBlock'] },
+            { name: 'intros', title: 'Section intros', of: ['sectionHeadlineBlock', 'statementBlock', 'statementSplitBlock', 'stickySplitBlock'] },
             {
               name: 'text',
               title: 'Text',
@@ -194,6 +194,7 @@ export const page = defineType({
         defineArrayMember({ type: 'stackAnimationBlock' }),
         defineArrayMember({ type: 'statementBlock' }),
         defineArrayMember({ type: 'statementSplitBlock' }),
+        defineArrayMember({ type: 'stickySplitBlock' }),
         defineArrayMember({ type: 'stepsBlock' }),
         defineArrayMember({ type: 'teamGridBlock' }),
         defineArrayMember({ type: 'testimonialCarouselBlock' }),

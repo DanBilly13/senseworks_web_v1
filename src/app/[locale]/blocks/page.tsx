@@ -21,6 +21,7 @@ import { CardGridBlock } from '@/components/blocks/CardGridBlock'
 import { ImageGridBlock } from '@/components/blocks/ImageGridBlock'
 import { StatementBlock } from '@/components/blocks/StatementBlock'
 import { StatementSplitBlock } from '@/components/blocks/StatementSplitBlock'
+import { StickySplitBlock } from '@/components/blocks/StickySplitBlock'
 import { BodyColumnsBlock } from '@/components/blocks/BodyColumnsBlock'
 import { StackAnimationBlock } from '@/components/blocks/StackAnimationBlock'
 import { LogoCloudBlock } from '@/components/blocks/LogoCloudBlock'
@@ -751,6 +752,35 @@ export default async function BlocksPage({
       <StatementSplitBlock
         text="“Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.”"
         closingText={'Firstname Lastname\nCEO and founder'}
+      />
+      <BlockCaption name="Sticky Split" type="stickySplitBlock" variant='Intro, Text, Cards, Text, Button; image left' />
+      <StickySplitBlock
+        items={[
+          { _type: 'intro', eyebrow: EYEBROW, headline: HEADING, body: BODY, ctaLabel: 'Lorem ipsum', ctaHref: '#' },
+          { _type: 'text', heading: 'Lorem ipsum dolor', body: BODY_LONG },
+          {
+            _type: 'cards',
+            numberedEyebrow: true,
+            items: [
+              { eyebrow: '01 Lorem', heading: 'Lorem ipsum dolor sit', body: BODY },
+              { eyebrow: '02 Ipsum', heading: 'Consectetur adipiscing', body: BODY },
+              { eyebrow: '03 Dolor', heading: 'Sed do eiusmod tempor', body: BODY },
+            ],
+          },
+          { _type: 'text', heading: 'Sit amet', body: BODY_LONG },
+          { _type: 'button', ctaLabel: 'Lorem ipsum', ctaHref: '#' },
+        ]}
+      />
+      <BlockCaption name="Sticky Split — image right, Dark" type="stickySplitBlock" variant='imagePosition: "right", tone: "dark", paddingTop/Bottom "medium"' />
+      <StickySplitBlock
+        imagePosition="right"
+        tone="dark"
+        items={[
+          { _type: 'intro', eyebrow: EYEBROW, headline: HEADING, body: BODY },
+          { _type: 'cards', tone: 'dark', items: [{ eyebrow: EYEBROW, heading: 'Lorem ipsum dolor sit', body: BODY }, { eyebrow: EYEBROW, heading: 'Consectetur adipiscing', body: BODY }] },
+          { _type: 'text', heading: 'Lorem ipsum dolor', body: BODY_LONG },
+          { _type: 'button', ctaLabel: 'Lorem ipsum', ctaHref: '#' },
+        ]}
       />
       <BlockCaption name="Statement + Body Columns" type="statementBlock + bodyColumnsBlock" variant='no background; Statement spacing "medium"' />
       <StatementBlock text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, ut enim ad minim veniam quis nostrud." spacing="medium" />
