@@ -57,6 +57,21 @@ export const ctaBannerBlock = defineType({
       options: { hotspot: true },
     }),
     defineField({
+      name: 'width',
+      title: 'Width',
+      description:
+        'Full screen width runs the background edge to edge with square corners. Content width sits it inside the page margins with 16px rounded corners, like a content-width Media.',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Full screen width (default)', value: 'full' },
+          { title: 'Content width', value: 'content' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'full',
+    }),
+    defineField({
       name: 'tone',
       title: 'Background',
       type: 'string',

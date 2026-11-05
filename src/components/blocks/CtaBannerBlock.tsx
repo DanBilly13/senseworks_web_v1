@@ -20,6 +20,10 @@ type CtaBannerBlockProps = {
   // Small line of microcopy under the buttons.
   ctaNote?: string
   tone?: 'light' | 'dark' | 'accent'
+  // 'full' (the original): the background runs edge to edge. 'content':
+  // the banner sits inside the page margins (max-w-page, the boxed
+  // 8px mobile edge) as a 16px-rounded panel, like a content-width Media.
+  width?: 'full' | 'content'
   // The space inside the banner above and below its content, and the gap
   // after it (outside the colour) — the same fields as the other blocks.
   // Unset keeps the banner's original look: Tight inside, no gap after.
@@ -52,6 +56,7 @@ export function CtaBannerBlock({
   secondaryCtaHref,
   ctaNote,
   tone = 'dark',
+  width = 'full',
   paddingTop = 'tight',
   paddingBottom = 'tight',
   spacing = 'none',
@@ -89,7 +94,8 @@ export function CtaBannerBlock({
     </div>
   )
 
-  return (
+  const contained = width === 'content'
+  const banner = (
     // SectionShell has no slot for content outside its own padded
     // content div, so the tone's background color moves from its
     // sectionClassName prop onto this wrapper instead — it still ends
@@ -102,7 +108,7 @@ export function CtaBannerBlock({
     // centered — a min, not a fixed height, so longer content can
     // still grow it taller without clipping.
     <div
-      className={`relative flex items-center overflow-hidden ${hasImage(backgroundImage) ? 'min-h-cta-banner-image' : 'min-h-cta-banner'} ${SECTION_BG[tone]} ${SECTION_GAP_MB_CLASS[spacing]}`}
+      className={`relative flex items-center overflow-hidden ${hasImage(backgroundImage) ? 'min-h-cta-banner-image' : 'min-h-cta-banner'} ${SECTION_BG[tone]} ${contained ? 'rounded-xl' : SECTION_GAP_MB_CLASS[spacing]}`}
     >
       {hasImage(backgroundImage) && (
         <Image
@@ -122,6 +128,9 @@ export function CtaBannerBlock({
       <SectionShell
         pt={paddingTop}
         pb={paddingBottom}
+        // Content width: a boxed card's inner padding, the page margin
+        // is already outside it (8 + 24 = the usual 32px on mobile).
+        px={contained ? 'card' : 'default'}
         sectionClassName="w-full"
         className="relative z-10 flex justify-center"
       >
@@ -156,5 +165,12 @@ export function CtaBannerBlock({
         )}
       </SectionShell>
     </div>
+  )
+
+  if (!contained) return banner
+  // Content width: the page's own width cap and margin round the panel,
+  // and the gap after it outside.
+  return (
+    <div className={`mx-auto w-full max-w-page px-small md:px-gutter ${SECTION_GAP_MB_CLASS[spacing]}`}>{banner}</div>
   )
 }

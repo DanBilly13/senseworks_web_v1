@@ -39,7 +39,10 @@ type SectionShellProps = {
   // 'panel' is for a SectionShell nested INSIDE a boxed panel (Stats
   // Band's): the panel's own inner padding, 32px mobile / 24px desktop,
   // not the page gutter — that's the outer SectionShell's job.
-  px?: 'default' | 'boxed' | 'full' | 'panel'
+  // 'card': a boxed card's own inner padding (24px mobile, 32px from
+  // md), inside an outer px="boxed" edge: 8 + 24 lands the text on the
+  // usual 32px line on mobile.
+  px?: 'default' | 'boxed' | 'full' | 'panel' | 'card'
   sectionClassName?: string
   className?: string
   ariaLabel?: string
@@ -59,6 +62,7 @@ const PX_CLASS = {
   boxed: 'px-small md:px-gutter',
   full: 'md:px-gutter',
   panel: 'px-large md:px-medium-large',
+  card: 'px-medium-large md:px-large',
 }
 
 // Exported so the couple of blocks that can't route through

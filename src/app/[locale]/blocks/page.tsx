@@ -1104,6 +1104,17 @@ export default async function BlocksPage({
         ctaHref="#"
         tone="accent"
       />
+      <BlockCaption name="CTA Banner — Dark, content width" type="ctaBannerBlock" variant='tone: "dark", width: "content", spacing: "loose"' />
+      <CtaBannerBlock
+        eyebrow={EYEBROW}
+        headline={HEADING}
+        body={BODY}
+        ctaLabel="Lorem ipsum"
+        ctaHref="#"
+        tone="dark"
+        width="content"
+        spacing="loose"
+      />
       <BlockCaption name="Full Width Single" type="fullWidthSingleBlock" />
       <FullWidthSingleBlock
         eyebrow={EYEBROW}
