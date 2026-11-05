@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import { getPage } from '@/lib/sanity/getPage'
 import { localeAlternates } from '@/lib/site'
 import { BlockRenderer } from '@/components/blocks/BlockRenderer'
+import { TickerOnPage } from '@/components/ui/TickerTape'
 import { AnimatedButtonProvider } from '@/components/ui/Button'
 import { SiteFooter, SiteHeader } from '@/components/layout/SiteNavigation'
 
@@ -68,7 +69,9 @@ export default async function Page({
     // page theme's CSS variables (see data-page-theme in globals.css).
     <div className="contents" data-page-theme={page.theme ?? 'default'}>
       <AnimatedButtonProvider value={isLandingPage}>
-        <SiteHeader locale={locale} path={`/${locale}/${slug.join('/')}`} variant={navigation} />
+        <TickerOnPage on={!!page.tickerTape}>
+          <SiteHeader locale={locale} path={`/${locale}/${slug.join('/')}`} variant={navigation} />
+        </TickerOnPage>
         <BlockRenderer blocks={blocks} />
         <SiteFooter locale={locale} variant={navigation} />
       </AnimatedButtonProvider>

@@ -99,6 +99,7 @@ export const pageBySlugAndLocaleQuery = groq`
     "slug": slug.current,
     theme,
     navigation,
+    tickerTape,
     "isVersion": defined(versionOf),
     seoTitle,
     seoDescription,

@@ -11,6 +11,7 @@ import { testimonial } from './documents/testimonial'
 import { client } from './documents/client'
 import { bookMeetingSettings } from './documents/bookMeetingSettings'
 import { webinarSettings } from './documents/webinarSettings'
+import { tickerSettings } from './documents/tickerSettings'
 import { siteNavigation } from './documents/siteNavigation'
 import { headerBlock } from './blocks/headerBlock'
 import { heroBlock } from './blocks/heroBlock'
@@ -76,6 +77,7 @@ const allTypes = [
   client,
   bookMeetingSettings,
   webinarSettings,
+  tickerSettings,
   siteNavigation,
   release,
   blogPost,

@@ -6,6 +6,7 @@ import { CheckOutlined, CloseOutlined, DownOutlined, MenuOutlined } from '@ant-d
 import { Button } from '@/components/ui/Button'
 import { Menu, MenuItem } from '@/components/ui/Menu'
 import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher'
+import { TickerTape } from '@/components/ui/TickerTape'
 import { stripLocale, usePageVersions, useTeamMode } from '@/lib/teamMode'
 import type { PageVersion } from '@/lib/sanity/siteNavigation'
 import styles from './HeaderBlock.module.css'
@@ -281,8 +282,11 @@ export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref, curren
           open || !hidden ? 'translate-y-0' : '-translate-y-full'
         }`}
       >
+        {/* Measured together: the ticker tape (when it's on) is part of
+            the bar's height, so the spacer and --header-height include it. */}
+        <div ref={barRef}>
+        <TickerTape />
         <div
-          ref={barRef}
           className="mx-auto flex w-full max-w-page items-center justify-between px-medium-large md:px-gutter py-small-medium"
         >
           {homeVersions.length ? (
@@ -359,6 +363,7 @@ export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref, curren
               {open ? <CloseOutlined /> : <MenuOutlined />}
             </button>
           </div>
+        </div>
         </div>
         {open && (
           <nav

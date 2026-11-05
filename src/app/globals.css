@@ -1227,6 +1227,27 @@ p:has(+ .hero-overlay-card-rules),
 /* Media's Grow on scroll (ui/ScrollGrow): from tablet up, the zooming
    frame keeps its 16px corners on screen at every size — the radius is
    divided by the scale it's drawn at. */
+/* The ticker tape above the nav (ui/TickerTape): two identical halves
+   slide left by one half, then start again, so the loop is seamless.
+   Hovering or keyboard focus stops it; reduced motion keeps it still. */
+@keyframes ticker-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.ticker-track {
+  animation: ticker-scroll var(--ticker-duration, 60s) linear infinite;
+}
+.ticker:hover .ticker-track,
+.ticker:focus-visible .ticker-track {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track {
+    animation: none;
+  }
+}
+
 /* Sticky Split's image: from md it sticks in the middle of the screen
    while the text beside it scrolls past. Its size (--sticky-split-size)
    is the column's width (cqw: the column is a size container), but never

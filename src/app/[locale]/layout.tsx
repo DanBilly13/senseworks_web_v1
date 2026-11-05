@@ -3,6 +3,8 @@ import { BookMeetingProvider } from '@/components/ui/BookMeetingModal'
 import { getBookMeetingSettings } from '@/lib/sanity/bookMeeting'
 import { BookWebinarProvider } from '@/components/ui/BookWebinarModal'
 import { getWebinarSettings } from '@/lib/sanity/webinar'
+import { getTickerSettings } from '@/lib/sanity/ticker'
+import { TickerProvider } from '@/components/ui/TickerTape'
 import { ConsentManager } from '@/components/ConsentManager'
 import { INDEXABLE } from '@/lib/site'
 
@@ -18,7 +20,11 @@ export default async function LocaleLayout({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-  const [settings, webinar] = await Promise.all([getBookMeetingSettings(locale), getWebinarSettings(locale)])
+  const [settings, webinar, ticker] = await Promise.all([
+    getBookMeetingSettings(locale),
+    getWebinarSettings(locale),
+    getTickerSettings(locale),
+  ])
 
   // Mounts the "Book a meeting" modal once for every page under a
   // locale — any Button with href="#book-meeting" opens it. Its copy
@@ -35,7 +41,8 @@ export default async function LocaleLayout({
             read Swedish as Swedish, and hyphenation splits Swedish words
             correctly (see .text-display in globals.css). */}
         <div lang={locale} className="contents">
-          {children}
+          {/* The ticker tape above the nav ("Ticker tape" in Studio). */}
+          <TickerProvider settings={ticker} locale={locale}>{children}</TickerProvider>
           {/* The cookie banner; the tags only load on the production
               deployment, and only after consent. */}
           <ConsentManager locale={locale} tracking={INDEXABLE} />

@@ -11,6 +11,8 @@ export type PageDoc = {
   slug: string
   theme?: 'default' | 'revision' | 'analysis'
   navigation?: 'full' | 'landing'
+  // Shows the ticker tape (ui/TickerTape) above the nav.
+  tickerTape?: boolean
   // A version of another page (page.ts's "Version of") — kept out of
   // search engines.
   isVersion?: boolean

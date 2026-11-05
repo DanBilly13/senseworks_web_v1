@@ -50,6 +50,13 @@ export const page = defineType({
       },
       initialValue: 'full',
     }),
+    defineField({
+      name: 'tickerTape',
+      title: 'Ticker tape',
+      description: 'Shows the ticker tape above the nav on this page. Its text and link are edited once, in "Ticker tape".',
+      type: 'boolean',
+      initialValue: false,
+    }),
     // Versions: a copy of a page to try something out on, without
     // touching the page itself. The team (team mode: open any page with
     // ?team=1) finds them in a small menu on the logo (Home's versions) or

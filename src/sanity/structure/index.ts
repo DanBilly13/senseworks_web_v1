@@ -1,7 +1,7 @@
 import type { StructureResolver } from 'sanity/structure'
 import { ComponentLibraryPane } from './ComponentLibraryPane'
 
-const SINGLETONS = ['siteNavigation', 'bookMeetingSettings', 'webinarSettings']
+const SINGLETONS = ['siteNavigation', 'bookMeetingSettings', 'webinarSettings', 'tickerSettings']
 
 export const structure: StructureResolver = (S) =>
   S.list()
@@ -20,6 +20,10 @@ export const structure: StructureResolver = (S) =>
         .title('Book a webinar')
         .id('webinarSettings')
         .child(S.document().schemaType('webinarSettings').documentId('webinarSettings')),
+      S.listItem()
+        .title('Ticker tape')
+        .id('tickerSettings')
+        .child(S.document().schemaType('tickerSettings').documentId('tickerSettings')),
       ...S.documentTypeListItems().filter((item) => !SINGLETONS.includes(item.getId() ?? '')),
       S.divider(),
       S.listItem()
