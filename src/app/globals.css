@@ -1236,6 +1236,11 @@ p:has(+ .hero-overlay-card-rules),
     top: calc(var(--header-height, 0px) + var(--spacing-large));
     width: min(100%, calc(100svh - var(--header-height, 0px) - 2 * var(--spacing-large)));
   }
+  /* The text side starts a third of the way down the image (padding's
+     % is of the column's width, so this is the image's own height / 3). */
+  .sticky-split-text {
+    padding-top: calc(min(100%, calc(100svh - var(--header-height, 0px) - 2 * var(--spacing-large))) / 3);
+  }
 }
 
 @media (width >= 48rem) {
