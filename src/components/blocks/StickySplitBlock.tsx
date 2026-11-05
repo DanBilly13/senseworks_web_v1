@@ -19,7 +19,7 @@ type Piece =
   | { _type: 'statementPiece'; _key?: string; text?: string }
   | { _type: 'textPiece'; _key?: string; heading?: string; body?: string }
   | { _type: 'listPiece'; _key?: string; heading?: string; items?: string[] }
-  | { _type: 'cardsPiece'; _key?: string; tone?: CardTone; numberedEyebrow?: boolean; items?: Card[] }
+  | { _type: 'cardsPiece'; _key?: string; tone?: CardTone; titleSize?: CardTitleSize; numberedEyebrow?: boolean; items?: Card[] }
   | { _type: 'buttonPiece'; _key?: string; ctaLabel?: string; ctaHref?: string }
 
 type StickySplitBlockProps = {
@@ -45,6 +45,11 @@ const BODY_STYLE: Record<BodySize, string> = {
 }
 
 const SECTION_BG: Record<Tone, string> = { none: '', light: 'bg-muted', ...BAND_BG }
+
+// The Cards piece's "Card title size", and the gap that goes with each.
+type CardTitleSize = 'h4' | 'h5' | 'h6'
+const CARD_TITLE_CLASS: Record<CardTitleSize, string> = { h4: 'text-h4', h5: 'text-h5', h6: 'text-h6' }
+const CARD_TITLE_GAP: Record<CardTitleSize, string> = { h4: 'gap-medium', h5: 'gap-small-medium', h6: 'gap-small-medium' }
 
 const CARD_SURFACE: Record<CardTone, string> = {
   white: 'border border-border bg-background',
@@ -148,21 +153,35 @@ export function StickySplitBlock({
       }
       case 'cardsPiece': {
         const cardTone = p.tone ?? 'white'
+        const titleSize = p.titleSize ?? 'h5'
+        const CardTitle = titleSize
         if (!p.items?.length) return null
         return (
           <div key={p._key ?? index} className="flex flex-col gap-medium">
             {p.items.map((card, i) => (
               <div key={card._key ?? i} className={`flex flex-col rounded-lg px-medium-large py-large md:px-large ${CARD_SURFACE[cardTone]}`}>
-                <SectionIntro
-                  as="h4"
-                  eyebrow={card.eyebrow ? renderNumberedEyebrow(card.eyebrow, !!p.numberedEyebrow, cardTone === 'dark') : undefined}
-                  heading={card.heading}
-                  body={card.body}
-                  bodyClassName="whitespace-pre-line"
-                  maxWidth="none"
-                  tone={cardTone === 'dark' ? 'inverse' : 'default'}
-                  eyebrowColor={cardTone === 'dark' ? 'text-accent' : p.numberedEyebrow ? 'text-foreground' : undefined}
-                />
+                {/* Eyebrow, title and body as SectionIntro draws them, but at
+                    any of H4–H6 (SectionIntro stops at H4); the gaps follow
+                    the title size, about half its line-height. */}
+                <div className={`flex flex-col ${CARD_TITLE_GAP[titleSize]}`}>
+                  {card.eyebrow && (
+                    <p
+                      className={`text-caption font-bold tracking-wider uppercase ${cardTone === 'dark' ? 'text-accent' : p.numberedEyebrow ? 'text-foreground' : 'text-muted-foreground'}`}
+                    >
+                      {renderNumberedEyebrow(card.eyebrow, !!p.numberedEyebrow, cardTone === 'dark')}
+                    </p>
+                  )}
+                  <CardTitle className={`${CARD_TITLE_CLASS[titleSize]} font-bold text-balance ${cardTone === 'dark' ? 'text-background' : 'text-foreground'}`}>
+                    {card.heading}
+                  </CardTitle>
+                  {card.body && (
+                    <p
+                      className={`text-body-lg font-medium whitespace-pre-line text-pretty md:font-normal ${cardTone === 'dark' ? 'text-background/80' : 'text-muted-foreground'}`}
+                    >
+                      {card.body}
+                    </p>
+                  )}
+                </div>
                 {hasImage(card.image) && (
                   <div className="relative mt-large aspect-media w-full overflow-hidden rounded-md bg-accent-gradient">
                     <Image

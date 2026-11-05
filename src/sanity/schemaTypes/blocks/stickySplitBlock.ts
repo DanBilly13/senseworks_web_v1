@@ -155,6 +155,22 @@ export const stickySplitBlock = defineType({
               initialValue: 'white',
             }),
             defineField({
+              name: 'titleSize',
+              title: 'Card title size',
+              description: 'How big each card’s title is.',
+              type: 'string',
+              options: {
+                list: [
+                  { title: 'H4', value: 'h4' },
+                  { title: 'H5 (default)', value: 'h5' },
+                  { title: 'H6', value: 'h6' },
+                ],
+                layout: 'radio',
+                direction: 'horizontal',
+              },
+              initialValue: 'h5',
+            }),
+            defineField({
               name: 'numberedEyebrow',
               title: 'Numbered eyebrow',
               description: 'Highlights the first word of each eyebrow (e.g. "01") as a small badge. Only when every eyebrow starts with a number.',
