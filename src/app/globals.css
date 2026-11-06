@@ -480,7 +480,7 @@
     /* About 1.18x per step, so the levels still read apart without any
        section heading shouting at hero size. */
     --text-h1: 2.75rem;
-    --text-h2: 2.25rem;
+    --text-h2: 2rem;
     /* H3 matches Statement (24px) on phones, so H4/H5 step down below it. */
     --text-h3: 1.5rem;
     --text-h4: 1.375rem;
@@ -490,8 +490,9 @@
     --text-body: 0.9375rem;
     --text-body-lg: 1rem;
     --text-body-xl: 1.125rem;
-    --text-stat: 3rem;
-    --text-stat-sm: 2.5rem;
+    /* Numbers: Stats Band 40, Stat Bars 32 (H2's size). */
+    --text-stat: 2.5rem;
+    --text-stat-sm: 2rem;
 
     /* Intro-to-content gap and stacked pieces: 48px rather than 64. */
     --spacing-stack: var(--spacing-xl);
