@@ -70,6 +70,9 @@ export function FeatureSplitBlock({
             // keeps its regular style at H2 too, not SectionIntro's big
             // "subtitle" treatment, which is too much in this column.
             subtitleBody={false}
+            // 80% of the text column on desktop, for shorter, evener
+            // headline lines (Dan's call); phones keep the full width.
+            headingMaxWidth="fourFifths"
             eyebrow={eyebrow}
             heading={headline}
             body={body}
