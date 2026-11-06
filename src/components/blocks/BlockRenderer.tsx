@@ -116,6 +116,16 @@ const PANEL_TOP: Record<BandSpacing, string> = {
   tight: 'pt-section-gap-tight',
   none: 'pt-none',
 }
+// A pinned Media's: a see-through gap instead (a margin, not the panel's
+// own solid padding), so the media stays in view until the next block's
+// content actually reaches it — solid space scrolling over it first made
+// it look as if it had stopped sticking.
+const PANEL_GAP: Record<BandSpacing, string> = {
+  loose: 'mt-section-gap-loose',
+  medium: 'mt-section-gap-medium',
+  tight: 'mt-section-gap-tight',
+  none: 'mt-none',
+}
 
 export function BlockRenderer({ blocks }: { blocks: PageBlock[] }) {
   // D7: an unrecognized or incomplete block type simply doesn't render.
@@ -183,9 +193,12 @@ export function BlockRenderer({ blocks }: { blocks: PageBlock[] }) {
     const pin = pieces.findIndex(isPinned)
     if (pin === -1 || pin === pieces.length - 1) return pieces.map((o) => o.el)
     const pinned = shown[pieces[pin].start] as { _type: string; _key: string; spacing?: BandSpacing }
-    const panelTop = PANEL_TOP_FROM_SPACING.has(pinned._type)
-      ? PANEL_TOP[pinned.spacing ?? PANEL_TOP_FROM_SPACING.get(pinned._type)!]
-      : 'pt-section-edge'
+    const panelSpacing = pinned.spacing ?? PANEL_TOP_FROM_SPACING.get(pinned._type)
+    const panelTop = !panelSpacing
+      ? 'pt-section-edge'
+      : pinned._type === 'mediaBlock'
+        ? PANEL_GAP[panelSpacing]
+        : PANEL_TOP[panelSpacing]
     // The panel is see-through when the first thing on it is a pinned
     // content-width Media with no background of its own: the block behind
     // (e.g. the Ally hero) then shows on either side of the video. That
