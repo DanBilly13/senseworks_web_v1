@@ -59,7 +59,7 @@ export const heroBlock = defineType({
     defineField({
       name: 'pinned',
       title: 'Content scrolls over it',
-      description: 'The hero stays put and the rest of the page scrolls up over it.',
+      description: 'The hero stays put and the rest of the page scrolls up over it (from tablet up; on phones it scrolls normally).',
       type: 'boolean',
       initialValue: false,
       hidden: ({ parent }) => parent?.layout !== 'imageOverlay',

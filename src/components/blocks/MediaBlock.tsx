@@ -229,11 +229,11 @@ function MediaBlockContent({
 
 export function MediaBlock({ pinned = false, ...props }: MediaBlockProps) {
   if (!pinned) return <MediaBlockContent {...props} />
-  // Pinned: sticky, 64px below the nav bar where the screen has room
+  // Pinned (from tablet up; phones just scroll): sticky, 64px below the nav bar where the screen has room
   // (Dan's call: not jammed against the top), with the gap below moved to
   // a see-through gap above the panel that scrolls over it (BlockRenderer).
   return (
-    <div className="sticky">
+    <div className="md:sticky">
       <StickToBottom belowHeader={64} />
       {/* The nav bar and ticker stay until the video is covered. */}
       <KeepNavUntilCovered />

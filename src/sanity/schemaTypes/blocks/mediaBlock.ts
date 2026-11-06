@@ -122,7 +122,7 @@ export const mediaBlock = defineType({
       name: 'pinned',
       title: 'Content scrolls over it',
       description:
-        'The media stays put once it reaches the top of the screen (or, taller than the screen, once its bottom is on screen) and the rest of the page scrolls up over it. Section spacing becomes the space at the top of what scrolls over.',
+        'From tablet up, the media stays put once it reaches the top of the screen (or, taller than the screen, once its bottom is on screen) and the rest of the page scrolls up over it. Section spacing becomes the space at the top of what scrolls over.',
       type: 'boolean',
       initialValue: false,
     }),

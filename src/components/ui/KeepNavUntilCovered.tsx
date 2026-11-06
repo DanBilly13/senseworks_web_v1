@@ -16,6 +16,8 @@ export function KeepNavUntilCovered() {
     const panel = sticky?.nextElementSibling
     if (!sticky || !panel) return
     const measure = () => {
+      // Phones don't pin, so the nav hides on scroll as usual there.
+      if (!matchMedia('(min-width: 48rem)').matches) return setUntil(undefined)
       // Covered once the panel's top edge reaches where the block sticks.
       const stuckAt = parseFloat(sticky.style.top) || 0
       setUntil(Math.round(panel.getBoundingClientRect().top + window.scrollY - stuckAt))

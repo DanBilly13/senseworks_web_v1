@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation'
 import { CheckOutlined, CloseOutlined, DownOutlined, MenuOutlined } from '@ant-design/icons'
 import { Button } from '@/components/ui/Button'
 import { Menu, MenuItem } from '@/components/ui/Menu'
-import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher'
+import { LanguageOptions, LanguageSwitcher } from '@/components/ui/LanguageSwitcher'
 import { TickerTape } from '@/components/ui/TickerTape'
 import { stripLocale, usePageVersions, useTeamMode } from '@/lib/teamMode'
 import type { PageVersion } from '@/lib/sanity/siteNavigation'
@@ -349,9 +349,11 @@ export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref, curren
                 </Button>
               )}
             </nav>
-            {/* On every screen size: after the button on desktop, next to
-                the menu toggle on mobile. */}
-            <LanguageSwitcher />
+            {/* After the button, from tablet up. On phones the language
+                is chosen at the foot of the menu instead. */}
+            <div className="hidden md:block">
+              <LanguageSwitcher />
+            </div>
             <button
               type="button"
               className="flex md:hidden"
@@ -437,6 +439,9 @@ export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref, curren
                 </Button>
               </div>
             )}
+            <div className="mt-large pb-medium">
+              <LanguageOptions />
+            </div>
           </nav>
         )}
       </header>

@@ -69,7 +69,7 @@ export function HeroAllyBlock({
   const center = align === 'center'
   return (
     <section
-      className={`hero-ally-section flex min-h-svh flex-col overflow-hidden ${SECTION_BG[tone]} ${pinned ? 'sticky top-0' : `relative ${SECTION_GAP_MB_CLASS[spacing]}`}`}
+      className={`hero-ally-section flex min-h-svh flex-col overflow-hidden ${SECTION_BG[tone]} ${pinned ? 'relative md:sticky md:top-0' : `relative ${SECTION_GAP_MB_CLASS[spacing]}`}`}
       // Pulled up under the fixed header, like the other heroes (see
       // HeroBackdropBlock), so the gradient runs to the top of the screen.
       style={{ marginTop: 'calc(var(--header-height, 0px) * -1)' }}

@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useRef } from 'react'
 
-// Rendered inside a `sticky` element: sets its `top` so one taller than
+// Rendered inside a `md:sticky` element (nothing pins on phones): sets its `top` so one taller than
 // the screen (a hero with a long headline, a tall Media block) pins when
 // its bottom edge reaches the bottom of the screen, not its top edge the
 // top — the difference between showing its foot and never showing it.
@@ -16,6 +16,11 @@ export function StickToBottom({ belowHeader }: { belowHeader?: number }) {
     const el = ref.current?.parentElement
     if (!el) return
     const fit = () => {
+      // Phones don't pin (the element scrolls with the page), so no top.
+      if (!matchMedia('(min-width: 48rem)').matches) {
+        el.style.top = ''
+        return
+      }
       const room = window.innerHeight - el.offsetHeight
       if (belowHeader === undefined || room < 0) {
         el.style.top = `${Math.min(0, room)}px`

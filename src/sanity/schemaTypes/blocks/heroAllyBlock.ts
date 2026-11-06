@@ -77,7 +77,7 @@ export const heroAllyBlock = defineType({
     defineField({
       name: 'pinned',
       title: 'Content scrolls over it',
-      description: 'The hero, Ally included, stays put and the rest of the page scrolls up over it. Section spacing becomes the space at the top of what scrolls over.',
+      description: 'The hero, Ally included, stays put and the rest of the page scrolls up over it (from tablet up; on phones it scrolls normally). Section spacing becomes the space at the top of what scrolls over.',
       type: 'boolean',
       initialValue: false,
     }),

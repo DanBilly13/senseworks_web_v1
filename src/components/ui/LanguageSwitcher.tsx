@@ -99,3 +99,37 @@ export function LanguageSwitcher() {
     </div>
   )
 }
+
+// The phone menu's language row: every language side by side (flag and
+// name), the current one outlined and ticked. Phones have no picker in
+// the top bar; this is it.
+export function LanguageOptions() {
+  const pathname = usePathname()
+  const current = LOCALES.find((locale) => locale.id === pathname.split('/')[1]) ?? LOCALES[0]
+  return (
+    <div className="flex flex-col gap-small-medium">
+      <p className="text-caption font-bold tracking-wider text-muted-foreground uppercase">
+        {current.id === 'sv' ? 'Språk' : 'Language'}
+      </p>
+      <div className="flex flex-wrap gap-small">
+        {LOCALES.map((locale) => {
+          const active = locale.id === current.id
+          return (
+            <a
+              key={locale.id}
+              href={pathInLocale(pathname, locale.id)}
+              lang={locale.id}
+              aria-current={active ? 'true' : undefined}
+              onClick={() => rememberLocale(locale.id)}
+              className={`flex items-center gap-small rounded-full border px-medium py-small text-body text-foreground ${active ? 'border-foreground' : 'border-border'}`}
+            >
+              <Flag src={locale.flag} />
+              {locale.name}
+              {active && <CheckOutlined aria-hidden="true" className="text-body-sm" />}
+            </a>
+          )
+        })}
+      </div>
+    </div>
+  )
+}

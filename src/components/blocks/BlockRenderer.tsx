@@ -109,12 +109,13 @@ const PANEL_TOP_FROM_SPACING = new Map<string, BandSpacing>([
   ['heroAllyBlock', 'medium'],
   ['mediaBlock', 'loose'],
 ])
-// That space.
+// That space. None still leaves a gap on phones, where nothing pins and
+// the next block would otherwise butt straight against the hero.
 const PANEL_TOP: Record<BandSpacing, string> = {
   loose: 'pt-section-gap-loose',
   medium: 'pt-section-gap-medium',
   tight: 'pt-section-gap-tight',
-  none: 'pt-none',
+  none: 'pt-section-gap-medium md:pt-none',
 }
 // A pinned Media's: a see-through gap instead (a margin, not the panel's
 // own solid padding), so the media stays in view until the next block's
@@ -124,7 +125,8 @@ const PANEL_GAP: Record<BandSpacing, string> = {
   loose: 'mt-section-gap-loose',
   medium: 'mt-section-gap-medium',
   tight: 'mt-section-gap-tight',
-  none: 'mt-none',
+  // As PANEL_TOP: still a gap on phones, where nothing pins.
+  none: 'mt-section-gap-medium md:mt-none',
 }
 
 export function BlockRenderer({ blocks }: { blocks: PageBlock[] }) {

@@ -309,10 +309,10 @@ function HeroImageOverlay({
   const overlayGap = `calc(var(--text-${headlineSize === 'display' ? 'display' : 'h1'}--full-line-height) / 4)`
   return (
     <section
-      // Pinned: sticky instead, with the gap to the next block moved
+      // Pinned (from tablet up; phones just scroll): sticky instead, with the gap to the next block moved
       // into the covering panel (BlockRenderer) so it isn't a strip of
       // page showing between the hero and the content scrolling over.
-      className={`min-h-screen ${pinned ? 'sticky top-0' : 'relative mb-section-edge'}`}
+      className={`min-h-screen ${pinned ? 'relative md:sticky md:top-0' : 'relative mb-section-edge'}`}
       style={{ marginTop: 'calc(var(--header-height, 0px) * -1)' }}
     >
       {/* mb- (not pb-) on purpose: the background image is an absolutely
