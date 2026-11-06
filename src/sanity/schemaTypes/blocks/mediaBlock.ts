@@ -54,12 +54,13 @@ export const mediaBlock = defineType({
       name: 'mobileFit',
       title: 'On phones',
       description:
-        'Fill screen: edge to edge and tall, the media cropped to fill (good for photos). Whole frame: the same shape as on desktop, inside the page margins, so nothing is cropped (good for screen recordings). Media with text on it always fills the screen.',
+        'Inside margins: the same shape as on desktop, with rounded corners, nothing cropped (good for screen recordings). Edge to edge: the full screen width, square corners, still the desktop shape. Edge to edge, tall: the full width and most of the screen’s height, the media cropped to fill (good for photos). Media with text on it is always edge to edge, tall.',
       type: 'string',
       options: {
         list: [
-          { title: 'Fill screen (default)', value: 'fill' },
-          { title: 'Whole frame', value: 'frame' },
+          { title: 'Inside margins', value: 'frame' },
+          { title: 'Edge to edge', value: 'edge' },
+          { title: 'Edge to edge, tall (default)', value: 'fill' },
         ],
         layout: 'radio',
         direction: 'horizontal',

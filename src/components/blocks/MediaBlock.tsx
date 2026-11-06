@@ -25,10 +25,10 @@ type MediaBlockProps = {
   // (the Hero image's) or a wide 3:1 strip. Mobile keeps its tall
   // full-bleed frame whichever.
   ratio?: '7:5' | '7:4' | '3:1'
-  // Content width, no text: 'fill' (default) is the tall full-bleed
-  // phone frame; 'frame' keeps the desktop ratio inside the page
-  // margins on phones, so a wide screen recording isn't cropped.
-  mobileFit?: 'fill' | 'frame'
+  // Content width, no text, on phones: 'fill' (default) edge to edge and
+  // tall (cropped); 'edge' edge to edge in the desktop ratio; 'frame' the
+  // desktop ratio inside the page margins, rounded, nothing cropped.
+  mobileFit?: 'fill' | 'edge' | 'frame'
   // The gap below the block, before the next one.
   spacing?: 'loose' | 'medium' | 'tight' | 'none'
   // Content width only: a full screen width background behind the
@@ -158,7 +158,9 @@ function MediaBlockContent({
             className={
               mobileFit === 'frame'
                 ? `w-full rounded-xl ${MOBILE_RATIO_CLASS[ratio]}`
-                : `-mx-edge h-media-mobile rounded-none md:mx-0 ${RATIO_CLASS[ratio]} md:h-auto md:w-full md:rounded-xl`
+                : mobileFit === 'edge'
+                  ? `-mx-edge rounded-none md:mx-0 md:w-full md:rounded-xl ${MOBILE_RATIO_CLASS[ratio]}`
+                  : `-mx-edge h-media-mobile rounded-none md:mx-0 ${RATIO_CLASS[ratio]} md:h-auto md:w-full md:rounded-xl`
             }
           />,
         )}
