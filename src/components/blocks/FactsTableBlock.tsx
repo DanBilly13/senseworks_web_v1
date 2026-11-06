@@ -57,7 +57,7 @@ export function FactsTableBlock({
             className={`grid md:row-span-2 md:grid-rows-subgrid ${i > 0 ? `border-t md:border-t-0 md:border-l ${line}` : ''}`}
           >
             <p
-              className={`border-b px-medium py-medium-large text-caption md:px-medium-large font-bold tracking-wider uppercase ${line} ${dark ? 'text-background/70' : 'text-muted-foreground'}`}
+              className={`border-b px-medium py-medium-large text-eyebrow md:px-medium-large font-bold tracking-wider uppercase ${line} ${dark ? 'text-background/70' : 'text-muted-foreground'}`}
             >
               {item.eyebrow || ' '}
             </p>

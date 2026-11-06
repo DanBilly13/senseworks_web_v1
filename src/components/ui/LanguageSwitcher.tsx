@@ -108,7 +108,7 @@ export function LanguageOptions() {
   const current = LOCALES.find((locale) => locale.id === pathname.split('/')[1]) ?? LOCALES[0]
   return (
     <div className="flex flex-col gap-small-medium">
-      <p className="text-caption font-bold tracking-wider text-muted-foreground uppercase">
+      <p className="text-eyebrow font-bold tracking-wider text-muted-foreground uppercase">
         {current.id === 'sv' ? 'Språk' : 'Language'}
       </p>
       <div className="flex flex-wrap gap-small">

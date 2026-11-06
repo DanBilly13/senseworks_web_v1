@@ -47,6 +47,8 @@
   /* The gap between a block's intro text and its content (and between
      stacked pieces): 64px, 48px on phones (set below). */
   --spacing-stack: 64px;
+  /* Sticky Split cards' top padding on phones: 28px (32 from tablet). */
+  --spacing-card-top: 1.75rem;
   /* Body Columns' wide gutter between columns (the reference's): 60px,
      growing with the screen to 120px. */
   --spacing-editorial: clamp(60px, 6vw, 120px);
@@ -338,6 +340,8 @@
   --text-body: 1rem;
   --text-body-sm: 0.875rem;
   --text-caption: 0.875rem;
+  /* Eyebrows (bold, all caps): 14px, 13px on phones (set below). */
+  --text-eyebrow: 0.875rem;
   /* The menu's dropdown chevrons: 10px, smaller than the text beside them. */
   --text-chevron: 0.625rem;
 
@@ -490,6 +494,7 @@
     --text-body: 1.0625rem;
     --text-body-lg: 1.0625rem;
     --text-body-xl: 1.1875rem;
+    --text-eyebrow: 0.8125rem;
     /* Numbers: Stats Band 44, Stat Bars 34 (H2's size). */
     --text-stat: 2.75rem;
     --text-stat-sm: 2.125rem;
