@@ -84,6 +84,14 @@ export const mediaBlock = defineType({
     }),
     ...bandFields({ withDarkGradient: true }).map((field) => ({ ...field, hidden: hiddenAtFullWidth })),
     defineField({
+      name: 'keyline',
+      title: 'Outline',
+      description: 'A thin line in our black around the frame, from tablet up. It stays 1px while the media grows on scroll.',
+      type: 'boolean',
+      initialValue: false,
+      hidden: hiddenAtFullWidth,
+    }),
+    defineField({
       name: 'growOnScroll',
       title: 'Grow on scroll',
       description:

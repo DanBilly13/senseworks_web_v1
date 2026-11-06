@@ -1274,6 +1274,23 @@ p:has(+ .hero-overlay-card-rules),
   }
 }
 
+/* Media's "Outline": a 1px line in our black over the frame's edge,
+   from tablet up (phones' frame runs edge to edge). Inside Grow on
+   scroll its width and corners are divided by the scale, so it stays
+   1px with 16px corners on screen at every size. */
+@media (width >= 48rem) {
+  .media-keyline::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    /* An inset shadow, not a border: border widths are rounded to whole
+       device pixels, so a scaled border would thin and thicken as it grows. */
+    box-shadow: inset 0 0 0 calc(1px / var(--scroll-grow-scale, 1)) var(--color-foreground);
+    border-radius: calc(var(--radius-xl) / var(--scroll-grow-scale, 1));
+  }
+}
+
 @media (width >= 48rem) {
   .scroll-grow {
     overflow: hidden;

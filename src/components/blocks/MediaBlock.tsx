@@ -37,6 +37,9 @@ type MediaBlockProps = {
   // Content width only: zooms up to full size as it scrolls into view
   // (ui/ScrollGrow). Off, the frame isn't wrapped at all.
   growOnScroll?: boolean
+  // Content width only: a 1px line in the foreground colour around the
+  // frame, from md (.media-keyline in globals.css).
+  keyline?: boolean
 }
 
 const RATIO_CLASS: Record<NonNullable<MediaBlockProps['ratio']>, string> = {
@@ -60,8 +63,11 @@ function MediaBlockContent({
   paddingTop,
   paddingBottom,
   growOnScroll = false,
+  keyline = false,
 }: MediaBlockProps) {
-  const grow = (frame: ReactNode) => (growOnScroll ? <ScrollGrow>{frame}</ScrollGrow> : frame)
+  // The outline sits inside the grow wrapper, so it can undo the scale.
+  const outlined = (frame: ReactNode) => (keyline ? <div className="media-keyline relative">{frame}</div> : frame)
+  const grow = (frame: ReactNode) => (growOnScroll ? <ScrollGrow>{outlined(frame)}</ScrollGrow> : outlined(frame))
   // The background wraps the content-width layouts below; without one,
   // they're as they always were.
   const banded = (shell: (py: { pt?: BandSpacing; pb: BandSpacing }) => ReactNode) =>
@@ -207,11 +213,12 @@ function MediaBlockContent({
 
 export function MediaBlock({ pinned = false, ...props }: MediaBlockProps) {
   if (!pinned) return <MediaBlockContent {...props} />
-  // Pinned: sticky, with the gap below moved to the top of the panel
-  // that scrolls over it (BlockRenderer).
+  // Pinned: sticky, 64px below the nav bar where the screen has room
+  // (Dan's call: not jammed against the top), with the gap below moved to
+  // a see-through gap above the panel that scrolls over it (BlockRenderer).
   return (
     <div className="sticky">
-      <StickToBottom />
+      <StickToBottom belowHeader={64} />
       <MediaBlockContent {...props} spacing="none" />
     </div>
   )
