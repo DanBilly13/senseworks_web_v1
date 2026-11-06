@@ -135,7 +135,7 @@ export function StickySplitBlock({
         if (!p.heading && !p.body) return null
         return (
           <div key={p._key ?? index} className={`flex flex-col gap-medium ${dark ? 'text-background' : 'text-foreground'}`}>
-            {p.heading && <h3 className="text-h5 font-medium whitespace-pre-line">{p.heading}</h3>}
+            {p.heading && <h3 className="text-h4 font-bold whitespace-pre-line md:text-h5 md:font-medium">{p.heading}</h3>}
             {p.body && (
               <p className={`${BODY_STYLE[bodySize] ?? BODY_STYLE.body} whitespace-pre-line ${dark ? 'text-background/80' : 'text-muted-foreground'}`}>
                 {p.body}
@@ -150,7 +150,7 @@ export function StickySplitBlock({
         const size = p.textSize && p.textSize !== 'inherit' ? LIST_TEXT[p.textSize] : (BODY_STYLE[bodySize] ?? BODY_STYLE.body)
         return (
           <div key={p._key ?? index} className={`flex flex-col gap-medium ${dark ? 'text-background' : 'text-foreground'}`}>
-            {p.heading && <h3 className="text-h5 font-medium whitespace-pre-line">{p.heading}</h3>}
+            {p.heading && <h3 className="text-h4 font-bold whitespace-pre-line md:text-h5 md:font-medium">{p.heading}</h3>}
             {/* A bullet per line, a thin rule above each and below the last. */}
             <ul className={`border-b ${rule}`}>
               {list.map((line, i) => (
@@ -169,9 +169,15 @@ export function StickySplitBlock({
         const CardTitle = titleSize
         if (!p.items?.length) return null
         return (
-          <div key={p._key ?? index} className="flex flex-col gap-medium">
+          // Phones: every card as tall as the tallest (spare space at the
+          // foot), 8px from the screen edge with 16px inside, so the text
+          // lines up with the page's 24px margin (the boxed rule).
+          <div key={p._key ?? index} className="-mx-medium grid auto-rows-fr gap-medium md:mx-0 md:auto-rows-auto">
             {p.items.map((card, i) => (
-              <div key={card._key ?? i} className={`flex flex-col rounded-lg px-medium-large py-large md:px-large ${CARD_SURFACE[cardTone]}`}>
+              <div
+                key={card._key ?? i}
+                className={`flex flex-col rounded-lg px-medium py-medium-large md:px-large md:py-large ${CARD_SURFACE[cardTone]}`}
+              >
                 {/* Eyebrow, title and body as SectionIntro draws them, but at
                     any of H4–H6 (SectionIntro stops at H4); the gaps follow
                     the title size, about half its line-height. */}
@@ -188,7 +194,7 @@ export function StickySplitBlock({
                   </CardTitle>
                   {card.body && (
                     <p
-                      className={`text-body-lg whitespace-pre-line text-pretty ${cardTone === 'dark' ? 'text-background/80' : 'text-muted-foreground'}`}
+                      className={`text-body-lg whitespace-pre-line md:text-pretty ${cardTone === 'dark' ? 'text-background/80' : 'text-muted-foreground'}`}
                     >
                       {card.body}
                     </p>

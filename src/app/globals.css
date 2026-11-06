@@ -315,7 +315,7 @@
   --text-statement: clamp(26px, 17.55px + 1.69vw, 50px);
   --text-statement--line-height: 1.2;
   /* "Large body": 22px, 19px on phones (set below). The body ramp is
-     Body 16 (15 on phones) / Body large 18 (16) / Large body 22 (18) /
+     Body 16 (16 on phones) / Body large 18 (17) / Large body 22 (19) /
      Statement — headings (H1–H6) are only for headings. */
   --text-body-xl: 1.375rem;
   --text-body-xl--line-height: 1.4;
@@ -480,19 +480,19 @@
     /* About 1.18x per step, so the levels still read apart without any
        section heading shouting at hero size. */
     --text-h1: 2.75rem;
-    --text-h2: 2rem;
-    /* H3 matches Statement (24px) on phones, so H4/H5 step down below it. */
-    --text-h3: 1.5rem;
+    --text-h2: 2.125rem;
+    /* H3 matches Statement (26px) on phones, H4/H5 step down below it. */
+    --text-h3: 1.625rem;
     --text-h4: 1.375rem;
     --text-h5: 1.25rem;
-    --text-statement: 1.5rem;
-    /* Phone body ramp: Body 15, Body large 16, Large body 18. */
-    --text-body: 0.9375rem;
-    --text-body-lg: 1rem;
-    --text-body-xl: 1.125rem;
-    /* Numbers: Stats Band 40, Stat Bars 32 (H2's size). */
-    --text-stat: 2.5rem;
-    --text-stat-sm: 2rem;
+    --text-statement: 1.625rem;
+    /* Phone body ramp: Body 16, Body large 17, Large body 19. */
+    --text-body: 1rem;
+    --text-body-lg: 1.0625rem;
+    --text-body-xl: 1.1875rem;
+    /* Numbers: Stats Band 44, Stat Bars 34 (H2's size). */
+    --text-stat: 2.75rem;
+    --text-stat-sm: 2.125rem;
 
     /* Intro-to-content gap and stacked pieces: 48px rather than 64. */
     --spacing-stack: var(--spacing-xl);
@@ -505,9 +505,9 @@
     --spacing-section-gap-tight: var(--spacing-large);
     --spacing-section-edge: var(--spacing-2xl);
 
-    /* 16px, the same as Body large on phones — not the
+    /* 17px, the same as Body large on phones — not the
        same ~50% compression the headings above get. */
-    --text-scroll-stack-body: 1rem;
+    --text-scroll-stack-body: 1.0625rem;
 
     /* Pulls the media up from the panel's 64px gap-2xl to a 32px
        visible gap below the heading, mobile only. */
