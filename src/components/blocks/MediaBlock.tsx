@@ -6,6 +6,7 @@ import { Media } from '@/components/ui/Media'
 import type { MediaField } from '@/lib/sanity/media'
 import { BandFill, bandShellPadding, type BandTone, type BandSpacing } from '@/components/ui/BandFill'
 import { StickToBottom } from '@/components/ui/StickToBottom'
+import { KeepNavUntilCovered } from '@/components/ui/KeepNavUntilCovered'
 import { ScrollGrow } from '@/components/ui/ScrollGrow'
 
 type MediaBlockProps = {
@@ -219,6 +220,8 @@ export function MediaBlock({ pinned = false, ...props }: MediaBlockProps) {
   return (
     <div className="sticky">
       <StickToBottom belowHeader={64} />
+      {/* The nav bar and ticker stay until the video is covered. */}
+      <KeepNavUntilCovered />
       <MediaBlockContent {...props} spacing="none" />
     </div>
   )
