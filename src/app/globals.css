@@ -1434,16 +1434,19 @@ p:has(+ .hero-overlay-card-rules),
   }
 }
 
-/* Bento Grid, 3 columns, from tablet up: each card's image is as tall as
-   a one-column card's image is wide — a third of the grid (less its two
-   gaps), less the card's padding and border on both sides — so the
-   one-column images are square and the wide cards' images line up with
-   them. The grid is the size container (@container). Never shorter than
-   the old normal-card height (200px), so on a tablet the images don't
-   shrink to slivers (they're a little wider than square there). */
+/* Bento Grid, 3 columns, from tablet up: each card's image is 5/7 as
+   tall as a one-column card's image is wide — that width being a third of
+   the grid (less its two gaps), less the card's padding and border on both
+   sides — so the one-column images are 7:5 and the wide cards' images line
+   up with them in height. The grid is the size container (@container).
+   Never shorter than the old normal-card height (200px), so on a tablet
+   the images don't shrink to slivers. Phones: square (the component). */
 @media (width >= 48rem) {
   .bento-media-square {
-    height: max(var(--height-bento-media), calc((100cqw - 2 * var(--spacing-large)) / 3 - 2 * var(--spacing-large) - 2px));
+    height: max(
+      var(--height-bento-media),
+      calc(((100cqw - 2 * var(--spacing-large)) / 3 - 2 * var(--spacing-large) - 2px) * 5 / 7)
+    );
   }
 }
 

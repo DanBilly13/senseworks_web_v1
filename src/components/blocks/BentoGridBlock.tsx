@@ -102,8 +102,8 @@ export function BentoGridBlock({
                 />
               </div>
               {/* Phones: every image square. 3 columns, from tablet up:
-                  every card's image is as tall as a one-column card's image
-                  is wide, so the one-column images are square and the wide
+                  every card's image is 5/7 as tall as a one-column card's
+                  image is wide, so the one-column images are 7:5 and the wide
                   cards' match them in height (.bento-media-square in
                   globals.css). 2 columns: 7:5 from tablet up. */}
               <Media
