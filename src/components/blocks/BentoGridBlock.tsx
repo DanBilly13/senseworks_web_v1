@@ -101,18 +101,18 @@ export function BentoGridBlock({
                   descriptionClassName="line-clamp-2"
                 />
               </div>
-              {/* 3 columns, from tablet up: every card's image is as tall as
-                  a one-column card's image is wide, so the one-column images
-                  are square and the wide cards' match them in height
-                  (.bento-media-square in globals.css). Phones keep the
-                  fixed heights. */}
+              {/* Phones: every image square. 3 columns, from tablet up:
+                  every card's image is as tall as a one-column card's image
+                  is wide, so the one-column images are square and the wide
+                  cards' match them in height (.bento-media-square in
+                  globals.css). 2 columns: 7:5 from tablet up. */}
               <Media
                 media={item.media}
                 alt={item.heading}
-                className={`mt-medium-large w-full shrink-0 rounded-md ${
+                className={`mt-medium-large aspect-square w-full shrink-0 rounded-md ${
                   columns === '2'
-                    ? 'aspect-media'
-                    : `bento-media-square ${spansTwoRows ? 'h-bento-media-lg' : 'h-bento-media'}`
+                    ? 'md:aspect-media'
+                    : `bento-media-square md:aspect-auto ${spansTwoRows ? 'md:h-bento-media-lg' : 'md:h-bento-media'}`
                 }`}
               />
             </div>
