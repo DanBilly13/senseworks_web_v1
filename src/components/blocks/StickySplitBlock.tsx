@@ -170,13 +170,12 @@ export function StickySplitBlock({
         if (!p.items?.length) return null
         return (
           // Phones: every card as tall as the tallest (spare space at the
-          // foot), 8px from the screen edge with 16px inside, so the text
-          // lines up with the page's 24px margin (the boxed rule).
-          <div key={p._key ?? index} className="-mx-medium grid auto-rows-fr gap-medium md:mx-0 md:auto-rows-auto">
+          // foot).
+          <div key={p._key ?? index} className="grid auto-rows-fr gap-medium md:auto-rows-auto">
             {p.items.map((card, i) => (
               <div
                 key={card._key ?? i}
-                className={`flex flex-col rounded-lg px-medium py-medium-large md:px-large md:py-large ${CARD_SURFACE[cardTone]}`}
+                className={`flex flex-col rounded-lg px-medium-large py-large md:px-large ${CARD_SURFACE[cardTone]}`}
               >
                 {/* Eyebrow, title and body as SectionIntro draws them, but at
                     any of H4–H6 (SectionIntro stops at H4); the gaps follow
