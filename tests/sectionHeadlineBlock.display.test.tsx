@@ -23,9 +23,9 @@ describe('SectionHeadlineBlock size', () => {
 
   it('uses the subtitle body under Display/H1/H2 and plain body under H3', () => {
     const { rerender } = render(<SectionHeadlineBlock headline="Title" body="Body text" headlineSize="display" />)
-    expect(screen.getByText('Body text')).toHaveClass('text-h5')
+    expect(screen.getByText('Body text')).toHaveClass('text-body-xl')
     rerender(<SectionHeadlineBlock headline="Title" body="Body text" headlineSize="h3" />)
-    expect(screen.getByText('Body text')).not.toHaveClass('text-h5')
+    expect(screen.getByText('Body text')).not.toHaveClass('text-body-xl')
   })
 
   it('turns a typed line break into a real one', () => {

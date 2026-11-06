@@ -80,7 +80,7 @@ export const stickySplitBlock = defineType({
               title: 'Text',
               type: 'text',
               rows: 3,
-              description: 'The big regular-weight text of the Statement blocks (26–50px). Press Enter for a line break.',
+              description: 'The big regular-weight text of the Statement blocks (24–50px). Press Enter for a line break.',
               validation: (Rule) => Rule.required(),
             }),
           ],
@@ -135,7 +135,6 @@ export const stickySplitBlock = defineType({
                   { title: 'Body style (default)', value: 'inherit' },
                   { title: 'Body', value: 'body' },
                   { title: 'Large body', value: 'large' },
-                  { title: 'H5', value: 'h5' },
                   { title: 'H4', value: 'h4' },
                 ],
                 layout: 'radio',
@@ -231,13 +230,12 @@ export const stickySplitBlock = defineType({
     defineField({
       name: 'bodySize',
       title: 'Body style',
-      description: 'The size of the body text in the Intro and Text pieces (not the cards). Statement is the big regular-weight text of the Statement blocks (26–50px).',
+      description: 'The size of the body text in the Intro and Text pieces (not the cards). Statement is the big regular-weight text of the Statement blocks (24–50px).',
       type: 'string',
       options: {
         list: [
           { title: 'Body (default)', value: 'body' },
           { title: 'Large body', value: 'large' },
-          { title: 'H5', value: 'h5' },
           { title: 'Statement', value: 'statement' },
         ],
         layout: 'radio',

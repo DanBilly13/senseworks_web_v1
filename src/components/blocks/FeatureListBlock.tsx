@@ -10,7 +10,7 @@ type FeatureListItem = {
 }
 // No eyebrow/heading/body of its own — pair it with a Section Headline
 // block above it.
-type BodySize = 'body' | 'h5' | 'h4'
+type BodySize = 'body' | 'large' | 'h5' | 'h4'
 // tone/paddingTop/paddingBottom/spacing: the optional full screen width
 // background, see ui/BandFill.
 type FeatureListBlockProps = BandProps & {
@@ -41,7 +41,9 @@ const TONE_CLASS: Record<BandTone, { label: string; body: string; divide: string
 
 const BODY_SIZE_CLASS: Record<BodySize, string> = {
   body: 'text-body',
-  h5: 'text-h5',
+  large: 'text-body-xl',
+  // Old content saved before "H5" became "Large body".
+  h5: 'text-body-xl',
   h4: 'text-h4',
 }
 

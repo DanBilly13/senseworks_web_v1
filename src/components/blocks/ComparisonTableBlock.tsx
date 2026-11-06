@@ -27,7 +27,7 @@ type ComparisonTableBlockProps = {
 }
 
 type HighlightColor = 'accent' | 'dark' | 'muted'
-type LabelSize = 'body' | 'h5' | 'h4'
+type LabelSize = 'body' | 'large' | 'h5' | 'h4'
 
 
 function Cell({ cell, highlighted }: { cell?: ComparisonCell; highlighted: boolean }) {
@@ -122,7 +122,9 @@ function OpenCell({ cell, highlighted, color }: { cell?: ComparisonCell; highlig
 // Open style row-label sizes.
 const LABEL_SIZE_CLASS: Record<LabelSize, string> = {
   body: 'text-body',
-  h5: 'text-h5',
+  large: 'text-body-xl',
+  // Old content saved before "H5" became "Large body".
+  h5: 'text-body-xl',
   h4: 'text-h4',
 }
 

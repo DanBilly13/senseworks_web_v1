@@ -314,7 +314,10 @@
      to 22px. */
   --text-statement: clamp(26px, 17.55px + 1.69vw, 50px);
   --text-statement--line-height: 1.2;
-  --text-body-xl: clamp(18px, 16.59px + 0.282vw, 22px);
+  /* "Large body": 22px, 19px on phones (set below). The body ramp is
+     Body 16 (15 on phones) / Body large 18 (16) / Large body 22 (18) /
+     Statement — headings (H1–H6) are only for headings. */
+  --text-body-xl: 1.375rem;
   --text-body-xl--line-height: 1.4;
 
   /* Each heading's own rendered line-height in px, derived from its
@@ -481,7 +484,11 @@
     --text-h3: 1.875rem;
     --text-h4: 1.5625rem;
     --text-h5: 1.3125rem;
-    --text-statement: 1.375rem;
+    --text-statement: 1.5rem;
+    /* Phone body ramp: Body 15, Body large 16, Large body 18. */
+    --text-body: 0.9375rem;
+    --text-body-lg: 1rem;
+    --text-body-xl: 1.125rem;
     --text-stat: 3rem;
     --text-stat-sm: 2.5rem;
 
@@ -496,9 +503,9 @@
     --spacing-section-gap-tight: var(--spacing-large);
     --spacing-section-edge: var(--spacing-2xl);
 
-    /* 17px — one step down from desktop's 18px (Body-lg), not the
+    /* 16px, the same as Body large on phones — not the
        same ~50% compression the headings above get. */
-    --text-scroll-stack-body: 1.0625rem;
+    --text-scroll-stack-body: 1rem;
 
     /* Pulls the media up from the panel's 64px gap-2xl to a 32px
        visible gap below the heading, mobile only. */
@@ -514,6 +521,14 @@
   .text-h1,
   .text-stat {
     letter-spacing: -0.0625rem;
+  }
+
+  /* iPhones zoom the page in when a field under 16px gets focus, so
+     form fields stay 16px on phones whatever their text style. */
+  input,
+  select,
+  textarea {
+    font-size: 1rem;
   }
 }
 

@@ -156,7 +156,7 @@ export function CtaBannerBlock({
           // instead of the whole banner silently losing its CTA.
           <div className="flex flex-col items-center gap-medium-large text-center">
             {body && (
-              <p className={`text-h5 font-medium ${tone === 'dark' ? 'text-background' : 'text-foreground'}`}>
+              <p className={`text-body-xl ${tone === 'dark' ? 'text-background' : 'text-foreground'}`}>
                 {body}
               </p>
             )}

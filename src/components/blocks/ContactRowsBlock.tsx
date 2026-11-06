@@ -29,7 +29,7 @@ export function ContactRowsBlock({ eyebrow, rows, spacing }: ContactRowsBlockPro
               {row.details?.map((d, k) => (
                 <div key={d._key ?? k} className="flex flex-col gap-xs">
                   {d.label && <dt className="text-caption font-bold tracking-wider text-muted-foreground uppercase">{d.label}</dt>}
-                  <dd className="text-h5 font-medium whitespace-pre-line">
+                  <dd className="text-body-xl whitespace-pre-line">
                     {d.href ? (
                       <a href={d.href} className="underline decoration-1 underline-offset-4 hover:decoration-2">
                         {d.value}

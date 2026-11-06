@@ -24,7 +24,7 @@ const LG_COLS_CLASS: Record<'1' | '2' | '3', string> = {
   '3': 'lg:grid-cols-3',
 }
 
-// Large body text (18px on a phone up to 22px, --text-body-xl) in equal
+// Large body text (18px on a phone, 22px from tablet, --text-body-xl) in equal
 // columns with a wide gutter that grows with the screen (60–120px,
 // --spacing-editorial), no titles — after the Awwwards course page Dan
 // referenced. Below 1024px the columns stack. Pairs with a Statement.

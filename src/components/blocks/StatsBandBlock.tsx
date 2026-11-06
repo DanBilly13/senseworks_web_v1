@@ -153,7 +153,7 @@ export function StatsBandBlock({
         // (half the h2's line-height).
         <div className={`flex flex-col items-center gap-medium text-center ${CONTENT_GAP_CLASS[contentGap]}`}>
           {closingText && (
-            <p className={`text-h5 font-medium md:max-w-subtitle ${light ? 'text-background' : 'text-foreground'}`}>
+            <p className={`text-body-xl md:max-w-subtitle ${light ? 'text-background' : 'text-foreground'}`}>
               {closingText}
             </p>
           )}

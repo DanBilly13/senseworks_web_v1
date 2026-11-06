@@ -68,7 +68,7 @@ export function FaqAccordionBlock({ items = [], width, tone = 'none', ...band }:
                   role="region"
                   aria-labelledby={buttonId}
                   hidden={!isOpen}
-                  className={`pb-medium text-body font-medium md:max-w-three-fifths md:font-normal ${t.answer}`}
+                  className={`pb-medium text-body md:max-w-three-fifths ${t.answer}`}
                 >
                   {item.answer}
                 </dd>

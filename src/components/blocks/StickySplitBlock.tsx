@@ -35,12 +35,13 @@ type StickySplitBlockProps = {
 
 type BodySize = 'body' | 'large' | 'h5' | 'statement'
 // "Body style": the Intro and Text pieces' body. Body is SectionIntro's
-// usual (text-body-lg, medium weight on mobile).
+// usual (text-body-lg).
 const BODY_STYLE: Record<BodySize, string> = {
-  body: 'text-body-lg font-medium md:font-normal',
+  body: 'text-body-lg',
   large: 'text-body-xl',
-  h5: 'text-h5 font-medium',
-  // The Statement blocks' text (26–50px, regular weight).
+  // Old content saved before H5 was folded into Large body.
+  h5: 'text-body-xl',
+  // The Statement blocks' text (24–50px, regular weight).
   statement: 'text-statement font-normal',
 }
 
@@ -49,9 +50,10 @@ const SECTION_BG: Record<Tone, string> = { none: '', light: 'bg-muted', ...BAND_
 // The List piece's "Text size": the block's Body style, or one of these.
 type ListTextSize = 'inherit' | 'body' | 'large' | 'h5' | 'h4'
 const LIST_TEXT: Record<Exclude<ListTextSize, 'inherit'>, string> = {
-  body: 'text-body-lg font-medium md:font-normal',
+  body: 'text-body-lg',
   large: 'text-body-xl',
-  h5: 'text-h5 font-medium',
+  // Old content saved before H5 was folded into Large body.
+  h5: 'text-body-xl',
   h4: 'text-h4 font-medium',
 }
 
@@ -186,7 +188,7 @@ export function StickySplitBlock({
                   </CardTitle>
                   {card.body && (
                     <p
-                      className={`text-body-lg font-medium whitespace-pre-line text-pretty md:font-normal ${cardTone === 'dark' ? 'text-background/80' : 'text-muted-foreground'}`}
+                      className={`text-body-lg whitespace-pre-line text-pretty ${cardTone === 'dark' ? 'text-background/80' : 'text-muted-foreground'}`}
                     >
                       {card.body}
                     </p>

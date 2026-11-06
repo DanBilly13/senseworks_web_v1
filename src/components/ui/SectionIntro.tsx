@@ -232,7 +232,7 @@ export function SectionIntro({
             // Medium weight on mobile only (Dan's asking to try it) —
             // reverts to normal at desktop. h1/h2's subtitle treatment
             // is already font-medium unconditionally, unaffected.
-            bodyStyleClassName ?? (isSubtitle ? 'text-h5 font-medium' : 'text-body-lg font-medium md:font-normal'),
+            bodyStyleClassName ?? (isSubtitle ? 'text-body-xl' : 'text-body-lg'),
             isSubtitle ? (subtitleColor ?? headingColor) : bodyColor,
             // Subtitle width is its own fixed rule (85% of the row,
             // desktop only — mobile has no spare width to give up),
