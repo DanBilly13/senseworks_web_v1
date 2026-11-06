@@ -34,7 +34,7 @@ export function TestimonialCarouselBlock({
           <div
             key={index}
             ref={index === 0 ? firstCardRef : undefined}
-            className="flex w-80 shrink-0 snap-start flex-col gap-small-medium rounded-lg border border-border bg-background p-medium-large"
+            className="flex w-80 shrink-0 snap-start flex-col gap-small-medium rounded-lg border border-border bg-background px-medium py-medium-large md:px-medium-large"
           >
             <Media
               media={item.media}
@@ -60,7 +60,7 @@ export function TestimonialCarouselBlock({
           only when there's something to scroll. Same as Case Study
           Carousel. */}
       {canScroll && (
-        <div className="mx-auto mt-medium-large flex w-full max-w-page justify-end px-large md:px-gutter">
+        <div className="mx-auto mt-medium-large flex w-full max-w-page justify-end px-edge md:px-gutter">
           <CarouselNav label="testimonials" atStart={atStart} atEnd={atEnd} onStep={scrollByCard} />
         </div>
       )}

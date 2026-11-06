@@ -52,7 +52,7 @@ export function ImageGridBlock({
   return (
     <BandFill tone={tone} {...band}>
       <SectionShell {...bandShellPadding({ tone, ...band })}>
-        <div className={`grid grid-cols-1 gap-x-large gap-y-2xl sm:grid-cols-2 ${LG_COLS_CLASS[columns]}`}>
+        <div className={`grid grid-cols-1 gap-x-large gap-y-stack sm:grid-cols-2 ${LG_COLS_CLASS[columns]}`}>
           {items.map((item, index) => (
             <div key={index} className="flex flex-col gap-medium-large">
               <Media media={item.media} alt={item.title} className="aspect-media w-full overflow-hidden rounded-lg" />

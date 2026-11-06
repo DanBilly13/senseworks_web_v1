@@ -47,7 +47,7 @@ export function FiftyFiftyBannerBlock({
         <div className="grid grid-cols-1 md:h-full md:grid-cols-2">
           <div
             className={[
-              'flex flex-col justify-center gap-medium p-medium-large md:p-2xl',
+              'flex flex-col justify-center gap-medium px-medium py-medium-large md:p-2xl',
               imageFirst ? 'md:order-2' : '',
             ].join(' ')}
           >

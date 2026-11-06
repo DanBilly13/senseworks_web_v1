@@ -25,7 +25,7 @@ export function ReleaseCard({ release, locale }: { release: Release; locale: Rel
     // share row heights: the text row is as tall as the longest text in
     // that line, and every image and stage bar lines up across it.
     <div className="row-span-3 grid grid-rows-subgrid gap-y-0 rounded-lg border border-border">
-      <div className="flex flex-col gap-medium-large p-medium-large pb-0 md:p-large md:pb-0">
+      <div className="flex flex-col gap-medium-large px-medium pt-medium-large pb-0 md:p-large md:pb-0">
         {(tag || release.ai || release.team?.length) && (
           <div className="flex items-center justify-between gap-medium">
             <div className="flex flex-wrap items-center gap-xs">
@@ -59,7 +59,7 @@ export function ReleaseCard({ release, locale }: { release: Release; locale: Rel
       </div>
       {/* The image row (empty without one, still holding the card's
           bottom padding so the footer lines up with its neighbours'). */}
-      <div className="px-medium-large pt-medium-large pb-medium-large md:px-large md:pb-large">
+      <div className="px-medium pt-medium-large pb-medium-large md:px-large md:pb-large">
         {hasMedia(release.media) && (
           // Resting the mouse on the image shows it larger (ui/HoverPreview).
           <HoverPreview preview={<Media media={release.media} alt="" className="size-full" sizes="56rem" />}>
@@ -67,7 +67,7 @@ export function ReleaseCard({ release, locale }: { release: Release; locale: Rel
           </HoverPreview>
         )}
       </div>
-      <div className="flex flex-col gap-medium border-t border-border p-medium-large md:px-large md:py-medium-large">
+      <div className="flex flex-col gap-medium border-t border-border px-medium py-medium-large md:px-large md:py-medium-large">
         <div className="flex flex-col gap-small">
           <span className="flex items-center gap-small text-body-sm font-medium text-foreground">
             {shipped && <CheckCircleFilled aria-hidden="true" />}

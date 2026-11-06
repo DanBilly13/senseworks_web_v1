@@ -44,7 +44,7 @@ export function FeatureSplitBlock({
   // SectionShell's own px="default", hand-rolled here since this
   // block's mirrored row can't route through SectionShell itself.
   const rowClassName = [
-    'mx-auto flex w-full max-w-page flex-col gap-large px-large md:items-center md:gap-2xl md:px-gutter',
+    'mx-auto flex w-full max-w-page flex-col gap-large px-edge md:items-center md:gap-2xl md:px-gutter',
     imagePosition === 'right' ? 'md:flex-row-reverse' : 'md:flex-row',
   ].join(' ')
 

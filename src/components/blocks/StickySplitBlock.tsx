@@ -236,7 +236,7 @@ export function StickySplitBlock({
             <Media media={media} alt={media?.alt ?? ''} className="aspect-square w-full rounded-xl" sizes="(min-width: 768px) 50vw, 100vw" />
           </div>
         </div>
-        <div className="sticky-split-text flex flex-col gap-2xl">{items.map(piece)}</div>
+        <div className="sticky-split-text flex flex-col gap-stack">{items.map(piece)}</div>
       </div>
     </SectionShell>
   )

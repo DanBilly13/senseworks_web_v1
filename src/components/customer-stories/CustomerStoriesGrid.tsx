@@ -43,7 +43,7 @@ export function CustomerStoriesGrid({ stories, locale }: { stories: CustomerStor
   }, [stories, selected, sort, locale])
 
   return (
-    <div className="flex flex-col gap-2xl">
+    <div className="flex flex-col gap-stack">
       <div className="flex flex-wrap items-center justify-between gap-medium">
         {products.length > 1 && (
           <div className="flex flex-wrap gap-small" role="group" aria-label="Filter by product">

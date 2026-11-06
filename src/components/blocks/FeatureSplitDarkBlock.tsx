@@ -37,7 +37,7 @@ export function FeatureSplitDarkBlock({
   // below, the panel's own padding lands its text on the site-wide
   // 32px-from-edge line. Desktop's p-2xl is unchanged.
   const panelClassName = [
-    'flex w-full flex-col gap-large rounded-lg bg-foreground p-medium-large md:items-center md:gap-2xl md:p-2xl',
+    'flex w-full flex-col gap-large rounded-lg bg-foreground px-medium py-medium-large md:items-center md:gap-2xl md:p-2xl',
     imagePosition === 'right' ? 'md:flex-row' : 'md:flex-row-reverse',
   ].join(' ')
 

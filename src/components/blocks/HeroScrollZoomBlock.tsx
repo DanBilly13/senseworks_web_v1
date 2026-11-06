@@ -75,7 +75,7 @@ export function HeroScrollZoomBlock({
             inside the same frame, so the media covers all of it at
             full size. */}
         <div
-          className="absolute inset-0 mx-auto flex w-full max-w-page items-center justify-center px-large md:px-gutter"
+          className="absolute inset-0 mx-auto flex w-full max-w-page items-center justify-center px-edge md:px-gutter"
           style={{ paddingBlock: 'var(--header-height, 0px)' }}
         >
           <div className="hero-scroll-zoom-frame relative">

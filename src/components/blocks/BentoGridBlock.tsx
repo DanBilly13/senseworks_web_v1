@@ -77,7 +77,7 @@ export function BentoGridBlock({
           return (
             <div
               key={index}
-              className={`relative flex flex-col rounded-lg border ${CARD_BORDER_CLASS[tone]} p-medium-large md:p-large ${cardSpanClass} ${spansTwoRows ? 'md:row-span-2' : ''}`}
+              className={`relative flex flex-col rounded-lg border ${CARD_BORDER_CLASS[tone]} px-medium py-medium-large md:p-large ${cardSpanClass} ${spansTwoRows ? 'md:row-span-2' : ''}`}
             >
               {expandable && (
                 <button

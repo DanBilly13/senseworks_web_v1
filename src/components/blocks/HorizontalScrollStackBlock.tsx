@@ -101,7 +101,7 @@ const SECTION_GAP_MB_CLASS: Record<SpacingValue, string> = {
 // yet — one more thing to settle once the motion itself feels right).
 // Media sits between the heading and the body (Full Width Single's
 // "afterHeading" layout) — heading-to-media keeps this container's own
-// gap-2xl (64px); media-to-body is narrower (32px, half that), so the
+// gap-stack (64px); media-to-body is narrower (32px, half that), so the
 // body pulls itself up by the difference (64 − 32) via a negative
 // marginTop rather than the gap simply being smaller for that one pair.
 function PanelContent({ panel, mobileImageStyle }: { panel: ScrollStackPanelData; mobileImageStyle?: CSSProperties }) {
@@ -111,7 +111,7 @@ function PanelContent({ panel, mobileImageStyle }: { panel: ScrollStackPanelData
     // of its own to make up the difference, unlike Dark Banner's boxed
     // 8px+24px split), but 64px on the bottom specifically. Desktop
     // unchanged at a flat p-2xl (64px all sides).
-    <div className="flex h-full flex-col justify-center gap-2xl bg-foreground px-large pt-large pb-2xl text-background md:p-2xl">
+    <div className="flex h-full flex-col justify-center gap-stack bg-foreground px-edge pt-large pb-2xl text-background md:p-2xl">
       <SectionIntro
         as="h2"
         eyebrow={panel.eyebrow && renderNumberedEyebrow(panel.eyebrow, true, true)}
@@ -124,7 +124,7 @@ function PanelContent({ panel, mobileImageStyle }: { panel: ScrollStackPanelData
         // marginTop on this wrapper, not PanelImage's own imageStyle
         // (that targets the <Image> itself, which is absolutely
         // positioned via `fill` — shifting IT doesn't move the box in
-        // the flex layout). 0 on desktop (the panel's own gap-2xl,
+        // the flex layout). 0 on desktop (the panel's own gap-stack,
         // 64px, is untouched); pulls up to a 32px visible gap on
         // mobile instead (see --gap-scroll-stack-heading-to-media).
         <div style={{ marginTop: 'var(--gap-scroll-stack-heading-to-media)' }}>

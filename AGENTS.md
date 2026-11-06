@@ -40,15 +40,17 @@ repo): `solution-spec.md`, `decision-log.md`, `risk-register.md`,
   wide/ultrawide monitors, and uncapped content sprawls absurdly
   thin/far apart otherwise. A page-width row's desktop side padding is
   `md:px-gutter` (the `--page-gutter` variable: 24px tablet, 40px from
-  1024, 52px from 1280), never a fixed `md:px-medium-large`; mobile
-  keeps each block's own edge padding. Body text specifically caps
+  1024, 52px from 1280), never a fixed `md:px-medium-large`. On phones
+  every block's text sits `px-edge` (24px, `--spacing-edge`) from the
+  screen edge; a boxed card is `px-small` outside plus `px-medium`
+  inside, landing on the same 24px line. Body text specifically caps
   narrower still, at `max-w-prose-sm/md/lg` (576–768px), for
   readability — and any percentage text width (80%/60%/85%) also needs
   a rem cap, or it runs on to unreadable line lengths in the 1816 row.
   Every new block needs its structural wrapper capped at `max-w-page`,
   with any prose text inside further capped — don't leave a block's
   content width fully uncapped.
-- **Intro-text-to-content gap = `gap-2xl`/`mt-2xl` (64px)**: every
+- **Intro-text-to-content gap = `gap-stack`/`mt-stack` (64px desktop, 48px on phones — `--spacing-stack`)**: every
   block that stacks an intro text cluster (eyebrow/heading/body/CTA)
   above a content area (image, grid, cards, a carousel) uses exactly
   64px between them — Hero, Feature Grid, Testimonial Carousel, Stats
@@ -56,7 +58,7 @@ repo): `solution-spec.md`, `decision-log.md`, `risk-register.md`,
   itself, elements are `gap-medium` (16px) apart. When the content
   area can't be a flex/grid sibling of the text cluster (e.g. a
   full-bleed carousel scroller that must sit outside the `max-w-page`
-  wrapper), use `mt-2xl` on it directly instead of a parent `gap`.
+  wrapper), use `mt-stack` on it directly instead of a parent `gap`.
   Don't reach for `mt-medium-large` or other one-off values here — it
   reads as visually inconsistent between blocks stacked on the same
   page (caught by Dan comparing Pricing Cards to the Testimonial

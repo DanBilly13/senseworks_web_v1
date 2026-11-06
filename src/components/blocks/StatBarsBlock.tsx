@@ -80,7 +80,7 @@ export function StatBarsBlock({ style = 'bars', items = [], source, tone = 'none
   return (
     <BandFill tone={tone} {...band}>
       <SectionShell {...bandShellPadding({ tone, ...band })}>
-        <div ref={ref} data-shown={shown} data-style={style} className="stat-bars flex flex-col gap-small md:gap-x-large">
+        <div ref={ref} data-shown={shown} data-style={style} className="stat-bars flex flex-col gap-y-large md:gap-x-large md:gap-y-small">
           {stats.map((item, index) => {
             const share = shareOf(item)
             const delay = { '--stat-delay': `${index * 150}ms`, '--stat-share': `${share}%` } as CSSProperties
@@ -89,7 +89,7 @@ export function StatBarsBlock({ style = 'bars', items = [], source, tone = 'none
             const content = (color: string, clip?: boolean) => (
               <div
                 aria-hidden={clip || undefined}
-                className={`stat-row relative col-start-1 row-start-1 flex flex-col items-start gap-y-xs px-medium-large py-medium md:items-center md:gap-x-large ${clip ? 'stat-clip' : ''}`}
+                className={`stat-row relative col-start-1 row-start-1 flex-col items-start gap-y-xs pb-large md:items-center md:gap-x-large md:px-medium-large md:py-medium ${clip ? 'stat-clip hidden md:flex' : 'flex'}`}
               >
                 <span className={`font-heading text-stat-sm whitespace-nowrap tabular-nums ${color}`}>{item.value}</span>
                 {item.label && <span className={`max-w-prose-xs text-body-lg ${color}`}>{item.label}</span>}
@@ -121,8 +121,15 @@ export function StatBarsBlock({ style = 'bars', items = [], source, tone = 'none
               )
             }
             return (
-              <div key={index} style={delay} className={`stat-row relative grid overflow-hidden ${c.track}`}>
-                <div aria-hidden="true" className={`stat-fill absolute inset-y-0 left-0 ${c.fill}`} />
+              // Phones: the number and label above a thin bar, so no text
+              // sits half on the fill. From tablet: a full-height bar
+              // behind the text, which changes colour at the fill's edge.
+              <div key={index} style={delay} className="stat-row relative grid">
+                <div aria-hidden="true" className={`absolute inset-x-0 bottom-0 h-small rounded-full md:inset-y-0 md:h-auto md:rounded-none ${c.track}`} />
+                <div
+                  aria-hidden="true"
+                  className={`stat-fill absolute bottom-0 left-0 h-small rounded-full md:inset-y-0 md:h-auto md:rounded-none ${c.fill}`}
+                />
                 {content(c.onTrack)}
                 {content(c.onFill, true)}
               </div>

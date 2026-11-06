@@ -103,13 +103,13 @@ export function DarkBannerBlock({
           always had. Each column only pads its OWN outer edges: the
           boundary between them (left column's right side / right
           column's left side on desktop, or the row gap on mobile) gets
-          none, since gap-xl/gap-2xl already spaces that. */}
+          none, since gap-xl/gap-stack already spaces that. */}
       <div
         className={`grid grid-cols-1 gap-xl overflow-hidden rounded-lg ${PANEL_BG_CLASS[tone]} md:grid-cols-2 md:items-stretch md:gap-2xl`}
       >
         {/* Right padding wider than left on mobile — the intro text
             otherwise runs too close to the card's edge. */}
-        <div className="relative pt-large pl-medium-large pr-xl md:p-2xl md:pr-0">
+        <div className="relative pt-large pl-medium pr-xl md:p-2xl md:pr-0">
           {hasImage(leftImage) && (
             <Image
               src={urlFor(leftImage).url()}
@@ -130,7 +130,7 @@ export function DarkBannerBlock({
             />
           </div>
         </div>
-        <div className="flex flex-col gap-xl pb-large px-medium-large md:p-2xl md:pl-0">
+        <div className="flex flex-col gap-xl pb-large px-medium md:p-2xl md:pl-0">
           {items.map((item, index) => (
             <div key={index} className="flex flex-col gap-small-medium">
               {showIcons &&

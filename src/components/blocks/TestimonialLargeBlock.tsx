@@ -36,7 +36,7 @@ export function TestimonialLargeBlock({
           --color-surface), so the card's edge was disappearing into
           the page behind it. The dark one stands off the page on its own. */}
       <div
-        className={`flex flex-col gap-2xl rounded-lg p-medium-large md:p-2xl ${
+        className={`flex flex-col gap-stack rounded-lg px-medium py-medium-large md:p-2xl ${
           dark ? 'bg-accent-gradient-dark' : 'bg-accent-gradient border border-border'
         }`}
       >

@@ -107,7 +107,7 @@ export function FeatureGridBlock({
   return (
     <BandFill tone={tone} width={width} {...band}>
       <SectionShell {...bandShellPadding({ tone, ...band })}>
-        <div className={`grid grid-cols-1 gap-2xl sm:grid-cols-2 ${LG_COLS_CLASS[columns]}`}>
+        <div className={`grid grid-cols-1 gap-stack sm:grid-cols-2 ${LG_COLS_CLASS[columns]}`}>
           {items.map((item, index) => (
             <div key={index} className="flex flex-col gap-small-medium">
               {/* No chip background/radius — just the icon itself. Both

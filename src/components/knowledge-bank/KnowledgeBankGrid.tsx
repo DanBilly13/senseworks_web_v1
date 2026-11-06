@@ -39,7 +39,7 @@ export function KnowledgeBankGrid({ articles, tags, locale }: KnowledgeBankGridP
   }, [articles, selectedTags, sort])
 
   return (
-    <div className="flex flex-col gap-2xl">
+    <div className="flex flex-col gap-stack">
       <div className="flex flex-wrap items-center justify-between gap-medium">
         {!!tags.length && (
           <div className="flex flex-wrap gap-small" role="group" aria-label="Filter by tag">

@@ -91,7 +91,7 @@ export function ReleaseTimelineBlock({
   )
 
   return (
-    <SectionShell px="boxed" py={spacing} className="flex flex-col gap-2xl">
+    <SectionShell px="boxed" py={spacing} className="flex flex-col gap-stack">
       {tags.length + (hasAi ? 1 : 0) > 1 && (
         <div role="group" aria-label={LABELS.filter[locale]} className="flex flex-wrap gap-small">
           <Tag as="button" active={filter === 'all'} onClick={() => setFilter('all')}>

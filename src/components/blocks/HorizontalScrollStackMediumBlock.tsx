@@ -169,7 +169,7 @@ export function HorizontalScrollStackMediumBlock({
   const gradient = tone === 'accentDark'
 
   const title = (eyebrow || headline) && (
-    <div className="mx-auto w-full max-w-page px-large md:px-gutter">
+    <div className="mx-auto w-full max-w-page px-edge md:px-gutter">
       <SectionIntro
         as={headlineSize}
         eyebrow={eyebrow}
@@ -218,10 +218,10 @@ export function HorizontalScrollStackMediumBlock({
     <div className={SECTION_GAP_MB_CLASS[spacing]}>
       {/* Mobile: title, then the slides one under the other. */}
       <div
-        className={`flex flex-col gap-2xl py-section-edge md:hidden ${gradient ? 'bg-accent-gradient-dark text-background' : dark ? 'bg-foreground text-background' : ''}`}
+        className={`flex flex-col gap-stack py-section-edge md:hidden ${gradient ? 'bg-accent-gradient-dark text-background' : dark ? 'bg-foreground text-background' : ''}`}
       >
         {title}
-        <div className="mx-auto flex w-full max-w-page flex-col gap-2xl px-large">
+        <div className="mx-auto flex w-full max-w-page flex-col gap-stack px-edge">
           {slides.map((slide, i) => (
             <div key={i} className="flex flex-col gap-medium">
               {renderSlide(slide)}
@@ -238,7 +238,7 @@ export function HorizontalScrollStackMediumBlock({
       >
         <div
           ref={stageRef}
-          className={`sticky top-0 flex h-screen flex-col justify-center gap-2xl overflow-hidden ${gradient ? 'bg-accent-gradient-dark' : ''}`}
+          className={`sticky top-0 flex h-screen flex-col justify-center gap-stack overflow-hidden ${gradient ? 'bg-accent-gradient-dark' : ''}`}
         >
           {title}
           <motion.div

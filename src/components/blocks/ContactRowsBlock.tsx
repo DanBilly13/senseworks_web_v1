@@ -18,7 +18,7 @@ export function ContactRowsBlock({ eyebrow, rows, spacing }: ContactRowsBlockPro
   return (
     <SectionShell py={spacing}>
       {eyebrow && <p className="mb-xl text-caption font-bold tracking-wider text-muted-foreground uppercase">{eyebrow}</p>}
-      <div className="flex flex-col gap-2xl">
+      <div className="flex flex-col gap-stack">
         {rows.map((row, i) => (
           <div
             key={row._key ?? i}

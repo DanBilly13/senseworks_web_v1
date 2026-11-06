@@ -40,6 +40,13 @@
   --spacing-xl: 48px;
   --spacing-2xl: 64px;
   --spacing-3xl: 96px;
+  /* The phone page margin: every block's text sits this far from the
+     screen edge below md (a boxed card is 8px in plus 16px of its own
+     padding, landing on the same line). From md, rows use px-gutter. */
+  --spacing-edge: 24px;
+  /* The gap between a block's intro text and its content (and between
+     stacked pieces): 64px, 48px on phones (set below). */
+  --spacing-stack: 64px;
   /* Body Columns' wide gutter between columns (the reference's): 60px,
      growing with the screen to 120px. */
   --spacing-editorial: clamp(60px, 6vw, 120px);
@@ -464,18 +471,27 @@
     /* 94px, but never more than 15% of the screen width (56px on a
        375px phone) — so a display headline's longer words stay whole
        instead of breaking across lines. */
-    --text-display: min(5.875rem, 15vw);
-    --text-h1: 2.375rem;
-    --text-h2: 2.5rem;
-    --text-h3: 2rem;
-    --text-h4: 1.75rem;
-    --text-h5: 1.375rem;
+    /* 56px, but never more than 14% of the screen width (56px on a
+       402px iPhone 17, 52px on a 375px phone). */
+    --text-display: min(3.5rem, 14vw);
+    /* About 1.18x per step, so the levels still read apart without any
+       section heading shouting at hero size. */
+    --text-h1: 2.75rem;
+    --text-h2: 2.25rem;
+    --text-h3: 1.875rem;
+    --text-h4: 1.5625rem;
+    --text-h5: 1.3125rem;
+    --text-statement: 1.375rem;
     --text-stat: 3rem;
     --text-stat-sm: 2.5rem;
 
+    /* Intro-to-content gap and stacked pieces: 48px rather than 64. */
+    --spacing-stack: var(--spacing-xl);
+
     /* Same ~50% compression as before across all three tiers, snapped
-       to existing named tokens rather than new one-off px values. */
-    --spacing-section-gap-loose: var(--spacing-3xl);
+       to existing named tokens rather than new one-off px values.
+       Loose is 80px (between 3xl and 2xl). */
+    --spacing-section-gap-loose: 5rem;
     --spacing-section-gap-medium: var(--spacing-2xl);
     --spacing-section-gap-tight: var(--spacing-large);
     --spacing-section-edge: var(--spacing-2xl);
@@ -679,24 +695,24 @@ p {
    Feature Split block. On desktop that image takes whatever's left of
    the page-width row after the 24px side padding, the 64px gap and the
    text column (--container-prose-xs) — 868px at 1440 and wider. On
-   mobile it's the full row between the 32px side paddings, less 16px
+   mobile it's the full row between the 24px side paddings, less 16px
    so the next slide peeks in. The
    scroller's left edge lines up with the page content the same way
-   .carousel-inset does, but with the 32px mobile gutter, since a slide
+   .carousel-inset does, but with the 24px mobile margin, since a slide
    has no card padding of its own. */
 .media-carousel-inset {
   padding-inline-start: calc(
-    max((100% - var(--container-page)) / 2, 0px) + var(--spacing-large)
+    max((100% - var(--container-page)) / 2, 0px) + var(--spacing-edge)
   );
   scroll-padding-inline-start: calc(
-    max((100% - var(--container-page)) / 2, 0px) + var(--spacing-large)
+    max((100% - var(--container-page)) / 2, 0px) + var(--spacing-edge)
   );
   /* Same space on the right, so scrolled all the way along, the last
      slide ends the same distance from the screen edge that the first
      one starts from (a lot, on a wide screen — the page content is
      centered at 1440px). */
   padding-inline-end: calc(
-    max((100% - var(--container-page)) / 2, 0px) + var(--spacing-large)
+    max((100% - var(--container-page)) / 2, 0px) + var(--spacing-edge)
   );
 }
 /* Horizontal Scroll Stack Medium (desktop only — mobile stacks): the
@@ -722,7 +738,7 @@ p {
 .media-carousel-slide {
   /* 16px narrower than the full row so the next slide peeks in at the
      right edge, which is what tells a visitor it scrolls. */
-  width: calc(100vw - 2 * var(--spacing-large) - var(--spacing-medium));
+  width: calc(100vw - 2 * var(--spacing-edge) - var(--spacing-medium));
 }
 @media (min-width: 768px) {
   .media-carousel-inset {
@@ -763,12 +779,12 @@ p {
     padding-inline-end: calc(max((100% - var(--container-page)) / 2, 0px) + var(--spacing-small));
     scroll-padding-inline-end: calc(max((100% - var(--container-page)) / 2, 0px) + var(--spacing-small));
   }
-  /* Case Study Grid, by Dan's choice: the card box itself on the 32px
+  /* Case Study Grid, by Dan's choice: the card box itself on the 24px
      heading line (as on desktop, where the box lines up with the
-     heading), not the boxed 8px — and 32px at the end, under the arrows. */
+     heading), not the boxed 8px — and 24px at the end, under the arrows. */
   .carousel-inset.carousel-inset-on-line {
-    padding-inline: var(--spacing-large);
-    scroll-padding-inline: var(--spacing-large);
+    padding-inline: var(--spacing-edge);
+    scroll-padding-inline: var(--spacing-edge);
   }
 }
 

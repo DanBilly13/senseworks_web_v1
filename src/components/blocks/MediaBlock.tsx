@@ -25,6 +25,10 @@ type MediaBlockProps = {
   // (the Hero image's) or a wide 3:1 strip. Mobile keeps its tall
   // full-bleed frame whichever.
   ratio?: '7:5' | '7:4' | '3:1'
+  // Content width, no text: 'fill' (default) is the tall full-bleed
+  // phone frame; 'frame' keeps the desktop ratio inside the page
+  // margins on phones, so a wide screen recording isn't cropped.
+  mobileFit?: 'fill' | 'frame'
   // The gap below the block, before the next one.
   spacing?: 'loose' | 'medium' | 'tight' | 'none'
   // Content width only: a full screen width background behind the
@@ -48,6 +52,12 @@ const RATIO_CLASS: Record<NonNullable<MediaBlockProps['ratio']>, string> = {
   '7:4': 'md:aspect-hero',
   '3:1': 'md:aspect-banner',
 }
+// The same shapes at every size, for "Whole frame" on phones.
+const MOBILE_RATIO_CLASS: Record<NonNullable<MediaBlockProps['ratio']>, string> = {
+  '7:5': 'aspect-media',
+  '7:4': 'aspect-hero',
+  '3:1': 'aspect-banner',
+}
 
 function MediaBlockContent({
   media,
@@ -59,6 +69,7 @@ function MediaBlockContent({
   align = 'left',
   width = 'content',
   ratio = '7:5',
+  mobileFit = 'fill',
   spacing = 'loose',
   tone = 'none',
   paddingTop,
@@ -96,7 +107,7 @@ function MediaBlockContent({
             // Text lines up with the page content, not the screen edge.
             <div
               className={[
-                'relative mx-auto flex size-full max-w-page flex-col justify-center px-large md:px-gutter',
+                'relative mx-auto flex size-full max-w-page flex-col justify-center px-edge md:px-gutter',
                 align === 'center' ? 'items-center' : 'items-start',
               ].join(' ')}
             >
@@ -132,7 +143,7 @@ function MediaBlockContent({
   //
   // Full-bleed and a true 75vh on mobile (not an aspect-ratio — see
   // --height-media-mobile), contained and aspect-media from md: up —
-  // same "-mx-large cancels SectionShell's own mobile px-large" trick
+  // same "-mx-edge cancels SectionShell's own mobile px-edge" trick
   // as the overlay branch below. No explicit width utility: a plain
   // block's width:auto already expands to fill (or, with the negative
   // margin, overflow) its container — adding w-full would fight the
@@ -144,7 +155,11 @@ function MediaBlockContent({
           <Media
             media={media}
             alt={media?.alt ?? ''}
-            className={`-mx-large h-media-mobile rounded-none md:mx-0 ${RATIO_CLASS[ratio]} md:h-auto md:w-full md:rounded-xl`}
+            className={
+              mobileFit === 'frame'
+                ? `w-full rounded-xl ${MOBILE_RATIO_CLASS[ratio]}`
+                : `-mx-edge h-media-mobile rounded-none md:mx-0 ${RATIO_CLASS[ratio]} md:h-auto md:w-full md:rounded-xl`
+            }
           />,
         )}
       </SectionShell>
@@ -165,8 +180,8 @@ function MediaBlockContent({
 
           Full-bleed and a true 75vh on mobile (not an aspect-ratio —
           see --height-media-mobile), contained and aspect-media from
-          md: up — same "-mx-large cancels SectionShell's own mobile
-          px-large" trick as the mobile Hero card (SectionShell's
+          md: up — same "-mx-edge cancels SectionShell's own mobile
+          px-edge" trick as the mobile Hero card (SectionShell's
           default mobile padding — see its own px="default" comment).
           No explicit width utility: a plain block's width:auto already
           expands to fill (or, with the negative margin below,
@@ -174,7 +189,7 @@ function MediaBlockContent({
           negative margin (both non-auto, over-constrained) instead of
           cooperating with it. */}
       {grow(
-        <div className={`relative -mx-large h-media-mobile overflow-hidden rounded-none md:mx-0 ${RATIO_CLASS[ratio]} md:h-auto md:rounded-xl`}>
+        <div className={`relative -mx-edge h-media-mobile overflow-hidden rounded-none md:mx-0 ${RATIO_CLASS[ratio]} md:h-auto md:rounded-xl`}>
           <div className="absolute inset-0">
             <Media media={media} alt={headline || media?.alt || ''} className="size-full" />
           </div>

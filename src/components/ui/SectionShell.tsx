@@ -58,11 +58,11 @@ const MAX_WIDTH_CLASS = {
 }
 
 const PX_CLASS = {
-  default: 'px-large md:px-gutter',
+  default: 'px-edge md:px-gutter',
   boxed: 'px-small md:px-gutter',
   full: 'md:px-gutter',
-  panel: 'px-large md:px-medium-large',
-  card: 'px-medium-large md:px-large',
+  panel: 'px-edge md:px-medium-large',
+  card: 'px-medium md:px-large',
 }
 
 // Exported so the couple of blocks that can't route through

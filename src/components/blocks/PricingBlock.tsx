@@ -55,7 +55,7 @@ export function PricingBlock({
               className={
                 featured
                   ? 'flex flex-col gap-medium-large rounded-lg bg-foreground p-medium-large text-background md:p-large'
-                  : 'flex flex-col gap-medium-large rounded-lg border border-border bg-background p-medium-large md:p-large'
+                  : 'flex flex-col gap-medium-large rounded-lg border border-border bg-background px-medium py-medium-large md:p-large'
               }
             >
               <div className="flex flex-col gap-small">

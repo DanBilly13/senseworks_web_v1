@@ -21,7 +21,7 @@ export function BlogIndex({ posts, locale }: { posts: BlogPostSummary[]; locale:
   const tags = (Object.keys(BLOG_TAGS) as BlogTag[]).filter((tag) => posts.some((post) => post.tag === tag))
 
   return (
-    <div className="flex flex-col gap-2xl">
+    <div className="flex flex-col gap-stack">
       {tags.length > 1 && (
         <div role="group" aria-label={BLOG_TEXT.filter[locale]} className="flex flex-wrap gap-small">
           <Tag as="button" active={filter === 'all'} onClick={() => setFilter('all')}>

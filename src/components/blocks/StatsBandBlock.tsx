@@ -33,7 +33,7 @@ type StatsBandBlockProps = {
 }
 
 const CONTENT_GAP_CLASS: Record<'standard' | SpacingValue, string> = {
-  standard: 'mt-2xl',
+  standard: 'mt-stack',
   loose: 'mt-section-gap-loose',
   medium: 'mt-section-gap-medium',
   tight: 'mt-section-gap-tight',

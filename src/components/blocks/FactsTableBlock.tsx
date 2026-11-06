@@ -57,7 +57,7 @@ export function FactsTableBlock({
             className={`grid md:row-span-2 md:grid-rows-subgrid ${i > 0 ? `border-t md:border-t-0 md:border-l ${line}` : ''}`}
           >
             <p
-              className={`border-b px-medium-large py-medium-large text-caption font-bold tracking-wider uppercase ${line} ${dark ? 'text-background/70' : 'text-muted-foreground'}`}
+              className={`border-b px-medium py-medium-large text-caption md:px-medium-large font-bold tracking-wider uppercase ${line} ${dark ? 'text-background/70' : 'text-muted-foreground'}`}
             >
               {item.eyebrow || ' '}
             </p>
@@ -66,7 +66,7 @@ export function FactsTableBlock({
               title={<span className="whitespace-pre-line">{item.title}</span>}
               description={item.body ? <span className="whitespace-pre-line">{item.body}</span> : undefined}
               tone={dark ? 'inverse' : 'default'}
-              className="px-medium-large py-large"
+              className="px-medium py-large md:px-medium-large"
             />
           </div>
         ))}

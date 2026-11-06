@@ -34,7 +34,7 @@ export function ParagraphsBlock({
 
   return (
     <SectionShell py={spacing}>
-      <div className={`grid grid-cols-1 gap-2xl sm:grid-cols-2 ${LG_COLS_CLASS[columns]}`}>
+      <div className={`grid grid-cols-1 gap-stack sm:grid-cols-2 ${LG_COLS_CLASS[columns]}`}>
         {items.map((item, index) => {
           if (item._type === 'emptyColumn') {
             return <div key={index} className="hidden lg:block" aria-hidden="true" />

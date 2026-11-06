@@ -146,7 +146,7 @@ function HeroSplitEven({
 }: HeroVariantProps) {
   return (
     <SectionShell py="section-edge" pad="both">
-      <div className="grid grid-cols-1 gap-2xl md:grid-cols-2 md:items-center">
+      <div className="grid grid-cols-1 gap-stack md:grid-cols-2 md:items-center">
         <SectionIntro
           as="h1"
           display={headlineSize === 'display'} typing={typingHeadline}
@@ -193,7 +193,7 @@ function HeroSplitHalf({
       {/* The background sits behind the text half only, so a gradient
           shows whole rather than half hidden under the image. */}
       <div
-        className={`hero-split-half-text flex flex-col justify-center px-large py-section-edge md:pr-2xl ${tone !== 'none' ? BAND_BG[tone] : ''}`}
+        className={`hero-split-half-text flex flex-col justify-center px-edge py-section-edge md:pl-large md:pr-2xl ${tone !== 'none' ? BAND_BG[tone] : ''}`}
       >
         <SectionIntro
           as="h1"
@@ -259,7 +259,7 @@ function HeroOverlap({
       className={`hero-overlap mb-section-edge w-full overflow-hidden py-section-edge ${tone !== 'none' ? BAND_BG[tone] : ''}`}
       style={{ '--hero-overlap': overlap } as React.CSSProperties}
     >
-      <div className="relative z-10 mx-auto w-full max-w-page px-large md:px-gutter">
+      <div className="relative z-10 mx-auto w-full max-w-page px-edge md:px-gutter">
         <SectionIntro
           as="h1"
           display={headlineSize === 'display'}
@@ -272,8 +272,8 @@ function HeroOverlap({
           typingCursorClassName={dark ? 'text-accent' : undefined}
         />
       </div>
-      <div className="hero-overlap-row mx-auto mt-2xl grid w-full max-w-page grid-cols-1 gap-2xl px-large md:grid-cols-2 md:gap-xl md:px-gutter xl:grid-cols-3">
-        <div className="hero-overlap-text flex flex-col items-start justify-between gap-2xl">
+      <div className="hero-overlap-row mx-auto mt-stack grid w-full max-w-page grid-cols-1 gap-stack px-edge md:grid-cols-2 md:gap-xl md:px-gutter xl:grid-cols-3">
+        <div className="hero-overlap-text flex flex-col items-start justify-between gap-stack">
           <div className="flex flex-col items-start gap-medium-large">
             {body && (
               <p className={`text-h3 font-bold text-pretty whitespace-pre-line ${dark ? 'text-background' : 'text-foreground'}`}>{body}</p>

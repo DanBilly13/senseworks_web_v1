@@ -175,7 +175,7 @@ export function CardGridBlock({
                     combine with, so this is the only thing standing
                     between the text and the true screen edge there. */}
                 <div
-                  className={`flex flex-1 flex-col pt-large ${merged ? 'px-large' : 'px-medium-large md:px-large'}`}
+                  className={`flex flex-1 flex-col pt-large ${merged ? 'px-edge md:px-large' : 'px-medium md:px-large'}`}
                   style={{ paddingBottom: withImage ? undefined : CARD_PADDING_BOTTOM_VAR[titleSize] }}
                 >
                   <SectionIntro

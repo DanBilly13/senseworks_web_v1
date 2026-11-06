@@ -238,13 +238,13 @@ export function FullWidthSingleBlock({
           own tone fill IS the section, same reasoning as CTA Banner/
           Dark Banner's own pad="both"), but unlike those, each edge is
           its own editor choice here. */}
-      <SectionShell pt={paddingTop} pb={paddingBottom} className="flex flex-col gap-2xl">
+      <SectionShell pt={paddingTop} pb={paddingBottom} className="flex flex-col gap-stack">
         {mediaPosition === 'afterHeading' ? (
           // Media sits right after the heading, body/cta move below it
-          // instead. Heading-to-media keeps the container's own gap-2xl
+          // instead. Heading-to-media keeps the container's own gap-stack
           // (64px) — same intro-text-to-content convention as every
           // other block. Media-to-body is narrower (32px, half that) —
-          // since the container's gap-2xl still applies between EVERY
+          // since the container's gap-stack still applies between EVERY
           // child, the body/cta cluster pulls itself up by the
           // difference (64 − 32) via a negative marginTop, rather than
           // the gap simply being smaller for this one pair.
