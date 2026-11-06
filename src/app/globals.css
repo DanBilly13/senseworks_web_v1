@@ -315,7 +315,7 @@
   --text-statement: clamp(26px, 17.55px + 1.69vw, 50px);
   --text-statement--line-height: 1.2;
   /* "Large body": 22px, 19px on phones (set below). The body ramp is
-     Body 16 (16 on phones) / Body large 18 (17) / Large body 22 (19) /
+     Body 16 (17 on phones) / Body large 18 (17) / Large body 22 (19) /
      Statement — headings (H1–H6) are only for headings. */
   --text-body-xl: 1.375rem;
   --text-body-xl--line-height: 1.4;
@@ -486,8 +486,8 @@
     --text-h4: 1.375rem;
     --text-h5: 1.25rem;
     --text-statement: 1.75rem;
-    /* Phone body ramp: Body 16, Body large 17, Large body 19. */
-    --text-body: 1rem;
+    /* Phone body ramp: Body and Body large 17, Large body 19. */
+    --text-body: 1.0625rem;
     --text-body-lg: 1.0625rem;
     --text-body-xl: 1.1875rem;
     /* Numbers: Stats Band 44, Stat Bars 34 (H2's size). */
