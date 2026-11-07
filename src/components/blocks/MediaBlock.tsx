@@ -53,6 +53,9 @@ type MediaBlockProps = {
   mobileKeyline?: 'inherit' | 'on' | 'off'
   mobileAlign?: 'inherit' | 'left' | 'center'
   mobileBackground?: 'inherit' | 'none'
+  // With a background: its Top/Bottom padding on phones.
+  mobilePaddingTop?: 'inherit' | BandSpacing
+  mobilePaddingBottom?: 'inherit' | BandSpacing
   mobileSpacing?: 'inherit' | BandSpacing
 }
 
@@ -100,6 +103,8 @@ function MediaBlockContent({
   mobileKeyline,
   mobileAlign,
   mobileBackground,
+  mobilePaddingTop,
+  mobilePaddingBottom,
   mobileSpacing,
 }: MediaBlockProps) {
   const hasOverlay = Boolean(eyebrow || headline || body || (ctaLabel && ctaHref))
@@ -149,7 +154,7 @@ function MediaBlockContent({
       </BandFill>
     ) : (
       <BandFill tone={tone} spacing={spacing} phoneSpacing={phoneSpacing}>
-        {shell(pads)}
+        {shell({ ...pads, phonePt: phoneOr(mobilePaddingTop, pads.pt), phonePb: phoneOr(mobilePaddingBottom, pads.pb) })}
       </BandFill>
     )
   }
