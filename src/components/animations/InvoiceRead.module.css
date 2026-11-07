@@ -68,7 +68,7 @@
   border-radius: 3.5px;
   border: 1px solid var(--ira-glass-edge);
   background: var(--ira-glass);
-  font-family: var(--font-sans);
+  font-family: var(--font-ui);
   font-size: 12.25px;
   line-height: 19.25px;
   white-space: nowrap;
@@ -161,7 +161,7 @@
   border-radius: 3.5px;
   border: 1px solid var(--ira-glass-edge);
   background: var(--ira-glass);
-  font-family: var(--font-sans);
+  font-family: var(--font-ui);
   color: var(--ira-ink);
 }
 .ptitle {

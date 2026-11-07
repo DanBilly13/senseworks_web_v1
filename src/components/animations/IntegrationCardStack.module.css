@@ -1,5 +1,5 @@
 /* IntegrationCardStack — fixed 700×500 canvas, literal px geometry.
-   No @font-face: text uses the site font via var(--font-sans). Colors map
+   No @font-face: text uses the site font via var(--font-ui). Colors map
    to real site tokens (globals.css) where one exists; the status green
    (#20cb7d family) has no site-token equivalent, so the design's own
    values are kept verbatim. */
@@ -31,7 +31,7 @@
   width: 700px;
   height: 500px;
   overflow: hidden;
-  font-family: var(--font-sans);
+  font-family: var(--font-ui);
   cursor: pointer;
 }
 

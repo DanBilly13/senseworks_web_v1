@@ -2,7 +2,7 @@ import { defineType, defineField, defineArrayMember } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
 import { spacingField } from '../fields/spacingField'
 import { bandFields } from '../fields/bandFields'
-import { bodyFontField, cardDesignField, cardLinkFields, cardMarkField, cardNumbersField, linkStyleField, NO_FILL_OPTION } from '../fields/editorialCardFields'
+import { cardDesignField, cardLinkFields, cardMarkField, cardNumbersField, linkStyleField, NO_FILL_OPTION } from '../fields/editorialCardFields'
 
 // A square image beside a column of text pieces, 50/50. On desktop the
 // image stays put while the text scrolls past it, until the text runs
@@ -201,7 +201,6 @@ export const stickySplitBlock = defineType({
             }),
             cardMarkField,
             cardNumbersField,
-            bodyFontField,
             linkStyleField,
             defineField({
               name: 'items',

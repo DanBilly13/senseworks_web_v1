@@ -66,9 +66,9 @@
   --isc-blue-dot: #2e8cbc;
   --isc-pin: #aeb3bd;
 
-  --isc-font: var(--font-sans);
+  --isc-font: var(--font-ui);
   /* numbers read as data; Roboto if the host already has it, else the UI face */
-  --isc-font-num: Roboto, var(--font-sans), sans-serif;
+  --isc-font-num: Roboto, var(--font-ui), sans-serif;
   /* doubled radii — derive from the real tokens, not a hardcoded 2x literal */
   --isc-rad-sm-2x: calc(var(--radius-sm) * 2);
   /* 16px, pinned: the site's own --radius-md went to 4px; this is the product UI's. */

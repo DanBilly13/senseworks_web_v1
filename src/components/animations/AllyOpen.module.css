@@ -15,7 +15,7 @@
   width: 800px;
   height: 800px;
   overflow: hidden;
-  font-family: var(--font-sans);
+  font-family: var(--font-ui);
 }
 .scene {
   position: absolute;

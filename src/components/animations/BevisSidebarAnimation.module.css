@@ -36,7 +36,7 @@
   width: 700px;
   height: 500px;
   overflow: hidden; /* this is what clips the panel and popover — intentional */
-  font-family: var(--font-sans);
+  font-family: var(--font-ui);
   color: var(--isc-ink);
   -webkit-font-smoothing: antialiased;
 }

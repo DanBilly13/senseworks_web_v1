@@ -21,7 +21,7 @@
   --uq-neutral: #e9e9eb;
   --uq-mono: 'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  font-family: var(--font-sans);
+  font-family: var(--font-ui);
   color: var(--uq-ink);
   display: flex;
   justify-content: center;

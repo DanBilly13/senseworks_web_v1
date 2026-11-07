@@ -50,23 +50,6 @@ export const cardNumbersField = defineField({
   hidden: editorial,
 })
 
-export const bodyFontField = defineField({
-  name: 'bodyFont',
-  title: 'Body font',
-  description: 'Editorial cards: Text is our usual body font (Inter). Display sets the body in our heading font (Aeonik) with tighter lines, so the card reads in one voice.',
-  type: 'string',
-  options: {
-    list: [
-      { title: 'Text', value: 'text' },
-      { title: 'Display', value: 'display' },
-    ],
-    layout: 'radio',
-    direction: 'horizontal',
-  },
-  initialValue: 'text',
-  hidden: editorial,
-})
-
 export const linkStyleField = defineField({
   name: 'linkStyle',
   title: 'Link style',

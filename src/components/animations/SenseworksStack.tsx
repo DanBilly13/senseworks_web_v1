@@ -230,7 +230,7 @@ export function SenseworksStackAnimation({ language = 'en', className }: Sensewo
       const g = geo.current;
       g.dpr = Math.min(2, window.devicePixelRatio || 1); g.W = r.width; g.H = r.height;
       cv.width = Math.round(g.W * g.dpr); cv.height = Math.round(g.H * g.dpr);
-      g.font = getComputedStyle(stage).getPropertyValue('--font-sans').trim() || 'sans-serif';
+      g.font = getComputedStyle(stage).getPropertyValue('--font-ui').trim() || 'sans-serif';
     };
     const ro = new ResizeObserver(resize);
     ro.observe(stage); resize();

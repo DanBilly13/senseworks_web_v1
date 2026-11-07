@@ -33,7 +33,7 @@
 
   position: relative;
   overflow: hidden;
-  font-family: var(--font-sans);
+  font-family: var(--font-ui);
   color: var(--isc-text);
   /* no background: the host frame shows its own gradient behind this */
 }

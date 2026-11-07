@@ -344,13 +344,15 @@
      statement is 26px on a phone up to 50px from 1920; the body 18px up
      to 22px. */
   --text-statement: clamp(26px, 17.55px + 1.69vw, 50px);
-  --text-statement--line-height: 1.2;
+  --text-statement--line-height: 1.15;
+  --text-statement--letter-spacing: -0.02em;
   /* "Large body": 22px, 19px on phones (set below). The body ramp is
      Body 16 (17 on phones) / Body large 18 (17) / Large body 22 (19) /
      Statement — headings (H1–H6) are only for headings. */
   /* "Large body" is now just Body (two body styles: Body and Small). */
   --text-body-xl: 1.125rem;
-  --text-body-xl--line-height: 1.5;
+  --text-body-xl--line-height: 1.4;
+  --text-body-xl--letter-spacing: -0.01em;
 
   /* Each heading's own rendered line-height in px, derived from its
      size × ratio above rather than hand-copied — stays correct
@@ -369,11 +371,15 @@
   /* Body: one size, 18px, 17px on phones (Body, Body large and Large
      body are the same style now). */
   --text-body-lg: 1.125rem;
-  --text-body-lg--line-height: 1.5;
+  --text-body-lg--line-height: 1.4;
+  --text-body-lg--letter-spacing: -0.01em;
   --text-body: 1.125rem;
-  --text-body--line-height: 1.5;
+  --text-body--line-height: 1.4;
+  --text-body--letter-spacing: -0.01em;
   --text-body-sm: 0.875rem;
+  --text-body-sm--letter-spacing: -0.01em;
   --text-caption: 0.875rem;
+  --text-caption--letter-spacing: -0.01em;
   /* Label (eyebrows): Aeonik bold caps, 13px, 12px on phones. */
   --text-eyebrow: 0.8125rem;
   --text-eyebrow--letter-spacing: -0.01em;
@@ -472,19 +478,18 @@
      the same --color-accent above. */
   --gradient-accent: linear-gradient(208deg, #fbfeac 38.9423%, #f2f2f3 62.0192%);
 
-  /* Body copy — Inter, self-hosted via next/font/google in layout.tsx,
-     exposed as --font-inter on <html>. Reference that variable, not a
-     literal "Inter" string — a literal name only matches a
-     system-installed font (almost never present) and silently falls
-     through to the generic fallbacks instead of the loaded font. That
-     was a real, unnoticed bug here until D18 fixed it. */
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  /* One typeface site wide (Nov 2026, Dan): Aeonik for body copy as
+     well as headings. --font-aeonik comes from next/font/local in
+     layout.tsx (Regular 400, Bold 500–700). */
+  --font-sans: var(--font-aeonik), ui-sans-serif, system-ui, sans-serif;
+  /* The product-screen animations only (components/animations): Inter,
+     like the app they show, so their mock screens keep their layout. */
+  --font-ui: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
   /* Headings only (D18) — Aeonik, the real licensed family (Dan
      supplied it), self-hosted via next/font/local in layout.tsx,
-     exposed as --font-aeonik. Applied via the h1–h6 rule below, not a
-     per-component className, so every heading in every block picks it
-     up automatically. Never use this for body copy. */
+     exposed as --font-aeonik. The same face as --font-sans now; kept as
+     its own name for the h1–h6 rule below. */
   --font-heading: var(--font-aeonik), var(--font-sans);
 
   /* Numbers only — Roboto Mono, loaded in layout.tsx as
@@ -697,10 +702,9 @@ p {
   }
 }
 
-/* Subheads are the body text, just bold: Inter, not the heading face —
-   Aeonik reads noticeably smaller at body size. Here, not as a
-   font-sans class, because the h1–h6 heading-face rule above is
-   unlayered and would win over a Tailwind utility. */
+/* Subheads are the body text, just bold. Here, not as a font-sans
+   class, because the h1–h6 heading-face rule above is unlayered and
+   would win over a Tailwind utility. */
 .story-body > h2 {
   font-family: var(--font-sans);
 }

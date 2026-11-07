@@ -15,8 +15,8 @@ import Link from 'next/link'
 export type EditorialSurface = 'none' | 'white' | 'dark' | 'accent'
 export type EditorialMark = 'none' | 'wave'
 export type EditorialLinkStyle = 'link' | 'button'
-// The body's font: Text (Inter) or Display (our heading face, Aeonik,
-// with tighter lines, as in the reference).
+// Kept for content saved with the old Body font choice (no longer used:
+// the whole site is one face now).
 export type EditorialBodyFont = 'text' | 'display'
 
 type Props = {
@@ -50,9 +50,9 @@ const SURFACE: Record<Exclude<EditorialSurface, 'none'>, string> = {
   accent: 'bg-accent text-foreground',
 }
 
-// Regular-weight caps read smaller than bold, so each size choice draws a
-// step up: H5 (the default) is drawn at H4 (22px phones, 28px desktop).
-const TITLE_SIZE: Record<'h4' | 'h5' | 'h6', string> = { h4: 'text-h3', h5: 'text-h4', h6: 'text-h5' }
+// Bold caps (the reference's card titles): H5, the default, is our
+// Subtitle (24px desktop, 21px phones); H4 a step up to Title.
+const TITLE_SIZE: Record<'h4' | 'h5' | 'h6', string> = { h4: 'text-h3', h5: 'text-h4', h6: 'text-h6' }
 
 const WAVE_MASK = {
   maskImage: 'url(/senseworks-brandmark-pos.svg)',
@@ -85,7 +85,6 @@ export function EditorialCard({
   titleAs: Title = 'h3',
   titleSize = 'h5',
   body,
-  bodyFont = 'text',
   action,
   surface = 'none',
   onDark,
@@ -115,16 +114,9 @@ export function EditorialCard({
           <Label number={number} label={label} />
           {mark === 'wave' && <span aria-hidden className="mt-xs h-3 w-10 shrink-0 bg-current" style={WAVE_MASK} />}
         </div>
-        <Title className={`mt-stack font-heading leading-caps font-normal tracking-tighter text-balance uppercase ${TITLE_SIZE[titleSize]}`}>{title}</Title>
-        {/* Full colour, at Large body size (19px phones, 22px from tablet):
-            the sentence carries the card, the title is its label. */}
-        {body && (
-          <p
-            className={`mt-medium-large text-body-xl whitespace-pre-line md:text-pretty ${bodyFont === 'display' ? 'font-heading leading-snug font-normal' : ''}`}
-          >
-            {body}
-          </p>
-        )}
+        <Title className={`mt-stack font-heading leading-caps font-bold text-balance uppercase ${TITLE_SIZE[titleSize]}`}>{title}</Title>
+        {/* Full colour Body, in the same face as the title. */}
+        {body && <p className="mt-medium-large text-body whitespace-pre-line md:text-pretty">{body}</p>}
         {action?.label && (
           <div className="mt-auto pt-large">
             {action.href ? (
