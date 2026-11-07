@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react'
 import { Button } from '@/components/ui/Button'
-import { SECTION_GAP_PB_CLASS, SectionShell } from '@/components/ui/SectionShell'
+import { MD_SECTION_GAP_PB_CLASS, SECTION_GAP_PB_CLASS, SectionShell } from '@/components/ui/SectionShell'
 import { SectionIntro } from '@/components/ui/SectionIntro'
 import { Media } from '@/components/ui/Media'
-import type { MediaField } from '@/lib/sanity/media'
+import { hasMedia, type MediaField } from '@/lib/sanity/media'
 import { BandFill, bandShellPadding, type BandTone, type BandSpacing } from '@/components/ui/BandFill'
 import { StickToBottom } from '@/components/ui/StickToBottom'
 import { KeepNavUntilCovered } from '@/components/ui/KeepNavUntilCovered'
@@ -43,8 +43,17 @@ type MediaBlockProps = {
   // (ui/ScrollGrow). Off, the frame isn't wrapped at all.
   growOnScroll?: boolean
   // Content width only: a 1px line in the foreground colour around the
-  // frame, from md (.media-keyline in globals.css).
+  // frame (.media-keyline-* in globals.css).
   keyline?: boolean
+  // The Mobile tab: phone versions of the settings above, 'inherit'
+  // (or unset) meaning the same as desktop. mobileFit is above.
+  mobileMedia?: MediaField
+  mobileRatio?: 'inherit' | '7:5' | '7:4' | '3:1' | '1:1' | '4:5'
+  mobileGrow?: 'inherit' | 'on' | 'off'
+  mobileKeyline?: 'inherit' | 'on' | 'off'
+  mobileAlign?: 'inherit' | 'left' | 'center'
+  mobileBackground?: 'inherit' | 'none'
+  mobileSpacing?: 'inherit' | BandSpacing
 }
 
 const RATIO_CLASS: Record<NonNullable<MediaBlockProps['ratio']>, string> = {
@@ -52,12 +61,21 @@ const RATIO_CLASS: Record<NonNullable<MediaBlockProps['ratio']>, string> = {
   '7:4': 'md:aspect-hero',
   '3:1': 'md:aspect-banner',
 }
-// The same shapes at every size, for "Whole frame" on phones.
-const MOBILE_RATIO_CLASS: Record<NonNullable<MediaBlockProps['ratio']>, string> = {
+// The phone shapes (Edge to edge / Inside margins), before md.
+const PHONE_RATIO_CLASS: Record<Exclude<NonNullable<MediaBlockProps['mobileRatio']>, 'inherit'>, string> = {
   '7:5': 'aspect-media',
   '7:4': 'aspect-hero',
   '3:1': 'aspect-banner',
+  '1:1': 'aspect-square',
+  '4:5': 'aspect-4/5',
 }
+// "Same as desktop" or the phone's own value.
+const phoneOr = <T,>(value: T | 'inherit' | undefined, desktop: T): T => (value === undefined || value === 'inherit' ? desktop : value)
+// Items alignment for the text over the media, phones and desktop.
+const itemsClass = (align: 'left' | 'center', phone: 'left' | 'center') =>
+  phone === align
+    ? align === 'center' ? 'items-center' : 'items-start'
+    : phone === 'center' ? 'items-center md:items-start' : 'items-start md:items-center'
 
 function MediaBlockContent({
   media,
@@ -76,39 +94,81 @@ function MediaBlockContent({
   paddingBottom,
   growOnScroll = false,
   keyline = false,
+  mobileMedia,
+  mobileRatio,
+  mobileGrow,
+  mobileKeyline,
+  mobileAlign,
+  mobileBackground,
+  mobileSpacing,
 }: MediaBlockProps) {
+  const hasOverlay = Boolean(eyebrow || headline || body || (ctaLabel && ctaHref))
+  // Phone values (the Mobile tab), each falling back to desktop's.
+  const phoneGrow = mobileGrow === 'on' ? true : mobileGrow === 'off' ? false : growOnScroll
+  const phoneKeyline = (mobileKeyline === 'on' ? true : mobileKeyline === 'off' ? false : keyline) && mobileFit === 'frame' && !hasOverlay
+  const phoneRatio = phoneOr(mobileRatio, ratio)
+  const phoneAlign = phoneOr(mobileAlign, align)
+  const phoneSpacing = phoneOr(mobileSpacing, spacing)
+  const phoneNoBg = mobileBackground === 'none' && tone !== 'none'
+  // The desktop media, or (with Phone media set) each on its own screen.
+  const media2 = hasMedia(mobileMedia) ? mobileMedia : undefined
+  const responsiveMedia = (alt: string, className: string) =>
+    media2 ? (
+      <>
+        <Media media={media2} alt={alt} className={`${className} md:hidden`} />
+        <Media media={media} alt={alt} className={`${className} max-md:hidden`} />
+      </>
+    ) : (
+      <Media media={media} alt={alt} className={className} />
+    )
   // The outline sits inside the grow wrapper, so it can undo the scale.
-  const outlined = (frame: ReactNode) => (keyline ? <div className="media-keyline relative">{frame}</div> : frame)
-  const grow = (frame: ReactNode) => (growOnScroll ? <ScrollGrow>{outlined(frame)}</ScrollGrow> : outlined(frame))
+  const outlined = (frame: ReactNode) =>
+    keyline || phoneKeyline ? (
+      <div className={`relative ${phoneKeyline ? 'media-keyline-phone' : ''} ${keyline ? 'media-keyline-desktop' : ''}`}>{frame}</div>
+    ) : (
+      frame
+    )
+  const grow = (frame: ReactNode) =>
+    growOnScroll || phoneGrow ? (
+      <ScrollGrow phone={phoneGrow} desktop={growOnScroll}>
+        {outlined(frame)}
+      </ScrollGrow>
+    ) : (
+      outlined(frame)
+    )
   // The background wraps the content-width layouts below; without one,
-  // they're as they always were.
-  const banded = (shell: (py: { pt?: BandSpacing; pb: BandSpacing }) => ReactNode) =>
-    tone === 'none' ? shell({ pb: spacing }) : (
-      <BandFill tone={tone} spacing={spacing}>
-        {shell(bandShellPadding({ tone, paddingTop, paddingBottom }))}
+  // they're as they always were. Phones can drop it (and its padding) or
+  // set their own gap after the block.
+  type Pads = { pt?: BandSpacing; pb: BandSpacing; phonePt?: BandSpacing; phonePb?: BandSpacing }
+  const banded = (shell: (py: Pads) => ReactNode) => {
+    if (tone === 'none') return shell({ pb: spacing, phonePb: phoneSpacing })
+    const pads = bandShellPadding({ tone, paddingTop, paddingBottom })
+    return phoneNoBg ? (
+      <BandFill tone={tone} spacing={spacing} phoneNoBg phoneSpacing="none">
+        {shell({ ...pads, phonePt: 'none', phonePb: phoneSpacing })}
+      </BandFill>
+    ) : (
+      <BandFill tone={tone} spacing={spacing} phoneSpacing={phoneSpacing}>
+        {shell(pads)}
       </BandFill>
     )
-  const hasOverlay = Boolean(eyebrow || headline || body || (ctaLabel && ctaHref))
+  }
 
   if (width === 'full') {
     // Same bottom gap as SectionShell, but no width cap or side padding
     // — the media is the full width of the screen.
     return (
-      <section className={SECTION_GAP_PB_CLASS[spacing]}>
+      <section className={phoneSpacing === spacing ? SECTION_GAP_PB_CLASS[spacing] : `${SECTION_GAP_PB_CLASS[phoneSpacing]} ${MD_SECTION_GAP_PB_CLASS[spacing]}`}>
         <div className="relative h-cta-banner-image w-full overflow-hidden">
           <div className="absolute inset-0">
-            <Media
-              media={media}
-              alt={hasOverlay ? headline || media?.alt || '' : media?.alt ?? ''}
-              className="size-full rounded-none"
-            />
+            {responsiveMedia(hasOverlay ? headline || media?.alt || '' : media?.alt ?? '', 'size-full rounded-none')}
           </div>
           {hasOverlay && (
             // Text lines up with the page content, not the screen edge.
             <div
               className={[
                 'relative mx-auto flex size-full max-w-page flex-col justify-center px-edge md:px-gutter',
-                align === 'center' ? 'items-center' : 'items-start',
+                itemsClass(align, phoneAlign),
               ].join(' ')}
             >
               <SectionIntro
@@ -117,6 +177,7 @@ function MediaBlockContent({
                 heading={headline}
                 body={body}
                 align={align}
+                phoneAlign={phoneAlign}
                 maxWidth="md"
                 tone="inverse"
                 cta={
@@ -150,26 +211,23 @@ function MediaBlockContent({
   // negative margin instead of cooperating with it.
   if (!hasOverlay) {
     return banded((py) => (
-      <SectionShell py={py.pb} pt={py.pt}>
+      <SectionShell py={py.pb} pt={py.pt} phonePb={py.phonePb} phonePt={py.phonePt}>
         {grow(
-          <Media
-            media={media}
-            alt={media?.alt ?? ''}
-            className={
-              mobileFit === 'frame'
-                ? `w-full rounded-xl ${MOBILE_RATIO_CLASS[ratio]}`
-                : mobileFit === 'edge'
-                  ? `-mx-edge rounded-none md:mx-0 md:w-full md:rounded-xl ${MOBILE_RATIO_CLASS[ratio]}`
-                  : `-mx-edge h-media-mobile rounded-none md:mx-0 ${RATIO_CLASS[ratio]} md:h-auto md:w-full md:rounded-xl`
-            }
-          />,
+          responsiveMedia(
+            media?.alt ?? '',
+            mobileFit === 'frame'
+              ? `w-full rounded-xl ${PHONE_RATIO_CLASS[phoneRatio]} ${RATIO_CLASS[ratio]}`
+              : mobileFit === 'edge'
+                ? `-mx-edge rounded-none md:mx-0 md:w-full md:rounded-xl ${PHONE_RATIO_CLASS[phoneRatio]} ${RATIO_CLASS[ratio]}`
+                : `-mx-edge h-media-mobile rounded-none md:mx-0 ${RATIO_CLASS[ratio]} md:h-auto md:w-full md:rounded-xl`,
+          ),
         )}
       </SectionShell>
     ))
   }
 
   return banded((py) => (
-    <SectionShell py={py.pb} pt={py.pt}>
+    <SectionShell py={py.pb} pt={py.pt} phonePb={py.phonePb} phonePt={py.phonePt}>
       {/* Same structure as Hero's "image overlay" layout: an absolute
           media layer, then the copy as a normal relative sibling on
           top (no scrim — Dan asked for the dark tint over the image
@@ -193,7 +251,7 @@ function MediaBlockContent({
       {grow(
         <div className={`relative -mx-edge h-media-mobile overflow-hidden rounded-none md:mx-0 ${RATIO_CLASS[ratio]} md:h-auto md:rounded-xl`}>
           <div className="absolute inset-0">
-            <Media media={media} alt={headline || media?.alt || ''} className="size-full" />
+            {responsiveMedia(headline || media?.alt || '', 'size-full')}
           </div>
           <div
             className={[
@@ -202,7 +260,7 @@ function MediaBlockContent({
               // the site-wide 32px-from-edge line), tripled to 96px on
               // desktop, as before.
               'relative flex size-full flex-col justify-center p-large md:p-3xl',
-              align === 'center' ? 'items-center' : 'items-start',
+              itemsClass(align, phoneAlign),
             ].join(' ')}
           >
             <SectionIntro
@@ -211,6 +269,7 @@ function MediaBlockContent({
               heading={headline}
               body={body}
               align={align}
+              phoneAlign={phoneAlign}
               maxWidth="md"
               tone="inverse"
               cta={

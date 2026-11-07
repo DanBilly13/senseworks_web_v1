@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { SECTION_GAP_MB_CLASS } from '@/components/ui/SectionShell'
+import { MD_SECTION_GAP_MB_CLASS, SECTION_GAP_MB_CLASS } from '@/components/ui/SectionShell'
 
 // A block's optional full screen width background (Section Headline,
 // Bento Grid, Card Grid, Feature Grid), and its padding. No automatic
@@ -38,6 +38,14 @@ export const BAND_BG: Record<Exclude<BandTone, 'none'>, string> = {
 }
 
 // SectionShell's pt/pb for the block's content.
+// The fills from tablet up only (a block with no background on phones).
+const MD_BAND_BG: Record<Exclude<BandTone, 'none'>, string> = {
+  dark: 'md:bg-foreground',
+  accent: 'md:bg-accent',
+  accentDark: 'md:bg-accent-gradient-dark',
+  accentGradient: 'md:bg-accent-gradient',
+}
+
 export function bandShellPadding({ tone = 'none', paddingTop, paddingBottom }: BandProps): { pt: BandSpacing; pb: BandSpacing } {
   const unset: BandSpacing = tone === 'none' ? 'none' : 'medium'
   return { pt: paddingTop ?? unset, pb: paddingBottom ?? unset }
@@ -106,7 +114,16 @@ export function BandFill({
   joinTop,
   joinBottom,
   children,
-}: BandProps & { width?: 'content' | 'full'; children: ReactNode }) {
+  phoneNoBg,
+  phoneSpacing,
+}: BandProps & {
+  width?: 'content' | 'full'
+  children: ReactNode
+  // Phones only (Media's Mobile tab): no fill, and/or a different gap.
+  phoneNoBg?: boolean
+  phoneSpacing?: BandSpacing
+}) {
+  const gap = phoneSpacing ? `${SECTION_GAP_MB_CLASS[phoneSpacing]} ${MD_SECTION_GAP_MB_CLASS[spacing]}` : SECTION_GAP_MB_CLASS[spacing]
   if (tone !== 'none' && width === 'content') {
     const corners = ['md:rounded-lg', joinTop ? 'md:rounded-t-none' : '', joinBottom ? 'md:rounded-b-none' : '']
       .filter(Boolean)
@@ -117,5 +134,5 @@ export function BandFill({
       </div>
     )
   }
-  return <div className={`${tone === 'none' ? '' : BAND_BG[tone]} ${SECTION_GAP_MB_CLASS[spacing]}`}>{children}</div>
+  return <div className={`${tone === 'none' ? '' : phoneNoBg ? MD_BAND_BG[tone] : BAND_BG[tone]} ${gap}`}>{children}</div>
 }

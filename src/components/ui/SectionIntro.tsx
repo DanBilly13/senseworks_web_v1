@@ -22,6 +22,8 @@ type SectionIntroProps = {
   body?: string
   cta?: ReactNode
   align?: 'left' | 'center'
+  // Phones only (Media's Mobile tab); unset follows align.
+  phoneAlign?: 'left' | 'center'
   maxWidth?: 'sm' | 'md' | 'lg' | 'none'
   // Overrides maxWidth for the heading only — e.g. a hero headline
   // that should run wider than its own subhead/CTA underneath it.
@@ -129,6 +131,13 @@ const MAX_WIDTH_CLASS: Record<WidthKey, string> = {
   none: '',
 }
 
+// The cluster's alignment, with an optional different one on phones.
+function alignClass(align: 'left' | 'center', phone?: 'left' | 'center') {
+  const p = phone ?? align
+  if (p === align) return align === 'center' ? 'items-center text-center' : ''
+  return p === 'center' ? 'items-center text-center md:items-start md:text-left' : 'md:items-center md:text-center'
+}
+
 export function SectionIntro({
   as: Heading,
   styleAs,
@@ -137,6 +146,7 @@ export function SectionIntro({
   body,
   cta,
   align = 'left',
+  phoneAlign,
   maxWidth = 'none',
   headingMaxWidth,
   bodyMaxWidth,
@@ -179,7 +189,7 @@ export function SectionIntro({
   // every caller that doesn't pass headingMaxWidth.
   return (
     <div
-      className={['flex flex-col gap-medium', align === 'center' ? 'items-center text-center' : '']
+      className={['flex flex-col gap-medium', alignClass(align, phoneAlign)]
         .filter(Boolean)
         .join(' ')}
     >

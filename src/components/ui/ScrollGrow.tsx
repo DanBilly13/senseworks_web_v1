@@ -1,5 +1,5 @@
 'use client'
-import { useRef, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { motion, useReducedMotion, useScroll, useTransform, type MotionStyle } from 'framer-motion'
 
 // Media's "Grow on scroll": the frame zooms from half size, as its top
@@ -24,9 +24,20 @@ const clamp = (p: number) => Math.min(1, Math.max(0, p))
 // GSAP's power1.out.
 const easeOut = (p: number) => 1 - (1 - p) ** 2
 
-export function ScrollGrow({ children }: { children: ReactNode }) {
+// `phone` / `desktop`: whether it grows on that screen size (Media's
+// Mobile tab can switch it off on one); off, it stays full size.
+export function ScrollGrow({ children, phone = true, desktop = true }: { children: ReactNode; phone?: boolean; desktop?: boolean }) {
   const ref = useRef<HTMLDivElement>(null)
-  const reduced = useReducedMotion()
+  const reducedMotion = useReducedMotion()
+  const [isDesktop, setIsDesktop] = useState(true)
+  useEffect(() => {
+    const mq = matchMedia('(min-width: 48rem)')
+    const update = () => setIsDesktop(mq.matches)
+    update()
+    mq.addEventListener('change', update)
+    return () => mq.removeEventListener('change', update)
+  }, [])
+  const reduced = reducedMotion || !(isDesktop ? desktop : phone)
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'center center'] })
   // A function, not a keyframe range: a plain range is handed to the
   // browser's own scroll animation, which can snap back past its end.

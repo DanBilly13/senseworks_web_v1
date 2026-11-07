@@ -168,23 +168,34 @@ function tidyField(field: Def): Def {
     const description = f.title === 'Card style' ? 'The colour of each card. On Dark the card text turns white.' : DESCRIPTIONS[f.name]
     if (description) f = { ...f, description }
   }
+  // A field a block puts on its Mobile tab (group: 'mobile') stays there.
+  if (f.group === 'mobile') return f
   const group = f.name === 'hidden' ? ['content', 'design'] : isDesignField(f) ? 'design' : 'content'
   return { ...f, group }
 }
 
+// The optional third tab: a block's phone-only settings (Media has one).
+export const MOBILE_GROUP = { name: 'mobile', title: 'Mobile' }
+
 export function applyBlockConventions<T extends Def>(type: T): T {
   if (!type.fields) return type
   const indexed = type.fields.map((field: Def, i: number) => ({ field: tidyField(field), i }))
+  const hasMobile = indexed.some(({ field }: { field: Def }) => field.group === 'mobile')
+  if (hasMobile) {
+    for (const item of indexed) if (item.field.name === 'hidden') item.field = { ...item.field, group: ['content', 'design', 'mobile'] }
+  }
   const sortKey = ({ field, i }: { field: Def; i: number }) =>
     field.name === 'hidden'
       ? [0, 0, i]
-      : field.group === 'design'
-        ? [2, rank(DESIGN_ORDER, field.name), i]
-        : [1, rank(CONTENT_ORDER, field.name), i]
+      : field.group === 'mobile'
+        ? [3, 0, i]
+        : field.group === 'design'
+          ? [2, rank(DESIGN_ORDER, field.name), i]
+          : [1, rank(CONTENT_ORDER, field.name), i]
   const sorted = [...indexed].sort((a, b) => {
     const ka = sortKey(a)
     const kb = sortKey(b)
     return ka[0] - kb[0] || ka[1] - kb[1] || ka[2] - kb[2]
   })
-  return { ...type, groups: BLOCK_GROUPS, fields: sorted.map(({ field }) => field) }
+  return { ...type, groups: hasMobile ? [...BLOCK_GROUPS, MOBILE_GROUP] : BLOCK_GROUPS, fields: sorted.map(({ field }) => field) }
 }

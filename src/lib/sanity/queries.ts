@@ -118,7 +118,7 @@ export const pageBySlugAndLocaleQuery = groq`
       _type == "fiftyFiftyBannerBlock" => { ${mediaProjection()} },
       _type == "bentoGridBlock" => { items[]{ ..., ${mediaProjection()} } },
       _type == "imageGridBlock" => { items[]{ ..., ${mediaProjection()} } },
-      _type == "mediaBlock" => { ${mediaProjection()} },
+      _type == "mediaBlock" => { ${mediaProjection()}, ${mediaProjection("mobileMedia", "mobileMedia")} },
       _type == "statementSplitBlock" => { ${mediaProjection()} },
       _type == "fullWidthSingleBlock" => { ${mediaProjection()}, ${mediaProjection('media2', 'media2')} },
       _type == "horizontalScrollStackMediumBlock" => { slides[]{ ..., ${mediaProjection()} } },

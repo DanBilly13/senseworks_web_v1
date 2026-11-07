@@ -6,15 +6,19 @@ const blocks = (schemaTypes as any[]).filter((t) => t.name.endsWith('Block') && 
 
 // The Studio house rules (blockConventions.ts) hold for every page block.
 describe('block conventions', () => {
-  it.each(blocks.map((b) => [b.name, b]))('%s has Content and Design tabs, Hide first, Section spacing last', (_, block: any) => {
-    expect(block.groups.map((g: any) => g.name)).toEqual(['content', 'design'])
+  it.each(blocks.map((b) => [b.name, b]))('%s has Content and Design tabs (and maybe Mobile), Hide first, Section spacing last', (_, block: any) => {
+    const mobile = block.fields.some((f: any) => f.group === 'mobile')
+    expect(block.groups.map((g: any) => g.name)).toEqual(mobile ? ['content', 'design', 'mobile'] : ['content', 'design'])
     expect(block.fields[0].name).toBe('hidden')
     for (const f of block.fields) expect(f.group).toBeDefined()
-    const names = block.fields.map((f: any) => f.name)
+    // The Mobile tab's fields come last; Section spacing ends the rest.
+    const main = block.fields.filter((f: any) => f.group !== 'mobile')
+    expect(block.fields.slice(main.length).every((f: any) => f.group === 'mobile')).toBe(true)
+    const names = main.map((f: any) => f.name)
     if (names.includes('spacing')) expect(names.at(-1)).toBe('spacing')
     // Content before Design.
-    const firstDesign = block.fields.findIndex((f: any) => f.group === 'design')
-    expect(block.fields.slice(firstDesign).every((f: any) => f.group === 'design')).toBe(true)
+    const firstDesign = main.findIndex((f: any) => f.group === 'design')
+    expect(main.slice(firstDesign).every((f: any) => f.group === 'design')).toBe(true)
   })
 
   it('uses one name for the same field: headline, body, headlineSize', () => {

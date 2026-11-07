@@ -21,6 +21,10 @@ type SectionShellProps = {
   // unset falls back to the py/pad-derived value above.
   pt?: '3xl' | 'large' | 'section-edge' | 'loose' | 'medium' | 'tight' | 'none'
   pb?: '3xl' | 'large' | 'section-edge' | 'loose' | 'medium' | 'tight' | 'none'
+  // Phones only: a different top/bottom padding (one of the four gaps),
+  // with pt/pb (also a gap then) from tablet up.
+  phonePt?: Gap
+  phonePb?: Gap
   // Mobile rhythm rule (desktop is identical either way, 24px):
   // 'default' for plain content — the text itself sits 32px from the
   // screen edge. 'boxed' for a section whose content is one or more
@@ -89,6 +93,35 @@ export const SECTION_GAP_MB_CLASS: Record<'loose' | 'medium' | 'tight' | 'none',
   none: 'mb-none',
 }
 
+// The same gaps from tablet up only, for a block that sets a different
+// one on phones (Media's Mobile tab).
+type Gap = 'loose' | 'medium' | 'tight' | 'none'
+export const MD_SECTION_GAP_PB_CLASS: Record<Gap, string> = {
+  loose: 'md:pb-section-gap-loose',
+  medium: 'md:pb-section-gap-medium',
+  tight: 'md:pb-section-gap-tight',
+  none: 'md:pb-none',
+}
+export const MD_SECTION_GAP_MB_CLASS: Record<Gap, string> = {
+  loose: 'md:mb-section-gap-loose',
+  medium: 'md:mb-section-gap-medium',
+  tight: 'md:mb-section-gap-tight',
+  none: 'md:mb-none',
+}
+const SECTION_GAP_PT_CLASS: Record<Gap, string> = {
+  loose: 'pt-section-gap-loose',
+  medium: 'pt-section-gap-medium',
+  tight: 'pt-section-gap-tight',
+  none: 'pt-none',
+}
+const MD_SECTION_GAP_PT_CLASS: Record<Gap, string> = {
+  loose: 'md:pt-section-gap-loose',
+  medium: 'md:pt-section-gap-medium',
+  tight: 'md:pt-section-gap-tight',
+  none: 'md:pt-none',
+}
+const isGap = (v?: string): v is Gap => v === 'loose' || v === 'medium' || v === 'tight' || v === 'none'
+
 const PB_CLASS = {
   '3xl': 'pb-3xl',
   large: 'pb-large',
@@ -118,16 +151,26 @@ export function SectionShell({
   ariaLabel,
   id,
   children,
+  phonePt,
+  phonePb,
 }: SectionShellProps) {
   const resolvedPb = pb ?? py
   const resolvedPt = pt ?? (pad === 'both' ? py : undefined)
+  const pbClass =
+    phonePb && isGap(resolvedPb) ? `${SECTION_GAP_PB_CLASS[phonePb]} ${MD_SECTION_GAP_PB_CLASS[resolvedPb]}` : PB_CLASS[resolvedPb]
+  const ptClass =
+    phonePt && isGap(resolvedPt ?? 'none')
+      ? `${SECTION_GAP_PT_CLASS[phonePt]} ${MD_SECTION_GAP_PT_CLASS[(resolvedPt ?? 'none') as Gap]}`
+      : resolvedPt
+        ? PT_CLASS[resolvedPt]
+        : ''
   return (
     <section
       id={id}
       aria-label={ariaLabel}
       className={[
-        PB_CLASS[resolvedPb],
-        resolvedPt ? PT_CLASS[resolvedPt] : '',
+        pbClass,
+        ptClass,
         sectionClassName,
       ]
         .filter(Boolean)

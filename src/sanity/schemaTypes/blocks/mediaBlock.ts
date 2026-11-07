@@ -36,7 +36,7 @@ export const mediaBlock = defineType({
     defineField({
       name: 'ratio',
       title: 'Ratio',
-      description: 'The frame’s shape on desktop (the image is cropped to fill). On phones, see On phones below.',
+      description: 'The frame’s shape on desktop (the image is cropped to fill). Phones: see the Mobile tab.',
       type: 'string',
       options: {
         list: [
@@ -48,24 +48,6 @@ export const mediaBlock = defineType({
         direction: 'horizontal',
       },
       initialValue: '7:5',
-      hidden: ({ parent }) => parent?.width === 'full',
-    }),
-    defineField({
-      name: 'mobileFit',
-      title: 'On phones',
-      description:
-        'Inside margins: the same shape as on desktop, with rounded corners, nothing cropped (good for screen recordings). Edge to edge: the full screen width, square corners, still the desktop shape. Edge to edge, tall: the full width and most of the screen’s height, the media cropped to fill (good for photos). Media with text on it is always edge to edge, tall.',
-      type: 'string',
-      options: {
-        list: [
-          { title: 'Inside margins', value: 'frame' },
-          { title: 'Edge to edge', value: 'edge' },
-          { title: 'Edge to edge, tall (default)', value: 'fill' },
-        ],
-        layout: 'radio',
-        direction: 'horizontal',
-      },
-      initialValue: 'fill',
       hidden: ({ parent }) => parent?.width === 'full',
     }),
     // All optional, and all off by default (empty) — an editor using
@@ -128,6 +110,106 @@ export const mediaBlock = defineType({
       initialValue: false,
     }),
     spacingField,
+    // The Mobile tab: phone versions of the look settings, each starting
+    // as "Same as desktop" (Width keeps its own phone default).
+    defineField({
+      name: 'mobileMedia',
+      title: 'Phone media',
+      description: 'Optional: a different image or video just for phones, e.g. a portrait crop. Empty shows the desktop media.',
+      type: 'media',
+      group: 'mobile',
+    }),
+    defineField({
+      name: 'mobileFit',
+      title: 'Width',
+      description:
+        'Inside margins: rounded, the shape below, nothing cropped (good for screen recordings). Edge to edge: the full screen width, square corners, the shape below. Edge to edge, tall: full width and most of the screen’s height, cropped to fill (good for photos). Media with text on it is always edge to edge, tall. "Content scrolls over it" never pins on phones.',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Edge to edge, tall', value: 'fill' },
+          { title: 'Edge to edge', value: 'edge' },
+          { title: 'Inside margins', value: 'frame' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'fill',
+      group: 'mobile',
+      hidden: ({ parent }) => parent?.width === 'full',
+    }),
+    defineField({
+      name: 'mobileRatio',
+      title: 'Ratio',
+      description: 'The frame’s shape on phones (Edge to edge or Inside margins). Square and portrait (4:5) suit phones well.',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Same as desktop', value: 'inherit' },
+          { title: '7:5', value: '7:5' },
+          { title: '7:4', value: '7:4' },
+          { title: '3:1', value: '3:1' },
+          { title: '1:1', value: '1:1' },
+          { title: '4:5', value: '4:5' },
+        ],
+        layout: 'radio',
+        direction: 'horizontal',
+      },
+      initialValue: 'inherit',
+      group: 'mobile',
+      hidden: ({ parent }) => parent?.width === 'full' || (parent?.mobileFit ?? 'fill') === 'fill',
+    }),
+    defineField({
+      name: 'mobileGrow',
+      title: 'Grow on scroll',
+      description: 'On phones: grow from half size as it scrolls in, or not.',
+      type: 'string',
+      options: { list: [{ title: 'Same as desktop', value: 'inherit' }, { title: 'On', value: 'on' }, { title: 'Off', value: 'off' }], layout: 'radio', direction: 'horizontal' },
+      initialValue: 'inherit',
+      group: 'mobile',
+      hidden: ({ parent }) => parent?.width === 'full',
+    }),
+    defineField({
+      name: 'mobileKeyline',
+      title: 'Outline',
+      description: 'On phones: the thin black line around the frame (shows when Width is Inside margins).',
+      type: 'string',
+      options: { list: [{ title: 'Same as desktop', value: 'inherit' }, { title: 'On', value: 'on' }, { title: 'Off', value: 'off' }], layout: 'radio', direction: 'horizontal' },
+      initialValue: 'inherit',
+      group: 'mobile',
+      hidden: ({ parent }) => parent?.width === 'full',
+    }),
+    defineField({
+      name: 'mobileAlign',
+      title: 'Text alignment',
+      description: 'On phones, for media with text on it.',
+      type: 'string',
+      options: { list: [{ title: 'Same as desktop', value: 'inherit' }, { title: 'Left', value: 'left' }, { title: 'Center', value: 'center' }], layout: 'radio', direction: 'horizontal' },
+      initialValue: 'inherit',
+      group: 'mobile',
+    }),
+    defineField({
+      name: 'mobileBackground',
+      title: 'Background',
+      description: 'On phones: keep the desktop background (and its padding), or none.',
+      type: 'string',
+      options: { list: [{ title: 'Same as desktop', value: 'inherit' }, { title: 'None', value: 'none' }], layout: 'radio', direction: 'horizontal' },
+      initialValue: 'inherit',
+      group: 'mobile',
+      hidden: ({ parent }) => parent?.width === 'full',
+    }),
+    defineField({
+      name: 'mobileSpacing',
+      title: 'Section spacing',
+      description: 'On phones: the gap after this block.',
+      type: 'string',
+      options: {
+        list: [{ title: 'Same as desktop', value: 'inherit' }, { title: 'Loose', value: 'loose' }, { title: 'Medium', value: 'medium' }, { title: 'Tight', value: 'tight' }, { title: 'None', value: 'none' }],
+        layout: 'radio',
+        direction: 'horizontal',
+      },
+      initialValue: 'inherit',
+      group: 'mobile',
+    }),
   ],
   preview: {
     select: { alt: 'media.alt', mediaType: 'media.mediaType', headline: 'headline' },

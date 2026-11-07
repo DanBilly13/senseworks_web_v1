@@ -38,7 +38,8 @@ describe('design settings', () => {
   const BACKGROUNDS = ['none', 'light', 'white', 'dark', 'accent', 'accentGradient', 'accentDark', 'image']
   it('offer backgrounds from the standard set, in the standard order', () => {
     for (const b of blocks) {
-      for (const f of b.fields.filter((f: any) => f.title === 'Background' && f.options?.list)) {
+      // (A Mobile tab's Background is 'Same as desktop' or 'None', not a colour.)
+      for (const f of b.fields.filter((f: any) => f.title === 'Background' && f.options?.list && f.group !== 'mobile')) {
         const values: string[] = f.options.list.map((o: any) => o.value)
         expect(values.every((v) => BACKGROUNDS.includes(v)), `${b.name}.${f.name}: ${values}`).toBe(true)
         expect(values, `${b.name}.${f.name} order`).toEqual([...values].sort((x, y) => BACKGROUNDS.indexOf(x) - BACKGROUNDS.indexOf(y)))
