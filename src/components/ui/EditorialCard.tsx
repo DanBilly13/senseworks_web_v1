@@ -42,13 +42,15 @@ export function EditorialCard({ label, mark, title, body, cta, surface = 'none',
   const boxed = surface !== 'none'
   const light = surface === 'dark' || (!boxed && onDark)
   const muted = light ? 'text-background/70' : 'text-muted-foreground'
+  // A plain picture (src + alt), not a Sanity image, so no hasImage().
+  const picture = image?.src ? image : undefined
   return (
     <article
       className={`flex flex-col ${boxed ? `overflow-hidden rounded-lg ${SURFACE[surface]}` : light ? 'text-background' : 'text-foreground'}`}
     >
-      {image && (
+      {picture && (
         <div className="relative aspect-media w-full">
-          <Image src={image.src} alt={image.alt} fill sizes="(min-width: 768px) 33vw, 100vw" className="object-cover" />
+          <Image src={picture.src} alt={picture.alt} fill sizes="(min-width: 768px) 33vw, 100vw" className="object-cover" />
         </div>
       )}
       <div className={`flex flex-1 flex-col ${boxed ? 'px-medium-large pt-card-top pb-large md:px-large md:pt-large' : ''}`}>
