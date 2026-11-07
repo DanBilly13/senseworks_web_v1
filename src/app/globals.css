@@ -25,6 +25,9 @@
   --tracking-label: 2px;
   /* Editorial cards' regular-weight caps titles: tight lines. */
   --leading-caps: 1.1;
+  /* …and their spacing: a touch tighter than none (titles otherwise get
+     the Subtitle's -1.5%). */
+  --tracking-caps: -0.005em;
   --radius-2xl: 24px;
   --radius-full: 9999px;
 

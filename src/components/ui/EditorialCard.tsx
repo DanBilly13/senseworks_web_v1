@@ -70,7 +70,7 @@ function Label({ number, label }: { number?: string; label?: string }) {
   const clean = number ? label?.replace(/^\s*[—–-]+\s*/, '') : label
   if (!number && !clean) return <span />
   return (
-    <p className="font-heading text-eyebrow leading-snug font-normal tracking-tight uppercase">
+    <p className="font-heading text-eyebrow leading-snug font-normal tracking-normal uppercase">
       {number && <span className="block font-bold">{number}</span>}
       {clean && <span className="block">{number ? `/${clean}` : clean}</span>}
     </p>
@@ -114,7 +114,7 @@ export function EditorialCard({
           <Label number={number} label={label} />
           {mark === 'wave' && <span aria-hidden className="mt-xs h-3 w-10 shrink-0 bg-current" style={WAVE_MASK} />}
         </div>
-        <Title className={`mt-stack font-heading leading-caps font-bold text-balance uppercase ${TITLE_SIZE[titleSize]}`}>{title}</Title>
+        <Title className={`mt-stack font-heading leading-caps font-bold tracking-caps text-balance uppercase ${TITLE_SIZE[titleSize]}`}>{title}</Title>
         {/* Full colour Body, in the same face as the title. */}
         {body && <p className="mt-medium-large text-body whitespace-pre-line md:text-pretty">{body}</p>}
         {action?.label && (
