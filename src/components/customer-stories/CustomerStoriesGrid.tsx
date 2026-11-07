@@ -59,7 +59,9 @@ export function CustomerStoriesGrid({ stories, locale }: { stories: CustomerStor
       {visible.length ? (
         <div className="grid grid-cols-1 gap-large sm:grid-cols-2 lg:grid-cols-3">
           {visible.map((story) => (
-            <StoryCard key={story.slug} story={story} locale={locale} />
+            // The editorial card (ui/EditorialCard), light, with the wave
+            // mark — as the Case Study Carousel on the home page.
+            <StoryCard key={story.slug} story={story} locale={locale} editorial={{ surface: 'white', mark: 'wave', linkStyle: 'link' }} />
           ))}
         </div>
       ) : (
