@@ -880,6 +880,31 @@ p {
   background-image: var(--gradient-accent-dark);
   background-blend-mode: soft-light, normal;
 }
+/* The two gradients on phones only, and from tablet up only (a Media
+   whose Mobile tab sets a different background, BandFill). Plain CSS, as
+   above, so Tailwind's max-md:/md: prefixes need writing out. */
+@media (width < 48rem) {
+  .max-md\:bg-accent-gradient {
+    background-image: var(--gradient-accent);
+    background-blend-mode: soft-light, normal;
+  }
+  .max-md\:bg-accent-gradient-dark {
+    background-color: var(--color-foreground);
+    background-image: var(--gradient-accent-dark);
+    background-blend-mode: soft-light, normal;
+  }
+}
+@media (width >= 48rem) {
+  .md\:bg-accent-gradient {
+    background-image: var(--gradient-accent);
+    background-blend-mode: soft-light, normal;
+  }
+  .md\:bg-accent-gradient-dark {
+    background-color: var(--color-foreground);
+    background-image: var(--gradient-accent-dark);
+    background-blend-mode: soft-light, normal;
+  }
+}
 /* Blocks on the gradient that run on into each other share their run's
    one copy of it (see BlockRenderer / bandGradientRuns), so their own is
    cleared — only the blocks' own (direct children): images inside them
@@ -1403,11 +1428,11 @@ p:has(+ .hero-overlay-card-rules),
 /* The 3D Ally's box (her whole figure, with a little room around it),
    centred at the top of that space, big enough that the hero's bottom
    edge crops her hard — head and shoulders show. Phones: wider than the
-   screen. */
+   screen (90% of the old 120vw, Dan, Nov 2026). */
 .hero-ally {
   top: 0;
   translate: -50% 0;
-  width: 120vw;
+  width: 108vw;
   aspect-ratio: 0.82;
 }
 /* From tablet up she's anchored to the hero's bottom edge instead, which

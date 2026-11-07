@@ -190,9 +190,19 @@ export const mediaBlock = defineType({
     defineField({
       name: 'mobileBackground',
       title: 'Background',
-      description: 'On phones: keep the desktop background (and its padding), or none.',
+      description: 'The colour behind the media on phones, whatever desktop has. None drops the background (and its padding) on phones.',
       type: 'string',
-      options: { list: [{ title: 'Same as desktop', value: 'inherit' }, { title: 'None', value: 'none' }], layout: 'radio', direction: 'horizontal' },
+      options: {
+        list: [
+          { title: 'Same as desktop', value: 'inherit' },
+          { title: 'None', value: 'none' },
+          { title: 'Dark', value: 'dark' },
+          { title: 'Accent', value: 'accent' },
+          { title: 'Accent gradient', value: 'accentGradient' },
+          { title: 'Dark accent gradient', value: 'accentDark' },
+        ],
+        layout: 'radio',
+      },
       initialValue: 'inherit',
       group: 'mobile',
       hidden: ({ parent }) => parent?.width === 'full',

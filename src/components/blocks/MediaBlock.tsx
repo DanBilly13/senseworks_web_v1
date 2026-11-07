@@ -52,7 +52,7 @@ type MediaBlockProps = {
   mobileGrow?: 'inherit' | 'on' | 'off'
   mobileKeyline?: 'inherit' | 'on' | 'off'
   mobileAlign?: 'inherit' | 'left' | 'center'
-  mobileBackground?: 'inherit' | 'none'
+  mobileBackground?: 'inherit' | BandTone
   // With a background: its Top/Bottom padding on phones.
   mobilePaddingTop?: 'inherit' | BandSpacing
   mobilePaddingBottom?: 'inherit' | BandSpacing
@@ -129,6 +129,9 @@ function MediaBlockContent({
   const phoneAlign = phoneOr(mobileAlign, align)
   const phoneSpacing = phoneOr(mobileSpacing, spacing)
   const phoneNoBg = mobileBackground === 'none' && tone !== 'none'
+  // A fill of its own on phones, different from desktop's (or none on
+  // desktop).
+  const phoneFill = mobileBackground && mobileBackground !== 'inherit' && mobileBackground !== 'none' && mobileBackground !== tone ? mobileBackground : undefined
   // The desktop media, or (with Phone media set) each on its own screen.
   const media2 = hasMedia(mobileMedia) ? mobileMedia : undefined
   const responsiveMedia = (alt: string, className: string) =>
@@ -167,6 +170,18 @@ function MediaBlockContent({
     return top || bottom ? <div className={`${top} ${bottom}`}>{content}</div> : content
   }
   const banded = (shell: (py: Pads) => ReactNode) => {
+    if (phoneFill) {
+      // Desktop's padding (none without a background there), and the
+      // phone's: its own, or Same as desktop's values (unset: Medium,
+      // as with any background).
+      const pads: { pt: BandSpacing; pb: BandSpacing } = tone === 'none' ? { pt: 'none', pb: 'none' } : bandShellPadding({ tone, paddingTop, paddingBottom })
+      const phone = bandShellPadding({ tone: phoneFill, paddingTop, paddingBottom })
+      return (
+        <BandFill tone={tone} phoneTone={phoneFill} spacing={spacing} phoneSpacing={phoneSpacing}>
+          {shell({ ...pads, phonePt: phoneOr(mobilePaddingTop, phone.pt), phonePb: phoneOr(mobilePaddingBottom, phone.pb) })}
+        </BandFill>
+      )
+    }
     if (tone === 'none') return phonePad(shell({ pb: spacing, phonePb: phoneSpacing }))
     const pads = bandShellPadding({ tone, paddingTop, paddingBottom })
     return phoneNoBg ? (

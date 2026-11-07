@@ -70,8 +70,13 @@ export function TypingText({ text, cursorClassName }: { text: string; cursorClas
       <span className="sr-only">{text}</span>
       <span ref={ref} aria-hidden="true">
         {withLineBreaks(text.slice(0, Math.max(0, typed - 1)))}
+        {/* Just past a line break, the break goes before the cursor's
+            span, which then starts the new line empty: inside it, the
+            span ran across both lines and the cursor was placed off the
+            first line's width, out at the right of the second. */}
+        {lastLetter === '\n' && <br />}
         <span className="relative">
-          {lastLetter === '\n' ? <br /> : lastLetter}
+          {lastLetter === '\n' ? '' : lastLetter}
           <span className={`typing-cursor ${done ? 'typing-cursor-done' : ''} ${cursorClassName ?? ''}`} />
         </span>
         <span className="typing-rest">{withLineBreaks(text.slice(typed))}</span>

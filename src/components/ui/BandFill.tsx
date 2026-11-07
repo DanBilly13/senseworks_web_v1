@@ -46,6 +46,14 @@ const MD_BAND_BG: Record<Exclude<BandTone, 'none'>, string> = {
   accentGradient: 'md:bg-accent-gradient',
 }
 
+// A different fill on phones only (Media's Mobile tab).
+const PHONE_BAND_BG: Record<Exclude<BandTone, 'none'>, string> = {
+  dark: 'max-md:bg-foreground',
+  accent: 'max-md:bg-accent',
+  accentDark: 'max-md:bg-accent-gradient-dark',
+  accentGradient: 'max-md:bg-accent-gradient',
+}
+
 export function bandShellPadding({ tone = 'none', paddingTop, paddingBottom }: BandProps): { pt: BandSpacing; pb: BandSpacing } {
   const unset: BandSpacing = tone === 'none' ? 'none' : 'medium'
   return { pt: paddingTop ?? unset, pb: paddingBottom ?? unset }
@@ -115,12 +123,15 @@ export function BandFill({
   joinBottom,
   children,
   phoneNoBg,
+  phoneTone,
   phoneSpacing,
 }: BandProps & {
   width?: 'content' | 'full'
   children: ReactNode
-  // Phones only (Media's Mobile tab): no fill, and/or a different gap.
+  // Phones only (Media's Mobile tab): no fill, a different fill, and/or
+  // a different gap.
   phoneNoBg?: boolean
+  phoneTone?: BandTone
   phoneSpacing?: BandSpacing
 }) {
   const gap = phoneSpacing ? `${SECTION_GAP_MB_CLASS[phoneSpacing]} ${MD_SECTION_GAP_MB_CLASS[spacing]}` : SECTION_GAP_MB_CLASS[spacing]
@@ -133,6 +144,10 @@ export function BandFill({
         <div className={`band-panel overflow-hidden ${corners} ${BAND_BG[tone]}`}>{children}</div>
       </div>
     )
+  }
+  if (phoneTone && phoneTone !== tone) {
+    const fill = [tone === 'none' ? '' : MD_BAND_BG[tone], phoneTone === 'none' ? '' : PHONE_BAND_BG[phoneTone]].join(' ')
+    return <div className={`${fill} ${gap}`}>{children}</div>
   }
   return <div className={`${tone === 'none' ? '' : phoneNoBg ? MD_BAND_BG[tone] : BAND_BG[tone]} ${gap}`}>{children}</div>
 }
