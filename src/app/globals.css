@@ -287,9 +287,9 @@
        Display   144 / 56   hero headline
        Headline   56 / 36   H1 and H2 (one section-heading size)
        Title      36 / 28   H3 (and Stat small)
-       Subtitle   24 / 21   H4 and H5 (card titles, sub-headings)
+       Subtitle   28 / 22   H4 and H5 (card titles, sub-headings)
        Statement  42 / 28   the big sentence in the body font (kept as is)
-       Body       19 / 18   Body, Body large and Large body (one body)
+       Body       22 / 18   Body, Body large and Large body (one body)
        Small      14 / 14   Body small and Caption
        Label      13 / 12   Eyebrow: Aeonik bold caps
      Aeonik headings are bold (Regular is only for the editorial cards'
@@ -312,10 +312,10 @@
   --text-h3--line-height: 1.15;
   --text-h3--letter-spacing: -0.02em;
   /* Subtitle. */
-  --text-h4: 1.5rem;
+  --text-h4: 1.75rem;
   --text-h4--line-height: 1.25;
   --text-h4--letter-spacing: -0.015em;
-  --text-h5: 1.5rem;
+  --text-h5: 1.75rem;
   --text-h5--line-height: 1.25;
   --text-h5--letter-spacing: -0.015em;
   /* The smallest heading: Body's size, in the heading face. */
@@ -350,7 +350,7 @@
      Body 16 (17 on phones) / Body large 18 (17) / Large body 22 (19) /
      Statement — headings (H1–H6) are only for headings. */
   /* "Large body" is now just Body (two body styles: Body and Small). */
-  --text-body-xl: 1.1875rem;
+  --text-body-xl: 1.375rem;
   --text-body-xl--line-height: 1.4;
   --text-body-xl--letter-spacing: -0.01em;
 
@@ -368,12 +368,15 @@
   --text-h3--full-line-height: calc(var(--text-h3) * var(--text-h3--line-height));
   --text-h4--full-line-height: calc(var(--text-h4) * var(--text-h4--line-height));
 
-  /* Body: one size, 19px, 18px on phones (Body, Body large and Large
+  /* Body: one size, 22px, 18px on phones (Body, Body large and Large
      body are the same style now). */
-  --text-body-lg: 1.1875rem;
+  --text-body-lg: 1.375rem;
   --text-body-lg--line-height: 1.4;
   --text-body-lg--letter-spacing: -0.01em;
-  --text-body: 1.1875rem;
+  --text-body: 1.375rem;
+  /* The top nav's links from 1280px: their own size, so a big Body
+     doesn't crowd the bar. */
+  --text-nav: 1.1875rem;
   --text-body--line-height: 1.4;
   --text-body--letter-spacing: -0.01em;
   --text-body-sm: 0.875rem;
@@ -397,9 +400,9 @@
   --text-article-body: 1.25rem;
   --text-article-body--line-height: 1.7;
 
-  /* Horizontal Scroll Stack's body copy: Body's size (19px, 18px on
+  /* Horizontal Scroll Stack's body copy: Body's size (22px, 18px on
      phones), as its own token so the block can be tuned on its own. */
-  --text-scroll-stack-body: 1.1875rem;
+  --text-scroll-stack-body: 1.375rem;
 
   /* Horizontal Scroll Stack's heading-to-media gap — 0 by default
      (desktop keeps the panel's own gap-2xl, 64px, untouched), redefined
@@ -516,13 +519,13 @@
        402px iPhone 17, 52px on a 375px phone). */
     --text-display: min(3.5rem, 14vw);
     /* The type system on phones (see the table in @theme):
-       Headline 36, Title 28 (= Statement), Subtitle 21, Body 18,
+       Headline 36, Title 28 (= Statement), Subtitle 22, Body 18,
        Label 12. */
     --text-h1: 2.25rem;
     --text-h2: 2.25rem;
     --text-h3: 1.75rem;
-    --text-h4: 1.3125rem;
-    --text-h5: 1.3125rem;
+    --text-h4: 1.375rem;
+    --text-h5: 1.375rem;
     --text-statement: 1.75rem;
     --text-body: 1.125rem;
     --text-body-lg: 1.125rem;

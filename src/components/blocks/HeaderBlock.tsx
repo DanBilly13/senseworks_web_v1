@@ -102,7 +102,7 @@ function NavDropdown({ label, links }: { label: string; links: NavSubLink[] }) {
     <div ref={rootRef} className="relative">
       <button
         type="button"
-        className="flex items-center gap-xs text-body-sm text-foreground hover:opacity-70"
+        className="flex items-center gap-xs text-body-sm xl:text-nav text-foreground hover:opacity-70"
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
       >
@@ -259,15 +259,16 @@ export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref, curren
     }
   }, [open])
 
-  // The drawer (and its toggle button) are both md:hidden, but `open`
-  // has no breakpoint awareness of its own — if the viewport crosses
-  // md while the drawer is open (rotating a tablet, or resizing a
-  // desktop window past 768px), both vanish via CSS with no control
+  // The drawer (and its toggle button) are both lg:hidden (the full nav
+  // only fits from 1024px), but `open` has no breakpoint awareness of
+  // its own — if the viewport crosses lg while the drawer is open
+  // (rotating a tablet, or resizing a window past 1024px), both vanish
+  // via CSS with no control
   // left to ever set `open` back to false. The effect above then never
   // gets to run its cleanup, permanently locking page scroll. This
   // closes the drawer proactively as soon as that boundary is crossed.
   useEffect(() => {
-    const mq = window.matchMedia('(min-width: 768px)')
+    const mq = window.matchMedia('(min-width: 1024px)')
     const onChange = () => {
       if (mq.matches) setOpen(false)
     }
@@ -304,8 +305,9 @@ export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref, curren
               <Image src="/senseworks-logo.svg" alt={logoText} width={240} height={31} className="h-medium-large w-auto" priority />
             </a>
           )}
-          <div className="flex items-center gap-medium-large">
-            <nav className="hidden items-center gap-medium-large md:flex">
+          {/* Tighter below 1280, where the links are smaller (Body from xl). */}
+          <div className="flex items-center gap-medium xl:gap-medium-large">
+            <nav className="hidden items-center gap-medium lg:flex xl:gap-medium-large">
               {navLinks.map((link) =>
                 link.links?.length ? (
                   <NavDropdown key={link.label} label={link.label} links={link.links} />
@@ -315,8 +317,8 @@ export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref, curren
                     trigger={link.label}
                     triggerClassName={
                       isCurrent(link.href)
-                        ? 'relative text-body-sm text-foreground after:absolute after:inset-x-0 after:-bottom-small after:h-0.5 after:rounded-full after:bg-foreground'
-                        : 'text-body-sm text-foreground hover:opacity-70'
+                        ? 'relative text-body-sm xl:text-nav text-foreground after:absolute after:inset-x-0 after:-bottom-small after:h-0.5 after:rounded-full after:bg-foreground'
+                        : 'text-body-sm xl:text-nav text-foreground hover:opacity-70'
                     }
                     ariaLabel={`${link.label} versions`}
                     liveHref={link.href!}
@@ -335,8 +337,8 @@ export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref, curren
                     // position, thinner or blurrier on some pages).
                     className={
                       isCurrent(link.href)
-                        ? "relative text-body-sm text-foreground after:absolute after:inset-x-0 after:-bottom-small after:h-0.5 after:rounded-full after:bg-foreground"
-                        : 'text-body-sm text-foreground hover:opacity-70'
+                        ? "relative text-body-sm xl:text-nav text-foreground after:absolute after:inset-x-0 after:-bottom-small after:h-0.5 after:rounded-full after:bg-foreground"
+                        : 'text-body-sm xl:text-nav text-foreground hover:opacity-70'
                     }
                   >
                     {link.label}
@@ -344,19 +346,22 @@ export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref, curren
                 ),
               )}
               {ctaLabel && ctaHref && (
-                <Button href={ctaHref} size="sm">
-                  {ctaLabel}
-                </Button>
+                // One line, however tight the bar gets (white-space inherits).
+                <span className="shrink-0 whitespace-nowrap">
+                  <Button href={ctaHref} size="sm">
+                    {ctaLabel}
+                  </Button>
+                </span>
               )}
             </nav>
-            {/* After the button, from tablet up. On phones the language
+            {/* After the button, from 1024px up. Below that the language
                 is chosen at the foot of the menu instead. */}
-            <div className="hidden md:block">
+            <div className="hidden lg:block">
               <LanguageSwitcher />
             </div>
             <button
               type="button"
-              className="flex md:hidden"
+              className="flex lg:hidden"
               aria-expanded={open}
               aria-controls="mobile-nav-drawer"
               aria-label={open ? 'Close menu' : 'Open menu'}
@@ -370,7 +375,7 @@ export function HeaderBlock({ logoText, navLinks = [], ctaLabel, ctaHref, curren
         {open && (
           <nav
             id="mobile-nav-drawer"
-            className="flex flex-col overflow-y-auto border-t border-border px-medium-large py-small-medium md:hidden"
+            className="flex flex-col overflow-y-auto border-t border-border px-medium-large py-small-medium lg:hidden"
             // The bar above (logo/close button) stays fixed in place —
             // only this list scrolls, capped to whatever viewport
             // height is left below the bar, so a long link list never
