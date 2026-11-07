@@ -22,6 +22,8 @@ type HeroBackdropBlockProps = {
   ctaNote?: string
   secondaryCtaLabel?: string
   secondaryCtaHref?: string
+  // 'none': just the text on the background, no showcase below it.
+  showcase?: 'show' | 'none'
   showcaseMedia?: MediaField
   spacing?: 'loose' | 'medium' | 'tight' | 'none'
   // 'display' draws the headline one step above the standard h1.
@@ -56,6 +58,7 @@ export function HeroBackdropBlock({
   ctaNote,
   secondaryCtaLabel,
   secondaryCtaHref,
+  showcase: showcaseSetting = 'show',
   showcaseMedia,
   spacing = 'medium',
   headlineSize,
@@ -148,7 +151,10 @@ export function HeroBackdropBlock({
             paddingTop: 'calc(var(--spacing-section-edge) * 2)',
             // Halved from 1.5x — Dan wanted the text-to-showcase gap
             // tighter than the original section-edge-derived spacing.
-            paddingBottom: 'calc(var(--spacing-section-edge) * 0.75)',
+            // No showcase: half that, so with the container's own
+            // section-edge below it the text sits about as far above
+            // the backdrop's bottom as below its top (under the header).
+            paddingBottom: `calc(var(--spacing-section-edge) * ${showcaseSetting === 'none' ? 0.5 : 0.75})`,
           }}
         >
           <SectionIntro
@@ -199,7 +205,7 @@ export function HeroBackdropBlock({
             }
           />
         </div>
-        {phoneShowcase ? (
+        {showcaseSetting === 'none' ? null : phoneShowcase ? (
           <>
             <div className="md:hidden">{showcase(phoneShowcase)}</div>
             <div className="max-md:hidden">{showcase(showcaseMedia)}</div>
