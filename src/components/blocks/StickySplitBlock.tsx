@@ -81,7 +81,8 @@ const LIST_TEXT: Record<Exclude<ListTextSize, 'inherit'>, string> = {
 
 // The Cards piece's "Card title size", and the gap that goes with each.
 type CardTitleSize = 'h4' | 'h5' | 'h6'
-const CARD_TITLE_CLASS: Record<CardTitleSize, string> = { h4: 'text-h4', h5: 'text-h5', h6: 'text-h6' }
+// Title / Subtitle / Body, the picker's names (and the editorial card's).
+const CARD_TITLE_CLASS: Record<CardTitleSize, string> = { h4: 'text-h3', h5: 'text-h5', h6: 'text-h6' }
 const CARD_TITLE_GAP: Record<CardTitleSize, string> = { h4: 'gap-medium', h5: 'gap-small-medium', h6: 'gap-small-medium' }
 
 const CARD_SURFACE: Record<Exclude<CardTone, 'none'>, string> = {

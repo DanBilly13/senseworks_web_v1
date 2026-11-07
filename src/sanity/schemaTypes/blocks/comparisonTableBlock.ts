@@ -48,9 +48,8 @@ export const comparisonTableBlock = defineType({
       type: 'string',
       options: {
         list: [
-          { title: 'Body (default)', value: 'body' },
-          { title: 'Large body', value: 'large' },
-          { title: 'H4', value: 'h4' },
+          { title: 'Body', value: 'body' },
+          { title: 'Subtitle', value: 'h4' },
         ],
         layout: 'radio',
         direction: 'horizontal',

@@ -24,8 +24,8 @@ export const horizontalScrollStackMediumBlock = defineType({
       type: 'string',
       options: {
         list: [
-          { title: 'H2 (default)', value: 'h2' },
-          { title: 'H3', value: 'h3' },
+          { title: 'Headline', value: 'h2' },
+          { title: 'Title', value: 'h3' },
         ],
         layout: 'radio',
       },

@@ -47,8 +47,8 @@ export const featureSplitBlock = defineType({
       type: 'string',
       options: {
         list: [
-          { title: 'H2 (larger)', value: 'h2' },
-          { title: 'H3 (default)', value: 'h3' },
+          { title: 'Headline', value: 'h2' },
+          { title: 'Title', value: 'h3' },
         ],
         layout: 'radio',
       },

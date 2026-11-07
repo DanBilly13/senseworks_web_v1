@@ -82,7 +82,7 @@ export const stickySplitBlock = defineType({
               title: 'Text',
               type: 'text',
               rows: 3,
-              description: 'The big regular-weight text of the Statement blocks (24–50px). Press Enter for a line break.',
+              description: 'The big regular-weight text of the Statement blocks (28–50px). Press Enter for a line break.',
               validation: (Rule) => Rule.required(),
             }),
           ],
@@ -134,10 +134,9 @@ export const stickySplitBlock = defineType({
               type: 'string',
               options: {
                 list: [
-                  { title: 'Body style (default)', value: 'inherit' },
+                  { title: 'Body style', value: 'inherit' },
                   { title: 'Body', value: 'body' },
-                  { title: 'Large body', value: 'large' },
-                  { title: 'H4', value: 'h4' },
+                  { title: 'Subtitle', value: 'h4' },
                 ],
                 layout: 'radio',
                 direction: 'horizontal',
@@ -182,9 +181,9 @@ export const stickySplitBlock = defineType({
               type: 'string',
               options: {
                 list: [
-                  { title: 'H4', value: 'h4' },
-                  { title: 'H5 (default)', value: 'h5' },
-                  { title: 'H6', value: 'h6' },
+                  { title: 'Title', value: 'h4' },
+                  { title: 'Subtitle', value: 'h5' },
+                  { title: 'Body', value: 'h6' },
                 ],
                 layout: 'radio',
                 direction: 'horizontal',
@@ -238,12 +237,11 @@ export const stickySplitBlock = defineType({
     defineField({
       name: 'bodySize',
       title: 'Body style',
-      description: 'The size of the body text in the Intro and Text pieces (not the cards). Statement is the big regular-weight text of the Statement blocks (24–50px).',
+      description: 'The size of the body text in the Intro and Text pieces (not the cards). Statement is the big regular-weight text of the Statement blocks (28–50px).',
       type: 'string',
       options: {
         list: [
-          { title: 'Body (default)', value: 'body' },
-          { title: 'Large body', value: 'large' },
+          { title: 'Body', value: 'body' },
           { title: 'Statement', value: 'statement' },
         ],
         layout: 'radio',

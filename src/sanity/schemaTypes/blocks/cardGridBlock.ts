@@ -51,8 +51,8 @@ export const cardGridBlock = defineType({
       type: 'string',
       options: {
         list: [
-          { title: 'H3', value: 'h3' },
-          { title: 'H4 (default)', value: 'h4' },
+          { title: 'Title', value: 'h3' },
+          { title: 'Subtitle', value: 'h4' },
         ],
         layout: 'radio',
       },

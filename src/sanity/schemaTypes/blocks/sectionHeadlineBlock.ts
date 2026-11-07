@@ -36,9 +36,8 @@ export const sectionHeadlineBlock = defineType({
       options: {
         list: [
           { title: 'Display', value: 'display' },
-          { title: 'H1', value: 'h1' },
-          { title: 'H2 (default)', value: 'h2' },
-          { title: 'H3', value: 'h3' },
+          { title: 'Headline', value: 'h2' },
+          { title: 'Title', value: 'h3' },
         ],
         layout: 'radio',
         direction: 'horizontal',
