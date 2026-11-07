@@ -63,12 +63,16 @@ export function StoryCard({
           body={story.summary}
           bodyFont={editorial.bodyFont}
           action={{ label: editorial.linkStyle === 'button' ? readLabel.replace(' →', '') : readLabel, style: editorial.linkStyle }}
+          // 7:5, the golden ratio of the card's width (61.8%), lined up with its right
+          // padding, so the card stays compact.
           visual={
-            <Media
-              media={story.coverImage ? { mediaType: 'image', image: story.coverImage } : null}
-              alt=""
-              className={`aspect-4/3 w-full ${editorial.surface === 'none' ? 'rounded-lg' : ''}`}
-            />
+            <div className={`flex justify-end ${editorial.surface === 'none' ? '' : 'pt-card-top md:pt-large'}`}>
+              <Media
+                media={story.coverImage ? { mediaType: 'image', image: story.coverImage } : null}
+                alt=""
+                className={`aspect-media w-golden rounded-md ${editorial.surface === 'none' ? '' : 'mr-medium-large md:mr-large'}`}
+              />
+            </div>
           }
         />
       </a>

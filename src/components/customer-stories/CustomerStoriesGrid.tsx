@@ -57,11 +57,11 @@ export function CustomerStoriesGrid({ stories, locale }: { stories: CustomerStor
         <SortSelect value={sort} onChange={setSort} locale={locale} />
       </div>
       {visible.length ? (
-        <div className="grid grid-cols-1 gap-large sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-large sm:grid-cols-2 lg:grid-cols-3 wide:grid-cols-4">
           {visible.map((story) => (
-            // The editorial card (ui/EditorialCard), light, with the wave
+            // The editorial card (ui/EditorialCard), dark, with the wave
             // mark — as the Case Study Carousel on the home page.
-            <StoryCard key={story.slug} story={story} locale={locale} editorial={{ surface: 'white', mark: 'wave', linkStyle: 'link' }} />
+            <StoryCard key={story.slug} story={story} locale={locale} editorial={{ surface: 'dark', mark: 'wave', linkStyle: 'link' }} />
           ))}
         </div>
       ) : (

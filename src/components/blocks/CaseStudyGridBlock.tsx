@@ -52,7 +52,7 @@ export function CaseStudyGridBlock({ tone = 'light', spacing = 'loose', stories 
                 ? { surface: tone === 'dark' ? 'dark' : tone === 'none' ? 'none' : 'white', mark: cardMark, linkStyle, bodyFont }
                 : undefined
             }
-            className="w-80 shrink-0 snap-start md:w-96"
+            className="story-carousel-card w-80 shrink-0 snap-start md:w-96"
           />
         ))}
       </CarouselScroller>

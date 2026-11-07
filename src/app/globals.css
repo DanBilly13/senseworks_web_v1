@@ -1,6 +1,9 @@
 @import "tailwindcss";
 
 @theme {
+  /* "wide": big screens, from 1440px (four-column card grids). */
+  --breakpoint-wide: 90rem;
+
   /* D5: radius scale — mirrors senseworks-figma-styles/border-radius.tokens.json,
      plus xs (2px) added here for Card Grid's small numbered-eyebrow
      badge, which needed a tighter radius than the Figma scale's
@@ -159,6 +162,9 @@
      md:px-medium-large edge padding on each side) rather than a
      one-off vw number — this component only renders this branch at
      md: and up, so only the desktop edge padding value is needed. */
+  /* The golden ratio's larger part (1 / 1.618): e.g. a story card's image
+     beside the empty space to its left. */
+  --width-golden: 61.8%;
   --width-scroll-panel: calc(min(100vw, var(--container-page)) - 2 * var(--page-gutter));
 
   /* Image/media placeholder ratio (Tailwind's own --aspect-* namespace
@@ -830,6 +836,21 @@ p {
   .carousel-inset.carousel-inset-on-line {
     padding-inline: var(--spacing-edge);
     scroll-padding-inline: var(--spacing-edge);
+  }
+}
+
+/* Case Study Carousel cards: the same width as a card in the Customer
+   stories grid, so the two match. That grid is 3 columns from lg and 4
+   from 1440 (wide), 32px apart, inside the page row (max-w-page less the
+   gutter either side). Phones and tablets keep the card's own w-80. */
+@media (width >= 64rem) {
+  .story-carousel-card {
+    width: calc((min(100vw, var(--container-page)) - 2 * var(--page-gutter) - 2 * var(--spacing-large)) / 3);
+  }
+}
+@media (width >= 90rem) {
+  .story-carousel-card {
+    width: calc((min(100vw, var(--container-page)) - 2 * var(--page-gutter) - 3 * var(--spacing-large)) / 4);
   }
 }
 
