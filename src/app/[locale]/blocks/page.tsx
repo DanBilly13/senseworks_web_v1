@@ -1638,6 +1638,12 @@ export default async function BlocksPage({
         variant='mediaType: "reactAnimation", animation: "aiGatewayAnimation"'
       />
       <MediaBlock media={{ mediaType: 'reactAnimation', animation: 'aiGatewayAnimation' }} />
+      <BlockCaption
+        name="Media — React Animation (SW Logo)"
+        type="mediaBlock"
+        variant='mediaType: "reactAnimation", animation: "swLogoAnimation"'
+      />
+      <MediaBlock media={{ mediaType: 'reactAnimation', animation: 'swLogoAnimation' }} />
 
       <GroupHeading>Support</GroupHeading>
       <BlockCaption name="FAQ Accordion" type="faqAccordionBlock" variant="with a Section Headline above" />

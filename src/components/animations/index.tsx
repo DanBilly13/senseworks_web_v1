@@ -15,6 +15,7 @@ import { InvoiceReadAnimation } from './InvoiceRead'
 import { AllyOpenFilm } from './AllyOpenFilm'
 import { AllyGoodwillFilm } from './AllyGoodwillFilm'
 import { AiGatewayFilm } from './AiGatewayFilm'
+import { SwLogo } from './SwLogo'
 
 // Ally's canvas is an 852×852 square with its content in the centre
 // band; shown in the site's 7:5 frame (852×608), shifted up 122px so that
@@ -45,6 +46,17 @@ function AllyCallFramed({ paused }: { paused?: boolean }) {
   return (
     <div style={{ transform: 'translateY(-114px)' }}>
       <AllyCallAnimation paused={paused} />
+    </div>
+  )
+}
+
+// The logo end card: a 700×400 canvas, shown in the 7:5 frame (700×500)
+// moved down 50px so it sits in the middle (the frame shows through
+// above and below; in a 7:4 frame the extra crops off evenly).
+function SwLogoFramed({ paused }: { paused?: boolean }) {
+  return (
+    <div style={{ transform: 'translateY(50px)' }}>
+      <SwLogo paused={paused} />
     </div>
   )
 }
@@ -136,6 +148,10 @@ export const ANIMATION_COMPONENTS = {
   } as AnimationEntry,
   aiGatewayAnimation: {
     component: AiGatewayFilm,
+    canvas: { width: 700, height: 500 },
+  } as AnimationEntry,
+  swLogoAnimation: {
+    component: SwLogoFramed,
     canvas: { width: 700, height: 500 },
   } as AnimationEntry,
 } satisfies Record<string, AnimationEntry>

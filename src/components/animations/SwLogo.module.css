@@ -1,0 +1,21 @@
+/* SW Logo — the logo in the site's ink (--color-foreground). */
+.canvas {
+  position: relative;
+  overflow: hidden; /* clips the close crop: the big logo runs past the edges on purpose */
+  color: var(--color-foreground);
+}
+
+.layer {
+  position: absolute;
+  inset: 0;
+}
+
+.big,
+.small {
+  position: absolute;
+  will-change: transform;
+}
+
+.logo {
+  display: block;
+}

@@ -64,6 +64,7 @@ export const media = defineType({
           { title: 'Ally Open 2', value: 'allyOpenTwoAnimation' },
           { title: 'Ally Goodwill', value: 'allyGoodwillAnimation' },
           { title: 'AI Gateway', value: 'aiGatewayAnimation' },
+          { title: 'SW Logo', value: 'swLogoAnimation' },
         ],
       },
       hidden: ({ parent }) => parent?.mediaType !== 'reactAnimation',
