@@ -72,6 +72,20 @@ const PHONE_RATIO_CLASS: Record<Exclude<NonNullable<MediaBlockProps['mobileRatio
   '1:1': 'aspect-square',
   '4:5': 'aspect-4/5',
 }
+// The phone Top/Bottom padding with no background on phones (on a
+// wrapper, phones only).
+const PHONE_PAD_TOP: Record<BandSpacing, string> = {
+  loose: 'max-md:pt-section-gap-loose',
+  medium: 'max-md:pt-section-gap-medium',
+  tight: 'max-md:pt-section-gap-tight',
+  none: '',
+}
+const PHONE_PAD_BOTTOM: Record<BandSpacing, string> = {
+  loose: 'max-md:pb-section-gap-loose',
+  medium: 'max-md:pb-section-gap-medium',
+  tight: 'max-md:pb-section-gap-tight',
+  none: '',
+}
 // "Same as desktop" or the phone's own value.
 const phoneOr = <T,>(value: T | 'inherit' | undefined, desktop: T): T => (value === undefined || value === 'inherit' ? desktop : value)
 // Items alignment for the text over the media, phones and desktop.
@@ -145,12 +159,19 @@ function MediaBlockContent({
   // they're as they always were. Phones can drop it (and its padding) or
   // set their own gap after the block.
   type Pads = { pt?: BandSpacing; pb: BandSpacing; phonePt?: BandSpacing; phonePb?: BandSpacing }
+  // With no background on phones, the phone Top/Bottom padding (when
+  // set) is space above and below the media, before the gap after it.
+  const phonePad = (content: ReactNode) => {
+    const top = mobilePaddingTop && mobilePaddingTop !== 'inherit' ? PHONE_PAD_TOP[mobilePaddingTop] : ''
+    const bottom = mobilePaddingBottom && mobilePaddingBottom !== 'inherit' ? PHONE_PAD_BOTTOM[mobilePaddingBottom] : ''
+    return top || bottom ? <div className={`${top} ${bottom}`}>{content}</div> : content
+  }
   const banded = (shell: (py: Pads) => ReactNode) => {
-    if (tone === 'none') return shell({ pb: spacing, phonePb: phoneSpacing })
+    if (tone === 'none') return phonePad(shell({ pb: spacing, phonePb: phoneSpacing }))
     const pads = bandShellPadding({ tone, paddingTop, paddingBottom })
     return phoneNoBg ? (
       <BandFill tone={tone} spacing={spacing} phoneNoBg phoneSpacing="none">
-        {shell({ ...pads, phonePt: 'none', phonePb: phoneSpacing })}
+        {phonePad(shell({ ...pads, phonePt: 'none', phonePb: phoneSpacing }))}
       </BandFill>
     ) : (
       <BandFill tone={tone} spacing={spacing} phoneSpacing={phoneSpacing}>

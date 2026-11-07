@@ -200,7 +200,7 @@ export const mediaBlock = defineType({
     defineField({
       name: 'mobilePaddingTop',
       title: 'Top padding',
-      description: 'On phones: the space above the media, inside the background.',
+      description: 'On phones: the space above the media (inside the background, when there is one). Same as desktop: as desktop shows it (none without a background).',
       type: 'string',
       options: {
         list: [{ title: 'Same as desktop', value: 'inherit' }, { title: 'Loose', value: 'loose' }, { title: 'Medium', value: 'medium' }, { title: 'Tight', value: 'tight' }, { title: 'None', value: 'none' }],
@@ -209,12 +209,12 @@ export const mediaBlock = defineType({
       },
       initialValue: 'inherit',
       group: 'mobile',
-      hidden: ({ parent }) => parent?.width === 'full' || (parent?.tone ?? 'none') === 'none' || parent?.mobileBackground === 'none',
+      hidden: ({ parent }) => parent?.width === 'full',
     }),
     defineField({
       name: 'mobilePaddingBottom',
       title: 'Bottom padding',
-      description: 'On phones: the space below the media, inside the background.',
+      description: 'On phones: the space below the media (inside the background, when there is one), before the Section spacing gap. Same as desktop: as desktop shows it (none without a background).',
       type: 'string',
       options: {
         list: [{ title: 'Same as desktop', value: 'inherit' }, { title: 'Loose', value: 'loose' }, { title: 'Medium', value: 'medium' }, { title: 'Tight', value: 'tight' }, { title: 'None', value: 'none' }],
@@ -223,7 +223,7 @@ export const mediaBlock = defineType({
       },
       initialValue: 'inherit',
       group: 'mobile',
-      hidden: ({ parent }) => parent?.width === 'full' || (parent?.tone ?? 'none') === 'none' || parent?.mobileBackground === 'none',
+      hidden: ({ parent }) => parent?.width === 'full',
     }),
     defineField({
       name: 'mobileSpacing',
