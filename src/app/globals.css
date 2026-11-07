@@ -289,7 +289,7 @@
        Title      36 / 28   H3 (and Stat small)
        Subtitle   24 / 21   H4 and H5 (card titles, sub-headings)
        Statement  42 / 28   the big sentence in the body font (kept as is)
-       Body       18 / 17   Body, Body large and Large body (one body)
+       Body       19 / 18   Body, Body large and Large body (one body)
        Small      14 / 14   Body small and Caption
        Label      13 / 12   Eyebrow: Aeonik bold caps
      Aeonik headings are bold (Regular is only for the editorial cards'
@@ -350,7 +350,7 @@
      Body 16 (17 on phones) / Body large 18 (17) / Large body 22 (19) /
      Statement — headings (H1–H6) are only for headings. */
   /* "Large body" is now just Body (two body styles: Body and Small). */
-  --text-body-xl: 1.125rem;
+  --text-body-xl: 1.1875rem;
   --text-body-xl--line-height: 1.4;
   --text-body-xl--letter-spacing: -0.01em;
 
@@ -368,12 +368,12 @@
   --text-h3--full-line-height: calc(var(--text-h3) * var(--text-h3--line-height));
   --text-h4--full-line-height: calc(var(--text-h4) * var(--text-h4--line-height));
 
-  /* Body: one size, 18px, 17px on phones (Body, Body large and Large
+  /* Body: one size, 19px, 18px on phones (Body, Body large and Large
      body are the same style now). */
-  --text-body-lg: 1.125rem;
+  --text-body-lg: 1.1875rem;
   --text-body-lg--line-height: 1.4;
   --text-body-lg--letter-spacing: -0.01em;
-  --text-body: 1.125rem;
+  --text-body: 1.1875rem;
   --text-body--line-height: 1.4;
   --text-body--letter-spacing: -0.01em;
   --text-body-sm: 0.875rem;
@@ -397,15 +397,9 @@
   --text-article-body: 1.25rem;
   --text-article-body--line-height: 1.7;
 
-  /* Horizontal Scroll Stack's body copy — Body-lg (18px) on desktop,
-     same as --text-body-lg, but a dedicated token rather than reusing
-     it directly: desktop matches body-lg exactly, but mobile steps
-     down to 17px specifically (see the mobile override below), a
-     one-off between --text-body (16px) and --text-body-lg (18px) that
-     isn't its own rung on the shared scale. Keeping it separate means
-     this doesn't also shrink --text-body-lg's mobile value everywhere
-     else it's used (SectionIntro's h1/h2 subtitle, etc.). */
-  --text-scroll-stack-body: 1.125rem;
+  /* Horizontal Scroll Stack's body copy: Body's size (19px, 18px on
+     phones), as its own token so the block can be tuned on its own. */
+  --text-scroll-stack-body: 1.1875rem;
 
   /* Horizontal Scroll Stack's heading-to-media gap — 0 by default
      (desktop keeps the panel's own gap-2xl, 64px, untouched), redefined
@@ -522,7 +516,7 @@
        402px iPhone 17, 52px on a 375px phone). */
     --text-display: min(3.5rem, 14vw);
     /* The type system on phones (see the table in @theme):
-       Headline 36, Title 28 (= Statement), Subtitle 21, Body 17,
+       Headline 36, Title 28 (= Statement), Subtitle 21, Body 18,
        Label 12. */
     --text-h1: 2.25rem;
     --text-h2: 2.25rem;
@@ -530,9 +524,9 @@
     --text-h4: 1.3125rem;
     --text-h5: 1.3125rem;
     --text-statement: 1.75rem;
-    --text-body: 1.0625rem;
-    --text-body-lg: 1.0625rem;
-    --text-body-xl: 1.0625rem;
+    --text-body: 1.125rem;
+    --text-body-lg: 1.125rem;
+    --text-body-xl: 1.125rem;
     --text-eyebrow: 0.75rem;
     --text-stat: 2.25rem;
     --text-stat-sm: 1.75rem;
@@ -548,9 +542,9 @@
     --spacing-section-gap-tight: var(--spacing-large);
     --spacing-section-edge: var(--spacing-2xl);
 
-    /* 17px, the same as Body large on phones — not the
+    /* 18px, the same as Body on phones — not the
        same ~50% compression the headings above get. */
-    --text-scroll-stack-body: 1.0625rem;
+    --text-scroll-stack-body: 1.125rem;
 
     /* Pulls the media up from the panel's 64px gap-2xl to a 32px
        visible gap below the heading, mobile only. */
