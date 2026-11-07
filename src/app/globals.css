@@ -1407,7 +1407,9 @@ p:has(+ .hero-overlay-card-rules),
     top: auto;
     bottom: 0;
     translate: -50% 65.9%;
-    width: min(62vw, 120svh);
+    /* 90% of the old min(62vw, 120svh) (Dan, Nov 2026); the translate is
+       a share of her own size, so the crop and centring stay the same. */
+    width: min(55.8vw, 108svh);
   }
 }
 /* The space above the eyebrow: under the fixed header, then 32–80px,
