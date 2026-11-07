@@ -24,7 +24,12 @@ export function ScaledCanvas({ canvasWidth, canvasHeight, children }: ScaledCanv
   useLayoutEffect(() => {
     const frame = frameRef.current
     if (!frame) return
-    const update = () => setScale(frame.getBoundingClientRect().width / canvasWidth)
+    // offsetWidth, not getBoundingClientRect: the layout width, before
+    // any transform on a parent. Inside a Media that grows on scroll
+    // (ui/ScrollGrow scales its frame up from half size), the on-screen
+    // width is the shrunk one, and the resize observer never fires as it
+    // grows, so the canvas stayed drawn at that half size.
+    const update = () => setScale(frame.offsetWidth / canvasWidth)
     update()
     const observer = new ResizeObserver(update)
     observer.observe(frame)
