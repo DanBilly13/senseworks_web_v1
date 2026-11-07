@@ -298,7 +298,7 @@ export function MediaBlock({ pinned = false, ...props }: MediaBlockProps) {
       <StickToBottom belowHeader={64} />
       {/* The nav bar and ticker stay until the video is covered. */}
       <KeepNavUntilCovered />
-      <MediaBlockContent {...props} spacing="none" />
+      <MediaBlockContent {...props} spacing="none" mobileSpacing="none" />
     </div>
   )
 }

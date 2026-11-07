@@ -4,7 +4,8 @@ import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion
 import { Button } from '@/components/ui/Button'
 import { SectionIntro } from '@/components/ui/SectionIntro'
 import { Media } from '@/components/ui/Media'
-import type { MediaField } from '@/lib/sanity/media'
+import { phoneOr } from '@/components/ui/phone'
+import { hasMedia, type MediaField } from '@/lib/sanity/media'
 
 type HeroImageOverlayCardBlockProps = {
   eyebrow?: string
@@ -40,6 +41,11 @@ type HeroImageOverlayCardBlockProps = {
   headlineSize?: 'h1' | 'display'
   // The headline types itself out on load (ui/TypingText).
   typingHeadline?: boolean
+  // The Mobile tab (cardBackgroundMobile above is on it too): phone
+  // versions, 'inherit' (or unset) = same as desktop.
+  mobileHeadlineSize?: 'inherit' | 'h1' | 'display'
+  mobileMedia?: MediaField
+  mobileSpacing?: 'inherit' | 'loose' | 'medium' | 'tight'
 }
 
 // How blurred the desktop video starts, in px — sharpens to nothing as
@@ -206,7 +212,14 @@ function MobileImageOverlayCard({
   headlineSize,
   headlineRules,
   typingHeadline,
+  mobileHeadlineSize,
+  mobileMedia,
+  mobileSpacing,
 }: HeroImageOverlayCardBlockProps) {
+  // The Mobile tab's choices (this version only shows on phones).
+  const phoneSpacing = phoneOr(mobileSpacing, spacing)
+  const phoneHeadlineSize = phoneOr(mobileHeadlineSize, headlineSize ?? 'h1')
+  const phoneMedia = hasMedia(mobileMedia) ? mobileMedia : media
   // Only 'dark' needs light text — 'gradient' and 'light' both pair
   // with dark text, same as the desktop card's own isDark logic.
   const isDark = cardBackgroundMobile === 'dark'
@@ -223,7 +236,7 @@ function MobileImageOverlayCard({
     // video below — the intro block above keeps its own explicit
     // cardBackgroundMobile fill regardless of tone (see that div's own
     // comment).
-    <section className={`relative ${MB_CLASS[spacing]} ${SECTION_BG[tone]}`}>
+    <section className={`relative ${MB_CLASS[phoneSpacing]} ${SECTION_BG[tone]}`}>
       <div className="relative z-10 mx-auto flex w-full max-w-page flex-col px-medium-large md:px-gutter">
         {/* -mx-medium-large breaks out to full-bleed (cancels this
             wrapper's own px-medium-large) — negative margin-right
@@ -251,7 +264,7 @@ function MobileImageOverlayCard({
             ctaLabel={ctaLabel}
             ctaHref={ctaHref}
             isDark={isDark}
-            headlineSize={headlineSize}
+            headlineSize={phoneHeadlineSize}
             headlineRules={headlineRules}
             typing={typingHeadline}
           />
@@ -268,7 +281,7 @@ function MobileImageOverlayCard({
           16px side sliver. */}
       <div className="px-medium py-medium-large">
         <div className="relative aspect-media w-full overflow-hidden rounded-lg border border-border">
-          <Media media={media} alt={headline} className="size-full" />
+          <Media media={phoneMedia} alt={headline} className="size-full" />
         </div>
       </div>
     </section>

@@ -1738,3 +1738,21 @@ p:has(+ .hero-overlay-card-rules),
   padding-top: 0.875rem;
   font-size: 0.85em;
 }
+
+/* A hero headline at one size on phones and another from tablet up (the
+   heroes' Mobile tab, SectionIntro's phoneDisplay): the line height its
+   gaps are sized from, for the size it's drawn at on this screen. */
+.intro-lh-phone-display {
+  --intro-lh: var(--text-display--full-line-height);
+}
+.intro-lh-phone-h1 {
+  --intro-lh: var(--text-h1--full-line-height);
+}
+@media (width >= 48rem) {
+  .intro-lh-phone-display {
+    --intro-lh: var(--text-h1--full-line-height);
+  }
+  .intro-lh-phone-h1 {
+    --intro-lh: var(--text-display--full-line-height);
+  }
+}

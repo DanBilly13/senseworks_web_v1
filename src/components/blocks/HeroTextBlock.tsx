@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/Button'
 import { SectionShell } from '@/components/ui/SectionShell'
 import { SectionIntro } from '@/components/ui/SectionIntro'
+import { phoneDisplay, phoneOr } from '@/components/ui/phone'
 
 type HeroTextBlockProps = {
   eyebrow?: string
@@ -24,6 +25,9 @@ type HeroTextBlockProps = {
   tone?: 'none' | 'light' | 'dark' | 'accent'
   // On Dark: the headline in the accent instead of white.
   headlineColor?: 'default' | 'accent'
+  // The Mobile tab: phone versions, 'inherit' (or unset) = same as desktop.
+  mobileHeadlineSize?: 'inherit' | 'h1' | 'display'
+  mobileAlign?: 'inherit' | 'left' | 'center'
 }
 
 const SECTION_BG: Record<NonNullable<HeroTextBlockProps['tone']>, string> = {
@@ -45,6 +49,8 @@ export function HeroTextBlock({
   spaceBelow,
   tone = 'none',
   headlineColor,
+  mobileHeadlineSize,
+  mobileAlign,
 }: HeroTextBlockProps) {
   const dark = tone === 'dark'
   const accentHeadline = dark && headlineColor === 'accent'
@@ -61,6 +67,8 @@ export function HeroTextBlock({
       <SectionIntro
         as="h1"
         display={headlineSize === 'display'}
+        phoneDisplay={phoneDisplay(mobileHeadlineSize, headlineSize === 'display')}
+        phoneAlign={phoneOr(mobileAlign, 'left')}
         typing={typingHeadline}
         typingCursorClassName={dark ? 'text-accent' : undefined}
         // On dark: light text, with the eyebrow and button in the accent.

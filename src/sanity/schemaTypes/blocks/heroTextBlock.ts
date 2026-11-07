@@ -2,6 +2,7 @@ import { defineType, defineField } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
 import { headlineSizeField } from '../fields/headlineSizeField'
 import { typingHeadlineField } from '../fields/typingHeadlineField'
+import { phoneAlignField, phoneHeadlineSizeField } from '../fields/mobileFields'
 
 export const heroTextBlock = defineType({
   name: 'heroTextBlock',
@@ -86,6 +87,9 @@ export const heroTextBlock = defineType({
         layout: 'radio',
       },
     }),
+    // The Mobile tab.
+    phoneHeadlineSizeField(),
+    phoneAlignField(),
   ],
   preview: {
     select: { title: 'headline' },

@@ -105,12 +105,14 @@ export const pageBySlugAndLocaleQuery = groq`
     seoDescription,
     blocks[]{
       ...,
-      _type == "heroBlock" => { ${mediaProjection()}, ${mediaProjection('secondMedia', 'secondMedia')} },
-      _type == "heroScrollZoomBlock" => { ${mediaProjection()} },
-      _type == "heroImageOverlayCardBlock" => { ${mediaProjection()} },
+      _type == "heroBlock" => { ${mediaProjection()}, ${mediaProjection('secondMedia', 'secondMedia')}, ${mediaProjection('mobileMedia', 'mobileMedia')} },
+      _type == "heroScrollZoomBlock" => { ${mediaProjection()}, ${mediaProjection('mobileMedia', 'mobileMedia')} },
+      _type == "heroImageOverlayCardBlock" => { ${mediaProjection()}, ${mediaProjection('mobileMedia', 'mobileMedia')} },
       _type == "heroBackdropBlock" => {
         ${mediaProjection('backgroundImage', 'backgroundImage')},
-        ${mediaProjection('showcaseMedia', 'showcaseMedia')}
+        ${mediaProjection('showcaseMedia', 'showcaseMedia')},
+        ${mediaProjection('mobileBackgroundImage', 'mobileBackgroundImage')},
+        ${mediaProjection('mobileShowcaseMedia', 'mobileShowcaseMedia')}
       },
       _type == "featureSplitBlock" => { ${mediaProjection()} },
       _type == "statsBandBlock" => { ${mediaProjection('backgroundImage', 'backgroundImage')} },

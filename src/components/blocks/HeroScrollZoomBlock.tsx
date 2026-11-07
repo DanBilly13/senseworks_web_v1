@@ -3,7 +3,7 @@ import { useRef } from 'react'
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
 import { Button } from '@/components/ui/Button'
 import { SectionIntro } from '@/components/ui/SectionIntro'
-import { Media } from '@/components/ui/Media'
+import { phoneDisplay, ResponsiveMedia } from '@/components/ui/phone'
 import type { MediaField } from '@/lib/sanity/media'
 
 type HeroScrollZoomBlockProps = {
@@ -15,6 +15,9 @@ type HeroScrollZoomBlockProps = {
   media?: MediaField
   // Dark (accent headline, white body) or Accent (dark text).
   tone?: 'dark' | 'accent'
+  // The Mobile tab: phone versions, 'inherit' (or unset) = same as desktop.
+  mobileHeadlineSize?: 'inherit' | 'h1' | 'display'
+  mobileMedia?: MediaField
 }
 
 // The media's size at the start, as a share of its full size.
@@ -47,6 +50,8 @@ export function HeroScrollZoomBlock({
   ctaHref,
   media,
   tone = 'dark',
+  mobileHeadlineSize,
+  mobileMedia,
 }: HeroScrollZoomBlockProps) {
   const dark = tone !== 'accent'
   const markColor = dark ? 'bg-background' : 'bg-foreground'
@@ -83,6 +88,7 @@ export function HeroScrollZoomBlock({
               <SectionIntro
                 as="h1"
                 display={headlineSize === 'display'}
+                phoneDisplay={phoneDisplay(mobileHeadlineSize, headlineSize === 'display')}
                 heading={headline}
                 maxWidth="none"
                 headingMaxWidth="none"
@@ -113,7 +119,7 @@ export function HeroScrollZoomBlock({
               className="absolute inset-0 overflow-hidden rounded-lg"
               style={{ scale: reduced ? START_SCALE * 2 : mediaScale }}
             >
-              <Media media={media} alt="" ariaHidden className="size-full" />
+              <ResponsiveMedia media={media} phone={mobileMedia} alt="" ariaHidden className="size-full" />
             </motion.div>
           </div>
         </div>

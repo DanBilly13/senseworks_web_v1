@@ -51,6 +51,9 @@ type SectionIntroProps = {
   // site, whatever its level (the "Headline size" field on Heroes and
   // Section Headline).
   display?: boolean
+  // Phones only (the heroes' Mobile tab): Display (true) or Headline
+  // (false) on phones; unset follows display.
+  phoneDisplay?: boolean
   // Extra classes on the heading itself — e.g. Hero Image Overlay
   // Card's rules above and below the headline.
   headingClassName?: string
@@ -131,6 +134,12 @@ const MAX_WIDTH_CLASS: Record<WidthKey, string> = {
   none: '',
 }
 
+// A hero headline's full line height (for gaps sized from it): the
+// size it's drawn at on this screen, Display or Headline, also when the
+// phone size differs (SectionIntro sets --intro-lh then, globals.css).
+export const headlineLineHeight = (display: boolean) =>
+  `var(--intro-lh, var(--text-${display ? 'display' : 'h1'}--full-line-height))`
+
 // The cluster's alignment, with an optional different one on phones.
 function alignClass(align: 'left' | 'center', phone?: 'left' | 'center') {
   const p = phone ?? align
@@ -155,6 +164,7 @@ export function SectionIntro({
   headingColor: headingColorOverride,
   subtitleColor,
   display = false,
+  phoneDisplay,
   headingClassName,
   bodyClassName,
   bodyStyleClassName,
@@ -179,7 +189,19 @@ export function SectionIntro({
   // bodyColor every h3/h4 body still uses.
   const styleLevel = styleAs ?? Heading
   const isSubtitle = subtitleBody && (styleLevel === 'h1' || styleLevel === 'h2')
-  const halfLineHeightGap = display ? HALF_DISPLAY_LINE_HEIGHT_GAP : HALF_HEADING_LINE_HEIGHT_GAP[styleLevel]
+  // A different headline size on phones: Display on one, Headline on
+  // the other (heroes, whose headline is always an h1).
+  const mixed = phoneDisplay !== undefined && phoneDisplay !== display
+  const halfLineHeightGap = mixed
+    ? 'calc((var(--intro-lh) / 2) - var(--spacing-medium))'
+    : display
+      ? HALF_DISPLAY_LINE_HEIGHT_GAP
+      : HALF_HEADING_LINE_HEIGHT_GAP[styleLevel]
+  const headingSizeClass = mixed
+    ? phoneDisplay
+      ? 'text-display font-semibold md:text-h1 md:font-bold'
+      : 'text-h1 font-bold md:text-display md:font-semibold'
+    : `${display ? 'text-display' : HEADING_TEXT_CLASS[styleLevel]} ${display ? 'font-semibold' : HEADING_WEIGHT_CLASS[styleLevel]}`
 
   // Width lives on each child, not this wrapping div, so the heading
   // can run wider than the body/eyebrow via headingMaxWidth — flexbox's
@@ -189,7 +211,11 @@ export function SectionIntro({
   // every caller that doesn't pass headingMaxWidth.
   return (
     <div
-      className={['flex flex-col gap-medium', alignClass(align, phoneAlign)]
+      className={[
+        'flex flex-col gap-medium',
+        alignClass(align, phoneAlign),
+        mixed ? (phoneDisplay ? 'intro-lh-phone-display' : 'intro-lh-phone-h1') : '',
+      ]
         .filter(Boolean)
         .join(' ')}
     >
@@ -203,11 +229,10 @@ export function SectionIntro({
       {heading && (
         <Heading
           className={[
-            display ? 'text-display' : HEADING_TEXT_CLASS[styleLevel],
             // Bold on dark backgrounds too (a Medium trial for light-on-
-            // dark text was reverted at Dan's request). Display is Aeonik
-            // Medium (loaded as weight 600, see layout.tsx), at Dan's request.
-            display ? 'font-semibold' : HEADING_WEIGHT_CLASS[styleLevel],
+            // dark text was reverted at Dan's request). Display is
+            // font-semibold (drawn with Aeonik Bold, see layout.tsx).
+            headingSizeClass,
             'text-balance',
             headingColor,
             MAX_WIDTH_CLASS[headingMaxWidth ?? maxWidth],

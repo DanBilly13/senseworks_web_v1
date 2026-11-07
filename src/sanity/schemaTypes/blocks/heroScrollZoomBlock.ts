@@ -1,6 +1,7 @@
 import { defineType, defineField } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
 import { headlineSizeField } from '../fields/headlineSizeField'
+import { phoneHeadlineSizeField, phoneMediaField } from '../fields/mobileFields'
 
 // Experimental Hero: a dark or accent screen — the headline top left,
 // the body and button bottom right, the Senseworks mark bottom left —
@@ -48,6 +49,9 @@ export const heroScrollZoomBlock = defineType({
       },
       initialValue: 'dark',
     }),
+    // The Mobile tab.
+    phoneHeadlineSizeField(),
+    phoneMediaField(),
   ],
   preview: {
     select: { title: 'headline' },

@@ -3,6 +3,7 @@ import { hiddenField } from '../fields/hiddenField'
 import { spacingField } from '../fields/spacingField'
 import { headlineSizeField } from '../fields/headlineSizeField'
 import { typingHeadlineField } from '../fields/typingHeadlineField'
+import { phoneHeadlineSizeField, phoneMediaField, phoneSpacingField } from '../fields/mobileFields'
 
 // Split out of heroBlock's `layout` options (was "imageOverlayCard")
 // once it grew its own scroll-driven pin/morph interaction and two
@@ -39,7 +40,7 @@ export const heroImageOverlayCardBlock = defineType({
       name: 'cardBackground',
       title: 'Text card background — desktop',
       description:
-        'The fill behind the eyebrow/headline/body/button card itself, desktop only — not the backdrop around it or the video (see Background, below), and not mobile (see Text card background — mobile, below) — desktop and mobile can each have their own fill.',
+        'The fill behind the eyebrow/headline/body/button card itself, desktop only — not the backdrop around it or the video (see Background, below). Phones have their own, on the Mobile tab.',
       type: 'string',
       options: {
         list: [
@@ -52,9 +53,9 @@ export const heroImageOverlayCardBlock = defineType({
     }),
     defineField({
       name: 'cardBackgroundMobile',
-      title: 'Text card background — mobile',
+      title: 'Text card background',
       description:
-        'Same fill, mobile only — independent of the desktop option above (e.g. dark on desktop, gradient on mobile, or any other combination).',
+        'On phones: the fill behind the text, which sits above the video. Independent of the desktop card’s (e.g. dark on desktop, gradient on phones).',
       type: 'string',
       options: {
         list: [
@@ -65,6 +66,7 @@ export const heroImageOverlayCardBlock = defineType({
         layout: 'radio',
       },
       initialValue: 'light',
+      group: 'mobile',
     }),
     defineField({
       name: 'cardWidth',
@@ -113,6 +115,10 @@ export const heroImageOverlayCardBlock = defineType({
       initialValue: 'light',
     }),
     spacingField,
+    // The Mobile tab (Text card background — mobile is on it too).
+    phoneHeadlineSizeField(),
+    phoneMediaField(),
+    phoneSpacingField(false),
   ],
   preview: {
     select: { title: 'headline', cardBackground: 'cardBackground' },

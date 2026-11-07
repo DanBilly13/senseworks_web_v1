@@ -128,6 +128,33 @@ const PANEL_GAP: Record<BandSpacing, string> = {
   // As PANEL_TOP: still a gap on phones, where nothing pins.
   none: 'mt-section-gap-medium md:mt-none',
 }
+// With a phone Section spacing of its own (the Mobile tab): that on
+// phones, the desktop one from tablet up. None still leaves the gap, as
+// above.
+const PHONE_PANEL_TOP: Record<BandSpacing, string> = {
+  loose: 'pt-section-gap-loose',
+  medium: 'pt-section-gap-medium',
+  tight: 'pt-section-gap-tight',
+  none: 'pt-section-gap-medium',
+}
+const MD_PANEL_TOP: Record<BandSpacing, string> = {
+  loose: 'md:pt-section-gap-loose',
+  medium: 'md:pt-section-gap-medium',
+  tight: 'md:pt-section-gap-tight',
+  none: 'md:pt-none',
+}
+const PHONE_PANEL_GAP: Record<BandSpacing, string> = {
+  loose: 'mt-section-gap-loose',
+  medium: 'mt-section-gap-medium',
+  tight: 'mt-section-gap-tight',
+  none: 'mt-section-gap-medium',
+}
+const MD_PANEL_GAP: Record<BandSpacing, string> = {
+  loose: 'md:mt-section-gap-loose',
+  medium: 'md:mt-section-gap-medium',
+  tight: 'md:mt-section-gap-tight',
+  none: 'md:mt-none',
+}
 
 export function BlockRenderer({ blocks }: { blocks: PageBlock[] }) {
   // D7: an unrecognized or incomplete block type simply doesn't render.
@@ -194,13 +221,19 @@ export function BlockRenderer({ blocks }: { blocks: PageBlock[] }) {
   const curtain = (pieces: typeof out): React.ReactNode => {
     const pin = pieces.findIndex(isPinned)
     if (pin === -1 || pin === pieces.length - 1) return pieces.map((o) => o.el)
-    const pinned = shown[pieces[pin].start] as { _type: string; _key: string; spacing?: BandSpacing }
+    const pinned = shown[pieces[pin].start] as { _type: string; _key: string; spacing?: BandSpacing; mobileSpacing?: BandSpacing | 'inherit' }
     const panelSpacing = pinned.spacing ?? PANEL_TOP_FROM_SPACING.get(pinned._type)
+    const phoneSpacing = pinned.mobileSpacing && pinned.mobileSpacing !== 'inherit' ? pinned.mobileSpacing : undefined
+    const media = pinned._type === 'mediaBlock'
     const panelTop = !panelSpacing
       ? 'pt-section-edge'
-      : pinned._type === 'mediaBlock'
-        ? PANEL_GAP[panelSpacing]
-        : PANEL_TOP[panelSpacing]
+      : phoneSpacing
+        ? media
+          ? `${PHONE_PANEL_GAP[phoneSpacing]} ${MD_PANEL_GAP[panelSpacing]}`
+          : `${PHONE_PANEL_TOP[phoneSpacing]} ${MD_PANEL_TOP[panelSpacing]}`
+        : media
+          ? PANEL_GAP[panelSpacing]
+          : PANEL_TOP[panelSpacing]
     // The panel is see-through when the first thing on it is a pinned
     // content-width Media with no background of its own: the block behind
     // (e.g. the Ally hero) then shows on either side of the video. That

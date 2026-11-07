@@ -3,6 +3,7 @@ import { hiddenField } from '../fields/hiddenField'
 import { spacingField } from '../fields/spacingField'
 import { headlineSizeField } from '../fields/headlineSizeField'
 import { typingHeadlineField } from '../fields/typingHeadlineField'
+import { phoneAlignField, phoneHeadlineSizeField, phoneSpacingField } from '../fields/mobileFields'
 
 // Experimental Hero: one screen tall on the accent gradient, with the 3D
 // Ally rising from the bottom edge behind the text, following the cursor.
@@ -86,6 +87,26 @@ export const heroAllyBlock = defineType({
       initialValue: 'medium',
       description: 'The gap below this hero, before the next block.',
     },
+    // The Mobile tab.
+    phoneHeadlineSizeField(),
+    phoneAlignField(),
+    defineField({
+      name: 'mobileAlly',
+      title: 'Ally',
+      description: 'On phones: show Ally under the text, or leave her out (the hero is then just as tall as its text).',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Show', value: 'show' },
+          { title: 'Hide', value: 'hide' },
+        ],
+        layout: 'radio',
+        direction: 'horizontal',
+      },
+      initialValue: 'show',
+      group: 'mobile',
+    }),
+    phoneSpacingField(),
   ],
   preview: {
     select: { title: 'headline' },

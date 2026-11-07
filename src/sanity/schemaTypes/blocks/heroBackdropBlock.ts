@@ -3,6 +3,7 @@ import { hiddenField } from '../fields/hiddenField'
 import { spacingField } from '../fields/spacingField'
 import { headlineSizeField } from '../fields/headlineSizeField'
 import { typingHeadlineField } from '../fields/typingHeadlineField'
+import { phoneAlignField, phoneHeadlineSizeField, phoneMediaField, phoneSpacingField } from '../fields/mobileFields'
 
 // Experimental Hero variant: a flexible full-bleed backdrop (image,
 // solid color, or the shared accent gradient) behind text plus a
@@ -112,6 +113,15 @@ export const heroBackdropBlock = defineType({
       description:
         'The gap below this hero, before the next block. Medium is the hero\u2019s original fixed gap.',
     },
+    // The Mobile tab.
+    phoneHeadlineSizeField(),
+    phoneAlignField(),
+    {
+      ...phoneMediaField('mobileBackgroundImage', 'Phone background image', 'Optional: a different background image just for phones, e.g. a portrait crop. Empty shows the desktop one.'),
+      hidden: ({ parent }: { parent?: { backgroundType?: string } }) => (parent?.backgroundType ?? 'image') !== 'image',
+    },
+    phoneMediaField('mobileShowcaseMedia', 'Phone showcase media', 'Optional: a different showcase image or video just for phones. Empty shows the desktop one.'),
+    phoneSpacingField(),
   ],
   preview: {
     select: { title: 'headline', backgroundType: 'backgroundType' },

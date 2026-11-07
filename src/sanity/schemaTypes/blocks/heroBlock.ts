@@ -2,6 +2,7 @@ import { defineType, defineField } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
 import { headlineSizeField } from '../fields/headlineSizeField'
 import { typingHeadlineField } from '../fields/typingHeadlineField'
+import { phoneAlignField, phoneHeadlineSizeField, phoneMediaField, phoneRatioField } from '../fields/mobileFields'
 
 export const heroBlock = defineType({
   name: 'heroBlock',
@@ -187,6 +188,20 @@ export const heroBlock = defineType({
       initialValue: 'full',
       hidden: ({ parent }) => parent?.layout !== 'scrollReveal',
     }),
+    // The Mobile tab.
+    phoneHeadlineSizeField(),
+    {
+      ...phoneMediaField(),
+      hidden: ({ parent }: { parent?: { layout?: string } }) => parent?.layout === 'scrollReveal',
+    },
+    phoneRatioField(({ parent }) =>
+      !['split', 'splitEven', 'overlap', undefined].includes(parent?.layout as string | undefined) ||
+      (parent?.layout === 'split' && parent?.imageWidth === 'full'),
+    ),
+    {
+      ...phoneAlignField(),
+      hidden: ({ parent }: { parent?: { layout?: string } }) => !['splitEven', 'imageOverlay'].includes(parent?.layout ?? 'split'),
+    },
   ],
   preview: {
     select: { title: 'headline', layout: 'layout' },

@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/Button'
 import { SectionShell } from '@/components/ui/SectionShell'
-import { SectionIntro } from '@/components/ui/SectionIntro'
+import { SectionIntro, headlineLineHeight } from '@/components/ui/SectionIntro'
+import { phoneDisplay, phoneOr, ResponsiveMedia } from '@/components/ui/phone'
 import { Media } from '@/components/ui/Media'
 import { ScrollRevealStage } from './ScrollRevealStage'
 import { hasMedia, type MediaField } from '@/lib/sanity/media'
@@ -42,6 +43,11 @@ type HeroBlockProps = {
   // Full-bleed image overlay only: the hero stays put and the rest of
   // the page scrolls up over it (the wrapper is BlockRenderer's).
   pinned?: boolean
+  // The Mobile tab: phone versions, 'inherit' (or unset) = same as desktop.
+  mobileHeadlineSize?: 'inherit' | 'h1' | 'display'
+  mobileMedia?: MediaField
+  mobileRatio?: 'inherit' | '7:5' | '7:4' | '1:1' | '4:5'
+  mobileAlign?: 'inherit' | 'left' | 'center'
 }
 
 export function HeroBlock({ layout = 'split', ...props }: HeroBlockProps) {
@@ -55,6 +61,18 @@ export function HeroBlock({ layout = 'split', ...props }: HeroBlockProps) {
 type HeroVariantProps = Omit<HeroBlockProps, 'layout'>
 
 const RATIO_CLASS = { '7:5': 'aspect-media', '7:4': 'aspect-hero', '7:3': 'aspect-hero-wide' }
+const MD_RATIO_CLASS = { '7:5': 'md:aspect-media', '7:4': 'md:aspect-hero', '7:3': 'md:aspect-hero-wide' }
+const PHONE_RATIO_CLASS = { '7:5': 'aspect-media', '7:4': 'aspect-hero', '1:1': 'aspect-square', '4:5': 'aspect-4/5' }
+// The image's shape: the desktop one, or the Mobile tab's on phones.
+const ratioClass = (desktop: HeroBlockProps['imageRatio'] = '7:5', phone: HeroBlockProps['mobileRatio']) => {
+  const d = RATIO_CLASS[desktop] ? desktop : '7:5'
+  return !phone || phone === 'inherit' ? RATIO_CLASS[d] : `${PHONE_RATIO_CLASS[phone]} ${MD_RATIO_CLASS[d]}`
+}
+// SectionIntro's headline sizes: desktop's, and the phone's.
+const sizes = (headlineSize: HeroBlockProps['headlineSize'], mobileHeadlineSize: HeroBlockProps['mobileHeadlineSize']) => ({
+  display: headlineSize === 'display',
+  phoneDisplay: phoneDisplay(mobileHeadlineSize, headlineSize === 'display'),
+})
 
 function HeroSplit({
   eyebrow,
@@ -65,11 +83,14 @@ function HeroSplit({
   media,
   headlineSize,
   typingHeadline,
+  mobileHeadlineSize,
+  mobileMedia,
+  mobileRatio,
   imageWidth = 'content',
   imageRatio = '7:5',
   tone = 'none',
 }: HeroVariantProps) {
-  const ratio = RATIO_CLASS[imageRatio] ?? RATIO_CLASS['7:5']
+  const ratio = ratioClass(imageRatio, mobileRatio)
   const dark = tone === 'dark' || tone === 'accentDark'
   // Full screen width: the image leaves the page column (square
   // corners, edge to edge). Either way the image sits as far below
@@ -86,7 +107,7 @@ function HeroSplit({
         <div className="xl:col-span-2">
           <SectionIntro
             as="h1"
-            display={headlineSize === 'display'}
+            {...sizes(headlineSize, mobileHeadlineSize)}
             typing={typingHeadline}
             eyebrow={eyebrow}
             heading={headline}
@@ -118,7 +139,7 @@ function HeroSplit({
           aspect-media (7:5) instead of a fixed height so it scales
           correctly with the column's actual rendered width. Media
           itself falls back to a grey box when no asset is set. */}
-      {!full && <Media media={media} alt={headline} className={`${ratio} w-full rounded-lg`} />}
+      {!full && <ResponsiveMedia media={media} phone={mobileMedia} alt={headline} className={`${ratio} w-full rounded-lg`} />}
     </SectionShell>
   )
   // A background fills behind the whole hero (the full-width image
@@ -128,7 +149,7 @@ function HeroSplit({
   return (
     <div className={`mb-section-edge w-full ${bg}`}>
       {section}
-      <Media media={media} alt={headline} className={`${ratio} mt-section-edge w-full`} />
+      <ResponsiveMedia media={media} phone={mobileMedia} alt={headline} className={`${ratio} mt-section-edge w-full`} />
     </div>
   )
 }
@@ -142,6 +163,10 @@ function HeroSplitEven({
   media,
   headlineSize,
   typingHeadline,
+  mobileHeadlineSize,
+  mobileMedia,
+  mobileRatio,
+  mobileAlign,
   imageRatio = '7:5',
 }: HeroVariantProps) {
   return (
@@ -149,11 +174,12 @@ function HeroSplitEven({
       <div className="grid grid-cols-1 gap-stack md:grid-cols-2 md:items-center">
         <SectionIntro
           as="h1"
-          display={headlineSize === 'display'} typing={typingHeadline}
+          {...sizes(headlineSize, mobileHeadlineSize)} typing={typingHeadline}
           eyebrow={eyebrow}
           heading={headline}
           body={body}
           maxWidth="md"
+          phoneAlign={phoneOr(mobileAlign, 'left')}
           cta={
             ctaLabel &&
             ctaHref && (
@@ -164,7 +190,7 @@ function HeroSplitEven({
         {/* D15: contained within the page-width cap, not full-bleed.
             aspect-media (7:5) instead of a fixed height so it scales
             correctly with the column's actual rendered width. */}
-        <Media media={media} alt={headline} className={`${RATIO_CLASS[imageRatio] ?? RATIO_CLASS['7:5']} w-full rounded-lg`} />
+        <ResponsiveMedia media={media} phone={mobileMedia} alt={headline} className={`${ratioClass(imageRatio, mobileRatio)} w-full rounded-lg`} />
       </div>
     </SectionShell>
   )
@@ -183,6 +209,10 @@ function HeroSplitHalf({
   media,
   headlineSize,
   typingHeadline,
+  mobileHeadlineSize,
+  mobileMedia,
+  mobileRatio,
+  mobileAlign,
   tone = 'none',
   stack = 'single',
   secondMedia,
@@ -197,12 +227,13 @@ function HeroSplitHalf({
       >
         <SectionIntro
           as="h1"
-          display={headlineSize === 'display'}
+          {...sizes(headlineSize, mobileHeadlineSize)}
           typing={typingHeadline}
           eyebrow={eyebrow}
           heading={headline}
           body={body}
           maxWidth="md"
+          phoneAlign={phoneOr(mobileAlign, 'left')}
           tone={dark ? 'inverse' : 'default'}
           typingCursorClassName={dark ? 'text-accent' : undefined}
           cta={ctaLabel && ctaHref && <Button href={ctaHref} variant={dark ? 'filled-accent' : 'filled-dark'}>{ctaLabel}</Button>}
@@ -211,9 +242,9 @@ function HeroSplitHalf({
       {/* The wrapper owns the sizing (Media's own root is relative).
           Stacked: two halves, no gap, from tablet up — phones show
           the top one only. */}
-      <div className="relative aspect-media md:aspect-auto">
+      <div className={`relative md:aspect-auto ${PHONE_RATIO_CLASS[phoneOr(mobileRatio, '7:5')]}`}>
         <div className="absolute inset-0 flex flex-col">
-          <Media media={media} alt={headline} className="min-h-0 w-full flex-1" />
+          <ResponsiveMedia media={media} phone={mobileMedia} alt={headline} className="min-h-0 w-full flex-1" />
           {stack === 'stacked' && (
             <Media media={hasMedia(secondMedia) ? secondMedia : media} alt={headline} ariaHidden className="hidden min-h-0 w-full flex-1 md:block" />
           )}
@@ -248,6 +279,9 @@ function HeroOverlap({
   media,
   headlineSize,
   typingHeadline,
+  mobileHeadlineSize,
+  mobileMedia,
+  mobileRatio,
   tone = 'none',
   imageRatio = '7:5',
 }: HeroVariantProps) {
@@ -262,7 +296,7 @@ function HeroOverlap({
       <div className="relative z-10 mx-auto w-full max-w-page px-edge md:px-gutter">
         <SectionIntro
           as="h1"
-          display={headlineSize === 'display'}
+          {...sizes(headlineSize, mobileHeadlineSize)}
           typing={typingHeadline}
           eyebrow={eyebrow}
           heading={headline}
@@ -286,8 +320,8 @@ function HeroOverlap({
           </div>
           <div aria-hidden="true" className={`hidden h-xl md:block ${dark ? 'bg-background' : 'bg-foreground'}`} style={BRANDMARK_MASK} />
         </div>
-        <div className={`hero-overlap-media relative xl:col-span-2 ${RATIO_CLASS[imageRatio] ?? RATIO_CLASS['7:5']}`}>
-          <Media media={media} alt={headline} className="size-full" />
+        <div className={`hero-overlap-media relative xl:col-span-2 ${ratioClass(imageRatio, mobileRatio)}`}>
+          <ResponsiveMedia media={media} phone={mobileMedia} alt={headline} className="size-full" />
         </div>
       </div>
     </section>
@@ -303,10 +337,13 @@ function HeroImageOverlay({
   media,
   headlineSize,
   typingHeadline,
+  mobileHeadlineSize,
+  mobileMedia,
+  mobileAlign,
   headlineColor,
   pinned,
 }: HeroVariantProps) {
-  const overlayGap = `calc(var(--text-${headlineSize === 'display' ? 'display' : 'h1'}--full-line-height) / 4)`
+  const overlayGap = `calc(${headlineLineHeight(headlineSize === 'display')} / 4)`
   return (
     <section
       // Pinned (from tablet up; phones just scroll): sticky instead, with the gap to the next block moved
@@ -331,7 +368,7 @@ function HeroImageOverlay({
           own root is `relative`, so passing "absolute inset-0" into
           its className would conflict with that. */}
       <div className="absolute inset-0">
-        <Media media={media} alt={headline} className="size-full" />
+        <ResponsiveMedia media={media} phone={mobileMedia} alt={headline} className="size-full" />
       </div>
       {/* Flat scrim (not a directional gradient) so light text stays
           legible over whatever the eventual image is, regardless of
@@ -341,12 +378,13 @@ function HeroImageOverlay({
       <div className="relative mx-auto flex min-h-screen w-full max-w-page flex-col justify-center px-medium-large md:px-gutter py-section-edge">
         <SectionIntro
           as="h1"
-          display={headlineSize === 'display'} typing={typingHeadline}
+          {...sizes(headlineSize, mobileHeadlineSize)} typing={typingHeadline}
           eyebrow={eyebrow}
           heading={headline}
           body={body}
           maxWidth="md"
           headingMaxWidth="heroHeadline"
+          phoneAlign={phoneOr(mobileAlign, 'left')}
           tone="inverse"
           headingColor={headlineColor === 'accent' ? 'text-accent' : undefined}
           subtitleColor={headlineColor === 'accent' ? 'text-background' : undefined}
@@ -381,6 +419,7 @@ function HeroScrollReveal({
   mediaWidth = 'full',
   headlineSize,
   typingHeadline,
+  mobileHeadlineSize,
 }: HeroVariantProps) {
   return (
     // Header pull-up, same as the other full-bleed layouts. No
@@ -400,7 +439,7 @@ function HeroScrollReveal({
         <div className="mx-auto w-full max-w-page md:px-gutter">
           <SectionIntro
             as="h1"
-            display={headlineSize === 'display'} typing={typingHeadline}
+            {...sizes(headlineSize, mobileHeadlineSize)} typing={typingHeadline}
             eyebrow={eyebrow}
             heading={headline}
             body={body}
@@ -408,7 +447,7 @@ function HeroScrollReveal({
             align="center"
             // Half the usual body-to-button gap (a quarter of the
             // headline's line-height instead of half), at Dan's request.
-            ctaGap={`calc(var(--text-${headlineSize === 'display' ? 'display' : 'h1'}--full-line-height) / 4)`}
+            ctaGap={`calc(${headlineLineHeight(headlineSize === 'display')} / 4)`}
             cta={
               ctaLabel &&
               ctaHref && (

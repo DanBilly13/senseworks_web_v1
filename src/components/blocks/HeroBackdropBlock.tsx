@@ -1,9 +1,9 @@
 import { Button } from '@/components/ui/Button'
 import { SectionIntro } from '@/components/ui/SectionIntro'
-import { Media } from '@/components/ui/Media'
 import { PlayOnScrollMedia } from '@/components/ui/PlayOnScrollMedia'
 import { ArticleImage } from '@/components/knowledge-bank/ArticleImage'
 import { hasMedia, type MediaField } from '@/lib/sanity/media'
+import { gapMbClass, itemsClass, phoneDisplay, phoneOr, ResponsiveMedia } from '@/components/ui/phone'
 
 type BackgroundType = 'none' | 'image' | 'color' | 'gradient'
 type BackgroundColor = 'dark' | 'accent' | 'light'
@@ -28,19 +28,14 @@ type HeroBackdropBlockProps = {
   headlineSize?: 'h1' | 'display'
   // The headline types itself out on load (ui/TypingText).
   typingHeadline?: boolean
+  // The Mobile tab: phone versions, 'inherit' (or unset) = same as desktop.
+  mobileHeadlineSize?: 'inherit' | 'h1' | 'display'
+  mobileAlign?: 'inherit' | 'left' | 'center'
+  mobileBackgroundImage?: MediaField
+  mobileShowcaseMedia?: MediaField
+  mobileSpacing?: 'inherit' | 'loose' | 'medium' | 'tight' | 'none'
 }
 
-// Margin-bottom after the hero (outside its backdrop, before the next
-// block) — same four tiers as every other block's Section spacing.
-// Medium is the default because it's exactly the old fixed
-// mb-section-edge (120px desktop / 64px mobile), so heroes that never
-// set this look unchanged.
-const SECTION_GAP_MB_CLASS: Record<NonNullable<HeroBackdropBlockProps['spacing']>, string> = {
-  loose: 'mb-section-gap-loose',
-  medium: 'mb-section-gap-medium',
-  tight: 'mb-section-gap-tight',
-  none: 'mb-none',
-}
 
 const BACKGROUND_COLOR_CLASS: Record<BackgroundColor, string> = {
   dark: 'bg-foreground',
@@ -65,15 +60,47 @@ export function HeroBackdropBlock({
   spacing = 'medium',
   headlineSize,
   typingHeadline = false,
+  mobileHeadlineSize,
+  mobileAlign,
+  mobileBackgroundImage,
+  mobileShowcaseMedia,
+  mobileSpacing,
 }: HeroBackdropBlockProps) {
   // Only a plain image gets to set its own height from its real aspect
   // ratio (via the asset ref's encoded dimensions) — video/lottie/
   // reactAnimation don't carry that same kind of intrinsic ratio here,
   // so they keep the fixed 7:4 aspect-hero box below.
-  const showcaseIsImage = showcaseMedia?.mediaType === 'image' && hasMedia(showcaseMedia)
+  const phoneAlign = phoneOr(mobileAlign, 'left')
   // An image background with nothing in it (picked, then cleared) draws
   // nothing — not the placeholder gradient under the dark tint.
   const hasBackgroundImage = backgroundType === 'image' && hasMedia(backgroundImage)
+  // The showcase: with Phone showcase media set, one for each screen.
+  const phoneShowcase = hasMedia(mobileShowcaseMedia) ? mobileShowcaseMedia : undefined
+  const showcase = (media: MediaField | undefined) =>
+    media?.mediaType === 'image' && hasMedia(media) ? (
+      <ArticleImage image={media.image!} alt={headline} className="rounded-hero" />
+    ) : (
+      // Mobile: full-bleed (the wrapper breaks out of this
+      // container's px-medium-large via a matching negative margin),
+      // no rounded corners, no shadow, border top/bottom only —
+      // reads as a strip of content, not a floating card, which
+      // doesn't work at that size. The negative margin sits on a
+      // plain wrapper and the frame fills it (w-full), so the
+      // frame's width is settled before aspect-hero sizes its
+      // height: on the frame itself, iOS Safari took the height
+      // from the width before the margins widened it, a 2:1 box
+      // that cropped the video's top and bottom. md: the desktop
+      // card treatment — light grey border-border all the way
+      // round, rounded-hero (12px), and shadow-xl at the site's ink token
+      // 15% (a step up from the scrollReveal video card's).
+      <div className="-mx-medium-large md:mx-0">
+        <PlayOnScrollMedia
+          media={media}
+          alt={headline}
+          className="aspect-hero w-full border-y border-border md:rounded-hero md:border md:shadow-xl md:shadow-foreground/15"
+        />
+      </div>
+    )
 
   return (
     // Experimental composition, not settled tokens yet. The text zone
@@ -88,7 +115,7 @@ export function HeroBackdropBlock({
     <section
       className={[
         'relative',
-        SECTION_GAP_MB_CLASS[spacing],
+        gapMbClass(spacing, phoneOr(mobileSpacing, spacing)),
         backgroundType === 'color' ? BACKGROUND_COLOR_CLASS[backgroundColor] : '',
         backgroundType === 'gradient' ? 'bg-accent-gradient' : '',
       ]
@@ -103,7 +130,7 @@ export function HeroBackdropBlock({
     >
       {hasBackgroundImage && (
         <div className="absolute inset-0">
-          <Media media={backgroundImage} alt={headline} className="size-full" />
+          <ResponsiveMedia media={backgroundImage} phone={mobileBackgroundImage} alt={headline} className="size-full" />
         </div>
       )}
       {hasBackgroundImage && (
@@ -127,6 +154,8 @@ export function HeroBackdropBlock({
           <SectionIntro
             as="h1"
             display={headlineSize === 'display'}
+            phoneDisplay={phoneDisplay(mobileHeadlineSize, headlineSize === 'display')}
+            phoneAlign={phoneAlign}
             typing={typingHeadline}
             typingCursorClassName={textTone === 'light' ? 'text-accent' : undefined}
             eyebrow={eyebrow}
@@ -138,8 +167,8 @@ export function HeroBackdropBlock({
             cta={
               ctaLabel &&
               ctaHref && (
-                <div className="flex flex-col items-start gap-small-medium">
-                  <div className="flex flex-wrap items-center gap-medium-large">
+                <div className={`flex flex-col gap-small-medium ${itemsClass('left', phoneAlign)}`}>
+                  <div className={`flex flex-wrap items-center gap-medium-large ${phoneAlign === 'center' ? 'justify-center md:justify-start' : ''}`}>
                     <Button href={ctaHref} variant={textTone === 'light' ? 'filled-accent' : 'filled-dark'}>
                       {ctaLabel}
                     </Button>
@@ -170,29 +199,13 @@ export function HeroBackdropBlock({
             }
           />
         </div>
-        {showcaseIsImage ? (
-          <ArticleImage image={showcaseMedia.image!} alt={headline} className="rounded-hero" />
+        {phoneShowcase ? (
+          <>
+            <div className="md:hidden">{showcase(phoneShowcase)}</div>
+            <div className="max-md:hidden">{showcase(showcaseMedia)}</div>
+          </>
         ) : (
-          // Mobile: full-bleed (the wrapper breaks out of this
-          // container's px-medium-large via a matching negative margin),
-          // no rounded corners, no shadow, border top/bottom only —
-          // reads as a strip of content, not a floating card, which
-          // doesn't work at that size. The negative margin sits on a
-          // plain wrapper and the frame fills it (w-full), so the
-          // frame's width is settled before aspect-hero sizes its
-          // height: on the frame itself, iOS Safari took the height
-          // from the width before the margins widened it, a 2:1 box
-          // that cropped the video's top and bottom. md: the desktop
-          // card treatment — light grey border-border all the way
-          // round, rounded-hero (12px), and shadow-xl at the site's ink token
-          // 15% (a step up from the scrollReveal video card's).
-          <div className="-mx-medium-large md:mx-0">
-            <PlayOnScrollMedia
-              media={showcaseMedia}
-              alt={headline}
-              className="aspect-hero w-full border-y border-border md:rounded-hero md:border md:shadow-xl md:shadow-foreground/15"
-            />
-          </div>
+          showcase(showcaseMedia)
         )}
       </div>
     </section>
