@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/Button'
 import { Media } from '@/components/ui/Media'
 import { BAND_BG, type BandSpacing } from '@/components/ui/BandFill'
 import { renderNumberedEyebrow } from '@/components/ui/numberedEyebrow'
-import { EditorialCard, type EditorialLinkStyle, type EditorialMark } from '@/components/ui/EditorialCard'
+import { EditorialCard, type EditorialBodyFont, type EditorialLinkStyle, type EditorialMark } from '@/components/ui/EditorialCard'
 import { urlFor } from '@/lib/sanity/image'
 import { hasImage, type MediaField } from '@/lib/sanity/media'
 
@@ -39,6 +39,7 @@ type Piece =
       cardMark?: EditorialMark
       cardNumbers?: boolean
       linkStyle?: EditorialLinkStyle
+      bodyFont?: EditorialBodyFont
       items?: Card[]
     }
   | { _type: 'buttonPiece'; _key?: string; ctaLabel?: string; ctaHref?: string }
@@ -208,6 +209,7 @@ export function StickySplitBlock({
                   title={card.heading}
                   titleSize={titleSize}
                   body={card.body}
+                  bodyFont={p.bodyFont}
                   action={card.ctaLabel && card.ctaHref ? { label: card.ctaLabel, href: card.ctaHref, style: p.linkStyle } : undefined}
                   visual={
                     hasImage(card.image) ? (

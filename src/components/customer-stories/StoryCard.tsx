@@ -3,7 +3,7 @@ import type { SanityImageSource } from '@sanity/image-url'
 import { Media } from '@/components/ui/Media'
 import { productLabels } from '@/lib/customerStoryProducts'
 import { CardTags } from '@/components/ui/CardTags'
-import { EditorialCard, type EditorialLinkStyle, type EditorialMark } from '@/components/ui/EditorialCard'
+import { EditorialCard, type EditorialBodyFont, type EditorialLinkStyle, type EditorialMark } from '@/components/ui/EditorialCard'
 
 export type StoryCardData = {
   companyName: string
@@ -14,7 +14,12 @@ export type StoryCardData = {
 }
 export type StoryCardTone = 'default' | 'dark'
 // The Case Study Carousel's Editorial card design (ui/EditorialCard).
-export type StoryCardEditorial = { surface: 'white' | 'dark' | 'none'; mark?: EditorialMark; linkStyle?: EditorialLinkStyle }
+export type StoryCardEditorial = {
+  surface: 'white' | 'dark' | 'none'
+  mark?: EditorialMark
+  linkStyle?: EditorialLinkStyle
+  bodyFont?: EditorialBodyFont
+}
 
 const TONE_CLASS: Record<StoryCardTone, string> = {
   default: 'border border-border bg-background text-foreground',
@@ -56,6 +61,7 @@ export function StoryCard({
           title={story.companyName}
           titleSize="h5"
           body={story.summary}
+          bodyFont={editorial.bodyFont}
           action={{ label: editorial.linkStyle === 'button' ? readLabel.replace(' →', '') : readLabel, style: editorial.linkStyle }}
           visual={
             <Media

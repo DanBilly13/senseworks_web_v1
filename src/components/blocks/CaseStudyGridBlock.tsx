@@ -3,7 +3,7 @@ import { usePathname } from 'next/navigation'
 import { CarouselNav, CarouselScroller, useCarousel } from '@/components/ui/Carousel'
 import { SECTION_GAP_PB_CLASS } from '@/components/ui/SectionShell'
 import { StoryCard, type StoryCardData, type StoryCardTone } from '@/components/customer-stories/StoryCard'
-import type { EditorialLinkStyle, EditorialMark } from '@/components/ui/EditorialCard'
+import type { EditorialBodyFont, EditorialLinkStyle, EditorialMark } from '@/components/ui/EditorialCard'
 
 // No eyebrow/heading/body of its own — pair it with a Section Headline
 // block above it.
@@ -14,6 +14,7 @@ type CaseStudyGridBlockProps = {
   cardDesign?: 'standard' | 'editorial'
   cardMark?: EditorialMark
   linkStyle?: EditorialLinkStyle
+  bodyFont?: EditorialBodyFont
   spacing?: 'loose' | 'medium' | 'tight' | 'none'
   // Resolved in the page query from the Customer story documents,
   // filtered by the block's "Which stories" setting (all, audit or
@@ -27,7 +28,7 @@ type CaseStudyGridBlockProps = {
 // first card lined up with the page content, stepped with prev/next
 // buttons underneath. On mobile the card box (not its text) sits on the
 // 32px heading line, at both ends of the row (.carousel-inset-on-line).
-export function CaseStudyGridBlock({ tone = 'light', spacing = 'loose', stories = [], cardDesign = 'standard', cardMark, linkStyle }: CaseStudyGridBlockProps) {
+export function CaseStudyGridBlock({ tone = 'light', spacing = 'loose', stories = [], cardDesign = 'standard', cardMark, linkStyle, bodyFont }: CaseStudyGridBlockProps) {
   const { scrollerRef, firstCardRef, atStart, atEnd, canScroll, updateEdges, scrollByCard } = useCarousel<HTMLAnchorElement>(stories.length)
   // Every route lives under a locale segment, so the first path segment
   // is "en"/"sv" — the story links stay in the page's language.
@@ -48,7 +49,7 @@ export function CaseStudyGridBlock({ tone = 'light', spacing = 'loose', stories 
             tone={(tone === 'dark' ? 'dark' : 'default') satisfies StoryCardTone}
             editorial={
               cardDesign === 'editorial'
-                ? { surface: tone === 'dark' ? 'dark' : tone === 'none' ? 'none' : 'white', mark: cardMark, linkStyle }
+                ? { surface: tone === 'dark' ? 'dark' : tone === 'none' ? 'none' : 'white', mark: cardMark, linkStyle, bodyFont }
                 : undefined
             }
             className="w-80 shrink-0 snap-start md:w-96"

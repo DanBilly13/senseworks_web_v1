@@ -4,7 +4,7 @@ import { SectionShell } from '@/components/ui/SectionShell'
 import { BandFill, bandShellPadding, type BandProps, type BandTone } from '@/components/ui/BandFill'
 import { SectionIntro } from '@/components/ui/SectionIntro'
 import { renderNumberedEyebrow } from '@/components/ui/numberedEyebrow'
-import { EditorialCard, type EditorialLinkStyle, type EditorialMark } from '@/components/ui/EditorialCard'
+import { EditorialCard, type EditorialBodyFont, type EditorialLinkStyle, type EditorialMark } from '@/components/ui/EditorialCard'
 import { urlFor } from '@/lib/sanity/image'
 import { hasImage } from '@/lib/sanity/media'
 
@@ -81,6 +81,7 @@ type CardGridBlockProps = Omit<BandProps, 'tone'> & {
   cardMark?: EditorialMark
   cardNumbers?: boolean
   linkStyle?: EditorialLinkStyle
+  bodyFont?: EditorialBodyFont
 }
 
 const GRID_COLS_CLASS: Record<'1' | '2' | '3' | '4', string> = {
@@ -127,6 +128,7 @@ export function CardGridBlock({
   cardMark,
   cardNumbers = false,
   linkStyle,
+  bodyFont,
   ...band
 }: CardGridBlockProps) {
   // D7: a block with no content simply doesn't render.
@@ -154,6 +156,7 @@ export function CardGridBlock({
                 title={item.heading}
                 titleSize={titleSize === 'h3' ? 'h4' : 'h5'}
                 body={item.body}
+                bodyFont={bodyFont}
                 action={item.ctaLabel && item.ctaHref ? { label: item.ctaLabel, href: item.ctaHref, style: linkStyle } : undefined}
                 visual={
                   showImage && hasImage(item.image) ? (

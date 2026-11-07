@@ -2,7 +2,7 @@ import { defineType, defineField, defineArrayMember } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
 import { spacingField } from '../fields/spacingField'
 import { bandFields } from '../fields/bandFields'
-import { cardDesignField, cardLinkFields, cardMarkField, cardNumbersField, linkStyleField, NO_FILL_OPTION } from '../fields/editorialCardFields'
+import { bodyFontField, cardDesignField, cardLinkFields, cardMarkField, cardNumbersField, linkStyleField, NO_FILL_OPTION } from '../fields/editorialCardFields'
 
 // Deliberately no top-level eyebrow/heading/body — unlike most grid
 // blocks, this one is meant to be paired with a separate intro block
@@ -69,6 +69,7 @@ export const cardGridBlock = defineType({
     }),
     cardMarkField,
     cardNumbersField,
+    bodyFontField,
     linkStyleField,
     defineField({
       name: 'showImage',

@@ -15,6 +15,9 @@ import Link from 'next/link'
 export type EditorialSurface = 'none' | 'white' | 'dark' | 'accent'
 export type EditorialMark = 'none' | 'wave'
 export type EditorialLinkStyle = 'link' | 'button'
+// The body's font: Text (Inter) or Display (our heading face, Aeonik,
+// with tighter lines, as in the reference).
+export type EditorialBodyFont = 'text' | 'display'
 
 type Props = {
   // "01", "02"… when the cards are numbered.
@@ -27,6 +30,7 @@ type Props = {
   titleAs?: 'h2' | 'h3'
   titleSize?: 'h4' | 'h5' | 'h6'
   body?: string
+  bodyFont?: EditorialBodyFont
   // No href: drawn as a plain span (the whole card is already a link).
   action?: { label: string; href?: string; style?: EditorialLinkStyle }
   surface?: EditorialSurface
@@ -72,6 +76,7 @@ export function EditorialCard({
   titleAs: Title = 'h3',
   titleSize = 'h5',
   body,
+  bodyFont = 'text',
   action,
   surface = 'none',
   onDark,
@@ -81,7 +86,6 @@ export function EditorialCard({
 }: Props) {
   const boxed = surface !== 'none'
   const light = surface === 'dark' || (!boxed && !!onDark)
-  const muted = light ? 'text-background/70' : 'text-muted-foreground'
   const text = labelText(number, label)
   const actionClass =
     action?.style === 'button'
@@ -103,8 +107,16 @@ export function EditorialCard({
           {text ? <p className="text-eyebrow leading-snug font-bold tracking-wider whitespace-pre-line uppercase">{text}</p> : <span />}
           {mark === 'wave' && <span aria-hidden className="mt-xs h-3 w-10 shrink-0 bg-current" style={WAVE_MASK} />}
         </div>
-        <Title className={`mt-stack font-bold tracking-tight text-balance uppercase ${TITLE_SIZE[titleSize]}`}>{title}</Title>
-        {body && <p className={`mt-medium-large text-body-lg whitespace-pre-line md:text-pretty ${muted}`}>{body}</p>}
+        <Title className={`mt-stack font-semibold tracking-tight text-balance uppercase ${TITLE_SIZE[titleSize]}`}>{title}</Title>
+        {/* Full colour, at Large body size (19px phones, 22px from tablet):
+            the sentence carries the card, the title is its label. */}
+        {body && (
+          <p
+            className={`mt-medium-large text-body-xl whitespace-pre-line md:text-pretty ${bodyFont === 'display' ? 'font-heading leading-tight font-normal' : ''}`}
+          >
+            {body}
+          </p>
+        )}
         {action?.label && (
           <div className="mt-auto pt-large">
             {action.href ? (
