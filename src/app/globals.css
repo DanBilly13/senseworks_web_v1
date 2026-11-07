@@ -20,6 +20,8 @@
   /* Letter-spacing for small uppercase labels (Stats Band's stat
      labels), at Dan's request: 2px. */
   --tracking-label: 2px;
+  /* Editorial cards' regular-weight caps titles: tight lines. */
+  --leading-caps: 1.1;
   --radius-2xl: 24px;
   --radius-full: 9999px;
 
@@ -280,34 +282,62 @@
      of looking small in it. Each clamp(min, a + b·vw, max): the line
      passes through min at 1440 and max at 1920. h4–h6 (card and item
      titles) and body text stay fixed; mobile has its own sizes below. */
+  /* TYPE SYSTEM (Nov 2026, after basicagency.com — Dan's reference):
+     nine styles, each clearly different from the next, desktop / phone:
+       Display   144 / 56   hero headline
+       Headline   56 / 36   H1 and H2 (one section-heading size)
+       Title      36 / 28   H3 (and Stat small)
+       Subtitle   24 / 21   H4 and H5 (card titles, sub-headings)
+       Statement  42 / 28   the big sentence in the body font (kept as is)
+       Lead       22 / 19   Large body (text-body-xl)
+       Body       17 / 17   Body and Body large (and H6's size)
+       Small      14 / 14   Body small and Caption
+       Label      13 / 12   Eyebrow: Aeonik bold caps
+     Aeonik headings are bold (Regular is only for the editorial cards'
+     caps titles and Display body), with negative letter spacing that
+     tightens as the text grows, and tight lines on the big sizes. The old
+     names (h1–h6, body-lg…) stay as the class names, pointing at these
+     sizes, so no block needed rewriting. */
   --text-display: clamp(9rem, 36px + 7.5vw, 11.25rem);
   --text-display--line-height: 1;
-  --text-h1: clamp(4rem, 16px + 3.3333vw, 5rem);
-  --text-h1--line-height: 1.2;
-  --text-h2: clamp(3rem, 12px + 2.5vw, 3.75rem);
-  --text-h2--line-height: 1.2;
+  --text-display--letter-spacing: -0.04em;
+  /* Headline: 56px up to 68px at 1920. */
+  --text-h1: clamp(3.5rem, 20px + 2.5vw, 4.25rem);
+  --text-h1--line-height: 1.05;
+  --text-h1--letter-spacing: -0.035em;
+  --text-h2: clamp(3.5rem, 20px + 2.5vw, 4.25rem);
+  --text-h2--line-height: 1.05;
+  --text-h2--letter-spacing: -0.035em;
+  /* Title. */
   --text-h3: clamp(2.25rem, 24px + 0.8333vw, 2.5rem);
-  --text-h3--line-height: 1.2;
-  --text-h4: 1.75rem;
-  --text-h4--line-height: 1.3;
-  --text-h5: 1.375rem;
-  --text-h5--line-height: 1.3;
-  /* Smallest heading, one step above body-lg — Paragraphs' column
-     titles. Same size on mobile (no override below). */
-  --text-h6: 1.125rem;
+  --text-h3--line-height: 1.15;
+  --text-h3--letter-spacing: -0.02em;
+  /* Subtitle. */
+  --text-h4: 1.5rem;
+  --text-h4--line-height: 1.25;
+  --text-h4--letter-spacing: -0.015em;
+  --text-h5: 1.5rem;
+  --text-h5--line-height: 1.25;
+  --text-h5--letter-spacing: -0.015em;
+  /* The smallest heading: Body's size, in the heading face. */
+  --text-h6: 1.0625rem;
   --text-h6--line-height: 1.3;
+  --text-h6--letter-spacing: -0.01em;
 
   /* Stat numbers — their own styles, so resizing a heading never
      moves them. Always Aeonik Medium with tabular figures: use as
      `font-heading text-stat tabular-nums` (weight comes with the size).
      Stat is Stats Band's numbers, Stat small Stat Bars'. They start at
      H1's and H2's sizes; mobile sizes below. */
-  --text-stat: clamp(4rem, 16px + 3.3333vw, 5rem);
-  --text-stat--line-height: 1.2;
-  --text-stat--font-weight: 500;
-  --text-stat-sm: clamp(3rem, 12px + 2.5vw, 3.75rem);
-  --text-stat-sm--line-height: 1.2;
-  --text-stat-sm--font-weight: 500;
+  /* Stats Band at Headline size, Stat Bars at Title size. */
+  --text-stat: clamp(3.5rem, 20px + 2.5vw, 4.25rem);
+  --text-stat--line-height: 1.05;
+  --text-stat--font-weight: 700;
+  --text-stat--letter-spacing: -0.035em;
+  --text-stat-sm: clamp(2.25rem, 24px + 0.8333vw, 2.5rem);
+  --text-stat-sm--line-height: 1.15;
+  --text-stat-sm--font-weight: 700;
+  --text-stat-sm--letter-spacing: -0.02em;
 
   /* The Statement block's lead paragraph and Body Columns' text — after
      the Awwwards course page (Dan's reference): a big, regular-weight
@@ -336,12 +366,16 @@
   --text-h3--full-line-height: calc(var(--text-h3) * var(--text-h3--line-height));
   --text-h4--full-line-height: calc(var(--text-h4) * var(--text-h4--line-height));
 
-  --text-body-lg: 1.125rem;
-  --text-body: 1rem;
+  /* Body: one size, 17px (Body and Body large are the same style now). */
+  --text-body-lg: 1.0625rem;
+  --text-body-lg--line-height: 1.5;
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.5;
   --text-body-sm: 0.875rem;
   --text-caption: 0.875rem;
-  /* Eyebrows (bold, all caps): 14px, 13px on phones (set below). */
-  --text-eyebrow: 0.875rem;
+  /* Label (eyebrows): Aeonik bold caps, 13px, 12px on phones. */
+  --text-eyebrow: 0.8125rem;
+  --text-eyebrow--letter-spacing: -0.01em;
   /* The menu's dropdown chevrons: 10px, smaller than the text beside them. */
   --text-chevron: 0.625rem;
 
@@ -481,23 +515,21 @@
     /* 56px, but never more than 14% of the screen width (56px on a
        402px iPhone 17, 52px on a 375px phone). */
     --text-display: min(3.5rem, 14vw);
-    /* About 1.18x per step, so the levels still read apart without any
-       section heading shouting at hero size. */
-    --text-h1: 2.75rem;
-    --text-h2: 2.125rem;
-    /* H3 matches Statement (28px) on phones, H4/H5 step down below it. */
+    /* The type system on phones (see the table in @theme):
+       Headline 36, Title 28 (= Statement), Subtitle 21, Lead 19,
+       Body 17, Label 12. */
+    --text-h1: 2.25rem;
+    --text-h2: 2.25rem;
     --text-h3: 1.75rem;
-    --text-h4: 1.375rem;
-    --text-h5: 1.25rem;
+    --text-h4: 1.3125rem;
+    --text-h5: 1.3125rem;
     --text-statement: 1.75rem;
-    /* Phone body ramp: Body and Body large 17, Large body 19. */
     --text-body: 1.0625rem;
     --text-body-lg: 1.0625rem;
     --text-body-xl: 1.1875rem;
-    --text-eyebrow: 0.8125rem;
-    /* Numbers: Stats Band 44, Stat Bars 34 (H2's size). */
-    --text-stat: 2.75rem;
-    --text-stat-sm: 2.125rem;
+    --text-eyebrow: 0.75rem;
+    --text-stat: 2.25rem;
+    --text-stat-sm: 1.75rem;
 
     /* Intro-to-content gap and stacked pieces: 48px rather than 64. */
     --spacing-stack: var(--spacing-xl);
@@ -517,17 +549,6 @@
     /* Pulls the media up from the panel's 64px gap-2xl to a 32px
        visible gap below the heading, mobile only. */
     --gap-scroll-stack-heading-to-media: calc(var(--spacing-large) - var(--spacing-2xl));
-  }
-
-  /* Letter-spacing isn't part of the --text-h1--line-height-style
-     pairing above (that works purely because a *unitless* line-height
-     is naturally proportional to whatever font-size is active — no
-     dynamic var lookup involved; letter-spacing has no such trick, so
-     a --text-h1--letter-spacing custom property here would silently do
-     nothing). Overriding the generated .text-h1 utility directly. */
-  .text-h1,
-  .text-stat {
-    letter-spacing: -0.0625rem;
   }
 
   /* iPhones zoom the page in when a field under 16px gets focus, so

@@ -27,8 +27,12 @@ const robotoMono = Roboto_Mono({
 // weight relies on the browser synthetically bolding a single face.
 const aeonik = localFont({
   src: [
-    { path: "./fonts/Aeonik-Medium.otf", weight: "600", style: "normal" },
-    { path: "./fonts/Aeonik-Bold.otf", weight: "700", style: "normal" },
+    // Regular: the editorial cards' regular-weight caps titles and
+    // their Display body (from Dan's licensed family).
+    { path: "./fonts/Aeonik-Regular.otf", weight: "400", style: "normal" },
+    // Two weights only (the type system): Bold answers to 500–700, so
+    // any heading asking for medium or semibold draws Bold.
+    { path: "./fonts/Aeonik-Bold.otf", weight: "500 700", style: "normal" },
   ],
   variable: "--font-aeonik",
   display: "swap",

@@ -50,7 +50,9 @@ const SURFACE: Record<Exclude<EditorialSurface, 'none'>, string> = {
   accent: 'bg-accent text-foreground',
 }
 
-const TITLE_SIZE: Record<'h4' | 'h5' | 'h6', string> = { h4: 'text-h4', h5: 'text-h5', h6: 'text-h6' }
+// Regular-weight caps read smaller than bold, so each size choice draws a
+// step up: H5 (the default) is drawn at H4 (22px phones, 28px desktop).
+const TITLE_SIZE: Record<'h4' | 'h5' | 'h6', string> = { h4: 'text-h3', h5: 'text-h4', h6: 'text-h5' }
 
 const WAVE_MASK = {
   maskImage: 'url(/senseworks-brandmark-pos.svg)',
@@ -61,11 +63,18 @@ const WAVE_MASK = {
   WebkitMaskRepeat: 'no-repeat',
 }
 
-// "01" + "— Ally" → "01\n/Ally"; either alone as given.
-function labelText(number?: string, label?: string) {
-  const clean = label?.replace(/^\s*[—–-]+\s*/, '')
-  if (number && clean) return `${number}\n/${clean}`
-  return number || label || ''
+// "01" + "— Ally" → a bold "01" over a regular "/ALLY"; either alone as
+// given. All in our heading face, regular weight, tightly spaced (the
+// reference's labels), with just the number bold.
+function Label({ number, label }: { number?: string; label?: string }) {
+  const clean = number ? label?.replace(/^\s*[—–-]+\s*/, '') : label
+  if (!number && !clean) return <span />
+  return (
+    <p className="font-heading text-eyebrow leading-snug font-normal tracking-tight uppercase">
+      {number && <span className="block font-bold">{number}</span>}
+      {clean && <span className="block">{number ? `/${clean}` : clean}</span>}
+    </p>
+  )
 }
 
 export function EditorialCard({
@@ -86,7 +95,6 @@ export function EditorialCard({
 }: Props) {
   const boxed = surface !== 'none'
   const light = surface === 'dark' || (!boxed && !!onDark)
-  const text = labelText(number, label)
   const actionClass =
     action?.style === 'button'
       ? 'rounded-full border border-current px-medium-large py-small-medium text-body-sm font-bold tracking-wide uppercase transition-opacity hover:opacity-70'
@@ -104,15 +112,15 @@ export function EditorialCard({
       {visual && <div className={boxed ? '' : 'mb-medium-large'}>{visual}</div>}
       <div className={`flex flex-1 flex-col ${boxed ? `${padX} pt-card-top pb-large md:pt-large` : ''}`}>
         <div className="flex items-start justify-between gap-medium border-t border-current pt-medium-large">
-          {text ? <p className="text-eyebrow leading-snug font-bold tracking-wider whitespace-pre-line uppercase">{text}</p> : <span />}
+          <Label number={number} label={label} />
           {mark === 'wave' && <span aria-hidden className="mt-xs h-3 w-10 shrink-0 bg-current" style={WAVE_MASK} />}
         </div>
-        <Title className={`mt-stack font-semibold tracking-tight text-balance uppercase ${TITLE_SIZE[titleSize]}`}>{title}</Title>
+        <Title className={`mt-stack font-heading leading-caps font-normal tracking-tighter text-balance uppercase ${TITLE_SIZE[titleSize]}`}>{title}</Title>
         {/* Full colour, at Large body size (19px phones, 22px from tablet):
             the sentence carries the card, the title is its label. */}
         {body && (
           <p
-            className={`mt-medium-large text-body-xl whitespace-pre-line md:text-pretty ${bodyFont === 'display' ? 'font-heading leading-tight font-normal' : ''}`}
+            className={`mt-medium-large text-body-xl whitespace-pre-line md:text-pretty ${bodyFont === 'display' ? 'font-heading leading-snug font-normal' : ''}`}
           >
             {body}
           </p>

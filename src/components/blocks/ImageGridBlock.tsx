@@ -59,7 +59,7 @@ export function ImageGridBlock({
               <div className="flex flex-1 flex-col gap-small-medium">
                 {item.eyebrow && (
                   <p
-                    className={`text-eyebrow font-bold tracking-wider uppercase ${dark ? 'text-accent' : 'text-muted-foreground'}`}
+                    className={`text-eyebrow font-heading font-bold uppercase ${dark ? 'text-accent' : 'text-muted-foreground'}`}
                   >
                     {item.eyebrow}
                   </p>

@@ -240,7 +240,7 @@ export function StickySplitBlock({
                 <div className={`flex flex-col ${CARD_TITLE_GAP[titleSize]}`}>
                   {card.eyebrow && (
                     <p
-                      className={`text-eyebrow font-bold tracking-wider uppercase ${titleSize === 'h4' ? '' : 'mb-xs md:mb-0'} ${cardTone === 'dark' ? 'text-accent' : p.numberedEyebrow ? 'text-foreground' : 'text-muted-foreground'}`}
+                      className={`text-eyebrow font-heading font-bold uppercase ${titleSize === 'h4' ? '' : 'mb-xs md:mb-0'} ${cardTone === 'dark' ? 'text-accent' : p.numberedEyebrow ? 'text-foreground' : 'text-muted-foreground'}`}
                     >
                       {renderNumberedEyebrow(card.eyebrow, !!p.numberedEyebrow, cardTone === 'dark')}
                     </p>

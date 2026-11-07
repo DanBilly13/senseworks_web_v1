@@ -185,7 +185,7 @@ export function SectionIntro({
     >
       {eyebrow && (
         <p
-          className={`text-eyebrow font-bold tracking-wider uppercase ${resolvedEyebrowColor} ${MAX_WIDTH_CLASS[maxWidth]}`}
+          className={`text-eyebrow font-heading font-bold uppercase ${resolvedEyebrowColor} ${MAX_WIDTH_CLASS[maxWidth]}`}
         >
           {eyebrow}
         </p>

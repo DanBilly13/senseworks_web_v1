@@ -29,7 +29,7 @@ const RETORA: StoryCardData = {
 }
 
 function Label({ children }: { children: string }) {
-  return <p className="mb-large text-eyebrow font-bold tracking-wider text-muted-foreground uppercase">{children}</p>
+  return <p className="mb-large text-eyebrow font-heading font-bold text-muted-foreground uppercase">{children}</p>
 }
 
 function Roles({ surface, onDark, mark, numbers }: { surface: EditorialSurface; onDark?: boolean; mark?: EditorialMark; numbers?: boolean }) {
@@ -73,7 +73,7 @@ export default async function CardsPreview({ params }: { params: Promise<{ local
 
         <section className="bg-foreground">
           <SectionShell py="medium" pt="medium">
-            <p className="mb-large text-eyebrow font-bold tracking-wider text-background/60 uppercase">4 · No fill on a dark background</p>
+            <p className="mb-large text-eyebrow font-heading font-bold text-background/60 uppercase">4 · No fill on a dark background</p>
             <Roles surface="none" onDark mark="wave" numbers />
           </SectionShell>
         </section>
