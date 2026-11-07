@@ -1422,34 +1422,34 @@ p:has(+ .hero-overlay-card-rules),
 /* Hero — Ally 3D: the space under the text that Ally rises into is at
    least this tall, so she always shows her head, however long the
    headline (the hero grows past one screen instead). */
+/* The space for Ally under the text: whatever the text leaves of the
+   screen, and at least 28% of it. Ally sizes to fit it (container
+   units, below), so she never runs up into the button. */
 .hero-ally-stage {
   min-height: 28svh;
+  /* As wide as this, at most: what fits the space (74% of her box shows,
+     which is 1.22× as tall as wide, with 24px under the button) */
+  --hero-ally-fit: calc((100cqh - 1.5rem) * 0.82 / 0.74);
+  --hero-ally-width: min(75vw, var(--hero-ally-fit));
+}
+@media (width >= 48rem) {
+  .hero-ally-stage {
+    --hero-ally-width: min(26vw, var(--hero-ally-fit));
+  }
+}
+.hero-ally-fit {
+  container-type: size;
 }
 /* The 3D Ally's box (her whole figure, with a little room around it),
-   centred at the top of that space, big enough that the hero's bottom
-   edge crops her hard — head and shoulders show. Phones: wider than the
-   screen (90% of the old 120vw, Dan, Nov 2026). */
+   centred and anchored to the hero's bottom edge, which crops her at
+   half her chest (Dan, Nov 2026): 26% of her box lies below the edge —
+   head, shoulders and the top of her chest show. Smaller than before
+   (about the same height on screen as the old head-only crop). */
 .hero-ally {
-  top: 0;
-  translate: -50% 0;
-  width: 108vw;
+  bottom: 0;
+  translate: -50% 26%;
+  width: var(--hero-ally-width);
   aspect-ratio: 0.82;
-}
-/* From tablet up she's anchored to the hero's bottom edge instead, which
-   cuts across her face just below the eyes — the mouth never shows, so
-   it's never sliced through — whatever the screen's shape. 65.9% of her
-   box lies below the edge (her eyes end 34% down it). Her head rises
-   beside the button; she's centred and it's at the left, so they don't
-   meet. */
-@media (width >= 48rem) {
-  .hero-ally {
-    top: auto;
-    bottom: 0;
-    translate: -50% 65.9%;
-    /* 90% of the old min(62vw, 120svh) (Dan, Nov 2026); the translate is
-       a share of her own size, so the crop and centring stay the same. */
-    width: min(55.8vw, 108svh);
-  }
 }
 /* The space above the eyebrow: under the fixed header, then 32–80px,
    growing with the screen's height. The text's gaps: the usual on

@@ -118,7 +118,11 @@ export function HeroAllyBlock({
       </div>
       {pinned && <StickToBottom />}
       <div className={`hero-ally-stage relative flex-1 ${noAlly ? 'max-md:hidden' : ''}`}>
-        <Ally3D className="hero-ally pointer-events-none absolute left-1/2" />
+        {/* Fills the space exactly, so Ally can size to it (container
+            units; the flex-sized space itself reads as 0 tall to them). */}
+        <div className="hero-ally-fit absolute inset-0">
+          <Ally3D className="hero-ally pointer-events-none absolute left-1/2" />
+        </div>
       </div>
     </section>
   )
