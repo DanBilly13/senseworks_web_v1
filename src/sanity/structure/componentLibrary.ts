@@ -28,6 +28,11 @@ export const COMPONENT_LIBRARY: ComponentLibraryEntry[] = [
       'Experimental. Flexible full-bleed backdrop (image, color, or gradient) behind text and a separate showcase image/video.',
   },
   {
+    type: 'heroBackdropTextBlock',
+    title: 'Hero — Backdrop (Text Only)',
+    description: 'Hero — Backdrop without the showcase: eyebrow, headline, body, button, link and note on an image, colour or gradient backdrop (Audit, Analysis).',
+  },
+  {
     type: 'heroAllyBlock',
     title: 'Hero — Ally 3D',
     description:

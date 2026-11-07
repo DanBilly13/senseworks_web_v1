@@ -152,7 +152,7 @@ export const page = defineType({
             {
               name: 'experimental',
               title: 'Experimental',
-              of: ['heroAllyBlock', 'heroBackdropBlock', 'heroImageOverlayCardBlock', 'heroScrollZoomBlock'],
+              of: ['heroAllyBlock', 'heroBackdropBlock', 'heroBackdropTextBlock', 'heroImageOverlayCardBlock', 'heroScrollZoomBlock'],
             },
           ],
         },
@@ -179,6 +179,7 @@ export const page = defineType({
         defineArrayMember({ type: 'fullWidthSingleBlock' }),
         defineArrayMember({ type: 'heroBlock' }),
         defineArrayMember({ type: 'heroBackdropBlock' }),
+        defineArrayMember({ type: 'heroBackdropTextBlock' }),
         defineArrayMember({ type: 'heroAllyBlock' }),
         defineArrayMember({ type: 'heroScrollZoomBlock' }),
         defineArrayMember({ type: 'heroImageOverlayCardBlock' }),

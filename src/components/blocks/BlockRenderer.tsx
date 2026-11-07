@@ -3,6 +3,7 @@ import { SECTION_GAP_MB_CLASS } from '@/components/ui/SectionShell'
 import { HeaderBlock } from './HeaderBlock'
 import { HeroBlock } from './HeroBlock'
 import { HeroBackdropBlock } from './HeroBackdropBlock'
+import { HeroBackdropTextBlock } from './HeroBackdropTextBlock'
 import { HeroAllyBlock } from './HeroAllyBlock'
 import { HeroScrollZoomBlock } from './HeroScrollZoomBlock'
 import { HeroImageOverlayCardBlock } from './HeroImageOverlayCardBlock'
@@ -55,6 +56,7 @@ const BLOCK_COMPONENTS = {
   headerBlock: HeaderBlock,
   heroBlock: HeroBlock,
   heroBackdropBlock: HeroBackdropBlock,
+  heroBackdropTextBlock: HeroBackdropTextBlock,
   heroAllyBlock: HeroAllyBlock,
   heroScrollZoomBlock: HeroScrollZoomBlock,
   heroImageOverlayCardBlock: HeroImageOverlayCardBlock,

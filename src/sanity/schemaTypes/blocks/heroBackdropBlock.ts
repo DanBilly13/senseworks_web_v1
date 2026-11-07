@@ -99,27 +99,11 @@ export const heroBackdropBlock = defineType({
       type: 'string',
     }),
     defineField({
-      name: 'showcase',
-      title: 'Showcase',
-      description: 'Show: the showcase image or video below the text. None: just the text on the background (the showcase media is kept, hidden, should you want it back).',
-      type: 'string',
-      options: {
-        list: [
-          { title: 'Show', value: 'show' },
-          { title: 'None', value: 'none' },
-        ],
-        layout: 'radio',
-        direction: 'horizontal',
-      },
-      initialValue: 'show',
-    }),
-    defineField({
       name: 'showcaseMedia',
       title: 'Showcase Media',
       description:
         'Sits on top of the backdrop, below the text — starts at 50% of the viewport height while we dial this in.',
       type: 'media',
-      hidden: ({ parent }) => parent?.showcase === 'none',
     }),
     // Default Medium (not the shared field's Loose): that's the old
     // fixed gap this hero already had, so existing ones don't shift.
@@ -136,10 +120,7 @@ export const heroBackdropBlock = defineType({
       ...phoneMediaField('mobileBackgroundImage', 'Phone background image', 'Optional: a different background image just for phones, e.g. a portrait crop. Empty shows the desktop one.'),
       hidden: ({ parent }: { parent?: { backgroundType?: string } }) => (parent?.backgroundType ?? 'image') !== 'image',
     },
-    {
-      ...phoneMediaField('mobileShowcaseMedia', 'Phone showcase media', 'Optional: a different showcase image or video just for phones. Empty shows the desktop one.'),
-      hidden: ({ parent }: { parent?: { showcase?: string } }) => parent?.showcase === 'none',
-    },
+    phoneMediaField('mobileShowcaseMedia', 'Phone showcase media', 'Optional: a different showcase image or video just for phones. Empty shows the desktop one.'),
     phoneSpacingField(),
   ],
   preview: {

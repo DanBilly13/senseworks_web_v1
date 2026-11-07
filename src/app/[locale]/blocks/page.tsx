@@ -2,6 +2,7 @@ import { getClientLogos } from '@/lib/sanity/clients'
 import { SiteFooter, SiteHeader } from '@/components/layout/SiteNavigation'
 import { HeroBlock } from '@/components/blocks/HeroBlock'
 import { HeroBackdropBlock } from '@/components/blocks/HeroBackdropBlock'
+import { HeroBackdropTextBlock } from '@/components/blocks/HeroBackdropTextBlock'
 import { HeroAllyBlock } from '@/components/blocks/HeroAllyBlock'
 import { HeroScrollZoomBlock } from '@/components/blocks/HeroScrollZoomBlock'
 import { HeroImageOverlayCardBlock } from '@/components/blocks/HeroImageOverlayCardBlock'
@@ -372,6 +373,19 @@ export default async function BlocksPage({
         body={BODY}
         ctaLabel="Lorem ipsum"
         ctaHref="#"
+      />
+      <BlockCaption name="Hero — Backdrop (Text Only)" type="heroBackdropTextBlock" variant='backgroundType: "gradient"' />
+      <HeroBackdropTextBlock
+        backgroundType="gradient"
+        textTone="dark"
+        eyebrow={EYEBROW}
+        headline={HEADING}
+        body={BODY}
+        ctaLabel="Lorem ipsum"
+        ctaHref="#"
+        secondaryCtaLabel="Lorem ipsum"
+        secondaryCtaHref="#"
+        ctaNote="Lorem ipsum dolor sit amet"
       />
       <BlockCaption
         name="Hero — Backdrop (experimental, color bg)"

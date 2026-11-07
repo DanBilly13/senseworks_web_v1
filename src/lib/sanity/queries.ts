@@ -108,6 +108,10 @@ export const pageBySlugAndLocaleQuery = groq`
       _type == "heroBlock" => { ${mediaProjection()}, ${mediaProjection('secondMedia', 'secondMedia')}, ${mediaProjection('mobileMedia', 'mobileMedia')} },
       _type == "heroScrollZoomBlock" => { ${mediaProjection()}, ${mediaProjection('mobileMedia', 'mobileMedia')} },
       _type == "heroImageOverlayCardBlock" => { ${mediaProjection()}, ${mediaProjection('mobileMedia', 'mobileMedia')} },
+      _type == "heroBackdropTextBlock" => {
+        ${mediaProjection('backgroundImage', 'backgroundImage')},
+        ${mediaProjection('mobileBackgroundImage', 'mobileBackgroundImage')}
+      },
       _type == "heroBackdropBlock" => {
         ${mediaProjection('backgroundImage', 'backgroundImage')},
         ${mediaProjection('showcaseMedia', 'showcaseMedia')},

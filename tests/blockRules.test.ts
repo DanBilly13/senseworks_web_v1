@@ -54,6 +54,7 @@ describe('design settings', () => {
     'ctaBannerBlock.spacing': 'none: the banner closes the page and sits flush on what follows',
     'heroAllyBlock.spacing': 'medium: the gap heroes have always had below them',
     'heroBackdropBlock.spacing': 'medium: the gap heroes have always had below them',
+    'heroBackdropTextBlock.spacing': 'medium: as Hero — Backdrop, the gap heroes have always had below them',
     'mediaCarouselBlock.headingLayout': 'inline: a slide’s title and caption read as one line',
     'horizontalScrollStackMediumBlock.headingLayout': 'inline: a slide’s title and caption read as one line',
     'featureSplitDarkBlock.imagePosition': 'right: designed with the image on the right',
