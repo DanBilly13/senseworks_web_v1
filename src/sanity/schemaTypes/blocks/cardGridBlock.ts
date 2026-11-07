@@ -2,6 +2,7 @@ import { defineType, defineField, defineArrayMember } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
 import { spacingField } from '../fields/spacingField'
 import { bandFields } from '../fields/bandFields'
+import { cardDesignField, cardLinkFields, cardMarkField, cardNumbersField, linkStyleField, NO_FILL_OPTION } from '../fields/editorialCardFields'
 
 // Deliberately no top-level eyebrow/heading/body — unlike most grid
 // blocks, this one is meant to be paired with a separate intro block
@@ -12,6 +13,7 @@ export const cardGridBlock = defineType({
   type: 'object',
   fields: [
     hiddenField,
+    cardDesignField,
     defineField({
       name: 'columns',
       title: 'Columns (desktop)',
@@ -36,6 +38,7 @@ export const cardGridBlock = defineType({
           { title: 'White', value: 'white' },
           { title: 'Dark', value: 'dark' },
           { title: 'Accent', value: 'accent' },
+          NO_FILL_OPTION,
         ],
         layout: 'radio',
       },
@@ -59,10 +62,14 @@ export const cardGridBlock = defineType({
       name: 'numberedEyebrow',
       title: 'Numbered eyebrow',
       description:
-        'Highlights the first word of each card\'s eyebrow (e.g. "01") as a small colored badge, matching the card style above. Turn on only when every eyebrow below actually starts with a number.',
+        'Standard cards: highlights the first word of each card\'s eyebrow (e.g. "01") as a small colored badge, matching the card style above. Turn on only when every eyebrow below actually starts with a number.',
       type: 'boolean',
       initialValue: false,
+      hidden: ({ parent }) => parent?.cardDesign === 'editorial',
     }),
+    cardMarkField,
+    cardNumbersField,
+    linkStyleField,
     defineField({
       name: 'showImage',
       title: 'Show image',
@@ -75,7 +82,7 @@ export const cardGridBlock = defineType({
       name: 'layout',
       title: 'Card layout',
       description:
-        'Cards: each column is its own separately boxed card, with a gap between them. Merged: the card style becomes one shared panel — columns sit flush with no gap, and it goes full screen width on mobile.',
+        'Standard cards: each column is its own separately boxed card, with a gap between them. Merged: the card style becomes one shared panel — columns sit flush with no gap, and it goes full screen width on mobile.',
       type: 'string',
       options: {
         list: [
@@ -85,6 +92,7 @@ export const cardGridBlock = defineType({
         layout: 'radio',
       },
       initialValue: 'cards',
+      hidden: ({ parent }) => parent?.cardDesign === 'editorial',
     }),
     ...bandFields({ withDarkGradient: true, fieldName: 'background' }),
     spacingField,
@@ -121,9 +129,9 @@ export const cardGridBlock = defineType({
             defineField({
               name: 'eyebrow',
               title: 'Eyebrow',
-              description: 'e.g. "01 — Intelligent"',
+              description: 'e.g. "01 — Intelligent".',
               type: 'string',
-              validation: (Rule) => Rule.required().max(60),
+              validation: (Rule) => Rule.max(60),
             }),
             defineField({
               name: 'heading',
@@ -136,6 +144,7 @@ export const cardGridBlock = defineType({
               rows: 3,
               validation: (Rule) => Rule.max(300),
             }),
+            ...cardLinkFields,
           ],
           preview: {
             select: { title: 'heading', subtitle: 'eyebrow' },

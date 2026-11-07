@@ -1,15 +1,18 @@
 import { SiteFooter, SiteHeader } from '@/components/layout/SiteNavigation'
 import { SectionShell } from '@/components/ui/SectionShell'
-import { EditorialCard, type EditorialSurface } from '@/components/ui/EditorialCard'
+import { EditorialCard, type EditorialMark, type EditorialSurface } from '@/components/ui/EditorialCard'
+import { StoryCard, type StoryCardData } from '@/components/customer-stories/StoryCard'
+import { CardGridBlock } from '@/components/blocks/CardGridBlock'
+import { StickySplitBlock } from '@/components/blocks/StickySplitBlock'
 
 // PREVIEW of the editorial card (ui/EditorialCard) with real Home v4 copy,
-// boxed and with no fill, before it's offered in Sticky Split, Card Grid,
-// Case Study cards and a block of its own. Internal (noindex, see layout).
+// boxed and with no fill, and the real Card Grid and Sticky Split blocks
+// set to Card design: Editorial. Internal (noindex, see layout).
 
 const ROLES = [
-  { label: '01\n/Ally', title: 'Answers in seconds.', body: 'What the standard says and what stands out in the data – with sources.' },
-  { label: '02\n/Our experts', title: 'On hand in minutes.', body: "Former auditors on the platform, the methodology and smarter ways of working. Often before you've thought to ask." },
-  { label: '03\n/You', title: 'The call is yours. Always.', body: 'You interpret the findings, make the judgment and turn insight into value for the client.' },
+  { label: '— Ally', title: 'Answers in seconds.', body: 'What the standard says and what stands out in the data – with sources.' },
+  { label: '— Our experts', title: 'On hand in minutes.', body: "Former auditors on the platform, the methodology and smarter ways of working. Often before you've thought to ask." },
+  { label: '— You', title: 'The call is yours. Always.', body: 'You interpret the findings, make the judgment and turn insight into value for the client.' },
 ]
 
 const LONG = [
@@ -17,20 +20,23 @@ const LONG = [
   { label: '— Analytics', title: 'From sample testing to the whole population without breaking a sweat.', body: '25+ ready-made analyses, from general ledger to tax account.' },
 ]
 
-const RETORA = {
-  src: 'https://cdn.sanity.io/images/rm507cjs/production/336ec772e3c794f6d8a826c52c6c1765ef79c022-628x941.png?rect=0,120,628,449&w=900',
-  alt: 'Tomas Randér',
+const RETORA: StoryCardData = {
+  companyName: 'Retora Revision & Rådgivning',
+  slug: 'retora',
+  summary: 'Replaced manual Excel analytics and duplicate work with real-time, multi-user audit collaboration.',
+  products: ['audit', 'analytics'],
+  coverImage: { _type: 'image', asset: { _type: 'reference', _ref: 'image-336ec772e3c794f6d8a826c52c6c1765ef79c022-628x941-png' } },
 }
 
 function Label({ children }: { children: string }) {
   return <p className="mb-large text-eyebrow font-bold tracking-wider text-muted-foreground uppercase">{children}</p>
 }
 
-function Roles({ surface, onDark, mark }: { surface: EditorialSurface; onDark?: boolean; mark?: 'dot' | 'wave' }) {
+function Roles({ surface, onDark, mark, numbers }: { surface: EditorialSurface; onDark?: boolean; mark?: EditorialMark; numbers?: boolean }) {
   return (
-    <div className="grid grid-cols-1 gap-2xl md:grid-cols-3 md:gap-large">
-      {ROLES.map((r) => (
-        <EditorialCard key={r.title} {...r} surface={surface} onDark={onDark} mark={mark} />
+    <div className={`grid grid-cols-1 md:grid-cols-3 md:gap-large ${surface === 'none' ? 'gap-xl' : 'gap-medium'}`}>
+      {ROLES.map((r, i) => (
+        <EditorialCard key={r.title} {...r} number={numbers ? String(i + 1).padStart(2, '0') : undefined} surface={surface} onDark={onDark} mark={mark} />
       ))}
     </div>
   )
@@ -51,56 +57,33 @@ export default async function CardsPreview({ params }: { params: Promise<{ local
         </SectionShell>
 
         <SectionShell py="medium">
-          <Label>1 · No fill, with a dot</Label>
-          <Roles surface="none" mark="dot" />
+          <Label>1 · No fill, numbered, no mark</Label>
+          <Roles surface="none" numbers />
         </SectionShell>
 
         <SectionShell py="medium">
-          <Label>2 · Boxed, dark, with our wave mark</Label>
-          <Roles surface="dark" mark="wave" />
+          <Label>2 · Boxed, dark, numbered, wave mark</Label>
+          <Roles surface="dark" mark="wave" numbers />
         </SectionShell>
 
         <SectionShell py="medium">
-          <Label>3 · Boxed, white</Label>
-          <Roles surface="white" mark="dot" />
+          <Label>3 · Boxed, white, eyebrow only</Label>
+          <Roles surface="white" />
         </SectionShell>
 
         <section className="bg-foreground">
           <SectionShell py="medium" pt="medium">
             <p className="mb-large text-eyebrow font-bold tracking-wider text-background/60 uppercase">4 · No fill on a dark background</p>
-            <Roles surface="none" onDark mark="dot" />
+            <Roles surface="none" onDark mark="wave" numbers />
           </SectionShell>
         </section>
 
         <SectionShell py="medium" pt="medium">
-          <Label>5 · Case study cards: the chips become the label</Label>
+          <Label>5 · Case study cards: the products become the label (dark + wave, white + button, no fill)</Label>
           <div className="grid grid-cols-1 gap-large md:grid-cols-3">
-            <EditorialCard
-              surface="dark"
-              image={RETORA}
-              label={'Audit · Analytics'}
-              mark="wave"
-              title="Retora Revision & Rådgivning"
-              body="Replaced manual Excel analytics and duplicate work with real-time, multi-user audit collaboration."
-              cta={{ label: 'Read their story →', href: `/${locale}/customer-stories/retora`, kind: 'link' }}
-            />
-            <EditorialCard
-              surface="white"
-              image={RETORA}
-              label={'Audit\n/Analytics'}
-              title="Retora Revision & Rådgivning"
-              body="Replaced manual Excel analytics and duplicate work with real-time, multi-user audit collaboration."
-              cta={{ label: 'Read their story', href: `/${locale}/customer-stories/retora` }}
-            />
-            <EditorialCard
-              surface="none"
-              image={RETORA}
-              label={'Audit · Analytics'}
-              mark="dot"
-              title="Retora Revision & Rådgivning"
-              body="Replaced manual Excel analytics and duplicate work with real-time, multi-user audit collaboration."
-              cta={{ label: 'Read their story →', href: `/${locale}/customer-stories/retora`, kind: 'link' }}
-            />
+            <StoryCard story={RETORA} locale={locale} editorial={{ surface: 'dark', mark: 'wave', linkStyle: 'link' }} />
+            <StoryCard story={RETORA} locale={locale} editorial={{ surface: 'white', linkStyle: 'button' }} />
+            <StoryCard story={RETORA} locale={locale} editorial={{ surface: 'none', linkStyle: 'link' }} />
           </div>
         </SectionShell>
 
@@ -108,10 +91,39 @@ export default async function CardsPreview({ params }: { params: Promise<{ local
           <Label>6 · Longer copy in caps (the worry)</Label>
           <div className="grid grid-cols-1 gap-2xl md:grid-cols-2 md:gap-large">
             {LONG.map((c) => (
-              <EditorialCard key={c.title} {...c} titleSize="h4" mark="dot" cta={{ label: 'Read more', href: '#' }} />
+              <EditorialCard key={c.title} {...c} titleSize="h4" action={{ label: 'Read more', href: '#', style: 'button' }} />
             ))}
           </div>
         </SectionShell>
+        <SectionShell py="none" pt="medium">
+          <Label>7 · The real Card Grid block: Editorial, no fill, numbered, text links</Label>
+        </SectionShell>
+        <CardGridBlock
+          cardDesign="editorial"
+          tone="none"
+          cardNumbers
+          columns="3"
+          spacing="medium"
+          items={ROLES.map((r) => ({ eyebrow: r.label, heading: r.title, body: r.body, ctaLabel: 'Read more →', ctaHref: '#' }))}
+        />
+
+        <SectionShell py="none" pt="medium">
+          <Label>8 · The real Sticky Split block: Editorial cards, boxed dark, wave mark</Label>
+        </SectionShell>
+        <StickySplitBlock
+          items={[
+            { _type: 'textPiece', _key: 't', heading: 'Three roles. One team. Better audits.' },
+            {
+              _type: 'cardsPiece',
+              _key: 'c',
+              cardDesign: 'editorial',
+              tone: 'dark',
+              cardMark: 'wave',
+              cardNumbers: true,
+              items: ROLES.map((r, i) => ({ _key: String(i), eyebrow: r.label, heading: r.title, body: r.body })),
+            },
+          ]}
+        />
       </main>
       <SiteFooter locale={locale} />
     </>

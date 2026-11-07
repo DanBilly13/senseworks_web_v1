@@ -1,6 +1,7 @@
 import { defineType, defineField } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
 import { spacingField } from '../fields/spacingField'
+import { cardDesignField, cardMarkField, linkStyleField, NO_FILL_OPTION } from '../fields/editorialCardFields'
 
 // A carousel of Customer story cards. The cards aren't typed in here:
 // they come from the Customer story documents, filtered by "Which
@@ -11,6 +12,7 @@ export const caseStudyGridBlock = defineType({
   type: 'object',
   fields: [
     hiddenField,
+    cardDesignField,
     defineField({
       name: 'productFilter',
       title: 'Which stories',
@@ -36,11 +38,14 @@ export const caseStudyGridBlock = defineType({
         list: [
           { title: 'Light', value: 'light' },
           { title: 'Dark', value: 'dark' },
+          NO_FILL_OPTION,
         ],
         layout: 'radio',
       },
       initialValue: 'light',
     }),
+    cardMarkField,
+    linkStyleField,
     spacingField,
   ],
   preview: {

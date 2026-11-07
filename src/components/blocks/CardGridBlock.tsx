@@ -4,6 +4,7 @@ import { SectionShell } from '@/components/ui/SectionShell'
 import { BandFill, bandShellPadding, type BandProps, type BandTone } from '@/components/ui/BandFill'
 import { SectionIntro } from '@/components/ui/SectionIntro'
 import { renderNumberedEyebrow } from '@/components/ui/numberedEyebrow'
+import { EditorialCard, type EditorialLinkStyle, type EditorialMark } from '@/components/ui/EditorialCard'
 import { urlFor } from '@/lib/sanity/image'
 import { hasImage } from '@/lib/sanity/media'
 
@@ -16,9 +17,11 @@ type CardGridItem = {
   // per-card choice, not every image on a grid necessarily wants it,
   // so it lives on the item itself rather than as a block-level toggle.
   imageFade?: boolean
-  eyebrow: string
+  eyebrow?: string
   heading: string
   body?: string
+  ctaLabel?: string
+  ctaHref?: string
 }
 
 // Two separate directional gradients (right fade, bottom fade)
@@ -45,7 +48,7 @@ const IMAGE_FADE_MASK = `linear-gradient(
     rgba(0, 0, 0, 0.4) 80%,
     transparent 100%
   )`
-type CardTone = 'white' | 'dark' | 'accent'
+type CardTone = 'white' | 'dark' | 'accent' | 'none'
 // background/paddingTop/paddingBottom/spacing: the optional full screen
 // width background behind the cards, see ui/BandFill (`tone` here is the
 // cards' own style, so the band's is `background`).
@@ -72,6 +75,12 @@ type CardGridBlockProps = Omit<BandProps, 'tone'> & {
   // Block's full-bleed image) with each item's own padding widened to
   // match, so text still lands 32px from the true screen edge.
   layout?: 'cards' | 'merged'
+  // Editorial cards (ui/EditorialCard): boxed in the card style, or no
+  // fill at all; with an optional wave mark, numbers and link style.
+  cardDesign?: 'standard' | 'editorial'
+  cardMark?: EditorialMark
+  cardNumbers?: boolean
+  linkStyle?: EditorialLinkStyle
 }
 
 const GRID_COLS_CLASS: Record<'1' | '2' | '3' | '4', string> = {
@@ -88,7 +97,7 @@ const GRID_COLS_CLASS: Record<'1' | '2' | '3' | '4', string> = {
 // Rounding lives separately from this (see TONE_SURFACE_CLASS call
 // sites below) since 'merged' layout needs it on the grid itself
 // instead of each item, and drops it on mobile entirely.
-const TONE_SURFACE_CLASS: Record<CardTone, string> = {
+const TONE_SURFACE_CLASS: Record<Exclude<CardTone, 'none'>, string> = {
   white: 'border border-border bg-background',
   dark: 'bg-foreground',
   accent: 'bg-accent',
@@ -114,12 +123,56 @@ export function CardGridBlock({
   showImage = false,
   layout = 'cards',
   background = 'none',
+  cardDesign = 'standard',
+  cardMark,
+  cardNumbers = false,
+  linkStyle,
   ...band
 }: CardGridBlockProps) {
   // D7: a block with no content simply doesn't render.
   if (!items.length) return null
 
+  if (cardDesign === 'editorial') {
+    const noFill = tone === 'none'
+    const onDark = background === 'dark' || background === 'accentDark'
+    return (
+      <BandFill tone={background} {...band}>
+        {/* Boxed: 8px out, 16px in on phones (the boxed rule), as the
+            standard cards. No fill: the page's own 24px margin, and more
+            air between cards that have no box to separate them. */}
+        <SectionShell px={noFill ? 'default' : 'boxed'} {...bandShellPadding({ tone: background, ...band })}>
+          <div className={`grid grid-cols-1 ${noFill ? 'gap-xl md:gap-large' : 'gap-small md:gap-large'} ${GRID_COLS_CLASS[columns]}`}>
+            {items.map((item, index) => (
+              <EditorialCard
+                key={index}
+                surface={tone}
+                onDark={onDark}
+                padX="px-medium md:px-large"
+                number={cardNumbers ? String(index + 1).padStart(2, '0') : undefined}
+                label={item.eyebrow}
+                mark={cardMark}
+                title={item.heading}
+                titleSize={titleSize === 'h3' ? 'h4' : 'h5'}
+                body={item.body}
+                action={item.ctaLabel && item.ctaHref ? { label: item.ctaLabel, href: item.ctaHref, style: linkStyle } : undefined}
+                visual={
+                  showImage && hasImage(item.image) ? (
+                    <div className="relative aspect-media w-full bg-accent-gradient">
+                      <Image src={urlFor(item.image!).url()} alt={item.imageAlt || ''} fill sizes="(min-width: 768px) 33vw, 100vw" className="object-cover" />
+                    </div>
+                  ) : undefined
+                }
+              />
+            ))}
+          </div>
+        </SectionShell>
+      </BandFill>
+    )
+  }
+
   const merged = layout === 'merged'
+  // A Standard card has no "No fill"; it falls back to White.
+  const surfaceTone = tone === 'none' ? 'white' : tone
 
   return (
     <BandFill tone={background} {...band}>
@@ -147,7 +200,7 @@ export function CardGridBlock({
           className={[
             'grid grid-cols-1',
             merged ? 'overflow-hidden rounded-none md:rounded-lg' : 'gap-small md:gap-large',
-            merged ? TONE_SURFACE_CLASS[tone] : '',
+            merged ? TONE_SURFACE_CLASS[surfaceTone] : '',
             GRID_COLS_CLASS[columns],
           ]
             .filter(Boolean)
@@ -158,7 +211,7 @@ export function CardGridBlock({
             return (
               <div
                 key={index}
-                className={`flex flex-col ${merged ? '' : `rounded-lg ${TONE_SURFACE_CLASS[tone]}`}`}
+                className={`flex flex-col ${merged ? '' : `rounded-lg ${TONE_SURFACE_CLASS[surfaceTone]}`}`}
               >
                 {/* Image (when present) sits below the text, inset within
                     the card's own padding like Bento Grid's media — not
@@ -180,13 +233,13 @@ export function CardGridBlock({
                 >
                   <SectionIntro
                     as={titleSize}
-                    eyebrow={renderNumberedEyebrow(item.eyebrow, numberedEyebrow, tone === 'dark')}
+                    eyebrow={item.eyebrow ? renderNumberedEyebrow(item.eyebrow, numberedEyebrow, surfaceTone === 'dark') : undefined}
                     heading={item.heading}
                     body={item.body}
                     // Keeps the line breaks typed into the body (e.g. an
                     // address, one line per row).
                     bodyClassName="whitespace-pre-line"
-                    tone={tone === 'dark' ? 'inverse' : 'default'}
+                    tone={surfaceTone === 'dark' ? 'inverse' : 'default'}
                     // On the dark card specifically, the kicker reads as an
                     // accent highlight rather than faded white — a look Dan
                     // asked for after seeing the plain white/70% version.
@@ -194,13 +247,21 @@ export function CardGridBlock({
                     // usual muted grey — next to a bold number badge, grey
                     // text read washed out.
                     eyebrowColor={
-                      tone === 'dark' ? 'text-accent' : numberedEyebrow ? 'text-foreground' : undefined
+                      surfaceTone === 'dark' ? 'text-accent' : numberedEyebrow ? 'text-foreground' : undefined
                     }
                     // Gaps follow the site-wide rule (half the heading's own
                     // line-height, SectionIntro's default), which already
                     // scales with h3 vs h4. Card Grid used to opt into the
                     // full line-height, which read noticeably loose.
                   />
+                  {item.ctaLabel && item.ctaHref && (
+                    <a
+                      href={item.ctaHref}
+                      className={`mt-medium-large self-start text-body-sm font-medium underline underline-offset-4 ${surfaceTone === 'dark' ? 'text-accent' : 'text-foreground'}`}
+                    >
+                      {item.ctaLabel}
+                    </a>
+                  )}
                   {withImage && (
                     // bg-accent-gradient backdrop — same treatment
                     // Media.tsx gives every media slot by default (see

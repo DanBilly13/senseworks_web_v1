@@ -3,6 +3,7 @@ import type { SanityImageSource } from '@sanity/image-url'
 import { Media } from '@/components/ui/Media'
 import { productLabels } from '@/lib/customerStoryProducts'
 import { CardTags } from '@/components/ui/CardTags'
+import { EditorialCard, type EditorialLinkStyle, type EditorialMark } from '@/components/ui/EditorialCard'
 
 export type StoryCardData = {
   companyName: string
@@ -12,6 +13,8 @@ export type StoryCardData = {
   coverImage?: SanityImageSource
 }
 export type StoryCardTone = 'default' | 'dark'
+// The Case Study Carousel's Editorial card design (ui/EditorialCard).
+export type StoryCardEditorial = { surface: 'white' | 'dark' | 'none'; mark?: EditorialMark; linkStyle?: EditorialLinkStyle }
 
 const TONE_CLASS: Record<StoryCardTone, string> = {
   default: 'border border-border bg-background text-foreground',
@@ -30,14 +33,41 @@ export function StoryCard({
   tone = 'default',
   className,
   ref,
+  editorial,
 }: {
   story: StoryCardData
   locale: string
   tone?: StoryCardTone
   className?: string
   ref?: Ref<HTMLAnchorElement>
+  editorial?: StoryCardEditorial
 }) {
   const products = productLabels(story.products, locale)
+  const readLabel = locale === 'sv' ? 'Läs berättelsen →' : 'Read their story →'
+  if (editorial) {
+    // The products become the card's label ("AUDIT · ANALYTICS") in
+    // place of the chips; the whole card stays the link.
+    return (
+      <a ref={ref} href={`/${locale}/customer-stories/${story.slug}`} className={['group flex flex-col', className].filter(Boolean).join(' ')}>
+        <EditorialCard
+          surface={editorial.surface}
+          mark={editorial.mark}
+          label={products.join(' · ')}
+          title={story.companyName}
+          titleSize="h5"
+          body={story.summary}
+          action={{ label: editorial.linkStyle === 'button' ? readLabel.replace(' →', '') : readLabel, style: editorial.linkStyle }}
+          visual={
+            <Media
+              media={story.coverImage ? { mediaType: 'image', image: story.coverImage } : null}
+              alt=""
+              className={`aspect-4/3 w-full ${editorial.surface === 'none' ? 'rounded-lg' : ''}`}
+            />
+          }
+        />
+      </a>
+    )
+  }
   return (
     <a
       ref={ref}
@@ -58,7 +88,7 @@ export function StoryCard({
         <span
           className={`mt-auto pt-small text-body-sm font-medium underline underline-offset-4 ${tone === 'dark' ? 'text-accent' : ''}`}
         >
-          {locale === 'sv' ? 'Läs berättelsen →' : 'Read their story →'}
+          {readLabel}
         </span>
       </div>
     </a>

@@ -6,20 +6,41 @@ import { Button } from '@/components/ui/Button'
 import { Media } from '@/components/ui/Media'
 import { BAND_BG, type BandSpacing } from '@/components/ui/BandFill'
 import { renderNumberedEyebrow } from '@/components/ui/numberedEyebrow'
+import { EditorialCard, type EditorialLinkStyle, type EditorialMark } from '@/components/ui/EditorialCard'
 import { urlFor } from '@/lib/sanity/image'
 import { hasImage, type MediaField } from '@/lib/sanity/media'
 
 type Tone = 'none' | 'light' | 'dark' | 'accent' | 'accentGradient' | 'accentDark'
-type CardTone = 'white' | 'dark' | 'accent'
+type CardTone = 'white' | 'dark' | 'accent' | 'none'
 
-type Card = { _key?: string; eyebrow?: string; heading: string; body?: string; image?: SanityImageSource; imageAlt?: string }
+type Card = {
+  _key?: string
+  eyebrow?: string
+  heading: string
+  body?: string
+  image?: SanityImageSource
+  imageAlt?: string
+  ctaLabel?: string
+  ctaHref?: string
+}
 
 type Piece =
   | { _type: 'introPiece'; _key?: string; eyebrow?: string; headline?: string; body?: string; ctaLabel?: string; ctaHref?: string }
   | { _type: 'statementPiece'; _key?: string; text?: string }
   | { _type: 'textPiece'; _key?: string; heading?: string; body?: string }
   | { _type: 'listPiece'; _key?: string; heading?: string; items?: string[]; textSize?: ListTextSize }
-  | { _type: 'cardsPiece'; _key?: string; tone?: CardTone; titleSize?: CardTitleSize; numberedEyebrow?: boolean; items?: Card[] }
+  | {
+      _type: 'cardsPiece'
+      _key?: string
+      cardDesign?: 'standard' | 'editorial'
+      tone?: CardTone
+      titleSize?: CardTitleSize
+      numberedEyebrow?: boolean
+      cardMark?: EditorialMark
+      cardNumbers?: boolean
+      linkStyle?: EditorialLinkStyle
+      items?: Card[]
+    }
   | { _type: 'buttonPiece'; _key?: string; ctaLabel?: string; ctaHref?: string }
 
 type StickySplitBlockProps = {
@@ -62,7 +83,7 @@ type CardTitleSize = 'h4' | 'h5' | 'h6'
 const CARD_TITLE_CLASS: Record<CardTitleSize, string> = { h4: 'text-h4', h5: 'text-h5', h6: 'text-h6' }
 const CARD_TITLE_GAP: Record<CardTitleSize, string> = { h4: 'gap-medium', h5: 'gap-small-medium', h6: 'gap-small-medium' }
 
-const CARD_SURFACE: Record<CardTone, string> = {
+const CARD_SURFACE: Record<Exclude<CardTone, 'none'>, string> = {
   white: 'border border-border bg-background',
   dark: 'bg-foreground',
   accent: 'bg-accent',
@@ -164,10 +185,44 @@ export function StickySplitBlock({
         )
       }
       case 'cardsPiece': {
-        const cardTone = p.tone ?? 'white'
         const titleSize = p.titleSize ?? 'h5'
         const CardTitle = titleSize
         if (!p.items?.length) return null
+        if (p.cardDesign === 'editorial') {
+          const surface = p.tone ?? 'white'
+          return (
+            // Equal heights on phones, as the standard cards; no-fill cards
+            // need more air between them than boxed ones.
+            <div
+              key={p._key ?? index}
+              className={`grid auto-rows-fr md:auto-rows-auto ${surface === 'none' ? 'gap-xl' : 'gap-medium'}`}
+            >
+              {p.items.map((card, i) => (
+                <EditorialCard
+                  key={card._key ?? i}
+                  surface={surface}
+                  onDark={dark}
+                  number={p.cardNumbers ? String(i + 1).padStart(2, '0') : undefined}
+                  label={card.eyebrow}
+                  mark={p.cardMark}
+                  title={card.heading}
+                  titleSize={titleSize}
+                  body={card.body}
+                  action={card.ctaLabel && card.ctaHref ? { label: card.ctaLabel, href: card.ctaHref, style: p.linkStyle } : undefined}
+                  visual={
+                    hasImage(card.image) ? (
+                      <div className="relative aspect-media w-full bg-accent-gradient">
+                        <Image src={urlFor(card.image!).url()} alt={card.imageAlt || ''} fill sizes="(min-width: 768px) 45vw, 100vw" className="object-cover" />
+                      </div>
+                    ) : undefined
+                  }
+                />
+              ))}
+            </div>
+          )
+        }
+        // A Standard card has no "No fill"; it falls back to White.
+        const cardTone = p.tone && p.tone !== 'none' ? p.tone : 'white'
         return (
           // Phones: every card as tall as the tallest (spare space at the
           // foot).
@@ -199,6 +254,14 @@ export function StickySplitBlock({
                     </p>
                   )}
                 </div>
+                {card.ctaLabel && card.ctaHref && (
+                  <a
+                    href={card.ctaHref}
+                    className={`mt-medium-large self-start text-body-sm font-medium underline underline-offset-4 ${cardTone === 'dark' ? 'text-accent' : 'text-foreground'}`}
+                  >
+                    {card.ctaLabel}
+                  </a>
+                )}
                 {hasImage(card.image) && (
                   <div className="relative mt-large aspect-media w-full overflow-hidden rounded-md bg-accent-gradient">
                     <Image

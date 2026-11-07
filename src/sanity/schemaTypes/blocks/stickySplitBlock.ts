@@ -2,6 +2,7 @@ import { defineType, defineField, defineArrayMember } from 'sanity'
 import { hiddenField } from '../fields/hiddenField'
 import { spacingField } from '../fields/spacingField'
 import { bandFields } from '../fields/bandFields'
+import { cardDesignField, cardLinkFields, cardMarkField, cardNumbersField, linkStyleField, NO_FILL_OPTION } from '../fields/editorialCardFields'
 
 // A square image beside a column of text pieces, 50/50. On desktop the
 // image stays put while the text scrolls past it, until the text runs
@@ -26,6 +27,7 @@ const cardFields = [
     type: 'string',
     hidden: ({ parent }) => !parent?.image,
   }),
+  ...cardLinkFields,
 ]
 
 export const stickySplitBlock = defineType({
@@ -156,6 +158,7 @@ export const stickySplitBlock = defineType({
           title: 'Cards',
           type: 'object',
           fields: [
+            cardDesignField,
             defineField({
               name: 'tone',
               title: 'Card style',
@@ -165,6 +168,7 @@ export const stickySplitBlock = defineType({
                   { title: 'White', value: 'white' },
                   { title: 'Dark', value: 'dark' },
                   { title: 'Accent', value: 'accent' },
+                  NO_FILL_OPTION,
                 ],
                 layout: 'radio',
                 direction: 'horizontal',
@@ -190,10 +194,14 @@ export const stickySplitBlock = defineType({
             defineField({
               name: 'numberedEyebrow',
               title: 'Numbered eyebrow',
-              description: 'Highlights the first word of each eyebrow (e.g. "01") as a small badge. Only when every eyebrow starts with a number.',
+              description: 'Standard cards: highlights the first word of each eyebrow (e.g. "01") as a small badge. Only when every eyebrow starts with a number.',
               type: 'boolean',
               initialValue: false,
+              hidden: ({ parent }) => parent?.cardDesign === 'editorial',
             }),
+            cardMarkField,
+            cardNumbersField,
+            linkStyleField,
             defineField({
               name: 'items',
               title: 'Cards',
