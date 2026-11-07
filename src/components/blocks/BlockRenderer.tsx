@@ -131,13 +131,13 @@ const PANEL_GAP: Record<BandSpacing, string> = {
   none: 'mt-section-gap-medium md:mt-none',
 }
 // With a phone Section spacing of its own (the Mobile tab): that on
-// phones, the desktop one from tablet up. None still leaves the gap, as
-// above.
+// phones, the desktop one from tablet up. A phone None picked there
+// means none (unlike desktop's None, which keeps a gap on phones).
 const PHONE_PANEL_TOP: Record<BandSpacing, string> = {
   loose: 'pt-section-gap-loose',
   medium: 'pt-section-gap-medium',
   tight: 'pt-section-gap-tight',
-  none: 'pt-section-gap-medium',
+  none: 'pt-none',
 }
 const MD_PANEL_TOP: Record<BandSpacing, string> = {
   loose: 'md:pt-section-gap-loose',
@@ -149,7 +149,7 @@ const PHONE_PANEL_GAP: Record<BandSpacing, string> = {
   loose: 'mt-section-gap-loose',
   medium: 'mt-section-gap-medium',
   tight: 'mt-section-gap-tight',
-  none: 'mt-section-gap-medium',
+  none: 'mt-none',
 }
 const MD_PANEL_GAP: Record<BandSpacing, string> = {
   loose: 'md:mt-section-gap-loose',
