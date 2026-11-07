@@ -283,14 +283,13 @@
      passes through min at 1440 and max at 1920. h4–h6 (card and item
      titles) and body text stay fixed; mobile has its own sizes below. */
   /* TYPE SYSTEM (Nov 2026, after basicagency.com — Dan's reference):
-     nine styles, each clearly different from the next, desktop / phone:
+     eight styles, each clearly different from the next, desktop / phone:
        Display   144 / 56   hero headline
        Headline   56 / 36   H1 and H2 (one section-heading size)
        Title      36 / 28   H3 (and Stat small)
        Subtitle   24 / 21   H4 and H5 (card titles, sub-headings)
        Statement  42 / 28   the big sentence in the body font (kept as is)
-       Lead       22 / 19   Large body (text-body-xl)
-       Body       17 / 17   Body and Body large (and H6's size)
+       Body       18 / 17   Body, Body large and Large body (one body)
        Small      14 / 14   Body small and Caption
        Label      13 / 12   Eyebrow: Aeonik bold caps
      Aeonik headings are bold (Regular is only for the editorial cards'
@@ -349,8 +348,9 @@
   /* "Large body": 22px, 19px on phones (set below). The body ramp is
      Body 16 (17 on phones) / Body large 18 (17) / Large body 22 (19) /
      Statement — headings (H1–H6) are only for headings. */
-  --text-body-xl: 1.375rem;
-  --text-body-xl--line-height: 1.4;
+  /* "Large body" is now just Body (two body styles: Body and Small). */
+  --text-body-xl: 1.125rem;
+  --text-body-xl--line-height: 1.5;
 
   /* Each heading's own rendered line-height in px, derived from its
      size × ratio above rather than hand-copied — stays correct
@@ -366,10 +366,11 @@
   --text-h3--full-line-height: calc(var(--text-h3) * var(--text-h3--line-height));
   --text-h4--full-line-height: calc(var(--text-h4) * var(--text-h4--line-height));
 
-  /* Body: one size, 17px (Body and Body large are the same style now). */
-  --text-body-lg: 1.0625rem;
+  /* Body: one size, 18px, 17px on phones (Body, Body large and Large
+     body are the same style now). */
+  --text-body-lg: 1.125rem;
   --text-body-lg--line-height: 1.5;
-  --text-body: 1.0625rem;
+  --text-body: 1.125rem;
   --text-body--line-height: 1.5;
   --text-body-sm: 0.875rem;
   --text-caption: 0.875rem;
@@ -516,8 +517,8 @@
        402px iPhone 17, 52px on a 375px phone). */
     --text-display: min(3.5rem, 14vw);
     /* The type system on phones (see the table in @theme):
-       Headline 36, Title 28 (= Statement), Subtitle 21, Lead 19,
-       Body 17, Label 12. */
+       Headline 36, Title 28 (= Statement), Subtitle 21, Body 17,
+       Label 12. */
     --text-h1: 2.25rem;
     --text-h2: 2.25rem;
     --text-h3: 1.75rem;
@@ -526,7 +527,7 @@
     --text-statement: 1.75rem;
     --text-body: 1.0625rem;
     --text-body-lg: 1.0625rem;
-    --text-body-xl: 1.1875rem;
+    --text-body-xl: 1.0625rem;
     --text-eyebrow: 0.75rem;
     --text-stat: 2.25rem;
     --text-stat-sm: 1.75rem;
